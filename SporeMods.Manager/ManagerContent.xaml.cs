@@ -1,5 +1,4 @@
-﻿using Ionic.Zip;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using SporeMods.Core;
 using Mechanism.Wpf.Core.Windows;
 using Mechanism.Wpf.Styles.Shale;

@@ -42,15 +42,6 @@
     <StartupObject>SporeMods.Manager.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Ionic.Zip">
-      <HintPath>..\..\..\..\..\..\Downloads\DotNetZip\releases\9\DotNetZipLib-Runtime-v1.9\zip-v1.9\Ionic.Zip.dll</HintPath>
-    </Reference>
-    <Reference Include="Mechanism.Wpf.Core">
-      <HintPath>..\..\..\..\Important\Mechanism\Development\Mechanism.Wpf\Mechanism.Wpf.Core\bin\Debug\net40\Mechanism.Wpf.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Mechanism.Wpf.Styles.Shale">
-      <HintPath>..\..\..\..\Important\Mechanism\Development\Mechanism.Wpf\Themes\Shale\bin\Debug\net40\Mechanism.Wpf.Styles.Shale.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Start9\Development\start9-ui\Start9.UI.Wpf\bin\Debug\net40\Microsoft.Expression.Interactions.dll</HintPath>
@@ -154,6 +145,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mechanism-for-WPF\Mechanism.Wpf.Core\Mechanism.Wpf.Core.csproj">
+      <Project>{727669ac-3f83-41e1-aefd-13a8f0c1fdad}</Project>
+      <Name>Mechanism.Wpf.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mechanism-for-WPF\Themes\Shale\Mechanism.Wpf.Styles.Shale.csproj">
+      <Project>{1648a481-d3d4-49ac-b415-40ad57fea938}</Project>
+      <Name>Mechanism.Wpf.Styles.Shale</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SporeMods.Core\SporeMods.Core.csproj">
       <Project>{5d0e076f-9c1c-4990-9242-4f7e7c66a045}</Project>
       <Name>SporeMods.Core</Name>

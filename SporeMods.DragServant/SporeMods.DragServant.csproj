@@ -38,9 +38,6 @@
     </StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Mechanism.Wpf.Core">
-      <HintPath>..\..\..\..\Important\Mechanism\Development\Mechanism.Wpf\Mechanism.Wpf.Core\bin\Debug\net40\Mechanism.Wpf.Core.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
     </Reference>
@@ -117,6 +114,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mechanism-for-WPF\Mechanism.Wpf.Core\Mechanism.Wpf.Core.csproj">
+      <Project>{727669ac-3f83-41e1-aefd-13a8f0c1fdad}</Project>
+      <Name>Mechanism.Wpf.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SporeMods.Core\SporeMods.Core.csproj">
       <Project>{5d0e076f-9c1c-4990-9242-4f7e7c66a045}</Project>
       <Name>SporeMods.Core</Name>
