@@ -1,0 +1,2 @@
+Export at 84x84 for 48px
+Export at 910x910 for 512px

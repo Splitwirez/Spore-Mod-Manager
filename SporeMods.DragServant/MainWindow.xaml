@@ -1,0 +1,10 @@
+﻿<Window x:Class="SporeMods.DragServant.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SporeMods.DragServant"
+        mc:Ignorable="d"
+        Title="Mod Manager DragWindow" Height="1" Width="1" ShowActivated="False" AllowDrop="True" WindowStyle="None" AllowsTransparency="True" Background="#4000FF00" PreviewDrop="Window_PreviewDrop">
+    <Grid IsHitTestVisible="False" Background="#01000000"/>
+</Window>
