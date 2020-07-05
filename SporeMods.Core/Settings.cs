@@ -595,6 +595,8 @@ HelpHeader Need help?
 GoToForumThread Contact us to get help!
 ShowConfig Copy configuration to clipboard
 
+CloseSporeFirst Please close Spore to continue
+
 CustomInstaller_ModInstallerHeader %MODNAME% Installer
 CustomInstaller_Install Install
 

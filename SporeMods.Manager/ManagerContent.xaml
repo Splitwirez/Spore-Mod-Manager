@@ -367,5 +367,8 @@
                 <TextBlock Text="PLACEHOLDER: Install this ModAPI Core DLL for use with which version of Spore?"/>
             </DockPanel>
         </ui:AnimatableContentControl>
+        <ui:AnimatableContentControl x:Name="CloseSporeFirstContentControl" Style="{DynamicResource ModalDialogContentControlStyle}">
+            <TextBlock x:Name="CloseSporeFirstTextBlock" Style="{DynamicResource DropModsHereTextBlockStyle}"/>
+        </ui:AnimatableContentControl>
     </Grid>
 </UserControl>

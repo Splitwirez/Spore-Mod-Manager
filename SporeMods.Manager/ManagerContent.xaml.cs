@@ -115,6 +115,15 @@ namespace SporeMods.Manager
             {
                 SetLanguage();
                 Window.GetWindow(this).Activate();
+                System.Timers.Timer sporeOpenTimer = new System.Timers.Timer(100);
+                sporeOpenTimer.Elapsed += (snedre, rags) =>
+                {
+                    if ((Process.GetProcessesByName("SporeApp").Count() > 0) || (Process.GetProcessesByName("SporeApp_ModAPIFix").Count() > 0))
+                        Dispatcher.BeginInvoke(new Action(() => CloseSporeFirstContentControl.IsOpen = true));
+                    else if ((Process.GetProcessesByName("SporeApp").Count() == 0) || (Process.GetProcessesByName("SporeApp_ModAPIFix").Count() == 0))
+                        Dispatcher.BeginInvoke(new Action(() => CloseSporeFirstContentControl.IsOpen = false));
+                };
+                sporeOpenTimer.Start();
             };
 
             _dragWatcher.Created += (sneder, args) =>
@@ -829,6 +838,8 @@ namespace SporeMods.Manager
             HelpGroupBox.Header = Settings.GetLanguageString("HelpHeader");
             HelpThreadButton.Content = Settings.GetLanguageString("GoToForumThread");
             ShowConfigurationFileButton.Content = Settings.GetLanguageString("ShowConfig");
+
+            CloseSporeFirstTextBlock.Text = Settings.GetLanguageString("CloseSporeFirst");
 
             CreditsGroupBox.Header = Settings.GetLanguageString("CreditsHeader");
 
