@@ -596,6 +596,10 @@ GoToForumThread Contact us to get help!
 ShowConfig Copy configuration to clipboard
 
 CloseSporeFirst Please close Spore to continue
+SporeCantClose If Spore is not responding, has crashed, or has already been closed, click here:
+ForceKillSporeButton Close Spore
+ForceKillConfirmTitle Force-close Spore?
+ForceKillConfirmDesc ANY UNSAVED PROGRESS WILL BE LOST. Are you sure you wish to force-close Spore?
 
 CustomInstaller_ModInstallerHeader %MODNAME% Installer
 CustomInstaller_Install Install

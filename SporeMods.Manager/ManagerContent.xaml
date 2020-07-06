@@ -368,7 +368,13 @@
             </DockPanel>
         </ui:AnimatableContentControl>
         <ui:AnimatableContentControl x:Name="CloseSporeFirstContentControl" Style="{DynamicResource ModalDialogContentControlStyle}">
-            <TextBlock x:Name="CloseSporeFirstTextBlock" Style="{DynamicResource DropModsHereTextBlockStyle}"/>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                <TextBlock x:Name="CloseSporeFirstTextBlock" Style="{DynamicResource DropModsHereTextBlockStyle}"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock x:Name="SporeCantCloseTextBlock" VerticalAlignment="Center"/>
+                    <Button x:Name="ForceKillSporeButton" Margin="5,0,0,0" Click="ForceKillSporeButton_Click"/>
+                </StackPanel>
+            </StackPanel>
         </ui:AnimatableContentControl>
     </Grid>
 </UserControl>

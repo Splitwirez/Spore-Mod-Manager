@@ -154,13 +154,13 @@ namespace SporeMods.Manager
                 string errorTitle = "Something is very wrong here. Layer ";
                 while (exception != null)
                 {
-                    MessageBox.Show(current.Message + "\n" + current.Source + "\n" + current.StackTrace + errorText, errorTitle + count);
+                    MessageBox.Show(current.GetType() + ": " + current.Message + "\n" + current.Source + "\n" + current.StackTrace + errorText, errorTitle + count);
                     count++;
                     current = current.InnerException;
                     if (count > 4)
                         break;
                 }
-                MessageBox.Show(current.Message + "\n" + current.Source + "\n" + current.StackTrace + errorText, errorTitle + count);
+                MessageBox.Show(current.GetType() + ": " + current.Message + "\n" + current.Source + "\n" + current.StackTrace + errorText, errorTitle + count);
                 Process.GetCurrentProcess().Kill();
             }
         }

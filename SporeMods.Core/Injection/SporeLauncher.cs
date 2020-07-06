@@ -756,5 +756,25 @@ namespace SporeMods.Core.Injection
             bool retVal = Version.TryParse(FileVersionInfo.GetVersionInfo(executablePath).FileVersion, out exeVersion);
             return retVal;
         }
+
+        static List<Process> GetSporeProcesses()
+        {
+            List<Process> processes = Process.GetProcessesByName("SporeApp").ToList();
+            processes.AddRange(Process.GetProcessesByName("SporeApp_ModAPIFix"));
+            return processes;
+        }
+
+        public static bool IsSporeRunning()
+        {
+            return GetSporeProcesses().Count() > 0;
+        }
+
+        public static void KillSporeProcesses()
+        {
+            List<Process> sporeProcesses = GetSporeProcesses();
+
+            for (int i = 0; i < sporeProcesses.Count; i++)
+                sporeProcesses[0].Kill();
+        }
     }
 }

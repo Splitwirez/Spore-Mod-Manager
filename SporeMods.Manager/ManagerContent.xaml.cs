@@ -27,6 +27,8 @@ using SporeMods.Core.InstalledMods;
 using System.Windows.Controls.Primitives;
 using static SporeMods.Core.Injection.SporeLauncher;
 using SporeMods.Core.ModIdentity;
+using SporeMods.Core.Injection;
+using System.Runtime.Remoting.Messaging;
 
 namespace SporeMods.Manager
 {
@@ -118,10 +120,12 @@ namespace SporeMods.Manager
                 System.Timers.Timer sporeOpenTimer = new System.Timers.Timer(100);
                 sporeOpenTimer.Elapsed += (snedre, rags) =>
                 {
-                    if ((Process.GetProcessesByName("SporeApp").Count() > 0) || (Process.GetProcessesByName("SporeApp_ModAPIFix").Count() > 0))
+                    /*if ((Process.GetProcessesByName("SporeApp").Count() > 0) || (Process.GetProcessesByName("SporeApp_ModAPIFix").Count() > 0))
                         Dispatcher.BeginInvoke(new Action(() => CloseSporeFirstContentControl.IsOpen = true));
                     else if ((Process.GetProcessesByName("SporeApp").Count() == 0) || (Process.GetProcessesByName("SporeApp_ModAPIFix").Count() == 0))
-                        Dispatcher.BeginInvoke(new Action(() => CloseSporeFirstContentControl.IsOpen = false));
+                        Dispatcher.BeginInvoke(new Action(() => CloseSporeFirstContentControl.IsOpen = false));*/
+                    bool isSporeRunning = SporeLauncher.IsSporeRunning();
+                    Dispatcher.BeginInvoke(new Action(() => CloseSporeFirstContentControl.IsOpen = isSporeRunning));
                 };
                 sporeOpenTimer.Start();
             };
@@ -840,6 +844,8 @@ namespace SporeMods.Manager
             ShowConfigurationFileButton.Content = Settings.GetLanguageString("ShowConfig");
 
             CloseSporeFirstTextBlock.Text = Settings.GetLanguageString("CloseSporeFirst");
+            SporeCantCloseTextBlock.Text = Settings.GetLanguageString("SporeCantClose");
+            ForceKillSporeButton.Content = Settings.GetLanguageString("ForceKillSporeButton");
 
             CreditsGroupBox.Header = Settings.GetLanguageString("CreditsHeader");
 
@@ -1615,5 +1621,28 @@ namespace SporeMods.Manager
             InstallDLLWhereContentControl.IsOpen = false;
             Core.Injection.CoreDllRetriever.InstallOverrideDll(_lastDLL, GameInfo.GameExecutableType.Disk__1_5_1);
         }
+
+        private void ForceKillSporeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show(Settings.GetLanguageString("ForceKillConfirmDesc"), Settings.GetLanguageString("ForceKillConfirmTitle"), MessageBoxButton.YesNo) == MessageBoxResult.Yes)//(bool)(MessageBox<ForcecloseCancelButtons>.Show(Settings.GetLanguageString("ForceKillConfirmDesc"), Settings.GetLanguageString("ForceKillConfirmTitle"))))
+                SporeLauncher.KillSporeProcesses();
+        }
     }
+
+    /*public class ForcecloseCancelButtons : IMessageBoxActionSet
+    {
+        public IEnumerable<object> Actions => new List<object>
+        {
+            true,
+            false
+        };
+
+        public string GetDisplayName(object value)
+        {
+            if ((bool)value)
+                return Settings.GetLanguageString("ForceKillSpore");
+            else
+                return Settings.GetLanguageString("DontForceKillSpore");
+        }
+    }*/
 }
