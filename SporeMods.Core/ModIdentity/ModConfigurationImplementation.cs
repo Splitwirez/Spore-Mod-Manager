@@ -198,6 +198,8 @@ namespace SporeMods.Core.ModIdentity
             _mod = mod;
         }
 
+        public string GetStoragePath() => _mod._path;
+
         private void NotifyPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -238,7 +240,8 @@ namespace SporeMods.Core.ModIdentity
 
         public override async Task<bool> DisableMod()
         {
-            throw new NotImplementedException();
+            await RemoveModFiles();
+            return true;
         }
 
         public override async Task<bool> EnableMod()

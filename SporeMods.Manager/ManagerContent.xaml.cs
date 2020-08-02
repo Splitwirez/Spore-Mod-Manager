@@ -29,6 +29,7 @@ using static SporeMods.Core.Injection.SporeLauncher;
 using SporeMods.Core.ModIdentity;
 using SporeMods.Core.Injection;
 using System.Runtime.Remoting.Messaging;
+using SporeMods.Manager.Configurators;
 
 namespace SporeMods.Manager
 {
@@ -480,11 +481,14 @@ namespace SporeMods.Manager
         private async Task<bool> Instance_ModConfiguratorShown(ModConfiguration arg)
         {
             var tcs = new TaskCompletionSource<bool>();
-            //tcs.TrySetResult(false);
 
             void ProceedButton_Click(object sender, RoutedEventArgs e)
             {
-                Dispatcher.BeginInvoke(new Action(() => ModConfiguratorDialogContentControl.IsOpen = false));
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    ModConfiguratorDialogContentControl.IsOpen = false;
+                    ConfiguratorBodyContentControl.Content = null;
+                }));
                 tcs.TrySetResult(true);
             }
 
@@ -492,21 +496,15 @@ namespace SporeMods.Manager
             {
                 ModConfiguratorModNameTextBlock.Text = Settings.GetLanguageString(2, "ModInstallerHeader").Replace("%MODNAME%", arg.ModName);
 
-                ModConfiguratorHeaderContentControl.MouseEnter += (sneder, args) =>
+                if (arg is ModConfigurationV1_0_0_0 config)
                 {
-                    CustomInstallerContentStackPanel.Children.Clear();
-                    CustomInstallerContentStackPanel.Children.Add(new TextBlock()
-                    {
-                        Text = arg.ModDescription
-                    });
-                };
-                CustomInstallerContentStackPanel.Children.Clear();
-                CustomInstallerContentStackPanel.Children.Add(new TextBlock()
-                {
-                    Text = arg.ModDescription
-                });
+                    var configurator = new ModConfiguratorV1_0_0_0(config);
 
-                ModConfiguratorComponentsListView.ItemsSource = arg.Components;
+                    ModConfiguratorHeaderContentControl.MouseEnter += (sneder, args) => configurator.HeaderHover();
+
+                    ConfiguratorBodyContentControl.Content = configurator;
+                }
+
                 CustomInstallerInstallButton.Click += ProceedButton_Click;
 
                 ModConfiguratorDialogContentControl.IsOpen = true;

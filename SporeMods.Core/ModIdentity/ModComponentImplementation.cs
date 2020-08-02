@@ -34,6 +34,17 @@ namespace SporeMods.Core.ModIdentity
             }
         }
 
+        string _imagePlacement = "None";
+        public string ImagePlacement
+        {
+            get => _imagePlacement;
+            set
+            {
+                _imagePlacement = value;
+                NotifyPropertyChanged(nameof(ImagePlacement));
+            }
+        }
+
 
         ObservableCollection<ModComponent> _subComponents = new ObservableCollection<ModComponent>();
         public ObservableCollection<ModComponent> SubComponents
@@ -160,6 +171,10 @@ namespace SporeMods.Core.ModIdentity
                 else
                     IsEnabled = false;
             }
+            var imagePlacement = ((XElement)node).Attribute("imagePlacement");
+            if (imagePlacement != null)
+                ImagePlacement = imagePlacement.Value;
+            //ImageName
         }
 
         private void NotifyPropertyChanged(string propertyName)

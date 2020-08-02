@@ -320,24 +320,7 @@
                             <Button x:Name="CustomInstallerInstallButton" Content="PLACEHOLDER: Install"/>
                         </Grid>
                     </ContentControl>
-                    <ListView x:Name="ModConfiguratorComponentsListView" Style="{DynamicResource ModConfiguratorComponentsListViewStyle}" DockPanel.Dock="Left">
-                        <ui:AttachedProperties.CornerCurves>
-                            <ui:CornerCurves TopLeft="True" TopRight="False" BottomRight="False" BottomLeft="False"/>
-                        </ui:AttachedProperties.CornerCurves>
-                    </ListView>
-                    <ScrollViewer x:Name="CustomInstallerContentPaneScrollViewer" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                        <ui:AttachedProperties.CornerCurves>
-                            <ui:CornerCurves TopLeft="False" TopRight="True" BottomRight="False" BottomLeft="False"/>
-                        </ui:AttachedProperties.CornerCurves>
-                        <StackPanel x:Name="CustomInstallerContentStackPanel" Orientation="Vertical" Margin="10">
-                            <StackPanel.Resources>
-                                <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
-                                    <Setter Property="TextWrapping" Value="Wrap"/>
-                                    <Setter Property="Margin" Value="0,0,10,0"/>
-                                </Style>
-                            </StackPanel.Resources>
-                        </StackPanel>
-                    </ScrollViewer>
+                    <ContentControl x:Name="ConfiguratorBodyContentControl"/>
                 </DockPanel>
             </ContentControl>
         </ui:AnimatableContentControl>

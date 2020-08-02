@@ -95,8 +95,15 @@
     <Compile Include="CheckBoxComponentMouseOverBehavior.cs" />
     <Compile Include="CloseModalDialogButtonBehavior.cs" />
     <Compile Include="ComponentCheckBoxBehavior.cs" />
+    <Compile Include="Configurators\ModConfiguratorV1_0_0_0.xaml.cs">
+      <DependentUpon>ModConfiguratorV1_0_0_0.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CopyErrorBehavior.cs" />
     <Compile Include="StringIsComponentGroupNameConverter.cs" />
+    <Page Include="Configurators\ModConfiguratorV1_0_0_0.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DarkShale.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
