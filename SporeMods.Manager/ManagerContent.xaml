@@ -199,7 +199,7 @@
                                         <ui:ToggleSwitch x:Name="StandardWindowDecorationsToggleSwitch" IsChecked="True" Grid.Row="4"/>
                                     </Grid>
                                 </GroupBox>
-                                <GroupBox x:Name="UpdateGroupBox" IsEnabled="False" Grid.Column="1">
+                                <GroupBox x:Name="UpdateGroupBox" IsEnabled="True" Grid.Column="1">
                                     <StackPanel Orientation="Vertical">
                                         <TextBlock x:Name="UpdateTextBlock" TextWrapping="Wrap" VerticalAlignment="Center" DockPanel.Dock="Left"/>
                                         <StackPanel Orientation="Vertical">

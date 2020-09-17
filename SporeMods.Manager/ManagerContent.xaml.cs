@@ -57,7 +57,7 @@ namespace SporeMods.Manager
         DependencyProperty.Register(nameof(Credits), typeof(ObservableCollection<CreditsItem>), typeof(ManagerContent), new PropertyMetadata(new ObservableCollection<CreditsItem>()
         {
             new CreditsItem("rob55rod", "Designed and built the Spore Mod Manager."),
-            new CreditsItem("emd4600", "Started the Spore ModAPI Project, created the original Spore ModAPI Launcher Kit from which the Spore Mod Manager was derived.", @"https://github.com/Emd4600/"),
+            new CreditsItem("emd4600", "Started the Spore ModAPI Project, created the original Spore ModAPI Launcher Kit from which the Spore Mod Manager was derived.", @"https://github.com/emd4600/"),
             new CreditsItem("reflectronic", "Provided significant guidance and assistance with internal structure and asynchronous behaviour.", @"https://github.com/reflectronic"),
             new CreditsItem("Jaime Olivares", "Created the Zip archive classes used in the Spore Mod Manager.", @"https://github.com/jaime-olivares"),
             new CreditsItem("Newtonsoft", "Made the library to read JSON data.", @"https://www.newtonsoft.com/json"),
@@ -334,6 +334,21 @@ namespace SporeMods.Manager
 
                 if (Settings.ForceGameWindowingMode)
                     OverrideWindowModeCheckBox.IsChecked = true;
+
+                //Setup program updating mode
+                if (Settings.UpdatingMode == 0)
+                    UpdateAutomaticallyRadioButton.IsChecked = true;
+                else if (Settings.UpdatingMode == 1)
+                    UpdateAutoCheckRadioButton.IsChecked = true;
+                else
+                    UpdateNeverRadioButton.IsChecked = true;
+
+                UpdateAutomaticallyRadioButton.Checked += UpdateModeRadioButton_Checked;
+                UpdateAutomaticallyRadioButton.Unchecked += UpdateModeRadioButton_Checked;
+                UpdateAutomaticallyRadioButton.Checked += UpdateModeRadioButton_Checked;
+                UpdateAutomaticallyRadioButton.Unchecked += UpdateModeRadioButton_Checked;
+                UpdateNeverRadioButton.Checked += UpdateModeRadioButton_Checked;
+                UpdateNeverRadioButton.Unchecked += UpdateModeRadioButton_Checked;
 
                 //Setup game startup state Settings and Controls
                 if (Settings.UseCustomGameState)
@@ -1359,6 +1374,16 @@ namespace SporeMods.Manager
                 Settings.ForceWindowedMode = 1;
             else if (WindowedWindowModeRadioButton.IsChecked.Value)
                 Settings.ForceWindowedMode = 0;
+        }
+
+        private void UpdateModeRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            if (UpdateAutomaticallyRadioButton.IsChecked.Value)
+                Settings.UpdatingMode = 0;
+            else if (UpdateAutoCheckRadioButton.IsChecked.Value)
+                Settings.UpdatingMode = 1;
+            else
+                Settings.UpdatingMode = 2;
         }
 
         private void OverrideGameResolutionCheckBox_Checked(object sender, RoutedEventArgs e)

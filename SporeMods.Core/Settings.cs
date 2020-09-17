@@ -594,7 +594,7 @@ LightSwitchHeader Lights
 AccentColourHeader Accent Colour
 UseStandardWindowDecorations Use Standard Window Decorations
 
-UpdateHeader Update (COMING SOON)
+UpdateHeader Update
 UpdateQuestion When should the Spore Mod Manager update?
 UpdateAutomatically Automatically (recommended)
 UpdateAutoCheck Check automatically, ask before installing
@@ -793,6 +793,22 @@ Error_ProbablyGOGGuess Probably installed from GOG (or Steam, if you're really u
                     return true;
             }
             set => SetElementValue(_allowVanillaIncompatibleMods, value.ToString());
+        }
+
+        static string _updatingMode = "UpdatingMode";
+        /// <summary>
+        /// 0 for automatic updates, 1 for asking the user, 2 for no update checking
+        /// </summary>
+        public static int UpdatingMode
+        {
+            get
+            {
+                if (int.TryParse(GetElementValue(_updatingMode), out int updatingMode))
+                    return updatingMode;
+                else
+                    return 0;
+            }
+            set => SetElementValue(_updatingMode, value.ToString());
         }
 
         //static string _modApiVersion = "ModApiVersion";
