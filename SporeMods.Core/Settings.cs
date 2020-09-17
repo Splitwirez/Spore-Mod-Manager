@@ -184,7 +184,16 @@ namespace SporeMods.Core
             get => (_document.Descendants("Settings").ToArray()[0] as XElement);
         }
 
-        public static string TempFolderPath = Path.Combine(ProgramDataPath, "Temp");
+        static string _tempFolderPath = Path.Combine(ProgramDataPath, "Temp");
+        public static string TempFolderPath
+        {
+            get
+            {
+                if (!Directory.Exists(_tempFolderPath))
+                    Directory.CreateDirectory(_tempFolderPath);
+                return _tempFolderPath;
+            }
+        }
 
         public static string LegacyTempFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Spore ModAPI Launcher");
 

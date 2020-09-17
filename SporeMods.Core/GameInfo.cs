@@ -180,17 +180,6 @@ namespace SporeMods.Core
                 return false;
         }
 
-        public static async Task VerifyGamePaths()
-        {
-            Task task = new Task(() =>
-            {
-                File.WriteAllText(ModInstallation.InstructionPath, "verify");
-            });
-
-            task.Start();
-            await task;
-        }
-
         public static List<string> GetAllGameInstallPathsFromRegistry(GameDlc dlc)
         {
             string regPath = GetRegistryPath(dlc);
