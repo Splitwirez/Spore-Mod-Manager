@@ -9,6 +9,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Net;
 
 namespace SporeMods.Manager
 {
@@ -38,6 +39,10 @@ namespace SporeMods.Manager
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            // Necessary to stablish SSL connection with Github API
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls |
+                (SecurityProtocolType)768 | (SecurityProtocolType)3072;
+
             string pidArg = "-dragServantId:";
             Exit += App_Exit;
 
