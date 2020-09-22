@@ -111,7 +111,8 @@ namespace SporeMods.Core
                 List<Version> versions = new List<Version>();
                 if (Directory.Exists(CoreLibsPath))
                 {
-                    foreach (string s in Directory.EnumerateFiles(CoreLibsPath).Where(x => x.EndsWith(".dll")))
+                    foreach (string s in Directory.EnumerateFiles(CoreLibsPath).Where(
+                        x => x.EndsWith(".dll") && !x.ToLower().EndsWith("sporemodapi.dll")))
                     {
                         string ver = FileVersionInfo.GetVersionInfo(s).FileVersion;
                         if (Version.TryParse(ver, out Version sVersion))
@@ -795,15 +796,31 @@ Error_ProbablyGOGGuess Probably installed from GOG (or Steam, if you're really u
             set => SetElementValue(_allowVanillaIncompatibleMods, value.ToString());
         }
 
+
+        public enum UpdatingModeType
+        {
+            /// <summary>
+            /// Always check for updates and download automatically if possible
+            /// </summary>
+            Automatic,
+            /// <summary>
+            /// Always check for updates, but ask confirmation of user before downloading
+            /// </summary>
+            AutoCheck,
+            /// <summary>
+            /// Never check for updates
+            /// </summary>
+            Disabled
+        }
         static string _updatingMode = "UpdatingMode";
         /// <summary>
         /// 0 for automatic updates, 1 for asking the user, 2 for no update checking
         /// </summary>
-        public static int UpdatingMode
+        public static UpdatingModeType UpdatingMode
         {
             get
             {
-                if (int.TryParse(GetElementValue(_updatingMode), out int updatingMode))
+                if (UpdatingModeType.TryParse(GetElementValue(_updatingMode), out UpdatingModeType updatingMode))
                     return updatingMode;
                 else
                     return 0;

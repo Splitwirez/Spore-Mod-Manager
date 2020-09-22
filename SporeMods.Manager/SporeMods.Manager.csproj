@@ -99,6 +99,9 @@
       <DependentUpon>ModConfiguratorV1_0_0_0.xaml</DependentUpon>
     </Compile>
     <Compile Include="CopyErrorBehavior.cs" />
+    <Compile Include="ProgressDialog.xaml.cs">
+      <DependentUpon>ProgressDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="StringIsComponentGroupNameConverter.cs" />
     <Page Include="Configurators\ModConfiguratorV1_0_0_0.xaml">
       <SubType>Designer</SubType>
@@ -115,6 +118,10 @@
     <Compile Include="CreditsItem.cs" />
     <Compile Include="DeselectAllBehavior.cs" />
     <Page Include="ManagerContent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ProgressDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

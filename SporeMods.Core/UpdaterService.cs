@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.ComponentModel;
+using Ionic.Zip;
 using Newtonsoft.Json;
 
 namespace SporeMods.Core
@@ -16,13 +20,13 @@ namespace SporeMods.Core
     {
         private static readonly string GITHUB_API_URL = "https://api.github.com";
 
-        private class GithubReleaseAsset
+        public class GithubReleaseAsset
         {
             public string name;
             public string browser_download_url;
         }
 
-        private class GithubRelease
+        public class GithubRelease
         {
             public string tag_name;
             public string html_url;
@@ -81,20 +85,113 @@ namespace SporeMods.Core
         /// Returns whether there is an update available for the core ModAPI DLLs.
         /// </summary>
         /// <returns></returns>
-        public static bool HasDllsUpdate()
+        public static bool HasDllsUpdate(out GithubRelease release)
         {
-            var release = GetLatestGithubRelease("emd4600", "spore-modapi");
+            release = GetLatestGithubRelease("emd4600", "spore-modapi");
             var updateVersion = ParseGithubVersion(release.tag_name);
 
             return updateVersion > Settings.CurrentDllsBuild;
         }
 
-        public static bool HasProgramUpdate()
+        /// <summary>
+        /// Returns whether there is an update available for the program.
+        /// </summary>
+        /// <returns></returns>
+        public static bool HasProgramUpdate(out GithubRelease release)
         {
-            var release = GetLatestGithubRelease("Splitwirez", "Spore-Mod-Manager");
+            release = GetLatestGithubRelease("Splitwirez", "Spore-Mod-Manager");
+            //release = GetLatestGithubRelease("emd4600", "sporemodder-fx");
             var updateVersion = ParseGithubVersion(release.tag_name);
 
             return updateVersion > Settings.ModManagerVersion;
+        }
+
+        static readonly string[] DLL_NAMES = { "SporeModAPI.disk.dll", "SporeModAPI.march2017.dll", "SporeModAPI.lib" };
+
+        public class UpdateProgressEventArgs : EventArgs
+        {
+            public float Progress { get; set; }
+        }
+
+        /// <summary>
+        /// How much of the progress is spent on download (the rest on copying the files)
+        /// </summary>
+        static readonly float DOWNLOAD_PROGRESS = 0.6f;
+
+        /// <summary>
+        /// Downloads the update from the given Github release and applies it, extracting all the necessary files.
+        /// A progress handler can be passed to react when the operation progress (in the range [0, 100]) changes.
+        /// Throws an InvalidOperationException if the update is not valid.
+        /// </summary>
+        /// <param name="release"></param>
+        /// <param name="progressHandler"></param>
+        public static void UpdateDlls(GithubRelease release, ProgressChangedEventHandler progressHandler)
+        {
+            var asset = Array.Find(release.assets, a => a.name.ToLower() == "sporemodapidlls.zip");
+            if (asset == null)
+            {
+                throw new InvalidOperationException("Invalid update: no 'SporeModAPIdlls.zip' asset");
+            }
+            using (var client = new WebClient())
+            {
+                client.DownloadProgressChanged += (s, e) =>
+                {
+                    var args = new ProgressChangedEventArgs((int)(e.ProgressPercentage * DOWNLOAD_PROGRESS), null);
+                    if (progressHandler != null) progressHandler.Invoke(null, args);
+                };
+
+                string zipName = Path.GetTempFileName();
+                client.DownloadFile(asset.browser_download_url, zipName);
+
+                using (var zip = new ZipFile(zipName))
+                {
+                    int filesExtracted = 0;
+                    foreach (string name in DLL_NAMES)
+                    {
+                        var entry = zip[name];
+                        if (entry == null)
+                        {
+                            throw new InvalidOperationException("Invalid update: missing " + name + " in zip file");
+                        }
+                        entry.Extract(Settings.CoreLibsPath, ExtractExistingFileAction.OverwriteSilently);
+                        ++filesExtracted;
+
+                        double progress = DOWNLOAD_PROGRESS + filesExtracted * (1.0f - DOWNLOAD_PROGRESS) / (float)(DLL_NAMES.Length);
+                        var args = new ProgressChangedEventArgs((int)(progress * 100.0), null);
+                        if (progressHandler != null) progressHandler.Invoke(null, args);
+                    }
+                }
+
+                File.Delete(zipName);
+            }
+        }
+
+        /// <summary>
+        /// Downloads the update from the given Github release, and returns the path to the updater program. 
+        /// A progress handler can be passed to react when the operation progress (in the range [0, 100]) changes.
+        /// Throws an InvalidOperationException if the update is not valid.
+        /// </summary>
+        /// <param name="release"></param>
+        /// <param name="progressHandler"></param>
+        /// <returns></returns>
+        public static string UpdateProgram(GithubRelease release, ProgressChangedEventHandler progressHandler)
+        {
+            var asset = Array.Find(release.assets, a => a.name.ToLower() == "SporeModManagerUpdater.exe");
+            if (asset == null)
+            {
+                throw new InvalidOperationException("Invalid update: no 'SporeModManagerUpdater.exe' asset");
+            }
+            using (var client = new WebClient())
+            {
+                client.DownloadProgressChanged += (s, e) =>
+                {
+                    if (progressHandler != null) progressHandler.Invoke(null, e);
+                };
+                string fileName = Path.GetTempFileName();
+                client.DownloadFile(asset.browser_download_url, fileName);
+
+                return fileName;
+            }
         }
     }
 }

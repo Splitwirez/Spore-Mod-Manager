@@ -336,9 +336,9 @@ namespace SporeMods.Manager
                     OverrideWindowModeCheckBox.IsChecked = true;
 
                 //Setup program updating mode
-                if (Settings.UpdatingMode == 0)
+                if (Settings.UpdatingMode == Settings.UpdatingModeType.Automatic)
                     UpdateAutomaticallyRadioButton.IsChecked = true;
-                else if (Settings.UpdatingMode == 1)
+                else if (Settings.UpdatingMode == Settings.UpdatingModeType.AutoCheck)
                     UpdateAutoCheckRadioButton.IsChecked = true;
                 else
                     UpdateNeverRadioButton.IsChecked = true;
@@ -1379,11 +1379,11 @@ namespace SporeMods.Manager
         private void UpdateModeRadioButton_Checked(object sender, RoutedEventArgs e)
         {
             if (UpdateAutomaticallyRadioButton.IsChecked.Value)
-                Settings.UpdatingMode = 0;
+                Settings.UpdatingMode = Settings.UpdatingModeType.Automatic;
             else if (UpdateAutoCheckRadioButton.IsChecked.Value)
-                Settings.UpdatingMode = 1;
+                Settings.UpdatingMode = Settings.UpdatingModeType.AutoCheck;
             else
-                Settings.UpdatingMode = 2;
+                Settings.UpdatingMode = Settings.UpdatingModeType.Disabled;
         }
 
         private void OverrideGameResolutionCheckBox_Checked(object sender, RoutedEventArgs e)
