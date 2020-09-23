@@ -600,6 +600,16 @@ UpdateQuestion When should the Spore Mod Manager update?
 UpdateAutomatically Automatically (recommended)
 UpdateAutoCheck Check automatically, ask before installing
 UpdateNever Don't update (not recommended)
+UpdateAvailableTitle Update Available
+UpdateAvailableText An update to the Mod Manager is available. It includes new features and bugfixes. Do you want to download it?
+UpdateAvailableDllsTitle ModAPI DLLs Update Available
+UpdateAvailableDllsText An update to the ModAPI DLLs is available. It includes new features and bugfixes, and is required to run modern mods. Do you want to download it?
+UpdatingProgressText Updating program, please wait...
+UpdatingProgressDllsText Updating ModAPI DLLs, please wait...
+Error_UpdateAvailableDlls An update to the ModAPI DLLs, needed to run modern mods, is available. However, it cannot be installed until you update the program. Please restart the program and allow it to update.
+Error_UpdateAvailableDllsTitle ModAPI DLLs cannot update
+Error_CannotCheckForUpdates Cannot check for updates, please check your internet connection.
+Error_CannotCheckForUpdatesTitle Cannot check for updates
 
 HelpHeader Need help?
 GoToForumThread Contact us to get help!

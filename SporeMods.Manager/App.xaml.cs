@@ -187,14 +187,14 @@ namespace SporeMods.Manager
                 bool update = true;
                 if (Settings.UpdatingMode == Settings.UpdatingModeType.AutoCheck)
                 {
-                    update = MessageBox.Show("An update to the ModAPI DLLs is available. It includes new features and bugfixes, and is required to run modern mods. Do you want to download it?",
-                        "ModAPI DLLs Update Available", MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+                    update = MessageBox.Show(Settings.GetLanguageString("UpdateAvailableText"),
+                        Settings.GetLanguageString("UpdateAvailableTitle"), MessageBoxButton.YesNo) == MessageBoxResult.Yes;
                 }
 
                 if (update)
                 {
                     string updaterPath = null;
-                    var progressDialog = new ProgressDialog("Updating ModAPI DLLs, please wait...", (s, e) =>
+                    var progressDialog = new ProgressDialog(Settings.GetLanguageString("UpdatingProgressText"), (s, e) =>
                     {
                         updaterPath = UpdaterService.UpdateProgram(release, (s_, e_) =>
                         {
@@ -216,6 +216,7 @@ namespace SporeMods.Manager
                 }
             }
 
+            //TODO remember to restore this
             webException = null;
 
             bool hasDllsUpdate = false;
@@ -235,8 +236,8 @@ namespace SporeMods.Manager
 
             if (webException != null)
             {
-                MessageBox.Show("Cannot check for updates, please check your internet connection." + "\n" + webException.Message,
-                    "Cannot check for updates");
+                MessageBox.Show(Settings.GetLanguageString("Error_CannotCheckForUpdates") + "\n" + webException.Message,
+                    Settings.GetLanguageString("Error_CannotCheckForUpdatesTitle"));
                 return;
             }
 
@@ -246,21 +247,21 @@ namespace SporeMods.Manager
                 // (as the update restarts the program), so we cannot continue
                 if (hasProgramUpdate)
                 {
-                    MessageBox.Show("An update to the ModAPI DLLs, needed to run modern mods, is available. However, it cannot be installed until you update the program. Please restart the program and allow it to update.",
-                        "ModAPI DLLs cannot update");
+                    MessageBox.Show(Settings.GetLanguageString("Error_UpdateAvailableDlls"),
+                        Settings.GetLanguageString("Error_UpdateAvailableDllsTitle"));
                 }
                 else
                 {
                     bool update = true;
                     if (Settings.UpdatingMode == Settings.UpdatingModeType.AutoCheck)
                     {
-                        update = MessageBox.Show("An update to the ModAPI DLLs is available. It includes new features and bugfixes, and is required to run modern mods. Do you want to download it?",
-                            "ModAPI DLLs Update Available", MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+                        update = MessageBox.Show(Settings.GetLanguageString("UpdateAvailableDllsText"),
+                            Settings.GetLanguageString("UpdateAvailableDllsTitle"), MessageBoxButton.YesNo) == MessageBoxResult.Yes;
                     }
 
                     if (update)
                     {
-                        var progressDialog = new ProgressDialog("Updating ModAPI DLLs, please wait...", (s, e) =>
+                        var progressDialog = new ProgressDialog(Settings.GetLanguageString("UpdatingProgressDllsText"), (s, e) =>
                         {
                             UpdaterService.UpdateDlls(release, (s_, e_) =>
                             {
@@ -274,7 +275,6 @@ namespace SporeMods.Manager
                             ShowException(progressDialog.Error);
                         }
                     }
-                    //TODO error handling
                 }
             }
         }
