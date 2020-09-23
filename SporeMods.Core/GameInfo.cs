@@ -136,7 +136,7 @@ namespace SporeMods.Core
 
         static string EnsureGameInstallPathIsInstallRoot(string subPath, GameDlc dlc)
         {
-            string output = StripTrailingCharacters(subPath).ToLowerInvariant();
+            string output = StripTrailingCharacters(subPath);
 
             bool isSporePath = true;
             while (!IsPathGameInstallRoot(output, dlc))
@@ -240,8 +240,8 @@ namespace SporeMods.Core
                         {
                             if (Directory.Exists(p))
                             {
-                                string newVal = EnsureGameInstallPathIsInstallRoot(StripTrailingCharacters(p), dlc).ToLowerInvariant();
-                                areSame = EnsureGameInstallPathIsInstallRoot(StripTrailingCharacters(comparison), dlc).ToLowerInvariant() == newVal;
+                                string newVal = EnsureGameInstallPathIsInstallRoot(p, dlc);
+                                areSame = EnsureGameInstallPathIsInstallRoot(comparison, dlc).ToLowerInvariant() == newVal.ToLowerInvariant();
 
                                 if (areSame)
                                     comparison = newVal;
