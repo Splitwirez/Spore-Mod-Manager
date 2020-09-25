@@ -12,6 +12,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SporeMods.Core", "SporeMods.Core\SporeMods.Core.csproj", "{5D0E076F-9C1C-4990-9242-4F7E7C66A045}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SporeMods.Launcher", "SporeMods.Launcher\SporeMods.Launcher.csproj", "{F32EB7C1-AD5B-44AE-941F-08339482B581}"
+	ProjectSection(ProjectDependencies) = postProject
+		{21A4B753-80B6-426E-B09F-0E6BB307B139} = {21A4B753-80B6-426E-B09F-0E6BB307B139}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SporeMods.DragServant", "SporeMods.DragServant\SporeMods.DragServant.csproj", "{33C87985-D6A0-4C60-A7FD-55553DB4D3BB}"
 EndProject
@@ -22,6 +25,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mechanism.Wpf.Styles.Shale", "Mechanism-for-WPF\Themes\Shale\Mechanism.Wpf.Styles.Shale.csproj", "{1648A481-D3D4-49AC-B415-40AD57FEA938}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mechanism.Wpf.Showcase", "Mechanism-for-WPF\Mechanism.Wpf.Showcase\Mechanism.Wpf.Showcase.csproj", "{B0B761A2-A933-4914-989F-D2FCABB8A7D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SporeMods.CommonUI", "SporeMods.CommonUI\SporeMods.CommonUI.csproj", "{21A4B753-80B6-426E-B09F-0E6BB307B139}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +62,10 @@ Global
 		{B0B761A2-A933-4914-989F-D2FCABB8A7D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0B761A2-A933-4914-989F-D2FCABB8A7D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0B761A2-A933-4914-989F-D2FCABB8A7D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21A4B753-80B6-426E-B09F-0E6BB307B139}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21A4B753-80B6-426E-B09F-0E6BB307B139}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21A4B753-80B6-426E-B09F-0E6BB307B139}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21A4B753-80B6-426E-B09F-0E6BB307B139}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
