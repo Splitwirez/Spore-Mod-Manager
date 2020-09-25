@@ -463,6 +463,12 @@ namespace SporeMods.Manager
                 AutoSporebinPathCheckBox.IsEnabled = false;
         }
 
+        private void PathBrowseButton_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO: Implement this
+            MessageBox.Show("AAAAA");
+        }
+
         private void LaunchWithLanguageTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if ((LaunchWithLanguageLangTextBox.Text.Length > 0) && (LaunchWithLanguageRegionTextBox.Text.Length > 0))
@@ -789,7 +795,12 @@ namespace SporeMods.Manager
             SearchDescriptionsMenuItem.Header = Settings.GetLanguageString("SearchDescriptions");
             SearchTagsMenuItem.Header = Settings.GetLanguageString("SearchTags");
 
-            BrowseForModsButton.Content = Settings.GetLanguageString("DropModsHereBrowseButton");
+            BrowseForModsButton.Content = Settings.GetLanguageString(1, "Browse");
+            
+            GaDataPathBrowseButton.Content = Settings.GetLanguageString(1, "Browse");
+            SporebinEp1PathBrowseButton.Content = Settings.GetLanguageString(1, "Browse");
+            CoreDataPathBrowseButton.Content = Settings.GetLanguageString(1, "Browse");
+            SporebinPathBrowseButton.Content = Settings.GetLanguageString(1, "Browse");
 
             Resources["ModSwitchOnText"] = Settings.GetLanguageString("ModSwitchOn");
             Resources["ModSwitchOffText"] = Settings.GetLanguageString("ModSwitchOff");

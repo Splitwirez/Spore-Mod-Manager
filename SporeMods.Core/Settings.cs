@@ -517,6 +517,7 @@ Globals_DontRunMgrAsAdmin For security and practicality reasons, please don't ru
 Globals_DontRunMgrAsAdmin2 For security and practicality reasons, explicitly running the Spore Mod Manager as Administrator (by right-clicking and selecting " + "\"Run as Administrator\"" + @") is not recommended. Are you sure you want to proceed?
 Globals_DontRunLauncherAsAdmin For security and practicality reasons, please don't run the Spore ModAPI Launcher as Administrator.
 Globals_DontRunLauncherAsAdmin2 For security and practicality reasons, explicitly running the Spore ModAPI Launcher as Administrator (by right-clicking and selecting " + "\"Run as Administrator\"" + @") is not recommended. Doing so will also prevent you from being able to load creations into Spore by dragging their PNGs into the game window. Are you sure you want to proceed?
+Globals_Browse Browse...
 
 
 # Main Window text
@@ -537,7 +538,6 @@ CopyModsListToClipboard Copy Mods List
 
 DropModsHerePrompt Click the Install mods button to get started installing Spore mods!
 DropModsHereInstruction Drag-and-drop mods here to install them
-DropModsHereBrowseButton Browse...
 
 SearchWatermark Search installed mods...
 SearchNames Search mod names
@@ -695,8 +695,8 @@ Error_ProbablyGOGGuess Probably installed from GOG (or Steam, if you're really u
             }
             catch (Exception ex)
             {
-                MessageDisplay.DebugShowMessageBox(ex.ToString() + "\n\nkey: " + key);
-                return "***";
+                //MessageDisplay.DebugShowMessageBox(ex.ToString() + "\n\nkey: " + key);
+                return ex.ToString() + "NOT FOUND: " + key; //"***";
             }
         }
 

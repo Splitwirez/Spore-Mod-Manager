@@ -71,6 +71,7 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
@@ -79,13 +80,20 @@
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
                                     <CheckBox x:Name="AutoGaDataPathCheckBox" Style="{DynamicResource GamePathCheckBoxStyle}" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" DockPanel.Dock="Left"/>
-                                    <ui:ActionBox x:Name="GaDataPathTextBox" Style="{DynamicResource GamePathActionBoxStyle}" Grid.Column="1" Grid.Row="0" TextChanged="GaDataPathTextBox_TextChanged"/>
+                                    <TextBox x:Name="GaDataPathTextBox" Grid.Column="1" Grid.Row="0" TextChanged="GaDataPathTextBox_TextChanged" ui:AttachedProperties.CornerCurves="False"/>
+                                    <Button x:Name="GaDataPathBrowseButton" Grid.Column="2" Grid.Row="0" Click="PathBrowseButton_Click" ui:AttachedProperties.CornerCurves="False,True,True,False" ui:AttachedProperties.BorderPresence="False,True,True,True"/>
+                                    
                                     <CheckBox x:Name="AutoSporebinEp1PathCheckBox" Style="{DynamicResource GamePathCheckBoxStyle}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" DockPanel.Dock="Left"/>
-                                    <ui:ActionBox x:Name="SporebinEp1PathTextBox" Style="{DynamicResource GamePathActionBoxStyle}" Grid.Column="1" Grid.Row="1" TextChanged="SporebinEp1PathTextBox_TextChanged"/>
+                                    <TextBox x:Name="SporebinEp1PathTextBox" Grid.Column="1" Grid.Row="1" TextChanged="SporebinEp1PathTextBox_TextChanged" ui:AttachedProperties.CornerCurves="False"/>
+                                    <Button x:Name="SporebinEp1PathBrowseButton" Grid.Column="2" Grid.Row="1" Click="PathBrowseButton_Click" ui:AttachedProperties.CornerCurves="False,True,True,False" ui:AttachedProperties.BorderPresence="False,True,True,True"/>
+                                    
                                     <CheckBox x:Name="AutoCoreDataPathCheckBox" Style="{DynamicResource GamePathCheckBoxStyle}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" DockPanel.Dock="Left"/>
-                                    <ui:ActionBox x:Name="CoreDataPathTextBox" Style="{DynamicResource GamePathActionBoxStyle}" Grid.Column="1" Grid.Row="2" TextChanged="CoreDataPathTextBox_TextChanged"/>
+                                    <TextBox x:Name="CoreDataPathTextBox" Grid.Column="1" Grid.Row="2" TextChanged="CoreDataPathTextBox_TextChanged" ui:AttachedProperties.CornerCurves="False"/>
+                                    <Button x:Name="CoreDataPathBrowseButton" Grid.Column="2" Grid.Row="2" Click="PathBrowseButton_Click" ui:AttachedProperties.CornerCurves="False,True,True,False" ui:AttachedProperties.BorderPresence="False,True,True,True"/>
+                                    
                                     <CheckBox x:Name="AutoSporebinPathCheckBox" Style="{DynamicResource GamePathCheckBoxStyle}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" DockPanel.Dock="Left"/>
-                                    <ui:ActionBox x:Name="SporebinPathTextBox" Style="{DynamicResource GamePathActionBoxStyle}" Grid.Column="1" Grid.Row="3" TextChanged="SporebinPathTextBox_TextChanged"/>
+                                    <TextBox x:Name="SporebinPathTextBox" Grid.Column="1" Grid.Row="3" TextChanged="SporebinPathTextBox_TextChanged" ui:AttachedProperties.CornerCurves="False"/>
+                                    <Button x:Name="SporebinPathBrowseButton" Grid.Column="2" Grid.Row="3" Click="PathBrowseButton_Click" ui:AttachedProperties.CornerCurves="False,True,True,False" ui:AttachedProperties.BorderPresence="False,True,True,True"/>
                                 </Grid>
                             </GroupBox>
                             <UniformGrid Rows="1">
