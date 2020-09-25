@@ -65,6 +65,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SporeMods.CommonUI\SporeMods.CommonUI.csproj">
+      <Project>{21a4b753-80b6-426e-b09f-0e6bb307b139}</Project>
+      <Name>SporeMods.CommonUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SporeMods.Core\SporeMods.Core.csproj">
       <Project>{5d0e076f-9c1c-4990-9242-4f7e7c66a045}</Project>
       <Name>SporeMods.Core</Name>

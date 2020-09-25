@@ -22,6 +22,8 @@ namespace SporeMods.Launcher
         /// </summary>
         static void Main()
         {
+            CommonUI.Updater.CheckForUpdates();
+
             MessageDisplay.MessageBoxShown += (sneder, args) => MessageBox.Show(args.Content, args.Title);
             MessageDisplay.ErrorOccurred += (sneder, args) =>
             {
