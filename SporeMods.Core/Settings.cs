@@ -111,7 +111,8 @@ namespace SporeMods.Core
                 List<Version> versions = new List<Version>();
                 if (Directory.Exists(CoreLibsPath))
                 {
-                    foreach (string s in Directory.EnumerateFiles(CoreLibsPath).Where(x => x.EndsWith(".dll")))
+                    foreach (string s in Directory.EnumerateFiles(CoreLibsPath).Where(
+                        x => x.EndsWith(".dll") && !x.ToLower().EndsWith("sporemodapi.dll")))
                     {
                         string ver = FileVersionInfo.GetVersionInfo(s).FileVersion;
                         if (Version.TryParse(ver, out Version sVersion))
@@ -174,7 +175,10 @@ namespace SporeMods.Core
         {
             _settingsFilePath = Path.Combine(ProgramDataPath, "ModManagerSettings.xml");
             if (!File.Exists(_settingsFilePath))
+            {
                 File.WriteAllText(_settingsFilePath, @"<Settings></Settings>");
+                Permissions.GrantAccessFile(_settingsFilePath);
+            }
 
             _document = XDocument.Load(_settingsFilePath);
         }
@@ -210,7 +214,7 @@ namespace SporeMods.Core
                     Directory.CreateDirectory(TempFolderPath);
 
                 if (File.Exists(_pathInfo))
-                    Permissions.GrantAccess(_pathInfo);
+                    Permissions.GrantAccessFile(_pathInfo);
 
                 if (!Permissions.IsFileLocked(_pathInfo, FileAccess.Write))
                     return File.ReadAllText(_pathInfo);
@@ -225,10 +229,13 @@ namespace SporeMods.Core
                     Directory.CreateDirectory(TempFolderPath);
 
                 if (File.Exists(_pathInfo))
-                    Permissions.GrantAccess(_pathInfo);
+                    Permissions.GrantAccessFile(_pathInfo);
 
                 if (Path.GetFileNameWithoutExtension(Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).ToString()).ToLowerInvariant().StartsWith("SporeMods."))
+                {
                     File.WriteAllText(_pathInfo, value);
+                    Permissions.GrantAccessFile(_pathInfo);
+                }
                 /*else
                     throw new Exception("Non-ModAPI Management kit software must not interfere.");
             }
@@ -599,6 +606,16 @@ UpdateQuestion When should the Spore Mod Manager update?
 UpdateAutomatically Automatically (recommended)
 UpdateAutoCheck Check automatically, ask before installing
 UpdateNever Don't update (not recommended)
+UpdateAvailableTitle Update Available
+UpdateAvailableText An update to the Mod Manager is available. It includes new features and bugfixes. Do you want to download it?
+UpdateAvailableDllsTitle ModAPI DLLs Update Available
+UpdateAvailableDllsText An update to the ModAPI DLLs is available. It includes new features and bugfixes, and is required to run modern mods. Do you want to download it?
+UpdatingProgressText Updating program, please wait...
+UpdatingProgressDllsText Updating ModAPI DLLs, please wait...
+Error_UpdateAvailableDlls An update to the ModAPI DLLs, needed to run modern mods, is available. However, it cannot be installed until you update the program. Please restart the program and allow it to update.
+Error_UpdateAvailableDllsTitle ModAPI DLLs cannot update
+Error_CannotCheckForUpdates Cannot check for updates, please check your internet connection.
+Error_CannotCheckForUpdatesTitle Cannot check for updates
 
 HelpHeader Need help?
 GoToForumThread Contact us to get help!
@@ -634,6 +651,7 @@ Error_ProbablyDiskGuess Probably installed from Disks
 Error_ProbablyOriginGuess Probably installed from Origin
 Error_ProbablyGOGGuess Probably installed from GOG (or Steam, if you're really unlucky)
 ");
+                Permissions.GrantAccessFile(defaultLanguagePath);
                 _languageExtracted = true;
             }
             var language = new Dictionary<string, string>();
@@ -714,7 +732,10 @@ Error_ProbablyGOGGuess Probably installed from GOG (or Steam, if you're really u
                 else
                 {
                     if (!File.Exists(_firstRunPath))
+                    {
                         File.WriteAllText(_firstRunPath, string.Empty);
+                        Permissions.GrantAccessFile(_firstRunPath);
+                    }
                 }
             }
         }
@@ -729,7 +750,10 @@ Error_ProbablyGOGGuess Probably installed from GOG (or Steam, if you're really u
                 if (value)
                 {
                     if (!File.Exists(_developerModeEnabledPath))
+                    {
                         File.Create(_developerModeEnabledPath).Close();
+                        Permissions.GrantAccessFile(_developerModeEnabledPath);
+                    }
                 }
                 else
                 {
@@ -775,7 +799,10 @@ Error_ProbablyGOGGuess Probably installed from GOG (or Steam, if you're really u
                 else
                 {
                     if (!File.Exists(_forceSoftwareRenderingPath))
+                    {
                         File.Create(_forceSoftwareRenderingPath).Close();
+                        Permissions.GrantAccessFile(_forceSoftwareRenderingPath);
+                    }
                 }
             }
         }
@@ -795,15 +822,31 @@ Error_ProbablyGOGGuess Probably installed from GOG (or Steam, if you're really u
             set => SetElementValue(_allowVanillaIncompatibleMods, value.ToString());
         }
 
+
+        public enum UpdatingModeType
+        {
+            /// <summary>
+            /// Always check for updates and download automatically if possible
+            /// </summary>
+            Automatic,
+            /// <summary>
+            /// Always check for updates, but ask confirmation of user before downloading
+            /// </summary>
+            AutoCheck,
+            /// <summary>
+            /// Never check for updates
+            /// </summary>
+            Disabled
+        }
         static string _updatingMode = "UpdatingMode";
         /// <summary>
         /// 0 for automatic updates, 1 for asking the user, 2 for no update checking
         /// </summary>
-        public static int UpdatingMode
+        public static UpdatingModeType UpdatingMode
         {
             get
             {
-                if (int.TryParse(GetElementValue(_updatingMode), out int updatingMode))
+                if (UpdatingModeType.TryParse(GetElementValue(_updatingMode), out UpdatingModeType updatingMode))
                     return updatingMode;
                 else
                     return 0;

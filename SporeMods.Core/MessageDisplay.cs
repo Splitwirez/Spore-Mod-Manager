@@ -42,7 +42,9 @@ namespace SporeMods.Core
             if (!Directory.Exists(errorsSubDirectory))
                 Directory.CreateDirectory(errorsSubDirectory);
 
-            File.WriteAllText(Path.Combine(errorsSubDirectory, GetExceptionFileName()), args.Title + ErrorSeparator + args.Content);
+            string errorPath = Path.Combine(errorsSubDirectory, GetExceptionFileName());
+            File.WriteAllText(errorPath, args.Title + ErrorSeparator + args.Content);
+            Permissions.GrantAccessFile(errorPath);
             ErrorOccurred?.Invoke(null, args);
         }
 

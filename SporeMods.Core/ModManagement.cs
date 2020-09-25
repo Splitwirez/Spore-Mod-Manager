@@ -135,7 +135,7 @@ namespace SporeMods.Core
             {
                 if (FileWrite.IsUnprotectedFile(s))
                 {
-                    string name = Path.GetFileName(s).ToLowerInvariant();
+                    string name = Path.GetFileName(s);
                     if (allModFileNames.Where(x => x.ToLowerInvariant() == name.ToLowerInvariant()).Count() == 0)
                         _modConfigurations.Add(new ManualInstalledFile(name, ComponentGameDir.galacticadventures, false));
                 }
@@ -144,7 +144,7 @@ namespace SporeMods.Core
             {
                 if (FileWrite.IsUnprotectedFile(s))
                 {
-                    string name = Path.GetFileName(s).ToLowerInvariant();
+                    string name = Path.GetFileName(s);
                     if (allModFileNames.Where(x => x.ToLowerInvariant() == name.ToLowerInvariant()).Count() == 0)
                         _modConfigurations.Add(new ManualInstalledFile(name, ComponentGameDir.spore, false));
                 }

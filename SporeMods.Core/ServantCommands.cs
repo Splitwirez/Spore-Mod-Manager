@@ -15,6 +15,7 @@ namespace SporeMods.Core
                 File.Delete(launchGamePath);
 
             File.WriteAllText(launchGamePath, string.Empty);
+            Permissions.GrantAccessFile(launchGamePath);
         }
     }
 }

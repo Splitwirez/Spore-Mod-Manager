@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Text;
@@ -82,15 +83,49 @@ namespace SporeMods.Core
         }
 
         //https://stackoverflow.com/questions/9108399/how-to-grant-full-permission-to-a-file-created-by-my-application-for-all-users
-        public static bool GrantAccess(string fullPath)
+        /// <summary>
+        /// If the current application is running as Administrator, attempts to grant full access to a specific directory and its files.
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static bool GrantAccessDirectory(string fullPath)
         {
-            DirectoryInfo dInfo = new DirectoryInfo(fullPath);
-            DirectorySecurity dSecurity = dInfo.GetAccessControl();
-            dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), FileSystemRights.FullControl,
-                                                             InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit,
+            if (Permissions.IsAdministrator() && Directory.Exists(fullPath))
+            { 
+                DirectoryInfo dInfo = new DirectoryInfo(fullPath);
+                DirectorySecurity dSecurity = dInfo.GetAccessControl();
+                dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), FileSystemRights.FullControl,
+                                                                 InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit,
+                                                                 PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+                dInfo.SetAccessControl(dSecurity);
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// If the current application is running as Administrator, attempts to grant full access to a specific file.
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static bool GrantAccessFile(string filePath)
+        {
+            if (Permissions.IsAdministrator() && File.Exists(filePath))
+            {
+                var security = File.GetAccessControl(filePath);
+                security.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), 
+                                                             FileSystemRights.FullControl, InheritanceFlags.None,
                                                              PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
-            dInfo.SetAccessControl(dSecurity);
-            return true;
+                File.SetAccessControl(filePath, security);
+                return true;
+
+                //string parentPath = Path.GetDirectoryName(filePath);
+                //if (Directory.Exists(parentPath))
+                //{
+                //    return GrantAccess(parentPath);
+                //}
+            }
+            return false;
         }
 
         public static bool IsFileLocked(string filePath)

@@ -10,6 +10,9 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Net;
+using System.Windows.Media.Animation;
+using System.Threading;
+using System.ComponentModel;
 
 namespace SporeMods.Manager
 {
@@ -37,13 +40,17 @@ namespace SporeMods.Manager
                 ShowException(exc);
         }
 
+        private static readonly string ARG_DRAGSERVANTID = "-dragServantId:";
+        private static readonly string ARG_IGNOREUPDATES = "-ignoreUpdates";
+
         protected override void OnStartup(StartupEventArgs e)
         {
-            // Necessary to stablish SSL connection with Github API
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls |
-                (SecurityProtocolType)768 | (SecurityProtocolType)3072;
+            bool ignoreUpdates = Environment.GetCommandLineArgs().Contains(ARG_IGNOREUPDATES);
+            if (!ignoreUpdates)
+            {
+                CheckForUpdates();
+            }
 
-            string pidArg = "-dragServantId:";
             Exit += App_Exit;
 
             if (Permissions.IsAtleastWindowsVista() && (!Permissions.IsAdministrator()))
@@ -54,7 +61,8 @@ namespace SporeMods.Manager
 
                 Process p = Process.Start(Path.Combine(parentDirectoryPath, "SporeMods.DragServant.exe"), Process.GetCurrentProcess().Id.ToString());
                 string args = Permissions.GetProcessCommandLineArgs();
-                args += " " + pidArg + p.Id;
+                args += " " + ARG_DRAGSERVANTID + p.Id;
+                if (!ignoreUpdates) args += " " + ARG_IGNOREUPDATES;
                 try
                 {
                     Permissions.RerunAsAdministrator(args);
@@ -73,9 +81,9 @@ namespace SporeMods.Manager
                 foreach (string arg in clArgs)
                 {
                     string targ = arg.Trim(" ".ToCharArray());
-                    if (targ.StartsWith(pidArg))
+                    if (targ.StartsWith(ARG_DRAGSERVANTID))
                     {
-                        DragServantProcess = Process.GetProcessById(int.Parse(targ.Replace(pidArg, string.Empty)));
+                        DragServantProcess = Process.GetProcessById(int.Parse(targ.Replace(ARG_DRAGSERVANTID, string.Empty)));
                         break;
                     }
                 }
@@ -147,6 +155,130 @@ namespace SporeMods.Manager
                 DragServantProcess.Kill();
         }
 
+        private void CheckForUpdates()
+        {
+            if (Settings.UpdatingMode == Settings.UpdatingModeType.Disabled) return;
+
+            // Necessary to stablish SSL connection with Github API
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls |
+                (SecurityProtocolType)768 | (SecurityProtocolType)3072;
+
+            // We will only show one error even if it cannot check the two updates
+            WebException webException = null;
+
+            UpdaterService.GithubRelease release = null;
+            bool hasProgramUpdate = false;
+            try
+            {
+                hasProgramUpdate = UpdaterService.HasProgramUpdate(out release);
+            }
+            catch (WebException ex)
+            {
+                webException = ex;
+            }
+            catch (Exception ex)
+            {
+                ShowException(ex);
+                return;
+            }
+
+            if (hasProgramUpdate)
+            {
+                bool update = true;
+                if (Settings.UpdatingMode == Settings.UpdatingModeType.AutoCheck)
+                {
+                    update = MessageBox.Show(Settings.GetLanguageString("UpdateAvailableText"),
+                        Settings.GetLanguageString("UpdateAvailableTitle"), MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+                }
+
+                if (update)
+                {
+                    string updaterPath = null;
+                    var progressDialog = new ProgressDialog(Settings.GetLanguageString("UpdatingProgressText"), (s, e) =>
+                    {
+                        updaterPath = UpdaterService.UpdateProgram(release, (s_, e_) =>
+                        {
+                            (s as BackgroundWorker).ReportProgress(e_.ProgressPercentage);
+                        });
+                    });
+                    progressDialog.ShowDialog();
+
+                    if (progressDialog.Error != null)
+                    {
+                        ShowException(progressDialog.Error);
+                        return;
+                    }
+
+                    //TODO close and execute program
+                    Process.Start(updaterPath, Path.GetDirectoryName(Process.GetCurrentProcess().GetExecutablePath()));
+                    Application.Current.Shutdown();
+                    return;
+                }
+            }
+
+            //TODO remember to restore this
+            webException = null;
+
+            bool hasDllsUpdate = false;
+            try
+            {
+                hasDllsUpdate = UpdaterService.HasDllsUpdate(out release);
+            }
+            catch (WebException ex)
+            {
+                webException = ex;
+            }
+            catch (Exception ex)
+            {
+                ShowException(ex);
+                return;
+            }
+
+            if (webException != null)
+            {
+                MessageBox.Show(Settings.GetLanguageString("Error_CannotCheckForUpdates") + "\n" + webException.Message,
+                    Settings.GetLanguageString("Error_CannotCheckForUpdatesTitle"));
+                return;
+            }
+
+            if (hasDllsUpdate)
+            {
+                // If we reach this point with a program update available, it means it didn't update
+                // (as the update restarts the program), so we cannot continue
+                if (hasProgramUpdate)
+                {
+                    MessageBox.Show(Settings.GetLanguageString("Error_UpdateAvailableDlls"),
+                        Settings.GetLanguageString("Error_UpdateAvailableDllsTitle"));
+                }
+                else
+                {
+                    bool update = true;
+                    if (Settings.UpdatingMode == Settings.UpdatingModeType.AutoCheck)
+                    {
+                        update = MessageBox.Show(Settings.GetLanguageString("UpdateAvailableDllsText"),
+                            Settings.GetLanguageString("UpdateAvailableDllsTitle"), MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+                    }
+
+                    if (update)
+                    {
+                        var progressDialog = new ProgressDialog(Settings.GetLanguageString("UpdatingProgressDllsText"), (s, e) =>
+                        {
+                            UpdaterService.UpdateDlls(release, (s_, e_) =>
+                            {
+                                (s as BackgroundWorker).ReportProgress(e_.ProgressPercentage);
+                            });
+                        });
+                        progressDialog.ShowDialog();
+
+                        if (progressDialog.Error != null)
+                        {
+                            ShowException(progressDialog.Error);
+                        }
+                    }
+                }
+            }
+        }
+
         static bool exceptionShown = false;
         public static void ShowException(Exception exception)
         {
@@ -157,7 +289,7 @@ namespace SporeMods.Manager
                 int count = 0;
                 string errorText = "\n\nPlease send the contents this MessageBox and all which follow it to rob55rod\\Splitwirez, along with a description of what you were doing at the time.\n\nThe Spore Mod Manager will exit after the last Inner exception has been reported.";
                 string errorTitle = "Something is very wrong here. Layer ";
-                while (exception != null)
+                while (current != null)
                 {
                     MessageBox.Show(current.GetType() + ": " + current.Message + "\n" + current.Source + "\n" + current.StackTrace + errorText, errorTitle + count);
                     count++;
@@ -165,7 +297,10 @@ namespace SporeMods.Manager
                     if (count > 4)
                         break;
                 }
-                MessageBox.Show(current.GetType() + ": " + current.Message + "\n" + current.Source + "\n" + current.StackTrace + errorText, errorTitle + count);
+                if (current != null)
+                {
+                    MessageBox.Show(current.GetType() + ": " + current.Message + "\n" + current.Source + "\n" + current.StackTrace + errorText, errorTitle + count);
+                }
                 Process.GetCurrentProcess().Kill();
             }
         }

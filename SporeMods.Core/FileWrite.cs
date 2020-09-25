@@ -78,6 +78,7 @@ namespace SporeMods.Core
                     File.Copy(sourcePath, destPath);
                     if (!File.Exists(destPath))
                         throw new FileNotFoundException("destination missing: " + destPath);
+                    Permissions.GrantAccessFile(destPath);
                 }
             }
             catch (Exception ex)
