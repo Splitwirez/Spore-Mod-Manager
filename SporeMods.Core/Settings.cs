@@ -175,7 +175,10 @@ namespace SporeMods.Core
         {
             _settingsFilePath = Path.Combine(ProgramDataPath, "ModManagerSettings.xml");
             if (!File.Exists(_settingsFilePath))
+            {
                 File.WriteAllText(_settingsFilePath, @"<Settings></Settings>");
+                Permissions.GrantAccessFile(_settingsFilePath);
+            }
 
             _document = XDocument.Load(_settingsFilePath);
         }
@@ -211,7 +214,7 @@ namespace SporeMods.Core
                     Directory.CreateDirectory(TempFolderPath);
 
                 if (File.Exists(_pathInfo))
-                    Permissions.GrantAccess(_pathInfo);
+                    Permissions.GrantAccessFile(_pathInfo);
 
                 if (!Permissions.IsFileLocked(_pathInfo, FileAccess.Write))
                     return File.ReadAllText(_pathInfo);
@@ -226,10 +229,13 @@ namespace SporeMods.Core
                     Directory.CreateDirectory(TempFolderPath);
 
                 if (File.Exists(_pathInfo))
-                    Permissions.GrantAccess(_pathInfo);
+                    Permissions.GrantAccessFile(_pathInfo);
 
                 if (Path.GetFileNameWithoutExtension(Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).ToString()).ToLowerInvariant().StartsWith("SporeMods."))
+                {
                     File.WriteAllText(_pathInfo, value);
+                    Permissions.GrantAccessFile(_pathInfo);
+                }
                 /*else
                     throw new Exception("Non-ModAPI Management kit software must not interfere.");
             }
@@ -645,6 +651,7 @@ Error_ProbablyDiskGuess Probably installed from Disks
 Error_ProbablyOriginGuess Probably installed from Origin
 Error_ProbablyGOGGuess Probably installed from GOG (or Steam, if you're really unlucky)
 ");
+                Permissions.GrantAccessFile(defaultLanguagePath);
                 _languageExtracted = true;
             }
             var language = new Dictionary<string, string>();
@@ -725,7 +732,10 @@ Error_ProbablyGOGGuess Probably installed from GOG (or Steam, if you're really u
                 else
                 {
                     if (!File.Exists(_firstRunPath))
+                    {
                         File.WriteAllText(_firstRunPath, string.Empty);
+                        Permissions.GrantAccessFile(_firstRunPath);
+                    }
                 }
             }
         }
@@ -740,7 +750,10 @@ Error_ProbablyGOGGuess Probably installed from GOG (or Steam, if you're really u
                 if (value)
                 {
                     if (!File.Exists(_developerModeEnabledPath))
+                    {
                         File.Create(_developerModeEnabledPath).Close();
+                        Permissions.GrantAccessFile(_developerModeEnabledPath);
+                    }
                 }
                 else
                 {
@@ -786,7 +799,10 @@ Error_ProbablyGOGGuess Probably installed from GOG (or Steam, if you're really u
                 else
                 {
                     if (!File.Exists(_forceSoftwareRenderingPath))
+                    {
                         File.Create(_forceSoftwareRenderingPath).Close();
+                        Permissions.GrantAccessFile(_forceSoftwareRenderingPath);
+                    }
                 }
             }
         }

@@ -81,9 +81,17 @@ namespace SporeMods.Core.Injection
         public static void InstallOverrideDll(string path, GameExecutableType type)
         {
             if (type == GameExecutableType.None)
-                File.Copy(path, GetOverrideDllPath(GameExecutableType.GogOrSteam__March2017, true), true);
+            {
+                string destPath = GetOverrideDllPath(GameExecutableType.GogOrSteam__March2017, true);
+                File.Copy(path, destPath, true);
+                Permissions.GrantAccessFile(destPath);
+            }
             else
-                File.Copy(path, GetOverrideDllPath(type), true);
+            {
+                string destPath = GetOverrideDllPath(type);
+                File.Copy(path, destPath, true);
+                Permissions.GrantAccessFile(destPath);
+            }
         }
 
         public static void InstallOverrideDlls(string path)

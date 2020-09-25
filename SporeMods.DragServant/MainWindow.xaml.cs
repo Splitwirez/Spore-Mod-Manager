@@ -62,7 +62,9 @@ namespace SporeMods.DragServant
                     }
                 }
 
-                File.WriteAllLines(Path.Combine(Settings.TempFolderPath, "draggedFiles"), files);
+                string draggedFilesPath = Path.Combine(Settings.TempFolderPath, "draggedFiles");
+                File.WriteAllLines(draggedFilesPath, files);
+                Permissions.GrantAccessFile(draggedFilesPath);
             }
         }
     }

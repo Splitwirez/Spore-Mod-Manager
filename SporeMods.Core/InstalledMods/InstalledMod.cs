@@ -25,7 +25,10 @@ namespace SporeMods.Core.InstalledMods
             string isLegacyPath = Path.Combine(_path, "UseLegacyDLLs");
 
             if (XmlVersion == XmlModIdentityVersion1_0_0_0)
+            {
                 File.WriteAllText(isLegacyPath, string.Empty);
+                Permissions.GrantAccessFile(isLegacyPath);
+            }
 
             _isLegacy = File.Exists(isLegacyPath);
 
@@ -111,6 +114,7 @@ namespace SporeMods.Core.InstalledMods
                             lines.Add(cel.Value);
                     }
                     File.WriteAllLines(tagsFilePath, lines);
+                    Permissions.GrantAccessFile(tagsFilePath);
                 }
                 return File.ReadAllLines(tagsFilePath).Where(x => !(x.IsNullOrEmptyOrWhiteSpace())).ToList();
             }

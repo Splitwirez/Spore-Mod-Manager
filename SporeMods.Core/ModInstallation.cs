@@ -97,6 +97,8 @@ namespace SporeMods.Core
 
             File.WriteAllLines(InstallationQueuePath, modsToUninstall.ToArray());
             File.WriteAllText(InstructionPath, "install");
+            Permissions.GrantAccessFile(InstallationQueuePath);
+            Permissions.GrantAccessFile(InstructionPath);
         }
 
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -182,7 +184,9 @@ namespace SporeMods.Core
                         Directory.CreateDirectory(dir);
 
                     CreateModInfoXml(noExtensionName, dir, out XDocument document);
-                    File.WriteAllText(Path.Combine(dir, "UseLegacyDLLs"), string.Empty);
+                    string legacyPath = Path.Combine(dir, "UseLegacyDLLs");
+                    File.WriteAllText(legacyPath, string.Empty);
+                    Permissions.GrantAccessFile(legacyPath);
 
                     mod = new InstalledMod(noExtensionName)
                     {
@@ -302,8 +306,12 @@ namespace SporeMods.Core
                             }
                             else
                             {
-                                File.WriteAllText(Path.Combine(dir, "UseLegacyDLLs"), string.Empty);
-                                document.Save(Path.Combine(dir, "ModInfo.xml"));
+                                string legacyPath = Path.Combine(dir, "UseLegacyDLLs");
+                                string modInfoPath = Path.Combine(dir, "ModInfo.xml");
+                                File.WriteAllText(legacyPath, string.Empty);
+                                document.Save(modInfoPath);
+                                Permissions.GrantAccessFile(legacyPath);
+                                Permissions.GrantAccessFile(modInfoPath);
                             }
                         });
                         extractXMLTask.Start();
@@ -468,7 +476,9 @@ namespace SporeMods.Core
                     }
                 }
 
-                File.WriteAllLines(Path.Combine(Settings.ProgramDataPath, "installLog"), files.ToArray());
+                string installLogPath = Path.Combine(Settings.ProgramDataPath, "installLog");
+                File.WriteAllLines(installLogPath, files.ToArray());
+                Permissions.GrantAccessFile(installLogPath);
 
                 /*Task task = new Task(() =>
                 {

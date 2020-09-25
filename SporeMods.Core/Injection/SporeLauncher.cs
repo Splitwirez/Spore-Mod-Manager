@@ -169,6 +169,8 @@ namespace SporeMods.Core.Injection
             //Copy Core DLL and LIB
             File.Copy(coreDllInPath, coreDllOutPath, true);
             File.Copy(libInPath, libOutPath, true);
+            Permissions.GrantAccessFile(coreDllOutPath);
+            Permissions.GrantAccessFile(libOutPath);
 
             //Inject Core DLL
             Injector.InjectDLL(_processInfo, coreDllOutPath);
@@ -216,8 +218,11 @@ namespace SporeMods.Core.Injection
             string libName = "SporeModAPI.lib";
             string coreDllName = CoreDllRetriever.GetNewDLLName(_executableType);
             string coreDllOutPath = Path.Combine(Settings.ModLibsPath, "SporeModAPI.dll");
-            File.Copy(Path.Combine(Settings.CoreLibsPath, libName), Path.Combine(Settings.ModLibsPath, libName), true);
+            string libOutPath = Path.Combine(Settings.ModLibsPath, libName);
+            File.Copy(Path.Combine(Settings.CoreLibsPath, libName), libOutPath, true);
             File.Copy(Path.Combine(Settings.CoreLibsPath, coreDllName), coreDllOutPath, true);
+            Permissions.GrantAccessFile(libOutPath);
+            Permissions.GrantAccessFile(coreDllOutPath);
             Injector.InjectDLL(_processInfo, coreDllOutPath);
 
             // The ModAPI dll must be the first one to load
