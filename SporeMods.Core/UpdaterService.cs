@@ -154,6 +154,7 @@ namespace SporeMods.Core
                             throw new InvalidOperationException("Invalid update: missing " + name + " in zip file");
                         }
                         entry.Extract(Settings.CoreLibsPath, ExtractExistingFileAction.OverwriteSilently);
+                        Permissions.GrantAccessFile(Path.Combine(Settings.CoreLibsPath, entry.FileName));
                         ++filesExtracted;
 
                         double progress = DOWNLOAD_PROGRESS + filesExtracted * (1.0f - DOWNLOAD_PROGRESS) / (float)(DLL_NAMES.Length);

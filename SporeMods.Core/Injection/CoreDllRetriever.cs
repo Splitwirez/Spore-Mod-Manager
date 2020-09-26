@@ -112,7 +112,10 @@ namespace SporeMods.Core.Injection
                 }
 
                 foreach (ZipEntry e in zip.Entries)
+                {
                     e.Extract(Settings.OverrideLibsPath, ExtractExistingFileAction.OverwriteSilently);
+                    Permissions.GrantAccessFile(Path.Combine(Settings.OverrideLibsPath, e.FileName));
+                }
             }
         }
 

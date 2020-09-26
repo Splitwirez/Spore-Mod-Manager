@@ -250,6 +250,7 @@ namespace SporeMods.Core
                     {
                         ZipEntry entry = zip["ModInfo.xml"];
                         entry.Extract(Settings.TempFolderPath, ExtractExistingFileAction.OverwriteSilently);
+                        Permissions.GrantAccessFile(Path.Combine(Settings.TempFolderPath, entry.FileName));
                         XDocument compareDocument = XDocument.Load(Path.Combine(Settings.TempFolderPath, "ModInfo.xml"));
 
                         var uniqueAttr = compareDocument.Root.Attribute("unique");
