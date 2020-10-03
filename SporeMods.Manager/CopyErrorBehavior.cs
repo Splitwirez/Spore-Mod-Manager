@@ -1,4 +1,4 @@
-﻿using SporeMods.Core.InstalledMods;
+﻿using SporeMods.Core.Mods;
 using System;
 using System.Collections.Generic;
 using System.Linq;

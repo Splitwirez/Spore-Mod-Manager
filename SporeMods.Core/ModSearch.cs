@@ -1,4 +1,4 @@
-﻿using SporeMods.Core.InstalledMods;
+﻿using SporeMods.Core.Mods;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -28,7 +28,7 @@ namespace SporeMods.Core
         public static ModSearch Instance = new ModSearch();
         private ModSearch()
         {
-            ManagedMods.Instance.ModConfigurations.CollectionChanged += (sneder, args) =>
+            ModsManager.InstalledMods.CollectionChanged += (sender, args) =>
             {
                 if ((args.OldItems != null) && (args.OldItems.Count > 0))
                 {
@@ -42,51 +42,55 @@ namespace SporeMods.Core
         }
 
 
-        public void CancelSearch()
+        public static void CancelSearch()
         {
             if (_searching)
                 _cancel = true;
             else
-                SearchResults.Clear();
+                Instance.SearchResults.Clear();
         }
 
-        bool _searching = false;
-        bool _cancel = false;
-        public async Task StartSearch(string query, bool searchNames, bool searchDescriptions, bool searchTags)
+        static bool _searching = false;
+        static bool _cancel = false;
+
+        private static void StartSearch(string query, bool searchNames, bool searchDescriptions, bool searchTags)
         {
-            Task searchTask = new Task(() =>
+            var lowerQuery = query.ToLowerInvariant();
+
+            _searching = true;
+            var mods = new ObservableCollection<IInstalledMod>();
+            ModsManager.SyncContext.Send(state => mods = ModsManager.InstalledMods, null);
+            for (int i = 0; i < mods.Count; i++)
             {
-                _searching = true;
-                ObservableCollection<IInstalledMod> mods = new ObservableCollection<IInstalledMod>();
-                ManagedMods.SyncContext.Send(state => mods = ManagedMods.Instance.ModConfigurations, null);
-                for (int i = 0; i < mods.Count; i++)
+                if (_cancel)
                 {
-                    if (_cancel)
-                    {
-                        ManagedMods.SyncContext.Send(state => SearchResults.Clear(), null);
-                        _cancel = false;
-                        break;
-                    }
-                    else
-                    {
+                    ModsManager.SyncContext.Send(state => Instance.SearchResults.Clear(), null);
+                    _cancel = false;
+                    break;
+                }
+                else
+                {
                         
-                        IInstalledMod mod = mods[i];
-                        if (
-                        (searchNames && mod.DisplayName.ToLowerInvariant().Contains(query.ToLowerInvariant()))
-                        || (searchDescriptions && (mod is InstalledMod imd) && imd.HasDescription && imd.Description.ToLowerInvariant().Contains(query.ToLowerInvariant()))
-                        || (searchTags && false/*temp*/)
-                        )
-                        {
-                            ManagedMods.SyncContext.Send(state => {
-                                SearchResults.Add(mod);
-                            }, null);
-                        }
+                    IInstalledMod mod = mods[i];
+                    if (
+                    (searchNames && mod.DisplayName.ToLowerInvariant().Contains(lowerQuery))
+                    || (searchDescriptions && mod.Description != null && mod.Description.ToLowerInvariant().Contains(lowerQuery))
+                    || (searchTags && false/*temp*/)
+                    )
+                    {
+                        ModsManager.SyncContext.Send(state => {
+                            Instance.SearchResults.Add(mod);
+                        }, null);
                     }
                 }
-                _searching = false;
-            });
-            searchTask.Start();
-            await searchTask;
+            }
+            _searching = false;
+        }
+
+        public static void StartSearchAsync(string query, bool searchNames, bool searchDescriptions, bool searchTags)
+        {
+            var task = new Task(() => StartSearch(query, searchNames, searchDescriptions, searchTags));
+            task.Start();
         }
 
         private void NotifyPropertyChanged(string propertyName)

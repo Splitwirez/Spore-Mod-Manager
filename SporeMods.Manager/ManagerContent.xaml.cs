@@ -23,10 +23,9 @@ using MessageBox = System.Windows.MessageBox;
 using static Mechanism.Wpf.Core.NativeMethods;
 using System.Windows.Interop;
 using System.Runtime.InteropServices;
-using SporeMods.Core.InstalledMods;
+using SporeMods.Core.Mods;
 using System.Windows.Controls.Primitives;
 using static SporeMods.Core.Injection.SporeLauncher;
-using SporeMods.Core.ModIdentity;
 using SporeMods.Core.Injection;
 using System.Runtime.Remoting.Messaging;
 using SporeMods.Manager.Configurators;
@@ -84,7 +83,7 @@ namespace SporeMods.Manager
             ModInstallation.ClearQueues();
             //GameInfo.GetRegistryPath(GameInfo.GameDlc.GalacticAdventures);
             MessageDisplay.DebugShowMessageBox("DATA FOLDERS: \n\n" + GameInfo.CoreSporeData + "\n\n" + GameInfo.GalacticAdventuresData);
-            ManagedMods.Instance.ModConfigurations.CollectionChanged += (sneder, args) =>
+            ModsManager.InstalledMods.CollectionChanged += (sneder, args) =>
             {
                 Dispatcher.BeginInvoke(new Action(() => ModConfigurations_CollectionChanged(sneder, args)));
             };
@@ -192,7 +191,7 @@ namespace SporeMods.Manager
             {
                 foreach (IInstalledMod mod in e.NewItems)
                 {
-                    if ((mod is InstalledMod m) && (ManagedMods.Instance.ModConfigurations.Contains(m)))
+                    if ((mod is ManagedMod m) && ModsManager.InstalledMods.Contains(m))
                         m.IsProgressingChanged += InstalledMod_IsProgressingChanged;
                 }
             }
@@ -201,7 +200,7 @@ namespace SporeMods.Manager
             {
                 foreach (IInstalledMod mod in e.OldItems)
                 {
-                    if ((mod is InstalledMod m) && (!ManagedMods.Instance.ModConfigurations.Contains(m)))
+                    if ((mod is ManagedMod m) && !ModsManager.InstalledMods.Contains(m))
                         m.IsProgressingChanged -= InstalledMod_IsProgressingChanged;
                 }
             }
@@ -211,7 +210,7 @@ namespace SporeMods.Manager
 
         private void EvaluateShowInstallModsPrompt()
         {
-            if (ManagedMods.Instance.ModConfigurations.Count == 0)
+            if (ModsManager.InstalledMods.Count == 0)
                 InstallModsPromptContentControl.Visibility = Visibility.Visible;
             else
                 InstallModsPromptContentControl.Visibility = Visibility.Collapsed;
@@ -237,17 +236,17 @@ namespace SporeMods.Manager
                 }
                 LaunchGameButton.IsEnabled = canLaunch;*/
 
-                LaunchGameButton.IsEnabled = ManagedMods.Instance.ModConfigurations.Where(mod => mod.IsProgressing).Count() == 0;
+                LaunchGameButton.IsEnabled = ModsManager.InstalledMods.Where(mod => mod.IsProgressing).Count() == 0;
             }));
         }
 
         private void ModInstallation_AddModProgress(object sender, ModRegistrationEventArgs e)
         {
-            foreach (InstalledMod m in ManagedMods.Instance.ModConfigurations)
+            foreach (var m in ModsManager.InstalledMods)
             {
-                if (m == e.ModConfiguration)
+                if (m == e.Mod)
                 {
-                    m.Progress++;
+                    e.Mod.Progress++;
                     break;
                     /*if (!e.HasCustomInstaller)
                         ModInstallationProgressBar.Value++;
@@ -396,7 +395,7 @@ namespace SporeMods.Manager
                 //Check bad paths, if game could not be automatically detected
                 ProceedToNextBadPath(false);
 
-                ManagedMods.Instance.ModConfiguratorShown += Instance_ModConfiguratorShown;
+                ModsManager.Instance.ModConfiguratorShown += Instance_ModConfiguratorShown;
 
                 //Install mod passed via commandline, if any
                 string[] clArgs = Environment.GetCommandLineArgs();
@@ -424,7 +423,7 @@ namespace SporeMods.Manager
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message + "\n\n" + ex.StackTrace);
-                ManagedMods.Instance.ModConfigurations.Add(new InstallError(ex));
+                ModsManager.InstalledMods.Add(new InstallError(ex));
             }
         }
 
@@ -500,7 +499,7 @@ namespace SporeMods.Manager
             }
         }
 
-        private async Task<bool> Instance_ModConfiguratorShown(ModConfiguration arg)
+        private async Task<bool> Instance_ModConfiguratorShown(ManagedMod arg)
         {
             var tcs = new TaskCompletionSource<bool>();
 
@@ -516,11 +515,11 @@ namespace SporeMods.Manager
 
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                ModConfiguratorModNameTextBlock.Text = Settings.GetLanguageString(2, "ModInstallerHeader").Replace("%MODNAME%", arg.ModName);
+                ModConfiguratorModNameTextBlock.Text = Settings.GetLanguageString(2, "ModInstallerHeader").Replace("%MODNAME%", arg.DisplayName);
 
-                if (arg is ModConfigurationV1_0_0_0 config)
+                if (arg.Identity.InstallerSystemVersion.Major == 1)
                 {
-                    var configurator = new ModConfiguratorV1_0_0_0(config);
+                    var configurator = new ModConfiguratorV1_0_0_0(arg);
 
                     ModConfiguratorHeaderContentControl.MouseEnter += (sneder, args) => configurator.HeaderHover();
 
@@ -622,7 +621,7 @@ namespace SporeMods.Manager
             catch (Exception ex)
             {
                 MessageBox.Show("PATH: " + path + "\n\n" + ex.Message + "\n\n" + ex.StackTrace);
-                ManagedMods.Instance.ModConfigurations.Add(new InstallError(ex));
+                ModsManager.InstalledMods.Add(new InstallError(ex));
             }
         }
 
@@ -987,17 +986,17 @@ namespace SporeMods.Manager
             }*/
         }
 
-        private async void UninstallModsButton_Click(object sender, RoutedEventArgs e)
+        private void UninstallModsButton_Click(object sender, RoutedEventArgs e)
         {
             var list = GetActiveModsListView();
             IInstalledMod[] mods = new IInstalledMod[list.SelectedItems.Count];
             list.SelectedItems.CopyTo(mods, 0);
-            await ModInstallation.UninstallModsAsync(mods);
+            ModInstallation.UninstallModsAsync(mods);
         }
 
         private void ConfigureModButton_Click(object sender, RoutedEventArgs e)
         {
-            if (GetActiveModsListView().SelectedItem is InstalledMod mod)
+            if (GetActiveModsListView().SelectedItem is ManagedMod mod)
                 mod.ConfigureMod();
             //CustomInstallerInstallButton.Content
         }
@@ -1021,7 +1020,7 @@ namespace SporeMods.Manager
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message + ex.StackTrace, "OpenFileDialog error");
-                ManagedMods.Instance.ModConfigurations.Add(new InstallError(ex));
+                ModsManager.InstalledMods.Add(new InstallError(ex));
             }
 
             if (dialog.ShowDialog() == true)
@@ -1287,7 +1286,7 @@ namespace SporeMods.Manager
                     {
                         UninstallModsButton.IsEnabled = true;
 
-                        if ((list.SelectedItem is InstalledMod mod) && mod.HasConfigurator)
+                        if ((list.SelectedItem is ManagedMod mod) && mod.HasConfigurator)
                             ConfigureModButton.IsEnabled = true;
                         else
                             ConfigureModButton.IsEnabled = false;
@@ -1340,9 +1339,9 @@ namespace SporeMods.Manager
             win.Activated -= MainWindow_IsActiveChanged;
             win.Deactivated -= MainWindow_IsActiveChanged;
 
-            foreach (InstalledMod m in ManagedMods.Instance.ModConfigurations.Where(x => x is InstalledMod))
+            foreach (var mod in ModsManager.InstalledMods)
             {
-                if (m.IsProgressing)
+                if (mod.IsProgressing)
                 {
                     e.Cancel = true;
                     break;
@@ -1512,14 +1511,14 @@ namespace SporeMods.Manager
                     ModSearchListView.Visibility = Visibility.Visible;
                     InstalledModsListView.Visibility = Visibility.Collapsed;
                     //ModSearchListView.ItemsSource = ModSearch.SearchResults;
-                    ModSearch.Instance.StartSearch(SearchBox.Text, SearchNamesMenuItem.IsChecked, SearchDescriptionsMenuItem.IsChecked, SearchTagsMenuItem.IsChecked);
+                    ModSearch.StartSearchAsync(SearchBox.Text, SearchNamesMenuItem.IsChecked, SearchDescriptionsMenuItem.IsChecked, SearchTagsMenuItem.IsChecked);
                 }
                 else
                 {
                     ModSearchListView.Visibility = Visibility.Collapsed;
                     InstalledModsListView.Visibility = Visibility.Visible;
                     //ModSearchListView.ItemsSource = null;
-                    ModSearch.Instance.CancelSearch();
+                    ModSearch.CancelSearch();
                 }
             }
         }
@@ -1536,7 +1535,7 @@ namespace SporeMods.Manager
 
         private void CopyModsToClipboardButton_Click(object sender, RoutedEventArgs e)
         {
-            SetClipboardTextForTechnicalDetails(ManagedMods.Instance.GetModsListForClipboard());
+            SetClipboardTextForTechnicalDetails(ModsManager.GetModsListForClipboard());
         }
 
         void SetClipboardTextForTechnicalDetails(string details)

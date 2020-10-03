@@ -1,4 +1,4 @@
-﻿using SporeMods.Core.ModIdentity;
+﻿using SporeMods.Core.Mods;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,16 +21,15 @@ namespace SporeMods.Manager.Configurators
     public partial class ModConfiguratorV1_0_0_0 : UserControl
     {
 
-        public ModConfiguratorV1_0_0_0(ModConfiguration arg)
+        public ModConfiguratorV1_0_0_0(ManagedMod arg)
         {
             InitializeComponent();
             DataContext = arg;
 
 
-
             SetBody(new TextBlock()
             {
-                Text = arg.ModDescription
+                Text = arg.Description
             });
 
             //ModConfiguratorComponentsListView.ItemsSource = arg.Components;
@@ -40,7 +39,7 @@ namespace SporeMods.Manager.Configurators
         {
             SetBody(new TextBlock()
             {
-                Text = (DataContext as ModConfiguration).ModDescription
+                Text = (DataContext as ManagedMod).Description
             });
         }
 

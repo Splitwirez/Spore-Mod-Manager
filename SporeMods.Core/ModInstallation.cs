@@ -1,6 +1,5 @@
 ﻿using Ionic.Zip;
-using SporeMods.Core.InstalledMods;
-using SporeMods.Core.ModIdentity;
+using SporeMods.Core.Mods;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,21 +16,11 @@ namespace SporeMods.Core
 {
     public static class ModInstallation
     {
-        public static string InstallationQueuePath = Path.Combine(Settings.ProgramDataPath, "InstallQueue.info");
-
-        public static string InstructionPath = Path.Combine(Settings.ProgramDataPath, "Instruction.info");
-
         static List<string> _installableMods = new List<string>();
         /*public static ErrorInfo[]*/
 
         public static void ClearQueues()
         {
-            if (File.Exists(InstructionPath))
-                File.Delete(InstructionPath);
-
-            if (File.Exists(InstallationQueuePath))
-                File.Delete(InstallationQueuePath);
-
             if (Directory.Exists(Settings.ModQueuePath))
             {
                 string[] files = Directory.EnumerateFiles(Settings.ModQueuePath).ToArray();
@@ -72,33 +61,18 @@ namespace SporeMods.Core
                 catch (Exception ex)
                 {
                     MessageDisplay.RaiseError(new ErrorEventArgs(ex/*ex.Message + "\n" + ex.StackTrace*/));
-                    ManagedMods.Instance.ModConfigurations.Add(new InstallError(ex));
+                    ModsManager.InstalledMods.Add(new InstallError(ex));
                 }
             }
         }
 
-        public static async Task UninstallModsAsync(IInstalledMod[] modConfigurations)
+        public static void UninstallModsAsync(IInstalledMod[] modConfigurations)
         {
-            List<string> modsToUninstall = new List<string>();
-
             foreach (IInstalledMod mod in modConfigurations)
             {
-                try
-                {
-                    mod.UninstallMod();
-                    modsToUninstall.Add(mod.RealName);
-                }
-                catch (Exception ex)
-                {
-                    MessageDisplay.RaiseError(new ErrorEventArgs(ex/*ex.Message + "\n" + ex.StackTrace*/));
-                    ManagedMods.Instance.ModConfigurations.Add(new InstallError(ex));
-                }
+                // This function doesn't throw exceptions, the code inside must handle it
+                mod.UninstallModAsync();
             }
-
-            File.WriteAllLines(InstallationQueuePath, modsToUninstall.ToArray());
-            File.WriteAllText(InstructionPath, "install");
-            Permissions.GrantAccessFile(InstallationQueuePath);
-            Permissions.GrantAccessFile(InstructionPath);
         }
 
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -162,14 +136,14 @@ namespace SporeMods.Core
 
         public static event EventHandler<ModRegistrationEventArgs> AddModProgress;
 
-        static void InvokeAddModProgress(InstalledMod mod)
+        static void InvokeAddModProgress(ManagedMod mod)
         {
             AddModProgress?.Invoke(null, new ModRegistrationEventArgs(mod));
         }
 
         public static async Task RegisterLoosePackageModAsync(string path)
         {
-            InstalledMod mod = null;
+            ManagedMod mod = null;
             if (Settings.AllowVanillaIncompatibleMods)
             {
                 string noExtensionName = string.Empty;
@@ -188,14 +162,13 @@ namespace SporeMods.Core
                     File.WriteAllText(legacyPath, string.Empty);
                     Permissions.GrantAccessFile(legacyPath);
 
-                    mod = new InstalledMod(noExtensionName)
+                    mod = new ManagedMod(noExtensionName, true)
                     {
-                        FileCount = 2,
                         Progress = 0,
                         IsProgressing = true
                     };
 
-                    ManagedMods.Instance.AddMod(mod);
+                    ModsManager.AddMod(mod);
                     //mod = await ManagedMods.Instance.GetModConfigurationAsync(noExtensionName);
                     //mod.FileCount = 2;
 
@@ -205,7 +178,7 @@ namespace SporeMods.Core
                     });
                     task.Start();
                     await task;
-                    ManagedMods.RemoveMatchingManuallyInstalledFile(name, ComponentGameDir.galacticadventures);
+                    ModsManager.RemoveMatchingManuallyInstalledFile(name, ComponentGameDir.GalacticAdventures);
                     mod.Progress++;
 
                     await mod.EnableMod();
@@ -215,11 +188,11 @@ namespace SporeMods.Core
                 catch (Exception ex)
                 {
                     MessageDisplay.RaiseError(new ErrorEventArgs(ex/*.Message + "\n" + ex.StackTrace*/), noExtensionName);
-                    if ((mod != null) && ManagedMods.Instance.ModConfigurations.Contains(mod))
+                    if ((mod != null) && ModsManager.InstalledMods.Contains(mod))
                     {
-                        ManagedMods.Instance.ModConfigurations.Remove(mod);
+                        ModsManager.InstalledMods.Remove(mod);
                     }   
-                    ManagedMods.Instance.ModConfigurations.Add(new InstallError(path, ex));
+                    ModsManager.InstalledMods.Add(new InstallError(path, ex));
                 }
             }
         }
@@ -229,7 +202,7 @@ namespace SporeMods.Core
             bool isUnique = true;
             string name = string.Empty;
             bool proceed = false;
-            InstalledMod mod = null;
+            ManagedMod mod = null;
             try
             {
             name = Path.GetFileNameWithoutExtension(path).Replace(".", "-");
@@ -319,16 +292,15 @@ namespace SporeMods.Core
                         await extractXMLTask;
 
                         //ModInstallation.DebugMessageBoxShow("Generating InstalledMod");
-                        mod = new InstalledMod(name)
+                        mod = new ManagedMod(name, true)
                         {
                             Progress = 0,
-                            FileCount = 1,
                             IsProgressing = true
                         };// ManagedMods.Instance.GetModConfiguration(name);
                           //ManagedMods.Instance.AddMod(mod);
 
                         //ModInstallation.DebugMessageBoxShow("Adding InstalledMod");
-                        ManagedMods.Instance.ModConfigurations.Add(mod);
+                        ModsManager.InstalledMods.Add(mod);
                         //ModInstallation.DebugMessageBoxShow("InstalledMod should be added");
 
                         Task evaluateArchiveAndCountFilesTask = new Task(() =>
@@ -336,11 +308,6 @@ namespace SporeMods.Core
                             for (int i = 0; i < zip.Entries.Count; i++)
                             {
                                 ZipEntry e = zip.Entries.ElementAt(i);
-
-                                if (InstalledMod.IsModFile(Path.GetExtension(e.FileName)))
-                                {
-                                    mod.FileCount++;
-                                }
 
                                 string newFileName = e.FileName.Replace(@"/", @"\");
                                 if ((!e.IsDirectory) && newFileName.Contains(@"\"))
@@ -404,11 +371,11 @@ namespace SporeMods.Core
             catch (Exception ex)
             {
                 MessageDisplay.RaiseError(new ErrorEventArgs(ex), path);
-                if ((mod != null) && ManagedMods.Instance.ModConfigurations.Contains(mod))
+                if (mod != null && ModsManager.InstalledMods.Contains(mod))
                 {
-                    ManagedMods.Instance.ModConfigurations.Remove(mod);
+                    ModsManager.InstalledMods.Remove(mod);
                 }
-                ManagedMods.Instance.ModConfigurations.Add(new InstallError(path, ex));
+                ModsManager.InstalledMods.Add(new InstallError(path, ex));
             }
         }
 
@@ -418,10 +385,9 @@ namespace SporeMods.Core
 </mod>");
             document.Root.SetAttributeValue("unique", name);
             document.Root.SetAttributeValue("displayName", name);
-            document.Root.SetAttributeValue("installerSystemVersion", InstalledMod.XmlModIdentityVersion1_1_0_0.ToString());
+            document.Root.SetAttributeValue("installerSystemVersion", ModIdentity.XmlModIdentityVersion1_1_0_0.ToString());
             document.Root.SetAttributeValue("copyAllFiles", true.ToString());
             document.Root.SetAttributeValue("canDisable", false.ToString());
-            document.Root.SetAttributeValue("isEnabled", true.ToString());
 
             document.Save(Path.Combine(dir, "ModInfo.xml"));
         }
@@ -429,7 +395,8 @@ namespace SporeMods.Core
         public static async Task RegisterSporemodModWithInstallerAsync(string modName)
         {
             //DebugMessageBoxShow("Registering mod with installer");
-            InstalledMod mod = await ManagedMods.Instance.GetModConfigurationAsync(modName);
+            ManagedMod mod = ModsManager.GetManagedMod(modName);
+            Debug.Assert(mod != null);
             if (mod.HasConfigurator)
             {
                 /*foreach (ModComponent m in mod.Configurator.Components)
@@ -439,46 +406,45 @@ namespace SporeMods.Core
 
                 //DebugMessageBoxShow("Component count: " + mod.Configurator.Components.Count + "\nXML Mod Identity Version: " + mod.XmlVersion);
 
-                await ManagedMods.Instance.ShowModConfigurator(mod); // theMod would be a ModConfiguration
+                await ModsManager.Instance.ShowModConfigurator(mod); // theMod would be a ModConfiguration
                                                                      // The properties on theMod were set in that event handler down there, so theMod now has the user's specified configuration
-                List<string> files = new List<string>();
-                foreach (ModComponent component in mod.Configurator.Prerequisites)
-                {
-                    string prer = "COMPONENT: ";
-                    foreach (string file in component.FileNames)
-                        prer += file + ", ";
+                List<string> lines = new List<string>();
 
-                    files.Add(prer);
+                foreach (var file in mod.Identity.Files)
+                {
+                    string prer = "COMPONENT: " + file.Name;
+                    lines.Add(prer);
                 }
 
-                foreach (ModComponent component in mod.Configurator.Components)
+                //TODO if component trees installation is implemented, change the log here
+                foreach (var component in mod.Identity.SubComponents)
                 {
                     if (component.IsGroup)
                     {
-                        foreach (ModComponent subComponent in component.SubComponents)
+                        foreach (var subComponent in component.SubComponents)
                         {
-                            if (subComponent.IsEnabled)
+                            if (mod.Configuration.IsComponentEnabled(subComponent))
                             {
                                 string prer = "COMPONENT: ";
-                                foreach (string file in subComponent.FileNames)
-                                    prer += file + ", ";
+                                foreach (var file in subComponent.Files)
+                                    prer += file.Name + ", ";
 
-                                files.Add(prer);
+                                lines.Add(prer);
                             }
                         }
                     }
-                    else if (component.IsEnabled)
+                    else if (mod.Configuration.IsComponentEnabled(component))
                     {
                         string prer = "COMPONENT: ";
-                        foreach (string file in component.FileNames)
-                            prer += file + ", ";
+                        foreach (var file in component.Files)
+                            prer += file.Name + ", ";
 
-                        files.Add(prer);
+                        lines.Add(prer);
                     }
                 }
 
                 string installLogPath = Path.Combine(Settings.ProgramDataPath, "installLog");
-                File.WriteAllLines(installLogPath, files.ToArray());
+                File.WriteAllLines(installLogPath, lines.ToArray());
                 Permissions.GrantAccessFile(installLogPath);
 
                 /*Task task = new Task(() =>
@@ -510,11 +476,11 @@ namespace SporeMods.Core
     public class ModRegistrationEventArgs : EventArgs
     {
         public bool HasCustomInstaller { get; set; } = false;
-        public InstalledMod ModConfiguration { get; set; } = null;
-        public ModRegistrationEventArgs(InstalledMod config)
+        public ManagedMod Mod { get; set; } = null;
+        public ModRegistrationEventArgs(ManagedMod mod)
         {
-            ModConfiguration = config;
-            HasCustomInstaller = ModConfiguration.HasConfigurator;
+            Mod = mod;
+            HasCustomInstaller = Mod.HasConfigurator;
         }
     }
 

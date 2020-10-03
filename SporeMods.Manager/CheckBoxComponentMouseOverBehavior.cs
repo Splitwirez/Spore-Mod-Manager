@@ -1,5 +1,5 @@
 ﻿using SporeMods.Core;
-using SporeMods.Core.ModIdentity;
+using SporeMods.Core.Mods;
 using SporeMods.Manager.Configurators;
 using System;
 using System.Collections.Generic;
@@ -36,10 +36,10 @@ namespace SporeMods.Manager
                         }
                     };
 
-                    if (!component.ImagePlacement.Equals("none", StringComparison.OrdinalIgnoreCase))
+                    if (component.ImagePlacement != ImagePlacementType.None)
                     {
 
-                        string imgPath = Path.Combine((configurator.DataContext as ModConfiguration).GetStoragePath(), component.Unique + ".png");
+                        string imgPath = Path.Combine((configurator.DataContext as ManagedMod).StoragePath, component.Unique + ".png");
                         if (File.Exists(imgPath))
                         {
                             var image = new Image()
@@ -49,15 +49,15 @@ namespace SporeMods.Manager
                                 Source = new BitmapImage(new Uri(imgPath, UriKind.RelativeOrAbsolute)),
                                 IsHitTestVisible = false
                             };
-                            if (component.ImagePlacement.Equals("before", StringComparison.OrdinalIgnoreCase))
+                            if (component.ImagePlacement == ImagePlacementType.Before)
                             {
                                 elements.Insert(0, image);
                             }
-                            else if (component.ImagePlacement.Equals("after", StringComparison.OrdinalIgnoreCase))
+                            else if (component.ImagePlacement == ImagePlacementType.After)
                             {
                                 elements.Add(image);
                             }
-                            else if (component.ImagePlacement.Equals("insteadof", StringComparison.OrdinalIgnoreCase))
+                            else if (component.ImagePlacement == ImagePlacementType.InsteadOf)
                             {
                                 elements.Clear();
                                 elements.Add(image);

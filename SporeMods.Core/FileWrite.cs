@@ -1,10 +1,9 @@
-﻿using SporeMods.Core.InstalledMods;
-using SporeMods.Core.ModIdentity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using SporeMods.Core.Mods;
 
 namespace SporeMods.Core
 {
@@ -93,16 +92,26 @@ namespace SporeMods.Core
                 File.Delete(targetPath);
         }
 
+        public static string GetGameDirectory(ComponentGameDir dir, bool isLegacy)
+        {
+            if (dir == ComponentGameDir.GalacticAdventures)
+                return GameInfo.GalacticAdventuresData;
+            else if (dir == ComponentGameDir.Spore)
+                return GameInfo.CoreSporeData;
+            else if (isLegacy)
+                return Settings.LegacyLibsPath;
+            else
+                return Settings.ModLibsPath;
+        }
 
-
-        public static string GetFileOutputPath(string dir, string fileName, bool isLegacy)
+        public static string GetFileOutputPath(ComponentGameDir dir, string fileName, bool isLegacy)
         {
             string safeFileName = Path.GetFileName(fileName);
-            if (dir.ToLowerInvariant() == ComponentGameDir.galacticadventures.ToString()) //"galacticadventures")
+            if (dir == ComponentGameDir.GalacticAdventures)
                 return Path.Combine(GameInfo.GalacticAdventuresData, safeFileName);
-            else if (dir.ToLowerInvariant() == ComponentGameDir.spore.ToString()) //"spore")
+            else if (dir == ComponentGameDir.Spore)
                 return Path.Combine(GameInfo.CoreSporeData, safeFileName);
-            else if (dir.ToLowerInvariant() == ComponentGameDir.modapi.ToString())
+            else if (dir == ComponentGameDir.ModAPI)
             {
                 if (isLegacy)
                     return Path.Combine(Settings.LegacyLibsPath, safeFileName);
