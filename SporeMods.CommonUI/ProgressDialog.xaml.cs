@@ -20,7 +20,7 @@ namespace SporeMods.CommonUI
     /// </summary>
     public partial class ProgressDialog : UserControl
     {
-        readonly DoWorkEventHandler action;
+        readonly DoWorkEventHandler _action;
         public Exception Error = null;
 
         public ProgressDialog(string text, DoWorkEventHandler action)
@@ -28,14 +28,15 @@ namespace SporeMods.CommonUI
             InitializeComponent();
 
             Status.Text = text;
-            this.action = action;
+            _action = action;
+            Loaded += ProgressDialog_Loaded;
         }
 
-        void OnLoad(object sender, RoutedEventArgs args)
+        private void ProgressDialog_Loaded(object sender, RoutedEventArgs e)
         {
             var worker = new BackgroundWorker();
             worker.WorkerReportsProgress = true;
-            worker.DoWork += action;
+            worker.DoWork += _action;
             worker.ProgressChanged += worker_ProgressChanged;
             worker.RunWorkerCompleted += worker_RunWorkerCompleted;
 
@@ -67,6 +68,8 @@ namespace SporeMods.CommonUI
             try
             {
                 Window.GetWindow(this).Show();
+                Window.GetWindow(this).Focus();
+                Window.GetWindow(this).Activate();
             }
             catch { }
         }
