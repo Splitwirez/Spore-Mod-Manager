@@ -765,6 +765,18 @@ namespace SporeMods.Manager
             }
         }
 
+        private void LanguageCheckBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count == 1)
+            {
+                Settings.CurrentLanguageName = (string)e.AddedItems[0];
+                if (IsLoaded)
+                {
+                    SetLanguage();
+                }
+            }
+        }
+
         void SetLanguage()
         {
             if (IsLoaded && (Window.GetWindow(this) != null) && (Window.GetWindow(this).IsLoaded))
@@ -852,6 +864,8 @@ namespace SporeMods.Manager
             AddSideloadCoreDllsButton.Content = Settings.GetLanguageString("AddSideloadCoreDlls");
             RemoveSideloadCoreDllsButton.Content = Settings.GetLanguageString("RemoveSideloadCoreDlls");
             BuildSideloadCoreDllsTextBlock.Text = Settings.GetLanguageString("BuildSideloadCoreDlls").Replace("%OVERRIDELIBSPATH%", Settings.OverrideLibsPath);
+
+            LanguageTextBlock.Text = Settings.GetLanguageString("LanguageHeader");
 
             AccentColourTextBlock.Text = Settings.GetLanguageString("AccentColourHeader");
 

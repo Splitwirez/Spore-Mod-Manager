@@ -1,0 +1,144 @@
+﻿# Language info
+LanguageName English (Canada)
+
+
+# Global generic strings
+Globals_OK OK
+Globals_DontRunMgrAsAdmin For security and practicality reasons, please don't run the Spore Mod Manager as Administrator.
+Globals_DontRunMgrAsAdmin2 For security and practicality reasons, explicitly running the Spore Mod Manager as Administrator (by right-clicking and selecting " + "\"Run as Administrator\"" + @") is not recommended. Are you sure you want to proceed?
+Globals_DontRunLauncherAsAdmin For security and practicality reasons, please don't run the Spore ModAPI Launcher as Administrator.
+Globals_DontRunLauncherAsAdmin2 For security and practicality reasons, explicitly running the Spore ModAPI Launcher as Administrator (by right-clicking and selecting " + "\"Run as Administrator\"" + @") is not recommended. Doing so will also prevent you from being able to load creations into Spore by dragging their PNGs into the game window. Are you sure you want to proceed?
+Globals_Browse Browse...
+
+
+# Main Window text
+WindowTitle Spore Mod Manager v%VERSION% [DLLs Build %DLLSBUILD%]
+
+ModsTabItem Mods
+TweaksTabItem Tweaks
+SettingsTabItem Settings
+ConsoleTabItem Console
+HelpTabItem Help
+
+GetModsButton Get mods
+InstallModFromDiskButton Install mods
+UninstallModButton Uninstall selected mods
+ConfigureModButton Change Selected mod's Settings
+
+CopyModsListToClipboard Copy Mods List
+
+DropModsHerePrompt Click the Install mods button to get started installing Spore mods!
+DropModsHereInstruction Drag-and-drop mods here to install them
+
+SearchWatermark Search installed mods...
+SearchNames Search mod names
+SearchDescriptions Search mod descriptions
+SearchTags Search mod tags
+
+ModSwitchOn Enabled
+ModSwitchOff Disabled
+ModInstallingNow Installing...
+ModEnablingNow Enabling...
+ModDisablingNow Disabling...
+ModUninstallingNow Uninstalling...
+ModInstalledManually Manually installed
+
+ExitSporeToManageMods Exit Spore to manage your installed mods.
+
+FoldersHeader Folders
+AutoGaDataPath Galactic Adventures Data Path
+AutoSporebinEp1Path SporebinEP1 Path
+AutoCoreDataPath Core Spore Data Path
+AutoSporebinPath Sporebin Path
+AutoDetectPath Auto-detect
+
+ModInstallationHeader Mod Installation
+BlockVanillaIncompatibleMods Don't install mods unless they are verified as vanilla-compatible
+UseDeveloperMode Enable Developer Mode
+
+DeveloperHeader Developer
+SideloadCoreDlls Sideloaded DLLs
+AddSideloadCoreDlls Add Sideload DLLs
+RemoveSideloadCoreDlls Purge Sideload DLLs
+BuildSideloadCoreDlls or compile the ModAPI DLLs to %OVERRIDELIBSPATH% yourself, if you feel like getting your hands dirty.
+SelectDlls Select DLL bundle
+DllBundlesFilter DLL bundles (%EXTENSIONS%)
+
+SwitchOn On
+SwitchOff Off
+SwitchYes Yes
+SwitchNo No
+
+WindowHeader Window
+OverrideWindowMode Override Window Mode
+WindowModeFullscreen Fullscreen
+WindowModeBorderlessWindowed Borderless Windowed
+WindowModeWindowed Windowed
+OverrideGameResolution Override Game Resolution
+ResolutionAuto Automatic Resolution
+ResolutionCustom Custom Resolution
+
+GameEntryHeader Game entry
+CommandLineState Launch game with a startup State
+CommandLineStateName State name
+CommandLineLanguage Launch game with a non-default language
+CommandLineLocaleName Locale name
+CommandLineOptions Additional Command Line options
+
+AppearanceHeader Appearance
+
+LanguageHeader Language
+SkinOptionsHeader Skin Options
+LightSwitchHeader Lights
+AccentColourHeader Accent Colour
+UseStandardWindowDecorations Use Standard Window Decorations
+
+UpdateHeader Update
+UpdateQuestion When should the Spore Mod Manager update?
+UpdateAutomatically Automatically (recommended)
+UpdateAutoCheck Check automatically, ask before installing
+UpdateNever Don't update (not recommended)
+UpdateAvailableTitle Update Available
+UpdateAvailableText An update to the Mod Manager is available. It includes new features and bugfixes. Do you want to download it?
+UpdateAvailableDllsTitle ModAPI DLLs Update Available
+UpdateAvailableDllsText An update to the ModAPI DLLs is available. It includes new features and bugfixes, and is required to run modern mods. Do you want to download it?
+UpdatingProgressText Updating program, please wait...
+UpdatingProgressDllsText Updating ModAPI DLLs, please wait...
+Error_UpdateAvailableDlls An update to the ModAPI DLLs, needed to run modern mods, is available. However, it cannot be installed until you update the program. Please restart the program and allow it to update.
+Error_UpdateAvailableDllsTitle ModAPI DLLs cannot update
+Error_CannotCheckForUpdates Cannot check for updates, please check your internet connection.
+Error_CannotCheckForUpdatesTitle Cannot check for updates
+
+HelpHeader Need help?
+GoToForumThread Contact us to get help!
+ShowConfig Copy configuration to clipboard
+
+CloseSporeFirst Please close Spore to continue
+SporeCantClose If Spore is not responding, has crashed, or has already been closed, click here:
+ForceKillSporeButton Close Spore
+ForceKillConfirmTitle Force-close Spore?
+ForceKillConfirmDesc ANY UNSAVED PROGRESS WILL BE LOST. Are you sure you wish to force-close Spore?
+
+CustomInstaller_ModInstallerHeader %MODNAME% Installer
+CustomInstaller_Install Install
+
+CreditsHeader Credits
+
+RequiresAppRestart %CONTEXT% (requires app restart)
+
+LaunchGameButton Launch Spore
+
+SelectMod Select one or more mods to install
+AllSporeModsFilter Spore mods (%EXTENSIONS%)
+NowInstalling Installing...
+InstallationComplete Installation complete!
+
+Error_SporeCoreFolder Core Spore %DIRNAME%
+Error_SporeGAFolder Galactic Adventures %DIRNAME%
+
+Error_FolderNotFound The %FOLDERNAME% folder could not be automatically uniquely identified. Please select from the list below, or specify manually if needed. (This can be changed later under Settings if needed.)
+Error_FolderNotFoundNoGuesses The %FOLDERNAME% folder could not be automatically detected. Please specify manually if needed. (This can be changed later under Settings if needed.
+
+Error_ProbablyDiskGuess Probably installed from Disks
+Error_ProbablyOriginGuess Probably installed from Origin
+Error_ProbablyGOGGuess Probably installed from GOG (or Steam, if you're really unlucky)

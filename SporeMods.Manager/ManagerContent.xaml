@@ -187,8 +187,17 @@
                                             <RowDefinition Height="*"/>
                                             <RowDefinition Height="5"/>
                                             <RowDefinition Height="*"/>
+                                            <RowDefinition Height="5"/>
+                                            <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
                                         <DockPanel VerticalAlignment="Bottom" Grid.Row="0">
+                                            <TextBlock x:Name="LanguageTextBlock" VerticalAlignment="Center" Margin="0,0,10,0" DockPanel.Dock="Left"/>
+                                            <ComboBox IsEnabled="True" 
+                                                      ItemsSource="{Binding Source={x:Static core:Settings.SortedLanguageNames}}"
+                                                      SelectedItem="{Binding Source={x:Static core:Settings.CurrentLanguageName}, Path=., Mode=TwoWay}"
+                                                      SelectionChanged="LanguageCheckBox_SelectionChanged"/>
+                                        </DockPanel>
+                                        <DockPanel VerticalAlignment="Bottom" Grid.Row="2">
                                             <TextBlock x:Name="AccentColourTextBlock" VerticalAlignment="Center" Margin="0,0,10,0" DockPanel.Dock="Left"/>
                                             <ComboBox SelectedIndex="0" IsEnabled="False">
                                                 <ComboBoxItem Content="Blue"/>
@@ -203,8 +212,8 @@
                                                 </ComboBoxItem>
                                             </ComboBox>
                                         </DockPanel>
-                                        <ui:ToggleSwitch x:Name="DarkShaleToggleSwitch" IsChecked="True" Grid.Row="2"/>
-                                        <ui:ToggleSwitch x:Name="StandardWindowDecorationsToggleSwitch" IsChecked="True" Grid.Row="4"/>
+                                        <ui:ToggleSwitch x:Name="DarkShaleToggleSwitch" IsChecked="True" Grid.Row="4"/>
+                                        <ui:ToggleSwitch x:Name="StandardWindowDecorationsToggleSwitch" IsChecked="True" Grid.Row="6"/>
                                     </Grid>
                                 </GroupBox>
                                 <GroupBox x:Name="UpdateGroupBox" IsEnabled="True" Grid.Column="1">

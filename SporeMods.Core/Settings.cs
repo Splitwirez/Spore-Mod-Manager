@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Xml.Linq;
 using static SporeMods.Core.GameInfo;
@@ -471,201 +473,200 @@ namespace SporeMods.Core
 
         public static string LaunchSporeWithoutManagerOptions = "-NoManagerArgs";
 
-        static string _currentLanguageName = "CurrentLanguageName";
+
+        static string _osLangCode;
+        static string GetBetterLanguageForOS()
+        {
+            if (_osLangCode != null) return _osLangCode;
+
+            string langCode = CultureInfo.InstalledUICulture.Name.ToLowerInvariant();
+            if (!_availableLanguages.ContainsKey(langCode))
+            {
+                langCode = null;
+                // Try to get one from the same group. If user has en-us, try to set en-ca, etc
+                string langGroup = langCode.Split('-')[0];
+                foreach (var lang in _availableLanguages.Keys)
+                {
+                    if (langGroup == lang.Split('-')[0])
+                    {
+                        langCode = lang;
+                        break;
+                    }
+                }
+                if (langCode == null) langCode = "en-ca";
+            }
+
+            _osLangCode = langCode;
+            return langCode;
+        }
+
+        static string _currentLanguageCode = "CurrentLanguageCode";
         /// <summary>
-        /// User-selected Mod Manager language.
+        /// User-selected Mod Manager language code (en-ca, es-es,...). Lowercase.
+        /// </summary>
+        public static string CurrentLanguageCode
+        {
+            get
+            {
+                var value = GetElementValue(_currentLanguageCode);
+
+                if (string.IsNullOrWhiteSpace(value))
+                    return GetBetterLanguageForOS();
+                else return value;
+            }
+            set
+            {
+                if (value != CurrentLanguageCode)
+                {
+                    _currentLanguage = ReadLanguage(value);
+                    SetElementValue(_currentLanguageCode, value);
+                }
+            }
+        }
+
+        /// <summary>
+        /// User-selected Mod Manager language name
         /// </summary>
         public static string CurrentLanguageName
         {
             get
             {
-                var value = GetElementValue(_currentLanguageName);
-
-                if (string.IsNullOrWhiteSpace(value))
-                    return "en-ca";
-                else return value;
+                InitializeLanguages();
+                return _availableLanguageNames[CurrentLanguageCode];
             }
-            set => SetElementValue(_currentLanguageName, value);
+            set {
+                CurrentLanguageCode = _availableLanguageNames.FirstOrDefault(x => x.Value == value).Key;
+            }
+        }
+        
+        private static Dictionary<string, string> _availableLanguageNames = new Dictionary<string, string>();
+        /// <summary>
+        /// The names (English, Español,...) of the available languages for each lang code.
+        /// Pairs of { langCode, langName }
+        /// </summary>
+        public static Dictionary<string, string> AvailableLanguageNames
+        {
+            get
+            {
+                InitializeLanguages();
+                return _availableLanguageNames;
+            }
+        }
+
+        /// <summary>
+        /// The names (English, Español,...) of the available languages, sorted alphabetically.
+        /// </summary>
+        public static List<string> SortedLanguageNames
+        {
+            get
+            {
+                var list = new List<string>(AvailableLanguageNames.Values);
+                list.Sort();
+                return list;
+            }
         }
 
         /// <summary>
         /// Dictionary for current Mod Manager language.
         /// </summary>
-        public static Dictionary<string, string> CurrentLanguage
+        // We don't want this to be public, GetLanguageString must be used
+        private static Dictionary<string, string> _currentLanguage;
+
+        // { langCode, isInternal }
+        static Dictionary<string, bool> _availableLanguages = new Dictionary<string, bool>();
+
+        static bool _languageInitialized = false;
+        static string _languagesDir = Path.Combine(ProgramDataPath, "Languages");
+
+        static Dictionary<string, string> ReadLanguage(Stream stream)
         {
-            get => GetLanguageDictionary(CurrentLanguageName);
+            var dictionary = new Dictionary<string, string>();
+            using (var reader = new StreamReader(stream))
+            {
+                string s;
+                while ((s = reader.ReadLine()) != null)
+                {
+                    s = s.Trim();
+                    if (!s.StartsWith("#") && !s.IsNullOrEmptyOrWhiteSpace())
+                    {
+                        var splits = s.Split(new char[] { ' ' }, 2);
+                        dictionary.Add(splits[0], splits[1].TrimStart(' '));
+                    }
+                }
+            }
+            return dictionary;
         }
 
-        static bool _languageExtracted = false;
-        static string _languagesDir = Path.Combine(ProgramDataPath, "Languages");
-        static Dictionary<string, string> GetLanguageDictionary(string langName)
+        static Dictionary<string, string> ReadLanguage(string langCode)
         {
+            if (_availableLanguages[langCode])
+            {
+                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SporeMods.Core.Locale." + langCode + ".txt"))
+                {
+                    return ReadLanguage(stream);
+                }
+            }
+            else
+            {
+                using (var stream = new FileStream(Path.Combine(_languagesDir, langCode + ".txt"), FileMode.Open))
+                {
+                    return ReadLanguage(stream);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Creates the Languages folder, loads the language names and loads the current language.
+        /// </summary>
+        static void InitializeLanguages()
+        {
+            if (_languageInitialized) return;
+
             if (!Directory.Exists(_languagesDir))
                 Directory.CreateDirectory(_languagesDir);
 
-            string defaultLanguagePath = Path.Combine(_languagesDir, "en-ca.language");
+            // Internal languages
+            _availableLanguages["en-ca"] = true;
+            _availableLanguages["es-es"] = true;
 
-            if (!_languageExtracted)
+            // User-provided languages
+            foreach (var file in Directory.GetFiles(_languagesDir, "*.txt"))
             {
-                File.WriteAllText(defaultLanguagePath, @"# Language info
-LanguageName English (Canada)
-
-
-# Global generic strings
-Globals_OK OK
-Globals_DontRunMgrAsAdmin For security and practicality reasons, please don't run the Spore Mod Manager as Administrator.
-Globals_DontRunMgrAsAdmin2 For security and practicality reasons, explicitly running the Spore Mod Manager as Administrator (by right-clicking and selecting " + "\"Run as Administrator\"" + @") is not recommended. Are you sure you want to proceed?
-Globals_DontRunLauncherAsAdmin For security and practicality reasons, please don't run the Spore ModAPI Launcher as Administrator.
-Globals_DontRunLauncherAsAdmin2 For security and practicality reasons, explicitly running the Spore ModAPI Launcher as Administrator (by right-clicking and selecting " + "\"Run as Administrator\"" + @") is not recommended. Doing so will also prevent you from being able to load creations into Spore by dragging their PNGs into the game window. Are you sure you want to proceed?
-Globals_Browse Browse...
-
-
-# Main Window text
-WindowTitle Spore Mod Manager v%VERSION% [DLLs Build %DLLSBUILD%]
-
-ModsTabItem Mods
-TweaksTabItem Tweaks
-SettingsTabItem Settings
-ConsoleTabItem Console
-HelpTabItem Help
-
-GetModsButton Get mods
-InstallModFromDiskButton Install mods
-UninstallModButton Uninstall selected mods
-ConfigureModButton Change Selected mod's Settings
-
-CopyModsListToClipboard Copy Mods List
-
-DropModsHerePrompt Click the Install mods button to get started installing Spore mods!
-DropModsHereInstruction Drag-and-drop mods here to install them
-
-SearchWatermark Search installed mods...
-SearchNames Search mod names
-SearchDescriptions Search mod descriptions
-SearchTags Search mod tags
-
-ModSwitchOn Enabled
-ModSwitchOff Disabled
-ModInstallingNow Installing...
-ModEnablingNow Enabling...
-ModDisablingNow Disabling...
-ModUninstallingNow Uninstalling...
-ModInstalledManually Manually installed
-
-ExitSporeToManageMods Exit Spore to manage your installed mods.
-
-FoldersHeader Folders
-AutoGaDataPath Galactic Adventures Data Path
-AutoSporebinEp1Path SporebinEP1 Path
-AutoCoreDataPath Core Spore Data Path
-AutoSporebinPath Sporebin Path
-AutoDetectPath Auto-detect
-
-ModInstallationHeader Mod Installation
-BlockVanillaIncompatibleMods Don't install mods unless they are verified as vanilla-compatible
-UseDeveloperMode Enable Developer Mode
-
-DeveloperHeader Developer
-SideloadCoreDlls Sideloaded DLLs
-AddSideloadCoreDlls Add Sideload DLLs
-RemoveSideloadCoreDlls Purge Sideload DLLs
-BuildSideloadCoreDlls or compile the ModAPI DLLs to %OVERRIDELIBSPATH% yourself, if you feel like getting your hands dirty.
-SelectDlls Select DLL bundle
-DllBundlesFilter DLL bundles (%EXTENSIONS%)
-
-SwitchOn On
-SwitchOff Off
-SwitchYes Yes
-SwitchNo No
-
-WindowHeader Window
-OverrideWindowMode Override Window Mode
-WindowModeFullscreen Fullscreen
-WindowModeBorderlessWindowed Borderless Windowed
-WindowModeWindowed Windowed
-OverrideGameResolution Override Game Resolution
-ResolutionAuto Automatic Resolution
-ResolutionCustom Custom Resolution
-
-GameEntryHeader Game entry
-CommandLineState Launch game with a startup State
-CommandLineStateName State name
-CommandLineLanguage Launch game with a non-default language
-CommandLineLocaleName Locale name
-CommandLineOptions Additional Command Line options
-
-AppearanceHeader Appearance
-
-SkinOptionsHeader Skin Options
-LightSwitchHeader Lights
-AccentColourHeader Accent Colour
-UseStandardWindowDecorations Use Standard Window Decorations
-
-UpdateHeader Update
-UpdateQuestion When should the Spore Mod Manager update?
-UpdateAutomatically Automatically (recommended)
-UpdateAutoCheck Check automatically, ask before installing
-UpdateNever Don't update (not recommended)
-UpdateAvailableTitle Update Available
-UpdateAvailableText An update to the Mod Manager is available. It includes new features and bugfixes. Do you want to download it?
-UpdateAvailableDllsTitle ModAPI DLLs Update Available
-UpdateAvailableDllsText An update to the ModAPI DLLs is available. It includes new features and bugfixes, and is required to run modern mods. Do you want to download it?
-UpdatingProgressText Updating program, please wait...
-UpdatingProgressDllsText Updating ModAPI DLLs, please wait...
-Error_UpdateAvailableDlls An update to the ModAPI DLLs, needed to run modern mods, is available. However, it cannot be installed until you update the program. Please restart the program and allow it to update.
-Error_UpdateAvailableDllsTitle ModAPI DLLs cannot update
-Error_CannotCheckForUpdates Cannot check for updates, please check your internet connection.
-Error_CannotCheckForUpdatesTitle Cannot check for updates
-
-HelpHeader Need help?
-GoToForumThread Contact us to get help!
-ShowConfig Copy configuration to clipboard
-
-CloseSporeFirst Please close Spore to continue
-SporeCantClose If Spore is not responding, has crashed, or has already been closed, click here:
-ForceKillSporeButton Close Spore
-ForceKillConfirmTitle Force-close Spore?
-ForceKillConfirmDesc ANY UNSAVED PROGRESS WILL BE LOST. Are you sure you wish to force-close Spore?
-
-CustomInstaller_ModInstallerHeader %MODNAME% Installer
-CustomInstaller_Install Install
-
-CreditsHeader Credits
-
-RequiresAppRestart %CONTEXT% (requires app restart)
-
-LaunchGameButton Launch Spore
-
-SelectMod Select one or more mods to install
-AllSporeModsFilter Spore mods (%EXTENSIONS%)
-NowInstalling Installing...
-InstallationComplete Installation complete!
-
-Error_SporeCoreFolder Core Spore %DIRNAME%
-Error_SporeGAFolder Galactic Adventures %DIRNAME%
-
-Error_FolderNotFound The %FOLDERNAME% folder could not be automatically uniquely identified. Please select from the list below, or specify manually if needed. (This can be changed later under Settings if needed.)
-Error_FolderNotFoundNoGuesses The %FOLDERNAME% folder could not be automatically detected. Please specify manually if needed. (This can be changed later under Settings if needed.
-
-Error_ProbablyDiskGuess Probably installed from Disks
-Error_ProbablyOriginGuess Probably installed from Origin
-Error_ProbablyGOGGuess Probably installed from GOG (or Steam, if you're really unlucky)
-");
-                Permissions.GrantAccessFile(defaultLanguagePath);
-                _languageExtracted = true;
-            }
-            var language = new Dictionary<string, string>();
-            foreach (string s in File.ReadAllLines(Path.Combine(_languagesDir, langName + ".language")))
-            {
-                if ((!s.StartsWith("#")) && (!s.IsNullOrEmptyOrWhiteSpace()))
+                var langCode = Path.GetFileNameWithoutExtension(file).ToLowerInvariant();
+                if (!_availableLanguages.ContainsKey(langCode))
                 {
-                    int spaceIndex = s.IndexOf(' ');
-                    string textKey = s.Substring(0, spaceIndex);
-                    string textValue = s.Substring(spaceIndex, s.Length - spaceIndex).TrimStart(' ');
-                    language.Add(textKey, textValue);
+                    _availableLanguages[langCode] = false;
                 }
             }
-            return language;
+
+            var assembly = Assembly.GetExecutingAssembly();
+            foreach (var langCode in _availableLanguages.Keys)
+            {
+                var language = ReadLanguage(langCode);
+
+                if (language.ContainsKey("LanguageName")) 
+                {
+                    _availableLanguageNames[langCode] = language["LanguageName"];
+                }
+                else
+                {
+                    _availableLanguageNames[langCode] = langCode;
+                }
+
+                if (langCode == CurrentLanguageCode)
+                {
+                    _currentLanguage = language;
+                }
+            }
+
+            if (_currentLanguage == null)
+            {
+                // For some reason, the current language file is not available
+                // Try to default to computer language, or en-ca 
+                _currentLanguage = ReadLanguage(GetBetterLanguageForOS());
+            }
+
+            _languageInitialized = true;
         }
 
         public static string GetLanguageString(string identifier)
@@ -691,7 +692,8 @@ Error_ProbablyGOGGuess Probably installed from GOG (or Steam, if you're really u
             string key = prefixText + identifier;
             try
             {
-                return Settings.CurrentLanguage[key];
+                InitializeLanguages();
+                return _currentLanguage[key];
             }
             catch (Exception ex)
             {

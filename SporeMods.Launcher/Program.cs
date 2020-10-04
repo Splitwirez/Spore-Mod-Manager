@@ -45,7 +45,7 @@ namespace SporeMods.Launcher
             if (Permissions.IsAtleastWindowsVista() && Permissions.IsAdministrator())
             {
                 proceed = false;
-                if (MessageBox.Show(Settings.CurrentLanguage["Globals_DontRunLauncherAsAdmin2"], String.Empty, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (MessageBox.Show(Settings.GetLanguageString(1, "DontRunLauncherAsAdmin2"), String.Empty, MessageBoxButtons.YesNo) == DialogResult.Yes)
                     proceed = true;
             }
 
