@@ -5,61 +5,55 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SporeMods.Core.ModIdentity;
 
-namespace SporeMods.Core.InstalledMods
+namespace SporeMods.Core.Mods
 {
     public class ManualInstalledFile : IInstalledMod, INotifyPropertyChanged
     {
-        string _fileName = string.Empty;
         bool _legacy = false;
         public ManualInstalledFile(string fileName, ComponentGameDir location, bool legacy)
         {
-            _fileName = fileName;
+            RealName = fileName;
             Location = location;
             _legacy = legacy;
         }
 
-        ComponentGameDir _location = ComponentGameDir.galacticadventures;
-        public ComponentGameDir Location
-        {
-            get => _location;
-            set
-            {
-                _location = value;
-                NotifyPropertyChanged(nameof(Location));
-            }
-        }
+        public ComponentGameDir Location { get; } = ComponentGameDir.GalacticAdventures;
 
-        public string DisplayName => Path.GetFileNameWithoutExtension(_fileName);
+        public string DisplayName => Path.GetFileNameWithoutExtension(RealName);
 
-        public string Unique => _fileName;
+        public string Unique => RealName;
 
-        public string RealName => _fileName;
+        public string RealName { get; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public bool HasConfigsDirectory()
-        {
-            return false;
-        }
+        public bool HasConfigsDirectory => false;
 
-        public async Task UninstallMod()
+        public string Description => null;
+
+        public Version ModVersion => ModIdentity.UNKNOWN_MOD_VERSION;
+
+        public List<string> Tags { get; } = new List<string>();
+
+        public async Task<bool> UninstallModAsync()
         {
-            try
+            var task = new Task<bool>(() =>
             {
-                Task task = new Task(() =>
+                try
                 {
-                    FileWrite.SafeDeleteFile(FileWrite.GetFileOutputPath(_location.ToString(), _fileName, _legacy));
-                    ManagedMods.SyncContext.Send(state => ManagedMods.Instance.ModConfigurations.Remove(this), null);
-                });
-                task.Start();
-                await task;
-            }
-            catch (Exception ex)
-            {
-                MessageDisplay.RaiseError(new ErrorEventArgs(ex));
-            }
+                    FileWrite.SafeDeleteFile(FileWrite.GetFileOutputPath(Location, RealName, _legacy));
+                    ModsManager.SyncContext.Send(state => ModsManager.InstalledMods.Remove(this), null);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    MessageDisplay.RaiseError(new ErrorEventArgs(ex));
+                    return false;
+                }
+            });
+            task.Start();
+            return await task;
         }
 
         bool _isProgressing = false;

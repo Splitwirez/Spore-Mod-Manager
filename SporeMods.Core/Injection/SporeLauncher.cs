@@ -1,5 +1,4 @@
-﻿using SporeMods.Core;
-using SporeMods.Core.InstalledMods;
+﻿using SporeMods.Core.Mods;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -694,8 +693,7 @@ namespace SporeMods.Core.Injection
                 //InstalledMods mods = new InstalledMods();
                 //mods.Load();
                 MessageDisplay.DebugShowMessageBox("BEGIN MOD CONFIGURATION NAMES");
-                var configs = ManagedMods.Instance.GetModConfigurationAsync("a");
-                foreach (IInstalledMod configuration in ManagedMods.Instance.ModConfigurations)
+                foreach (IInstalledMod configuration in ModsManager.InstalledMods)
                 {
                     MessageDisplay.DebugShowMessageBox(configuration.RealName);
                     if (configuration.Unique.ToLowerInvariant().Contains(di230))

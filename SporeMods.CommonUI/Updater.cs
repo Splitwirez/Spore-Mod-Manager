@@ -65,7 +65,7 @@ namespace SporeMods.CommonUI
                                 (s as BackgroundWorker).ReportProgress(e_.ProgressPercentage);
                             });
                         });
-                        progressDialog.ShowDialog();
+                        progressDialog.Show();
 
                         if (progressDialog.Error != null)
                         {
@@ -132,7 +132,7 @@ namespace SporeMods.CommonUI
                                     (s as BackgroundWorker).ReportProgress(e_.ProgressPercentage);
                                 });
                             });
-                            progressDialog.ShowDialog();
+                            progressDialog.Show();
 
                             if (progressDialog.Error != null)
                             {

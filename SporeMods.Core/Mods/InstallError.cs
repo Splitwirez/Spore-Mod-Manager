@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SporeMods.Core.InstalledMods
+namespace SporeMods.Core.Mods
 {
     public class InstallError : IInstalledMod, INotifyPropertyChanged
     {
@@ -26,14 +26,17 @@ namespace SporeMods.Core.InstalledMods
 
         public bool IsProgressing => false;
 
-        public bool HasConfigsDirectory()
-        {
-            return false;
-        }
+        public bool HasConfigsDirectory => false;
 
-        public async Task UninstallMod()
-        {
+        public string Description => _installException.Message;
 
+        public Version ModVersion => ModIdentity.UNKNOWN_MOD_VERSION;
+
+        public List<string> Tags { get; } = new List<string>();
+
+        public Task<bool> UninstallModAsync()
+        {
+            throw new NotImplementedException();
         }
 
         Exception _installException = null;

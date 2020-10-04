@@ -1,6 +1,5 @@
 ﻿using SporeMods.Core;
 using SporeMods.Core.Injection;
-using SporeMods.Core.InstalledMods;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

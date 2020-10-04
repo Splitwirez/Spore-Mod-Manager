@@ -46,7 +46,7 @@
                             </DockPanel>
                         </ContentControl>
                         <Grid>
-                            <ListView x:Name="InstalledModsListView" Style="{DynamicResource InstalledModsListViewStyle}" ItemsSource="{Binding ModConfigurations, Source={x:Static core:ManagedMods.Instance}}" SelectionChanged="InstalledModsListView_SelectionChanged" IsVisibleChanged="ModsListView_IsVisibleChanged" PreviewKeyDown="ModsListView_PreviewKeyDown">
+                            <ListView x:Name="InstalledModsListView" Style="{DynamicResource InstalledModsListViewStyle}" ItemsSource="{Binding Source={x:Static core:ModsManager.InstalledMods}}" SelectionChanged="InstalledModsListView_SelectionChanged" IsVisibleChanged="ModsListView_IsVisibleChanged" PreviewKeyDown="ModsListView_PreviewKeyDown">
                                 <ui:AttachedProperties.CornerCurves>
                                     <ui:CornerCurves TopLeft="False" TopRight="False" BottomRight="False" BottomLeft="False"/>
                                 </ui:AttachedProperties.CornerCurves>
@@ -135,7 +135,7 @@
                                         <CheckBox x:Name="LaunchWithStateCheckBox"/>
                                         <DockPanel Margin="15,0,0,10" IsEnabled="{Binding IsChecked, Source={x:Reference LaunchWithStateCheckBox}}">
                                             <TextBlock x:Name="LaunchWithStateNameTextBlock" Margin="0,0,10,0" DockPanel.Dock="Left" VerticalAlignment="Center"/>
-                                            <ComboBox x:Name="LaunchWithStateComboBox" Style="{DynamicResource AutoCompleteComboBoxStyle}" ItemsSource="{Binding CommandLineStates, Source={x:Static core:ManagedMods.Instance}}" IsEditable="True"/>
+                                            <ComboBox x:Name="LaunchWithStateComboBox" Style="{DynamicResource AutoCompleteComboBoxStyle}" ItemsSource="{Binding CommandLineStates, Source={x:Static core:ModsManager.Instance}}" IsEditable="True"/>
                                             <!--Popup IsOpen="{Binding IsFocused, ElementName=LaunchWithStateTextBox, Mode=OneWay}" PlacementTarget="{Binding ElementName=LaunchWithStateTextBox}" Width="{Binding ActualWidth, ElementName=LaunchWithStateTextBox}" Placement="Bottom">
                                                 <Border Background="White">
                                                     <ListView>

@@ -2,8 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:SporeMods.Manager"
                     xmlns:core="clr-namespace:SporeMods.Core;assembly=SporeMods.Core"
-                    xmlns:insmods="clr-namespace:SporeMods.Core.InstalledMods;assembly=SporeMods.Core"
-                    xmlns:idnt="clr-namespace:SporeMods.Core.ModIdentity;assembly=SporeMods.Core"
+                    xmlns:mods="clr-namespace:SporeMods.Core.Mods;assembly=SporeMods.Core"
                     xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
                     xmlns:ui="clr-namespace:Mechanism.Wpf.Core;assembly=Mechanism.Wpf.Core"
                     xmlns:shale="clr-namespace:Mechanism.Wpf.Styles.Shale;assembly=Mechanism.Wpf.Styles.Shale"
@@ -86,7 +85,7 @@
     <Style x:Key="InstalledModsListViewStyle" TargetType="{x:Type ListView}" BasedOn="{StaticResource {x:Type ListView}}">
         <Style.Resources>
             <CubicEase x:Key="ScalingEase" EasingMode="EaseOut"/>
-            <DataTemplate DataType="{x:Type insmods:InstalledMod}">
+            <DataTemplate DataType="{x:Type mods:ManagedMod}">
                 <DockPanel>
                     <DockPanel x:Name="ModRootDockPanel" Height="42" DockPanel.Dock="Top">
                         <!--Height="{Binding Height, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}"-->
@@ -100,7 +99,7 @@
                                 <!--{Binding CanDisable, Converter={StaticResource BooleanToVisibilityConverter}}-->
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding IsProgressing, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
                                     <TextBlock x:Name="InstallingNowTextBlock" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left" Text="{DynamicResource ModInstallingNowText}" Margin="0,0,5,0"/>
-                                    <ProgressBar x:Name="ModProgressBar" Width="100" Height="23" Value="{Binding Progress, Mode=OneWay}" Minimum="0" Maximum="{Binding FileCount,Mode=OneWay}" VerticalAlignment="Stretch"/>
+                                    <ProgressBar x:Name="ModProgressBar" Width="100" Height="23" Value="{Binding Progress, Mode=OneWay}" Minimum="0" Maximum="100" VerticalAlignment="Stretch"/>
                                 </StackPanel>
                             </StackPanel>
                         </Grid>
@@ -216,7 +215,7 @@
                         </DataTrigger-->
                 </DataTemplate.Triggers>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type insmods:ManualInstalledFile}">
+            <DataTemplate DataType="{x:Type mods:ManualInstalledFile}">
                 <DockPanel x:Name="ModRootDockPanel" Height="42" Margin="10,0">
                     <!--Grid Width="32" Height="32" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Path Data="M 0 0 L 15 0 L 20 5 L 20 24 L 0 24 Z" StrokeThickness="0" Fill="{DynamicResource IconSecondaryFillBrush}"/>
@@ -248,7 +247,7 @@
                     </DataTrigger>
                 </DataTemplate.Triggers-->
             </DataTemplate>
-            <DataTemplate DataType="{x:Type insmods:InstallError}">
+            <DataTemplate DataType="{x:Type mods:InstallError}">
                 <Grid>
                     <Rectangle x:Name="SizeHelperRectangle"/>
                     <Rectangle x:Name="BackgroundRectangle" RadiusX="3" RadiusY="3" Opacity="0.25">
@@ -704,7 +703,7 @@
         </Setter>
     </Style>
 
-    <DataTemplate x:Name="ModConfiguratorComponentTemplate" DataType="{x:Type idnt:ModComponent}">
+    <DataTemplate x:Name="ModConfiguratorComponentTemplate" DataType="{x:Type mods:ModComponent}">
         <Grid>
             <Grid x:Name="BoxGrid" Visibility="Collapsed">
                 <RadioButton x:Name="ComponentRadioButton" Content="{Binding DisplayName}" IsChecked="{Binding Path=IsEnabled, Mode=TwoWay}" GroupName="{Binding GroupUnique}" Visibility="Collapsed">
