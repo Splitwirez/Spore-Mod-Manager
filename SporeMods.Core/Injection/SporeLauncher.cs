@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using static SporeMods.Core.GameInfo;
@@ -91,6 +92,20 @@ namespace SporeMods.Core.Injection
 
                             // get the correct executable path
                             _executablePath = Path.Combine(SporebinEP1, ExecutableFileNames[_executableType]);
+
+                            if ((_executableType == GameExecutableType.Origin__1_5_1 ||
+                                _executableType == GameExecutableType.Origin__March2017) &&
+                                !File.Exists(_executablePath))
+                            {
+                                var startInfo = new ProcessStartInfo(
+                                    Path.Combine(Settings.ManagerInstallLocationPath, "Spore ModAPI Launcher.exe"), 
+                                    "--modapifix " + Directory.GetParent(_executablePath).FullName)
+                                {
+                                    Verb = "runas"
+                                };
+                                var p = Process.Start(startInfo);
+                                p.WaitForExit();
+                            }
 
                             string dllEnding = GetExecutableDllSuffix(_executableType);
 
@@ -573,100 +588,7 @@ namespace SporeMods.Core.Injection
 
             return executableType;
         }
-
-        bool HandleOriginUsers()
-        {
-            if (MessageBox.Show(Strings.DownloadOriginFix, Strings.FileNeeded, MessageBoxButtons.OKCancel) == DialogResult.OK)
-            {
-                return ShowDownloadFixDialog(this.SporebinPath);
-            }
-            else
-            {
-                // don't execute the game
-                return false;
-            }
-        }
-
-        // -- DIALOGS -- //
-
-
-        static GameVersionType ShowVersionSelectorDialog()
-        {
-            GameVersionType gameVersion = GameVersionType.None;
-            Thread thread = new Thread(() =>
-            {
-                var dialog = new GameVersionSelector();
-                dialog.ShowDialog();
-
-                gameVersion = dialog.SelectedVersion;
-                LauncherSettings.GameVersion = gameVersion;
-                LauncherSettings.Save();
-            });
-            thread.SetApartmentState(ApartmentState.STA);
-            thread.Start();
-            thread.Join();
-
-            return gameVersion;
-        }
-
-        static bool ShowDownloadFixDialog(string outputPath)
-        {
-            bool result = false;
-
-            Thread thread = new Thread(() =>
-            {
-                var dialog = new DownloadDialog(Strings.DownloadFixTitle);
-                dialog.DownloadURL = ModAPIFixDownloadURL;
-                dialog.FileName = "SporeApp_ModAPIFix.zip";
-                dialog.DownloadCompletedText = Strings.ExtractingFiles;
-                dialog.DownloadCompletedHandler = (sender, args) =>
-                {
-                    string temporaryFile = Path.GetTempFileName();
-                    File.WriteAllBytes(temporaryFile, args.Result);
-
-                    result = ExtractFixFiles(temporaryFile, outputPath);
-
-                    File.Delete(temporaryFile);
-
-                    if (result)
-                    {
-                        // only ask if the download succeded
-                        var dialogResult = MessageBox.Show(Strings.DownloadComplete, Strings.DownloadCompleteTitle, MessageBoxButtons.YesNo);
-                        result = dialogResult == DialogResult.Yes;
-                    }
-                };
-
-                dialog.ShowDialog();
-            });
-            thread.SetApartmentState(ApartmentState.STA);
-            thread.Start();
-            thread.Join();
-
-            return result;
-        }
-
-        // -- UTILITY METHODS -- //
-
-        static bool ExtractFixFiles(string zipFile, string outputPath)
-        {
-            try
-            {
-                // ZipFile.ExtractToDirectory(zipFile, outputPath);
-                using (ZipArchive archive = ZipFile.Open(zipFile, ZipArchiveMode.Read))
-                {
-                    foreach (var entry in archive.Entries)
-                    {
-                        entry.ExtractToFile(outputPath + entry.Name, true);
-                    }
-                }
-                return true;
-            }
-            catch (System.UnauthorizedAccessException)
-            {
-                MessageBox.Show(CommonStrings.UnauthorizedAccess, CommonStrings.UnauthorizedAccessTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-        }*/
+        */
 
         public static void ThrowWin32Exception(string info)
         {

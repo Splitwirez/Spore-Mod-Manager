@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -16,15 +17,36 @@ namespace SporeMods.Launcher
 {
     class Program
     {
+        public static void ExtractModAPIFix(string folderPath)
+        {
+            using (var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream("SporeMods.Launcher.ModAPIFix.SporeApp_ModAPIFix.exe"))
+            using (var file = new FileStream(Path.Combine(folderPath, "SporeApp_ModAPIFix.exe"), FileMode.Create, FileAccess.Write))
+            {
+                resource.CopyTo(file);
+            }
+
+            using (var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream("SporeMods.Launcher.ModAPIFix.steam_api.dll"))
+            using (var file = new FileStream(Path.Combine(folderPath, "steam_api.dll"), FileMode.Create, FileAccess.Write))
+            {
+                resource.CopyTo(file);
+            }
+        }
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        static void Main()
+        static void Main(string[] programArgs)
         {
+            if (programArgs.Length > 1 && programArgs[0] == "--modapifix")
+            {
+                ExtractModAPIFix(programArgs[1]);
+                return;
+            }
+
             CommonUI.Updater.CheckForUpdates();
 
-            MessageDisplay.MessageBoxShown += (sneder, args) => MessageBox.Show(args.Content, args.Title);
-            MessageDisplay.ErrorOccurred += (sneder, args) =>
+            MessageDisplay.MessageBoxShown += (sender, args) => MessageBox.Show(args.Content, args.Title);
+            MessageDisplay.ErrorOccurred += (sender, args) =>
             {
                 if (args.Content.IsNullOrEmptyOrWhiteSpace())
                     MessageBox.Show(args.Exception.ToString(), args.Title);
