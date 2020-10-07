@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -30,7 +31,7 @@ namespace SporeMods.Core.Mods
 
             if (xmlVersion.Major == 1)
             {
-                Identity = XmlModIdentityV1.ParseModIdentity(document.Root);
+                Identity = XmlModIdentityV1.ParseModIdentity(this, document.Root);
             }
 
             PrepareConfiguration(isEnabledByDefault);
@@ -98,7 +99,7 @@ namespace SporeMods.Core.Mods
             }
         }
 
-        public ModIdentity Identity;
+        public ModIdentity Identity { get; }
         public ModConfiguration Configuration;
 
         public bool HasConfigsDirectory { get { return true; } }
@@ -274,7 +275,7 @@ namespace SporeMods.Core.Mods
                     Progress = 0;
                     IsProgressing = true;
 
-                    RemoveModFiles(100.0);
+                    RemoveModFiles(80.0);
 
                     Directory.Delete(StoragePath, true);
 
@@ -305,19 +306,28 @@ namespace SporeMods.Core.Mods
             {
                 try
                 {
+                    Configuration.Save(_configPath);
+
+                    // It is possible that this is called RegisterSporemodModAsync, and some progress has already happened
+                    double totalProgress = 100.0;
+
                     bool startsHere = !IsProgressing;
                     if (startsHere)
                     {
                         Progress = 0;
                         IsProgressing = true;
                     }
+                    else
+                    {
+                        totalProgress = 100.0 - Progress;
+                    }
 
-                    RemoveModFiles(10.0);
+                    RemoveModFiles(totalProgress * 0.1);
 
                     if (_copyAllFiles)
                     {
                         var files = Directory.EnumerateFiles(StoragePath).Where(x => ModsManager.IsModFile(x));
-                        var progressInc = 90.0 / files.Count();
+                        var progressInc = totalProgress * 0.9 / files.Count();
 
                         foreach (string s in files)
                         {
@@ -331,7 +341,7 @@ namespace SporeMods.Core.Mods
                     }
                     else
                     {
-                        EnableModAdvanced(90.0);
+                        EnableModAdvanced(totalProgress * 0.9);
                     }
 
                     Progress = 0;

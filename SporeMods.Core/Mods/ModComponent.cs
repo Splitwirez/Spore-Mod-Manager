@@ -12,8 +12,8 @@ namespace SporeMods.Core.Mods
 { 
     public class ModComponent : BaseModComponent
     {
-        public ModComponent(string uniqueTag)
-            : base(uniqueTag)
+        public ModComponent(ModIdentity identity, string uniqueTag)
+            : base(identity, uniqueTag)
         {
         }
 

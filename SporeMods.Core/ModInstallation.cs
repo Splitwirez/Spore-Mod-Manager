@@ -265,18 +265,22 @@ namespace SporeMods.Core
                 }/*, TaskCreationOptions.LongRunning*/);
                 validateModTask.Start();
                 await validateModTask;
+
                 if (proceed || Settings.AllowVanillaIncompatibleMods)
                 {
                     //ModInstallation.DebugMessageBoxShow("Evaluating uniqueness");
                     if (isUnique)
                     {
+                        bool hasXmlInZip = false;
                         //ModInstallation.DebugMessageBoxShow("Mod is unique");
                         Task extractXMLTask = new Task(() =>
                         {
                             if (zip.ContainsEntry("ModInfo.xml"))
                             {
+                                hasXmlInZip = true;
                                 ZipEntry entry = zip["ModInfo.xml"];
                                 entry.Extract(dir, ExtractExistingFileAction.OverwriteSilently);
+                                Permissions.GrantAccessFile(Path.Combine(dir, entry.FileName));
                             }
                             else
                             {
@@ -329,18 +333,23 @@ namespace SporeMods.Core
                         }
 
                         //ModInstallation.DebugMessageBoxShow("Beginning file extraction");
+                        // We don't increase all the progress, because EnableMod() will be called
+                        double totalProgress = 50.0;
+
                         Task extractFilesTask = new Task(() =>
                         {
+                            int fileCount = zip.Entries.Count;
+                            if (hasXmlInZip) fileCount--;
                             foreach (ZipEntry e in zip.Entries)
                             {
                                 bool isModInfo = e.FileName.ToLowerInvariant().EndsWith("modinfo.xml");
-                                if ((!isModInfo) || (isModInfo && (document == null)))
+                                if (!isModInfo || (isModInfo && document == null))
                                 {
                                     e.Extract(dir, ExtractExistingFileAction.OverwriteSilently);
+                                    Permissions.GrantAccessFile(Path.Combine(dir, e.FileName));
                                     //remove corresponding manually-installed file
-
                                     if (!isModInfo)
-                                        mod.Progress++;
+                                        mod.Progress += totalProgress / fileCount;
                                 }
                             }
                         });

@@ -6,6 +6,10 @@ using System.Text;
 
 namespace SporeMods.Core.Mods
 {
+    /// <summary>
+    /// Represents the structure of a mod. It is uniquely associated with a ManagedMod.
+    /// A mod identity is fixed and it doesn't depend on the current configuration of the mod.
+    /// </summary>
     public class ModIdentity
         : BaseModComponent 
     {
@@ -15,10 +19,13 @@ namespace SporeMods.Core.Mods
         public static readonly Version XmlModIdentityVersion1_1_0_0 = new Version(1, 1, 0, 0);
         public static readonly Version UNKNOWN_MOD_VERSION = new Version(0, 0, 0, 0);
 
-        public ModIdentity(string uniqueTag)
-            : base(uniqueTag)
+        public ModIdentity(ManagedMod mod, string uniqueTag)
+            : base(null, uniqueTag)
         {
+            ParentMod = mod;
         }
+
+        public ManagedMod ParentMod { get; }
 
         /// <summary>
         /// The version of XML Mod Identity used by this mod.

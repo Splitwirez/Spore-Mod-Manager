@@ -482,9 +482,9 @@ namespace SporeMods.Core
             string langCode = CultureInfo.InstalledUICulture.Name.ToLowerInvariant();
             if (!_availableLanguages.ContainsKey(langCode))
             {
-                langCode = null;
                 // Try to get one from the same group. If user has en-us, try to set en-ca, etc
                 string langGroup = langCode.Split('-')[0];
+                langCode = null;
                 foreach (var lang in _availableLanguages.Keys)
                 {
                     if (langGroup == lang.Split('-')[0])

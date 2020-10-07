@@ -13,10 +13,16 @@ namespace SporeMods.Core.Mods
     /// </summary>
     public abstract class BaseModComponent
     {
-        public BaseModComponent(string uniqueTag)
+        public BaseModComponent(ModIdentity identity, string uniqueTag)
         {
             Unique = uniqueTag;
+            Identity = identity;
         }
+
+        /// <summary>
+        /// The mod identity in which this component is contained.
+        /// </summary>
+        public ModIdentity Identity { get; }
 
         /// <summary>
         /// Name of component used internally to track which features are enabled during reconfiguration and upgrades
@@ -38,8 +44,31 @@ namespace SporeMods.Core.Mods
 
         public List<BaseModComponent> SubComponents { get; } = new List<BaseModComponent>();
 
-        public bool IsGroup { get { return SubComponents.Any(); } }
+        /// <summary>
+        /// Whether the sub components of this component are exclusive.
+        /// </summary>
+        public bool IsGroup { get; set; }
 
         public List<ModFile> Files { get; } = new List<ModFile>();
+
+        public bool IsInGroup { get
+            {
+                return Parent != null && Parent.IsGroup;
+            } }
+
+        public bool IsEnabled
+        {
+            get
+            {
+                return Identity.ParentMod.Configuration.IsComponentEnabled(this);
+            }
+            set
+            {
+                if (value)
+                    Identity.ParentMod.Configuration.EnabledComponents.Add(Unique);
+                else
+                    Identity.ParentMod.Configuration.EnabledComponents.Remove(Unique);
+            }
+        }
     }
 }

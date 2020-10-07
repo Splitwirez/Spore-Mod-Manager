@@ -47,13 +47,13 @@ namespace SporeMods.Core.Mods
             return output;
         }
 
-        static ModComponent ParseModComponent(XElement node)
+        static ModComponent ParseModComponent(ModIdentity identity, XElement node)
         {
             var uniqueAttr = node.Attribute("unique");
             if (uniqueAttr == null)
                 throw new FormatException("A component must have a 'unique' attribute");
 
-            var component = new ModComponent(uniqueAttr.Value);
+            var component = new ModComponent(identity, uniqueAttr.Value);
 
             var displayAttr = node.Attribute("displayName");
             if (displayAttr != null)
@@ -64,7 +64,7 @@ namespace SporeMods.Core.Mods
             {
                 foreach (XElement subNode in node.Elements())
                 {
-                    var subComponent = ParseModComponent(subNode);
+                    var subComponent = ParseModComponent(identity, subNode);
                     subComponent.Parent = component;
                     component.SubComponents.Add(subComponent);
                 }
@@ -108,13 +108,13 @@ namespace SporeMods.Core.Mods
             return component;
         }
 
-        public static ModIdentity ParseModIdentity(XElement node)
+        public static ModIdentity ParseModIdentity(ManagedMod mod, XElement node)
         {
             var uniqueAttr = node.Attribute("unique");
             if (uniqueAttr == null)
                 throw new FormatException("A mod must have a 'unique' attribute");
 
-            var identity = new ModIdentity(uniqueAttr.Value);
+            var identity = new ModIdentity(mod, uniqueAttr.Value);
 
             var displayAttr = node.Attribute("displayName");
             if (displayAttr != null)
@@ -167,8 +167,9 @@ namespace SporeMods.Core.Mods
                 else
                     throw new FormatException("Mod identity 'hasCustomInstaller': '" + hasCustomInstallerAttr.Value + "' is not a boolean");
             }
-            else
+            else if (identity.InstallerSystemVersion == ModIdentity.XmlModIdentityVersion1_0_0_0)
             {
+                identity.HasCustomInstaller = true;
                 var compatOnlyAttr = node.Attribute("compatOnly");
                 if (compatOnlyAttr != null)
                 {
@@ -179,6 +180,7 @@ namespace SporeMods.Core.Mods
                     else
                         throw new FormatException("Mod identity 'compatOnly': '" + compatOnlyAttr.Value + "' is not a boolean");
                 }
+
             }
 
             var tagsElem = node.Element("tags");
@@ -237,8 +239,9 @@ namespace SporeMods.Core.Mods
                 }
                 else if (nodeName == "component" || nodeName == "componentgroup")
                 {
-                    var component = ParseModComponent(subNode);
+                    var component = ParseModComponent(identity, subNode);
                     component.Parent = identity;
+                    if (nodeName == "componentgroup") component.IsGroup = true;
                     identity.SubComponents.Add(component);
                 }
                 else

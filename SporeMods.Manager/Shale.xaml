@@ -721,7 +721,7 @@
                     <local:ComponentCheckBoxBehavior/>
                 </e:Interaction.Behaviors-->
             <!--IsChecked="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/-->
-            <GroupBox x:Name="SubComponentsGroupBox" Header="{Binding GroupDisplayName}">
+            <GroupBox x:Name="SubComponentsGroupBox" Header="{Binding DisplayName}">
                 <ListView ItemsSource="{Binding SubComponents}" ItemContainerStyle="{DynamicResource ModConfiguratorComponentsListViewItemStyle}" ItemTemplate="{DynamicResource ModConfiguratorComponentTemplate}"/>
             </GroupBox>
         </Grid>
