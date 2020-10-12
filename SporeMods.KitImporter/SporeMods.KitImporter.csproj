@@ -60,6 +60,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="KitInstalledMods.cs" />
+    <Compile Include="KitSettings.cs" />
+    <Compile Include="LauncherKitImporter.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -87,6 +90,12 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SporeMods.Core\SporeMods.Core.csproj">
+      <Project>{5d0e076f-9c1c-4990-9242-4f7e7c66a045}</Project>
+      <Name>SporeMods.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
