@@ -190,8 +190,6 @@
                                             <RowDefinition Height="*"/>
                                             <RowDefinition Height="5"/>
                                             <RowDefinition Height="*"/>
-                                            <RowDefinition Height="5"/>
-                                            <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
                                         <DockPanel VerticalAlignment="Bottom" Grid.Row="0">
                                             <TextBlock x:Name="LanguageTextBlock" VerticalAlignment="Center" Margin="0,0,10,0" DockPanel.Dock="Left"/>
@@ -200,23 +198,8 @@
                                                       SelectedItem="{Binding Source={x:Static core:Settings.CurrentLanguageName}, Path=., Mode=TwoWay}"
                                                       SelectionChanged="LanguageCheckBox_SelectionChanged"/>
                                         </DockPanel>
-                                        <DockPanel VerticalAlignment="Bottom" Grid.Row="2">
-                                            <TextBlock x:Name="AccentColourTextBlock" VerticalAlignment="Center" Margin="0,0,10,0" DockPanel.Dock="Left"/>
-                                            <ComboBox SelectedIndex="0" IsEnabled="False">
-                                                <ComboBoxItem Content="Blue"/>
-                                                <ComboBoxItem Content="Beige">
-                                                    <!--ComboBoxItem.Resources>
-                                                    <ResourceDictionary>
-                                                        <ResourceDictionary.MergedDictionaries>
-                                                            <ResourceDictionary Source="pack://application:,,,/Mechanism.Wpf;component/Themes/Colors/ShaleBeige.xaml"/>
-                                                        </ResourceDictionary.MergedDictionaries>
-                                                    </ResourceDictionary>
-                                                </ComboBoxItem.Resources-->
-                                                </ComboBoxItem>
-                                            </ComboBox>
-                                        </DockPanel>
-                                        <ui:ToggleSwitch x:Name="DarkShaleToggleSwitch" IsChecked="True" Grid.Row="4"/>
-                                        <ui:ToggleSwitch x:Name="StandardWindowDecorationsToggleSwitch" IsChecked="True" Grid.Row="6"/>
+                                        <ui:ToggleSwitch x:Name="DarkShaleToggleSwitch" IsChecked="True" Grid.Row="2"/>
+                                        <ui:ToggleSwitch x:Name="StandardWindowDecorationsToggleSwitch" IsChecked="True" Grid.Row="4"/>
                                     </Grid>
                                 </GroupBox>
                                 <GroupBox x:Name="UpdateGroupBox" IsEnabled="True" Grid.Column="1">
@@ -289,20 +272,6 @@
                 </TabItem>
             </TabControl>
         </DockPanel>
-        <ToggleButton x:Name="HamburgerToggleButton" Style="{DynamicResource HamburgerButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Checked="HamburgerToggleButton_Checked" Unchecked="HamburgerToggleButton_Checked" Visibility="Collapsed">
-            <StackPanel Width="9" Orientation="Vertical">
-                <Rectangle Height="2" Margin="0,1" Fill="{Binding Foreground,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ToggleButton}}"/>
-                <Rectangle Height="2" Margin="0,1" Fill="{Binding Foreground,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ToggleButton}}"/>
-                <Rectangle Height="2" Margin="0,1" Fill="{Binding Foreground,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ToggleButton}}"/>
-            </StackPanel>
-        </ToggleButton>
-        <ContentControl x:Name="HamburgerContentControl" Style="{DynamicResource HamburgerContentControlStyle}">
-            <DockPanel>
-                <Separator DockPanel.Dock="Bottom"/>
-                <Button x:Name="SavePresetButton" Content="NOT USED: Save Preset (NYI)" DockPanel.Dock="Top"/>
-                <ListView x:Name="PresetsListView"/>
-            </DockPanel>
-        </ContentControl>
         <ui:AnimatableContentControl x:Name="DropModsDialogContentControl" Style="{DynamicResource ModalDialogContentControlStyle}" HasCloseButton="True" AllowDrop="True" PreviewDrop="DropModsDialogContentControl_PreviewDrop" IsVisibleChanged="DropModsDialogContentControl_IsVisibleChanged">
             <DockPanel>
                 <Button x:Name="BrowseForModsButton" Click="BrowseForModsButton_Click" DockPanel.Dock="Bottom">

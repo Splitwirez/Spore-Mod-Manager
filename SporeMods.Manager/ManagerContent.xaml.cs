@@ -867,8 +867,6 @@ namespace SporeMods.Manager
 
             LanguageTextBlock.Text = Settings.GetLanguageString("LanguageHeader");
 
-            AccentColourTextBlock.Text = Settings.GetLanguageString("AccentColourHeader");
-
             StandardWindowDecorationsToggleSwitch.Content = Settings.GetLanguageString("RequiresAppRestart").Replace("%CONTEXT%", Settings.GetLanguageString("UseStandardWindowDecorations"));
 
             UpdateGroupBox.Header = Settings.GetLanguageString("UpdateHeader");
@@ -1094,9 +1092,6 @@ namespace SporeMods.Manager
             {
                 if (DropModsDialogContentControl.IsOpen)
                     DropModsDialogContentControl.IsOpen = false;
-
-                if (HamburgerToggleButton.IsChecked.Value)
-                    HamburgerToggleButton.IsChecked = false;
             }
         }
 
@@ -1198,11 +1193,6 @@ namespace SporeMods.Manager
                 Settings.ForcedCoreSporeSporeBinPath = SporebinPathTextBox.Text;
             else
                 Settings.ForcedCoreSporeSporeBinPath = null;
-        }
-
-        private void HamburgerToggleButton_Checked(object sender, RoutedEventArgs e)
-        {
-            HamburgerContentControl.IsManipulationEnabled = HamburgerToggleButton.IsChecked.Value;
         }
 
         /*private void CurrentSkinComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
