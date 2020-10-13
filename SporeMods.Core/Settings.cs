@@ -742,25 +742,29 @@ namespace SporeMods.Core
             }
         }
 
+        //Developer mode has been shelved for a post-release update
         static string _developerModeEnabledPath = Path.Combine(Settings.ProgramDataPath, "developerMode.info");
         static readonly bool _developerMode = File.Exists(_developerModeEnabledPath);
         public static bool DeveloperMode
         {
-            get => _developerMode;
+            get => false; //_developerMode;
             set
             {
-                if (value)
+                if (false)
                 {
-                    if (!File.Exists(_developerModeEnabledPath))
+                    if (value)
                     {
-                        File.Create(_developerModeEnabledPath).Close();
-                        Permissions.GrantAccessFile(_developerModeEnabledPath);
+                        if (!File.Exists(_developerModeEnabledPath))
+                        {
+                            File.Create(_developerModeEnabledPath).Close();
+                            Permissions.GrantAccessFile(_developerModeEnabledPath);
+                        }
                     }
-                }
-                else
-                {
-                    if (File.Exists(_developerModeEnabledPath))
-                        File.Delete(_developerModeEnabledPath);
+                    else
+                    {
+                        if (File.Exists(_developerModeEnabledPath))
+                            File.Delete(_developerModeEnabledPath);
+                    }
                 }
             }
         }
