@@ -196,34 +196,34 @@ namespace SporeMods.Core.Mods
 
                 if (nodeName == "prerequisite")
                 {
-                    var gameAttr = node.Attribute("game");
+                    var gameAttr = subNode.Attribute("game");
 
-                    identity.Files.AddRange(ParseFiles(node.Value, gameAttr == null ? null : gameAttr.Value,
+                    identity.Files.AddRange(ParseFiles(subNode.Value, gameAttr == null ? null : gameAttr.Value,
                         "Mod 'prerequisite'", "game"));
                 }
                 else if (nodeName == "remove")
                 {
-                    var gameAttr = node.Attribute("game");
+                    var gameAttr = subNode.Attribute("game");
 
-                    identity.FilesToRemove.AddRange(ParseFiles(node.Value, gameAttr == null ? null : gameAttr.Value,
+                    identity.FilesToRemove.AddRange(ParseFiles(subNode.Value, gameAttr == null ? null : gameAttr.Value,
                         "Mod 'remove'", "game"));
                 }
                 else if (nodeName == "compatfile")
                 {
-                    var targetAttr = node.Attribute("compatTargetFileName");
-                    var targetGameAttr = node.Attribute("compatTargetGame");
-                    var gameAttr = node.Attribute("game");
+                    var targetAttr = subNode.Attribute("compatTargetFileName");
+                    var targetGameAttr = subNode.Attribute("compatTargetGame");
+                    var gameAttr = subNode.Attribute("game");
 
                     var compatibility = new ModCompatibilityFix();
                     identity.CompatibilityFixes.Add(compatibility);
 
-                    compatibility.FilesToAdd.AddRange(ParseFiles(node.Value, gameAttr == null ? null : gameAttr.Value,
+                    compatibility.FilesToAdd.AddRange(ParseFiles(subNode.Value, gameAttr == null ? null : gameAttr.Value,
                         "'compatFile' files", "game"));
 
                     compatibility.RequiredFiles.AddRange(ParseFiles(targetAttr.Value, targetGameAttr == null ? null : targetGameAttr.Value,
                         "'compatFile' target files", "compatTargetGame"));
 
-                    var removeTargetAttr = node.Attribute("removeTargets");
+                    var removeTargetAttr = subNode.Attribute("removeTargets");
                     if (removeTargetAttr != null)
                     {
                         if (bool.TryParse(removeTargetAttr.Value, out bool removeTargets))
@@ -246,7 +246,7 @@ namespace SporeMods.Core.Mods
                 }
                 else
                 {
-                    throw new FormatException("Unknown element '" + node.Name.LocalName + "'");
+                    throw new FormatException("Unknown element '" + subNode.Name.LocalName + "'");
                 }
             }
 
