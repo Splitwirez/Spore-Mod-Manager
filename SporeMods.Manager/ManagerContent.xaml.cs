@@ -56,7 +56,7 @@ namespace SporeMods.Manager
         DependencyProperty.Register(nameof(Credits), typeof(ObservableCollection<CreditsItem>), typeof(ManagerContent), new PropertyMetadata(new ObservableCollection<CreditsItem>()
         {
             new CreditsItem("rob55rod", "Designed and built the Spore Mod Manager."),
-            new CreditsItem("emd4600", "Started the Spore ModAPI Project, created the original Spore ModAPI Launcher Kit from which the Spore Mod Manager was derived.", @"https://github.com/emd4600/"),
+            new CreditsItem("emd4600", "Started the Spore ModAPI Project, created the original Spore ModAPI Launcher Kit from which the Spore Mod Manager was derived, and helped build the Spore Mod Manager to be as robust as possible.", @"https://github.com/emd4600/"),
             new CreditsItem("reflectronic", "Provided significant guidance and assistance with internal structure and asynchronous behaviour.", @"https://github.com/reflectronic"),
             new CreditsItem("Jaime Olivares", "Created the Zip archive classes used in the Spore Mod Manager.", @"https://github.com/jaime-olivares"),
             new CreditsItem("Newtonsoft", "Made the library to read JSON data.", @"https://www.newtonsoft.com/json"),

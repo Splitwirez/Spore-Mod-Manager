@@ -15,7 +15,7 @@ namespace SporeMods.Core.Injection
     {
         public static void StartLauncher()
         {
-            Process.Start(Path.Combine(Settings.ManagerInstallLocationPath, "Spore ModAPI Launcher.exe"));
+            Process.Start(Path.Combine(Settings.ManagerInstallLocationPath, "Spore Mod Launcher.exe"));
         }
 
         public static int CaptionHeight = -1;
@@ -98,7 +98,7 @@ namespace SporeMods.Core.Injection
                                 !File.Exists(_executablePath))
                             {
                                 var startInfo = new ProcessStartInfo(
-                                    Path.Combine(Settings.ManagerInstallLocationPath, "Spore ModAPI Launcher.exe"), 
+                                    Path.Combine(Settings.ManagerInstallLocationPath, "Spore Mod Launcher.exe"), 
                                     "--modapifix " + Directory.GetParent(_executablePath).FullName)
                                 {
                                     Verb = "runas"

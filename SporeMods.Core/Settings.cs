@@ -363,7 +363,7 @@ namespace SporeMods.Core
 
         static string _autoGameWindowBounds = "AutoGameWindowBounds";
         /// <summary>
-        /// Whether or not the game window's bounds are calculated automatically by the ModAPI Launcher.
+        /// Whether or not the game window's bounds are calculated automatically by the Mod Launcher.
         /// </summary>
         public static bool AutoGameWindowBounds
         {
@@ -904,7 +904,7 @@ namespace SporeMods.Core
             else
             {
                 string exeName = Path.GetFileNameWithoutExtension(Process.GetCurrentProcess().MainModule.FileName).ToLowerInvariant();
-                if (restrictToModManager && ((exeName == "spore modapi launcher") || (exeName == "spore mod manager")))//(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName.ToLowerInvariant().Contains("modapi") && (System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName.EndsWith("Manager.exe") | System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName.EndsWith("Launcher.exe"))))
+                if (restrictToModManager && ((exeName == "spore mod launcher") || (exeName == "spore mod manager")))//(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName.ToLowerInvariant().Contains("modapi") && (System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName.EndsWith("Manager.exe") | System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName.EndsWith("Launcher.exe"))))
                     canWrite = true;
             }
 

@@ -6,8 +6,8 @@ LanguageName Español (España)
 Globals_OK OK
 Globals_DontRunMgrAsAdmin For security and practicality reasons, please don't run the Spore Mod Manager as Administrator.
 Globals_DontRunMgrAsAdmin2 For security and practicality reasons, explicitly running the Spore Mod Manager as Administrator (by right-clicking and selecting " + "\"Run as Administrator\"" + @") is not recommended. Are you sure you want to proceed?
-Globals_DontRunLauncherAsAdmin For security and practicality reasons, please don't run the Spore ModAPI Launcher as Administrator.
-Globals_DontRunLauncherAsAdmin2 For security and practicality reasons, explicitly running the Spore ModAPI Launcher as Administrator (by right-clicking and selecting " + "\"Run as Administrator\"" + @") is not recommended. Doing so will also prevent you from being able to load creations into Spore by dragging their PNGs into the game window. Are you sure you want to proceed?
+Globals_DontRunLauncherAsAdmin For security and practicality reasons, please don't run the Spore Mod Launcher as Administrator.
+Globals_DontRunLauncherAsAdmin2 For security and practicality reasons, explicitly running the Spore Mod Launcher as Administrator (by right-clicking and selecting " + "\"Run as Administrator\"" + @") is not recommended. Doing so will also prevent you from being able to load creations into Spore by dragging their PNGs into the game window. Are you sure you want to proceed?
 Globals_Browse Browse...
 
 
