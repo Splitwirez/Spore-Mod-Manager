@@ -7,7 +7,7 @@
     <ProjectGuid>{F32EB7C1-AD5B-44AE-941F-08339482B581}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>SporeMods.Launcher</RootNamespace>
-    <AssemblyName>Spore ModAPI Launcher</AssemblyName>
+    <AssemblyName>Spore Mod Launcher</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -35,6 +35,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>ModLauncherIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
@@ -78,7 +81,9 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="ModLauncherIcon.ico" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ModAPIFix\SporeApp_ModAPIFix.exe" />
   </ItemGroup>
