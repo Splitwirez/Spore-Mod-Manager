@@ -141,9 +141,9 @@ namespace SporeMods.Manager
                     {
                         /*if (Path.GetFileName(args.FullPath) == "draggedFiles")
                         {*/
-                            ModInstallation.InstallModsAsync(File.ReadAllLines(args.FullPath));
-                            File.Delete(args.FullPath);
-                            DropModsDialogContentControl.IsOpen = false;
+                        ModInstallation.InstallModsAsync(File.ReadAllLines(args.FullPath));
+                        File.Delete(args.FullPath);
+                        DropModsDialogContentControl.IsOpen = false;
                         //}
                     }));
                 }
@@ -288,7 +288,7 @@ namespace SporeMods.Manager
                 //Setup game folder Settings and Controls
                 AutoGaDataPathCheckBox.Checked += AutoGaDataPathCheckBox_Checked;
                 AutoGaDataPathCheckBox.Unchecked += AutoGaDataPathCheckBox_Checked;
-                
+
                 AutoSporebinEp1PathCheckBox.Checked += AutoSporebinEp1PathCheckBox_Checked;
                 AutoSporebinEp1PathCheckBox.Unchecked += AutoSporebinEp1PathCheckBox_Checked;
 
@@ -387,6 +387,22 @@ namespace SporeMods.Manager
 
                 LaunchWithLanguageLangTextBox.TextChanged += LaunchWithLanguageTextBox_TextChanged;
                 LaunchWithLanguageRegionTextBox.TextChanged += LaunchWithLanguageTextBox_TextChanged;
+                LanguagesComboBox.SelectionChanged += (sneder, args) =>
+                {
+                    if (LanguagesComboBox.SelectedItem != null)
+                    {
+                        if ((LanguagesComboBox.SelectedItem is ComboBoxItem item) && (item.Tag != null) && (item.Tag is string tag) && (tag.Contains("-")))
+                        {
+                            string[] lang = tag.Split('-');
+                            if (lang.Length >= 2)
+                            {
+                                LaunchWithLanguageLangTextBox.Text = lang[0];
+                                LaunchWithLanguageRegionTextBox.Text = lang[1];
+                            }
+                        }
+                        LanguagesComboBox.SelectedItem = null;
+                    }
+                };
 
                 //Setup additional commandline options Settings and Controls
                 AdditionalCommandLineOptionsTextBox.Text = Settings.CommandLineOptions;
@@ -807,7 +823,7 @@ namespace SporeMods.Manager
             SearchTagsMenuItem.Header = Settings.GetLanguageString("SearchTags");
 
             BrowseForModsButton.Content = Settings.GetLanguageString(1, "Browse");
-            
+
             GaDataPathBrowseButton.Content = Settings.GetLanguageString(1, "Browse");
             SporebinEp1PathBrowseButton.Content = Settings.GetLanguageString(1, "Browse");
             CoreDataPathBrowseButton.Content = Settings.GetLanguageString(1, "Browse");
@@ -858,7 +874,7 @@ namespace SporeMods.Manager
             DeveloperModeToggleSwitch.Content = Settings.GetLanguageString("RequiresAppRestart").Replace("%CONTEXT%", Settings.GetLanguageString("UseDeveloperMode"));
             DeveloperModeToggleSwitch.TrueText = Settings.GetLanguageString("SwitchOn");
             DeveloperModeToggleSwitch.FalseText = Settings.GetLanguageString("SwitchOff");
-            
+
             DeveloperTabItem.Header = Settings.GetLanguageString("DeveloperHeader");
             SideloadCoreDllsGroupBox.Header = Settings.GetLanguageString("SideloadCoreDlls");
             AddSideloadCoreDllsButton.Content = Settings.GetLanguageString("AddSideloadCoreDlls");
@@ -955,7 +971,7 @@ namespace SporeMods.Manager
         }
 
         private void UpdateDragWindow()
-        { 
+        {
             if ((App.DragServantProcess != null) && (App.DragServantProcess.MainWindowHandle != IntPtr.Zero))
             {
                 if ((IsLoaded && (Window.GetWindow(this) != null) && (Window.GetWindow(this).IsLoaded)) && DropModsHereTextBlockGrid.IsVisible)
@@ -1355,7 +1371,7 @@ namespace SporeMods.Manager
 
         private void FolderNotFoundBrowseByHandButton_Click(object sender, RoutedEventArgs e)
         {
-            
+
         }
         private void FolderNotFoundBrowseByHandActionBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -1374,7 +1390,7 @@ namespace SporeMods.Manager
         private void FolderNotFoundConfirmButton_Click(object sender, RoutedEventArgs e)
         {
             ConfirmForcedInstallPath(FolderNotFoundBrowseByHandActionBox.Text, true);
-            
+
             ProceedToNextBadPath(true);
         }
         private void OverrideWindowModeCheckBox_Checked(object sender, RoutedEventArgs e)
@@ -1589,7 +1605,7 @@ namespace SporeMods.Manager
         private void DropModsDialogContentControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             bool isVisible = DropModsDialogContentControl.IsVisible;
-            
+
             if (isVisible)
             {
                 UpdateDragWindow();

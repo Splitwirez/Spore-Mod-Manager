@@ -85,15 +85,15 @@
                                     <CheckBox x:Name="AutoGaDataPathCheckBox" Style="{DynamicResource GamePathCheckBoxStyle}" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" DockPanel.Dock="Left"/>
                                     <TextBox x:Name="GaDataPathTextBox" Grid.Column="1" Grid.Row="0" TextChanged="GaDataPathTextBox_TextChanged" ui:AttachedProperties.CornerCurves="False"/>
                                     <Button x:Name="GaDataPathBrowseButton" Grid.Column="2" Grid.Row="0" Click="PathBrowseButton_Click" ui:AttachedProperties.CornerCurves="False,True,True,False" ui:AttachedProperties.BorderPresence="False,True,True,True"/>
-                                    
+
                                     <CheckBox x:Name="AutoSporebinEp1PathCheckBox" Style="{DynamicResource GamePathCheckBoxStyle}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" DockPanel.Dock="Left"/>
                                     <TextBox x:Name="SporebinEp1PathTextBox" Grid.Column="1" Grid.Row="2" TextChanged="SporebinEp1PathTextBox_TextChanged" ui:AttachedProperties.CornerCurves="False"/>
                                     <Button x:Name="SporebinEp1PathBrowseButton" Grid.Column="2" Grid.Row="2" Click="PathBrowseButton_Click" ui:AttachedProperties.CornerCurves="False,True,True,False" ui:AttachedProperties.BorderPresence="False,True,True,True"/>
-                                    
+
                                     <CheckBox x:Name="AutoCoreDataPathCheckBox" Style="{DynamicResource GamePathCheckBoxStyle}" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Center" DockPanel.Dock="Left"/>
                                     <TextBox x:Name="CoreDataPathTextBox" Grid.Column="1" Grid.Row="4" TextChanged="CoreDataPathTextBox_TextChanged" ui:AttachedProperties.CornerCurves="False"/>
                                     <Button x:Name="CoreDataPathBrowseButton" Grid.Column="2" Grid.Row="4" Click="PathBrowseButton_Click" ui:AttachedProperties.CornerCurves="False,True,True,False" ui:AttachedProperties.BorderPresence="False,True,True,True"/>
-                                    
+
                                     <CheckBox x:Name="AutoSporebinPathCheckBox" Style="{DynamicResource GamePathCheckBoxStyle}" Grid.Column="0" Grid.Row="6" HorizontalAlignment="Stretch" VerticalAlignment="Center" DockPanel.Dock="Left"/>
                                     <TextBox x:Name="SporebinPathTextBox" Grid.Column="1" Grid.Row="6" TextChanged="SporebinPathTextBox_TextChanged" ui:AttachedProperties.CornerCurves="False"/>
                                     <Button x:Name="SporebinPathBrowseButton" Grid.Column="2" Grid.Row="6" Click="PathBrowseButton_Click" ui:AttachedProperties.CornerCurves="False,True,True,False" ui:AttachedProperties.BorderPresence="False,True,True,True"/>
@@ -150,17 +150,37 @@
                                             </Popup-->
                                         </DockPanel>
                                         <CheckBox x:Name="LaunchWithLanguageCheckBox"/>
-                                        <Grid HorizontalAlignment="Left" Margin="15,0,0,10" IsEnabled="{Binding IsChecked, Source={x:Reference LaunchWithLanguageCheckBox}}">
+                                        <Grid HorizontalAlignment="Stretch" Margin="15,0,0,10" IsEnabled="{Binding IsChecked, Source={x:Reference LaunchWithLanguageCheckBox}}">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="17"/>
                                             </Grid.ColumnDefinitions>
                                             <TextBlock x:Name="LocaleNameTextBlock" Margin="0,0,10,0" Grid.Column="0" VerticalAlignment="Center"/>
-                                            <TextBox x:Name="LaunchWithLanguageLangTextBox" Width="100" Grid.Column="1" IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Grid}}}"/>
-                                            <TextBlock Margin="10,0" Grid.Column="2" VerticalAlignment="Center">-</TextBlock>
-                                            <TextBox x:Name="LaunchWithLanguageRegionTextBox" Width="100" Grid.Column="3" IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Grid}}}"/>
+                                            <ComboBox x:Name="LanguagesComboBox" Grid.Column="1" Grid.ColumnSpan="4" Style="{DynamicResource LanguagesComboBoxStyle}" IsEditable="False">
+                                                <ComboBoxItem Tag="en-us">English (US)</ComboBoxItem>
+                                                <ComboBoxItem Tag="en-gb">English (GB)</ComboBoxItem>
+                                                <ComboBoxItem Tag="es-es">Espanol</ComboBoxItem>
+                                            </ComboBox>
+                                            <TextBox x:Name="LaunchWithLanguageLangTextBox" Grid.Column="1" IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Grid}}}"/>
+                                            <TextBox x:Name="LaunchWithLanguageRegionTextBox" Grid.Column="3" IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Grid}}}" ui:AttachedProperties.CornerCurves="True,False,False,True"/>
+                                            <DockPanel VerticalAlignment="Center" Margin="-1,0" Width="12" Height="18" Grid.Column="2">
+                                                <Border Height="8" BorderThickness="1,0,1,1" CornerRadius="0,0,3,3" DockPanel.Dock="Top" BorderBrush="{DynamicResource ButtonIdleBorderBrush}"/>
+                                                <Border Height="8" BorderThickness="1,1,1,0" CornerRadius="3,3,0,0" DockPanel.Dock="Bottom" BorderBrush="{DynamicResource ButtonIdleBorderBrush}"/>
+                                                <Rectangle Margin="0,-1" Panel.ZIndex="-10">
+                                                    <Rectangle.Fill>
+                                                        <LinearGradientBrush StartPoint="0,6" EndPoint="0,-5" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
+                                                    </Rectangle.Fill>
+                                                </Rectangle>
+                                            </DockPanel>
+                                            <!--Rectangle Margin="0" Grid.Column="2" VerticalAlignment="Center" Height="4" Width="10" Fill="{DynamicResource ButtonIdleBorderBrush}"/>
+                                            <Rectangle Margin="-1,0" Grid.Column="2" VerticalAlignment="Center" Height="2">
+                                                <Rectangle.Fill>
+                                                    <LinearGradientBrush StartPoint="0,1" EndPoint="0,0" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
+                                                </Rectangle.Fill>
+                                            </Rectangle-->
                                         </Grid>
                                         <DockPanel HorizontalAlignment="Stretch">
                                             <TextBlock x:Name="AdditionalCommandLineOptionsTextBlock" Margin="0,0,10,0" DockPanel.Dock="Left" VerticalAlignment="Center"/>
