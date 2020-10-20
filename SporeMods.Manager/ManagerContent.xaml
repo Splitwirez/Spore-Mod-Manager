@@ -37,7 +37,7 @@
                                                 <!--IsOpen="{Binding IsChecked, ElementName=SearchTargetsToggleButton, Mode=TwoWay}"-->
                                                 <MenuItem x:Name="SearchNamesMenuItem" IsChecked="True" IsCheckable="True" Checked="SearchOptionMenuItem_Checked" Unchecked="SearchOptionMenuItem_Checked"/>
                                                 <MenuItem x:Name="SearchDescriptionsMenuItem" IsCheckable="True" Checked="SearchOptionMenuItem_Checked" Unchecked="SearchOptionMenuItem_Checked"/>
-                                                <MenuItem x:Name="SearchTagsMenuItem" IsCheckable="True" IsEnabled="False" Checked="SearchOptionMenuItem_Checked" Unchecked="SearchOptionMenuItem_Checked"/>
+                                                <MenuItem x:Name="SearchTagsMenuItem" Visibility="Collapsed" IsCheckable="True" IsEnabled="False" Checked="SearchOptionMenuItem_Checked" Unchecked="SearchOptionMenuItem_Checked"/>
                                             </ContextMenu>
                                         </ToggleButton.ContextMenu>
                                     </ToggleButton>
