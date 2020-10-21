@@ -92,10 +92,6 @@ namespace SporeMods.Manager
                 Dispatcher.BeginInvoke(new Action(() => ModInstallation_AddModProgress(sneder, args)));
             };
 
-            MessageDisplay.ErrorOccurred += ModInstallation_ErrorOccurred;
-            MessageDisplay.MessageBoxShown += (sneder, args) => Dispatcher.BeginInvoke(new Action(() => MessageBox.Show(args.Content, args.Title)));
-            MessageDisplay.DebugMessageSent += (sneder, args) => Dispatcher.BeginInvoke(new Action(() => MessageBox.Show(args.Content, args.Title)));
-
             Application.Current.Resources.MergedDictionaries[0].MergedDictionaries[1] = ShaleAccents.Sky.Dictionary;
             if (Settings.ShaleDarkTheme)
                 DarkShaleToggleSwitch.IsChecked = false;

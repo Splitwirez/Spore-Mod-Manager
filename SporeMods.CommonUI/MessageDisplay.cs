@@ -1,9 +1,11 @@
-﻿using System;
+﻿using SporeMods.Core;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using CMessageBox = Mechanism.Wpf.Core.Windows.MessageBox;
 
 namespace SporeMods.CommonUI
 {
@@ -31,8 +33,16 @@ namespace SporeMods.CommonUI
                 {
                     MessageBox.Show(current.GetType() + ": " + current.Message + "\n" + current.Source + "\n" + current.StackTrace + errorText, errorTitle + count);
                 }
-                Process.GetCurrentProcess().Kill();
+                Process.GetCurrentProcess().Close();
             }
+        }
+
+        public static void ShowMessageBox(string messageBoxText, string caption)
+        {
+            if (VersionValidation.IsConfigValidationCompleted && Settings.UseCustomWindowDecorations)
+                CMessageBox.Show(messageBoxText, caption);
+            else
+                MessageBox.Show(messageBoxText, caption);
         }
     }
 }

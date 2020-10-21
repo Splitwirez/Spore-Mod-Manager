@@ -37,22 +37,15 @@ namespace SporeMods.Launcher
         /// </summary>
         static void Main(string[] programArgs)
         {
-            if (programArgs.Length > 1 && programArgs[0] == "--modapifix")
-            {
-                ExtractModAPIFix(programArgs[1]);
-                return;
-            }
-
-            CommonUI.Updater.CheckForUpdates();
-
-            MessageDisplay.MessageBoxShown += (sender, args) => MessageBox.Show(args.Content, args.Title);
-            MessageDisplay.ErrorOccurred += (sender, args) =>
-            {
+            MessageDisplay.ErrorOccurred += (sender, args) => CommonUI.MessageDisplay.ShowException(args.Exception);
+            MessageDisplay.MessageBoxShown += (sender, args) => CommonUI.MessageDisplay.ShowMessageBox(args.Content, args.Title);
+            MessageDisplay.DebugMessageSent += (sneder, args) => CommonUI.MessageDisplay.ShowMessageBox(args.Content, args.Title);
+            /*{
                 if (args.Content.IsNullOrEmptyOrWhiteSpace())
                     MessageBox.Show(args.Exception.ToString(), args.Title);
                 else
                     MessageBox.Show(args.Content + "\n\n" + args.Exception.ToString(), args.Title);
-            };
+            };*/
             /*{
                 if (string.IsNullOrEmpty(args.Content) || string.IsNullOrWhiteSpace(args.Content) || args.Exception.ToString().Contains(args.Content))
                     MessageBox.Show(args.Exception.ToString(), args.Title);
@@ -62,26 +55,36 @@ namespace SporeMods.Launcher
                     MessageBox.Show(args.Content + "\n\n" + args.Exception.ToString(), args.Title);
              };*/
 
-
-            bool proceed = true;
-            if (Permissions.IsAtleastWindowsVista() && Permissions.IsAdministrator())
+            if (CommonUI.VersionValidation.IsConfigVersionCompatible(false, out Version previousModMgrVersion))
             {
-                proceed = false;
-                if (MessageBox.Show(Settings.GetLanguageString(1, "DontRunLauncherAsAdmin2"), String.Empty, MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    proceed = true;
+                if (programArgs.Length > 1 && programArgs[0] == "--modapifix")
+                {
+                    ExtractModAPIFix(programArgs[1]);
+                    return;
+                }
+                else
+                    CommonUI.Updater.CheckForUpdates();
+
+                bool proceed = true;
+                if (Permissions.IsAtleastWindowsVista() && Permissions.IsAdministrator())
+                {
+                    proceed = false;
+                    if (MessageBox.Show(Settings.GetLanguageString(1, "DontRunLauncherAsAdmin2"), String.Empty, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        proceed = true;
+                }
+
+                if (proceed)
+                {
+                    if (Settings.ForceSoftwareRendering)
+                        RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+
+                    SporeLauncher.CaptionHeight = SystemInformation.CaptionHeight;
+
+                    if (SporeLauncher.IsInstalledDarkInjectionCompatible())
+                        SporeLauncher.LaunchGame();
+                }
+                else Application.Exit();
             }
-
-            if (proceed)
-            {
-                if (Settings.ForceSoftwareRendering)
-                    RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
-
-                SporeLauncher.CaptionHeight = SystemInformation.CaptionHeight;
-
-                if (SporeLauncher.IsInstalledDarkInjectionCompatible())
-                    SporeLauncher.LaunchGame();
-            }
-            else Application.Exit();
         }
     }
 }

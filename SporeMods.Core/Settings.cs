@@ -178,7 +178,10 @@ namespace SporeMods.Core
             _settingsFilePath = Path.Combine(ProgramDataPath, "ModManagerSettings.xml");
             if (!File.Exists(_settingsFilePath))
             {
-                File.WriteAllText(_settingsFilePath, @"<Settings></Settings>");
+                File.WriteAllText(_settingsFilePath,
+@"<Settings>
+    <" + _lastMgrVersion + ">" + ModManagerVersion.ToString() + "</" + _lastMgrVersion + @">
+</Settings>");
                 Permissions.GrantAccessFile(_settingsFilePath);
             }
 
@@ -812,9 +815,10 @@ namespace SporeMods.Core
                 }
             }
         }
+
         static string _allowVanillaIncompatibleMods = "allowVanillaIncompatibleMods";
         /// <summary>
-        /// Whether or not the game is forced to use a specific locale.
+        /// Whether or not the Spore Mod Manager will permit installation of mods which can result in non-shareable creations.
         /// </summary>
         public static bool AllowVanillaIncompatibleMods
         {
@@ -828,6 +832,22 @@ namespace SporeMods.Core
             set => SetElementValue(_allowVanillaIncompatibleMods, value.ToString());
         }
 
+        static string _lastMgrVersion = "LastMgrVersion";
+        /// <summary>
+        /// The last version of the Spore Mod Manager which accessed the current config
+        /// </summary>
+        public static Version LastModManagerVersion
+        {
+            get
+            {
+                string verVal = GetElementValue(_lastMgrVersion);
+                if ((!string.IsNullOrEmpty(verVal)) && (!string.IsNullOrWhiteSpace(verVal)) && (Version.TryParse(verVal, out Version returnValue)))
+                    return returnValue;
+                else
+                    return null;
+            }
+            set => SetElementValue(_lastMgrVersion, value.ToString());
+        }
 
         public enum UpdatingModeType
         {
@@ -867,7 +887,7 @@ namespace SporeMods.Core
         /// </summary>
         public static Version ModManagerVersion
         {
-            get => System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            get => Assembly.GetExecutingAssembly().GetName().Version;
         }
 
         /*static XElement GetElement(string elementName)
