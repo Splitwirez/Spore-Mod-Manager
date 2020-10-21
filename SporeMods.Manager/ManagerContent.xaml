@@ -112,6 +112,7 @@
                                             <RadioButton x:Name="FullscreenWindowModeRadioButton" IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}}" GroupName="WindowModeRadioGroup"/>
                                             <!--RadioButton x:Name="BorderlessWindowModeRadioButton" IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}}" GroupName="WindowModeRadioGroup"/-->
                                             <RadioButton x:Name="WindowedWindowModeRadioButton" IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}}" GroupName="WindowModeRadioGroup"/>
+                                            <RadioButton x:Name="BorderlessWindowModeRadioButton" IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}}" GroupName="WindowModeRadioGroup"/>
                                         </StackPanel>
                                         <CheckBox x:Name="OverrideGameResolutionCheckBox" Margin="0,25,0,0"/>
                                         <StackPanel Orientation="Vertical" Margin="15,0,0,0" IsEnabled="{Binding IsChecked, Source={x:Reference OverrideGameResolutionCheckBox}}">

@@ -285,6 +285,7 @@ namespace SporeMods.Core.Injection
             InjectDLLs(dllEnding);
 
             ResumeSporeProcess();
+            EnableBorderless(Convert.ToInt32(_processInfo.dwProcessId));
         }
 
         private const int WAIT_ABANDONED = 0x00000080;
@@ -409,50 +410,55 @@ namespace SporeMods.Core.Injection
                 {
                     if (Settings.ForceWindowedMode == 1)
                         sb.Append("-f");
-                    else if (Settings.ForceWindowedMode == 0)
+                    else// if (Settings.ForceWindowedMode == 0)
                         sb.Append("-w");
 
                     sb.Append(" ");
-                }
 
-                if (Settings.ForceGameWindowBounds)
-                {
                     string size = "-r:";
 
                     var monitor = NativeMethods.AllMonitors[0];
-                    MessageDisplay.DebugShowMessageBox("MONITOR: " + monitor.rcMonitor.Left + ", " + monitor.rcMonitor.Top + ", " + monitor.rcMonitor.Right + ", " + monitor.rcMonitor.Bottom + "\n" + +monitor.rcWork.Left + ", " + monitor.rcWork.Top + ", " + monitor.rcWork.Right + ", " + monitor.rcWork.Bottom);
-                    if (Settings.AutoGameWindowBounds)
+                    if (Settings.ForceWindowedMode == 2)
+                        size += (monitor.rcMonitor.Right - monitor.rcMonitor.Left).ToString() + "x" + (monitor.rcMonitor.Bottom - monitor.rcMonitor.Top).ToString();
+                    else if (Settings.ForceGameWindowBounds)
                     {
-                        MessageDisplay.DebugShowMessageBox("Settings.AutoGameWindowBounds is true");
-                        if (Settings.ForceGameWindowingMode)
+                        //MessageDisplay.DebugShowMessageBox("MONITOR: " + monitor.rcMonitor.Left + ", " + monitor.rcMonitor.Top + ", " + monitor.rcMonitor.Right + ", " + monitor.rcMonitor.Bottom + "\n" + +monitor.rcWork.Left + ", " + monitor.rcWork.Top + ", " + monitor.rcWork.Right + ", " + monitor.rcWork.Bottom);
+
+                        if (Settings.AutoGameWindowBounds)
                         {
-                            MessageDisplay.DebugShowMessageBox("Settings.ForceGameWindowingMode is true, Settings.ForceWindowedMode is " + Settings.ForceWindowedMode);
-                            if (Settings.ForceWindowedMode == 0)
+                            MessageDisplay.DebugShowMessageBox("Settings.AutoGameWindowBounds is true");
+                            if (Settings.ForceGameWindowingMode)
                             {
-                                size += (monitor.rcWork.Right - monitor.rcWork.Left);
+                                MessageDisplay.DebugShowMessageBox("Settings.ForceGameWindowingMode is true, Settings.ForceWindowedMode is " + Settings.ForceWindowedMode);
+                                if (Settings.ForceWindowedMode == 0)
+                                {
+                                    size += (monitor.rcWork.Right - monitor.rcWork.Left);
+                                }
+                                else// if (Settings.ForceWindowedMode == 1)
+                                    size += (monitor.rcMonitor.Right - monitor.rcMonitor.Left);
+                                /*else
+                                    size += Settings.ForcedGameWindowWidth;*/
                             }
-                            else if (Settings.ForceWindowedMode == 1)
-                                size += (monitor.rcMonitor.Right - monitor.rcMonitor.Left);
                             else
                                 size += Settings.ForcedGameWindowWidth;
                         }
                         else
                             size += Settings.ForcedGameWindowWidth;
-                    }
-                    else
-                        size += Settings.ForcedGameWindowWidth;
 
-                    size += "x";
+                        size += "x";
 
-                    if (Settings.AutoGameWindowBounds)
-                    {
-                        if (Settings.ForceGameWindowingMode)
+                        if (Settings.AutoGameWindowBounds)
                         {
-                            int maximizedTitlebarHeight = CaptionHeight;
-                            if (Settings.ForceWindowedMode == 0)
-                                size += ((monitor.rcWork.Bottom - monitor.rcWork.Top) - maximizedTitlebarHeight);
-                            else if (Settings.ForceWindowedMode == 1)
-                                size += ((monitor.rcMonitor.Bottom - monitor.rcMonitor.Top) - maximizedTitlebarHeight);
+                            if (Settings.ForceGameWindowingMode)
+                            {
+                                int maximizedTitlebarHeight = CaptionHeight;
+                                if (Settings.ForceWindowedMode == 0)
+                                    size += ((monitor.rcWork.Bottom - monitor.rcWork.Top) - maximizedTitlebarHeight);
+                                else if (Settings.ForceWindowedMode == 1)
+                                    size += ((monitor.rcMonitor.Bottom - monitor.rcMonitor.Top) - maximizedTitlebarHeight);
+                                else
+                                    size += Settings.ForcedGameWindowHeight;
+                            }
                             else
                                 size += Settings.ForcedGameWindowHeight;
                         }
@@ -460,15 +466,11 @@ namespace SporeMods.Core.Injection
                             size += Settings.ForcedGameWindowHeight;
                     }
                     else
-                        size += Settings.ForcedGameWindowHeight;
+                        MessageDisplay.DebugShowMessageBox("Settings.ForceGameWindowBounds is false!");
 
                     sb.Append(size);
 
                     sb.Append(" ");
-                }
-                else
-                {
-                    MessageDisplay.DebugShowMessageBox("Settings.ForceGameWindowBounds is false!");
                 }
 
                 if (Settings.ForceGameLocale && (!string.IsNullOrWhiteSpace(Settings.ForcedGameLocale)))
@@ -527,6 +529,27 @@ namespace SporeMods.Core.Injection
             {
                 /*throw new InjectException(Strings.ProcessNotResumed);*/
                 ThrowWin32Exception("PLACEHOLDER: PROCESS NOT RESUMED"); //ThrowWin32Exception(Strings.ProcessNotResumed);
+            }
+        }
+
+        static void EnableBorderless(int pid)
+        {
+            if (Settings.ForceWindowedMode == 2)
+            {
+                Process process = Process.GetProcessById(pid);
+                while ((!process.HasExited) && (process.MainWindowHandle == IntPtr.Zero))
+                { }
+                if ((!process.HasExited) && (process.MainWindowHandle != IntPtr.Zero))
+                {
+                    Debug.WriteLine("process.MainWindowTitle: " + process.MainWindowTitle);
+                    var monitor = NativeMethods.AllMonitors[0];
+                    //NativeMethods.SetWindowLong(win.Handle, NativeMethods.GwlExstyle, NativeMethods.GetWindowLong(win.Handle, NativeMethods.GwlExstyle).ToInt32() & ~NativeMethods.WsExNoActivate);
+                    int winStyle = (Int32)NativeMethods.GetWindowLong(process.MainWindowHandle, NativeMethods.GwlStyle);
+                    winStyle &= ~NativeMethods.WsBorder;
+                    winStyle &= ~NativeMethods.WsCaption;
+                    NativeMethods.SetWindowLong(process.MainWindowHandle, NativeMethods.GwlStyle, winStyle);
+                    NativeMethods.SetWindowPos(process.MainWindowHandle, IntPtr.Zero, monitor.rcMonitor.Left, monitor.rcMonitor.Top, monitor.rcMonitor.Right - monitor.rcMonitor.Left, monitor.rcMonitor.Bottom - monitor.rcMonitor.Top, 0x0010 | 0x0004 | 0x0020);
+                }
             }
         }
 

@@ -251,5 +251,63 @@ namespace SporeMods.Core.Injection
 
         [DllImport("kernel32.dll")]
         public static extern bool DebugActiveProcessStop(int dwProcessId);
+
+
+
+
+
+
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+
+
+        public static IntPtr SetWindowLong(IntPtr hWnd, Int32 nIndex, Int32 dwNewLong)/* => IntPtr.Size == 8
+        ? SetWindowLongPtr64(hWnd, nIndex, dwNewLong)
+        : SetWindowLong32(hWnd, nIndex, dwNewLong);*/
+        {
+            if (IntPtr.Size == 4)
+                return SetWindowLong32(hWnd, nIndex, dwNewLong);
+            else
+                return SetWindowLongPtr64(hWnd, nIndex, dwNewLong);
+        }
+
+        [DllImport("user32.dll", EntryPoint = "SetWindowLong")]
+        static extern IntPtr SetWindowLong32(IntPtr hWnd, Int32 nIndex, Int32 dwNewLong);
+
+        [DllImport("user32.dll", EntryPoint = "SetWindowLongPtr")]
+        static extern IntPtr SetWindowLongPtr64(IntPtr hWnd, Int32 nIndex, Int32 dwNewLong);
+
+
+        public const Int32
+            GwlStyle = -16,
+            GwlExstyle = -20;
+
+        public const Int32
+            WsCaption = 0x00C00000,
+            WsBorder = 0x00800000,
+            WsSizeBox = 0x00040000;
+
+        public const Int32
+            WsExToolwindow = 0x00000080,
+            WsExTransparent = 0x00000020,
+            WsExNoActivate = 0x08000000;
+
+
+        public static IntPtr GetWindowLong(IntPtr hWnd, Int32 nIndex)/* => IntPtr.Size == 8
+        ? GetWindowLongPtr64(hWnd, nIndex)
+        : GetWindowLongPtr32(hWnd, nIndex);*/
+        {
+            if (IntPtr.Size == 4)
+                return GetWindowLong32(hWnd, nIndex);
+            else
+                return GetWindowLongPtr64(hWnd, nIndex);
+        }
+
+        [DllImport("user32.dll", EntryPoint = "GetWindowLong", CharSet = CharSet.Auto)]
+        public static extern IntPtr GetWindowLong32(IntPtr hWnd, int nIndex);
+
+        [DllImport("user32.dll", EntryPoint = "GetWindowLongPtr", CharSet = CharSet.Auto)]
+        public static extern IntPtr GetWindowLongPtr64(IntPtr hWnd, int nIndex);
     }
 }

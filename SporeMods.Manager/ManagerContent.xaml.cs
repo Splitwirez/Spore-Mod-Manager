@@ -301,6 +301,8 @@ namespace SporeMods.Manager
                     WindowedWindowModeRadioButton.IsChecked = true;
                 else if (Settings.ForceWindowedMode == 1)
                     FullscreenWindowModeRadioButton.IsChecked = true;
+                else if (Settings.ForceWindowedMode == 2)
+                    BorderlessWindowModeRadioButton.IsChecked = true;
 
                 CustomResolutionWidthTextBox.Text = Settings.ForcedGameWindowWidth.ToString();
                 CustomResolutionHeightTextBox.Text = Settings.ForcedGameWindowHeight.ToString();
@@ -311,6 +313,8 @@ namespace SporeMods.Manager
                 FullscreenWindowModeRadioButton.Unchecked += OverrideWindowModeCheckBox_Checked;
                 WindowedWindowModeRadioButton.Checked += OverrideWindowModeCheckBox_Checked;
                 WindowedWindowModeRadioButton.Unchecked += OverrideWindowModeCheckBox_Checked;
+                BorderlessWindowModeRadioButton.Checked += OverrideWindowModeCheckBox_Checked;
+                BorderlessWindowModeRadioButton.Unchecked += OverrideWindowModeCheckBox_Checked;
 
                 if (Settings.ForceGameWindowBounds)
                     OverrideGameResolutionCheckBox.IsChecked = true;
@@ -842,7 +846,7 @@ namespace SporeMods.Manager
             WindowGroupBox.Header = Settings.GetLanguageString("WindowHeader");
             OverrideWindowModeCheckBox.Content = Settings.GetLanguageString("OverrideWindowMode");
             FullscreenWindowModeRadioButton.Content = Settings.GetLanguageString("WindowModeFullscreen");
-            //BorderlessWindowModeRadioButton.Content = Settings.GetLanguageString("WindowModeBorderlessWindowed");
+            BorderlessWindowModeRadioButton.Content = Settings.GetLanguageString("WindowModeBorderlessWindowed");
             WindowedWindowModeRadioButton.Content = Settings.GetLanguageString("WindowModeWindowed");
 
             OverrideGameResolutionCheckBox.Content = Settings.GetLanguageString("OverrideGameResolution");
@@ -1396,10 +1400,12 @@ namespace SporeMods.Manager
             else
                 Settings.ForceGameWindowingMode = false;
 
-            if (FullscreenWindowModeRadioButton.IsChecked.Value)
-                Settings.ForceWindowedMode = 1;
-            else if (WindowedWindowModeRadioButton.IsChecked.Value)
+            if (WindowedWindowModeRadioButton.IsChecked.Value)
                 Settings.ForceWindowedMode = 0;
+            else if (FullscreenWindowModeRadioButton.IsChecked.Value)
+                Settings.ForceWindowedMode = 1;
+            else if (BorderlessWindowModeRadioButton.IsChecked.Value)
+                Settings.ForceWindowedMode = 2;
         }
 
         private void UpdateModeRadioButton_Checked(object sender, RoutedEventArgs e)
