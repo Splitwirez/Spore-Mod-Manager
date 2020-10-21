@@ -163,7 +163,27 @@
                                             <ComboBox x:Name="LanguagesComboBox" Grid.Column="1" Grid.ColumnSpan="4" Style="{DynamicResource LanguagesComboBoxStyle}" IsEditable="False">
                                                 <ComboBoxItem Tag="en-us">English (US)</ComboBoxItem>
                                                 <ComboBoxItem Tag="en-gb">English (GB)</ComboBoxItem>
-                                                <ComboBoxItem Tag="es-es">Espanol</ComboBoxItem>
+                                                <ComboBoxItem Tag="cs-cz">Čeština</ComboBoxItem>
+                                                <ComboBoxItem Tag="da-dk">Dansk</ComboBoxItem>
+                                                <ComboBoxItem Tag="de-de">Deutsch</ComboBoxItem>
+                                                <ComboBoxItem Tag="el-gr">Ελληνικά</ComboBoxItem>
+                                                <ComboBoxItem Tag="es-es">Español</ComboBoxItem>
+                                                <ComboBoxItem Tag="fi-fi">Suomi</ComboBoxItem>
+                                                <ComboBoxItem Tag="fr-fr">Français</ComboBoxItem>
+                                                <ComboBoxItem Tag="hu-hu">Magyar</ComboBoxItem>
+                                                <ComboBoxItem Tag="it-it">Italiano</ComboBoxItem>
+                                                <ComboBoxItem Tag="ja-jp">日本語</ComboBoxItem>
+                                                <ComboBoxItem Tag="ko-kr">한국어</ComboBoxItem>
+                                                <ComboBoxItem Tag="nl-nl">Nederlands</ComboBoxItem>
+                                                <ComboBoxItem Tag="no-no">Norsk</ComboBoxItem>
+                                                <ComboBoxItem Tag="pl-pl">Polski</ComboBoxItem>
+                                                <ComboBoxItem Tag="pt-pt">Português</ComboBoxItem>
+                                                <ComboBoxItem Tag="pt-br">Português (Brazil)</ComboBoxItem>
+                                                <ComboBoxItem Tag="ru-ru">Русский</ComboBoxItem>
+                                                <ComboBoxItem Tag="sv-se">Svenska</ComboBoxItem>
+                                                <ComboBoxItem Tag="th-th">ภาษาไทย</ComboBoxItem>
+                                                <ComboBoxItem Tag="zh-cn">简体中文</ComboBoxItem>
+                                                <ComboBoxItem Tag="zh-tw">繁體中文</ComboBoxItem>
                                             </ComboBox>
                                             <TextBox x:Name="LaunchWithLanguageLangTextBox" Grid.Column="1" IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Grid}}}"/>
                                             <TextBox x:Name="LaunchWithLanguageRegionTextBox" Grid.Column="3" IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Grid}}}" ui:AttachedProperties.CornerCurves="True,False,False,True"/>
