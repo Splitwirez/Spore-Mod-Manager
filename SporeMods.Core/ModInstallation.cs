@@ -42,28 +42,39 @@ namespace SporeMods.Core
             }
         }
 
-        public static async Task InstallModsAsync(string[] modPaths)
+        public static async Task<ModInstallationStatus> InstallModsAsync(string[] modPaths)
         {
+            var retVal = new ModInstallationStatus();
+            //Task<ModInstallationStatus> task = new Task<ModInstallationStatus>(())
             for (int i = 0; i < modPaths.Length; i++)
             {
                 string path = modPaths[i];
-                try
+                bool validExtension = true;
+                Exception result = null;
+                if (Path.GetExtension(path).ToLowerInvariant() == ".package")
                 {
-                    if (Path.GetExtension(path).ToLowerInvariant() == ".package")
-                    {
-                        await RegisterLoosePackageModAsync(path);
-                    }
-                    else if (Path.GetExtension(path).ToLowerInvariant() == ".sporemod")
-                    {
-                        await RegisterSporemodModAsync(path);
-                    }
+                    result = await RegisterLoosePackageModAsync(path);
                 }
-                catch (Exception ex)
+                else if (Path.GetExtension(path).ToLowerInvariant() == ".sporemod")
                 {
-                    MessageDisplay.RaiseError(new ErrorEventArgs(ex/*ex.Message + "\n" + ex.StackTrace*/));
+                    result = await RegisterSporemodModAsync(path);
+                }
+                else
+                {
+                    validExtension = false;
+                }
+                /*catch (Exception ex)
+                {
+                    MessageDisplay.RaiseError(new ErrorEventArgs(ex/*ex.Message + "\n" + ex.StackTrace*));
                     ModsManager.InstalledMods.Add(new InstallError(ex));
-                }
+                }*/
+                if (result != null)
+                    retVal.Failures.Add(Path.GetFileName(path), result);
+                else if (validExtension)
+                    retVal.Successes.Add(Path.GetFileName(path));
             }
+
+            return retVal;
         }
 
         public static void UninstallModsAsync(IInstalledMod[] modConfigurations)
@@ -141,14 +152,15 @@ namespace SporeMods.Core
             AddModProgress?.Invoke(null, new ModRegistrationEventArgs(mod));
         }
 
-        public static async Task RegisterLoosePackageModAsync(string path)
+        public static async Task<Exception> RegisterLoosePackageModAsync(string path)
         {
-            ManagedMod mod = null;
-            if (Settings.AllowVanillaIncompatibleMods)
+            try
             {
-                string noExtensionName = string.Empty;
-                try
+                ManagedMod mod = null;
+                if (Settings.AllowVanillaIncompatibleMods)
                 {
+                    string noExtensionName = string.Empty;
+
                     string name = Path.GetFileName(path);
                     noExtensionName = Path.GetFileNameWithoutExtension(path).Replace(".", "-");
 
@@ -184,20 +196,26 @@ namespace SporeMods.Core
                     await mod.EnableMod();
 
                     _installableMods.Add(noExtensionName);
-                }
-                catch (Exception ex)
-                {
-                    MessageDisplay.RaiseError(new ErrorEventArgs(ex/*.Message + "\n" + ex.StackTrace*/), noExtensionName);
-                    if ((mod != null) && ModsManager.InstalledMods.Contains(mod))
+                    /*}
+                    catch (Exception ex)
                     {
-                        ModsManager.InstalledMods.Remove(mod);
-                    }   
-                    ModsManager.InstalledMods.Add(new InstallError(path, ex));
+                        MessageDisplay.RaiseError(new ErrorEventArgs(ex/*.Message + "\n" + ex.StackTrace*), noExtensionName);
+                        if ((mod != null) && ModsManager.InstalledMods.Contains(mod))
+                        {
+                            ModsManager.InstalledMods.Remove(mod);
+                        }   
+                        ModsManager.InstalledMods.Add(new InstallError(path, ex));
+                    }*/
                 }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return ex;
             }
         }
 
-        public static async Task RegisterSporemodModAsync(string path)
+        public static async Task<Exception> RegisterSporemodModAsync(string path)
         {
             bool isUnique = true;
             string name = string.Empty;
@@ -205,186 +223,207 @@ namespace SporeMods.Core
             ManagedMod mod = null;
             try
             {
-            name = Path.GetFileNameWithoutExtension(path).Replace(".", "-");
-            using (ZipFile zip = new ZipFile(path))
-            {
-                string unique = name;
-
-                string dir = Path.Combine(Settings.ModConfigsPath, name);
-
-                if (!Directory.Exists(dir))
-                    Directory.CreateDirectory(dir);
-
-                XDocument document = null;
-
-                Task validateModTask = new Task(() =>
+                name = Path.GetFileNameWithoutExtension(path).Replace(".", "-");
+                using (ZipFile zip = new ZipFile(path))
                 {
-                    if (zip.ContainsEntry("ModInfo.xml"))
+                    string unique = name;
+
+                    string dir = Path.Combine(Settings.ModConfigsPath, name);
+
+                    if (!Directory.Exists(dir))
+                        Directory.CreateDirectory(dir);
+
+                    XDocument document = null;
+
+                    Task validateModTask = new Task(() =>
                     {
-                        ZipEntry entry = zip["ModInfo.xml"];
-                        entry.Extract(Settings.TempFolderPath, ExtractExistingFileAction.OverwriteSilently);
-                        Permissions.GrantAccessFile(Path.Combine(Settings.TempFolderPath, entry.FileName));
-                        XDocument compareDocument = XDocument.Load(Path.Combine(Settings.TempFolderPath, "ModInfo.xml"));
-
-                        var uniqueAttr = compareDocument.Root.Attribute("unique");
-                        if (uniqueAttr != null)
-                            unique = uniqueAttr.Value;
-
-                        var vanillaCompatAttr = compareDocument.Root.Attribute("verifiedVanillaCompatible");
-                        if (vanillaCompatAttr != null)
+                        if (zip.ContainsEntry("ModInfo.xml"))
                         {
-                            if (vanillaCompatAttr.Value.Equals("true", StringComparison.OrdinalIgnoreCase))
-                                proceed = true;
+                            ZipEntry entry = zip["ModInfo.xml"];
+                            entry.Extract(Settings.TempFolderPath, ExtractExistingFileAction.OverwriteSilently);
+                            Permissions.GrantAccessFile(Path.Combine(Settings.TempFolderPath, entry.FileName));
+                            XDocument compareDocument = XDocument.Load(Path.Combine(Settings.TempFolderPath, "ModInfo.xml"));
+
+                            var xmlModIdentityVersionAttr = compareDocument.Root.Attribute("installerSystemVersion");
+                            if (xmlModIdentityVersionAttr != null)
+                            {
+                                if (Version.TryParse(xmlModIdentityVersionAttr.Value, out Version identityVersion))
+                                {
+                                    if (
+                                            (identityVersion != ModIdentity.XmlModIdentityVersion1_0_0_0) &&
+                                            (identityVersion != ModIdentity.XmlModIdentityVersion1_0_1_0) &&
+                                            (identityVersion != ModIdentity.XmlModIdentityVersion1_0_1_1)
+                                        )
+                                    {
+                                        throw new UnsupportedXmlModIdentityVersionException(identityVersion);
+                                    }
+                                }
+                                else
+                                    throw new UnsupportedXmlModIdentityVersionException(ModIdentity.UNKNOWN_MOD_VERSION);
+                            }
+                            else
+                                throw new Exception("PLACEHOLDER: XML Mod Identity version not specified!");
+
+                            var uniqueAttr = compareDocument.Root.Attribute("unique");
+                            if (uniqueAttr != null)
+                                unique = uniqueAttr.Value;
+
+                            var vanillaCompatAttr = compareDocument.Root.Attribute("verifiedVanillaCompatible");
+                            if (vanillaCompatAttr != null)
+                            {
+                                if (vanillaCompatAttr.Value.Equals("true", StringComparison.OrdinalIgnoreCase))
+                                    proceed = true;
+                            }
                         }
-                    }
-                    else if (Settings.AllowVanillaIncompatibleMods)
-                        CreateModInfoXml(name, Settings.TempFolderPath, out document);
+                        else if (Settings.AllowVanillaIncompatibleMods)
+                            CreateModInfoXml(name, Settings.TempFolderPath, out document);
+
+                        if (proceed || Settings.AllowVanillaIncompatibleMods)
+                        {
+                            string[] modConfigDirs = Directory.EnumerateDirectories(Settings.ModConfigsPath).ToArray();
+                            foreach (string s in modConfigDirs)
+                            {
+                                string xmlPath = Path.Combine(s, "ModInfo.xml");
+                                if (File.Exists(xmlPath))
+                                {
+                                    XDocument modDocument = XDocument.Load(xmlPath);
+                                    string modUnique = Path.GetFileName(s);
+                                    var modAttr = modDocument.Root.Attribute("unique");
+                                    if (modAttr != null)
+                                        modUnique = modAttr.Value;
+                                    if (unique.ToLowerInvariant() == modUnique.ToLowerInvariant())
+                                    {
+                                        MessageDisplay.DebugShowMessageBox("Unique identifier matched: " + unique + ", " + modUnique);
+                                        isUnique = false;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }/*, TaskCreationOptions.LongRunning*/);
+                    validateModTask.Start();
+                    await validateModTask;
 
                     if (proceed || Settings.AllowVanillaIncompatibleMods)
                     {
-                        string[] modConfigDirs = Directory.EnumerateDirectories(Settings.ModConfigsPath).ToArray();
-                        foreach (string s in modConfigDirs)
+                        //ModInstallation.DebugMessageBoxShow("Evaluating uniqueness");
+                        if (isUnique)
                         {
-                            string xmlPath = Path.Combine(s, "ModInfo.xml");
-                            if (File.Exists(xmlPath))
+                            bool hasXmlInZip = false;
+                            //ModInstallation.DebugMessageBoxShow("Mod is unique");
+                            Task extractXMLTask = new Task(() =>
                             {
-                                XDocument modDocument = XDocument.Load(xmlPath);
-                                string modUnique = Path.GetFileName(s);
-                                var modAttr = modDocument.Root.Attribute("unique");
-                                if (modAttr != null)
-                                    modUnique = modAttr.Value;
-                                if (unique.ToLowerInvariant() == modUnique.ToLowerInvariant())
+                                if (zip.ContainsEntry("ModInfo.xml"))
                                 {
-                                    MessageDisplay.DebugShowMessageBox("Unique identifier matched: " + unique + ", " + modUnique);
-                                    isUnique = false;
-                                    break;
+                                    hasXmlInZip = true;
+                                    ZipEntry entry = zip["ModInfo.xml"];
+                                    entry.Extract(dir, ExtractExistingFileAction.OverwriteSilently);
+                                    Permissions.GrantAccessFile(Path.Combine(dir, entry.FileName));
                                 }
-                            }
-                        }
-                    }
-                }/*, TaskCreationOptions.LongRunning*/);
-                validateModTask.Start();
-                await validateModTask;
-
-                if (proceed || Settings.AllowVanillaIncompatibleMods)
-                {
-                    //ModInstallation.DebugMessageBoxShow("Evaluating uniqueness");
-                    if (isUnique)
-                    {
-                        bool hasXmlInZip = false;
-                        //ModInstallation.DebugMessageBoxShow("Mod is unique");
-                        Task extractXMLTask = new Task(() =>
-                        {
-                            if (zip.ContainsEntry("ModInfo.xml"))
-                            {
-                                hasXmlInZip = true;
-                                ZipEntry entry = zip["ModInfo.xml"];
-                                entry.Extract(dir, ExtractExistingFileAction.OverwriteSilently);
-                                Permissions.GrantAccessFile(Path.Combine(dir, entry.FileName));
-                            }
-                            else
-                            {
-                                string legacyPath = Path.Combine(dir, "UseLegacyDLLs");
-                                string modInfoPath = Path.Combine(dir, "ModInfo.xml");
-                                File.WriteAllText(legacyPath, string.Empty);
-                                document.Save(modInfoPath);
-                                Permissions.GrantAccessFile(legacyPath);
-                                Permissions.GrantAccessFile(modInfoPath);
-                            }
-                        });
-                        extractXMLTask.Start();
-                        await extractXMLTask;
-
-                        //ModInstallation.DebugMessageBoxShow("Generating InstalledMod");
-                        mod = new ManagedMod(name, true)
-                        {
-                            Progress = 0,
-                            IsProgressing = true
-                        };// ManagedMods.Instance.GetModConfiguration(name);
-                          //ManagedMods.Instance.AddMod(mod);
-
-                        //ModInstallation.DebugMessageBoxShow("Adding InstalledMod");
-                        ModsManager.InstalledMods.Add(mod);
-                        //ModInstallation.DebugMessageBoxShow("InstalledMod should be added");
-
-                        Task evaluateArchiveAndCountFilesTask = new Task(() =>
-                        {
-                            for (int i = 0; i < zip.Entries.Count; i++)
-                            {
-                                ZipEntry e = zip.Entries.ElementAt(i);
-
-                                string newFileName = e.FileName.Replace(@"/", @"\");
-                                if ((!e.IsDirectory) && newFileName.Contains(@"\"))
+                                else
                                 {
-                                    newFileName = newFileName.Substring(newFileName.LastIndexOf(@"\"));
-                                    newFileName = newFileName.Replace(@"\", @"/");
-                                    e.FileName = newFileName;
+                                    string legacyPath = Path.Combine(dir, "UseLegacyDLLs");
+                                    string modInfoPath = Path.Combine(dir, "ModInfo.xml");
+                                    File.WriteAllText(legacyPath, string.Empty);
+                                    document.Save(modInfoPath);
+                                    Permissions.GrantAccessFile(legacyPath);
+                                    Permissions.GrantAccessFile(modInfoPath);
                                 }
-                            }
-                        });
-                        evaluateArchiveAndCountFilesTask.Start();
-                        await evaluateArchiveAndCountFilesTask;
+                            });
+                            extractXMLTask.Start();
+                            await extractXMLTask;
 
-                        for (int i = 0; i < Directory.EnumerateDirectories(dir).Count(); i++)
-                        {
-                            string s = Directory.EnumerateDirectories(dir).ElementAt(i);
-                            if ((Directory.EnumerateFiles(s).Count() == 0) && (Directory.EnumerateDirectories(s).Count() == 0) && s.ToLowerInvariant().Replace(dir.ToLowerInvariant(), string.Empty).TrimStart('\\').StartsWith(name.ToLowerInvariant()))
-                                Directory.Delete(s);
-                        }
-
-                        //ModInstallation.DebugMessageBoxShow("Beginning file extraction");
-                        // We don't increase all the progress, because EnableMod() will be called
-                        double totalProgress = 50.0;
-
-                        Task extractFilesTask = new Task(() =>
-                        {
-                            int fileCount = zip.Entries.Count;
-                            if (hasXmlInZip) fileCount--;
-                            foreach (ZipEntry e in zip.Entries)
+                            //ModInstallation.DebugMessageBoxShow("Generating InstalledMod");
+                            mod = new ManagedMod(name, true)
                             {
-                                bool isModInfo = e.FileName.ToLowerInvariant().EndsWith("modinfo.xml");
-                                if (!isModInfo || (isModInfo && document == null))
+                                Progress = 0,
+                                IsProgressing = true
+                            };// ManagedMods.Instance.GetModConfiguration(name);
+                              //ManagedMods.Instance.AddMod(mod);
+
+                            //ModInstallation.DebugMessageBoxShow("Adding InstalledMod");
+                            ModsManager.InstalledMods.Add(mod);
+                            //ModInstallation.DebugMessageBoxShow("InstalledMod should be added");
+
+                            Task evaluateArchiveAndCountFilesTask = new Task(() =>
+                            {
+                                for (int i = 0; i < zip.Entries.Count; i++)
                                 {
-                                    e.Extract(dir, ExtractExistingFileAction.OverwriteSilently);
-                                    Permissions.GrantAccessFile(Path.Combine(dir, e.FileName));
+                                    ZipEntry e = zip.Entries.ElementAt(i);
+
+                                    string newFileName = e.FileName.Replace(@"/", @"\");
+                                    if ((!e.IsDirectory) && newFileName.Contains(@"\"))
+                                    {
+                                        newFileName = newFileName.Substring(newFileName.LastIndexOf(@"\"));
+                                        newFileName = newFileName.Replace(@"\", @"/");
+                                        e.FileName = newFileName;
+                                    }
+                                }
+                            });
+                            evaluateArchiveAndCountFilesTask.Start();
+                            await evaluateArchiveAndCountFilesTask;
+
+                            for (int i = 0; i < Directory.EnumerateDirectories(dir).Count(); i++)
+                            {
+                                string s = Directory.EnumerateDirectories(dir).ElementAt(i);
+                                if ((Directory.EnumerateFiles(s).Count() == 0) && (Directory.EnumerateDirectories(s).Count() == 0) && s.ToLowerInvariant().Replace(dir.ToLowerInvariant(), string.Empty).TrimStart('\\').StartsWith(name.ToLowerInvariant()))
+                                    Directory.Delete(s);
+                            }
+
+                            //ModInstallation.DebugMessageBoxShow("Beginning file extraction");
+                            // We don't increase all the progress, because EnableMod() will be called
+                            double totalProgress = 50.0;
+
+                            Task extractFilesTask = new Task(() =>
+                            {
+                                int fileCount = zip.Entries.Count;
+                                if (hasXmlInZip) fileCount--;
+                                foreach (ZipEntry e in zip.Entries)
+                                {
+                                    bool isModInfo = e.FileName.ToLowerInvariant().EndsWith("modinfo.xml");
+                                    if (!isModInfo || (isModInfo && document == null))
+                                    {
+                                        e.Extract(dir, ExtractExistingFileAction.OverwriteSilently);
+                                        Permissions.GrantAccessFile(Path.Combine(dir, e.FileName));
                                     //remove corresponding manually-installed file
                                     if (!isModInfo)
-                                        mod.Progress += totalProgress / fileCount;
+                                            mod.Progress += totalProgress / fileCount;
+                                    }
                                 }
-                            }
-                        });
-                        extractFilesTask.Start();
-                        await extractFilesTask;
+                            });
+                            extractFilesTask.Start();
+                            await extractFilesTask;
 
-                        if (mod.HasConfigurator)
-                            await RegisterSporemodModWithInstallerAsync(name);
+                            if (mod.HasConfigurator)
+                                await RegisterSporemodModWithInstallerAsync(name);
+                            else
+                                await mod.EnableMod();
+                        }
                         else
-                            await mod.EnableMod();
+                        {
+                            Directory.Delete(dir, true);
+                        }
                     }
                     else
                     {
                         Directory.Delete(dir, true);
                     }
                 }
-                else
-                {
-                    Directory.Delete(dir, true);
-                }
-            }
 
-            if (isUnique && (proceed || Settings.AllowVanillaIncompatibleMods))
-                _installableMods.Add(name);
+                if (isUnique && (proceed || Settings.AllowVanillaIncompatibleMods))
+                    _installableMods.Add(name);
 
-            //return null;
+                return null;
             }
             catch (Exception ex)
             {
-                MessageDisplay.RaiseError(new ErrorEventArgs(ex), path);
+                /*MessageDisplay.RaiseError(new ErrorEventArgs(ex), path);
                 if (mod != null && ModsManager.InstalledMods.Contains(mod))
                 {
                     ModsManager.InstalledMods.Remove(mod);
                 }
-                ModsManager.InstalledMods.Add(new InstallError(path, ex));
+                ModsManager.InstalledMods.Add(new InstallError(path, ex));*/
+                return ex;
             }
         }
 
@@ -573,4 +612,41 @@ namespace SporeMods.Core
             Content = content;
         }
     }*/
+
+    public class ModInstallationStatus
+    {
+        public List<string> Successes = new List<string>();
+        
+        public bool AnySucceeded
+        {
+            get => Successes.Count > 0;
+        }
+        
+        public Dictionary<string, Exception> Failures = new Dictionary<string, Exception>();
+
+        public bool AnyFailed
+        {
+            get => Failures.Keys.Count > 0;
+        }
+
+        /*public ModInstallationStatus(List<IInstalledMod> successes, Dictionary<IInstalledMod, object> failures)
+        {
+            Successes = successes;
+            Failures = failures;
+        }*/
+    }
+
+    public class UnsupportedXmlModIdentityVersionException : Exception
+    {
+        Version _badVersion = null;
+        public Version BadVersion
+        {
+            get => _badVersion;
+        }
+
+        public UnsupportedXmlModIdentityVersionException(Version badVersion)
+        {
+            _badVersion = badVersion;
+        }
+    }
 }

@@ -39,7 +39,7 @@ namespace SporeMods.CommonUI
 
         public static void ShowMessageBox(string messageBoxText, string caption)
         {
-            if (VersionValidation.IsConfigValidationCompleted && Settings.UseCustomWindowDecorations)
+            if (false && VersionValidation.IsConfigValidationCompleted && Settings.UseCustomWindowDecorations)
                 CMessageBox.Show(messageBoxText, caption);
             else
                 MessageBox.Show(messageBoxText, caption);

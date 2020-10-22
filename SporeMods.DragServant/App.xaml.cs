@@ -30,16 +30,25 @@ namespace SporeMods.DragServant
             MainWindow = win;
             _launcherWatcher.Created += (sneder, args) =>
             {
-                if (Path.GetFileName(args.FullPath) == "LaunchGame")
-                    StartLauncher();
-                else if (Path.GetFileName(args.FullPath) == "OpenUrl")
+                string fileName = Path.GetFileName(args.FullPath);
+                bool processed = true;
+                switch (fileName)
                 {
-                    string path = File.ReadAllText(args.FullPath);
-                    if (path.StartsWith("http"))
-                        Process.Start(path);
+                    case "LaunchGame":
+                        StartLauncher();
+                        break;
+                    case "OpenUrl":
+                        string path = File.ReadAllText(args.FullPath);
+                        if (path.StartsWith("http"))
+                            Process.Start(path);
+                        break;
+                    default:
+                        processed = false;
+                        break;
                 }
 
-                File.Delete(args.FullPath);
+                if (processed)
+                    File.Delete(args.FullPath);
             };
         }
     }

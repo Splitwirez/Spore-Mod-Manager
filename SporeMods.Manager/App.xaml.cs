@@ -160,7 +160,7 @@ namespace SporeMods.Manager
 
         private void App_Exit(object sender, ExitEventArgs e)
         {
-            if (DragServantProcess != null)
+            if ((DragServantProcess != null) && (!DragServantProcess.HasExited))
                 DragServantProcess.Kill();
         }
     }

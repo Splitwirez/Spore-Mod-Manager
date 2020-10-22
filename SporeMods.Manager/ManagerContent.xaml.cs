@@ -137,7 +137,7 @@ namespace SporeMods.Manager
                     {
                         /*if (Path.GetFileName(args.FullPath) == "draggedFiles")
                         {*/
-                        ModInstallation.InstallModsAsync(File.ReadAllLines(args.FullPath));
+                        InstallModsFromFilesAsync(File.ReadAllLines(args.FullPath));
                         File.Delete(args.FullPath);
                         DropModsDialogContentControl.IsOpen = false;
                         //}
@@ -433,7 +433,7 @@ namespace SporeMods.Manager
                     }
 
                     if (modArgs.Count > 0)
-                        ModInstallation.InstallModsAsync(modArgs.ToArray());
+                        InstallModsFromFilesAsync(modArgs.ToArray());
                 }
             }
             catch (Exception ex)
@@ -631,7 +631,7 @@ namespace SporeMods.Manager
                 if (File.Exists(path))
                 {
                     string[] paths = new string[] { path };
-                    ModInstallation.InstallModsAsync(paths);
+                    InstallModsFromFilesAsync(paths);
                 }
             }
             catch (Exception ex)
@@ -1056,8 +1056,41 @@ namespace SporeMods.Manager
                 if (dialog.FileNames.Length > 0)
                 {
                     DropModsDialogContentControl.IsOpen = false;
-                    await ModInstallation.InstallModsAsync(dialog.FileNames);
+                    InstallModsFromFilesAsync(dialog.FileNames);
                 }
+            }
+        }
+
+        async Task InstallModsFromFilesAsync(string[] modPaths)
+        {
+            ModInstallationStatus status = await ModInstallation.InstallModsAsync(modPaths);
+            if (status.AnySucceeded)
+            {
+                string output = string.Empty;
+                foreach (string s in status.Successes)
+                    output += s + "\n\n";
+                
+                SporeMods.CommonUI.MessageDisplay.ShowMessageBox(output, "PLACEHOLDER: Mods installed successfully");
+            }
+            if (status.AnyFailed)
+            {
+                string output = string.Empty;
+                foreach (string s in status.Failures.Keys)
+                {
+                    output += s + ": ";
+                    if (status.Failures[s] is UnsupportedXmlModIdentityVersionException exc)
+                    {
+                        if (exc.BadVersion == ModIdentity.UNKNOWN_MOD_VERSION)
+                            output += "PLACEHOLDER: Could not parse XML Mod Identity version\n\n\n\n";
+                        else
+                            output += "PLACEHOLDER: Unsupported XML Mod Identity version: " + exc.BadVersion.ToString() + "\n\n\n\n";
+                    }
+                    else
+                    {
+                        output += status.Failures[s].ToString() + "\n\n\n\n";
+                    }
+                }
+                SporeMods.CommonUI.MessageDisplay.ShowMessageBox(output, "PLACEHOLDER: Mods which failed to install");
             }
         }
 
@@ -1075,7 +1108,7 @@ namespace SporeMods.Manager
                 if (files.Length > 0)
                 {
                     DropModsDialogContentControl.IsOpen = false;
-                    await ModInstallation.InstallModsAsync(files);
+                    await InstallModsFromFilesAsync(files);
 
                     //bool proceed = false;
                     /*new Thread(() =>
