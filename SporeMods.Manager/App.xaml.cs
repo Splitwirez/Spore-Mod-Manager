@@ -74,6 +74,8 @@ namespace SporeMods.Manager
                     if (!Environment.GetCommandLineArgs().Contains(CommonUI.Updater.IgnoreUpdatesArg)) args += " " + CommonUI.Updater.IgnoreUpdatesArg;
                     try
                     {
+                        while (p.MainWindowHandle == IntPtr.Zero) { }
+
                         Permissions.RerunAsAdministrator(args);
                     }
                     catch (Exception ex)
@@ -102,7 +104,7 @@ namespace SporeMods.Manager
                     if (Permissions.IsAtleastWindowsVista() && (DragServantProcess == null))
                     {
                         proceed = false;
-                        if (MessageBox.Show(Settings.GetLanguageString(1, "DontRunMgrAsAdmin2"), String.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                        if (MessageBox.Show(Settings.GetLanguageString(1, "DontRunAsAdmin").Replace("%APPNAME%", "Spore Mod Manager"), String.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                             proceed = true;
                     }
                     else if ((!Permissions.IsAtleastWindowsVista()) && (DragServantProcess == null))

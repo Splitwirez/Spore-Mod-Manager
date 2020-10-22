@@ -13,7 +13,10 @@ namespace SporeMods.Core
 {
     public static class Settings
     {
-        public static bool DebugMode => File.Exists(Path.Combine(Settings.ProgramDataPath, "debug.txt"));
+        public static bool DebugMode
+        {
+            get => File.Exists(Path.Combine(Settings.ProgramDataPath, "debug.txt"));
+        }
 
         /// <summary>
         /// Path to the mod collection folder in ProgramData.

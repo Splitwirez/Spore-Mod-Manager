@@ -298,11 +298,12 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="5"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="5"/>
-                                        <ColumnDefinition Width="*"/>
+                                        <!--ColumnDefinition Width="5"/>
+                                        <ColumnDefinition Width="*"/-->
                                     </Grid.ColumnDefinitions>
                                     <Button x:Name="HelpThreadButton" Click="HelpThreadButton_Click" Grid.Column="0"/>
-                                    <Button x:Name="ShowConfigurationFileButton" Click="ShowConfigurationFileButton_Click" Grid.Column="2" Grid.ColumnSpan="3"/>
+                                    <Button x:Name="ShowConfigurationFileButton" Click="ShowConfigurationFileButton_Click" Grid.Column="2" Grid.ColumnSpan="3" Visibility="Collapsed"/>
+                                    <Button x:Name="SendFeedbackButton" Click="SendFeedbackButton_Click" Grid.Column="2"/>
                                 </Grid>
                             </GroupBox>
                             <GroupBox x:Name="CreditsGroupBox">

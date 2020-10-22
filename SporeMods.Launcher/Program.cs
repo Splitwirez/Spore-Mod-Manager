@@ -69,7 +69,7 @@ namespace SporeMods.Launcher
                 if (Permissions.IsAtleastWindowsVista() && Permissions.IsAdministrator())
                 {
                     proceed = false;
-                    if (MessageBox.Show(Settings.GetLanguageString(1, "DontRunLauncherAsAdmin2"), String.Empty, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    if (MessageBox.Show(Settings.GetLanguageString(1, "DontRunAsAdmin").Replace("%APPNAME%", "Spore Mod Launcher"), String.Empty, MessageBoxButtons.YesNo) == DialogResult.Yes)
                         proceed = true;
                 }
 

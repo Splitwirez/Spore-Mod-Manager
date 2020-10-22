@@ -31,11 +31,15 @@ namespace SporeMods.DragServant
             _launcherWatcher.Created += (sneder, args) =>
             {
                 if (Path.GetFileName(args.FullPath) == "LaunchGame")
-                {
                     StartLauncher();
-                    //Process.Start(Path.Combine(Settings.ManagerInstallLocationPath, "Spore ModAPI Launcher.exe"));
-                    File.Delete(args.FullPath);
+                else if (Path.GetFileName(args.FullPath) == "OpenUrl")
+                {
+                    string path = File.ReadAllText(args.FullPath);
+                    if (path.StartsWith("http"))
+                        Process.Start(path);
                 }
+
+                File.Delete(args.FullPath);
             };
         }
     }

@@ -911,7 +911,7 @@ namespace SporeMods.Manager
         private void LaunchGameButton_Click(object sender, RoutedEventArgs e)
         {
             //MessageBox.Show("Launching Spore from within the Spore Mod Manager is temporarily disabled. For the time being, please use the external Spore ModAPI Launcher (SporeMods.Launcher.exe) instead.");
-            if (Permissions.IsAtleastWindowsVista() && Permissions.IsAdministrator() && (App.DragServantProcess != null))
+            if (Permissions.IsAtleastWindowsVista() && Permissions.IsAdministrator() && ((App.DragServantProcess != null) && (!App.DragServantProcess.HasExited)))
                 ServantCommands.RunLauncher();
             else// if (!Permissions.IsAdministrator())
                 StartLauncher();
@@ -1336,7 +1336,7 @@ namespace SporeMods.Manager
             {
                 try
                 {
-                    Process.Start((CreditsListView.SelectedItem as CreditsItem).Link);
+                    OpenUrl((CreditsListView.SelectedItem as CreditsItem).Link);
                 }
                 catch (Exception ex)
                 {
@@ -1349,7 +1349,7 @@ namespace SporeMods.Manager
 
         private void HelpThreadButton_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start(@"http://davoonline.com/phpBB3/viewtopic.php?f=108&t=6300");
+            OpenUrl(@"http://davoonline.com/phpBB3/viewtopic.php?f=108&t=6300");
         }
 
         public void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -1682,6 +1682,17 @@ namespace SporeMods.Manager
         {
             if (MessageBox.Show(Settings.GetLanguageString("ForceKillConfirmDesc"), Settings.GetLanguageString("ForceKillConfirmTitle"), MessageBoxButton.YesNo) == MessageBoxResult.Yes)//(bool)(MessageBox<ForcecloseCancelButtons>.Show(Settings.GetLanguageString("ForceKillConfirmDesc"), Settings.GetLanguageString("ForceKillConfirmTitle"))))
                 SporeLauncher.KillSporeProcesses();
+        }
+
+        private void SendFeedbackButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenUrl(@"https://github.com/Splitwirez/Spore-Mod-Manager/issues/new");
+        }
+
+        void OpenUrl(string url)
+        {
+            if ((App.DragServantProcess != null) && (!App.DragServantProcess.HasExited))
+                File.WriteAllText(Path.Combine(Settings.TempFolderPath, "OpenUrl"), url);
         }
     }
 
