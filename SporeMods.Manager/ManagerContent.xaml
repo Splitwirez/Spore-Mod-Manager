@@ -263,12 +263,13 @@
                                     </Grid.ColumnDefinitions-->
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="5"/>
+                                        <!--RowDefinition Height="*"/>
+                                        <RowDefinition Height="5"/-->
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
-                                    <ui:ToggleSwitch x:Name="BlockVanillaIncompatibleModsToggleSwitch" IsChecked="False" Grid.Row="0"/>
-                                    <ui:ToggleSwitch x:Name="DeveloperModeToggleSwitch" Grid.Row="2"/>
+                                    <ui:ToggleSwitch x:Name="BlockVanillaIncompatibleModsToggleSwitch" IsChecked="False" Grid.Row="0" Visibility="Collapsed"/>
+                                    <ui:ToggleSwitch x:Name="DeveloperModeToggleSwitch"/>
+                                    <!--Grid.Row="2"/-->
                                 </Grid>
                                 <!--/Grid-->
                             </GroupBox>

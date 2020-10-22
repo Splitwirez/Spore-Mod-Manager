@@ -5,8 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SporeMods.KitImporter"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Import from Spore ModAPI Launcher Kit" Height="450" Width="800" Loaded="MainWindow_Loaded">
+    <Grid Margin="100,50">
+        <DockPanel x:Name="VerifyAutoLauncherKitPathPage" Visibility="Collapsed">
+            <UniformGrid DockPanel.Dock="Bottom">
+                <Button x:Name="ProceedWithAutoPathButton" Click="ProceedWithAutoPathButton_Click">Yes, this path is correct.</Button>
+                <Button x:Name="DiscardAutoPathButton" Click="DiscardAutoPathButton_Click">No, I'll specify the path myself.</Button>
+            </UniformGrid>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">The Spore ModAPI Launcher Kit was located here:</TextBlock>
+                <TextBlock x:Name="AutoLauncherKitPathTextBlock"/>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Is this path correct?</TextBlock>
+            </StackPanel>
+        </DockPanel>
+        <DockPanel x:Name="SpecifyLauncherKitPathPage" Visibility="Collapsed">
+            <Button x:Name="ProceedWithSpecifiedPathButton" Click="ProceedWithSpecifiedPathButton_Click" IsEnabled="False" DockPanel.Dock="Bottom">OK</Button>
+            <DockPanel DockPanel.Dock="Bottom">
+                <Button Margin="-1,0,0,0" x:Name="LauncherKitPathBrowseButton" Click="LauncherKitPathBrowseButton_Click">Browse...</Button>
+                <TextBox x:Name="LauncherKitPathTextBox"/>
+            </DockPanel>
+            <TextBlock x:Name="SpecifyLauncherKitPathInstructionTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center">The Spore ModAPI Launcher Kit could not be automatically located. Please specify its location below.</TextBlock>
+        </DockPanel>
+        <TextBlock x:Name="ImportInProgressPage" Text="Import in progress..." FontSize="18" Visibility="Collapsed"/>
+        <TextBlock x:Name="ImportCompletePage" Text="Import complete!" FontSize="18" Visibility="Collapsed"/>
     </Grid>
 </Window>

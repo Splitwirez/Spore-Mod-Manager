@@ -4,7 +4,7 @@ LanguageName English (Canada)
 
 # Global generic strings
 Globals_OK OK
-Globals_DontRunAsAdmin For security and practicality reasons, please don't run the %APPNAME% as Administrator. Doing so is unnecessary, unhelpful, potentially dangerous, and will only break things further.
+Globals_DontRunAsAdmin For security and practicality reasons, please don't run the %APPNAME% as Administrator. Doing so is unnecessary, unhelpful, potentially dangerous, and will only break things further. Are you ABSOLUTELY CERTAIN that you wish to proceed? (If unsure, click No)
 Globals_Browse Browse...
 
 
@@ -108,6 +108,7 @@ Error_CannotCheckForUpdatesTitle Cannot check for updates
 
 HelpHeader Need help?
 GoToForumThread Contact us to get help!
+SendFeedback Send feedback
 ShowConfig Copy configuration to clipboard
 
 CloseSporeFirst Please close Spore to continue
@@ -138,4 +139,4 @@ Error_FolderNotFoundNoGuesses The %FOLDERNAME% folder could not be automatically
 
 Error_ProbablyDiskGuess Probably installed from Disks
 Error_ProbablyOriginGuess Probably installed from Origin
-Error_ProbablyGOGGuess Probably installed from GOG (or Steam, if you're really unlucky)
+Error_ProbablyGOGGuess Probably installed from GOG or Amazon (or Steam, if you're really unlucky)

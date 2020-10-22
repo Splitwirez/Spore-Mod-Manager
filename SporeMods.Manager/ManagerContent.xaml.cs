@@ -61,6 +61,7 @@ namespace SporeMods.Manager
             new CreditsItem("Jaime Olivares", "Created the Zip archive classes used in the Spore Mod Manager.", @"https://github.com/jaime-olivares"),
             new CreditsItem("Newtonsoft", "Made the library to read JSON data.", @"https://www.newtonsoft.com/json"),
             new CreditsItem("cederenescio", "Provided substantial creative influence."),
+            new CreditsItem("ThePixelMouse", "Assisted substantially with figuring out how to make WINE cooperate."),
             new CreditsItem("Huskky", "Assisted substantially with figuring out how to make WINE cooperate."),
             new CreditsItem("Darhagonable", "Provided creative input, helped confirm the feasibility of supporting WINE setups on Linux.", @"http://youtube.com/Darhagonable"),
             new CreditsItem("HEY ROB55ROD, DON'T FORGET TO", "CREDIT THOSE WHO CONTRIBUTE BY TESTING THE SPORE MOD MANAGER!!")
@@ -893,6 +894,7 @@ namespace SporeMods.Manager
 
             HelpGroupBox.Header = Settings.GetLanguageString("HelpHeader");
             HelpThreadButton.Content = Settings.GetLanguageString("GoToForumThread");
+            SendFeedbackButton.Content = Settings.GetLanguageString("SendFeedback");
             ShowConfigurationFileButton.Content = Settings.GetLanguageString("ShowConfig");
 
             CloseSporeFirstTextBlock.Text = Settings.GetLanguageString("CloseSporeFirst");
