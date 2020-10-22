@@ -230,9 +230,6 @@ namespace SporeMods.Core
 
                     string dir = Path.Combine(Settings.ModConfigsPath, name);
 
-                    if (!Directory.Exists(dir))
-                        Directory.CreateDirectory(dir);
-
                     XDocument document = null;
 
                     Task validateModTask = new Task(() =>
@@ -262,11 +259,34 @@ namespace SporeMods.Core
                                     throw new UnsupportedXmlModIdentityVersionException(ModIdentity.UNKNOWN_MOD_VERSION);
                             }
                             else
-                                throw new Exception("PLACEHOLDER: XML Mod Identity version not specified!");
+                                throw new MissingXmlModIdentityAttributeException(null);
+
+                            var dllsBuildAttr = compareDocument.Root.Attribute("dllsBuild");
+                            if (dllsBuildAttr != null)
+                            {
+                                if (Version.TryParse(dllsBuildAttr.Value + ".0", out Version dllsBuild))
+                                {
+                                    if (dllsBuild > Settings.CurrentDllsBuild)
+                                        throw new UnsupportedDllsBuildException(dllsBuild);
+                                }
+                                else
+                                    throw new UnsupportedDllsBuildException(ModIdentity.UNKNOWN_MOD_VERSION);
+                            }
+                            else
+                                throw new MissingXmlModIdentityAttributeException("dllsBuild");
+
 
                             var uniqueAttr = compareDocument.Root.Attribute("unique");
                             if (uniqueAttr != null)
+                            {
                                 unique = uniqueAttr.Value;
+                                
+                                foreach (char c in Path.GetInvalidFileNameChars())
+                                    unique = unique.Replace(c.ToString(), string.Empty);
+                                
+                                dir = Path.Combine(Settings.ModConfigsPath, unique);
+                                name = unique;
+                            }
 
                             var vanillaCompatAttr = compareDocument.Root.Attribute("verifiedVanillaCompatible");
                             if (vanillaCompatAttr != null)
@@ -309,6 +329,10 @@ namespace SporeMods.Core
                         //ModInstallation.DebugMessageBoxShow("Evaluating uniqueness");
                         if (isUnique)
                         {
+                            if (!Directory.Exists(dir))
+                                Directory.CreateDirectory(dir);
+
+
                             bool hasXmlInZip = false;
                             //ModInstallation.DebugMessageBoxShow("Mod is unique");
                             Task extractXMLTask = new Task(() =>
@@ -401,12 +425,16 @@ namespace SporeMods.Core
                         }
                         else
                         {
-                            Directory.Delete(dir, true);
+                            if (Directory.Exists(dir))
+                                Directory.Delete(dir, true);
+
+                            throw new ModAlreadyInstalledException();
                         }
                     }
                     else
                     {
-                        Directory.Delete(dir, true);
+                        if (Directory.Exists(dir))
+                            Directory.Delete(dir, true);
                     }
                 }
 
@@ -649,4 +677,35 @@ namespace SporeMods.Core
             _badVersion = badVersion;
         }
     }
+
+    public class UnsupportedDllsBuildException : Exception
+    {
+        Version _badVersion = null;
+        public Version BadVersion
+        {
+            get => _badVersion;
+        }
+
+        public UnsupportedDllsBuildException(Version badVersion)
+        {
+            _badVersion = badVersion;
+        }
+    }
+
+    public class MissingXmlModIdentityAttributeException : Exception
+    {
+        string _attribute = null;
+        public string Attribute
+        {
+            get => _attribute;
+        }
+
+        public MissingXmlModIdentityAttributeException(string attribute)
+        {
+            _attribute = attribute;
+        }
+    }
+
+    public class ModAlreadyInstalledException : Exception
+    { }
 }

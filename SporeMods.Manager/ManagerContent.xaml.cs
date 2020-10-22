@@ -1085,6 +1085,21 @@ namespace SporeMods.Manager
                         else
                             output += "PLACEHOLDER: Unsupported XML Mod Identity version: " + exc.BadVersion.ToString() + "\n\n\n\n";
                     }
+                    else if (status.Failures[s] is UnsupportedDllsBuildException ex)
+                    {
+                        if (ex.BadVersion == ModIdentity.UNKNOWN_MOD_VERSION)
+                            output += "PLACEHOLDER: Could not parse DLLs Build\n\n\n\n";
+                        else
+                            output += "PLACEHOLDER: Unsupported DLLs Build: " + ex.BadVersion.Major + "." + ex.BadVersion.Minor + "." + ex.BadVersion.Build + "\n\n\n\n";
+                    }
+                    else if (status.Failures[s] is MissingXmlModIdentityAttributeException exce)
+                    {
+                        if (exce.Attribute == null)
+                            output += "PLACEHOLDER: XML Mod Identity version not specified";
+                        else
+                            output += "PLACEHOLDER: XML Mod Identity is missing the " + exce.Attribute + " attribute";
+
+                    }
                     else
                     {
                         output += status.Failures[s].ToString() + "\n\n\n\n";
