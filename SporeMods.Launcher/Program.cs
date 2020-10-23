@@ -78,6 +78,12 @@ namespace SporeMods.Launcher
                     if (Settings.ForceSoftwareRendering)
                         RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
 
+                    GameInfo.BadGameInstallPath += (sneder, args) =>
+                    {
+                        MessageBox.Show("Please run the Spore Mod Manager at least once before running the Spore Mod Launcher.");
+                        Process.GetCurrentProcess().Kill();
+                    };
+
                     SporeLauncher.CaptionHeight = SystemInformation.CaptionHeight;
 
                     if (SporeLauncher.IsInstalledDarkInjectionCompatible())
