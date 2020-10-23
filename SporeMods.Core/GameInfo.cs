@@ -134,7 +134,7 @@ namespace SporeMods.Core
             "support"
         };*/
 
-        static string EnsureGameInstallPathIsInstallRoot(string subPath, GameDlc dlc)
+        public static bool CorrectGameInstallPath(string subPath, GameDlc dlc, out string fixedPath)
         {
             string output = StripTrailingCharacters(subPath);
 
@@ -155,6 +155,14 @@ namespace SporeMods.Core
                     break;
                 }
             }
+
+            fixedPath = output;
+            return isSporePath;
+        }
+
+        static string EnsureGameInstallPathIsInstallRoot(string subPath, GameDlc dlc)
+        {
+            bool isSporePath = CorrectGameInstallPath(subPath, dlc, out string output);
 
             //MessageDisplay.DebugShowMessageBox("isSporePath: " + isSporePath + ", " + output);
 
@@ -332,7 +340,7 @@ namespace SporeMods.Core
         {
             get
             {
-                string output = AutoSporebinEP1;
+                /*string output = AutoSporebinEP1;
                 if (Settings.ForcedGalacticAdventuresSporebinEP1Path != null)
                 {
                     string root = EnsureGameInstallPathIsInstallRoot(Settings.ForcedGalacticAdventuresSporebinEP1Path, GameDlc.GalacticAdventures);
@@ -347,7 +355,11 @@ namespace SporeMods.Core
                     //MessageDisplay.DebugShowMessageBox("Automatic SporebinEP1: " + output);
                 }
 
-                return output;
+                return output;*/
+                if (!Settings.ForcedGalacticAdventuresSporebinEP1Path.IsNullOrEmptyOrWhiteSpace())
+                    return Settings.ForcedGalacticAdventuresSporebinEP1Path;
+                else
+                    return AutoSporebinEP1;
             }
         }
 
@@ -390,7 +402,11 @@ namespace SporeMods.Core
         {
             get
             {
-                string output = AutoGalacticAdventuresData;
+                if (!Settings.ForcedGalacticAdventuresDataPath.IsNullOrEmptyOrWhiteSpace())
+                    return Settings.ForcedGalacticAdventuresDataPath;
+                else
+                    return AutoGalacticAdventuresData;
+                /*string output = AutoGalacticAdventuresData;
                 if (Settings.ForcedGalacticAdventuresDataPath != null)
                 {
                     string root = EnsureGameInstallPathIsInstallRoot(Settings.ForcedGalacticAdventuresDataPath, GameDlc.GalacticAdventures);
@@ -404,15 +420,13 @@ namespace SporeMods.Core
                         output = Settings.ForcedGalacticAdventuresDataPath;
                     //MessageDisplay.DebugShowMessageBox("Forced GA Data: " + output);
                 }
-                /*else
-                    MessageDisplay.DebugShowMessageBox("Automatic GA Data: " + output);*/
 
-                return output;
+                return output;*/
             }
         }
 
 
-        static string _sbCr = "sporebin";
+        /*static string _sbCr = "sporebin";
         /// <summary>
         /// Provides the path to the automatically-detected SporeBin folder, if any.
         /// </summary>
@@ -438,7 +452,7 @@ namespace SporeMods.Core
                 if (!crPath.ToLowerInvariant().EndsWith(_sbCr))
                     crPath = Path.Combine(crPath, _sbCr);
                 MessageDisplay.DebugShowMessageBox("AutoSporebin: " + crPath);
-                return crPath;*/
+                return crPath;*
             } // _autoSporebinEp1;
         }
 
@@ -461,11 +475,11 @@ namespace SporeMods.Core
                     //MessageDisplay.DebugShowMessageBox("Forced SporeBin: " + output);
                 }
                 /*else
-                    MessageDisplay.DebugShowMessageBox("Automatic SporeBin: " + output);*/
+                    MessageDisplay.DebugShowMessageBox("Automatic SporeBin: " + output);*
 
                 return output;
             }
-        }
+        }*/
 
 
         static string _dCr = "data";
@@ -501,7 +515,7 @@ namespace SporeMods.Core
         {
             get
             {
-                string output = AutoCoreSporeData;
+                /*string output = AutoCoreSporeData;
                 //MessageDisplay.DebugShowMessageBox("Settings.ForcedCoreSporeDataPath != null: " + (Settings.ForcedCoreSporeDataPath != null));
                 if (Settings.ForcedCoreSporeDataPath != null)
                 {
@@ -513,9 +527,14 @@ namespace SporeMods.Core
                     //MessageDisplay.DebugShowMessageBox("Forced Core Spore Data: " + output);
                 }
                 /*else
-                    MessageDisplay.DebugShowMessageBox("Automatic Core Spore Data: " + output);*/
+                    MessageDisplay.DebugShowMessageBox("Automatic Core Spore Data: " + output);*
 
-                return output;
+                return output;*/
+
+                if (!Settings.ForcedCoreSporeDataPath.IsNullOrEmptyOrWhiteSpace())
+                    return Settings.ForcedCoreSporeDataPath;
+                else
+                    return AutoCoreSporeData;
             }
         }
 

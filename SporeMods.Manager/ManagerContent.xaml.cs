@@ -29,6 +29,8 @@ using static SporeMods.Core.Injection.SporeLauncher;
 using SporeMods.Core.Injection;
 using System.Runtime.Remoting.Messaging;
 using SporeMods.Manager.Configurators;
+using FolderBrowserDialog = System.Windows.Forms.FolderBrowserDialog;
+using DialogResult = System.Windows.Forms.DialogResult;
 
 namespace SporeMods.Manager
 {
@@ -292,8 +294,8 @@ namespace SporeMods.Manager
                 AutoCoreDataPathCheckBox.Checked += AutoCoreDataPathCheckBox_Checked;
                 AutoCoreDataPathCheckBox.Unchecked += AutoCoreDataPathCheckBox_Checked;
 
-                AutoSporebinPathCheckBox.Checked += AutoSporebinPathCheckBox_Checked;
-                AutoSporebinPathCheckBox.Unchecked += AutoSporebinPathCheckBox_Checked;
+                /*AutoSporebinPathCheckBox.Checked += AutoSporebinPathCheckBox_Checked;
+                AutoSporebinPathCheckBox.Unchecked += AutoSporebinPathCheckBox_Checked;*/
 
                 SetupPathControlStates();
 
@@ -472,17 +474,85 @@ namespace SporeMods.Manager
             if (GameInfo.AutoCoreSporeData.IsNullOrEmptyOrWhiteSpace())
                 AutoCoreDataPathCheckBox.IsEnabled = false;
 
-            AutoSporebinPathCheckBox.IsChecked = string.IsNullOrWhiteSpace(Settings.ForcedCoreSporeSporeBinPath);
+            /*AutoSporebinPathCheckBox.IsChecked = string.IsNullOrWhiteSpace(Settings.ForcedCoreSporeSporeBinPath);
             if (!AutoSporebinPathCheckBox.IsChecked.Value)
                 SporebinPathTextBox.Text = Settings.ForcedCoreSporeSporeBinPath;
             if (GameInfo.AutoSporebin.IsNullOrEmptyOrWhiteSpace())
-                AutoSporebinPathCheckBox.IsEnabled = false;
+                AutoSporebinPathCheckBox.IsEnabled = false;*/
         }
 
         private void PathBrowseButton_Click(object sender, RoutedEventArgs e)
         {
             //TODO: Implement this
-            MessageBox.Show("AAAAA");
+            //MessageBox.Show("AAAAA");
+            if (sender is Button btn)
+            {
+                FolderBrowserDialog dialog = new FolderBrowserDialog();
+                if (dialog.ShowDialog() != DialogResult.Cancel)
+                {
+                    string rawPath = dialog.SelectedPath;
+                    string fixedPath = string.Empty;
+                    bool isGamePath = false;
+                    if ((btn == GaDataPathBrowseButton) || (btn == SporebinEp1PathBrowseButton))
+                        isGamePath = GameInfo.CorrectGameInstallPath(dialog.SelectedPath, GameInfo.GameDlc.GalacticAdventures, out fixedPath);
+                    else
+                        isGamePath = GameInfo.CorrectGameInstallPath(dialog.SelectedPath, GameInfo.GameDlc.CoreSpore, out fixedPath);
+
+                    if (btn == GaDataPathBrowseButton)
+                    {
+                        fixedPath = Path.Combine(fixedPath, "DataEP1");
+                        if (!Directory.Exists(fixedPath))
+                            fixedPath = Path.Combine(fixedPath, "Data");
+                    }
+                    else if (btn == CoreDataPathBrowseButton)
+                        fixedPath = Path.Combine(fixedPath, "Data");
+                    else if (btn == SporebinEp1PathBrowseButton)
+                        fixedPath = Path.Combine(fixedPath, "SporebinEP1");
+
+                    if (btn == GaDataPathBrowseButton)
+                    {
+                        AutoGaDataPathCheckBox.IsChecked = false;
+                        GaDataPathTextBox.IsEnabled = true;
+                    }
+                    else if (btn == CoreDataPathBrowseButton)
+                    {
+                        AutoCoreDataPathCheckBox.IsChecked = false;
+                        CoreDataPathBrowseButton.IsEnabled = true;
+                    }
+                    else if (btn == SporebinEp1PathBrowseButton)
+                    {
+                        AutoSporebinEp1PathCheckBox.IsChecked = false;
+                        SporebinEp1PathTextBox.IsEnabled = true;
+                    }
+
+                    void SetToRawPath()
+                    {
+                        if (btn == GaDataPathBrowseButton)
+                            GaDataPathTextBox.Text = rawPath;
+                        else if (btn == CoreDataPathBrowseButton)
+                            CoreDataPathTextBox.Text = rawPath;
+                        else if (btn == SporebinEp1PathBrowseButton)
+                            SporebinEp1PathTextBox.Text = rawPath;
+                    }
+
+                    if (isGamePath && (!fixedPath.IsNullOrEmptyOrWhiteSpace()) && Directory.Exists(fixedPath) && (!fixedPath.ToLowerInvariant().Equals(rawPath.ToLowerInvariant())))
+                    {
+                        if (MessageBox.Show("You selected the path " + rawPath + "\n\nA corrected path was found at " + fixedPath + "\n\nUse the corrected path? (If unsure, click Yes)", string.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                        {
+                            if (btn == GaDataPathBrowseButton)
+                                GaDataPathTextBox.Text = fixedPath;
+                            else if (btn == CoreDataPathBrowseButton)
+                                CoreDataPathTextBox.Text = fixedPath;
+                            else if (btn == SporebinEp1PathBrowseButton)
+                                SporebinEp1PathTextBox.Text = fixedPath;
+                        }
+                        else
+                            SetToRawPath();
+                    }
+                    else
+                        SetToRawPath();
+                }
+            }
         }
 
         private void LaunchWithLanguageTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -828,7 +898,7 @@ namespace SporeMods.Manager
             GaDataPathBrowseButton.Content = Settings.GetLanguageString(1, "Browse");
             SporebinEp1PathBrowseButton.Content = Settings.GetLanguageString(1, "Browse");
             CoreDataPathBrowseButton.Content = Settings.GetLanguageString(1, "Browse");
-            SporebinPathBrowseButton.Content = Settings.GetLanguageString(1, "Browse");
+            //SporebinPathBrowseButton.Content = Settings.GetLanguageString(1, "Browse");
 
             Resources["ModSwitchOnText"] = Settings.GetLanguageString("ModSwitchOn");
             Resources["ModSwitchOffText"] = Settings.GetLanguageString("ModSwitchOff");
@@ -841,7 +911,7 @@ namespace SporeMods.Manager
             AutoGaDataPathCheckBox.Content = Settings.GetLanguageString("AutoGaDataPath");
             AutoSporebinEp1PathCheckBox.Content = Settings.GetLanguageString("AutoSporebinEp1Path");
             AutoCoreDataPathCheckBox.Content = Settings.GetLanguageString("AutoCoreDataPath");
-            AutoSporebinPathCheckBox.Content = Settings.GetLanguageString("AutoSporebinPath");
+            //AutoSporebinPathCheckBox.Content = Settings.GetLanguageString("AutoSporebinPath");
             Resources["AutoDetectPathText"] = Settings.GetLanguageString("AutoDetectPath");
 
             WindowGroupBox.Header = Settings.GetLanguageString("WindowHeader");
@@ -1212,7 +1282,7 @@ namespace SporeMods.Manager
             //GameInfo.VerifyGamePaths();
         }
 
-        private void AutoSporebinPathCheckBox_Checked(object sender, RoutedEventArgs e)
+        /*private void AutoSporebinPathCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             if (AutoSporebinPathCheckBox.IsChecked.Value)
             {
@@ -1227,7 +1297,7 @@ namespace SporeMods.Manager
             else
                 SporebinPathTextBox.IsEnabled = true;
             //GameInfo.VerifyGamePaths();
-        }
+        }*/
 
         private void GaDataPathTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -1253,13 +1323,13 @@ namespace SporeMods.Manager
                 Settings.ForcedCoreSporeDataPath = null;
         }
 
-        private void SporebinPathTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        /**private void SporebinPathTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (SporebinPathTextBox.IsEnabled)
                 Settings.ForcedCoreSporeSporeBinPath = SporebinPathTextBox.Text;
             else
                 Settings.ForcedCoreSporeSporeBinPath = null;
-        }
+        }*/
 
         /*private void CurrentSkinComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
