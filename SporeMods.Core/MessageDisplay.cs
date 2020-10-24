@@ -10,7 +10,7 @@ namespace SporeMods.Core
     public static class MessageDisplay
     {
         public static string ErrorSeparator = "?\n?\n?\n?\n";
-        public static string ErrorsSubdirectory = "Exceptions";
+        //public static string ErrorsSubdirectory = "Exceptions";
 
         public static event EventHandler<MessageBoxEventArgs> DebugMessageSent;
         public static event EventHandler<ErrorEventArgs> ErrorOccurred;
@@ -35,7 +35,7 @@ namespace SporeMods.Core
 
         internal static void RaiseError(ErrorEventArgs args, string modName)
         {
-            string errorsSubDirectory = Path.Combine(Settings.ProgramDataPath, ErrorsSubdirectory);
+            /*string errorsSubDirectory = Path.Combine(Settings.ProgramDataPath, ErrorsSubdirectory);
             if (!string.IsNullOrWhiteSpace(modName))
                 errorsSubDirectory = Path.Combine(Settings.ModConfigsPath, modName, ErrorsSubdirectory);
 
@@ -44,7 +44,7 @@ namespace SporeMods.Core
 
             string errorPath = Path.Combine(errorsSubDirectory, GetExceptionFileName());
             File.WriteAllText(errorPath, args.Title + ErrorSeparator + args.Content);
-            Permissions.GrantAccessFile(errorPath);
+            Permissions.GrantAccessFile(errorPath);*/
             ErrorOccurred?.Invoke(null, args);
         }
 

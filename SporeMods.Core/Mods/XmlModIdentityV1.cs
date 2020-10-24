@@ -132,7 +132,7 @@ namespace SporeMods.Core.Mods
                     identity.ModVersion = version;
                 }
                 else
-                    throw new FormatException("Mod identity 'modVersion': '" + modVersionAttr.Value + "' is not a valid version");
+                    throw new FormatException(Settings.GetLanguageString(3, "ModIdentityCantParseValue").Replace("%ATTRIBUTE%", "modVersion").Replace("%VALUE%", modVersionAttr.Value).Replace("%TYPE%", "version"));
             }
 
             var xmlVersionAttr = node.Attribute("installerSystemVersion");
@@ -143,7 +143,7 @@ namespace SporeMods.Core.Mods
                     identity.InstallerSystemVersion = version;
                 }
                 else
-                    throw new FormatException("Mod identity 'installerSystemVersion': '" + xmlVersionAttr.Value + "' is not a valid version");
+                    throw new FormatException(Settings.GetLanguageString(3, "ModIdentityCantParseValue").Replace("%ATTRIBUTE%", "installerSystemVersion").Replace("%VALUE%", xmlVersionAttr.Value).Replace("%TYPE%", "Version")); //throw new FormatException("Mod identity 'installerSystemVersion': '" + xmlVersionAttr.Value + "' is not a valid version");
             }
 
             var canDisableAttr = node.Attribute("canDisableMod");
@@ -154,7 +154,7 @@ namespace SporeMods.Core.Mods
                     identity.CanDisable = canDisable;
                 }
                 else
-                    throw new FormatException("Mod identity 'canDisableMod': '" + canDisableAttr.Value + "' is not a boolean");
+                    throw new FormatException(Settings.GetLanguageString(3, "ModIdentityCantParseValue").Replace("%ATTRIBUTE%", "canDisableMod").Replace("%VALUE%", canDisableAttr.Value).Replace("%TYPE%", "bool")); //throw new FormatException("Mod identity 'canDisableMod': '" + canDisableAttr.Value + "' is not a boolean");
             }
 
             var hasCustomInstallerAttr = node.Attribute("hasCustomInstaller");
@@ -165,7 +165,7 @@ namespace SporeMods.Core.Mods
                     identity.HasCustomInstaller = hasCustomInstaller;
                 }
                 else
-                    throw new FormatException("Mod identity 'hasCustomInstaller': '" + hasCustomInstallerAttr.Value + "' is not a boolean");
+                    throw new FormatException(Settings.GetLanguageString(3, "ModIdentityCantParseValue").Replace("%ATTRIBUTE%", "hasCustomInstaller").Replace("%VALUE%", hasCustomInstallerAttr.Value).Replace("%TYPE%", "bool")); //throw new FormatException("Mod identity 'hasCustomInstaller': '" + hasCustomInstallerAttr.Value + "' is not a boolean");
             }
             else if (identity.InstallerSystemVersion == ModIdentity.XmlModIdentityVersion1_0_0_0)
             {
@@ -178,7 +178,7 @@ namespace SporeMods.Core.Mods
                         identity.HasCustomInstaller = !compatOnly;
                     }
                     else
-                        throw new FormatException("Mod identity 'compatOnly': '" + compatOnlyAttr.Value + "' is not a boolean");
+                        throw new FormatException(Settings.GetLanguageString(3, "ModIdentityCantParseValue").Replace("%ATTRIBUTE%", "compatOnly").Replace("%VALUE%", compatOnlyAttr.Value).Replace("%TYPE%", "bool").Replace("%TYPE%", "bool")); //throw new FormatException("Mod identity 'compatOnly': '" + compatOnlyAttr.Value + "' is not a boolean");
                 }
 
             }
@@ -234,7 +234,7 @@ namespace SporeMods.Core.Mods
                             }
                         }
                         else
-                            throw new FormatException("'compatFile' 'removeTargets': '" + removeTargetAttr.Value + "' is not a boolean");
+                            throw new FormatException(Settings.GetLanguageString(3, "ModIdentityCantParseValue").Replace("%ATTRIBUTE%", "removeTargets").Replace("%VALUE%", removeTargetAttr.Value).Replace("%TYPE%", "bool"));  //"'compatFile' 'removeTargets': '" + removeTargetAttr.Value + "' is not a boolean");
                     }
                 }
                 else if (nodeName == "component" || nodeName == "componentgroup")
@@ -246,7 +246,7 @@ namespace SporeMods.Core.Mods
                 }
                 else
                 {
-                    throw new FormatException("Unknown element '" + subNode.Name.LocalName + "'");
+                    throw new FormatException(Settings.GetLanguageString(3, "ModIdentityUnrecognizedTag").Replace("%TAGNAME%", subNode.Name.LocalName));//"Unknown element '" + subNode.Name.LocalName + "'");
                 }
             }
 

@@ -1174,7 +1174,10 @@ namespace SporeMods.Manager
                             output += Settings.GetLanguageString(3, "NoIdentityVersion");
                         else
                             output += Settings.GetLanguageString(3, "IdentityMissingAttribute").Replace("%ATTRIBUTE%", exce.Attribute);
-
+                    }
+                    else if (status.Failures[s] is FormatException fEx)
+                    {
+                        output += fEx.Message;
                     }
                     else
                     {

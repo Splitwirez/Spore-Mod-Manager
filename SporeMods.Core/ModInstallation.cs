@@ -241,10 +241,11 @@ namespace SporeMods.Core
                             Permissions.GrantAccessFile(Path.Combine(Settings.TempFolderPath, entry.FileName));
                             XDocument compareDocument = XDocument.Load(Path.Combine(Settings.TempFolderPath, "ModInfo.xml"));
 
+                            Version identityVersion = ModIdentity.UNKNOWN_MOD_VERSION;
                             var xmlModIdentityVersionAttr = compareDocument.Root.Attribute("installerSystemVersion");
                             if (xmlModIdentityVersionAttr != null)
                             {
-                                if (Version.TryParse(xmlModIdentityVersionAttr.Value, out Version identityVersion))
+                                if (Version.TryParse(xmlModIdentityVersionAttr.Value, out identityVersion))
                                 {
                                     if (
                                             (identityVersion != ModIdentity.XmlModIdentityVersion1_0_0_0) &&
@@ -254,6 +255,8 @@ namespace SporeMods.Core
                                     {
                                         throw new UnsupportedXmlModIdentityVersionException(identityVersion);
                                     }
+                                    else
+                                        XmlModIdentityV1.ParseModIdentity(null, compareDocument.Root);
                                 }
                                 else
                                     throw new UnsupportedXmlModIdentityVersionException(ModIdentity.UNKNOWN_MOD_VERSION);
@@ -261,20 +264,22 @@ namespace SporeMods.Core
                             else
                                 throw new MissingXmlModIdentityAttributeException(null);
 
-                            var dllsBuildAttr = compareDocument.Root.Attribute("dllsBuild");
-                            if (dllsBuildAttr != null)
+                            if (identityVersion > ModIdentity.XmlModIdentityVersion1_0_0_0)
                             {
-                                if (Version.TryParse(dllsBuildAttr.Value + ".0", out Version dllsBuild))
+                                var dllsBuildAttr = compareDocument.Root.Attribute("dllsBuild");
+                                if (dllsBuildAttr != null)
                                 {
-                                    if (dllsBuild > Settings.CurrentDllsBuild)
-                                        throw new UnsupportedDllsBuildException(dllsBuild);
+                                    if (Version.TryParse(dllsBuildAttr.Value + ".0", out Version dllsBuild))
+                                    {
+                                        if (dllsBuild > Settings.CurrentDllsBuild)
+                                            throw new UnsupportedDllsBuildException(dllsBuild);
+                                    }
+                                    else
+                                        throw new UnsupportedDllsBuildException(ModIdentity.UNKNOWN_MOD_VERSION);
                                 }
                                 else
-                                    throw new UnsupportedDllsBuildException(ModIdentity.UNKNOWN_MOD_VERSION);
+                                    throw new MissingXmlModIdentityAttributeException("dllsBuild");
                             }
-                            else
-                                throw new MissingXmlModIdentityAttributeException("dllsBuild");
-
 
                             var uniqueAttr = compareDocument.Root.Attribute("unique");
                             if (uniqueAttr != null)
