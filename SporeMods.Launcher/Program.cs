@@ -73,6 +73,20 @@ namespace SporeMods.Launcher
                         proceed = true;
                 }
 
+                try
+                {
+                    if (!Settings.AreDllsPresent())
+                    {
+                        MessageBox.Show(Settings.GetLanguageString(3, "ModApiDllsNotPresent"));
+                        proceed = false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(Settings.GetLanguageString(3, "ModApiDllsNotPresent"));
+                    proceed = false;
+                }
+
                 if (proceed)
                 {
                     if (Settings.ForceSoftwareRendering)

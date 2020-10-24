@@ -57,16 +57,18 @@ namespace SporeMods.Manager
         public static readonly DependencyProperty CreditsProperty =
         DependencyProperty.Register(nameof(Credits), typeof(ObservableCollection<CreditsItem>), typeof(ManagerContent), new PropertyMetadata(new ObservableCollection<CreditsItem>()
         {
-            new CreditsItem("rob55rod", "Designed and built the Spore Mod Manager."),
+            new CreditsItem("rob55rod", "Designed and (mostly) built the Spore Mod Manager."),
             new CreditsItem("emd4600", "Started the Spore ModAPI Project, created the original Spore ModAPI Launcher Kit from which the Spore Mod Manager was derived, and helped build the Spore Mod Manager to be as robust as possible.", @"https://github.com/emd4600/"),
             new CreditsItem("reflectronic", "Provided significant guidance and assistance with internal structure and asynchronous behaviour.", @"https://github.com/reflectronic"),
-            new CreditsItem("Jaime Olivares", "Created the Zip archive classes used in the Spore Mod Manager.", @"https://github.com/jaime-olivares"),
+            new CreditsItem("DotNetZip (formerly Ionic.Zip)", "Zip archive library used throughout the Spore Mod Manager.", @"https://www.nuget.org/packages/Ionic.Zip"),
             new CreditsItem("Newtonsoft", "Made the library to read JSON data.", @"https://www.newtonsoft.com/json"),
             new CreditsItem("cederenescio", "Provided substantial creative influence."),
             new CreditsItem("ThePixelMouse", "Assisted substantially with figuring out how to make WINE cooperate."),
             new CreditsItem("Huskky", "Assisted substantially with figuring out how to make WINE cooperate."),
             new CreditsItem("Darhagonable", "Provided creative input, helped confirm the feasibility of supporting WINE setups on Linux.", @"http://youtube.com/Darhagonable"),
-            new CreditsItem("HEY ROB55ROD, DON'T FORGET TO", "CREDIT THOSE WHO CONTRIBUTE BY TESTING THE SPORE MOD MANAGER!!")
+            new CreditsItem("KloxEdge", "Testing"),
+            new CreditsItem("Liskomato", "Testing"),
+            new CreditsItem("ChocIce75", "Testing")
         }));
 
         FileSystemWatcher _dragWatcher = new FileSystemWatcher(Settings.TempFolderPath)

@@ -89,7 +89,10 @@ namespace SporeMods.Core
             {
                 string path = Path.Combine(ProgramDataPath, "coreLibs");
                 if (!Directory.Exists(path))
+                {
                     Directory.CreateDirectory(path);
+                    Permissions.GrantAccessDirectory(CoreLibsPath);
+                }
                 return path;
             }
         }
@@ -114,23 +117,67 @@ namespace SporeMods.Core
             get
             {
                 List<Version> versions = new List<Version>();
-                if (Directory.Exists(CoreLibsPath))
+                if (!Directory.Exists(CoreLibsPath))
                 {
-                    foreach (string s in Directory.EnumerateFiles(CoreLibsPath).Where(
-                        x => x.EndsWith(".dll") && !x.ToLower().EndsWith("sporemodapi.dll")))
-                    {
-                        string ver = FileVersionInfo.GetVersionInfo(s).FileVersion;
-                        if (Version.TryParse(ver, out Version sVersion))
-                            versions.Add(sVersion);
-                    }
+                    Directory.CreateDirectory(CoreLibsPath);
+                    Permissions.GrantAccessDirectory(CoreLibsPath);
                 }
+
+                if (!Directory.Exists(LegacyLibsPath))
+                {
+                    Directory.CreateDirectory(LegacyLibsPath);
+                    Permissions.GrantAccessDirectory(LegacyLibsPath);
+                }
+
+                ExtractResource(CoreLibsPath, "SporeModAPI.lib");
+                ExtractResource(CoreLibsPath, "SporeModAPI.disk.dll");
+                ExtractResource(CoreLibsPath, "SporeModAPI.march2017.dll");
+
+                ExtractResource(LegacyLibsPath, "SporeModAPI-disk.dll");
+                ExtractResource(LegacyLibsPath, "SporeModAPI-steam_patched.dll");
+
+
+
+
+                foreach (string s in Directory.EnumerateFiles(CoreLibsPath).Where(
+                    x => x.EndsWith(".dll") && !x.ToLower().EndsWith("sporemodapi.dll")))
+                {
+                    string ver = FileVersionInfo.GetVersionInfo(s).FileVersion;
+                    if (Version.TryParse(ver, out Version sVersion))
+                        versions.Add(sVersion);
+                }
+                
                 if (versions.Count() > 0)
                 {
                     Version minVer = versions.Min();
                     return new Version(minVer.Major, minVer.Minor, minVer.Build, 0);
                 }
                 else
-                    return new Version(999, 999, 999, 999);
+                    return Mods.ModIdentity.UNKNOWN_MOD_VERSION;
+            }
+        }
+
+        public static bool AreDllsPresent()
+        {
+            return Directory.Exists(Settings.CoreLibsPath) && (Directory.EnumerateFiles(Settings.CoreLibsPath).Count() >= 3) && Directory.Exists(Settings.LegacyLibsPath) && (Directory.EnumerateFiles(Settings.LegacyLibsPath).Count() >= 2);
+        }
+
+        public static void EnsureDllsAreExtracted()
+        {
+            if (!AreDllsPresent())
+            {
+                Version lolwut = CurrentDllsBuild;
+            }
+        }
+
+        static void ExtractResource(string outDir, string name)
+        {
+            using (var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream("SporeMods.Core.ModAPIDLLs." + name))
+            {
+                using (var file = new FileStream(Path.Combine(outDir, name), FileMode.Create, FileAccess.ReadWrite))
+                {
+                    resource.CopyTo(file);
+                }
             }
         }
 
@@ -154,7 +201,10 @@ namespace SporeMods.Core
             {
                 string path = Path.Combine(ProgramDataPath, "legacyLibs");
                 if (!Directory.Exists(path))
+                {
                     Directory.CreateDirectory(path);
+                    Permissions.GrantAccessDirectory(LegacyLibsPath);
+                }
                 return path;
             }
         }

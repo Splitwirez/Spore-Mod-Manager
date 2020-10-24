@@ -56,6 +56,7 @@ namespace SporeMods.Manager
             MessageDisplay.MessageBoxShown += (sneder, args) => Dispatcher.BeginInvoke(new Action(() => CommonUI.MessageDisplay.ShowMessageBox(args.Content, args.Title)));
             MessageDisplay.DebugMessageSent += (sneder, args) => Dispatcher.BeginInvoke(new Action(() => CommonUI.MessageDisplay.ShowMessageBox(args.Content, args.Title)));
 
+            Settings.EnsureDllsAreExtracted();
             CommonUI.Updater.CheckForUpdates();
 
             Exit += App_Exit;

@@ -163,3 +163,5 @@ Error_CantParseDllsBuild Could not parse DLLs Build. If you did not create this 
 Error_UnsupportedDllsBuild Unsupported DLLs Build %VERSION%. If you did not create this mod, please inform the mod's creator of this problem immediately.
 Error_NoIdentityVersion XML Mod Identity version not specified. If you did not create this mod, please inform the mod's creator of this problem immediately.
 Error_IdentityMissingAttribute XML Mod Identity is missing the %ATTRIBUTE% attribute. If you did not create this mod, please inform the mod's creator of this problem immediately.
+
+Error_ModApiDllsNotPresent You must run the Spore Mod Manager at least once before running the Spore Mod Launcher.
