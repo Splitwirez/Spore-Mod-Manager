@@ -118,7 +118,8 @@ ForceKillConfirmTitle Force-close Spore?
 ForceKillConfirmDesc ANY UNSAVED PROGRESS WILL BE LOST. Are you sure you wish to force-close Spore?
 
 CustomInstaller_ModInstallerHeader %MODNAME% Installer
-CustomInstaller_Install Install
+CustomInstaller_Proceed Proceed
+CustomInstaller_Apply Apply
 
 CreditsHeader Credits
 

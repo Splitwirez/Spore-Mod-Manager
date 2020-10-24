@@ -851,7 +851,7 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
 
-    <Style x:Key="ModConfiguratorContentControlStyle" TargetType="{x:Type ContentControl}" BasedOn="{StaticResource {x:Type ContentControl}}">
+    <Style x:Key="InitialModConfiguratorContentControlStyle" TargetType="{x:Type ContentControl}" BasedOn="{StaticResource {x:Type ContentControl}}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ContentControl}">
@@ -873,6 +873,9 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+    <Style x:Key="ModConfiguratorContentControlStyle" TargetType="{x:Type ContentControl}" BasedOn="{StaticResource InitialModConfiguratorContentControlStyle}">
+        <Setter Property="Margin" Value="0,-30,0,0"/>
     </Style>
 
     <Style x:Key="ModConfiguratorHeaderContentControlStyle" TargetType="{x:Type ContentControl}" BasedOn="{StaticResource {x:Type ContentControl}}">

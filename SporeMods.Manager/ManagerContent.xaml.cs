@@ -31,6 +31,7 @@ using System.Runtime.Remoting.Messaging;
 using SporeMods.Manager.Configurators;
 using FolderBrowserDialog = System.Windows.Forms.FolderBrowserDialog;
 using DialogResult = System.Windows.Forms.DialogResult;
+using Mechanism.Wpf.Core;
 
 namespace SporeMods.Manager
 {
@@ -276,6 +277,21 @@ namespace SporeMods.Manager
                     SetLanguage();
                 }
                 EvaluateShowInstallModsPrompt();
+
+                ModConfiguratorDialogContentControl.HasCloseButton = false;
+                ModConfiguratorDialogContentControl.IsVisibleChanged += (sneder, args) =>
+                {
+                    if (args.NewValue is bool isVisible)
+                    {
+                        _isConfiguratorOpen = isVisible;
+                        if (!isVisible)
+                        {
+                            ModConfiguratorDialogContentControl.HasCloseButton = false;
+                            ModConfiguratorContentControl.SetResourceReference(ContentControl.StyleProperty, "InitialModConfiguratorContentControlStyle");
+                            CustomInstallerInstallButton.Content = Settings.GetLanguageString(2, "Proceed");
+                        }
+                    }
+                };
 
                 DarkShaleToggleSwitch.Checked += DarkShaleToggleSwitch_Checked;
                 DarkShaleToggleSwitch.Unchecked += DarkShaleToggleSwitch_Checked;
@@ -588,9 +604,22 @@ namespace SporeMods.Manager
             }
         }
 
+        bool _isConfiguratorOpen = false;
+
         private async Task<bool> Instance_ModConfiguratorShown(ManagedMod arg)
         {
             var tcs = new TaskCompletionSource<bool>();
+
+            Task task = new Task(() =>
+            {
+                while (_isConfiguratorOpen)
+                    Thread.Sleep(1000);
+            });
+            if (_isConfiguratorOpen)
+            {
+                task.Start();
+                await task;
+            }
 
             void ProceedButton_Click(object sender, RoutedEventArgs e)
             {
@@ -975,7 +1004,7 @@ namespace SporeMods.Manager
 
             CreditsGroupBox.Header = Settings.GetLanguageString("CreditsHeader");
 
-            CustomInstallerInstallButton.Content = Settings.GetLanguageString(2, "Install");
+            CustomInstallerInstallButton.Content = Settings.GetLanguageString(2, "Proceed");
 
             Resources["ProbablyDisksGuessText"] = Settings.GetLanguageString(3, "ProbablyDiskGuess");
             Resources["ProbablyOriginGuessText"] = Settings.GetLanguageString(3, "ProbablyOriginGuess");
@@ -1100,9 +1129,14 @@ namespace SporeMods.Manager
 
         private void ConfigureModButton_Click(object sender, RoutedEventArgs e)
         {
-            if (GetActiveModsListView().SelectedItem is ManagedMod mod)
+            if ((GetActiveModsListView().SelectedItem != null) && (GetActiveModsListView().SelectedItem is ManagedMod mod) && (!ModConfiguratorDialogContentControl.IsOpen))
+            {
+                ModConfiguratorDialogContentControl.HasCloseButton = true;
+                ModConfiguratorContentControl.SetResourceReference(ContentControl.StyleProperty, "ModConfiguratorContentControlStyle");
+                CustomInstallerInstallButton.Content = Settings.GetLanguageString(2, "Apply");
                 mod.ConfigureMod();
-            //CustomInstallerInstallButton.Content
+                //CustomInstallerInstallButton.Content
+            }
         }
 
         private async void BrowseForModsButton_Click(object sender, RoutedEventArgs e)

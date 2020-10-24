@@ -339,8 +339,8 @@
                     <TextBlock Text="NOT USED: Mods were installed successfully"/>
                 </DockPanel-->
         </ui:AnimatableContentControl>
-        <ui:AnimatableContentControl x:Name="ModConfiguratorDialogContentControl" Style="{DynamicResource ModalDialogContentControlStyle}">
-            <ContentControl x:Name="ModConfiguratorContentControl" Style="{DynamicResource ModConfiguratorContentControlStyle}">
+        <ui:AnimatableContentControl x:Name="ModConfiguratorDialogContentControl" Style="{DynamicResource ModalDialogContentControlStyle}" HasCloseButton="True">
+            <ContentControl x:Name="ModConfiguratorContentControl" Style="{DynamicResource InitialModConfiguratorContentControlStyle}">
                 <DockPanel x:Name="ModConfiguratorDialogDockPanel">
                     <ContentControl x:Name="ModConfiguratorHeaderContentControl" Style="{DynamicResource ModConfiguratorHeaderContentControlStyle}" DockPanel.Dock="Top">
                         <Grid>
