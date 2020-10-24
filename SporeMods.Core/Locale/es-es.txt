@@ -131,6 +131,10 @@ AllSporeModsFilter Spore mods (%EXTENSIONS%)
 NowInstalling Installing...
 InstallationComplete Installation complete!
 
+ModsInstalledSuccessfully These mods were installed successfully
+ModsFailedToInstall These mods couldn't be installed
+
+# Error messages
 Error_SporeCoreFolder Core Spore %DIRNAME%
 Error_SporeGAFolder Galactic Adventures %DIRNAME%
 
@@ -140,3 +144,22 @@ Error_FolderNotFoundNoGuesses The %FOLDERNAME% folder could not be automatically
 Error_ProbablyDiskGuess Probably installed from Disks
 Error_ProbablyOriginGuess Probably installed from Origin
 Error_ProbablyGOGGuess Probably installed from GOG or Amazon (or Steam, if you're really unlucky)
+Error_NotAClue Unknown
+
+Error_RunModManagerFirst Please run the Spore Mod Manager at least once before running the Spore Mod Launcher.
+
+Error_ExeVersionNotRecognized Game executable version not recognized.
+Error_SporeVersionTooOld This version of Spore is too old. Please update to a supported patch.
+Error_DidTheyUpdateSpore This version of Spore is too new, and is not yet supported. To protect your save data, please refraing from playing Spore, modded or otherwise, until an update to the Spore Mod Manager is released to address this.
+Error_CouldNotGetExeVersion SporeApp.exe version could not be read. This should never happen, so if you see this message, please report the problem immediately.
+
+Error_NullDllSuffix Somehow, the Spore Mod Launcher has determined that there is no DLL suffix corresponding to your version of Spore. This should never happen, so if you see this message, please report the problem immediately.
+Error_SporeProcessCreationFailed The Spore process could not be created. This should never happen, so if you see this message, please report the problem immediately.
+Error_SporeProcessResumeFailed The Spore process could not be resumed. This should never happen, so if you see this message, please report the problem immediately.
+
+Error_CantParseIdentityVersion Could not parse XML Mod Identity version. If you did not create this mod, please inform the mod's creator of this problem immediately.
+Error_UnsupportedIdentityVersion Unsupported XML Mod Identity version %VERSION%. If you did not create this mod, please inform the mod's creator of this problem immediately.
+Error_CantParseDllsBuild Could not parse DLLs Build. If you did not create this mod, please inform the mod's creator of this problem immediately.
+Error_UnsupportedDllsBuild Unsupported DLLs Build %VERSION%. If you did not create this mod, please inform the mod's creator of this problem immediately.
+Error_NoIdentityVersion XML Mod Identity version not specified. If you did not create this mod, please inform the mod's creator of this problem immediately.
+Error_IdentityMissingAttribute XML Mod Identity is missing the %ATTRIBUTE% attribute. If you did not create this mod, please inform the mod's creator of this problem immediately.

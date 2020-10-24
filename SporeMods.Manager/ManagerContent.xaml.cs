@@ -781,13 +781,13 @@ namespace SporeMods.Manager
                 //Thread.Sleep(125);
                 if (folders.Count > 1)
                 {
-                    FolderNotFoundErrorTextBlock.Text = Settings.GetLanguageString(3, "FolderNotFound").Replace("%FOLDERNAME%", folderName); //"PLACEHOLDER: The " + folderName + " folder could not be automatically uniquely identified. Please select from the list below, or specify manually if needed. (This can be changed later under Settings if needed.)";
+                    FolderNotFoundErrorTextBlock.Text = Settings.GetLanguageString(3, "FolderNotFound").Replace("%FOLDERNAME%", folderName);
                     FolderNotFoundListView.ItemsSource = folders;
                     FolderNotFoundListView.SelectedItem = null;
                     FolderNotFoundListView.SelectionChanged += FolderNotFoundListView_SelectionChanged;
                 }
                 else
-                    FolderNotFoundErrorTextBlock.Text = Settings.GetLanguageString(3, "FolderNotFoundNoGuesses").Replace("%FOLDERNAME%", folderName); //"PLACEHOLDER: The " + folderName + " folder could not be automatically detected. Please specify manually if needed. (This can be changed later under Settings if needed.)";
+                    FolderNotFoundErrorTextBlock.Text = Settings.GetLanguageString(3, "FolderNotFoundNoGuesses").Replace("%FOLDERNAME%", folderName);
 
                 FoldersNotFoundContentControl.IsOpen = true;
                 Debug.WriteLine("BAD PATH PANEL SHOWN");
@@ -978,6 +978,8 @@ namespace SporeMods.Manager
             Resources["ProbablyDisksGuessText"] = Settings.GetLanguageString(3, "ProbablyDiskGuess");
             Resources["ProbablyOriginGuessText"] = Settings.GetLanguageString(3, "ProbablyOriginGuess");
             Resources["ProbablyGOGGuessText"] = Settings.GetLanguageString(3, "ProbablyGOGGuess");
+
+            Resources["FolderNotFoundUnknown"] = Settings.GetLanguageString(3, "NotAClue");
         }
 
         private void LaunchGameButton_Click(object sender, RoutedEventArgs e)
@@ -1141,8 +1143,8 @@ namespace SporeMods.Manager
                 string output = string.Empty;
                 foreach (string s in status.Successes)
                     output += s + "\n\n";
-                
-                SporeMods.CommonUI.MessageDisplay.ShowMessageBox(output, "PLACEHOLDER: Mods installed successfully");
+
+                CommonUI.MessageDisplay.ShowMessageBox(output, Settings.GetLanguageString(0, "ModsInstalledSuccessfully"));
             }
             if (status.AnyFailed)
             {
@@ -1153,23 +1155,23 @@ namespace SporeMods.Manager
                     if (status.Failures[s] is UnsupportedXmlModIdentityVersionException exc)
                     {
                         if (exc.BadVersion == ModIdentity.UNKNOWN_MOD_VERSION)
-                            output += "PLACEHOLDER: Could not parse XML Mod Identity version\n\n\n\n";
+                            output += Settings.GetLanguageString(3, "CantParseIdentityVersion") + "\n\n\n\n";
                         else
-                            output += "PLACEHOLDER: Unsupported XML Mod Identity version: " + exc.BadVersion.ToString() + "\n\n\n\n";
+                            output += Settings.GetLanguageString(3, "UnsupportedIdentityVersion").Replace("%VERSION%", exc.BadVersion.ToString()) + "\n\n\n\n";
                     }
                     else if (status.Failures[s] is UnsupportedDllsBuildException ex)
                     {
                         if (ex.BadVersion == ModIdentity.UNKNOWN_MOD_VERSION)
-                            output += "PLACEHOLDER: Could not parse DLLs Build\n\n\n\n";
+                            output += Settings.GetLanguageString(3, "CantParseDllsBuild") + "\n\n\n\n";
                         else
-                            output += "PLACEHOLDER: Unsupported DLLs Build: " + ex.BadVersion.Major + "." + ex.BadVersion.Minor + "." + ex.BadVersion.Build + "\n\n\n\n";
+                            output += Settings.GetLanguageString(3, "UnsupportedDllsBuild").Replace("%VERSION%", ex.BadVersion.Major + "." + ex.BadVersion.Minor + "." + ex.BadVersion.Build) + "\n\n\n\n";
                     }
                     else if (status.Failures[s] is MissingXmlModIdentityAttributeException exce)
                     {
                         if (exce.Attribute == null)
-                            output += "PLACEHOLDER: XML Mod Identity version not specified";
+                            output += Settings.GetLanguageString(3, "NoIdentityVersion");
                         else
-                            output += "PLACEHOLDER: XML Mod Identity is missing the " + exce.Attribute + " attribute";
+                            output += Settings.GetLanguageString(3, "IdentityMissingAttribute").Replace("%ATTRIBUTE%", exce.Attribute);
 
                     }
                     else
@@ -1177,7 +1179,7 @@ namespace SporeMods.Manager
                         output += status.Failures[s].ToString() + "\n\n\n\n";
                     }
                 }
-                SporeMods.CommonUI.MessageDisplay.ShowMessageBox(output, "PLACEHOLDER: Mods which failed to install");
+                SporeMods.CommonUI.MessageDisplay.ShowMessageBox(output, Settings.GetLanguageString(0, "ModsFailedToInstall"));
             }
         }
 

@@ -349,7 +349,7 @@
                     </ContentControl>
                     <ContentControl Style="{DynamicResource CustomInstallerFooterContentControlStyle}" DockPanel.Dock="Bottom">
                         <Grid>
-                            <Button x:Name="CustomInstallerInstallButton" Content="PLACEHOLDER: Install"/>
+                            <Button x:Name="CustomInstallerInstallButton"/>
                         </Grid>
                     </ContentControl>
                     <ContentControl x:Name="ConfiguratorBodyContentControl"/>

@@ -16,12 +16,19 @@ namespace SporeMods.CommonUI
     {
         public static readonly string IgnoreUpdatesArg = "-ignoreUpdates";
 
+
         public static void CheckForUpdates()
+        {
+            CheckForUpdates(false);
+        }
+
+        public static void CheckForUpdates(bool forceInstallUpdate)
         {
             bool ignoreUpdates = Environment.GetCommandLineArgs().Contains(IgnoreUpdatesArg);
             if (!ignoreUpdates)
             {
-                if (Settings.UpdatingMode == Settings.UpdatingModeType.Disabled) return;
+                if ((!forceInstallUpdate) && (Settings.UpdatingMode == Settings.UpdatingModeType.Disabled))
+                    return;
 
                 // Necessary to stablish SSL connection with Github API
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls |
@@ -49,7 +56,7 @@ namespace SporeMods.CommonUI
                 if (hasProgramUpdate)
                 {
                     bool update = true;
-                    if (Settings.UpdatingMode == Settings.UpdatingModeType.AutoCheck)
+                    if ((!forceInstallUpdate) && (Settings.UpdatingMode == Settings.UpdatingModeType.AutoCheck))
                     {
                         update = MessageBox.Show(Settings.GetLanguageString("UpdateAvailableText"),
                             Settings.GetLanguageString("UpdateAvailableTitle"), MessageBoxButton.YesNo) == MessageBoxResult.Yes;

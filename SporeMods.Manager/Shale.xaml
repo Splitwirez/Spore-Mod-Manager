@@ -1147,7 +1147,7 @@
             <Setter.Value>
                 <DataTemplate DataType="{x:Type core:DetectionFailureGuessFolder}">
                     <StackPanel Orientation="Vertical">
-                        <TextBlock x:Name="PathTypeTextBlock" FontSize="16" FontWeight="Bold" HorizontalAlignment="Left" TextAlignment="Left" Text="PLACEHOLDER: Unknown"/>
+                        <TextBlock x:Name="PathTypeTextBlock" FontSize="16" FontWeight="Bold" HorizontalAlignment="Left" TextAlignment="Left" Text="{DynamicResource FolderNotFoundUnknown}"/>
                         <TextBlock Text="{Binding GuessPath}" TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Left"/>
                     </StackPanel>
                     <DataTemplate.Triggers>

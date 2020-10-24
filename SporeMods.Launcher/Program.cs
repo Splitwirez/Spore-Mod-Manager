@@ -80,7 +80,7 @@ namespace SporeMods.Launcher
 
                     GameInfo.BadGameInstallPath += (sneder, args) =>
                     {
-                        MessageBox.Show("Please run the Spore Mod Manager at least once before running the Spore Mod Launcher.");
+                        MessageBox.Show(Settings.GetLanguageString(3, "RunModManagerFirst")); //Please run the Spore Mod Manager at least once before running the Spore Mod Launcher.
                         Process.GetCurrentProcess().Kill();
                     };
 

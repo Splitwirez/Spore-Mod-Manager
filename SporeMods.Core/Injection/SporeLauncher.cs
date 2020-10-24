@@ -113,7 +113,7 @@ namespace SporeMods.Core.Injection
 
                             if (dllEnding == null)
                             {
-                                MessageDisplay.DebugShowMessageBox("PLACEHOLDER: NULL DLLENDING"); //MessageBox.Show(Strings.VersionNotDetected, CommonStrings.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageDisplay.DebugShowMessageBox(Settings.GetLanguageString(3, "NullDllSuffix")); //MessageBox.Show(Strings.VersionNotDetected, CommonStrings.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 return;
                             }
 
@@ -518,7 +518,7 @@ namespace SporeMods.Core.Injection
             {
                 //throw new InjectException(Strings.ProcessNotStarted);
                 int lastError = System.Runtime.InteropServices.Marshal.GetLastWin32Error();
-                MessageDisplay.ShowMessageBox("Error: PLACEHOLDER: PROCESS NOT STARTED: " + lastError.ToString()); //Strings.ProcessNotStarted);
+                MessageDisplay.ShowMessageBox(Settings.GetLanguageString(3, "SporeProcessCreationFailed") + lastError.ToString()); //Strings.ProcessNotStarted);
                 throw new System.ComponentModel.Win32Exception(lastError);
             }
         }
@@ -528,7 +528,7 @@ namespace SporeMods.Core.Injection
             if (NativeMethods.ResumeThread(_processInfo.hThread) != 1)
             {
                 /*throw new InjectException(Strings.ProcessNotResumed);*/
-                ThrowWin32Exception("PLACEHOLDER: PROCESS NOT RESUMED"); //ThrowWin32Exception(Strings.ProcessNotResumed);
+                ThrowWin32Exception(Settings.GetLanguageString(3, "SporeProcessResumeFailed")); //ThrowWin32Exception(Strings.ProcessNotResumed);
             }
         }
 
@@ -674,19 +674,19 @@ namespace SporeMods.Core.Injection
 
         public static bool IsValidExe()
         {
-            string errorBase = "PLACEHOLDER: UNSUPPORTED SPOREAPP.EXE SIZE";
+            string errorBase = Settings.GetLanguageString(3, "ExeVersionNotRecognized");
             if (!(Settings.ForcedGameExeType.IsNullOrEmptyOrWhiteSpace()))
                 return true;
             else if (TryGetExeVersion(_executablePath, out Version exeVersion))
             {
                 if ((exeVersion < Spore__March2017) && (exeVersion != Spore__1_5_1))
                 {
-                    MessageDisplay.RaiseError(new ErrorEventArgs(new InvalidOperationException(errorBase + "\nPLACEHOLDER: This version of Spore is too old.")));
+                    MessageDisplay.RaiseError(new ErrorEventArgs(new InvalidOperationException(errorBase + "\n" + Settings.GetLanguageString(3, "SporeVersionTooOld"))));
                     return false;
                 }
                 else if (exeVersion > Spore__March2017)
                 {
-                    MessageDisplay.RaiseError(new ErrorEventArgs(new InvalidOperationException(errorBase + "\nPLACEHOLDER: This version of Spore is too new, and is not yet supported. To protect your save data, please refraing from playing Spore until an update is available.")));
+                    MessageDisplay.RaiseError(new ErrorEventArgs(new InvalidOperationException(errorBase + "\n" + Settings.GetLanguageString(3, "DidTheyUpdateSpore"))));
                     return false;
                 }
                 else
@@ -694,7 +694,7 @@ namespace SporeMods.Core.Injection
             }
             else
             {
-                MessageDisplay.RaiseError(new ErrorEventArgs(new InvalidOperationException("PLACEHOLDER: SporeApp.exe version could not be read!")));
+                MessageDisplay.RaiseError(new ErrorEventArgs(new InvalidOperationException(Settings.GetLanguageString(3, "CouldNotGetExeVersion"))));
                 return false;
             }
         }
