@@ -151,18 +151,33 @@ namespace SporeMods.CommonUI
             }
         }
 
-        static ProgressDialog GetProgressDialog(string text, DoWorkEventHandler action)
+        public static ProgressDialog GetProgressDialog(string text, DoWorkEventHandler action)
+        {
+            return GetProgressDialog(text, action, false);
+        }
+
+        public static ProgressDialog GetProgressDialog(string text, DoWorkEventHandler action, bool testUI)
         {
             ProgressDialog dialog = new ProgressDialog(text, action);
 
             Window window;
             if (Settings.UseCustomWindowDecorations)
+            {
                 window = new DecoratableWindow();
+                window.SetResourceReference(DecoratableWindow.StyleProperty, typeof(DecoratableWindow));
+            }
             else
                 window = new Window();
 
             window.Content = dialog;
             window.SizeToContent = SizeToContent.WidthAndHeight;
+            window.Resources = dialog.Resources;//.MergedDictionaries.Add() //Application.Current.Resources.MergedDictionaries[0].MergedDictionaries[1] = ShaleAccents.Sky.Dictionary;
+
+            if (testUI)
+            {
+                dialog.SetProgress(50);
+                window.Show();
+            }
 
             return dialog;
         }

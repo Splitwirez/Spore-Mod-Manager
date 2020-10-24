@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mechanism.Wpf.Styles.Shale;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -26,10 +27,13 @@ namespace SporeMods.CommonUI
         public ProgressDialog(string text, DoWorkEventHandler action)
         {
             InitializeComponent();
-
+            Resources.MergedDictionaries[1] = ShaleAccents.Sky.Dictionary;
             Status.Text = text;
-            _action = action;
-            Loaded += ProgressDialog_Loaded;
+            if (action != null)
+            {
+                _action = action;
+                Loaded += ProgressDialog_Loaded;
+            }
         }
 
         private void ProgressDialog_Loaded(object sender, RoutedEventArgs e)
@@ -52,6 +56,11 @@ namespace SporeMods.CommonUI
         {
             Error = e.Error;
             Close();
+        }
+
+        internal void SetProgress(double newValue)
+        {
+            DownloadProgress.Value = newValue;
         }
 
         public void Close()

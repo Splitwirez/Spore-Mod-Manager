@@ -2,6 +2,7 @@
 using SporeMods.Core.Injection;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -35,6 +36,7 @@ namespace SporeMods.Launcher
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
+        [STAThread]
         static void Main(string[] programArgs)
         {
             MessageDisplay.ErrorOccurred += (sender, args) => CommonUI.MessageDisplay.ShowException(args.Exception);
@@ -63,7 +65,12 @@ namespace SporeMods.Launcher
                     return;
                 }
                 else
+                {
+                    //uncomment below to test ProgressDialog appearance
+                    /*var progressDialog = CommonUI.Updater.GetProgressDialog(string.Empty, null, true);
+                    Application.Run();*/
                     CommonUI.Updater.CheckForUpdates();
+                }
 
                 bool proceed = true;
                 if (Permissions.IsAtleastWindowsVista() && Permissions.IsAdministrator())
