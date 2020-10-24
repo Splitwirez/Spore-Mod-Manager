@@ -30,6 +30,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SporeMods.CommonUI", "Spore
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SporeMods.KitImporter", "SporeMods.KitImporter\SporeMods.KitImporter.csproj", "{4BB64354-8263-4288-B62D-635DAF26BE16}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SporeMods.Setup", "SporeMods.Setup\SporeMods.Setup.csproj", "{D594F7E6-87BB-47C2-8701-1D976E38183B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +74,10 @@ Global
 		{4BB64354-8263-4288-B62D-635DAF26BE16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4BB64354-8263-4288-B62D-635DAF26BE16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4BB64354-8263-4288-B62D-635DAF26BE16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D594F7E6-87BB-47C2-8701-1D976E38183B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D594F7E6-87BB-47C2-8701-1D976E38183B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D594F7E6-87BB-47C2-8701-1D976E38183B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D594F7E6-87BB-47C2-8701-1D976E38183B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
