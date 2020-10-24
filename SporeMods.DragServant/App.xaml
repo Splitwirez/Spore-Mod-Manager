@@ -2,6 +2,32 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Mechanism.Wpf.Styles.Shale;component/Themes/Shale.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Mechanism.Wpf.Styles.Shale;component/Themes/Colors/Accent.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Mechanism.Wpf.Styles.Shale;component/Themes/Colors/BaseLight.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <LinearGradientBrush x:Key="TopDownMaskBrush" StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Offset="0" Color="Black"/>
+                <GradientStop Offset="1" Color="#00000000"/>
+            </LinearGradientBrush>
+
+            <LinearGradientBrush x:Key="FromLeftMaskBrush" StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Offset="0" Color="Black"/>
+                <GradientStop Offset="1" Color="#00000000"/>
+            </LinearGradientBrush>
+
+            <LinearGradientBrush x:Key="FromRightMaskBrush" StartPoint="1,0" EndPoint="0,0">
+                <GradientStop Offset="0" Color="Black"/>
+                <GradientStop Offset="1" Color="#00000000"/>
+            </LinearGradientBrush>
+
+            <LinearGradientBrush x:Key="BottomUpMaskBrush" StartPoint="0,1" EndPoint="0,0">
+                <GradientStop Offset="0" Color="Black"/>
+                <GradientStop Offset="1" Color="#00000000"/>
+            </LinearGradientBrush>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

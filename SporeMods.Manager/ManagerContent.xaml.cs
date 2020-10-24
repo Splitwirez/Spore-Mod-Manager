@@ -917,7 +917,7 @@ namespace SporeMods.Manager
             CopyModsToClipboardButton.Content = Settings.GetLanguageString("CopyModsListToClipboard");
 
             InstallModsPromptContentControl.Content = Settings.GetLanguageString("DropModsHerePrompt");
-            DropModsHereTextBlock.Text = Settings.GetLanguageString("DropModsHereInstruction");
+            //DropModsHereTextBlock.Text = Settings.GetLanguageString("DropModsHereInstruction");
 
             SearchBox.WatermarkText = Settings.GetLanguageString("SearchWatermark");
             SearchNamesMenuItem.Header = Settings.GetLanguageString("SearchNames");

@@ -326,7 +326,7 @@
                     <Button x:Name="DropModsCloseButton" Style="{DynamicResource ModalDialogCloseButtonStyle}" Click="DropModsCloseButton_Click"/>
                 </Grid-->
                 <Grid x:Name="DropModsHereTextBlockGrid">
-                    <TextBlock x:Name="DropModsHereTextBlock" Style="{DynamicResource DropModsHereTextBlockStyle}"/>
+                    <TextBlock x:Name="DropModsHereTextBlock" Style="{DynamicResource DropModsHereTextBlockStyle}" Opacity="0"/>
                 </Grid>
             </DockPanel>
             <!--DockPanel x:Name="ModInstallationProgressDockPanel" Visibility="Collapsed">

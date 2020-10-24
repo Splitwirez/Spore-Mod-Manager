@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using static Mechanism.Wpf.Core.NativeMethods;
+using CompositingWindow = Mechanism.Wpf.Core.Windows.CompositingWindow;
 using SporeMods.Core;
 using System.Diagnostics;
 
@@ -21,7 +22,7 @@ namespace SporeMods.DragServant
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : CompositingWindow
     {
         public MainWindow()
         {
@@ -29,6 +30,19 @@ namespace SporeMods.DragServant
             //Hide();
             /*ShowInTaskbar = false;
             ShowActivated = false;*/
+            IsVisibleChanged += (sneder, args) =>
+            {
+                if (args.NewValue is bool val) 
+                {
+                    if (val)
+                    {
+                        DropModsHereTextBlock.Text = Settings.GetLanguageString("DropModsHereInstruction");
+                        RootGrid.Visibility = Visibility.Visible;
+                    }
+                    else
+                        RootGrid.Visibility = Visibility.Collapsed;
+                }
+            };
         }
 
         protected override void OnSourceInitialized(EventArgs e)
