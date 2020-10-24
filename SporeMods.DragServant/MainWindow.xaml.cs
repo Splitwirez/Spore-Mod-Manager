@@ -49,7 +49,7 @@ namespace SporeMods.DragServant
         {
             base.OnSourceInitialized(e);
             WindowInteropHelper helper = new WindowInteropHelper(this);
-            SetWindowLong(helper.Handle, GwlExstyle, (Int32)(GetWindowLong(helper.Handle, GwlExstyle)) | WsExToolwindow);
+            SetWindowLong(helper.Handle, GwlExstyle, (Int32)(GetWindowLong(helper.Handle, GwlExstyle)) & WsExToolwindow);
             //SetWindowLong(helper.Handle, GwlExstyle, (Int32)GetWindowLong(helper.Handle, GwlExstyle) | ~0x00040000); //WS_EX_APPWINDOW
             //Hide();
             //Path.Combine(Settings.TempFolderPath, "LaunchGame")
