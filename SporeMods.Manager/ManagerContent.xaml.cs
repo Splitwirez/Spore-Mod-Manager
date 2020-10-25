@@ -1741,8 +1741,8 @@ namespace SporeMods.Manager
                     if (btn.Tag is FrameworkElement el)
                     {
                         var pnt = el.PointToScreen(new Point(0, el.ActualHeight));
-                        btn.ContextMenu.HorizontalOffset = pnt.X;
-                        btn.ContextMenu.VerticalOffset = pnt.Y;
+                        btn.ContextMenu.HorizontalOffset = SystemScaling.RealPixelsToWpfUnits(pnt.X);
+                        btn.ContextMenu.VerticalOffset = SystemScaling.RealPixelsToWpfUnits(pnt.Y);
                     }
                     btn.ContextMenu.IsOpen = true;
                 }
