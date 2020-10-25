@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using static Mechanism.Wpf.Core.NativeMethods;
-using CompositingWindow = Mechanism.Wpf.Core.Windows.CompositingWindow;
+//using CompositingWindow = Mechanism.Wpf.Core.Windows.CompositingWindow;
 using SporeMods.Core;
 using System.Diagnostics;
 
@@ -22,8 +22,9 @@ namespace SporeMods.DragServant
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : CompositingWindow
+    public partial class MainWindow : Window
     {
+        IntPtr _winHandle = IntPtr.Zero;
         public MainWindow()
         {
             InitializeComponent();
@@ -43,16 +44,25 @@ namespace SporeMods.DragServant
                         RootGrid.Visibility = Visibility.Collapsed;
                 }
             };
+
+            Activated += (sneder, args) => SetStyles();
         }
 
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
-            WindowInteropHelper helper = new WindowInteropHelper(this);
-            SetWindowLong(helper.Handle, GwlExstyle, (Int32)(GetWindowLong(helper.Handle, GwlExstyle)) & WsExToolwindow);
-            //SetWindowLong(helper.Handle, GwlExstyle, (Int32)GetWindowLong(helper.Handle, GwlExstyle) | ~0x00040000); //WS_EX_APPWINDOW
+            _winHandle = new WindowInteropHelper(this).EnsureHandle();
+            SetStyles();
+            //SetWindowLong(_winHandle, GwlExstyle, (Int32)(GetWindowLong(_winHandle, GwlExstyle)) | WsExToolwindow | WsExNoActivate);
             //Hide();
             //Path.Combine(Settings.TempFolderPath, "LaunchGame")
+        }
+
+        void SetStyles()
+        {
+            //SetWindowLong(_winHandle, GwlExstyle, (Int32)(GetWindowLong(_winHandle, GwlExstyle)) | ~WsExToolwindow);
+            SetWindowLong(_winHandle, GwlExstyle, ((Int32)(GetWindowLong(_winHandle, GwlExstyle)) | WsExToolwindow) & ~0x00040000);
+            //SetWindowLong(helper.Handle, GwlExstyle, (Int32)GetWindowLong(helper.Handle, GwlExstyle) | ~0x00040000); //WS_EX_APPWINDOW
         }
 
         /*protected override void OnContentRendered(EventArgs e)

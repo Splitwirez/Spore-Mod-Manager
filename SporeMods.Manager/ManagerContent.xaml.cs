@@ -1103,7 +1103,7 @@ namespace SporeMods.Manager
                     }*/
                     if (/*(win.IsActive | (GetForegroundWindow() == App.DragServantProcess.MainWindowHandle)) && */DropModsDialogContentControl.IsOpen)
                     {
-                        SetWindowPos(App.DragServantProcess.MainWindowHandle, winHwnd, (int)basePoint.X, (int)basePoint.Y, (int)DropModsHereTextBlockGrid.ActualWidth, (int)DropModsHereTextBlockGrid.ActualHeight, SwpNoActivate | 0x0040 | 0x0004);
+                        SetWindowPos(App.DragServantProcess.MainWindowHandle, winHwnd, (int)basePoint.X, (int)basePoint.Y, (int)SystemScaling.WpfUnitsToRealPixels(DropModsHereTextBlockGrid.ActualWidth), (int)SystemScaling.WpfUnitsToRealPixels(DropModsHereTextBlockGrid.ActualHeight), SwpNoActivate | 0x0040 | 0x0004);
                         SetWindowPos(App.DragServantProcess.MainWindowHandle, GetWindow(winHwnd, 3), 1, 1, 5, 5, SwpNoActivate | SwpNoSize | SwpNoMove | 0x0040/* | 0x0004*/);
                         ShowWindow(App.DragServantProcess.MainWindowHandle, 4);
                     }
