@@ -5,17 +5,72 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SporeMods.Setup"
         mc:Ignorable="d"
-        Title="Spore Mod Manager Setup" Width="640" Height="450" ResizeMode="CanMinimize">
+        Title="Spore Mod Manager Setup" Width="600" Height="500" ResizeMode="CanMinimize">
     <Grid x:Name="PagesGrid">
         <DockPanel x:Name="LicensePage" Visibility="Collapsed">
             <Button x:Name="LicenseNextButton" DockPanel.Dock="Bottom" IsEnabled="{Binding IsChecked, ElementName=PleaseReadTheTermsBeforeCheckingThis}" Click="LicenseNextButton_Click">Next</Button>
-            <CheckBox x:Name="PleaseReadTheTermsBeforeCheckingThis" Margin="10,10,0,0" DockPanel.Dock="Bottom">I have read, have ACTUALLY UNDERSTOOD (VERY IMPORTANT), and accept these terms of use.</CheckBox>
-            <StackPanel Orientation="Vertical">
-                <TextBlock TextWrapping="Wrap">Copyright 2020 Splitwirez</TextBlock>
-                <TextBlock TextWrapping="Wrap" Margin="0,20,0,0">Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</TextBlock>
-                <TextBlock TextWrapping="Wrap" Margin="0,20,0,0">The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</TextBlock>
-                <TextBlock TextWrapping="Wrap" Margin="0,20,0,0">THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</TextBlock>
-            </StackPanel>
+            <CheckBox x:Name="PleaseReadTheTermsBeforeCheckingThis" Margin="10" DockPanel.Dock="Bottom">I have read, HAVE ACTUALLY UNDERSTOOD (VERY IMPORTANT), and accept these terms of use.</CheckBox>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" Margin="10" FontWeight="Black" Grid.Row="0" Grid.Column="0">Legalese agreement</TextBlock>
+                <TextBlock HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" Margin="10" FontWeight="Black" Grid.Row="0" Grid.Column="1">Plain English summary</TextBlock>
+                <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                    <UniformGrid Rows="1">
+                        <StackPanel Orientation="Vertical" Margin="10,0,5,0">
+                            <TextBlock TextWrapping="Wrap">Copyright 2020 Splitwirez</TextBlock>
+                            <TextBlock TextWrapping="Wrap" Margin="0,20,0,0">Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</TextBlock>
+                            <TextBlock TextWrapping="Wrap" Margin="0,20,0,0">The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</TextBlock>
+                            <TextBlock TextWrapping="Wrap" Margin="0,20,0,0">THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</TextBlock>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1" Margin="5,0,10,0">
+                            <GroupBox BorderBrush="#00C000">
+                                <GroupBox.Header>
+                                    <TextBlock FontWeight="Bold">This means you're allowed to...</TextBlock>
+                                </GroupBox.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="• Use the Spore Mod Manager for non-commercial purposes." TextWrapping="Wrap" Margin="0,2"/>
+                                    <TextBlock Text="• Use the Spore Mod Manager for commercial purposes." TextWrapping="Wrap" Margin="0,2"/>
+                                    <TextBlock Text="• Modify the Spore Mod Manager." TextWrapping="Wrap" Margin="0,2"/>
+                                    <TextBlock Text="• Redistribute the Spore Mod Manager, if necessary." TextWrapping="Wrap" Margin="0,2"/>
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Margin="0,10,0,0" BorderBrush="#C00000">
+                                <GroupBox.Header>
+                                    <TextBlock FontWeight="Bold">But also means that...</TextBlock>
+                                </GroupBox.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="• The Spore Mod Manager is provided without warranty, so if it breaks, you get to keep both pieces." TextWrapping="Wrap" Margin="0,2"/>
+                                    <TextBlock Text="• We are legally not responsible for any damage which stems from the use of the Spore Mod Manager." TextWrapping="Wrap" Margin="0,2"/>
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Margin="0,10,0,0" BorderBrush="#0000C0">
+                                <GroupBox.Header>
+                                    <TextBlock FontWeight="Bold">And means that you're required to...</TextBlock>
+                                </GroupBox.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="• Include the legalese document on the left with any derivative works of the Spore Mod Manager you produce, in the event that you decide to build something off of the Spore Mod Manager or use part or all of it in another project." TextWrapping="Wrap" Margin="0,2"/>
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Margin="0,10,0,0" BorderBrush="#7F7F7F">
+                                <GroupBox.Header>
+                                    <TextBlock FontWeight="Bold">While not required, it'd be nice if you'd...</TextBlock>
+                                </GroupBox.Header>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="• Report any bugs or problems you come across while using the Spore Mod Manager." TextWrapping="Wrap" Margin="0,2"/>
+                                    <TextBlock Text="• Credit us (emd4600 and Splitwirez) in any derivatives of the Spore Mod Manager you may decide to create." TextWrapping="Wrap" Margin="0,2"/>
+                                </StackPanel>
+                            </GroupBox>
+                        </StackPanel>
+                    </UniformGrid>
+                </ScrollViewer>
+            </Grid>
         </DockPanel>
         <DockPanel x:Name="InstallModePage" Visibility="Collapsed">
             <TextBlock Margin="10" DockPanel.Dock="Bottom">If unsure, select 'Simple Install'.</TextBlock>
@@ -35,7 +90,7 @@
             </UniformGrid>
         </DockPanel>
         <DockPanel x:Name="SelectInstallPathPage" Visibility="Collapsed">
-            <Button x:Name="SelectInstallPathNextButton" IsEnabled="False">Next</Button>
+            <Button x:Name="SelectInstallPathNextButton" DockPanel.Dock="Bottom" IsEnabled="False">Next</Button>
             <UniformGrid Columns="1" Margin="20">
                 <TextBlock>Please specify the location to which the Spore Mod Manager should be installed.</TextBlock>
                 <DockPanel HorizontalAlignment="Stretch">
@@ -45,7 +100,7 @@
             </UniformGrid>
         </DockPanel>
         <DockPanel x:Name="SelectStoragePathPage" Visibility="Collapsed">
-            <Button x:Name="SelectStoragePathNextButton" IsEnabled="False">Next</Button>
+            <Button x:Name="SelectStoragePathNextButton" DockPanel.Dock="Bottom" IsEnabled="False">Next</Button>
             <UniformGrid Columns="1" Margin="20">
                 <TextBlock>Please specify the location in which the Spore Mod Manager should store additional information, such as installed mods and settings.</TextBlock>
                 <DockPanel HorizontalAlignment="Stretch">
@@ -55,7 +110,7 @@
             </UniformGrid>
         </DockPanel>
         <Grid x:Name="InstallProgressPage" Visibility="Collapsed">
-            <ProgressBar x:Name="InstallProgressBar" VerticalAlignment="Center" Margin="20"/>
+            <ProgressBar x:Name="InstallProgressBar" VerticalAlignment="Center" Margin="20" Height="24"/>
         </Grid>
     </Grid>
 </Window>
