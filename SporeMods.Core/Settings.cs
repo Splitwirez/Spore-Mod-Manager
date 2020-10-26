@@ -535,7 +535,7 @@ namespace SporeMods.Core
         {
             if (_osLangCode != null) return _osLangCode;
 
-            string langCode = CultureInfo.InstalledUICulture.Name.ToLowerInvariant();
+            string langCode = CultureInfo.CurrentUICulture.Name.ToLowerInvariant();
             if (!_availableLanguages.ContainsKey(langCode))
             {
                 // Try to get one from the same group. If user has en-us, try to set en-ca, etc
@@ -684,6 +684,7 @@ namespace SporeMods.Core
             // Internal languages
             _availableLanguages["en-ca"] = true;
             _availableLanguages["es-es"] = true;
+            _availableLanguages["ca-ca"] = true;
 
             // User-provided languages
             foreach (var file in Directory.GetFiles(_languagesDir, "*.txt"))

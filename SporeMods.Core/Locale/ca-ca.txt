@@ -1,0 +1,171 @@
+﻿# Language info
+LanguageName Català
+
+
+# Global generic strings
+Globals_OK OK
+Globals_DontRunAsAdmin Per motius pràctics i de seguretat, si us plau no executis el %APPNAME% com a Administrador. És innecessari, impràctic, potencialment perillós i podria espatllar-ho tot. Estàs ABSOLUTAMENT SEGUR de que vols continuar? (si no estàs segur, clica No)
+Globals_Browse Buscar...
+
+
+# Main Window text
+WindowTitle Spore Mod Manager v%VERSION% [Versió DLLs %DLLSBUILD%]
+
+ModsTabItem Mods
+TweaksTabItem Retocs
+SettingsTabItem Opcions
+ConsoleTabItem Consola
+HelpTabItem Ajuda
+
+GetModsButton Obtenir mods
+InstallModFromDiskButton Instal·lar mods
+UninstallModButton Desinstal·lar mods seleccionats
+ConfigureModButton Configurar mod
+
+CopyModsListToClipboard Copiar Llista de Mods
+
+DropModsHerePrompt Clica el botó "Instal·lar mods" per a començar a afegir mods al Spore!
+DropModsHereInstruction Arastra mods aquí per a instal·lar-los
+
+SearchWatermark Buscar mods instal·lats...
+SearchNames Buscar noms de mods
+SearchDescriptions Buscar descripcions de mods
+SearchTags Buscar etiquetes de mods
+
+ModSwitchOn Activat
+ModSwitchOff Desactivat
+ModInstallingNow Instal·lant...
+ModEnablingNow Activant...
+ModDisablingNow Desactivant...
+ModUninstallingNow Desinstal·lant...
+ModInstalledManually Instal·lat manualment
+
+ExitSporeToManageMods Tanca Spore per a administrar els teus mods instal·lats
+
+FoldersHeader Carpetes
+AutoGaDataPath Ruta a Aventuras Galácticas Data
+AutoSporebinEp1Path Ruta a SporebinEP1
+AutoCoreDataPath Ruta a Core Spore Data
+AutoSporebinPath Ruta a Sporebin
+AutoDetectPath Auto-detectar
+
+ModInstallationHeader Instal·lació de Mods
+BlockVanillaIncompatibleMods No instal·lar mods a no ser que estiguin verificats com a vanilla-compatible
+UseDeveloperMode Habilitar Mode Desenvolupador
+
+DeveloperHeader Desenvolupador
+SideloadCoreDlls Sideloaded DLLs
+AddSideloadCoreDlls Add Sideload DLLs
+RemoveSideloadCoreDlls Purge Sideload DLLs
+BuildSideloadCoreDlls or compile the ModAPI DLLs to %OVERRIDELIBSPATH% yourself, if you feel like getting your hands dirty.
+SelectDlls Select DLL bundle
+DllBundlesFilter DLL bundles (%EXTENSIONS%)
+
+SwitchOn On
+SwitchOff Off
+SwitchYes Sí
+SwitchNo No
+
+WindowHeader Finestra
+OverrideWindowMode Substituir Mode de Finestra
+WindowModeFullscreen Pantalla complerta
+WindowModeBorderlessWindowed Finestra, sense marges
+WindowModeWindowed Finestra
+OverrideGameResolution Substituir Resolució del Joc
+ResolutionAuto Resolució Automàtica
+ResolutionCustom Resolució Pròpia
+
+GameEntryHeader Joc
+CommandLineState Executar joc amb un estat inicial
+CommandLineStateName Nom de l'estat
+CommandLineLanguage Executar joc amb un altre idioma
+CommandLineLocaleName Nom de l'idioma
+CommandLineOptions Línia de comandes adicional
+
+AppearanceHeader Apariència
+
+LanguageHeader Idioma
+SkinOptionsHeader Tema
+LightSwitchHeader Llums
+AccentColourHeader Color per a resaltar
+UseStandardWindowDecorations Utilitzar Decoracions Estàndard de Windows
+
+UpdateHeader Actualitzar
+UpdateQuestion Quant s'hauria d'actualitzar el Spore Mod Manager?
+UpdateAutomatically Automàticament (recomanat)
+UpdateAutoCheck Comprovar automàticament, preguntar abans d'instal·lar
+UpdateNever Mai (no recomanat)
+UpdateAvailableTitle Actualització Disponible
+UpdateAvailableText Hi ha una actualització disponible per al Mod Manager. Inclou noves característiques i arregla bugs. nuevas características y arregla bugs. Vols descargar-la?
+UpdateAvailableDllsTitle Actualització de ModAPI DLLs Disponible
+UpdateAvailableDllsText Hi ha una actualització disponible per als ModAPI DLLs. Inclou noves característiques i arregla bugs, i és necessària per a utilitzar mods moderns. Vols descargar-la?
+UpdatingProgressText Actualitzant programa, espera si us plau...
+UpdatingProgressDllsText Actualitzant ModAPI DLLs, espera si us plau...
+Error_UpdateAvailableDlls Hi ha una actualització disponible per als ModAPI DLLs, que és necessària per a utilitzar mods moderns. No obstant, no es pot instal·lar fins que no actualitzis el programa. Si us plau reinicia el programa i permet que s'actualitzi.
+Error_UpdateAvailableDllsTitle No es pot actualitzar els ModAPI DLLs
+Error_CannotCheckForUpdates No es poden buscar actualitzacions, si us plau comprova la teva connexió a internet.
+Error_CannotCheckForUpdatesTitle No es poden buscar actualitzacions
+
+HelpHeader Necessites ajuda?
+GoToForumThread Contacta'ns per poder ajudar-te!
+SendFeedback Comunica'ns alguna cosa
+ShowConfig Copiar configuració al porta-retalls
+
+CloseSporeFirst Si us plau, tanca Spore per a continuar
+SporeCantClose Si el Spore no respòn, ha "crashejat", o ja s'ha tancat, clica aquí:
+ForceKillSporeButton Tancar Spore
+ForceKillConfirmTitle Vols forçar que es tanci el Spore?
+ForceKillConfirmDesc ES PERDRÀ TOT EL QUE NO HAGIS GUARDAT. Segur que vols forçar que es tanci el Spore?
+
+CustomInstaller_ModInstallerHeader Instal·lador de %MODNAME%
+CustomInstaller_Proceed Procedir
+CustomInstaller_Apply Aplicar
+
+CreditsHeader Crèdits
+
+RequiresAppRestart %CONTEXT% (necessita reiniciar)
+
+LaunchGameButton Jugar a Spore
+
+SelectMod Selecciona un o més mods a instal·lar
+AllSporeModsFilter Spore mods (%EXTENSIONS%)
+NowInstalling Instal·lant...
+InstallationComplete Instal·lació finalitzada!
+
+ModsInstalledSuccessfully Aquests mods s'han instal·lat correctament
+ModsFailedToInstall Aquests mods no s'han pogut instal·lar
+
+# Error messages
+Error_SporeCoreFolder Spore base %DIRNAME%
+Error_SporeGAFolder Aventuras Galácticas %DIRNAME%
+
+Error_FolderNotFound No s'ha pogut identificar automàticament de manera única la carpeta %FOLDERNAME%. Si us plau, selecciona una de la llista, o especifica-la manualment si és necessari. (Això es pot canviar més endavant a les Opcions.)
+Error_FolderNotFoundNoGuesses No s'ha pogut identificar automàticament la carpeta %FOLDERNAME%. Si us plau, especifica-la manualment. (Això es pot canviar més endavant a les Opcions.)
+
+Error_ProbablyDiskGuess Probablement instal·lat amb disc
+Error_ProbablyOriginGuess Probablement instal·lat amb Origin
+Error_ProbablyGOGGuess Probablement instal·lat amb GoG o Amazon (o Steam, si has tingut poca sort)
+Error_NotAClue Desconegut
+
+Error_RunModManagerFirst Si us plau, executa el Spore Mod Manager almenys un cop abans de poder utilitzar el Spore Mod Launcher.
+
+Error_ExeVersionNotRecognized Versió de l'executable del joc no reconeguda.
+Error_SporeVersionTooOld Aquesta versió de Spore és massa vella. Si us plau, actualitza a una versió soportada.
+Error_DidTheyUpdateSpore Aquesta versió de Spore és massa nova, i el programa encara no la soporta. Per a protegir les teves dades guardades, no juguis  al Spore (amb mods o sense), fins que hi hagi una actualització del Spore Mod Manager que solucioni això.
+Error_CouldNotGetExeVersion No s'ha pogut llegir la versió de SporeApp.exe. Això no hauria de passar mai, així que si veus aquest missatge, si us plau reporta el problema immediatament.
+
+Error_NullDllSuffix El Spore Mod Launcher ha determinat que no hi ha un sufix DLL corresponent a la teva versió de Spore. Això no hauria de passar mai, així que si veus aquest missatge, si us plau reporta el problema immediatament.
+Error_SporeProcessCreationFailed No s'ha pogut crear el procés de Spore. Això no hauria de passar mai, així que si veus aquest missatge, si us plau reporta el problema immediatament.
+Error_SporeProcessResumeFailed No s'ha pogut reanudar el procés de Spore. Això no hauria de passar mai, així que si veus aquest missatge, si us plau reporta el problema immediatament.
+
+Error_CantParseIdentityVersion No s'ha pogut processar la versió del XML Mod Identity. Si no has creat aquest mod, si us plau informa al creador del mod immediatament.
+Error_UnsupportedIdentityVersion Versió %VERSION% del XML Mod Identity no soportada. Si no has creat aquest mod, si us plau informa al creador del mod immediatament.
+Error_CantParseDllsBuild No s'ha pogut processar el DLLs Build. Si no has creat aquest mod, si us plau informa al creador del mod immediatament.
+Error_UnsupportedDllsBuild Versió %VERSION% de DLLs Build no soportada. Si no has creat aquest mod, si us plau informa al creador del mod immediatament.
+Error_NoIdentityVersion Versió del XML Mod Identity no especificada. Si no has creat aquest mod, si us plau informa al creador del mod immediatament.
+Error_IdentityMissingAttribute Al XML Mod Identity li falta l'atribut %ATTRIBUTE%. Si no has creat aquest mod, si us plau informa al creador del mod immediatament.
+
+Error_ModApiDllsNotPresent Necessites executar el Spore Mod Manager almenys un cop abans de poder utilitzar el Spore Mod Launcher.
+
+Error_ModIdentityCantParseValue Mod identity '%ATTRIBUTE%': '%VALUE%' no és un %TYPE% vàlid. Si no has creat aquest mod, si us plau informa al creador del mod immediatament.
+Error_ModIdentityUnrecognizedTag Etiqueta d'element '%TAGNAME%' desconeguda. Si no has creat aquest mod, si us plau informa al creador del mod immediatament.

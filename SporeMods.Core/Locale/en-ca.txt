@@ -20,7 +20,7 @@ HelpTabItem Help
 GetModsButton Get mods
 InstallModFromDiskButton Install mods
 UninstallModButton Uninstall selected mods
-ConfigureModButton Change selected mod's settings
+ConfigureModButton Change mod's settings
 
 CopyModsListToClipboard Copy Mods List
 
