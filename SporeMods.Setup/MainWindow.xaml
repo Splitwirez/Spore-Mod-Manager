@@ -77,36 +77,41 @@
             <UniformGrid Margin="25" Columns="1">
                 <Button x:Name="SimpleInstallButton" HorizontalContentAlignment="Left" Padding="20" Click="SimpleInstallButton_Click">
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
-                        <TextBlock TextAlignment="Left" FontWeight="Bold">Simple Install</TextBlock>
-                        <TextBlock TextAlignment="Left" Opacity="0.5">No messing around, just finish installing in as few steps as possible so you can get started.</TextBlock>
+                        <TextBlock TextAlignment="Left" FontWeight="Bold">Simple install</TextBlock>
+                        <TextBlock TextAlignment="Left" TextWrapping="Wrap" Opacity="0.5">No messing around, just finish installing in as few steps as possible so you can get started.</TextBlock>
                     </StackPanel>
                 </Button>
-                <Button x:Name="AdvancedInstallButton" HorizontalContentAlignment="Left" Padding="20" Click="AdvancedInstallButton_Click">
+                <Button x:Name="AdvancedInstallButton" HorizontalContentAlignment="Left" Padding="20" Click="AdvancedInstallButton_Click" IsEnabled="False">
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
-                        <TextBlock TextAlignment="Left" FontWeight="Bold">Advanced Install</TextBlock>
-                        <TextBlock TextAlignment="Left" Opacity="0.5">Configure your Spore Mod Manager installation to your liking. More steps involved. For advanced users only.</TextBlock>
+                        <TextBlock TextAlignment="Left" FontWeight="Bold">Coming soon!</TextBlock>
+                        <!--TextBlock TextAlignment="Left" FontWeight="Bold">Advanced install</TextBlock-->
+                        <TextBlock TextAlignment="Left" TextWrapping="Wrap" Opacity="0.5">Configure your Spore Mod Manager installation to your liking. More steps involved. For advanced users only.</TextBlock>
                     </StackPanel>
                 </Button>
             </UniformGrid>
         </DockPanel>
         <DockPanel x:Name="SelectInstallPathPage" Visibility="Collapsed">
-            <Button x:Name="SelectInstallPathNextButton" DockPanel.Dock="Bottom" IsEnabled="False">Next</Button>
+            <Button x:Name="SelectInstallPathNextButton" DockPanel.Dock="Bottom" IsEnabled="False" Click="SelectInstallPathNextButton_Click">Next</Button>
             <UniformGrid Columns="1" Margin="20">
                 <TextBlock>Please specify the location to which the Spore Mod Manager should be installed.</TextBlock>
-                <DockPanel HorizontalAlignment="Stretch">
-                    <Button x:Name="SelectInstallPathBrowseButton" DockPanel.Dock="Right">Browse...</Button>
-                    <TextBox x:Name="SelectInstallPathTextBox"/>
-                </DockPanel>
+                <Border x:Name="SelectInstallPathBadPathBorder" BorderBrush="Red" BorderThickness="0" HorizontalAlignment="Stretch">
+                    <DockPanel HorizontalAlignment="Stretch">
+                        <Button x:Name="SelectInstallPathBrowseButton" DockPanel.Dock="Right">Browse...</Button>
+                        <TextBox x:Name="SelectInstallPathTextBox" TextChanged="SelectInstallPathTextBox_TextChanged"/>
+                    </DockPanel>
+                </Border>
             </UniformGrid>
         </DockPanel>
         <DockPanel x:Name="SelectStoragePathPage" Visibility="Collapsed">
-            <Button x:Name="SelectStoragePathNextButton" DockPanel.Dock="Bottom" IsEnabled="False">Next</Button>
+            <Button x:Name="SelectStoragePathNextButton" DockPanel.Dock="Bottom" IsEnabled="False" Click="SelectStoragePathNextButton_Click">Next</Button>
             <UniformGrid Columns="1" Margin="20">
                 <TextBlock>Please specify the location in which the Spore Mod Manager should store additional information, such as installed mods and settings.</TextBlock>
-                <DockPanel HorizontalAlignment="Stretch">
-                    <Button x:Name="SelectStoragePathBrowseButton" DockPanel.Dock="Right">Browse...</Button>
-                    <TextBox x:Name="SelectStoragePathTextBox"/>
-                </DockPanel>
+                <Border x:Name="SelectStoragePathBadPathBorder" BorderBrush="Red" BorderThickness="0" HorizontalAlignment="Stretch">
+                    <DockPanel HorizontalAlignment="Stretch">
+                        <Button x:Name="SelectStoragePathBrowseButton" DockPanel.Dock="Right">Browse...</Button>
+                        <TextBox x:Name="SelectStoragePathTextBox" TextChanged="SelectStoragePathTextBox_TextChanged"/>
+                    </DockPanel>
+                </Border>
             </UniformGrid>
         </DockPanel>
         <Grid x:Name="InstallProgressPage" Visibility="Collapsed">
