@@ -23,12 +23,28 @@ namespace SporeMods.Setup
     {
         string _lkPath = null;
 
-        string _installPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Spore Mod Manager");
+        static string DEFAULT_INSTALL_PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Spore Mod Manager");
+        string _installPath = DEFAULT_INSTALL_PATH;
         static string DEFAULT_STORAGE_PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "SporeModManagerStorage");
         string _storagePath = DEFAULT_STORAGE_PATH;
+
         public MainWindow()
         {
             InitializeComponent();
+            
+            var fixedDrives = DriveInfo.GetDrives().Where(x => x.DriveType == DriveType.Fixed);
+            
+            DriveInfo mostFreeSpace = fixedDrives.FirstOrDefault();
+            foreach (DriveInfo d in fixedDrives)
+            {
+                if (d.AvailableFreeSpace > mostFreeSpace.AvailableFreeSpace)
+                    mostFreeSpace = d;
+            }
+            //MessageBox.Show(mostFreeSpace.RootDirectory.FullName);
+            if (!DEFAULT_STORAGE_PATH.ToLowerInvariant().StartsWith(mostFreeSpace.RootDirectory.FullName.ToLowerInvariant()))
+            {
+                _storagePath = Path.Combine(mostFreeSpace.RootDirectory.FullName, "SporeModManagerStorage");
+            }
 
             string[] args = Environment.GetCommandLineArgs();
             if (args.Length > 1)
@@ -74,7 +90,10 @@ namespace SporeMods.Setup
         private void LicenseNextButton_Click(object sender, RoutedEventArgs e)
         {
             if (PleaseReadTheTermsBeforeCheckingThis.IsChecked == true)
+            {
                 SetPage(InstallModePage);
+                //InstallSporeModManager();
+            }
         }
 
         private void SimpleInstallButton_Click(object sender, RoutedEventArgs e)
@@ -85,28 +104,115 @@ namespace SporeMods.Setup
         private void AdvancedInstallButton_Click(object sender, RoutedEventArgs e)
         {
             SetPage(SelectInstallPathPage);
+            SelectInstallPathTextBox.Text = DEFAULT_INSTALL_PATH;
         }
+
+        private void SelectInstallPathTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string text = Environment.ExpandEnvironmentVariables(SelectInstallPathTextBox.Text);
+            if (!text.EndsWith("Spore Mod Manager"))
+            {
+                text = Path.Combine(text, "Spore Mod Manager");
+            }
+
+            if (Uri.IsWellFormedUriString(text, UriKind.Absolute) && !Directory.Exists(text))
+            {
+                _installPath = text;
+                SelectInstallPathBadPathBorder.BorderThickness = new Thickness(0);
+                SelectInstallPathNextButton.IsEnabled = true;
+
+            }
+            else
+            {
+                SelectInstallPathBadPathBorder.BorderThickness = new Thickness(1);
+                SelectInstallPathNextButton.IsEnabled = false;
+            }
+        }
+
+        private void SelectStoragePathTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string text = Environment.ExpandEnvironmentVariables(SelectStoragePathTextBox.Text);
+            if (!text.EndsWith("SporeModManagerStorage"))
+            {
+                text = Path.Combine(text, "SporeModManagerStorage");
+            }
+
+            if (Uri.IsWellFormedUriString(text, UriKind.Absolute) && !Directory.Exists(text))
+            {
+                _storagePath = text;
+                SelectStoragePathBadPathBorder.BorderThickness = new Thickness(0);
+                SelectStoragePathNextButton.IsEnabled = true;
+
+            }
+            else
+            {
+                SelectStoragePathBadPathBorder.BorderThickness = new Thickness(1);
+                SelectStoragePathNextButton.IsEnabled = false;
+            }
+        }
+
+        private void SelectInstallPathNextButton_Click(object sender, RoutedEventArgs e)
+        {
+            SetPage(SelectStoragePathPage);
+            SelectStoragePathTextBox.Text = DEFAULT_STORAGE_PATH;
+        }
+
+        private void SelectStoragePathNextButton_Click(object sender, RoutedEventArgs e)
+        {
+            InstallSporeModManager();
+        }
+
 
         bool InstallSporeModManager()
         {
             SetPage(InstallProgressPage);
-            string[] resources = Application.ResourceAssembly.GetManifestResourceNames();
-            InstallProgressBar.Maximum = resources.Length;
+            MessageBox.Show("INSTALL PATH: " + _installPath + "\nSTORAGE PATH: " + _storagePath);
             Thread thread = new Thread(() =>
             {
-                string rresources = string.Empty;
+                if (!Directory.Exists(_installPath))
+                    Directory.CreateDirectory(_installPath);
+
+                //string rresources = string.Empty;
+                IEnumerable<string> resources = Application.ResourceAssembly.GetManifestResourceNames().Where(x => !x.ToLowerInvariant().EndsWith(".resources"));
+                
+                Dispatcher.BeginInvoke(new Action(() => InstallProgressBar.Maximum = resources.Count()));
+                
                 foreach (string s in resources)
                 {
-                    rresources += s + "\n";
+                    string fileOutPath = Path.Combine(_installPath, s.Replace("SporeMods.Setup.", string.Empty));
+                    using (var resource = Application.ResourceAssembly.GetManifestResourceStream(s))
+                    {
+                        using (var file = new FileStream(fileOutPath, FileMode.Create, FileAccess.Write))
+                        {
+                            resource.CopyTo(file);
+                        }
+                    }
+
+                    Permissions.GrantAccessFile(fileOutPath);
+
+                        //rresources += s + "\n";
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
                         InstallProgressBar.Value++;
                     }));
                 }
-                Dispatcher.BeginInvoke(new Action(() =>
+                Permissions.GrantAccessDirectory(_installPath);
+
+                if (_storagePath != DEFAULT_STORAGE_PATH)
+                {
+                    if (!Directory.Exists(DEFAULT_STORAGE_PATH))
+                        Directory.CreateDirectory(DEFAULT_STORAGE_PATH);
+
+                    string redirect = Path.Combine(DEFAULT_STORAGE_PATH, "redirectStorage.txt");
+                    File.WriteAllText(redirect, _storagePath);
+
+                    Permissions.GrantAccessFile(redirect);
+                }
+                Permissions.GrantAccessDirectory(_storagePath);
+                /*Dispatcher.BeginInvoke(new Action(() =>
                 {
                     MessageBox.Show(rresources);
-                }));
+                }));*/
 
                 bool runImporter = false;
                 if ((_lkPath != null) && Uri.IsWellFormedUriString(_lkPath, UriKind.RelativeOrAbsolute) && Directory.Exists(_lkPath))
