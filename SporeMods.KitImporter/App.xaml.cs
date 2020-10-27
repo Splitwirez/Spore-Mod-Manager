@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Interop;
@@ -19,8 +21,28 @@ namespace SporeMods.KitImporter
         {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
             if (!Permissions.IsAdministrator())
-                Permissions.RerunAsAdministrator();
-            base.OnStartup(e);
+            {
+                Process process = Permissions.RerunAsAdministrator(false);
+                process.WaitForExit();
+                if (process.ExitCode == 300)
+                {
+                    foreach (string s in Environment.GetCommandLineArgs())
+                    {
+                        string arg = s.Trim('"', ' ');
+                        if (arg.StartsWith("--relaunch:"))
+                        {
+                            string probablyPath = arg.Substring("--relaunch:".Length);
+                            if (File.Exists(probablyPath))
+                            {
+                                Process.Start(probablyPath);
+                            }
+                        }
+                    }
+                }
+            Process.GetCurrentProcess().Kill();
+            }
+            else
+                base.OnStartup(e);
         }
     }
 }

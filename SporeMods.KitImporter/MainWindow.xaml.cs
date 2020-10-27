@@ -119,7 +119,7 @@ namespace SporeMods.KitImporter
 
         bool IsPathValid(string lkPath)
         {
-            string path = lkPath.Trim('"');
+            string path = lkPath.Trim('"', ' ');
             if (!Directory.Exists(path))
                 return false;
 
@@ -127,6 +127,11 @@ namespace SporeMods.KitImporter
                     File.Exists(Path.Combine(path, "Spore ModAPI Easy Installer.exe")) &&
                     File.Exists(Path.Combine(path, "Spore ModAPI Easy Uninstaller.exe")) &&
                     (!File.Exists(Path.Combine(path, "Spore Mod Manager.exe")));
+        }
+
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            System.Windows.Application.Current.Shutdown(300);
         }
     }
 }

@@ -14,6 +14,8 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Reflection;
+using System.Diagnostics;
+using System.ComponentModel;
 
 namespace SporeMods.Setup
 {
@@ -180,49 +182,75 @@ namespace SporeMods.Setup
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (Permissions.IsAdministrator())
-            {
 
-                if (InstallProgressPage.IsVisible)
-                    e.Cancel = true;
-                else if (InstallCompletedPage.IsVisible)
+            if (InstallProgressPage.IsVisible)
+                e.Cancel = true;
+            else if (InstallCompletedPage.IsVisible)
+            {
+                /*if (_lkPath != null)
                 {
-                    /*if (_lkPath != null)
-                    {
-                        File.WriteAllLines(SetupInfo.INSTALL_DIR_LOCATOR_PATH, new string[]
-                            {
-                                _installPath,
-                                _lkPath
-                            });
-                    }
-                    else
-                    {*/
-                    File.WriteAllText(SetupInfo.INSTALL_DIR_LOCATOR_PATH, _installPath);
-                    /*}
+                    File.WriteAllLines(SetupInfo.INSTALL_DIR_LOCATOR_PATH, new string[]
+                        {
+                            _installPath,
+                            _lkPath
+                        });
+                }
+                else
+                {*/
+                if (!Directory.Exists(DEFAULT_STORAGE_PATH))
+                    Directory.CreateDirectory(DEFAULT_STORAGE_PATH);
+
+                Permissions.GrantAccessDirectory(DEFAULT_STORAGE_PATH);
+
+                if (File.Exists(SetupInfo.INSTALL_DIR_LOCATOR_PATH))
                     Permissions.GrantAccessFile(SetupInfo.INSTALL_DIR_LOCATOR_PATH);
 
-                    if (_lkPath != null)
-                    {
-                        DebugMessageBox("START IMPORTER");
-                        Application.Current.Shutdown(SetupInfo.EXIT_RUN_LK_IMPORTER);
-                    }
-                    else
-                    {
-                        DebugMessageBox("START MOD MANAGER DIRECTLY");
-                        Application.Current.Shutdown(SetupInfo.EXIT_RUN_MOD_MGR);
-                    }*/
+                File.WriteAllText(SetupInfo.INSTALL_DIR_LOCATOR_PATH, _installPath);
 
+                Permissions.GrantAccessFile(SetupInfo.INSTALL_DIR_LOCATOR_PATH);
+                /*}
+                Permissions.GrantAccessFile(SetupInfo.INSTALL_DIR_LOCATOR_PATH);
+
+                if (_lkPath != null)
+                {
+                    DebugMessageBox("START IMPORTER");
+                    Application.Current.Shutdown(SetupInfo.EXIT_RUN_LK_IMPORTER);
+                }
+                else
+                {
+                    DebugMessageBox("START MOD MANAGER DIRECTLY");
+                    Application.Current.Shutdown(SetupInfo.EXIT_RUN_MOD_MGR);
+                }*/
+
+                if (false) //dodging this UAC prompt seems to be a bridge too far
+                {
                     Hide();
                     AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
-                    
+
                     //Assembly.LoadFrom(Path.Combine(_installPath, "Microsoft.Threading.Tasks.dll"));
                     //Assembly.LoadFrom(Path.Combine(_installPath, "Microsoft.Threading.Tasks.Extensions.dll"));
                     //Assembly.LoadFrom(Path.Combine(_installPath, "Microsoft.Threading.Tasks.Extensions.Desktop.dll"));
-                    
+
                     var importer = Assembly.LoadFrom(Path.Combine(_installPath, "SporeMods.KitImporter.exe"));
                     Window importerWindow = (Window)Activator.CreateInstance(importer.GetType("SporeMods.KitImporter.MainWindow"));
                     importerWindow.ShowDialog();
                 }
+
+                var importerPath = Path.Combine(_installPath, "SporeMods.KitImporter.exe");
+
+                try
+                {
+                    Process process = Process.Start(importerPath);
+                    process.WaitForExit();
+                }
+                catch (Win32Exception w32ex)
+                {
+                    string forceLkImportPath = Path.Combine(_storagePath, "ForceLkImport.info");
+                    File.WriteAllText(forceLkImportPath, string.Empty);
+                    Permissions.GrantAccessFile(forceLkImportPath);
+                    MessageBox.Show(forceLkImportPath, "forceLkImportPath");
+                }
+
             }
         }
 
