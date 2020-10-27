@@ -23,10 +23,10 @@ namespace SporeMods.Setup
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            if (!Permissions.IsAdministrator())
+            if (!Environment.GetCommandLineArgs().Skip(1).Any(x => x == SetupInfo.IS_WOULDBE_ADMIN_PROCESS))
             {
                 ShutdownMode = ShutdownMode.OnExplicitShutdown;
-                Process proc = Permissions.RerunAsAdministrator(Permissions.GetProcessCommandLineArgs(), false);
+                Process proc = Permissions.RerunAsAdministrator(Permissions.GetProcessCommandLineArgs() + " " + SetupInfo.IS_WOULDBE_ADMIN_PROCESS, false);
                 proc.WaitForExit();
 
                 IEnumerable<string> args = Environment.GetCommandLineArgs().Skip(1);
@@ -145,6 +145,8 @@ namespace SporeMods.Setup
         public static int EXIT_RUN_LK_IMPORTER = 201;
 
         public static string INSTALL_DIR_LOCATOR_PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "SporeModManagerStorage", "SporeModManager_InstallPath.info");
+
+        public static string IS_WOULDBE_ADMIN_PROCESS = "--wouldBeAdmin";
     }
 
 
