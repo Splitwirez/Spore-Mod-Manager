@@ -135,6 +135,9 @@ InstallationComplete Instal·lació finalitzada!
 ModsInstalledSuccessfully Aquests mods s'han instal·lat correctament
 ModsFailedToInstall Aquests mods no s'han pogut instal·lar
 
+CopyUrlIntoBrowser Copy the following URL into your internet browser.
+CopypasteToTechSupport Copy the text below, and send it to whoever asked you for it.
+
 # Error messages
 Error_SporeCoreFolder Spore base %DIRNAME%
 Error_SporeGAFolder Aventuras Galácticas %DIRNAME%

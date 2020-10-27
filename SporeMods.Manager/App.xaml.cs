@@ -105,7 +105,9 @@ namespace SporeMods.Manager
                     if (Permissions.IsAtleastWindowsVista() && (DragServantProcess == null))
                     {
                         proceed = false;
-                        if (MessageBox.Show(Settings.GetLanguageString(1, "DontRunAsAdmin").Replace("%APPNAME%", "Spore Mod Manager"), String.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                        if (File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "winecfg.exe")))
+                            proceed = true;
+                        else if (MessageBox.Show(Settings.GetLanguageString(1, "DontRunAsAdmin").Replace("%APPNAME%", "Spore Mod Manager"), String.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                             proceed = true;
                     }
                     else if ((!Permissions.IsAtleastWindowsVista()) && (DragServantProcess == null))

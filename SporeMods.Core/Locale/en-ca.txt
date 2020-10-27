@@ -135,6 +135,9 @@ InstallationComplete Installation complete!
 ModsInstalledSuccessfully These mods were installed successfully
 ModsFailedToInstall These mods couldn't be installed
 
+CopyUrlIntoBrowser Copy the following URL into your internet browser.
+CopypasteToTechSupport Copy the text below, and send it to whoever asked you for it.
+
 # Error messages
 Error_SporeCoreFolder Core Spore %DIRNAME%
 Error_SporeGAFolder Galactic Adventures %DIRNAME%

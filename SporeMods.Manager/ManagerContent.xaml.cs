@@ -1718,7 +1718,38 @@ namespace SporeMods.Manager
 
         private void CopyModsToClipboardButton_Click(object sender, RoutedEventArgs e)
         {
-            SetClipboardTextForTechnicalDetails(ModsManager.GetModsListForClipboard());
+            string info = ModsManager.GetModsListForClipboard();
+            try
+            {
+                SetClipboardTextForTechnicalDetails(info);
+            }
+            catch (Exception ex)
+            {
+                if (File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "winecfg.exe")))
+                {
+                    DockPanel panel = new DockPanel();
+                    TextBox content = new TextBox()
+                    {
+                        Text = "```\n[spoiler]\n" + info + "\n[/spoiler]\n```",
+                        IsReadOnly = true
+                    };
+                    TextBlock instruction = new TextBlock()
+                    {
+                        Text = Settings.GetLanguageString("CopypasteToTechSupport")
+                    };
+                    DockPanel.SetDock(instruction, Dock.Top);
+
+                    panel.Children.Add(instruction);
+                    panel.Children.Add(content);
+
+                    new Window()
+                    {
+                        Content = panel
+                    }.ShowDialog();
+                }
+                else
+                    throw ex;
+            }
         }
 
         void SetClipboardTextForTechnicalDetails(string details)
@@ -1854,6 +1885,40 @@ namespace SporeMods.Manager
         {
             if ((App.DragServantProcess != null) && (!App.DragServantProcess.HasExited))
                 File.WriteAllText(Path.Combine(Settings.TempFolderPath, "OpenUrl"), url);
+            else if (File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "winecfg.exe")))
+            {
+                DockPanel panel = new DockPanel();
+                TextBox content = new TextBox()
+                {
+                    Text = url,
+                    IsReadOnly = true
+                };
+                TextBlock instruction = new TextBlock()
+                {
+                    Text = Settings.GetLanguageString("CopyUrlIntoBrowser")
+                };
+                DockPanel.SetDock(instruction, Dock.Top);
+
+                panel.Children.Add(instruction);
+                panel.Children.Add(content);
+
+                new Window()
+                {
+                    Content = panel
+                }.ShowDialog();
+
+                /*Process.Start(new ProcessStartInfo(url)
+                {
+                    UseShellExecute = true
+                });*/
+                /*string outPath = Path.Combine(Settings.ProgramDataPath, "url.txt");
+                File.WriteAllText(outPath, url);
+                Permissions.GrantAccessFile(outPath);
+                Process.Start(new ProcessStartInfo(outPath)
+                {
+                    UseShellExecute = true
+                });*/
+            }
         }
     }
 
