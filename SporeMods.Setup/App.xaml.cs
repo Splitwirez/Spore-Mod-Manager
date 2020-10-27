@@ -19,11 +19,105 @@ namespace SporeMods.Setup
     /// </summary>
     public partial class App : Application
     {
+        string _lkPath = null;
 
-        public App()
+        protected override void OnStartup(StartupEventArgs e)
         {
             if (!Permissions.IsAdministrator())
-                Permissions.RerunAsAdministrator();
+            {
+                ShutdownMode = ShutdownMode.OnExplicitShutdown;
+                Process proc = Permissions.RerunAsAdministrator(Permissions.GetProcessCommandLineArgs(), false);
+                proc.WaitForExit();
+
+                IEnumerable<string> args = Environment.GetCommandLineArgs().Skip(1);
+                
+                foreach (string p in args)
+                {
+                    //MessageBox.Show("p: " + p);
+                    if (IsLauncherKitInstallDir(p, out string fixedPath))
+                    {
+                        //MessageBox.Show("fixedPath: " + fixedPath);
+                        _lkPath = fixedPath;
+                        break;
+                    }
+                }
+
+                if (_lkPath == null)
+                {
+                    string lkPathFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Spore ModAPI Launcher", "path.info");
+                    if (File.Exists(lkPathFilePath))
+                    {
+                        string lkPathFilePathText = File.ReadAllText(lkPathFilePath);
+
+                        //MessageBox.Show("lkPathFilePathText: " + lkPathFilePathText);
+                        if (IsLauncherKitInstallDir(lkPathFilePathText, out string fixedLkPath))
+                        {
+                            //MessageBox.Show("fixedLkPath: " + fixedLkPath);
+                            _lkPath = fixedLkPath;
+                        }
+                    }
+                }
+
+                if (File.Exists(SetupInfo.INSTALL_DIR_LOCATOR_PATH))
+                {
+                    /*string[] paths = File.ReadAllText(SetupInfo.INSTALL_DIR_LOCATOR_PATH);
+                    if (proc.ExitCode == SetupInfo.EXIT_RUN_MOD_MGR)
+                    {
+                        Process.Start(Path.Combine(paths[0], "Spore Mod Manager.exe"));
+                    }
+                    else if ((proc.ExitCode == SetupInfo.EXIT_RUN_LK_IMPORTER) && (_lkPath != null))
+                    {
+                        Process.Start(Path.Combine(paths[0], "SporeMods.KitImporter.exe"), "\"" + _lkPath + "\"");
+                    }*/
+
+                    string mgrPath = File.ReadAllText(SetupInfo.INSTALL_DIR_LOCATOR_PATH);
+
+                    if (_lkPath != null)
+                        Process.Start(Path.Combine(mgrPath, "SporeMods.KitImporter.exe"), "\"" + _lkPath + "\"");
+                    else
+                        Process.Start(Path.Combine(mgrPath, "Spore Mod Manager.exe"));
+                }
+                else
+                    MessageBox.Show("Spore Mod Manager install location was not returned. You should never see this message, so if you somehow do see it, inform Splitwirez or emd immediately.");
+
+                Shutdown();
+            }
+            else
+            {
+                //MainWindow = new MainWindow();
+                base.OnStartup(e);
+            }
+        }
+
+        bool IsLauncherKitInstallDir(string rawPath, out string fixedPath)
+        {
+            string path = rawPath.Trim('"', ' ');
+            //MessageBox.Show("IsLauncherKitInstallDir path: '" + path + "'");
+
+            try
+            {
+                if ((path != null) && Directory.Exists(path))
+                {
+                    if (
+                            File.Exists(Path.Combine(path, "Spore ModAPI Launcher.exe")) &&
+                            File.Exists(Path.Combine(path, "Spore ModAPI Easy Installer.exe")) &&
+                            File.Exists(Path.Combine(path, "Spore ModAPI Easy Uninstaller.exe")) &&
+                            (!File.Exists(Path.Combine(path, "Spore Mod Manager.exe"))) &&
+                            (!File.Exists(Path.Combine(path, "Spore Mod Launcher.exe")))
+                        )
+                    {
+                        fixedPath = path;
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            fixedPath = null;
+            return false;
         }
 
         /*void EnsureAdmin()
@@ -41,6 +135,17 @@ namespace SporeMods.Setup
             return a2;
         }*/
     }
+
+
+    public static class SetupInfo
+    {
+        public static int EXIT_RUN_MOD_MGR = 200;
+        public static int EXIT_RUN_LK_IMPORTER = 201;
+
+        public static string INSTALL_DIR_LOCATOR_PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "SporeModManagerStorage", "SporeModManager_InstallPath.info");
+    }
+
+
 
     public static class Permissions
     {
@@ -74,7 +179,14 @@ namespace SporeMods.Setup
 
             string returnVal = string.Empty;
             foreach (string s in args)
-                returnVal = returnVal + "\"" + s + "\" ";
+            {
+                //MessageBox.Show(s, "arg");
+                if (s.Contains(' '))
+                    returnVal = returnVal + "\"" + s + "\" ";
+                else
+                    returnVal = returnVal + s + " ";
+            }
+            //MessageBox.Show(returnVal, "args");
 
             return returnVal;
         }

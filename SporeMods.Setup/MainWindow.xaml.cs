@@ -21,7 +21,7 @@ namespace SporeMods.Setup
     /// </summary>
     public partial class MainWindow : Window
     {
-        string _lkPath = null;
+        static bool debug = Environment.GetCommandLineArgs().Skip(1).Any(x => x.ToLower() == "--debug");
 
         static string DEFAULT_INSTALL_PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Spore Mod Manager");
         string _installPath = DEFAULT_INSTALL_PATH;
@@ -31,32 +31,34 @@ namespace SporeMods.Setup
         public MainWindow()
         {
             InitializeComponent();
-            
-            var fixedDrives = DriveInfo.GetDrives().Where(x => x.DriveType == DriveType.Fixed);
-            
-            DriveInfo mostFreeSpace = fixedDrives.FirstOrDefault();
-            foreach (DriveInfo d in fixedDrives)
-            {
-                if (d.AvailableFreeSpace > mostFreeSpace.AvailableFreeSpace)
-                    mostFreeSpace = d;
-            }
-            //MessageBox.Show(mostFreeSpace.RootDirectory.FullName);
-            if (!DEFAULT_STORAGE_PATH.ToLowerInvariant().StartsWith(mostFreeSpace.RootDirectory.FullName.ToLowerInvariant()))
-            {
-                _storagePath = Path.Combine(mostFreeSpace.RootDirectory.FullName, "SporeModManagerStorage");
-            }
 
-            string[] args = Environment.GetCommandLineArgs();
-            if (args.Length > 1)
+            if (Permissions.IsAdministrator())
             {
-                string lkPath = args[1];
-                if (Uri.IsWellFormedUriString(lkPath, UriKind.RelativeOrAbsolute) && Directory.Exists(lkPath))
+                var fixedDrives = DriveInfo.GetDrives().Where(x => x.DriveType == DriveType.Fixed);
+
+                DriveInfo mostFreeSpace = fixedDrives.FirstOrDefault();
+                foreach (DriveInfo d in fixedDrives)
                 {
-                    _lkPath = lkPath;
+                    if (d.AvailableFreeSpace > mostFreeSpace.AvailableFreeSpace)
+                        mostFreeSpace = d;
                 }
-            }
+                //DebugMessageBox(mostFreeSpace.RootDirectory.FullName);
+                if (!DEFAULT_STORAGE_PATH.ToLowerInvariant().StartsWith(mostFreeSpace.RootDirectory.FullName.ToLowerInvariant()))
+                {
+                    _storagePath = Path.Combine(mostFreeSpace.RootDirectory.FullName, "SporeModManagerStorage");
+                }
 
-            SetPage(LicensePage);
+                IEnumerable<string> args = Environment.GetCommandLineArgs()/*.Skip(1)*/;
+                
+                DebugMessageBox("_storagePath: " + _storagePath);
+
+                if (Environment.GetCommandLineArgs().Length > 1)
+                    SetPage(WelcomeToUpgradePathPage);
+                else
+                    SetPage(LicensePage);
+            }
+            else
+                Close();
         }
 
         void SetPage(int index)
@@ -105,9 +107,15 @@ namespace SporeMods.Setup
         {
             SetPage(SelectInstallPathPage);
             SelectInstallPathTextBox.Text = DEFAULT_INSTALL_PATH;
+            UpdateSelectInstallPathText();
         }
 
         private void SelectInstallPathTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateSelectInstallPathText();
+        }
+
+        void UpdateSelectInstallPathText()
         {
             string text = Environment.ExpandEnvironmentVariables(SelectInstallPathTextBox.Text);
             if (!text.EndsWith("Spore Mod Manager"))
@@ -115,7 +123,7 @@ namespace SporeMods.Setup
                 text = Path.Combine(text, "Spore Mod Manager");
             }
 
-            if (Uri.IsWellFormedUriString(text, UriKind.Absolute) && !Directory.Exists(text))
+            if (Directory.Exists(text))
             {
                 _installPath = text;
                 SelectInstallPathBadPathBorder.BorderThickness = new Thickness(0);
@@ -131,13 +139,18 @@ namespace SporeMods.Setup
 
         private void SelectStoragePathTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            UpdateSelectStoragePathText();
+        }
+
+        void UpdateSelectStoragePathText()
+        {
             string text = Environment.ExpandEnvironmentVariables(SelectStoragePathTextBox.Text);
             if (!text.EndsWith("SporeModManagerStorage"))
             {
                 text = Path.Combine(text, "SporeModManagerStorage");
             }
 
-            if (Uri.IsWellFormedUriString(text, UriKind.Absolute) && !Directory.Exists(text))
+            if (Directory.Exists(text))
             {
                 _storagePath = text;
                 SelectStoragePathBadPathBorder.BorderThickness = new Thickness(0);
@@ -155,6 +168,7 @@ namespace SporeMods.Setup
         {
             SetPage(SelectStoragePathPage);
             SelectStoragePathTextBox.Text = DEFAULT_STORAGE_PATH;
+            UpdateSelectStoragePathText();
         }
 
         private void SelectStoragePathNextButton_Click(object sender, RoutedEventArgs e)
@@ -163,79 +177,117 @@ namespace SporeMods.Setup
         }
 
 
-        bool InstallSporeModManager()
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            SetPage(InstallProgressPage);
-            MessageBox.Show("INSTALL PATH: " + _installPath + "\nSTORAGE PATH: " + _storagePath);
-            Thread thread = new Thread(() =>
+            if (InstallProgressPage.IsVisible)
+                e.Cancel = true;
+            else if (InstallCompletedPage.IsVisible)
             {
-                if (!Directory.Exists(_installPath))
-                    Directory.CreateDirectory(_installPath);
+                /*if (_lkPath != null)
+                {
+                    File.WriteAllLines(SetupInfo.INSTALL_DIR_LOCATOR_PATH, new string[]
+                        {
+                            _installPath,
+                            _lkPath
+                        });
+                }
+                else
+                {*/
+                File.WriteAllText(SetupInfo.INSTALL_DIR_LOCATOR_PATH, _installPath);
+                /*}
+                Permissions.GrantAccessFile(SetupInfo.INSTALL_DIR_LOCATOR_PATH);
+
+                if (_lkPath != null)
+                {
+                    DebugMessageBox("START IMPORTER");
+                    Application.Current.Shutdown(SetupInfo.EXIT_RUN_LK_IMPORTER);
+                }
+                else
+                {
+                    DebugMessageBox("START MOD MANAGER DIRECTLY");
+                    Application.Current.Shutdown(SetupInfo.EXIT_RUN_MOD_MGR);
+                }*/
+            }
+        }
+
+        void InstallSporeModManager()
+        {
+            try
+            {
+                SetPage(InstallProgressPage);
+                DebugMessageBox("INSTALL PATH: " + _installPath + "\nSTORAGE PATH: " + _storagePath);
+                Thread thread = new Thread(() =>
+                {
+                    if (!Directory.Exists(_installPath))
+                        Directory.CreateDirectory(_installPath);
 
                 //string rresources = string.Empty;
                 IEnumerable<string> resources = Application.ResourceAssembly.GetManifestResourceNames().Where(x => !x.ToLowerInvariant().EndsWith(".resources"));
-                
-                Dispatcher.BeginInvoke(new Action(() => InstallProgressBar.Maximum = resources.Count()));
-                
-                foreach (string s in resources)
-                {
-                    string fileOutPath = Path.Combine(_installPath, s.Replace("SporeMods.Setup.", string.Empty));
-                    using (var resource = Application.ResourceAssembly.GetManifestResourceStream(s))
+
+                    Dispatcher.BeginInvoke(new Action(() => InstallProgressBar.Maximum = resources.Count()));
+
+                    foreach (string s in resources)
                     {
-                        using (var file = new FileStream(fileOutPath, FileMode.Create, FileAccess.Write))
+                        string fileOutPath = Path.Combine(_installPath, s.Replace("SporeMods.Setup.", string.Empty));
+                        using (var resource = Application.ResourceAssembly.GetManifestResourceStream(s))
                         {
-                            resource.CopyTo(file);
+                            using (var file = new FileStream(fileOutPath, FileMode.Create, FileAccess.Write))
+                            {
+                                resource.CopyTo(file);
+                            }
                         }
-                    }
 
-                    Permissions.GrantAccessFile(fileOutPath);
+                        Permissions.GrantAccessFile(fileOutPath);
 
-                        //rresources += s + "\n";
+                    //rresources += s + "\n";
                     Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        InstallProgressBar.Value++;
-                    }));
-                }
-                Permissions.GrantAccessDirectory(_installPath);
-
-                if (_storagePath != DEFAULT_STORAGE_PATH)
-                {
-                    if (!Directory.Exists(DEFAULT_STORAGE_PATH))
-                        Directory.CreateDirectory(DEFAULT_STORAGE_PATH);
-
-                    string redirect = Path.Combine(DEFAULT_STORAGE_PATH, "redirectStorage.txt");
-                    File.WriteAllText(redirect, _storagePath);
-
-                    Permissions.GrantAccessFile(redirect);
-                }
-                Permissions.GrantAccessDirectory(_storagePath);
-                /*Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    MessageBox.Show(rresources);
-                }));*/
-
-                bool runImporter = false;
-                if ((_lkPath != null) && Uri.IsWellFormedUriString(_lkPath, UriKind.RelativeOrAbsolute) && Directory.Exists(_lkPath))
-                {
-                    if (
-                            File.Exists(Path.Combine(_lkPath, "Spore ModAPI Launcher.exe")) &&
-                            File.Exists(Path.Combine(_lkPath, "Spore ModAPI Easy Installer.exe")) &&
-                            File.Exists(Path.Combine(_lkPath, "Spore ModAPI Easy Uninstaller.exe")) &&
-                            (!File.Exists(Path.Combine(_lkPath, "Spore Mod Manager.exe")))
-                        )
-                    {
-                        runImporter = true;
+                        {
+                            InstallProgressBar.Value++;
+                        }));
                     }
-                }
+                    Permissions.GrantAccessDirectory(_installPath);
 
-                if (runImporter)
-                    Dispatcher.BeginInvoke(new Action(() => MessageBox.Show("START IMPORTER", "The End")));
-                else
-                    Dispatcher.BeginInvoke(new Action(() => MessageBox.Show("START MOD MANAGER DIRECTLY", "The End")));
-            });
-            thread.Start();
+                    if (_storagePath != DEFAULT_STORAGE_PATH)
+                    {
+                        if (!Directory.Exists(DEFAULT_STORAGE_PATH))
+                            Directory.CreateDirectory(DEFAULT_STORAGE_PATH);
 
-            return true;
+                        string redirect = Path.Combine(DEFAULT_STORAGE_PATH, "redirectStorage.txt");
+                        File.WriteAllText(redirect, _storagePath);
+
+                        Permissions.GrantAccessFile(redirect);
+                    }
+                    Permissions.GrantAccessDirectory(_storagePath);
+                    /*Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        DebugMessageBox(rresources);
+                    }));*/
+
+                    Dispatcher.BeginInvoke(new Action(() => SetPage(InstallCompletedPage)));
+                });
+                thread.Start();
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        public void DebugMessageBox(string text)
+        {
+            if (debug)
+                MessageBox.Show(text);
+        }
+
+        private void UpgradeOkButton_Click(object sender, RoutedEventArgs e)
+        {
+            SetPage(LicensePage);
+        }
+
+        private void SuccessCloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

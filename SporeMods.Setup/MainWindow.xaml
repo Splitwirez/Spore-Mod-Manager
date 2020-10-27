@@ -5,8 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SporeMods.Setup"
         mc:Ignorable="d"
-        Title="Spore Mod Manager Setup" Width="600" Height="500" ResizeMode="CanMinimize">
+        Title="Spore Mod Manager Setup" Width="600" Height="500" ResizeMode="CanMinimize" Closing="MainWindow_Closing">
     <Grid x:Name="PagesGrid">
+        <DockPanel x:Name="WelcomeToUpgradePathPage" Visibility="Collapsed">
+            <Button x:Name="UpgradeOkButton" DockPanel.Dock="Bottom" Click="UpgradeOkButton_Click">OK</Button>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Time for an upgrade!" FontSize="18" FontWeight="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock Text="We're upgrading you to the all-new Spore Mod Manager." HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </StackPanel>
+        </DockPanel>
         <DockPanel x:Name="LicensePage" Visibility="Collapsed">
             <Button x:Name="LicenseNextButton" DockPanel.Dock="Bottom" IsEnabled="{Binding IsChecked, ElementName=PleaseReadTheTermsBeforeCheckingThis}" Click="LicenseNextButton_Click">Next</Button>
             <CheckBox x:Name="PleaseReadTheTermsBeforeCheckingThis" Margin="10" DockPanel.Dock="Bottom">I have read, HAVE ACTUALLY UNDERSTOOD (VERY IMPORTANT), and accept these terms of use.</CheckBox>
@@ -117,5 +124,9 @@
         <Grid x:Name="InstallProgressPage" Visibility="Collapsed">
             <ProgressBar x:Name="InstallProgressBar" VerticalAlignment="Center" Margin="20" Height="24"/>
         </Grid>
+        <DockPanel x:Name="InstallCompletedPage" Visibility="Collapsed">
+            <Button x:Name="SuccessCloseButton" DockPanel.Dock="Bottom" Click="SuccessCloseButton_Click">Close</Button>
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Installation complete!</TextBlock>
+        </DockPanel>
     </Grid>
 </Window>

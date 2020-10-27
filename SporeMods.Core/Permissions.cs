@@ -42,7 +42,13 @@ namespace SporeMods.Core
 
             string returnVal = string.Empty;
             foreach (string s in args)
-                returnVal = returnVal + "\"" + s + "\" ";
+            {
+                //returnVal = returnVal + "\"" + s + "\" ";
+                if (s.Contains(' '))
+                    returnVal = returnVal + "\"" + s + "\" ";
+                else
+                    returnVal = returnVal + s + " ";
+            }
 
             return returnVal;
         }
