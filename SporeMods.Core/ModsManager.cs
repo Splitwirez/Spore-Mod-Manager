@@ -148,9 +148,9 @@ namespace SporeMods.Core
                     modText += ", version " + mod.ModVersion;
                 if (mod is ManualInstalledFile)
                     modText += ", INSTALLED MANUALLY";
-                modsText += modText + "\n\n";
+                modsText += modText + "\r\n\r\n";
             }
-            modsText = modsText.TrimEnd('\n');
+            //modsText = modsText.TrimEnd('\n');
             return modsText;
         }
 

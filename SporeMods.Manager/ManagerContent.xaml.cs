@@ -1756,7 +1756,7 @@ namespace SporeMods.Manager
 
         void SetClipboardTextForTechnicalDetails(string details)
         {
-            WineHelper.SetClipboardContent("```\n[spoiler]\n" + details + "\n[/spoiler]\n```");
+            WineHelper.SetClipboardContent("```\r\n[spoiler]\r\n" + details + "\r\n[/spoiler]\r\n```");
         }
 
         private void MenuToggleButton_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
