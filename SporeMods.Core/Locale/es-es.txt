@@ -135,8 +135,8 @@ InstallationComplete ¡Instalación completa!
 ModsInstalledSuccessfully Estos mods se instalaron correctamente
 ModsFailedToInstall Estos mods no se pudieron instalar
 
-CopyUrlIntoBrowser Copy the following URL into your internet browser.
-CopypasteToTechSupport Copy the text below, and send it to whoever asked you for it.
+CopyUrlIntoBrowser Copia el siguiente enlace en tu navegador web.
+CopypasteToTechSupport Copia el texto de abajo, y enviaselo a quién te lo haya pedido.
 
 # Error messages
 Error_SporeCoreFolder Spore base %DIRNAME%
