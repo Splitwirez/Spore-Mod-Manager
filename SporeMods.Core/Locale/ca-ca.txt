@@ -135,8 +135,8 @@ InstallationComplete Instal·lació finalitzada!
 ModsInstalledSuccessfully Aquests mods s'han instal·lat correctament
 ModsFailedToInstall Aquests mods no s'han pogut instal·lar
 
-CopyUrlIntoBrowser Copy the following URL into your internet browser.
-CopypasteToTechSupport Copy the text below, and send it to whoever asked you for it.
+CopyUrlIntoBrowser Copia el següent enllaç al teu navegador web.
+CopypasteToTechSupport Copia el text de baix, i envia'l a qui te l'hagi demanat.
 
 # Error messages
 Error_SporeCoreFolder Spore base %DIRNAME%
