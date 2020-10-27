@@ -73,8 +73,10 @@ namespace SporeMods.Setup
                     string mgrPath = File.ReadAllText(SetupInfo.INSTALL_DIR_LOCATOR_PATH);
 
                     if (_lkPath != null)
-                        Process.Start(Path.Combine(mgrPath, "SporeMods.KitImporter.exe"), "\"" + _lkPath + "\"");
-                    else
+                    {
+                        //Process.Start(Path.Combine(mgrPath, "SporeMods.KitImporter.exe"), "\"" + _lkPath + "\"");
+                    }
+                    //else
                         Process.Start(Path.Combine(mgrPath, "Spore Mod Manager.exe"));
                 }
                 else
