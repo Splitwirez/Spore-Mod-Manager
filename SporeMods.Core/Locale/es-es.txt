@@ -61,8 +61,8 @@ BuildSideloadCoreDlls or compile the ModAPI DLLs to %OVERRIDELIBSPATH% yourself,
 SelectDlls Select DLL bundle
 DllBundlesFilter DLL bundles (%EXTENSIONS%)
 
-SwitchOn On
-SwitchOff Off
+SwitchOn Encedidas
+SwitchOff Apagadas
 SwitchYes Sí
 SwitchNo No
 
