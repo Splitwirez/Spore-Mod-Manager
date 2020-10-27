@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using CMessageBox = Mechanism.Wpf.Core.Windows.MessageBox;
+using DecoratableWindow = Mechanism.Wpf.Core.Windows.DecoratableWindow;
 
 namespace SporeMods.CommonUI
 {
@@ -43,6 +44,28 @@ namespace SporeMods.CommonUI
                 CMessageBox.Show(messageBoxText, caption);
             else
                 MessageBox.Show(messageBoxText, caption);
+        }
+
+
+        public static void ShowClipboardFallback(string instruction, string content) => ShowClipboardFallback(instruction, content, string.Empty);
+        public static void ShowClipboardFallback(string instruction, string content, string title)
+        {
+            ClipboardFallback fallback = new ClipboardFallback(instruction, content);
+            Window window = null;
+
+            if (Settings.UseCustomWindowDecorations)
+            {
+                window = new DecoratableWindow();
+            }
+            else
+            {
+                window = new Window();
+            }
+
+            window.Title = title;
+            window.Content = fallback;
+            window.SizeToContent = SizeToContent.WidthAndHeight;
+            window.ShowDialog();
         }
     }
 }

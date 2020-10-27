@@ -47,7 +47,15 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClipboardFallback.xaml.cs">
+      <DependentUpon>ClipboardFallback.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WineHelper.cs" />
     <Compile Include="VersionValidation.cs" />
+    <Page Include="ClipboardFallback.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ProgressDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

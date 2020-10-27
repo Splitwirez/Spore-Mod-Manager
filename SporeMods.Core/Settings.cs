@@ -18,6 +18,11 @@ namespace SporeMods.Core
             get => File.Exists(Path.Combine(Settings.ProgramDataPath, "debug.txt"));
         }
 
+        public static bool NonEssentialIsRunningUnderWine
+        {
+            get => File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "winecfg.exe"));
+        }
+
         /// <summary>
         /// Path to the mod collection folder in ProgramData.
         /// </summary>

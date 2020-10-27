@@ -1,7 +1,4 @@
 ﻿using Microsoft.Win32;
-using SporeMods.Core;
-using Mechanism.Wpf.Core.Windows;
-using Mechanism.Wpf.Styles.Shale;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,6 +16,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
+using Mechanism.Wpf.Core.Windows;
+using Mechanism.Wpf.Styles.Shale;
+using SporeMods.Core;
+using MessageDisplay = SporeMods.Core.MessageDisplay;
 using MessageBox = System.Windows.MessageBox;
 using static Mechanism.Wpf.Core.NativeMethods;
 using System.Windows.Interop;
@@ -32,6 +33,7 @@ using SporeMods.Manager.Configurators;
 using FolderBrowserDialog = System.Windows.Forms.FolderBrowserDialog;
 using DialogResult = System.Windows.Forms.DialogResult;
 using Mechanism.Wpf.Core;
+using SporeMods.CommonUI;
 
 namespace SporeMods.Manager
 {
@@ -1718,14 +1720,14 @@ namespace SporeMods.Manager
 
         private void CopyModsToClipboardButton_Click(object sender, RoutedEventArgs e)
         {
-            string info = ModsManager.GetModsListForClipboard();
-            try
+            SetClipboardTextForTechnicalDetails(ModsManager.GetModsListForClipboard());
+            /*try
             {
                 SetClipboardTextForTechnicalDetails(info);
             }
             catch (Exception ex)
             {
-                if (File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "winecfg.exe")))
+                if (Settings.NonEssentialIsRunningUnderWine)
                 {
                     DockPanel panel = new DockPanel();
                     TextBox content = new TextBox()
@@ -1749,13 +1751,12 @@ namespace SporeMods.Manager
                 }
                 else
                     throw ex;
-            }
+            }*/
         }
 
         void SetClipboardTextForTechnicalDetails(string details)
         {
-            Clipboard.SetText("```\n[spoiler]\n" +
-                details + "\n[/spoiler]\n```");
+            WineHelper.SetClipboardContent("```\n[spoiler]\n" + details + "\n[/spoiler]\n```");
         }
 
         private void MenuToggleButton_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
@@ -1883,9 +1884,10 @@ namespace SporeMods.Manager
 
         void OpenUrl(string url)
         {
-            if ((App.DragServantProcess != null) && (!App.DragServantProcess.HasExited))
+            WineHelper.OpenUrl(url, App.DragServantProcess);
+            /*if ((App.DragServantProcess != null) && (!App.DragServantProcess.HasExited))
                 File.WriteAllText(Path.Combine(Settings.TempFolderPath, "OpenUrl"), url);
-            else if (File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "winecfg.exe")))
+            else if (Settings.NonEssentialIsRunningUnderWine)
             {
                 DockPanel panel = new DockPanel();
                 TextBox content = new TextBox()
@@ -1911,24 +1913,23 @@ namespace SporeMods.Manager
                 {
                     UseShellExecute = true
                 });*/
-                /*string outPath = Path.Combine(Settings.ProgramDataPath, "url.txt");
-                File.WriteAllText(outPath, url);
-                Permissions.GrantAccessFile(outPath);
-                Process.Start(new ProcessStartInfo(outPath)
-                {
-                    UseShellExecute = true
-                });*/
-            }
+            /*string outPath = Path.Combine(Settings.ProgramDataPath, "url.txt");
+            File.WriteAllText(outPath, url);
+            Permissions.GrantAccessFile(outPath);
+            Process.Start(new ProcessStartInfo(outPath)
+            {
+                UseShellExecute = true
+            });*/
         }
-    }
 
-    /*public class ForcecloseCancelButtons : IMessageBoxActionSet
-    {
-        public IEnumerable<object> Actions => new List<object>
+        /*public class ForcecloseCancelButtons : IMessageBoxActionSet
         {
-            true,
-            false
-        };
+            public IEnumerable<object> Actions => new List<object>
+            {
+                true,
+                false
+            };
+        }
 
         public string GetDisplayName(object value)
         {
@@ -1936,6 +1937,6 @@ namespace SporeMods.Manager
                 return Settings.GetLanguageString("ForceKillSpore");
             else
                 return Settings.GetLanguageString("DontForceKillSpore");
-        }
-    }*/
+        }*/
+    }
 }

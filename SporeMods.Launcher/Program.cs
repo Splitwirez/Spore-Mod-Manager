@@ -76,7 +76,7 @@ namespace SporeMods.Launcher
                 if (Permissions.IsAtleastWindowsVista() && Permissions.IsAdministrator())
                 {
                     proceed = false;
-                    if (File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "winecfg.exe")))
+                    if (Settings.NonEssentialIsRunningUnderWine)
                         proceed = true;
                     else if (MessageBox.Show(Settings.GetLanguageString(1, "DontRunAsAdmin").Replace("%APPNAME%", "Spore Mod Launcher"), String.Empty, MessageBoxButtons.YesNo) == DialogResult.Yes)
                         proceed = true;
