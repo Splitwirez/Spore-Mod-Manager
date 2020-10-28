@@ -17,6 +17,7 @@ using System.Reflection;
 using System.Diagnostics;
 using System.ComponentModel;
 using FolderBrowserDialog = System.Windows.Forms.FolderBrowserDialog;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace SporeMods.Setup
 {
@@ -294,7 +295,7 @@ namespace SporeMods.Setup
                 //string rresources = string.Empty;
                 IEnumerable<string> resources = Application.ResourceAssembly.GetManifestResourceNames().Where(x => !x.ToLowerInvariant().EndsWith(".resources"));
 
-                    Dispatcher.BeginInvoke(new Action(() => InstallProgressBar.Maximum = resources.Count()));
+                    Dispatcher.BeginInvoke(new Action(() => InstallProgressBar.Maximum = resources.Count() + 4));
 
                     foreach (string s in resources)
                     {
@@ -309,11 +310,8 @@ namespace SporeMods.Setup
 
                         Permissions.GrantAccessFile(fileOutPath);
 
-                    //rresources += s + "\n";
-                    Dispatcher.BeginInvoke(new Action(() =>
-                        {
-                            InstallProgressBar.Value++;
-                        }));
+                        //rresources += s + "\n";
+                        Dispatcher.BeginInvoke(new Action(() => InstallProgressBar.Value++));
                     }
                     Permissions.GrantAccessDirectory(_installPath);
 
@@ -332,6 +330,54 @@ namespace SporeMods.Setup
                     {
                         DebugMessageBox(rresources);
                     }));*/
+                    string menuShortcutDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu), "Spore Mod Manager");
+                    if (!Directory.Exists(menuShortcutDir))
+                        Directory.CreateDirectory(menuShortcutDir);
+
+
+                    string mgrPath = Path.Combine(_installPath, "Spore Mod Manager.exe");
+                    string launcherPath = Path.Combine(_installPath, "Spore Mod Launcher.exe");
+                    
+                    
+                    Shortcut.IShellLinkW mgrMenuShortcut = Shortcut.GetShortcut();
+                    mgrMenuShortcut.SetPath(mgrPath);
+                    string mgrMenuOutPath = Path.Combine(menuShortcutDir, "Spore Mod Manager.lnk");
+                    if (File.Exists(mgrMenuOutPath))
+                        File.Delete(mgrMenuOutPath);
+                    ((IPersistFile)mgrMenuShortcut).Save(mgrMenuOutPath, false);
+                    Permissions.GrantAccessFile(mgrMenuOutPath);
+                    Dispatcher.BeginInvoke(new Action(() => InstallProgressBar.Value++));
+
+                    Shortcut.IShellLinkW launcherMenuShortcut = Shortcut.GetShortcut();
+                    launcherMenuShortcut.SetPath(launcherPath);
+                    string launcherMenuOutPath = Path.Combine(menuShortcutDir, "Launch Spore through Spore Mod Manager.lnk");
+                    if (File.Exists(launcherMenuOutPath))
+                        File.Delete(launcherMenuOutPath);
+                    ((IPersistFile)launcherMenuShortcut).Save(launcherMenuOutPath, false);
+                    Permissions.GrantAccessFile(launcherMenuOutPath);
+                    Dispatcher.BeginInvoke(new Action(() => InstallProgressBar.Value++));
+
+
+                    Shortcut.IShellLinkW mgrDesktopShortcut = Shortcut.GetShortcut();
+                    mgrDesktopShortcut.SetPath(mgrPath);
+                    string mgrDesktopOutPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory), "Spore Mod Manager.lnk");
+                    if (File.Exists(mgrDesktopOutPath))
+                        File.Delete(mgrDesktopOutPath);
+                    ((IPersistFile)mgrDesktopShortcut).Save(mgrDesktopOutPath, false);
+                    Permissions.GrantAccessFile(mgrDesktopOutPath);
+                    Dispatcher.BeginInvoke(new Action(() => InstallProgressBar.Value++));
+
+                    Shortcut.IShellLinkW launcherDesktopShortcut = Shortcut.GetShortcut();
+                    launcherDesktopShortcut.SetPath(launcherPath);
+                    string launcherDesktopOutPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory), "Launch Spore through Spore Mod Manager.lnk");
+                    if (File.Exists(launcherDesktopOutPath))
+                        File.Delete(launcherDesktopOutPath);
+                    ((IPersistFile)launcherDesktopShortcut).Save(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory), "Launch Spore through Spore Mod Manager.lnk"), false);
+                    Permissions.GrantAccessFile(launcherDesktopOutPath);
+                    Dispatcher.BeginInvoke(new Action(() => InstallProgressBar.Value++));
+
+                    Permissions.GrantAccessDirectory(menuShortcutDir);
+
 
                     Dispatcher.BeginInvoke(new Action(() => SetPage(InstallCompletedPage)));
                 });
