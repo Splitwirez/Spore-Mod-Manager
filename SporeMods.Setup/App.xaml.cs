@@ -79,8 +79,8 @@ namespace SporeMods.Setup
                     //else
                         Process.Start(Path.Combine(mgrPath, "Spore Mod Manager.exe"));
                 }
-                else
-                    MessageBox.Show("Spore Mod Manager install location was not returned. You should never see this message, so if you somehow do see it, inform Splitwirez or emd immediately.");
+                /*else
+                    MessageBox.Show("Spore Mod Manager install location was not returned. You should never see this message, so if you somehow do see it, inform Splitwirez or emd immediately.");*/
 
                 Shutdown();
             }

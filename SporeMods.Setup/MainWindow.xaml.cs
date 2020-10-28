@@ -16,6 +16,7 @@ using System.Threading;
 using System.Reflection;
 using System.Diagnostics;
 using System.ComponentModel;
+using FolderBrowserDialog = System.Windows.Forms.FolderBrowserDialog;
 
 namespace SporeMods.Setup
 {
@@ -24,12 +25,14 @@ namespace SporeMods.Setup
     /// </summary>
     public partial class MainWindow : Window
     {
+        static string usersDir = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)).Parent.ToString().ToLowerInvariant();
         static bool debug = Environment.GetCommandLineArgs().Skip(1).Any(x => x.ToLower() == "--debug");
 
         static string DEFAULT_INSTALL_PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Spore Mod Manager");
         string _installPath = DEFAULT_INSTALL_PATH;
         static string DEFAULT_STORAGE_PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "SporeModManagerStorage");
         string _storagePath = DEFAULT_STORAGE_PATH;
+        string _autoStoragePath = DEFAULT_STORAGE_PATH;
 
         public MainWindow()
         {
@@ -50,6 +53,7 @@ namespace SporeMods.Setup
                 {
                     _storagePath = Path.Combine(mostFreeSpace.RootDirectory.FullName, "SporeModManagerStorage");
                 }
+                _autoStoragePath = _storagePath;
 
                 IEnumerable<string> args = Environment.GetCommandLineArgs()/*.Skip(1)*/;
                 
@@ -126,17 +130,21 @@ namespace SporeMods.Setup
                 text = Path.Combine(text, "Spore Mod Manager");
             }
 
-            if (Directory.Exists(text))
+            if ((!Directory.Exists(text)) && (!text.ToLowerInvariant().StartsWith(usersDir)))
             {
                 _installPath = text;
                 SelectInstallPathBadPathBorder.BorderThickness = new Thickness(0);
                 SelectInstallPathNextButton.IsEnabled = true;
-
+                SelectInstallPathError.Text = string.Empty;
             }
             else
             {
                 SelectInstallPathBadPathBorder.BorderThickness = new Thickness(1);
                 SelectInstallPathNextButton.IsEnabled = false;
+                if (text.ToLowerInvariant().StartsWith(usersDir))
+                    SelectInstallPathError.Text = "Cannot install the Spore Mod Manager to a user-specific location.";
+                else
+                    SelectInstallPathError.Text = "Cannot install the Spore Mod Manager to a pre-existing folder.";
             }
         }
 
@@ -153,22 +161,28 @@ namespace SporeMods.Setup
                 text = Path.Combine(text, "SporeModManagerStorage");
             }
 
-            if (Directory.Exists(text))
+            if ((!Directory.Exists(text)) && (!text.ToLowerInvariant().StartsWith(usersDir)))
             {
                 _storagePath = text;
                 SelectStoragePathBadPathBorder.BorderThickness = new Thickness(0);
                 SelectStoragePathNextButton.IsEnabled = true;
-
+                SelectStoragePathError.Text = string.Empty;
             }
             else
             {
                 SelectStoragePathBadPathBorder.BorderThickness = new Thickness(1);
                 SelectStoragePathNextButton.IsEnabled = false;
+                if (text.ToLowerInvariant().StartsWith(usersDir))
+                    SelectStoragePathError.Text = "The Spore Mod Manager cannot store additional information in a user-specific location.";
+                else
+                    SelectStoragePathError.Text = "The Spore Mod Manager cannot store additional information in a pre-existing folder.";
             }
         }
 
         private void SelectInstallPathNextButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!_installPath.EndsWith("Spore Mod Manager"))
+                _installPath = Path.Combine(_installPath, "Spore Mod Manager");
             SetPage(SelectStoragePathPage);
             SelectStoragePathTextBox.Text = DEFAULT_STORAGE_PATH;
             UpdateSelectStoragePathText();
@@ -176,6 +190,8 @@ namespace SporeMods.Setup
 
         private void SelectStoragePathNextButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!_storagePath.EndsWith("SporeModManagerStorage"))
+                _storagePath = Path.Combine(_storagePath, "SporeModManagerStorage");
             InstallSporeModManager();
         }
 
@@ -342,6 +358,42 @@ namespace SporeMods.Setup
         private void SuccessCloseButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void SelectInstallPathBrowseButton_Click(object sender, RoutedEventArgs e)
+        {
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
+            {
+                string path = dialog.SelectedPath;
+                if (!path.EndsWith("Spore Mod Manager"))
+                    path = Path.Combine(path, "Spore Mod Manager");
+                SelectInstallPathTextBox.Text = path;
+            }
+        }
+
+        private void SelectStoragePathBrowseButton_Click(object sender, RoutedEventArgs e)
+        {
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
+            {
+                string path = dialog.SelectedPath;
+                if (!path.EndsWith("SporeModManagerStorage"))
+                    path = Path.Combine(path, "SporeModManagerStorage");
+                SelectStoragePathTextBox.Text = path;
+            }
+        }
+
+        private void SelectInstallPathDefaultButton_Click(object sender, RoutedEventArgs e)
+        {
+            SelectInstallPathTextBox.Text = DEFAULT_INSTALL_PATH;
+            _storagePath = DEFAULT_INSTALL_PATH;
+        }
+
+        private void SelectStoragePathDefaultButton_Click(object sender, RoutedEventArgs e)
+        {
+            SelectStoragePathTextBox.Text = _autoStoragePath;
+            _storagePath = _autoStoragePath;
         }
     }
 }

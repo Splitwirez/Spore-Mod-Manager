@@ -12,12 +12,9 @@
                     xmlns:autocomp="clr-namespace:WPFTextBoxAutoComplete;assembly=WPFTextBoxAutoComplete"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <ResourceDictionary.MergedDictionaries>
-        <!--ResourceDictionary Source="pack://application:,,,/Mechanism.UI.Wpf;component/Themes/Shale.xaml"/-->
         <ResourceDictionary Source="pack://application:,,,/Mechanism.Wpf.Styles.Shale;component/Themes/Shale.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Mechanism.Wpf.Styles.Shale;component/Themes/Colors/Accent.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Mechanism.Wpf.Styles.Shale;component/Themes/Colors/BaseLight.xaml"/>
-        <!--Un-comment the line below for Dark Shale-->
-        <!--ResourceDictionary Source="pack://application:,,,/Mechanism.UI.Wpf;component/Themes/Colors/ShaleBaseDark.xaml"/-->
     </ResourceDictionary.MergedDictionaries>
 
     <conv:IconToImageBrushConverter x:Key="IconToImageBrushConverter"/>

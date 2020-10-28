@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -69,16 +70,13 @@ namespace SporeMods.KitImporter
             }
         }
 
-        public async Task Import(string path)
+        public void Import(string path)
         {
-            Dispatcher.BeginInvoke(new Action(() =>
-            {
-                VerifyAutoLauncherKitPathPage.Visibility = Visibility.Collapsed;
-                SpecifyLauncherKitPathPage.Visibility = Visibility.Collapsed;
-                ImportInProgressPage.Visibility = Visibility.Visible;
-            }));
+            VerifyAutoLauncherKitPathPage.Visibility = Visibility.Collapsed;
+            SpecifyLauncherKitPathPage.Visibility = Visibility.Collapsed;
+            ImportInProgressPage.Visibility = Visibility.Visible;
 
-            Task task = new Task(() =>
+            Thread thread = new Thread(() =>
             {
                 LauncherKitImporter.Import(path);
                 Dispatcher.BeginInvoke(new Action(() =>
@@ -87,13 +85,12 @@ namespace SporeMods.KitImporter
                     ImportCompletePage.Visibility = Visibility.Visible;
                 }));
             });
-            task.Start();
-            await task;
+            thread.Start();
         }
 
-        private async void ProceedWithAutoPathButton_Click(object sender, RoutedEventArgs e)
+        private void ProceedWithAutoPathButton_Click(object sender, RoutedEventArgs e)
         {
-            await Import(_kitPath);
+            Import(_kitPath);
         }
 
         private void DiscardAutoPathButton_Click(object sender, RoutedEventArgs e)
@@ -102,9 +99,9 @@ namespace SporeMods.KitImporter
             SpecifyLauncherKitPathPage.Visibility = Visibility.Visible;
         }
 
-        private async void ProceedWithSpecifiedPathButton_Click(object sender, RoutedEventArgs e)
+        private void ProceedWithSpecifiedPathButton_Click(object sender, RoutedEventArgs e)
         {
-            await Import(_kitPath);
+            Import(_kitPath);
         }
 
         private void LauncherKitPathBrowseButton_Click(object sender, RoutedEventArgs e)
