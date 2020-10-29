@@ -29,6 +29,7 @@ namespace SporeMods.KitImporter
         }
 
         string _kitPath = null;
+        bool _kitAutoImport = false;
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
@@ -37,6 +38,7 @@ namespace SporeMods.KitImporter
             string lkPathFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Spore ModAPI Launcher\path.info");
             if ((!string.IsNullOrEmpty(_kitPath)) && (!string.IsNullOrWhiteSpace(_kitPath)))
             {
+                _kitAutoImport = true;
                 AutoLauncherKitPathTextBlock.Text = _kitPath;
                 VerifyAutoLauncherKitPathPage.Visibility = Visibility.Visible;
             }
@@ -128,7 +130,10 @@ namespace SporeMods.KitImporter
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            System.Windows.Application.Current.Shutdown(300);
+            if (_kitAutoImport && (ImportCompletePage.Visibility != Visibility.Visible))
+                e.Cancel = true;
+            else
+                System.Windows.Application.Current.Shutdown(300);
         }
     }
 }

@@ -72,7 +72,7 @@ namespace SporeMods.KitImporter
 
             if (modsWithExeInstallers.Any())
             {
-                string text = "The following mods have EXE custom installers:\n";
+                string text = "The following mods have EXE custom installers (which are no longer supported, and have already been deprecated for years now):\n";
                 foreach (var mod in modsWithExeInstallers)
                 {
                     text += "  " + GetModName(mod) + "\n";
@@ -225,7 +225,6 @@ namespace SporeMods.KitImporter
 
             foreach (var mod in modsWithNoConfig)
             {
-                MessageBox.Show("modsWithNoConfig contains " + mod.DisplayName + " with " + mod.Files.Count() + " files");
                 // Try to gather the files if they still exist
                 var filesToCopy = new List<string>();
                 if (mod.ConfiguratorPath != null && File.Exists(mod.ConfiguratorPath))
@@ -236,19 +235,15 @@ namespace SporeMods.KitImporter
                 foreach (var file in mod.Files)
                 {
                     string filePath = GetKitModFilePath(kitPath, file);
-                    MessageBox.Show("filePath: " + filePath);
                     if (File.Exists(filePath))
                         filesToCopy.Add(filePath);
                     else
                     {
-                        MessageBox.Show("filePath 2: " + filePath);
                         if (filePath.ToLowerInvariant().Contains(@"\mlibs\"))
                         {
                             filePath = Path.Combine(kitPath, file.Name);
                             if (File.Exists(filePath))
                                 filesToCopy.Add(filePath);
-                            else
-                            MessageBox.Show("filePath 3: " + filePath);
                         }
                     }
                 }
@@ -260,7 +255,9 @@ namespace SporeMods.KitImporter
 
                 foreach (var file in filesToCopy)
                 {
-                    File.Copy(file, Path.Combine(managerModConfigPath, Path.GetFileName(file)));
+                    string outPath = Path.Combine(managerModConfigPath, Path.GetFileName(file));
+                    File.Copy(file, outPath);
+                    Permissions.GrantAccessFile(outPath);
                 }
 
                 bool usesLegacyDlls = true;

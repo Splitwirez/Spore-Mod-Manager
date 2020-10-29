@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SporeMods.KitImporter"
         mc:Ignorable="d"
-        Title="Import from Spore ModAPI Launcher Kit" Height="450" Width="800" Loaded="MainWindow_Loaded" Closing="MainWindow_Closing">
-    <Grid Margin="100,50">
+        Title="Import from Spore ModAPI Launcher Kit" Height="325" Width="400" Loaded="MainWindow_Loaded" Closing="MainWindow_Closing">
+    <Grid Margin="25">
         <DockPanel x:Name="VerifyAutoLauncherKitPathPage" Visibility="Collapsed">
             <UniformGrid DockPanel.Dock="Bottom">
                 <Button x:Name="ProceedWithAutoPathButton" Click="ProceedWithAutoPathButton_Click">Yes, this path is correct.</Button>

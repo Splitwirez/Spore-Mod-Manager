@@ -1,4 +1,5 @@
 ﻿using SporeMods.Core;
+using SporeMods.CommonUI;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -20,6 +21,9 @@ namespace SporeMods.KitImporter
         protected override void OnStartup(StartupEventArgs e)
         {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+
+            Updater.CheckForUpdates();
+
             if (!Permissions.IsAdministrator())
             {
                 Process process = Permissions.RerunAsAdministrator(false);
