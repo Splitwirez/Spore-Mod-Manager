@@ -97,27 +97,29 @@ namespace SporeMods.KitImporter
         static void DirectoryCopy(string sourceDirName, string destDirName)
         {
             // Get the subdirectories for the specified directory.
-            DirectoryInfo dir = new DirectoryInfo(sourceDirName);
+            //DirectoryInfo dir = new DirectoryInfo(sourceDirName);
 
-            DirectoryInfo[] dirs = dir.GetDirectories();
+            //DirectoryInfo[] dirs = dir.GetDirectories();
 
-            // If the destination directory doesn't exist, create it.       
-            Directory.CreateDirectory(destDirName);
+            // If the destination directory doesn't exist, create it.
+            if (!Directory.Exists(destDirName))
+                Directory.CreateDirectory(destDirName);
+            
             Permissions.GrantAccessDirectory(destDirName);
 
             // Get the files in the directory and copy them to the new location.
-            FileInfo[] files = dir.GetFiles();
-            foreach (FileInfo file in files)
+            //FileInfo[] files = dir.GetFiles();
+            foreach (string file in Directory.EnumerateFiles(sourceDirName))
             {
-                string tempPath = Path.Combine(destDirName, file.Name);
-                file.CopyTo(tempPath, false);
+                string tempPath = Path.Combine(destDirName, Path.GetFileName(file));
+                File.Copy(file, tempPath);
                 Permissions.GrantAccessFile(tempPath);
             }
            
-            foreach (DirectoryInfo subdir in dirs)
+            foreach (string subdir in Directory.EnumerateDirectories(sourceDirName))
             {
-                string tempPath = Path.Combine(destDirName, subdir.Name);
-                DirectoryCopy(subdir.FullName, tempPath);
+                string tempPath = Path.Combine(destDirName, Path.GetFileName(subdir));
+                DirectoryCopy(subdir, tempPath);
             }
         }
 
@@ -143,79 +145,50 @@ namespace SporeMods.KitImporter
             var modsWithNoConfig = new List<KitMod>();
             // Also keep track of which mods were already on the manager, so we can inform the user that we skipped them
             var modsAlreadyInstalled = new List<KitMod>();
+
+            string kitModConfigsPath = Path.Combine(kitPath, "ModConfigs");
+
             // Copy over the mod configs folders, creating XML identities for those mods that didn't have it
             foreach (var mod in mods.Mods)
             {
-                string modConfigPath = Path.Combine(kitPath, "ModConfigs", mod.Unique);
-                if (Directory.Exists(modConfigPath))
+                string managerModConfigPath = Path.Combine(Settings.ModConfigsPath, mod.Unique);
+                
+                /*if (!Directory.Exists(managerModConfigPath))
+                    managerModConfigPath = Path.Combine(Settings.ModConfigsPath, mod.Name);*/
+                
+                if (Directory.Exists(managerModConfigPath))
                 {
-                    string managerModConfigPath = Path.Combine(Settings.ModConfigsPath, mod.Unique);
-                    if (Directory.Exists(managerModConfigPath))
-                    {
-                        modsAlreadyInstalled.Add(mod);
-                    }
-                    else
-                    {
-                        DirectoryCopy(modConfigPath, managerModConfigPath);
+                    modsAlreadyInstalled.Add(mod);
+                    continue;
+                }
 
-                        bool usesLegacyDlls = true;
 
-                        if (!File.Exists(Path.Combine(managerModConfigPath, "ModInfo.xml")))
+                string modConfigPath = Path.Combine(kitModConfigsPath, mod.Unique);
+                if (!Directory.Exists(modConfigPath))
+                {
+                    foreach (string dir in Directory.EnumerateDirectories(kitModConfigsPath))
+                    {
+                        string modInfoPath = Path.Combine(dir, "ModInfo.xml");
+                        if (File.Exists(modInfoPath))
                         {
-                            string displayName = mod.DisplayName;
-                            if (displayName == null) displayName = mod.Name;
-                            if (displayName == null) displayName = mod.Unique;
-                            ModInstallation.CreateModInfoXml(mod.Unique, mod.Name, managerModConfigPath, out XDocument document);
-                        }
-                        else
-                        {
-                            var document = XDocument.Load(Path.Combine(managerModConfigPath, "ModInfo.xml"));
-                            var xmlVersionAttr = document.Root.Attribute("installerSystemVersion");
-                            if (xmlVersionAttr != null && Version.TryParse(xmlVersionAttr.Value, out Version version)
-                                && version != ModIdentity.XmlModIdentityVersion1_0_0_0)
+                            XDocument modInfo = XDocument.Load(modInfoPath);
+                            var uniqueAttr = modInfo.Root.Attribute("unique");
+                            if (uniqueAttr != null)
                             {
-                                usesLegacyDlls = false;
+                                if (uniqueAttr.Value == mod.Unique)
+                                {
+                                    modConfigPath = dir;
+                                    break;
+                                }
                             }
                         }
-
-                        if (usesLegacyDlls)
-                        {
-                            string legacyPath = Path.Combine(managerModConfigPath, "UseLegacyDLLs");
-                            File.WriteAllText(legacyPath, string.Empty);
-                            Permissions.GrantAccessFile(legacyPath);
-                        }
                     }
                 }
-                else
-                {
-                    modsWithNoConfig.Add(mod);
-                }
-            }
 
-            foreach (var mod in modsWithNoConfig)
-            {
-                // Try to gather the files if they still exist
-                var filesToCopy = new List<string>();
-                if (mod.ConfiguratorPath != null && File.Exists(mod.ConfiguratorPath))
-                {
-                    filesToCopy.Add(mod.ConfiguratorPath);
-                }
-                foreach (var file in mod.Files)
-                {
-                    string filePath = GetKitModFilePath(kitPath, file);
-                    if (File.Exists(filePath)) filesToCopy.Add(filePath);
-                }
 
-                if (filesToCopy.Any())
+                if (Directory.Exists(modConfigPath))
                 {
-                    string managerModConfigPath = Path.Combine(Settings.ModConfigsPath, mod.Unique);
-                    Directory.CreateDirectory(managerModConfigPath);
-                    Permissions.GrantAccessDirectory(managerModConfigPath);
-
-                    foreach (var file in filesToCopy)
-                    {
-                        File.Copy(file, Path.Combine(managerModConfigPath, Path.GetFileName(file)));
-                    }
+                    DirectoryCopy(modConfigPath, managerModConfigPath);
 
                     bool usesLegacyDlls = true;
 
@@ -244,9 +217,81 @@ namespace SporeMods.KitImporter
                         Permissions.GrantAccessFile(legacyPath);
                     }
                 }
+                else
+                {
+                    modsWithNoConfig.Add(mod);
+                }
             }
 
-            if (modsAlreadyInstalled.Any())
+            foreach (var mod in modsWithNoConfig)
+            {
+                MessageBox.Show("modsWithNoConfig contains " + mod.DisplayName + " with " + mod.Files.Count() + " files");
+                // Try to gather the files if they still exist
+                var filesToCopy = new List<string>();
+                if (mod.ConfiguratorPath != null && File.Exists(mod.ConfiguratorPath))
+                {
+                    filesToCopy.Add(mod.ConfiguratorPath);
+                }
+
+                foreach (var file in mod.Files)
+                {
+                    string filePath = GetKitModFilePath(kitPath, file);
+                    MessageBox.Show("filePath: " + filePath);
+                    if (File.Exists(filePath))
+                        filesToCopy.Add(filePath);
+                    else
+                    {
+                        MessageBox.Show("filePath 2: " + filePath);
+                        if (filePath.ToLowerInvariant().Contains(@"\mlibs\"))
+                        {
+                            filePath = Path.Combine(kitPath, file.Name);
+                            if (File.Exists(filePath))
+                                filesToCopy.Add(filePath);
+                            else
+                            MessageBox.Show("filePath 3: " + filePath);
+                        }
+                    }
+                }
+
+
+                string managerModConfigPath = Path.Combine(Settings.ModConfigsPath, mod.Unique);
+                Directory.CreateDirectory(managerModConfigPath);
+                Permissions.GrantAccessDirectory(managerModConfigPath);
+
+                foreach (var file in filesToCopy)
+                {
+                    File.Copy(file, Path.Combine(managerModConfigPath, Path.GetFileName(file)));
+                }
+
+                bool usesLegacyDlls = true;
+
+                if (!File.Exists(Path.Combine(managerModConfigPath, "ModInfo.xml")))
+                {
+                    string displayName = mod.DisplayName;
+                    if (displayName == null) displayName = mod.Name;
+                    if (displayName == null) displayName = mod.Unique;
+                    ModInstallation.CreateModInfoXml(mod.Unique, mod.Name, managerModConfigPath, out XDocument document);
+                }
+                else
+                {
+                    var document = XDocument.Load(Path.Combine(managerModConfigPath, "ModInfo.xml"));
+                    var xmlVersionAttr = document.Root.Attribute("installerSystemVersion");
+                    if (xmlVersionAttr != null && Version.TryParse(xmlVersionAttr.Value, out Version version)
+                        && version != ModIdentity.XmlModIdentityVersion1_0_0_0)
+                    {
+                        usesLegacyDlls = false;
+                    }
+                }
+
+                if (usesLegacyDlls)
+                {
+                    string legacyPath = Path.Combine(managerModConfigPath, "UseLegacyDLLs");
+                    File.WriteAllText(legacyPath, string.Empty);
+                    Permissions.GrantAccessFile(legacyPath);
+                }
+            }
+
+            if (modsAlreadyInstalled.Count > 0)
             {
                 string text = "The following mods were already installed on the Mod Manager, so they have been skipped:\n";
                 foreach (var mod in modsAlreadyInstalled)
