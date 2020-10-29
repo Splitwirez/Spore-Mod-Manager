@@ -143,9 +143,9 @@ namespace SporeMods.Setup
                 SelectInstallPathBadPathBorder.BorderThickness = new Thickness(1);
                 SelectInstallPathNextButton.IsEnabled = false;
                 if (text.ToLowerInvariant().StartsWith(usersDir))
-                    SelectInstallPathError.Text = "Cannot install the Spore Mod Manager to a user-specific location.";
+                    SelectInstallPathError.SetResourceReference(TextBlock.TextProperty, "CannotInstallToUserSpecificLocation"); //"Cannot install the Spore Mod Manager to a user-specific location.";
                 else
-                    SelectInstallPathError.Text = "Cannot install the Spore Mod Manager to a pre-existing folder.";
+                    SelectInstallPathError.SetResourceReference(TextBlock.TextProperty, "CannotInstallToExistingFolder"); //.Text = "Cannot install the Spore Mod Manager to a pre-existing folder.";
             }
         }
 
@@ -174,9 +174,9 @@ namespace SporeMods.Setup
                 SelectStoragePathBadPathBorder.BorderThickness = new Thickness(1);
                 SelectStoragePathNextButton.IsEnabled = false;
                 if (text.ToLowerInvariant().StartsWith(usersDir))
-                    SelectStoragePathError.Text = "The Spore Mod Manager cannot store additional information in a user-specific location.";
+                    SelectStoragePathError.SetResourceReference(TextBlock.TextProperty, "CannotStoreConfigInUserSpecificLocation"); //.Text = "The Spore Mod Manager cannot store additional information in a user-specific location.";
                 else
-                    SelectStoragePathError.Text = "The Spore Mod Manager cannot store additional information in a pre-existing folder.";
+                    SelectStoragePathError.SetResourceReference(TextBlock.TextProperty, "CannotStoreConfigInExistingFolder"); //.Text = "The Spore Mod Manager cannot store additional information in a pre-existing folder.";
             }
         }
 
@@ -350,7 +350,7 @@ namespace SporeMods.Setup
 
                     Shortcut.IShellLinkW launcherMenuShortcut = Shortcut.GetShortcut();
                     launcherMenuShortcut.SetPath(launcherPath);
-                    string launcherMenuOutPath = Path.Combine(menuShortcutDir, "Launch Spore through Spore Mod Manager.lnk");
+                    string launcherMenuOutPath = Path.Combine(menuShortcutDir, "Launch Spore.lnk");
                     if (File.Exists(launcherMenuOutPath))
                         File.Delete(launcherMenuOutPath);
                     ((IPersistFile)launcherMenuShortcut).Save(launcherMenuOutPath, false);
@@ -369,10 +369,10 @@ namespace SporeMods.Setup
 
                     Shortcut.IShellLinkW launcherDesktopShortcut = Shortcut.GetShortcut();
                     launcherDesktopShortcut.SetPath(launcherPath);
-                    string launcherDesktopOutPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory), "Launch Spore through Spore Mod Manager.lnk");
+                    string launcherDesktopOutPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory), "Launch Spore.lnk");
                     if (File.Exists(launcherDesktopOutPath))
                         File.Delete(launcherDesktopOutPath);
-                    ((IPersistFile)launcherDesktopShortcut).Save(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory), "Launch Spore through Spore Mod Manager.lnk"), false);
+                    ((IPersistFile)launcherDesktopShortcut).Save(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory), "Launch Spore.lnk"), false);
                     Permissions.GrantAccessFile(launcherDesktopOutPath);
                     Dispatcher.BeginInvoke(new Action(() => InstallProgressBar.Value++));
 

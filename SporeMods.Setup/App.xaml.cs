@@ -86,8 +86,10 @@ namespace SporeMods.Setup
             }
             else
             {
-                //MainWindow = new MainWindow();
                 base.OnStartup(e);
+                MainWindow = new MainWindow();
+                new LanguagesWindow().ShowDialog();
+                MainWindow.Show();
             }
         }
 

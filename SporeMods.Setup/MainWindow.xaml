@@ -5,18 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SporeMods.Setup"
         mc:Ignorable="d"
-        Title="Spore Mod Manager Setup" Width="600" Height="500" ResizeMode="CanMinimize" Closing="MainWindow_Closing">
+        Title="{DynamicResource MainWindowTitle}" Width="600" Height="500" ResizeMode="CanMinimize" Closing="MainWindow_Closing">
     <Grid x:Name="PagesGrid">
         <DockPanel x:Name="WelcomeToUpgradePathPage" Visibility="Collapsed">
-            <Button x:Name="UpgradeOkButton" DockPanel.Dock="Bottom" Click="UpgradeOkButton_Click">OK</Button>
+            <Button x:Name="UpgradeOkButton" DockPanel.Dock="Bottom" Click="UpgradeOkButton_Click" Content="{DynamicResource Ok}"/>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="Time for an upgrade!" FontSize="18" FontWeight="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <TextBlock Text="This update is a bit different - we're upgrading you to the Spore Mod Manager." HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock Text="{DynamicResource TimeToUpgradeHeader}" FontSize="18" FontWeight="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock Text="{DynamicResource TimeToUpgrade}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </StackPanel>
         </DockPanel>
         <DockPanel x:Name="LicensePage" Visibility="Collapsed">
-            <Button x:Name="LicenseNextButton" DockPanel.Dock="Bottom" IsEnabled="{Binding IsChecked, ElementName=PleaseReadTheTermsBeforeCheckingThis}" Click="LicenseNextButton_Click">Next</Button>
-            <CheckBox x:Name="PleaseReadTheTermsBeforeCheckingThis" Margin="10" DockPanel.Dock="Bottom">I have read, HAVE ACTUALLY UNDERSTOOD (VERY IMPORTANT), and accept these terms of use.</CheckBox>
+            <Button x:Name="LicenseNextButton" DockPanel.Dock="Bottom" IsEnabled="{Binding IsChecked, ElementName=PleaseReadTheTermsBeforeCheckingThis}" Click="LicenseNextButton_Click" Content="{DynamicResource Next}"/>
+            <CheckBox x:Name="PleaseReadTheTermsBeforeCheckingThis" Margin="10" DockPanel.Dock="Bottom" Content="{DynamicResource IAgreeToTheTerms}"/>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -26,8 +26,8 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" Margin="10" FontWeight="Black" Grid.Row="0" Grid.Column="0">Legalese agreement</TextBlock>
-                <TextBlock HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" Margin="10" FontWeight="Black" Grid.Row="0" Grid.Column="1">Plain English summary</TextBlock>
+                <TextBlock HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" Margin="10" FontWeight="Black" Grid.Row="0" Grid.Column="0" Text="{DynamicResource LegaleseAgreementHeader}"/>
+                <TextBlock HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" Margin="10" FontWeight="Black" Grid.Row="0" Grid.Column="1" Text="{DynamicResource HumanLanguageSummaryHeader}"/>
                 <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                     <UniformGrid Rows="1">
                         <StackPanel Orientation="Vertical" Margin="10,0,5,0">
@@ -39,39 +39,39 @@
                         <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1" Margin="5,0,10,0">
                             <GroupBox BorderBrush="#00C000">
                                 <GroupBox.Header>
-                                    <TextBlock FontWeight="Bold">This means you're allowed to...</TextBlock>
+                                    <TextBlock FontWeight="Bold" Text="{DynamicResource TermsYoureAllowedTo}"/>
                                 </GroupBox.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="• Use the Spore Mod Manager for non-commercial purposes." TextWrapping="Wrap" Margin="0,2"/>
-                                    <TextBlock Text="• Use the Spore Mod Manager for commercial purposes." TextWrapping="Wrap" Margin="0,2"/>
-                                    <TextBlock Text="• Modify the Spore Mod Manager." TextWrapping="Wrap" Margin="0,2"/>
-                                    <TextBlock Text="• Redistribute the Spore Mod Manager, if necessary." TextWrapping="Wrap" Margin="0,2"/>
+                                    <TextBlock Text="{DynamicResource TermsYoureAllowedTo1}" TextWrapping="Wrap" Margin="0,2"/>
+                                    <TextBlock Text="{DynamicResource TermsYoureAllowedTo2}" TextWrapping="Wrap" Margin="0,2"/>
+                                    <TextBlock Text="{DynamicResource TermsYoureAllowedTo3}" TextWrapping="Wrap" Margin="0,2"/>
+                                    <TextBlock Text="{DynamicResource TermsYoureAllowedTo4}" TextWrapping="Wrap" Margin="0,2"/>
                                 </StackPanel>
                             </GroupBox>
                             <GroupBox Margin="0,10,0,0" BorderBrush="#C00000">
                                 <GroupBox.Header>
-                                    <TextBlock FontWeight="Bold">But also means that...</TextBlock>
+                                    <TextBlock FontWeight="Bold" Text="{DynamicResource TermsBeware}"/>
                                 </GroupBox.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="• The Spore Mod Manager is provided without warranty, so if it breaks, you get to keep both pieces." TextWrapping="Wrap" Margin="0,2"/>
-                                    <TextBlock Text="• We are legally not responsible for any damage which stems from the use of the Spore Mod Manager." TextWrapping="Wrap" Margin="0,2"/>
+                                    <TextBlock Text="{DynamicResource TermsBeware1}" TextWrapping="Wrap" Margin="0,2"/>
+                                    <TextBlock Text="{DynamicResource TermsBeware2}" TextWrapping="Wrap" Margin="0,2"/>
                                 </StackPanel>
                             </GroupBox>
                             <GroupBox Margin="0,10,0,0" BorderBrush="#0000C0">
                                 <GroupBox.Header>
-                                    <TextBlock FontWeight="Bold">And means that you're required to...</TextBlock>
+                                    <TextBlock FontWeight="Bold" Text="{DynamicResource TermsYouMust}"/>
                                 </GroupBox.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="• Include the legalese document on the left with any derivative works of the Spore Mod Manager you produce, in the event that you decide to build something off of the Spore Mod Manager or use part or all of it in another project." TextWrapping="Wrap" Margin="0,2"/>
+                                    <TextBlock Text="{DynamicResource TermsYouMust1}" TextWrapping="Wrap" Margin="0,2"/>
                                 </StackPanel>
                             </GroupBox>
                             <GroupBox Margin="0,10,0,0" BorderBrush="#7F7F7F">
                                 <GroupBox.Header>
-                                    <TextBlock FontWeight="Bold">While not required, it'd be nice if you'd...</TextBlock>
+                                    <TextBlock FontWeight="Bold" Text="{DynamicResource TermsPleaseDo}"/>
                                 </GroupBox.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="• Report any bugs or problems you come across while using the Spore Mod Manager." TextWrapping="Wrap" Margin="0,2"/>
-                                    <TextBlock Text="• Credit us (emd4600 and Splitwirez) in any derivatives of the Spore Mod Manager you may decide to create." TextWrapping="Wrap" Margin="0,2"/>
+                                    <TextBlock Text="{DynamicResource TermsPleaseDo1}" TextWrapping="Wrap" Margin="0,2"/>
+                                    <TextBlock Text="{DynamicResource TermsPleaseDo2}" TextWrapping="Wrap" Margin="0,2"/>
                                 </StackPanel>
                             </GroupBox>
                         </StackPanel>
@@ -80,46 +80,46 @@
             </Grid>
         </DockPanel>
         <DockPanel x:Name="InstallModePage" Visibility="Collapsed">
-            <TextBlock Margin="10" DockPanel.Dock="Bottom">If unsure, select 'Simple Install'.</TextBlock>
+            <TextBlock Margin="10" DockPanel.Dock="Bottom" Text="{DynamicResource InstallModeIdk}"/>
             <UniformGrid Margin="25" Columns="1">
                 <Button x:Name="SimpleInstallButton" HorizontalContentAlignment="Left" Padding="20" Click="SimpleInstallButton_Click">
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
-                        <TextBlock TextAlignment="Left" FontWeight="Bold">Simple install</TextBlock>
-                        <TextBlock TextAlignment="Left" TextWrapping="Wrap" Opacity="0.5">No messing around, just finish installing in as few steps as possible so you can get started.</TextBlock>
+                        <TextBlock TextAlignment="Left" FontWeight="Bold" Text="{DynamicResource InstallModeSimpleHeader}"/>
+                        <TextBlock TextAlignment="Left" TextWrapping="Wrap" Opacity="0.5" Text="{DynamicResource InstallModeSimpleDesc}"/>
                     </StackPanel>
                 </Button>
                 <Button x:Name="AdvancedInstallButton" HorizontalContentAlignment="Left" Padding="20" Click="AdvancedInstallButton_Click">
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
                         <!--TextBlock TextAlignment="Left" FontWeight="Bold">Coming soon!</TextBlock-->
-                        <TextBlock TextAlignment="Left" FontWeight="Bold">Advanced install</TextBlock>
-                        <TextBlock TextAlignment="Left" TextWrapping="Wrap" Opacity="0.5">Configure your Spore Mod Manager installation to your liking. More steps involved. For advanced users only.</TextBlock>
+                        <TextBlock TextAlignment="Left" FontWeight="Bold" Text="{DynamicResource InstallModeAdvancedHeader}"/>
+                        <TextBlock TextAlignment="Left" TextWrapping="Wrap" Opacity="0.5" Text="{DynamicResource InstallModeAdvancedDesc}"/>
                     </StackPanel>
                 </Button>
             </UniformGrid>
         </DockPanel>
         <DockPanel x:Name="SelectInstallPathPage" Visibility="Collapsed">
-            <Button x:Name="SelectInstallPathNextButton" DockPanel.Dock="Bottom" Click="SelectInstallPathNextButton_Click">Next</Button>
+            <Button x:Name="SelectInstallPathNextButton" DockPanel.Dock="Bottom" Click="SelectInstallPathNextButton_Click" Content="{DynamicResource Next}"/>
             <UniformGrid Columns="1" Margin="20">
-                <TextBlock VerticalAlignment="Center">Please specify the location to which the Spore Mod Manager should be installed.</TextBlock>
+                <TextBlock VerticalAlignment="Center" Text="{DynamicResource InstallToWhere}"/>
                 <Border x:Name="SelectInstallPathBadPathBorder" BorderBrush="Red" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                     <DockPanel HorizontalAlignment="Stretch">
                         <TextBlock DockPanel.Dock="Bottom" x:Name="SelectInstallPathError" Foreground="Red"/>
-                        <Button x:Name="SelectInstallPathBrowseButton" Click="SelectInstallPathBrowseButton_Click" DockPanel.Dock="Right">Browse...</Button>
-                        <Button x:Name="SelectInstallPathDefaultButton" Click="SelectInstallPathDefaultButton_Click" DockPanel.Dock="Left">Reset</Button>
+                        <Button x:Name="SelectInstallPathBrowseButton" Click="SelectInstallPathBrowseButton_Click" DockPanel.Dock="Right" Content="{DynamicResource Browse}"/>
+                        <Button x:Name="SelectInstallPathDefaultButton" Click="SelectInstallPathDefaultButton_Click" DockPanel.Dock="Left" Content="{DynamicResource Reset}"/>
                         <TextBox x:Name="SelectInstallPathTextBox" TextChanged="SelectInstallPathTextBox_TextChanged"/>
                     </DockPanel>
                 </Border>
             </UniformGrid>
         </DockPanel>
         <DockPanel x:Name="SelectStoragePathPage" Visibility="Collapsed">
-            <Button x:Name="SelectStoragePathNextButton" DockPanel.Dock="Bottom" Click="SelectStoragePathNextButton_Click">Next</Button>
+            <Button x:Name="SelectStoragePathNextButton" DockPanel.Dock="Bottom" Click="SelectStoragePathNextButton_Click" Content="{DynamicResource Next}"/>
             <UniformGrid Columns="1" Margin="20">
-                <TextBlock VerticalAlignment="Center">Please specify the location in which the Spore Mod Manager should store additional information, such as installed mods and settings.</TextBlock>
+                <TextBlock VerticalAlignment="Center"></TextBlock>
                 <Border x:Name="SelectStoragePathBadPathBorder" BorderBrush="Red" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                     <DockPanel HorizontalAlignment="Stretch">
                         <TextBlock DockPanel.Dock="Bottom" x:Name="SelectStoragePathError" Foreground="Red"/>
-                        <Button x:Name="SelectStoragePathBrowseButton" Click="SelectStoragePathBrowseButton_Click" DockPanel.Dock="Right">Browse...</Button>
-                        <Button x:Name="SelectStoragePathDefaultButton" Click="SelectStoragePathDefaultButton_Click" DockPanel.Dock="Left">Reset</Button>
+                        <Button x:Name="SelectStoragePathBrowseButton" Click="SelectStoragePathBrowseButton_Click" DockPanel.Dock="Right" Content="{DynamicResource Browse}"/>
+                        <Button x:Name="SelectStoragePathDefaultButton" Click="SelectStoragePathDefaultButton_Click" DockPanel.Dock="Left" Content="{DynamicResource Reset}"/>
                         <TextBox x:Name="SelectStoragePathTextBox" TextChanged="SelectStoragePathTextBox_TextChanged"/>
                     </DockPanel>
                 </Border>
@@ -129,8 +129,8 @@
             <ProgressBar x:Name="InstallProgressBar" VerticalAlignment="Center" Margin="20" Height="24"/>
         </Grid>
         <DockPanel x:Name="InstallCompletedPage" Visibility="Collapsed">
-            <Button x:Name="SuccessCloseButton" DockPanel.Dock="Bottom" Click="SuccessCloseButton_Click">Close</Button>
-            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Installation complete!</TextBlock>
+            <Button x:Name="SuccessCloseButton" DockPanel.Dock="Bottom" Click="SuccessCloseButton_Click" Content="{DynamicResource Close}"/>
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{DynamicResource InstallationComplete}"/>
         </DockPanel>
     </Grid>
 </Window>
