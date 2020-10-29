@@ -138,6 +138,22 @@ ModsFailedToInstall Aquests mods no s'han pogut instal·lar
 CopyUrlIntoBrowser Copia el següent enllaç al teu navegador web.
 CopypasteToTechSupport Copia el text de baix, i envia'l a qui te l'hagi demanat.
 
+
+# Launcher kit importer
+Importer_ProceedWithAutoPath NOT ENGLISH TEXT
+Importer_DiscardAutoPath NOT ENGLISH TEXT
+Importer_AutoLauncherKitPath NOT ENGLISH TEXT<br><br>%KITPATH%<br><br>
+Importer_SpecifyLauncherKitPathInstruction NOT ENGLISH TEXT
+Importer_LauncherKitNotFoundSpecifyLauncherKitPathInstruction NOT ENGLISH TEXT
+Importer_ImportInProgress NOT ENGLISH TEXT1
+Importer_ImportComplete NOT ENGLISH TEXT2
+Importer_ImportFailed NOT ENGLISH TEXT3
+Importer_SettingsImportFailed NOT ENGLISH TEXT
+Importer_NoModsRecord NOT ENGLISH TEXT
+Importer_FailedMods NOT ENGLISH TEXT
+Importer_SkippedMods NOT ENGLISH TEXT
+
+
 # Error messages
 Error_SporeCoreFolder Spore base %DIRNAME%
 Error_SporeGAFolder Aventuras Galácticas %DIRNAME%

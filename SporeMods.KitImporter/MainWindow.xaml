@@ -5,28 +5,79 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SporeMods.KitImporter"
         mc:Ignorable="d"
-        Title="Import from Spore ModAPI Launcher Kit" Height="325" Width="400" Loaded="MainWindow_Loaded" Closing="MainWindow_Closing">
+        Title="Import from Spore ModAPI Launcher Kit" Width="475" Height="325" Loaded="MainWindow_Loaded" Closing="MainWindow_Closing">
     <Grid Margin="25">
         <DockPanel x:Name="VerifyAutoLauncherKitPathPage" Visibility="Collapsed">
             <UniformGrid DockPanel.Dock="Bottom">
-                <Button x:Name="ProceedWithAutoPathButton" Click="ProceedWithAutoPathButton_Click">Yes, this path is correct.</Button>
-                <Button x:Name="DiscardAutoPathButton" Click="DiscardAutoPathButton_Click">No, I'll specify the path myself.</Button>
+                <Button x:Name="ProceedWithAutoPathButton" Click="ProceedWithAutoPathButton_Click"/>
+                <Button x:Name="DiscardAutoPathButton" Click="DiscardAutoPathButton_Click"/>
             </UniformGrid>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">The Spore ModAPI Launcher Kit was located here:</TextBlock>
                 <TextBlock x:Name="AutoLauncherKitPathTextBlock"/>
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Is this path correct?</TextBlock>
             </StackPanel>
         </DockPanel>
         <DockPanel x:Name="SpecifyLauncherKitPathPage" Visibility="Collapsed">
             <Button x:Name="ProceedWithSpecifiedPathButton" Click="ProceedWithSpecifiedPathButton_Click" IsEnabled="False" DockPanel.Dock="Bottom">OK</Button>
             <DockPanel DockPanel.Dock="Bottom">
-                <Button Margin="-1,0,0,0" x:Name="LauncherKitPathBrowseButton" Click="LauncherKitPathBrowseButton_Click">Browse...</Button>
+                <Button Margin="-1,0,0,0" x:Name="LauncherKitPathBrowseButton" Click="LauncherKitPathBrowseButton_Click"/>
                 <TextBox x:Name="LauncherKitPathTextBox"/>
             </DockPanel>
-            <TextBlock x:Name="SpecifyLauncherKitPathInstructionTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center">The Spore ModAPI Launcher Kit could not be automatically located. Please specify its location below.</TextBlock>
+            <TextBlock x:Name="SpecifyLauncherKitPathInstructionTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </DockPanel>
-        <TextBlock x:Name="ImportInProgressPage" Text="Import in progress..." FontSize="18" Visibility="Collapsed"/>
-        <TextBlock x:Name="ImportCompletePage" Text="Import complete!" FontSize="18" Visibility="Collapsed"/>
+        <TextBlock x:Name="ImportInProgressPage" FontSize="18" Visibility="Collapsed"/>
+        <DockPanel x:Name="ImportCompletePage" Visibility="Collapsed">
+            <Button x:Name="ImportCompleteOkButton" DockPanel.Dock="Bottom" Click="ImportCompleteOkButton_Click"/>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
+                <TextBlock x:Name="ImportCompleteTextBlock" FontSize="18" DockPanel.Dock="Top"/>
+                <GroupBox x:Name="SkippedModsGroupBox" Visibility="Collapsed">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                        <ItemsControl x:Name="SkippedModsItemsControl">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type local:KitMod}">
+                                    <DockPanel>
+                                        <Ellipse Width="6" Height="6" Fill="Black" Margin="10" DockPanel.Dock="Left"/>
+                                        <TextBlock Text="{Binding Name}" Margin="5,0,0,0" DockPanel.Dock="Right"/>
+                                        <TextBlock Text="{Binding Unique}" Margin="5,0,0,0" DockPanel.Dock="Right"/>
+                                        <TextBlock Text="{Binding DisplayName}" Margin="5,0"/>
+                                    </DockPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </GroupBox>
+                <GroupBox x:Name="FailedModsGroupBox" Visibility="Collapsed">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                        <ItemsControl x:Name="FailedModsItemsControl">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type local:ImportFailureEventArgs}">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="26"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Ellipse Width="6" Height="6" Fill="Black" Margin="10" Grid.Column="0" Grid.Row="0"/>
+                                        <DockPanel Grid.Column="1" Grid.Row="0">
+                                            <TextBlock Text="{Binding Mod.Name}" Margin="5,0,0,0" DockPanel.Dock="Right"/>
+                                            <TextBlock Text="{Binding Mod.Unique}" Margin="5,0,0,0" DockPanel.Dock="Right"/>
+                                            <TextBlock Text="{Binding Mod.DisplayName}" Margin="5,0"/>
+                                        </DockPanel>
+                                        <TextBlock Text="{Binding Reason}" Grid.Column="1" Grid.Row="1" Margin="25,0,0,0"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </GroupBox>
+                <StackPanel x:Name="SettingsImportFailedStackPanel" Orientation="Vertical" Visibility="Collapsed">
+                    <TextBlock x:Name="SettingsImportFailedTextBlock" Foreground="Red"/>
+                    <TextBlock x:Name="SettingsImportFailedReasonTextBlock" Foreground="Red"/>
+                </StackPanel>
+                <TextBlock x:Name="NoModsRecordTextBlock" Visibility="Collapsed"/>
+            </StackPanel>
+        </DockPanel>
     </Grid>
 </Window>

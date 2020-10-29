@@ -138,6 +138,22 @@ ModsFailedToInstall These mods couldn't be installed
 CopyUrlIntoBrowser Copy the following URL into your internet browser.
 CopypasteToTechSupport Copy the text below, and send it to whoever asked you for it.
 
+
+# Launcher kit importer
+Importer_ProceedWithAutoPath Yes, this path is correct.
+Importer_DiscardAutoPath No, I'll specify the path myself.
+Importer_AutoLauncherKitPath The Spore ModAPI Launcher Kit was located here:<br><br>%KITPATH%<br><br>Is this path correct?
+Importer_SpecifyLauncherKitPathInstruction Please specify the location of the Spore ModAPI Launcher Kit below.
+Importer_LauncherKitNotFoundSpecifyLauncherKitPathInstruction The Spore ModAPI Launcher Kit could not be automatically located. Please specify its location below.
+Importer_ImportInProgress Import in progress...
+Importer_ImportComplete Import complete
+Importer_ImportFailed Import failed
+Importer_SettingsImportFailed Some settings may not have been imported correctly (if at all).
+Importer_NoModsRecord There was no installed mods record to import. As such, no mods were imported, because apparently there aren't any.
+Importer_FailedMods These mods could not be imported
+Importer_SkippedMods These mods were already installed via the Spore Mod Manager, and thus were not imported
+
+
 # Error messages
 Error_SporeCoreFolder Core Spore %DIRNAME%
 Error_SporeGAFolder Galactic Adventures %DIRNAME%

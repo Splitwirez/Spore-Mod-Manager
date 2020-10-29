@@ -13,6 +13,9 @@ namespace SporeMods.KitImporter
 {
     public static class LauncherKitImporter
     {
+        public static event EventHandler ModSkipped;
+        
+        
         static string GetModName(KitMod mod)
         {
             if (mod.DisplayName != null)
@@ -104,7 +107,7 @@ namespace SporeMods.KitImporter
             // If the destination directory doesn't exist, create it.
             if (!Directory.Exists(destDirName))
                 Directory.CreateDirectory(destDirName);
-            
+
             Permissions.GrantAccessDirectory(destDirName);
 
             // Get the files in the directory and copy them to the new location.
@@ -115,7 +118,7 @@ namespace SporeMods.KitImporter
                 File.Copy(file, tempPath);
                 Permissions.GrantAccessFile(tempPath);
             }
-           
+
             foreach (string subdir in Directory.EnumerateDirectories(sourceDirName))
             {
                 string tempPath = Path.Combine(destDirName, Path.GetFileName(subdir));
@@ -137,61 +140,202 @@ namespace SporeMods.KitImporter
             }
         }
 
-        static void ImportMods(string kitPath, KitInstalledMods mods)
+        static IEnumerable<ImportFailureEventArgs> ImportMods(string kitPath, KitInstalledMods mods)
         {
+            List<ImportFailureEventArgs> failures = new List<ImportFailureEventArgs>();
+
+
             EnsureNoModsWithExeInstallers(kitPath, mods);
 
             // Store the mods that didn't have a mod configs folder
             var modsWithNoConfig = new List<KitMod>();
             // Also keep track of which mods were already on the manager, so we can inform the user that we skipped them
-            var modsAlreadyInstalled = new List<KitMod>();
+            //var modsAlreadyInstalled = new List<KitMod>();
 
             string kitModConfigsPath = Path.Combine(kitPath, "ModConfigs");
 
             // Copy over the mod configs folders, creating XML identities for those mods that didn't have it
             foreach (var mod in mods.Mods)
             {
-                string managerModConfigPath = Path.Combine(Settings.ModConfigsPath, mod.Unique);
-                
-                /*if (!Directory.Exists(managerModConfigPath))
-                    managerModConfigPath = Path.Combine(Settings.ModConfigsPath, mod.Name);*/
-                
-                if (Directory.Exists(managerModConfigPath))
+                try
                 {
-                    modsAlreadyInstalled.Add(mod);
-                    continue;
-                }
+                    string managerModConfigPath = Path.Combine(Settings.ModConfigsPath, mod.Unique);
 
+                    /*if (!Directory.Exists(managerModConfigPath))
+                        managerModConfigPath = Path.Combine(Settings.ModConfigsPath, mod.Name);*/
 
-                string modConfigPath = Path.Combine(kitModConfigsPath, mod.Unique);
-                if (!Directory.Exists(modConfigPath))
-                {
-                    foreach (string dir in Directory.EnumerateDirectories(kitModConfigsPath))
+                    if (Directory.Exists(managerModConfigPath))
                     {
-                        string modInfoPath = Path.Combine(dir, "ModInfo.xml");
-                        if (File.Exists(modInfoPath))
+                        //modsAlreadyInstalled.Add(mod);
+                        ModSkipped?.Invoke(mod, null);
+                        continue;
+                    }
+
+
+                    string modConfigPath = Path.Combine(kitModConfigsPath, mod.Unique);
+                    if (!Directory.Exists(modConfigPath))
+                    {
+                        foreach (string dir in Directory.EnumerateDirectories(kitModConfigsPath))
                         {
-                            XDocument modInfo = XDocument.Load(modInfoPath);
-                            var uniqueAttr = modInfo.Root.Attribute("unique");
-                            if (uniqueAttr != null)
+                            string modInfoPath = Path.Combine(dir, "ModInfo.xml");
+                            if (File.Exists(modInfoPath))
                             {
-                                if (uniqueAttr.Value == mod.Unique)
+                                XDocument modInfo = XDocument.Load(modInfoPath);
+                                var uniqueAttr = modInfo.Root.Attribute("unique");
+                                if (uniqueAttr != null)
                                 {
-                                    modConfigPath = dir;
-                                    break;
+                                    if (uniqueAttr.Value == mod.Unique)
+                                    {
+                                        modConfigPath = dir;
+                                        break;
+                                    }
                                 }
                             }
                         }
                     }
+
+
+                    if (Directory.Exists(modConfigPath))
+                    {
+                        DirectoryCopy(modConfigPath, managerModConfigPath);
+
+                        bool usesLegacyDlls = true;
+
+                        if (!File.Exists(Path.Combine(managerModConfigPath, "ModInfo.xml")))
+                        {
+                            string displayName = mod.DisplayName;
+                            if (displayName == null) displayName = mod.Name;
+                            if (displayName == null) displayName = mod.Unique;
+                            ModInstallation.CreateModInfoXml(mod.Unique, mod.Name, managerModConfigPath, out XDocument document);
+
+                            foreach (ModFile file in mod.Files)
+                            {
+                                XElement fileEl = new XElement("prerequisite", file.Name);
+                                string gameDir = file.GameDir.ToString();
+                                if (!gameDir.IsNullOrEmptyOrWhiteSpace())
+                                    fileEl.SetAttributeValue("game", gameDir);
+                            }
+                        }
+                        else
+                        {
+                            var document = XDocument.Load(Path.Combine(managerModConfigPath, "ModInfo.xml"));
+                            var xmlVersionAttr = document.Root.Attribute("installerSystemVersion");
+                            if (xmlVersionAttr != null && Version.TryParse(xmlVersionAttr.Value, out Version version)
+                                && version != ModIdentity.XmlModIdentityVersion1_0_0_0)
+                            {
+                                usesLegacyDlls = false;
+                            }
+                        }
+
+                        if (usesLegacyDlls)
+                        {
+                            string legacyPath = Path.Combine(managerModConfigPath, "UseLegacyDLLs");
+                            File.WriteAllText(legacyPath, string.Empty);
+                            Permissions.GrantAccessFile(legacyPath);
+                        }
+                    }
+                    else
+                    {
+                        modsWithNoConfig.Add(mod);
+                    }
+
+
+                    Dictionary<string, string> launcherKitToMgrDllPaths = new Dictionary<string, string>();
+
+                    foreach (ModFile file in mod.Files)
+                    {
+                        if (file.GameDir == ComponentGameDir.ModAPI)
+                        {
+                            if (
+                                file.Name.ToLowerInvariant().EndsWith("-disk.dll") ||
+                                file.Name.ToLowerInvariant().EndsWith("-steam.dll") ||
+                                file.Name.ToLowerInvariant().EndsWith("-steam_patched.dll")
+                                )
+                            {
+                                launcherKitToMgrDllPaths.Add(Path.Combine(kitPath, file.Name), Path.Combine(Settings.LegacyLibsPath, file.Name));
+                            }
+                            else
+                            {
+                                launcherKitToMgrDllPaths.Add(Path.Combine(kitPath, "mLibs", file.Name), Path.Combine(Settings.LegacyLibsPath, file.Name));
+                            }
+                        }
+                    }
+
+                    foreach (string key in launcherKitToMgrDllPaths.Keys)
+                    {
+                        File.Copy(key, launcherKitToMgrDllPaths[key]);
+                        Permissions.GrantAccessFile(launcherKitToMgrDllPaths[key]);
+                    }
                 }
-
-
-                if (Directory.Exists(modConfigPath))
+                catch (Exception ex)
                 {
-                    DirectoryCopy(modConfigPath, managerModConfigPath);
+                    failures.Add(new ImportFailureEventArgs(ex, mod));
+                }
+            }
 
-                    bool usesLegacyDlls = true;
+            foreach (var mod in modsWithNoConfig)
+            {
+                try
+                {
+                    bool usesLegacyDlls = false;
+                    Dictionary<string, string> launcherKitToMgrDllPaths = new Dictionary<string, string>();
 
+                    // Try to gather the files if they still exist
+                    var filesToCopy = new List<string>();
+                    if (mod.ConfiguratorPath != null && File.Exists(mod.ConfiguratorPath))
+                    {
+                        filesToCopy.Add(mod.ConfiguratorPath);
+                    }
+
+                    foreach (var file in mod.Files)
+                    {
+                        string filePath = GetKitModFilePath(kitPath, file);
+                        if (File.Exists(filePath))
+                            filesToCopy.Add(filePath);
+                        else
+                        {
+                            if (filePath.ToLowerInvariant().Contains(@"\mlibs\"))
+                            {
+
+                                filePath = Path.Combine(kitPath, file.Name);
+                                if (File.Exists(filePath))
+                                    filesToCopy.Add(filePath);
+                            }
+                        }
+
+                        if (
+                            filePath.ToLowerInvariant().EndsWith("-disk.dll") ||
+                            filePath.ToLowerInvariant().EndsWith("-steam.dll") ||
+                            filePath.ToLowerInvariant().EndsWith("-steam_patched.dll")
+                            )
+                        {
+                            usesLegacyDlls = true;
+
+
+                            string kitDllPath = Path.Combine(kitPath, Path.GetFileName(filePath));
+                            string mgrDllPath = Path.Combine(Settings.LegacyLibsPath, Path.GetFileName(filePath));
+                            MessageBox.Show(kitDllPath + "\n\n\n" + mgrDllPath, "DLL PATHS");
+                            launcherKitToMgrDllPaths.Add(kitDllPath, mgrDllPath);
+                        }
+                        else if (filePath.ToLowerInvariant().Contains(@"\mlibs\"))
+                        {
+                            launcherKitToMgrDllPaths.Add(filePath, Path.Combine(Settings.ModLibsPath, Path.GetFileName(filePath)));
+                        }
+                    }
+
+
+                    string managerModConfigPath = Path.Combine(Settings.ModConfigsPath, mod.Unique);
+                    Directory.CreateDirectory(managerModConfigPath);
+                    Permissions.GrantAccessDirectory(managerModConfigPath);
+
+                    foreach (var file in filesToCopy)
+                    {
+                        string outPath = Path.Combine(managerModConfigPath, Path.GetFileName(file));
+                        File.Copy(file, outPath);
+                        Permissions.GrantAccessFile(outPath);
+                    }
+
+                    
                     if (!File.Exists(Path.Combine(managerModConfigPath, "ModInfo.xml")))
                     {
                         string displayName = mod.DisplayName;
@@ -204,9 +348,9 @@ namespace SporeMods.KitImporter
                         var document = XDocument.Load(Path.Combine(managerModConfigPath, "ModInfo.xml"));
                         var xmlVersionAttr = document.Root.Attribute("installerSystemVersion");
                         if (xmlVersionAttr != null && Version.TryParse(xmlVersionAttr.Value, out Version version)
-                            && version != ModIdentity.XmlModIdentityVersion1_0_0_0)
+                            && (version == ModIdentity.XmlModIdentityVersion1_0_0_0))
                         {
-                            usesLegacyDlls = false;
+                            usesLegacyDlls = true;
                         }
                     }
 
@@ -216,79 +360,23 @@ namespace SporeMods.KitImporter
                         File.WriteAllText(legacyPath, string.Empty);
                         Permissions.GrantAccessFile(legacyPath);
                     }
-                }
-                else
-                {
-                    modsWithNoConfig.Add(mod);
-                }
-            }
 
-            foreach (var mod in modsWithNoConfig)
-            {
-                // Try to gather the files if they still exist
-                var filesToCopy = new List<string>();
-                if (mod.ConfiguratorPath != null && File.Exists(mod.ConfiguratorPath))
-                {
-                    filesToCopy.Add(mod.ConfiguratorPath);
-                }
-
-                foreach (var file in mod.Files)
-                {
-                    string filePath = GetKitModFilePath(kitPath, file);
-                    if (File.Exists(filePath))
-                        filesToCopy.Add(filePath);
-                    else
+                    foreach (string key in launcherKitToMgrDllPaths.Keys)
                     {
-                        if (filePath.ToLowerInvariant().Contains(@"\mlibs\"))
+                        if (!File.Exists(launcherKitToMgrDllPaths[key]))
                         {
-                            filePath = Path.Combine(kitPath, file.Name);
-                            if (File.Exists(filePath))
-                                filesToCopy.Add(filePath);
+                            File.Copy(key, launcherKitToMgrDllPaths[key]);
+                            Permissions.GrantAccessFile(launcherKitToMgrDllPaths[key]);
                         }
                     }
                 }
-
-
-                string managerModConfigPath = Path.Combine(Settings.ModConfigsPath, mod.Unique);
-                Directory.CreateDirectory(managerModConfigPath);
-                Permissions.GrantAccessDirectory(managerModConfigPath);
-
-                foreach (var file in filesToCopy)
+                catch (Exception ex)
                 {
-                    string outPath = Path.Combine(managerModConfigPath, Path.GetFileName(file));
-                    File.Copy(file, outPath);
-                    Permissions.GrantAccessFile(outPath);
-                }
-
-                bool usesLegacyDlls = true;
-
-                if (!File.Exists(Path.Combine(managerModConfigPath, "ModInfo.xml")))
-                {
-                    string displayName = mod.DisplayName;
-                    if (displayName == null) displayName = mod.Name;
-                    if (displayName == null) displayName = mod.Unique;
-                    ModInstallation.CreateModInfoXml(mod.Unique, mod.Name, managerModConfigPath, out XDocument document);
-                }
-                else
-                {
-                    var document = XDocument.Load(Path.Combine(managerModConfigPath, "ModInfo.xml"));
-                    var xmlVersionAttr = document.Root.Attribute("installerSystemVersion");
-                    if (xmlVersionAttr != null && Version.TryParse(xmlVersionAttr.Value, out Version version)
-                        && version != ModIdentity.XmlModIdentityVersion1_0_0_0)
-                    {
-                        usesLegacyDlls = false;
-                    }
-                }
-
-                if (usesLegacyDlls)
-                {
-                    string legacyPath = Path.Combine(managerModConfigPath, "UseLegacyDLLs");
-                    File.WriteAllText(legacyPath, string.Empty);
-                    Permissions.GrantAccessFile(legacyPath);
+                    failures.Add(new ImportFailureEventArgs(ex, mod));
                 }
             }
 
-            if (modsAlreadyInstalled.Count > 0)
+            /*if (modsAlreadyInstalled.Count > 0)
             {
                 string text = "The following mods were already installed on the Mod Manager, so they have been skipped:\n";
                 foreach (var mod in modsAlreadyInstalled)
@@ -296,26 +384,110 @@ namespace SporeMods.KitImporter
                     text += "  " + GetModName(mod) + "\n";
                 }
                 MessageBox.Show(text, "A few mods were skipped");
-            }
+            }*/
+            return failures;
         }
 
-        public static void Import(string kitPath)
+        public static ImportResult Import(string kitPath)
         {
-            string configPath = Path.Combine(kitPath, "LauncherSettings.config");
-            if (File.Exists(configPath))
+            Exception settingsReason = null;
+            //ImportResult result = null;
+
+            try
             {
-                var kitSettings = new KitSettings();
-                kitSettings.Load(configPath);
-                ImportSettings(kitSettings);
+                string configPath = Path.Combine(kitPath, "LauncherSettings.config");
+                if (File.Exists(configPath))
+                {
+                    var kitSettings = new KitSettings();
+                    kitSettings.Load(configPath);
+                    ImportSettings(kitSettings);
+                }
+            }
+            catch (Exception ex)
+            {
+                settingsReason = ex;
             }
 
             string modsPath = Path.Combine(kitPath, "InstalledMods.config");
-            if (File.Exists(modsPath))
+
+            List<KitMod> skippedMods = new List<KitMod>();
+            List<ImportFailureEventArgs> failedMods = new List<ImportFailureEventArgs>();
+            bool hasRecord = File.Exists(modsPath);
+            
+            ModSkipped += (sneder, args) =>
             {
-                var kitMods = new KitInstalledMods();
-                kitMods.Load(modsPath);
-                ImportMods(kitPath, kitMods);
+                if (sneder is KitMod skipped)
+                    skippedMods.Add(skipped);
+            };
+            KitInstalledMods.ModImportFailed += (sneder, args) =>
+            {
+                if (sneder is ImportFailureEventArgs failure)
+                    failedMods.Add(failure);
+            };
+
+            if (hasRecord)
+            {
+                var kitMods = new KitInstalledMods(modsPath);
+                foreach (ImportFailureEventArgs fail in ImportMods(kitPath, kitMods))
+                    failedMods.Add(fail);
             }
+
+            return new ImportResult(skippedMods, failedMods, hasRecord, settingsReason);
+        }
+    }
+
+    public class ImportResult
+    {
+        public bool HasInstalledModsRecord
+        {
+            get;
+            set;
+        } = true;
+
+        public Exception SettingsImportFailedReason
+        {
+            get;
+            set;
+        } = null;
+
+        public List<KitMod> SkippedMods
+        {
+            get;
+            set;
+        } = new List<KitMod>();
+
+        public List<ImportFailureEventArgs> FailedMods
+        {
+            get;
+            set;
+        } = new List<ImportFailureEventArgs>();
+
+        public ImportResult(List<KitMod> skippedMods, List<ImportFailureEventArgs> failedMods, bool hasModsRecord, Exception settingsImported)
+        {
+            SkippedMods = skippedMods;
+            FailedMods = failedMods;
+            HasInstalledModsRecord = hasModsRecord;
+            SettingsImportFailedReason = settingsImported;
+        }
+    }
+
+    public class ImportFailureEventArgs : EventArgs
+    {
+        public Exception Reason
+        {
+            get;
+            set;
+        } = null;
+        public KitMod Mod
+        {
+            get;
+            set;
+        } = null;
+
+        public ImportFailureEventArgs(Exception reason, KitMod mod)
+        {
+            Reason = reason;
+            Mod = mod;
         }
     }
 }

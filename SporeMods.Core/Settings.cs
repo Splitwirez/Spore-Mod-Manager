@@ -748,6 +748,8 @@ namespace SporeMods.Core
                 prefixText = "CustomInstaller_";
             else if (prefix == 3)
                 prefixText = "Error_";
+            else if (prefix == 4)
+                prefixText = "Importer_";
             else
                 throw new Exception("Unrecognized localization prefix");
 
@@ -755,7 +757,24 @@ namespace SporeMods.Core
             try
             {
                 InitializeLanguages();
-                return _currentLanguage[key];
+                string outStr = _currentLanguage[key];
+                /*if (outStr.Contains(@"\\"))
+                {
+                    outStr.Replace(@"\\", "[SLASH]");
+                }
+                if (outStr.Contains(@"\n"))
+                {
+                    outStr.Replace(@"\n", "\n");
+                }
+                if (outStr.Contains("[SLASH]"))
+                {
+                    outStr.Replace("[SLASH]", @"\\");
+                }*/
+                if (outStr.Contains("<br>"))
+                {
+                    outStr = outStr.Replace("<br>", "\r\n");
+                }
+                return outStr;
             }
             catch (Exception ex)
             {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SporeMods.Core;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -33,13 +34,14 @@ namespace SporeMods.KitImporter
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            SetLanguage();
             IEnumerable<string> args = Environment.GetCommandLineArgs().Skip(1);
             _kitPath = args.FirstOrDefault(x => IsPathValid(x));
             string lkPathFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Spore ModAPI Launcher\path.info");
             if ((!string.IsNullOrEmpty(_kitPath)) && (!string.IsNullOrWhiteSpace(_kitPath)))
             {
                 _kitAutoImport = true;
-                AutoLauncherKitPathTextBlock.Text = _kitPath;
+                AutoLauncherKitPathTextBlock.Text = GetLanguageString("AutoLauncherKitPath").Replace("%KITPATH%", _kitPath);
                 VerifyAutoLauncherKitPathPage.Visibility = Visibility.Visible;
             }
             else
@@ -53,20 +55,20 @@ namespace SporeMods.KitImporter
                     if ((!string.IsNullOrEmpty(lkPath2)) && (!string.IsNullOrWhiteSpace(lkPath2)) && IsPathValid(lkPath2))
                     {
                         _kitPath = lkPath2;
-                        AutoLauncherKitPathTextBlock.Text = _kitPath;
+                        AutoLauncherKitPathTextBlock.Text = GetLanguageString("AutoLauncherKitPath").Replace("%KITPATH%", _kitPath);
                         VerifyAutoLauncherKitPathPage.Visibility = Visibility.Visible;
                     }
                     else
                     {
                         Debug.WriteLine("1: " + lkPath2);
-                        SpecifyLauncherKitPathInstructionTextBlock.Text = "Please specify the location of the Spore ModAPI Launcher Kit below.";
+                        SpecifyLauncherKitPathInstructionTextBlock.Text = Settings.GetLanguageString("SpecifyLauncherKitPathInstruction"); //"Please specify the location of the Spore ModAPI Launcher Kit below.";
                         SpecifyLauncherKitPathPage.Visibility = Visibility.Visible;
                     }
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine("2 " + ex.ToString());
-                    SpecifyLauncherKitPathInstructionTextBlock.Text = "Please specify the location of the Spore ModAPI Launcher Kit below.";
+                    SpecifyLauncherKitPathInstructionTextBlock.Text = Settings.GetLanguageString("SpecifyLauncherKitPathInstruction"); //"Please specify the location of the Spore ModAPI Launcher Kit below.";
                     SpecifyLauncherKitPathPage.Visibility = Visibility.Visible;
                 }
             }
@@ -80,9 +82,43 @@ namespace SporeMods.KitImporter
 
             Thread thread = new Thread(() =>
             {
-                LauncherKitImporter.Import(path);
+                ImportResult result = LauncherKitImporter.Import(path);
                 Dispatcher.BeginInvoke(new Action(() =>
                 {
+                    bool success = false;
+                    if (
+                            result.HasInstalledModsRecord &&
+                            (result.SettingsImportFailedReason == null) ||
+                            (result.FailedMods.Count <= 0)
+                        )//(result.SkippedMods.Count > 0)
+                        success = true;
+
+                    if (!success)
+                        ImportCompleteTextBlock.Text = GetLanguageString("ImportFailed");
+
+                    if (result.FailedMods.Count > 0)
+                    {
+                        FailedModsItemsControl.ItemsSource = result.FailedMods;
+                        FailedModsGroupBox.Visibility = Visibility.Visible;
+                    }
+
+                    if (result.SettingsImportFailedReason != null)
+                    {
+                        SettingsImportFailedStackPanel.Visibility = Visibility.Visible;
+                        SettingsImportFailedReasonTextBlock.Text = result.SettingsImportFailedReason.ToString();
+                    }
+
+                    if (!result.HasInstalledModsRecord)
+                    {
+                        NoModsRecordTextBlock.Visibility = Visibility.Visible;
+                    }
+
+                    if (result.SkippedMods.Count > 0)
+                    {
+                        SkippedModsItemsControl.ItemsSource = result.SkippedMods;
+                        SkippedModsGroupBox.Visibility = Visibility.Visible;
+                    }
+
                     ImportInProgressPage.Visibility = Visibility.Collapsed;
                     ImportCompletePage.Visibility = Visibility.Visible;
                 }));
@@ -134,6 +170,34 @@ namespace SporeMods.KitImporter
                 e.Cancel = true;
             else
                 System.Windows.Application.Current.Shutdown(300);
+        }
+
+        void SetLanguage()
+        {
+            ProceedWithAutoPathButton.Content = GetLanguageString("ProceedWithAutoPath");
+            DiscardAutoPathButton.Content = GetLanguageString("DiscardAutoPath");
+
+            SpecifyLauncherKitPathInstructionTextBlock.Text = GetLanguageString("LauncherKitNotFoundSpecifyLauncherKitPathInstruction");
+            LauncherKitPathBrowseButton.Content = Settings.GetLanguageString(1, "Browse");
+
+            ImportInProgressPage.Text = GetLanguageString("ImportInProgress");
+
+            ImportCompleteTextBlock.Text = GetLanguageString("ImportComplete");
+            ImportCompleteOkButton.Content = Settings.GetLanguageString(1, "OK");
+            SettingsImportFailedTextBlock.Text = GetLanguageString("SettingsImportFailed");
+            NoModsRecordTextBlock.Text = GetLanguageString("NoModsRecord");
+            SkippedModsGroupBox.Header = GetLanguageString("SkippedMods");
+            FailedModsGroupBox.Header = GetLanguageString("FailedMods");
+        }
+
+        string GetLanguageString(string identifier)
+        {
+            return Settings.GetLanguageString(4, identifier);
+        }
+
+        private void ImportCompleteOkButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }
