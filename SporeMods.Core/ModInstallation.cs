@@ -20,6 +20,8 @@ namespace SporeMods.Core
         public static event Func<string, bool> InstallingRequiresGalaxyResetMod;
         public static event Func<string, bool> InstallingSaveDataDependencyMod;
 
+        public static event Func<IEnumerable<string>, bool> UninstallingSaveDataDependencyMod;
+
 
         static List<string> _installableMods = new List<string>();
         /*public static ErrorInfo[]*/
@@ -84,7 +86,27 @@ namespace SporeMods.Core
 
         public static void UninstallModsAsync(IInstalledMod[] modConfigurations)
         {
-            foreach (IInstalledMod mod in modConfigurations)
+            List<IInstalledMod> modsToUninstall = modConfigurations.ToList();
+            List<IInstalledMod> modsToThinkTwiceBeforeUninstalling = new List<IInstalledMod>();
+
+            foreach (IInstalledMod mod in modsToUninstall.Where(x => (x is ManagedMod xm) && xm.Identity.CausesSaveDataDependency))
+                modsToThinkTwiceBeforeUninstalling.Add(mod);
+
+            if (modsToThinkTwiceBeforeUninstalling.Count() > 0)
+            {
+                List<string> modNames = new List<string>();
+                foreach (IInstalledMod mod in modsToThinkTwiceBeforeUninstalling)
+                    modNames.Add(mod.DisplayName);
+                
+                if (!UninstallingSaveDataDependencyMod(modNames))
+                {
+                    foreach (IInstalledMod mod in modsToThinkTwiceBeforeUninstalling)
+                        modsToUninstall.Remove(mod);
+                }
+            }
+
+
+            foreach (IInstalledMod mod in modsToUninstall)
             {
                 // This function doesn't throw exceptions, the code inside must handle it
                 mod.UninstallModAsync();

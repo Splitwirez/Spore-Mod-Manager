@@ -443,6 +443,8 @@ namespace SporeMods.Manager
                 ModInstallation.InstallingRequiresGalaxyResetMod += ModInstallation_InstallingRequiresGalaxyResetMod;
                 ModInstallation.InstallingSaveDataDependencyMod += ModInstallation_InstallingSaveDataDependencyMod;
 
+                ModInstallation.UninstallingSaveDataDependencyMod += ModInstallation_UninstallingSaveDataDependencyMod;
+
                 //Install mod passed via commandline, if any
                 string[] clArgs = Environment.GetCommandLineArgs();
                 if (clArgs.Length > 1)
@@ -487,6 +489,19 @@ namespace SporeMods.Manager
         {
             return MessageBox.Show(Settings.GetLanguageString("ModCausesSaveDataDependency").Replace("%MODNAME%", arg), string.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes;
         }
+
+        private bool ModInstallation_UninstallingSaveDataDependencyMod(IEnumerable<string> arg)
+        {
+            string modNames = string.Empty;
+            
+            foreach (string modName in arg)
+                modNames += modName + "\r\n";
+            
+            modNames.TrimEnd('\n', '\r');
+
+            return MessageBox.Show(Settings.GetLanguageString("CausesSaveDataDependencyUninstallWarning").Replace("%MODNAMES%", modNames), string.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+        }
+
 
         private void BlockVanillaIncompatibleModsToggleSwitch_Checked(object sender, RoutedEventArgs e)
         {
