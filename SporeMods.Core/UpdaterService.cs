@@ -177,10 +177,10 @@ namespace SporeMods.Core
         /// <returns></returns>
         public static string UpdateProgram(GithubRelease release, ProgressChangedEventHandler progressHandler)
         {
-            var asset = Array.Find(release.assets, a => a.name.ToLower() == "SporeModManagerUpdater.exe");
+            var asset = Array.Find(release.assets, a => a.name.ToLower() == "SporeModManagerSetup.exe");
             if (asset == null)
             {
-                throw new InvalidOperationException("Invalid update: no 'SporeModManagerUpdater.exe' asset");
+                throw new InvalidOperationException("Invalid update: no 'SporeModManagerSetup.exe' asset");
             }
             using (var client = new WebClient())
             {

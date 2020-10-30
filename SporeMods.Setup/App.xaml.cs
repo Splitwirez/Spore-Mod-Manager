@@ -19,8 +19,9 @@ namespace SporeMods.Setup
     /// </summary>
     public partial class App : Application
     {
+        public static string Language = null;
         string _lkPath = null;
-
+        public static string MgrExePath = null;
         protected override void OnStartup(StartupEventArgs e)
         {
             if (!Environment.GetCommandLineArgs().Skip(1).Any(x => x == SetupInfo.IS_WOULDBE_ADMIN_PROCESS))
@@ -88,7 +89,24 @@ namespace SporeMods.Setup
             {
                 base.OnStartup(e);
                 MainWindow = new MainWindow();
-                new LanguagesWindow().ShowDialog();
+                if (Language == null)
+                {
+                    new LanguagesWindow().ShowDialog();
+                }
+                else
+                {
+                    try
+                    {
+                        Resources.MergedDictionaries[0] = new ResourceDictionary()
+                        {
+                            Source = new Uri("pack://application:,,,/SporeMods.Setup;component/Locale/" + Language + ".xaml", UriKind.RelativeOrAbsolute)
+                        };
+                    }
+                    catch
+                    {
+                        new LanguagesWindow().ShowDialog();
+                    }
+                }
                 MainWindow.Show();
             }
         }
