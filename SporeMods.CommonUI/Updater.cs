@@ -91,6 +91,8 @@ namespace SporeMods.CommonUI
                             return;
                         }
 
+                        while (Permissions.IsFileLocked(updaterPath))
+                        { }
                         Process.Start(updaterPath, "--update \"" + Path.GetDirectoryName(Process.GetCurrentProcess().GetExecutablePath()) + "\" \"" + Process.GetCurrentProcess().GetExecutablePath() + "\" --lang:" + Settings.CurrentLanguageCode);
                         Process.GetCurrentProcess().Kill();
                     }
