@@ -326,7 +326,31 @@
                     <Button x:Name="DropModsCloseButton" Style="{DynamicResource ModalDialogCloseButtonStyle}" Click="DropModsCloseButton_Click"/>
                 </Grid-->
                 <Grid x:Name="DropModsHereTextBlockGrid">
-                    <TextBlock x:Name="DropModsHereTextBlock" Style="{DynamicResource DropModsHereTextBlockStyle}" Opacity="0"/>
+                    <Grid x:Name="DropModsHereContentGrid" Visibility="Collapsed" IsHitTestVisible="False" Margin="4,0,4,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="64"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="64"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="64"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="64"/>
+                        </Grid.RowDefinitions>
+
+                        <Border Opacity="0.25" Background="{DynamicResource TopDownMaskBrush}" CornerRadius="6,0,0,0" Grid.Column="0" Grid.Row="0" OpacityMask="{DynamicResource FromLeftMaskBrush}" Width="12" HorizontalAlignment="Left"/>
+                        <Border Opacity="0.25" Background="{DynamicResource FromLeftMaskBrush}" CornerRadius="6,0,0,0" Grid.Column="0" Grid.Row="0" OpacityMask="{DynamicResource TopDownMaskBrush}" Height="16" VerticalAlignment="Top"/>
+
+                        <Border Opacity="0.25" Background="{DynamicResource FromRightMaskBrush}" CornerRadius="0,6,0,0" Grid.Column="2" Grid.Row="0" OpacityMask="{DynamicResource TopDownMaskBrush}" Height="16" VerticalAlignment="Top"/>
+                        <Border Opacity="0.25" Background="{DynamicResource TopDownMaskBrush}" CornerRadius="0,6,0,0" Grid.Column="2" Grid.Row="0" OpacityMask="{DynamicResource FromRightMaskBrush}" Width="12" HorizontalAlignment="Right"/>
+
+                        <Border Opacity="0.25" Background="{DynamicResource BottomUpMaskBrush}" CornerRadius="0,0,6,0" Grid.Column="2" Grid.Row="2" OpacityMask="{DynamicResource FromRightMaskBrush}" Width="12" HorizontalAlignment="Right"/>
+                        <Border Opacity="0.25" Background="{DynamicResource FromRightMaskBrush}" CornerRadius="0,0,6,0" Grid.Column="2" Grid.Row="2" OpacityMask="{DynamicResource BottomUpMaskBrush}" Height="8" VerticalAlignment="Bottom"/>
+
+                        <Border Opacity="0.25" Background="{DynamicResource FromLeftMaskBrush}" CornerRadius="0,0,0,6" Grid.Column="0" Grid.Row="2" OpacityMask="{DynamicResource BottomUpMaskBrush}" Height="8" VerticalAlignment="Bottom"/>
+                        <Border Opacity="0.25" Background="{DynamicResource BottomUpMaskBrush}" CornerRadius="0,0,0,6" Grid.Column="0" Grid.Row="2" OpacityMask="{DynamicResource FromLeftMaskBrush}" Width="12" HorizontalAlignment="Left"/>
+                        <TextBlock x:Name="DropModsHereTextBlock" FontSize="24" FontWeight="Bold" Foreground="#FF7F7F7F" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="3" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
                 </Grid>
             </DockPanel>
             <!--DockPanel x:Name="ModInstallationProgressDockPanel" Visibility="Collapsed">

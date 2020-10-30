@@ -427,6 +427,9 @@ namespace SporeMods.Manager
                     }
                 };
 
+                if (Settings.NonEssentialIsRunningUnderWine)
+                    DropModsHereContentGrid.Visibility = Visibility.Visible;
+
                 //Setup additional commandline options Settings and Controls
                 AdditionalCommandLineOptionsTextBox.Text = Settings.CommandLineOptions;
                 AdditionalCommandLineOptionsTextBox.TextChanged += AdditionalCommandLineOptionsTextBox_TextChanged;
@@ -919,7 +922,7 @@ namespace SporeMods.Manager
             CopyModsToClipboardButton.Content = Settings.GetLanguageString("CopyModsListToClipboard");
 
             InstallModsPromptContentControl.Content = Settings.GetLanguageString("DropModsHerePrompt");
-            //DropModsHereTextBlock.Text = Settings.GetLanguageString("DropModsHereInstruction");
+            DropModsHereTextBlock.Text = Settings.GetLanguageString("DropModsHereInstruction");
 
             SearchBox.WatermarkText = Settings.GetLanguageString("SearchWatermark");
             SearchNamesMenuItem.Header = Settings.GetLanguageString("SearchNames");

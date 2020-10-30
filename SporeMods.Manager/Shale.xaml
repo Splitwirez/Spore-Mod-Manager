@@ -1506,4 +1506,24 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <LinearGradientBrush x:Key="TopDownMaskBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Offset="0" Color="Black"/>
+        <GradientStop Offset="1" Color="#00000000"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="FromLeftMaskBrush" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Offset="0" Color="Black"/>
+        <GradientStop Offset="1" Color="#00000000"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="FromRightMaskBrush" StartPoint="1,0" EndPoint="0,0">
+        <GradientStop Offset="0" Color="Black"/>
+        <GradientStop Offset="1" Color="#00000000"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="BottomUpMaskBrush" StartPoint="0,1" EndPoint="0,0">
+        <GradientStop Offset="0" Color="Black"/>
+        <GradientStop Offset="1" Color="#00000000"/>
+    </LinearGradientBrush>
 </ResourceDictionary>
