@@ -82,7 +82,7 @@ namespace SporeMods.Setup
 
                 if (App.MgrExePath != null)
                     InstallSporeModManager();
-                else if (Environment.GetCommandLineArgs().Length > 1)
+                else if (App.LkPath != null)
                     SetPage(WelcomeToUpgradePathPage);
                 else
                     SetPage(LicensePage);

@@ -20,7 +20,7 @@ namespace SporeMods.Setup
     public partial class App : Application
     {
         public static string Language = null;
-        string _lkPath = null;
+        public static string LkPath = null;
         public static string MgrExePath = null;
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -38,12 +38,12 @@ namespace SporeMods.Setup
                     if (IsLauncherKitInstallDir(p, out string fixedPath))
                     {
                         //MessageBox.Show("fixedPath: " + fixedPath);
-                        _lkPath = fixedPath;
+                        LkPath = fixedPath;
                         break;
                     }
                 }
 
-                if (_lkPath == null)
+                if (LkPath == null)
                 {
                     string lkPathFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Spore ModAPI Launcher", "path.info");
                     if (File.Exists(lkPathFilePath))
@@ -54,7 +54,7 @@ namespace SporeMods.Setup
                         if (IsLauncherKitInstallDir(lkPathFilePathText, out string fixedLkPath))
                         {
                             //MessageBox.Show("fixedLkPath: " + fixedLkPath);
-                            _lkPath = fixedLkPath;
+                            LkPath = fixedLkPath;
                         }
                     }
                 }
@@ -73,7 +73,7 @@ namespace SporeMods.Setup
 
                     string mgrPath = File.ReadAllText(SetupInfo.INSTALL_DIR_LOCATOR_PATH);
 
-                    if (_lkPath != null)
+                    if (LkPath != null)
                     {
                         //Process.Start(Path.Combine(mgrPath, "SporeMods.KitImporter.exe"), "\"" + _lkPath + "\"");
                     }

@@ -7,7 +7,7 @@
     <ProjectGuid>{D594F7E6-87BB-47C2-8701-1D976E38183B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>SporeMods.Setup</RootNamespace>
-    <AssemblyName>SporeMods.Setup</AssemblyName>
+    <AssemblyName>SporeModManagerSetup</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -19,7 +19,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
