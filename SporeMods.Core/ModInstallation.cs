@@ -305,6 +305,8 @@ namespace SporeMods.Core
                                     proceed = true;
                             }
 
+
+
                             var isExperimentalAttr = compareDocument.Root.Attribute("isExperimental");
                             if (isExperimentalAttr != null)
                             {
@@ -315,7 +317,25 @@ namespace SporeMods.Core
                                 }
                             }
 
+                            var requiresGalaxyResetAttr = compareDocument.Root.Attribute("requiresGalaxyReset");
+                            if (requiresGalaxyResetAttr != null)
+                            {
+                                if (bool.TryParse(requiresGalaxyResetAttr.Value, out bool requiresGalaxyReset) && requiresGalaxyReset)
+                                {
+                                    if (!InstallingRequiresGalaxyResetMod(name))
+                                        throw new UserRefusedConditionsException();
+                                }
+                            }
 
+                            var causesSaveDataDependencyAttr = compareDocument.Root.Attribute("causesSaveDataDependency");
+                            if (causesSaveDataDependencyAttr != null)
+                            {
+                                if (bool.TryParse(causesSaveDataDependencyAttr.Value, out bool causesSaveDataDependency) && causesSaveDataDependency)
+                                {
+                                    if (!InstallingSaveDataDependencyMod(name))
+                                        throw new UserRefusedConditionsException();
+                                }
+                            }
                         }
                         else if (Settings.AllowVanillaIncompatibleMods)
                             CreateModInfoXml(name, Settings.TempFolderPath, out document);
