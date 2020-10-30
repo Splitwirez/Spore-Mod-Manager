@@ -28,6 +28,7 @@ namespace SporeMods.Setup
     {
         static string usersDir = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)).Parent.ToString().ToLowerInvariant();
         static bool debug = Environment.GetCommandLineArgs().Skip(1).Any(x => x.ToLower() == "--debug");
+        static bool isUpdatingModManager = true;
 
         static string DEFAULT_INSTALL_PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Spore Mod Manager");
         string _installPath = DEFAULT_INSTALL_PATH;
@@ -47,6 +48,8 @@ namespace SporeMods.Setup
                 {
                     if (args.ElementAt(1).Contains("--update"))
                     {
+                        isUpdatingModManager = true;
+
                         string mgrPath = args.ElementAt(2).Trim('"', ' ');
                         if (Directory.Exists(mgrPath))
                             _storagePath = mgrPath;
@@ -275,21 +278,23 @@ namespace SporeMods.Setup
                     importerWindow.ShowDialog();
                 }
 
-                var importerPath = Path.Combine(_installPath, "SporeMods.KitImporter.exe");
-
-                try
+                if (!isUpdatingModManager)
                 {
-                    Process process = Process.Start(importerPath);
-                    process.WaitForExit();
-                }
-                catch (Win32Exception w32ex)
-                {
-                    string forceLkImportPath = Path.Combine(_storagePath, "ForceLkImport.info");
-                    File.WriteAllText(forceLkImportPath, string.Empty);
-                    Permissions.GrantAccessFile(forceLkImportPath);
-                    MessageBox.Show(forceLkImportPath, "forceLkImportPath");
-                }
+                    var importerPath = Path.Combine(_installPath, "SporeMods.KitImporter.exe");
 
+                    try
+                    {
+                        Process process = Process.Start(importerPath);
+                        process.WaitForExit();
+                    }
+                    catch (Win32Exception w32ex)
+                    {
+                        string forceLkImportPath = Path.Combine(_storagePath, "ForceLkImport.info");
+                        File.WriteAllText(forceLkImportPath, string.Empty);
+                        Permissions.GrantAccessFile(forceLkImportPath);
+                        MessageBox.Show(forceLkImportPath, "forceLkImportPath");
+                    }
+                }
             }
         }
 

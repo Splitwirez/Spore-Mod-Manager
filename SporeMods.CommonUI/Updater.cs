@@ -66,16 +66,22 @@ namespace SporeMods.CommonUI
                     if (update)
                     {
                         string updaterPath = Path.Combine(Settings.TempFolderPath, "SporeModManagerSetup.exe");
+                        bool updateDownloadFinished = false;
+
+                        /*while ((!File.Exists(updaterPath)) || Permissions.IsFileLocked(updaterPath) || (!updateDownloadFinished))
+                        { }*/
+                        
                         var progressDialog = GetProgressDialog(Settings.GetLanguageString("UpdatingProgressText"), (s, e) =>
                         {
-                            Thread prgThread = new Thread(() =>
-                            {
-                                updaterPath = UpdaterService.UpdateProgram(release, (s_, e_) =>
+                            /*Thread prgThread = new Thread(() =>
+                            {*/
+                                updateDownloadFinished = UpdaterService.UpdateProgram(release, (s_, e_) =>
                                 {
                                     (s as BackgroundWorker).ReportProgress(e_.ProgressPercentage);
                                 });
-                            });
-                            prgThread.Start();
+
+                            /*});
+                            prgThread.Start();*/
                         });
                         progressDialog.Show();
 
@@ -85,14 +91,8 @@ namespace SporeMods.CommonUI
                             return;
                         }
 
-                        //TODO close and execute program
-                        Thread thread = new Thread(() =>
-                        {
-                            while ((!File.Exists(updaterPath)) || Permissions.IsFileLocked(updaterPath))
-                            { }
-                            Process.Start(updaterPath, "--update \"" + Path.GetDirectoryName(Process.GetCurrentProcess().GetExecutablePath()) + "\" \"" + Process.GetCurrentProcess().GetExecutablePath() + "\" --lang:" + Settings.CurrentLanguageCode);
-                            Process.GetCurrentProcess().Kill();
-                        });
+                        Process.Start(updaterPath, "--update \"" + Path.GetDirectoryName(Process.GetCurrentProcess().GetExecutablePath()) + "\" \"" + Process.GetCurrentProcess().GetExecutablePath() + "\" --lang:" + Settings.CurrentLanguageCode);
+                        Process.GetCurrentProcess().Kill();
                     }
                 }
 

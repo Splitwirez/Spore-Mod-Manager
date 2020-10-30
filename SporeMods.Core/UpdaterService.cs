@@ -167,6 +167,8 @@ namespace SporeMods.Core
             }
         }
 
+        public static event EventHandler UpdateDownloadCompleted;
+
         /// <summary>
         /// Downloads the update from the given Github release, and returns the path to the updater program. 
         /// A progress handler can be passed to react when the operation progress (in the range [0, 100]) changes.
@@ -175,7 +177,7 @@ namespace SporeMods.Core
         /// <param name="release"></param>
         /// <param name="progressHandler"></param>
         /// <returns></returns>
-        public static string UpdateProgram(GithubRelease release, ProgressChangedEventHandler progressHandler)
+        public static bool UpdateProgram(GithubRelease release, ProgressChangedEventHandler progressHandler)
         {
             string fileName = Path.Combine(Settings.TempFolderPath, "SporeModManagerSetup.exe");
             var asset = Array.Find(release.assets, a => a.name.ToLowerInvariant() == "sporemodmanagersetup.exe");
@@ -191,9 +193,9 @@ namespace SporeMods.Core
                 };
                 
                 client.DownloadFile(asset.browser_download_url, fileName);
-
+                client.DownloadFileCompleted += (sneder, args) => UpdateDownloadCompleted?.Invoke(fileName, null);
             }
-            return fileName;
+            return true;
         }
     }
 }
