@@ -58,8 +58,22 @@
                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonBackgroundGradientStops}"/>
             </Ellipse.Fill>
         </Ellipse>
-        <TextBlock Text="?" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Foreground="{DynamicResource ButtonForegroundBrush}" FontSize="15" FontWeight="Black"/>
+        <TextBlock Text="?" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Foreground="{DynamicResource ButtonForegroundBrush}" FontSize="15" FontWeight="Black" Effect="{DynamicResource DropShadow}"/>
     </Grid>
+    <ControlTemplate x:Key="AlertIconBackgroundTemplate">
+        <Grid Width="32" Height="32" HorizontalAlignment="Center" VerticalAlignment="Center" Effect="{DynamicResource DropShadow}">
+            <Path Data="M 0 32 L 16 0 L 32 32 Z" Stroke="{DynamicResource RedButtonBorderBrush}" StrokeThickness="1">
+                <Path.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource RedButtonBackgroundGradientStops}"/>
+                </Path.Fill>
+            </Path>
+            <Path Data="M 0 26 L 13 0 L 26 26 Z" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,1,0,-1">
+                <Path.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource RedButtonSecondaryBackgroundGradientStops}"/>
+                </Path.Fill>
+            </Path>
+        </Grid>
+    </ControlTemplate>
 
     <Style x:Key="DropdownToggleButtonStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource CaptionToggleButtonStyle}">
         <Setter Property="Width" Value="32"/>
@@ -121,14 +135,34 @@
                                 </ContentPresenter.Content>
                             </ContentPresenter>
                         </Grid>
-                        <ToggleButton x:Name="ExpandCollapseToggleButton" Visibility="Collapsed" Style="{DynamicResource DropdownToggleButtonStyle}" DockPanel.Dock="Right">
+                        <ToggleButton x:Name="ExpandCollapseToggleButton" Visibility="Collapsed" Style="{DynamicResource DropdownToggleButtonStyle}" DockPanel.Dock="Right" Margin="5,0,0,0">
                             <Path x:Name="Arrow" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 6 L 6 0 L 12 6" Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToggleButton}}}" StrokeThickness="2" RenderTransformOrigin="0.5,0.5">
                                 <Path.RenderTransform>
                                     <RotateTransform Angle="-180"/>
                                 </Path.RenderTransform>
                             </Path>
                         </ToggleButton>
-                        <Canvas Visibility="{Binding Identity.CausesSaveDataDependency, Converter={StaticResource BooleanToVisibilityConverter}}" Width="32" Height="32" Background="Red" ToolTip="{DynamicResource CausesSaveDataDependencyWarning}" DockPanel.Dock="Right"/>
+                        <Grid Visibility="{Binding Identity.CausesSaveDataDependency, Converter={StaticResource BooleanToVisibilityConverter}}" Width="32" Height="32" Background="#01000000" ToolTip="{DynamicResource CausesSaveDataDependencyWarning}" DockPanel.Dock="Right">
+                            <Control Template="{DynamicResource AlertIconBackgroundTemplate}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Grid Width="12" Height="12" HorizontalAlignment="Center" VerticalAlignment="Center" Effect="{DynamicResource DropShadow}" Margin="0,6,0,-6">
+                                <Path Data="M 0 6 L 6 0" StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,2,0,-2">
+                                    <Path.Stroke>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource DarkIconGradientStops3}"/>
+                                    </Path.Stroke>
+                                </Path>
+                                <Ellipse Width="8" Height="8" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                    <Ellipse.Fill>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource DarkIconGradientStops}"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                                <Ellipse Width="4" Height="4" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                                    <Ellipse.Fill>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource DarkIconGradientStops}"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                            </Grid>
+                            <!--{DynamicResource ButtonForegroundBrush}-->
+                        </Grid>
                         <!--Rectangle DockPanel.Dock="Left" Width="{Binding Height, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DockPanel}}, Converter={StaticResource WidthToHalfWidthConverter}}"/-->
                         <TextBlock Margin="5,0,0,0" Text="{Binding DisplayName}" VerticalAlignment="Center" TextAlignment="Left" HorizontalAlignment="Left"/>
                     </DockPanel>
