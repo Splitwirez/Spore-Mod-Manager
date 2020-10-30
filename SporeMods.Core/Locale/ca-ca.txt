@@ -124,6 +124,7 @@ CustomInstaller_Apply Aplicar
 ModIsExperimental %MODNAME% is presently in an experimental state. It may contain unexpected bugs, and using it may have unexpected, potentially undesirable consequences. Are you sure you wish to install it?
 ModRequiresGalaxyReset %MODNAME% requires a Galaxy reset to take effect. Performing a Galaxy reset will erase all of your save game planets. The necessary Galaxy Reset will NOT be performed automatically, you'll have to do it by hand. Are you sure you wish to install this mod?
 ModCausesSaveDataDependency %MODNAME% will cause save data dependency if installed. This means that if you ever uninstall it, your save planets may become corrupted or otherwise inaccessible, or be adversely affected in some other way. Are you sure you wish to install this mod?
+CausesSaveDataDependencyWarning This mod causes save data dependency. Uninstalling it could damage or corrupt your save planets.
 
 CreditsHeader Crèdits
 

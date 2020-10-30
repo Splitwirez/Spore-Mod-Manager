@@ -128,6 +128,7 @@
                                 </Path.RenderTransform>
                             </Path>
                         </ToggleButton>
+                        <Canvas Visibility="{Binding Identity.CausesSaveDataDependency, Converter={StaticResource BooleanToVisibilityConverter}}" Width="32" Height="32" Background="Red" ToolTip="{DynamicResource CausesSaveDataDependencyWarning}" DockPanel.Dock="Right"/>
                         <!--Rectangle DockPanel.Dock="Left" Width="{Binding Height, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DockPanel}}, Converter={StaticResource WidthToHalfWidthConverter}}"/-->
                         <TextBlock Margin="5,0,0,0" Text="{Binding DisplayName}" VerticalAlignment="Center" TextAlignment="Left" HorizontalAlignment="Left"/>
                     </DockPanel>

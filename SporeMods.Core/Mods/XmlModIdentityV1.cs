@@ -180,8 +180,29 @@ namespace SporeMods.Core.Mods
                     else
                         throw new FormatException(Settings.GetLanguageString(3, "ModIdentityCantParseValue").Replace("%ATTRIBUTE%", "compatOnly").Replace("%VALUE%", compatOnlyAttr.Value).Replace("%TYPE%", "bool").Replace("%TYPE%", "bool")); //throw new FormatException("Mod identity 'compatOnly': '" + compatOnlyAttr.Value + "' is not a boolean");
                 }
-
             }
+
+            var warnAttr = node.Attribute("isExperimental");
+            if (warnAttr != null)
+            {
+                if (bool.TryParse(warnAttr.Value, out bool isExperimental) && isExperimental)
+                    identity.IsExperimental = isExperimental;
+            }
+            
+            warnAttr = node.Attribute("requiresGalaxyReset");
+            if (warnAttr != null)
+            {
+                if (bool.TryParse(warnAttr.Value, out bool requiresGalaxyReset) && requiresGalaxyReset)
+                    identity.RequiresGalaxyReset = requiresGalaxyReset;
+            }
+
+            warnAttr = node.Attribute("causesSaveDataDependency");
+            if (warnAttr != null)
+            {
+                if (bool.TryParse(warnAttr.Value, out bool causesSaveDataDependency) && causesSaveDataDependency)
+                    identity.CausesSaveDataDependency = causesSaveDataDependency;
+            }
+
 
             var tagsElem = node.Element("tags");
             if (tagsElem != null)

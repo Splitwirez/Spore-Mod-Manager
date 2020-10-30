@@ -1029,6 +1029,7 @@ namespace SporeMods.Manager
             CreditsGroupBox.Header = Settings.GetLanguageString("CreditsHeader");
 
             CustomInstallerInstallButton.Content = Settings.GetLanguageString(2, "Proceed");
+            Resources["CausesSaveDataDependencyWarning"] = Settings.GetLanguageString("CausesSaveDataDependencyWarning");
 
             Resources["ProbablyDisksGuessText"] = Settings.GetLanguageString(3, "ProbablyDiskGuess");
             Resources["ProbablyOriginGuessText"] = Settings.GetLanguageString(3, "ProbablyOriginGuess");
