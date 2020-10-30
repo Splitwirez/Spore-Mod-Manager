@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Windows;
+using System.Threading;
 
 namespace SporeMods.CommonUI
 {
@@ -64,13 +65,17 @@ namespace SporeMods.CommonUI
 
                     if (update)
                     {
-                        string updaterPath = null;
+                        string updaterPath = Path.Combine(Settings.TempFolderPath, "SporeModManagerSetup.exe");
                         var progressDialog = GetProgressDialog(Settings.GetLanguageString("UpdatingProgressText"), (s, e) =>
                         {
-                            updaterPath = UpdaterService.UpdateProgram(release, (s_, e_) =>
+                            Thread prgThread = new Thread(() =>
                             {
-                                (s as BackgroundWorker).ReportProgress(e_.ProgressPercentage);
+                                updaterPath = UpdaterService.UpdateProgram(release, (s_, e_) =>
+                                {
+                                    (s as BackgroundWorker).ReportProgress(e_.ProgressPercentage);
+                                });
                             });
+                            prgThread.Start();
                         });
                         progressDialog.Show();
 
@@ -81,9 +86,13 @@ namespace SporeMods.CommonUI
                         }
 
                         //TODO close and execute program
-                        Process.Start(updaterPath, "--update \"" + Path.GetDirectoryName(Process.GetCurrentProcess().GetExecutablePath()) + "\" \"" + Process.GetCurrentProcess().GetExecutablePath() + "\" --lang:" + Settings.CurrentLanguageCode);
-                        Application.Current.Shutdown();
-                        return;
+                        Thread thread = new Thread(() =>
+                        {
+                            while ((!File.Exists(updaterPath)) || Permissions.IsFileLocked(updaterPath))
+                            { }
+                            Process.Start(updaterPath, "--update \"" + Path.GetDirectoryName(Process.GetCurrentProcess().GetExecutablePath()) + "\" \"" + Process.GetCurrentProcess().GetExecutablePath() + "\" --lang:" + Settings.CurrentLanguageCode);
+                            Process.GetCurrentProcess().Kill();
+                        });
                     }
                 }
 

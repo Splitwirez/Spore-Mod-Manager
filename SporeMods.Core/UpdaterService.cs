@@ -177,7 +177,8 @@ namespace SporeMods.Core
         /// <returns></returns>
         public static string UpdateProgram(GithubRelease release, ProgressChangedEventHandler progressHandler)
         {
-            var asset = Array.Find(release.assets, a => a.name.ToLower() == "SporeModManagerSetup.exe");
+            string fileName = Path.Combine(Settings.TempFolderPath, "SporeModManagerSetup.exe");
+            var asset = Array.Find(release.assets, a => a.name.ToLowerInvariant() == "sporemodmanagersetup.exe");
             if (asset == null)
             {
                 throw new InvalidOperationException("Invalid update: no 'SporeModManagerSetup.exe' asset");
@@ -188,11 +189,11 @@ namespace SporeMods.Core
                 {
                     if (progressHandler != null) progressHandler.Invoke(null, e);
                 };
-                string fileName = Path.GetTempFileName();
+                
                 client.DownloadFile(asset.browser_download_url, fileName);
 
-                return fileName;
             }
+            return fileName;
         }
     }
 }

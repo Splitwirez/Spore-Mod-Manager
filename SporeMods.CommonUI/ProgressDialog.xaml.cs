@@ -49,7 +49,10 @@ namespace SporeMods.CommonUI
 
         void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            DownloadProgress.Value = e.ProgressPercentage;
+            Dispatcher.Invoke(new Action(() =>
+            {
+                DownloadProgress.Value = e.ProgressPercentage;
+            }));
         }
 
         void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

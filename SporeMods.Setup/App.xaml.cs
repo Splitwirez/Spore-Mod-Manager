@@ -99,7 +99,7 @@ namespace SporeMods.Setup
                     {
                         Resources.MergedDictionaries[0] = new ResourceDictionary()
                         {
-                            Source = new Uri("pack://application:,,,/SporeMods.Setup;component/Locale/" + Language + ".xaml", UriKind.RelativeOrAbsolute)
+                            Source = new Uri("/SporeMods.Setup;component/Locale/" + Language + ".xaml", UriKind.RelativeOrAbsolute)
                         };
                     }
                     catch
