@@ -439,6 +439,10 @@ namespace SporeMods.Manager
 
                 ModsManager.Instance.ModConfiguratorShown += Instance_ModConfiguratorShown;
 
+                ModInstallation.InstallingExperimentalMod += ModInstallation_InstallingExperimentalMod;
+                ModInstallation.InstallingRequiresGalaxyResetMod += ModInstallation_InstallingRequiresGalaxyResetMod;
+                ModInstallation.InstallingSaveDataDependencyMod += ModInstallation_InstallingSaveDataDependencyMod;
+
                 //Install mod passed via commandline, if any
                 string[] clArgs = Environment.GetCommandLineArgs();
                 if (clArgs.Length > 1)
@@ -467,6 +471,21 @@ namespace SporeMods.Manager
                 MessageBox.Show(ex.Message + "\n\n" + ex.StackTrace);
                 ModsManager.InstalledMods.Add(new InstallError(ex));
             }
+        }
+
+        private bool ModInstallation_InstallingExperimentalMod(string arg)
+        {
+            return MessageBox.Show(Settings.GetLanguageString("ModIsExperimental").Replace("%MODNAME%", arg), string.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+        }
+
+        private bool ModInstallation_InstallingRequiresGalaxyResetMod(string arg)
+        {
+            return MessageBox.Show(Settings.GetLanguageString("ModRequiresGalaxyReset").Replace("%MODNAME%", arg), string.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+        }
+
+        private bool ModInstallation_InstallingSaveDataDependencyMod(string arg)
+        {
+            return MessageBox.Show(Settings.GetLanguageString("ModCausesSaveDataDependency").Replace("%MODNAME%", arg), string.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes;
         }
 
         private void BlockVanillaIncompatibleModsToggleSwitch_Checked(object sender, RoutedEventArgs e)
@@ -1192,6 +1211,10 @@ namespace SporeMods.Manager
                 string output = string.Empty;
                 foreach (string s in status.Failures.Keys)
                 {
+                    if (status.Failures[s] is UserRefusedConditionsException)
+                        continue;
+
+
                     output += s + ": ";
                     if (status.Failures[s] is UnsupportedXmlModIdentityVersionException exc)
                     {
@@ -1223,7 +1246,9 @@ namespace SporeMods.Manager
                         output += status.Failures[s].ToString() + "\n\n\n\n";
                     }
                 }
-                SporeMods.CommonUI.MessageDisplay.ShowMessageBox(output, Settings.GetLanguageString(0, "ModsFailedToInstall"));
+
+                if (!output.IsNullOrEmptyOrWhiteSpace())
+                    SporeMods.CommonUI.MessageDisplay.ShowMessageBox(output, Settings.GetLanguageString(0, "ModsFailedToInstall"));
             }
         }
 

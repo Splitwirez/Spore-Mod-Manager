@@ -16,6 +16,11 @@ namespace SporeMods.Core
 {
     public static class ModInstallation
     {
+        public static event Func<string, bool> InstallingExperimentalMod;
+        public static event Func<string, bool> InstallingRequiresGalaxyResetMod;
+        public static event Func<string, bool> InstallingSaveDataDependencyMod;
+
+
         static List<string> _installableMods = new List<string>();
         /*public static ErrorInfo[]*/
 
@@ -299,6 +304,18 @@ namespace SporeMods.Core
                                 if (vanillaCompatAttr.Value.Equals("true", StringComparison.OrdinalIgnoreCase))
                                     proceed = true;
                             }
+
+                            var isExperimentalAttr = compareDocument.Root.Attribute("isExperimental");
+                            if (isExperimentalAttr != null)
+                            {
+                                if (bool.TryParse(isExperimentalAttr.Value, out bool isExperimental) && isExperimental)
+                                {
+                                    if (!InstallingExperimentalMod(name))
+                                        throw new UserRefusedConditionsException();
+                                }
+                            }
+
+
                         }
                         else if (Settings.AllowVanillaIncompatibleMods)
                             CreateModInfoXml(name, Settings.TempFolderPath, out document);
@@ -598,7 +615,7 @@ namespace SporeMods.Core
     }
 
 
-        public class ErrorEventArgs : EventArgs
+    public class ErrorEventArgs : EventArgs
     {
         public string Title { get; set; } = string.Empty;
 
@@ -712,5 +729,8 @@ namespace SporeMods.Core
     }
 
     public class ModAlreadyInstalledException : Exception
+    { }
+
+    public class UserRefusedConditionsException : Exception
     { }
 }
