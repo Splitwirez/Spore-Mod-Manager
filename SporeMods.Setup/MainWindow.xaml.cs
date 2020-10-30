@@ -406,6 +406,30 @@ namespace SporeMods.Setup
                         Dispatcher.BeginInvoke(new Action(() => InstallProgressBar.Value++));
 
                         Permissions.GrantAccessDirectory(menuShortcutDir);
+
+                        //purge Launcher Kit shortcuts
+                        try
+                        {
+                            string[] shortcutFilePaths = Directory.EnumerateFiles(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)).ToArray();
+                            foreach (string s in shortcutFilePaths)
+                            {
+                                try
+                                {
+                                    string shortcutName = Path.GetFileName(s).ToLowerInvariant();
+                                    if (shortcutName.Contains("spore modapi") &&
+                                    (
+                                    shortcutName.EndsWith(".lnk") ||
+                                    shortcutName.EndsWith(".bat")
+                                    ))
+                                    {
+                                        if (File.Exists(s))
+                                            File.Delete(s);
+                                    }
+                                }
+                                catch { }
+                            }
+                        }
+                        catch { }
                     }
 
 
