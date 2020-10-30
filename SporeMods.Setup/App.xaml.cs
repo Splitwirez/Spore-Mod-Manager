@@ -24,6 +24,11 @@ namespace SporeMods.Setup
         public static string MgrExePath = null;
         protected override void OnStartup(StartupEventArgs e)
         {
+            Resources.MergedDictionaries.Add(new ResourceDictionary()
+            {
+                Source = new Uri("/SporeModManagerSetup;component/Locale/en-ca.xaml", UriKind.RelativeOrAbsolute)
+            });
+
             if (!Environment.GetCommandLineArgs().Skip(1).Any(x => x == SetupInfo.IS_WOULDBE_ADMIN_PROCESS))
             {
                 ShutdownMode = ShutdownMode.OnExplicitShutdown;
@@ -99,7 +104,7 @@ namespace SporeMods.Setup
                     {
                         Resources.MergedDictionaries[0] = new ResourceDictionary()
                         {
-                            Source = new Uri("/SporeMods.Setup;component/Locale/" + Language + ".xaml", UriKind.RelativeOrAbsolute)
+                            Source = new Uri("/SporeModManagerSetup;component/Locale/" + Language + ".xaml", UriKind.RelativeOrAbsolute)
                         };
                     }
                     catch

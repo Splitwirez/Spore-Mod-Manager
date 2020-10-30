@@ -13,17 +13,17 @@
         <ComboBox x:Name="LanguagesComboBox" SelectionChanged="LanguagesComboBox_SelectionChanged" SelectedIndex="0" Margin="0,25">
             <ComboBoxItem Content="English (Canada)">
                 <ComboBoxItem.Tag>
-                    <ResourceDictionary Source="pack://application:,,,/SporeMods.Setup;component/Locale/en-ca.xaml"/>
+                    <ResourceDictionary Source="pack://application:,,,/SporeModManagerSetup;component/Locale/en-ca.xaml"/>
                 </ComboBoxItem.Tag>
             </ComboBoxItem>
             <ComboBoxItem Content="Español (España)">
                 <ComboBoxItem.Tag>
-                    <ResourceDictionary Source="pack://application:,,,/SporeMods.Setup;component/Locale/es-es.xaml"/>
+                    <ResourceDictionary Source="pack://application:,,,/SporeModManagerSetup;component/Locale/es-es.xaml"/>
                 </ComboBoxItem.Tag>
             </ComboBoxItem>
             <ComboBoxItem Content="Català">
                 <ComboBoxItem.Tag>
-                    <ResourceDictionary Source="pack://application:,,,/SporeMods.Setup;component/Locale/ca-ca.xaml"/>
+                    <ResourceDictionary Source="pack://application:,,,/SporeModManagerSetup;component/Locale/ca-ca.xaml"/>
                 </ComboBoxItem.Tag>
             </ComboBoxItem>
         </ComboBox>
