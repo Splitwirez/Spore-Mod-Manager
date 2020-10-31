@@ -1027,6 +1027,8 @@ namespace SporeMods.Manager
             LanguageTextBlock.Text = Settings.GetLanguageString("LanguageHeader");
 
             StandardWindowDecorationsToggleSwitch.Content = Settings.GetLanguageString("RequiresAppRestart").Replace("%CONTEXT%", Settings.GetLanguageString("UseStandardWindowDecorations"));
+            StandardWindowDecorationsToggleSwitch.TrueText = Settings.GetLanguageString("SwitchOn");
+            StandardWindowDecorationsToggleSwitch.FalseText = Settings.GetLanguageString("SwitchOff");
 
             UpdateGroupBox.Header = Settings.GetLanguageString("UpdateHeader");
             UpdateTextBlock.Text = Settings.GetLanguageString("UpdateQuestion");

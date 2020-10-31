@@ -22,6 +22,10 @@
     <local:StringIsComponentGroupNameConverter x:Key="StringIsComponentGroupNameConverter"/>
     <local:BoolToNullableBoolConverter x:Key="BoolToNullableBoolConverter"/>
 
+    <Style x:Key="{x:Type TextBlock}" TargetType="{x:Type TextBlock}">
+        <Setter Property="TextWrapping" Value="Wrap"/>
+    </Style>
+
     <Style x:Key="WindowBackdropControlStyle" TargetType="{x:Type Control}">
         <Setter Property="Template">
             <Setter.Value>
