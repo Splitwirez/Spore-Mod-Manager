@@ -28,7 +28,7 @@ namespace SporeMods.Setup
     {
         static string usersDir = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)).Parent.ToString().ToLowerInvariant();
         static bool debug = Environment.GetCommandLineArgs().Skip(1).Any(x => x.ToLower() == "--debug");
-        static bool isUpdatingModManager = true;
+        static bool isUpdatingModManager = false;
 
         static string DEFAULT_INSTALL_PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Spore Mod Manager");
         string _installPath = DEFAULT_INSTALL_PATH;
