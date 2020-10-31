@@ -107,11 +107,12 @@ Error_CannotCheckForUpdates No se pueden buscar actualizaciones, por favor compr
 Error_CannotCheckForUpdatesTitle No se pueden buscar actualizaciones
 
 HelpHeader ¿Necesitas ayuda?
-GoToForumThread ¡Contáctanos para poder ayudarte!
+GoToForumThread ¡Contáctanos para poder ayudarte o hacernos preguntas!
 SendFeedback Comunícanos algo
 ShowConfig Copiar configuración al portapapeles
 
 CloseSporeFirst Por favor cierra Spore para continuar
+CloseSporeModManagerFirst Solo puedes tener una instancia del Spore Mod Manager abierta a la vez.
 SporeCantClose Si el Spore no responde, ha crasheado, o ya se ha cerrado, clica aquí:
 ForceKillSporeButton Cerrar Spore
 ForceKillConfirmTitle ¿Quieres forzar que se cierre el Spore?
@@ -146,18 +147,18 @@ CopypasteToTechSupport Copia el texto de abajo, y enviaselo a quién te lo haya 
 
 
 # Launcher kit importer
-Importer_ProceedWithAutoPath NOT ENGLISH TEXT
-Importer_DiscardAutoPath NOT ENGLISH TEXT
-Importer_AutoLauncherKitPath NOT ENGLISH TEXT<br><br>%KITPATH%<br><br>
-Importer_SpecifyLauncherKitPathInstruction NOT ENGLISH TEXT
-Importer_LauncherKitNotFoundSpecifyLauncherKitPathInstruction NOT ENGLISH TEXT
-Importer_ImportInProgress NOT ENGLISH TEXT1
-Importer_ImportComplete NOT ENGLISH TEXT2
-Importer_ImportFailed NOT ENGLISH TEXT3
-Importer_SettingsImportFailed NOT ENGLISH TEXT
-Importer_NoModsRecord NOT ENGLISH TEXT
-Importer_FailedMods NOT ENGLISH TEXT
-Importer_SkippedMods NOT ENGLISH TEXT
+Importer_ProceedWithAutoPath Sí, esta ruta es correcta.
+Importer_DiscardAutoPath No, especificaré la ruta yo mismo.
+Importer_AutoLauncherKitPath Se ha localizado el Spore ModAPI Launcher Kit aquí:<br><br>%KITPATH%<br><br>¿Es esta ruta correcta?
+Importer_SpecifyLauncherKitPathInstruction Por favor especifica la carpeta del Spore ModAPI Launcher Kit abajo.
+Importer_LauncherKitNotFoundSpecifyLauncherKitPathInstruction No se ha podido localizar automáticamente el Spore ModAPI Launcher Kit. Por favor especifica su carpeta abajo.
+Importer_ImportInProgress Importación en progreso...
+Importer_ImportComplete Importación completa
+Importer_ImportFailed Importación fallida
+Importer_SettingsImportFailed Algunos ajustes podrían no haberse importado correctamente.
+Importer_NoModsRecord No hay ningún mod installado para importar. Por lo tanto, no se ha importado ningún mod, ya que aparentemente no había ninguno.
+Importer_FailedMods Estos mods no se pudieron importar
+Importer_SkippedMods Estos mods ya habían sido instalados via el Spore Mod Manager, así que no se han importado
 
 
 # Error messages
@@ -184,9 +185,9 @@ Error_SporeProcessCreationFailed No se pudo crear el proceso de Spore. Esto no d
 Error_SporeProcessResumeFailed No se pudo reanudar el proceso de Spore. Esto no debería ocurrir nunca, así que si ves este mensaje, por favor reporta el problema inmediatamente.
 
 Error_CantParseIdentityVersion No se pudo procesar la versión del XML Mod Identity. Si no creaste este mod, por favor informa al creador del mod inmediatamente.
-Error_UnsupportedIdentityVersion Versión %VERSION% del XML Mod Identity no soportada. Si no creaste este mod, por favor informa al creador del mod inmediatamente.
+Error_UnsupportedIdentityVersion Versión %VERSION% del XML Mod Identity no soportada. Este mod requiere una versión del Spore Mod Manager más nueva que la que estás usando. Activa las actualizaciones automáticas o permite que le programa se actualice.
 Error_CantParseDllsBuild No se pudo procesar el DLLs Build. Si no creaste este mod, por favor informa al creador del mod inmediatamente.
-Error_UnsupportedDllsBuild Versión %VERSION% de DLLs Build no soportada. Si no creaste este mod, por favor informa al creador del mod inmediatamente.
+Error_UnsupportedDllsBuild Versión %VERSION% de DLLs Build no soportada. Este mod requiere una versión de los ModAPI DLLs más nueva que la que estás usando. Activa las actualizaciones automáticas o permite que le programa se actualice.
 Error_NoIdentityVersion Versión del XML Mod Identity no especificada. Si no creaste este mod, por favor informa al creador del mod inmediatamente.
 Error_IdentityMissingAttribute Al XML Mod Identity le falta el atributo %ATTRIBUTE%. Si no creaste este mod, por favor informa al creador del mod inmediatamente.
 

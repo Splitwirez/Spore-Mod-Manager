@@ -107,11 +107,12 @@ Error_CannotCheckForUpdates No es poden buscar actualitzacions, si us plau compr
 Error_CannotCheckForUpdatesTitle No es poden buscar actualitzacions
 
 HelpHeader Necessites ajuda?
-GoToForumThread Contacta'ns per poder ajudar-te!
+GoToForumThread Contacta'ns per poder ajudar-te o fer-nos preguntes!
 SendFeedback Comunica'ns alguna cosa
 ShowConfig Copiar configuració al porta-retalls
 
 CloseSporeFirst Si us plau, tanca Spore per a continuar
+CloseSporeModManagerFirst Només pots tenir una instància del Spore Mod Manager executant-se.
 SporeCantClose Si el Spore no respòn, ha "crashejat", o ja s'ha tancat, clica aquí:
 ForceKillSporeButton Tancar Spore
 ForceKillConfirmTitle Vols forçar que es tanci el Spore?
@@ -146,18 +147,18 @@ CopypasteToTechSupport Copia el text de baix, i envia'l a qui te l'hagi demanat.
 
 
 # Launcher kit importer
-Importer_ProceedWithAutoPath NOT ENGLISH TEXT
-Importer_DiscardAutoPath NOT ENGLISH TEXT
-Importer_AutoLauncherKitPath NOT ENGLISH TEXT<br><br>%KITPATH%<br><br>
-Importer_SpecifyLauncherKitPathInstruction NOT ENGLISH TEXT
-Importer_LauncherKitNotFoundSpecifyLauncherKitPathInstruction NOT ENGLISH TEXT
-Importer_ImportInProgress NOT ENGLISH TEXT1
-Importer_ImportComplete NOT ENGLISH TEXT2
-Importer_ImportFailed NOT ENGLISH TEXT3
-Importer_SettingsImportFailed NOT ENGLISH TEXT
-Importer_NoModsRecord NOT ENGLISH TEXT
-Importer_FailedMods NOT ENGLISH TEXT
-Importer_SkippedMods NOT ENGLISH TEXT
+Importer_ProceedWithAutoPath Sí, aquesta ruta és correcta.
+Importer_DiscardAutoPath No, especificaré la ruta jo mateix.
+Importer_AutoLauncherKitPath S'ha localitzat el Spore ModAPI Launcher Kit aquí:<br><br>%KITPATH%<br><br>És correcta aquesta ruta?
+Importer_SpecifyLauncherKitPathInstruction Si us plau especifica la carpeta del Spore ModAPI Launcher Kit a sota.
+Importer_LauncherKitNotFoundSpecifyLauncherKitPathInstruction No s'ha pogut localitzar automàticament el Spore ModAPI Launcher Kit. Si us plau especifica la seva carpeta a sota.
+Importer_ImportInProgress Importació en progrés...
+Importer_ImportComplete Importació completa
+Importer_ImportFailed Importació fallida
+Importer_SettingsImportFailed Algunes opcions podríen no haver-se importat correctament.
+Importer_NoModsRecord No hi ha cap mod instal·lat per importar. Per tant, no s'ha importat cap mod, ja que aparentment no n'hi havia cap.
+Importer_FailedMods Aquests mods no s'han pogut importar
+Importer_SkippedMods Aquests mods ja havien estat instal·lats via el Spore Mod Manager, així que no s'han importat
 
 
 # Error messages
@@ -184,9 +185,9 @@ Error_SporeProcessCreationFailed No s'ha pogut crear el procés de Spore. Això 
 Error_SporeProcessResumeFailed No s'ha pogut reanudar el procés de Spore. Això no hauria de passar mai, així que si veus aquest missatge, si us plau reporta el problema immediatament.
 
 Error_CantParseIdentityVersion No s'ha pogut processar la versió del XML Mod Identity. Si no has creat aquest mod, si us plau informa al creador del mod immediatament.
-Error_UnsupportedIdentityVersion Versió %VERSION% del XML Mod Identity no soportada. Si no has creat aquest mod, si us plau informa al creador del mod immediatament.
+Error_UnsupportedIdentityVersion Versió %VERSION% del XML Mod Identity no soportada. Aquest mod requereix una versió del Spore Mod Manager més moderna que la que tens actualment. Activa les actualitzacions automàtiques o permet que s'actualitzi el programa.
 Error_CantParseDllsBuild No s'ha pogut processar el DLLs Build. Si no has creat aquest mod, si us plau informa al creador del mod immediatament.
-Error_UnsupportedDllsBuild Versió %VERSION% de DLLs Build no soportada. Si no has creat aquest mod, si us plau informa al creador del mod immediatament.
+Error_UnsupportedDllsBuild Versió %VERSION% de DLLs Build no soportada. Aquest mod requereix una versió dels ModAPI DLLs més moderna que la que tens actualment. Activa les actualitzacions automàtiques o permet que s'actualitzi el programa.
 Error_NoIdentityVersion Versió del XML Mod Identity no especificada. Si no has creat aquest mod, si us plau informa al creador del mod immediatament.
 Error_IdentityMissingAttribute Al XML Mod Identity li falta l'atribut %ATTRIBUTE%. Si no has creat aquest mod, si us plau informa al creador del mod immediatament.
 
