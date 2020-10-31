@@ -28,41 +28,40 @@ namespace SporeMods.Setup
             {
                 Source = new Uri("/SporeModManagerSetup;component/Locale/en-ca.xaml", UriKind.RelativeOrAbsolute)
             });*/
+            IEnumerable<string> args = Environment.GetCommandLineArgs().Skip(1);
+
+            foreach (string p in args)
+            {
+                //MessageBox.Show("p: " + p);
+                if (IsLauncherKitInstallDir(p, out string fixedPath))
+                {
+                    //MessageBox.Show("fixedPath: " + fixedPath);
+                    LkPath = fixedPath;
+                    break;
+                }
+            }
+
+            if (LkPath == null)
+            {
+                string lkPathFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Spore ModAPI Launcher", "path.info");
+                if (File.Exists(lkPathFilePath))
+                {
+                    string lkPathFilePathText = File.ReadAllText(lkPathFilePath);
+
+                    //MessageBox.Show("lkPathFilePathText: " + lkPathFilePathText);
+                    if (IsLauncherKitInstallDir(lkPathFilePathText, out string fixedLkPath))
+                    {
+                        //MessageBox.Show("fixedLkPath: " + fixedLkPath);
+                        LkPath = fixedLkPath;
+                    }
+                }
+            }
 
             if (!Environment.GetCommandLineArgs().Skip(1).Any(x => x == SetupInfo.IS_WOULDBE_ADMIN_PROCESS))
             {
                 ShutdownMode = ShutdownMode.OnExplicitShutdown;
                 Process proc = Permissions.RerunAsAdministrator(Permissions.GetProcessCommandLineArgs() + " " + SetupInfo.IS_WOULDBE_ADMIN_PROCESS, false);
                 proc.WaitForExit();
-
-                IEnumerable<string> args = Environment.GetCommandLineArgs().Skip(1);
-                
-                foreach (string p in args)
-                {
-                    //MessageBox.Show("p: " + p);
-                    if (IsLauncherKitInstallDir(p, out string fixedPath))
-                    {
-                        //MessageBox.Show("fixedPath: " + fixedPath);
-                        LkPath = fixedPath;
-                        break;
-                    }
-                }
-
-                if (LkPath == null)
-                {
-                    string lkPathFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Spore ModAPI Launcher", "path.info");
-                    if (File.Exists(lkPathFilePath))
-                    {
-                        string lkPathFilePathText = File.ReadAllText(lkPathFilePath);
-
-                        //MessageBox.Show("lkPathFilePathText: " + lkPathFilePathText);
-                        if (IsLauncherKitInstallDir(lkPathFilePathText, out string fixedLkPath))
-                        {
-                            //MessageBox.Show("fixedLkPath: " + fixedLkPath);
-                            LkPath = fixedLkPath;
-                        }
-                    }
-                }
 
                 if (File.Exists(SetupInfo.INSTALL_DIR_LOCATOR_PATH))
                 {

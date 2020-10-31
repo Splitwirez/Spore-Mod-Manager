@@ -29,6 +29,7 @@ namespace SporeMods.Setup
         static string usersDir = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)).Parent.ToString().ToLowerInvariant();
         static bool debug = Environment.GetCommandLineArgs().Skip(1).Any(x => x.ToLower() == "--debug");
         static bool isUpdatingModManager = false;
+        static bool isUpdatingFromLauncherKit = false;
 
         static string DEFAULT_INSTALL_PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Spore Mod Manager");
         string _installPath = DEFAULT_INSTALL_PATH;
@@ -82,10 +83,11 @@ namespace SporeMods.Setup
 
                 
                 DebugMessageBox("_storagePath: " + _storagePath);
+                isUpdatingFromLauncherKit = (App.LkPath != null) && (args.Count() > 1);
 
                 if (App.MgrExePath != null)
                     InstallSporeModManager();
-                else if (App.LkPath != null)
+                else if (isUpdatingFromLauncherKit)
                     SetPage(WelcomeToUpgradePathPage);
                 else
                     SetPage(LicensePage);
@@ -278,7 +280,7 @@ namespace SporeMods.Setup
                     importerWindow.ShowDialog();
                 }
 
-                if (!isUpdatingModManager)
+                if ((!isUpdatingModManager) && isUpdatingFromLauncherKit)
                 {
                     var importerPath = Path.Combine(_installPath, "SporeMods.KitImporter.exe");
 

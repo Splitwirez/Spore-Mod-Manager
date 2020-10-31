@@ -22,7 +22,7 @@ namespace SporeMods.Core.Mods
 
         public ManagedMod(string name, bool isEnabledByDefault)
         {
-            StoragePath = Path.Combine(Settings.ModConfigsPath, Path.GetFileNameWithoutExtension(name));
+            StoragePath = Path.Combine(Settings.ModConfigsPath, Path.GetFileName(name));
             _xmlPath = Path.Combine(StoragePath, "ModInfo.xml");
             _configPath = Path.Combine(StoragePath, "Config.xml");
 
