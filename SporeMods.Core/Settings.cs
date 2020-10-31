@@ -885,7 +885,7 @@ namespace SporeMods.Core
                 else if (bool.TryParse(GetElementValue(_useCustomWindowDecorations), out bool returnValue))
                     return returnValue;
                 else
-                    return true;
+                    return !NonEssentialIsRunningUnderWine;
             }
             set => SetElementValue(_useCustomWindowDecorations, value.ToString(), true);
         }
