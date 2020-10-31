@@ -152,6 +152,8 @@ namespace SporeMods.Manager
                     }));
                 }
             };
+
+            _dragWatcher.EnableRaisingEvents = true;
         }
 
         private void ModInstallation_ErrorOccurred(object sender, Core.ErrorEventArgs e)
@@ -1857,8 +1859,6 @@ namespace SporeMods.Manager
                 CompositionTarget.Rendering -= CompositionTarget_Rendering;
                 //ShowWindow(App.DragServantProcess.MainWindowHandle, 0);
             }
-
-            _dragWatcher.EnableRaisingEvents = isVisible;
         }
 
         string _lastDLL = string.Empty;

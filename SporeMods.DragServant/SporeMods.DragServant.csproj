@@ -122,6 +122,10 @@
       <Project>{1648a481-d3d4-49ac-b415-40ad57fea938}</Project>
       <Name>Mechanism.Wpf.Styles.Shale</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SporeMods.CommonUI\SporeMods.CommonUI.csproj">
+      <Project>{21A4B753-80B6-426E-B09F-0E6BB307B139}</Project>
+      <Name>SporeMods.CommonUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SporeMods.Core\SporeMods.Core.csproj">
       <Project>{5d0e076f-9c1c-4990-9242-4f7e7c66a045}</Project>
       <Name>SporeMods.Core</Name>

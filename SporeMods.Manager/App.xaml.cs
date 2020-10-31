@@ -68,13 +68,33 @@ namespace SporeMods.Manager
                 {
                     if (Permissions.IsAtleastWindowsVista() && (!Permissions.IsAdministrator()))
                     {
+                        if (Permissions.AreAnyOtherModManagersRunning())
+                        {
+                            if (Environment.GetCommandLineArgs().Length > 1)
+                            {
+                                List<string> files = new List<string>();
+                                foreach (string s in Environment.GetCommandLineArgs().Skip(1))
+                                {
+                                    string path = s.Trim('\"', ' ');
+                                    if (File.Exists(path))
+                                        files.Add(path);
+                                }
+                                string draggedFilesPath = Path.Combine(Settings.TempFolderPath, "draggedFiles");
+                                File.WriteAllLines(draggedFilesPath, files);
+                                Permissions.GrantAccessFile(draggedFilesPath);
+                            }
+                            else
+                                MessageBox.Show(Settings.GetLanguageString("CloseSporeModManagerFirst"));
+                            Process.GetCurrentProcess().Kill();
+                        }
+
                         /*foreach (Process proc in Process.GetProcessesByName("SporeMods.DragServant").ToList())
                             proc.Kill();*/
                         string parentDirectoryPath = Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).ToString();
                         Process p = Process.Start(Path.Combine(parentDirectoryPath, "SporeMods.DragServant.exe"), Process.GetCurrentProcess().Id.ToString());
                         string args = Permissions.GetProcessCommandLineArgs();
                         args += " " + DragServantIdArg + p.Id;
-                        if (!Environment.GetCommandLineArgs().Contains(CommonUI.Updater.IgnoreUpdatesArg)) args += " " + CommonUI.Updater.IgnoreUpdatesArg;
+                        if (!Environment.GetCommandLineArgs().Contains(UpdaterService.IgnoreUpdatesArg)) args += " " + UpdaterService.IgnoreUpdatesArg;
                         try
                         {
                             while (p.MainWindowHandle == IntPtr.Zero) { }

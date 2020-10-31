@@ -15,7 +15,6 @@ namespace SporeMods.CommonUI
 {
     public static class Updater
     {
-        public static readonly string IgnoreUpdatesArg = "-ignoreUpdates";
 
 
         public static void CheckForUpdates()
@@ -25,7 +24,7 @@ namespace SporeMods.CommonUI
 
         public static void CheckForUpdates(bool forceInstallUpdate)
         {
-            bool ignoreUpdates = Environment.GetCommandLineArgs().Contains(IgnoreUpdatesArg);
+            bool ignoreUpdates = Environment.GetCommandLineArgs().Contains(UpdaterService.IgnoreUpdatesArg);
             if (!ignoreUpdates)
             {
                 if ((!forceInstallUpdate) && (Settings.UpdatingMode == Settings.UpdatingModeType.Disabled))

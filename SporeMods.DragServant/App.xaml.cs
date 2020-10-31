@@ -1,4 +1,5 @@
-﻿using SporeMods.Core;
+﻿using SporeMods.CommonUI;
+using SporeMods.Core;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -35,7 +36,8 @@ namespace SporeMods.DragServant
                 switch (fileName)
                 {
                     case "LaunchGame":
-                        StartLauncher();
+                        if (!Environment.GetCommandLineArgs().Contains(UpdaterService.IgnoreUpdatesArg))
+                            StartLauncher();
                         break;
                     case "OpenUrl":
                         string path = File.ReadAllText(args.FullPath);

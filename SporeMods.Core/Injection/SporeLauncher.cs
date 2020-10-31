@@ -391,7 +391,7 @@ namespace SporeMods.Core.Injection
         static void CreateSporeProcess()
         {
             var sb = new StringBuilder();
-            if ((Environment.GetCommandLineArgs().Length > 1) && (Environment.GetCommandLineArgs()[1] == Settings.LaunchSporeWithoutManagerOptions))
+            if ((!Environment.GetCommandLineArgs().Contains(UpdaterService.IgnoreUpdatesArg)) && (Environment.GetCommandLineArgs().Length > 1) && (Environment.GetCommandLineArgs()[1] == Settings.LaunchSporeWithoutManagerOptions))
             {
                 int i = 0;
                 foreach (string arg in Environment.GetCommandLineArgs())

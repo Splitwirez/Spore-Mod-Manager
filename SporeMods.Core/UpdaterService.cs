@@ -18,6 +18,8 @@ namespace SporeMods.Core
     /// </summary>
     public static class UpdaterService
     {
+        public static readonly string IgnoreUpdatesArg = "-ignoreUpdates";
+
         private static readonly string GITHUB_API_URL = "https://api.github.com";
 
         public class GithubReleaseAsset

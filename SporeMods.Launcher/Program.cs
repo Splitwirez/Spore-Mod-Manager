@@ -72,7 +72,11 @@ namespace SporeMods.Launcher
                         //uncomment below to test ProgressDialog appearance
                         /*var progressDialog = CommonUI.Updater.GetProgressDialog(string.Empty, null, true);
                         Application.Run();*/
-                        CommonUI.Updater.CheckForUpdates();
+                        
+
+                        if (!Permissions.AreAnyOtherModManagersRunning())
+                            CommonUI.Updater.CheckForUpdates();
+
                         Settings.ManagerInstallLocationPath = Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).ToString();
                     }
 

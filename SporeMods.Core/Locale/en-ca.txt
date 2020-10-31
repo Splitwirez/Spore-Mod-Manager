@@ -112,6 +112,7 @@ SendFeedback Send feedback
 ShowConfig Copy configuration to clipboard
 
 CloseSporeFirst Please close Spore to continue
+CloseSporeModManagerFirst Only one instance of the Spore Mod Manager can be used at any given time.
 SporeCantClose If Spore is not responding, has crashed, or has already been closed, click here:
 ForceKillSporeButton Close Spore
 ForceKillConfirmTitle Force-close Spore?

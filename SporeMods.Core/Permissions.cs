@@ -12,6 +12,36 @@ namespace SporeMods.Core
 {
     public static class Permissions
     {
+
+        static string[] mgrExecutables = new string[]
+        {
+            "Spore Mod Manager",
+            "Spore Mod Launcher",
+            "SporeMods.KitImporter"
+        };
+        public static bool AreAnyOtherModManagersRunning()
+        {
+            //string dir = Directory.GetParent(Process.GetCurrentProcess().MainModule.FileName).ToString();
+            string exe = Path.GetFileNameWithoutExtension(Process.GetCurrentProcess().MainModule.FileName);
+            return Process.GetProcessesByName(exe).Length > 1;
+
+            /*foreach (string s in mgrExecutables) //Directory.EnumerateFiles(dir).Where(x => x.ToLowerInvariant().EndsWith(".exe"))
+            {
+                Process[] processes = Process.GetProcessesByName(s);
+                if ((s.ToLowerInvariant() == Path.GetFileNameWithoutExtension(Process.GetCurrentProcess().MainModule.FileName).ToLowerInvariant()) && (processes.Length > 1))
+                {
+                    Debug.WriteLine("SAME EXE");
+                    return true;
+                }
+                else if (processes.Length > 0)
+                {
+                    Debug.WriteLine("DIFFERENT EXE");
+                    return true;
+                }
+            }*/
+            return false;
+        }
+
         public static bool IsAtleastWindowsVista()
         {
             return Environment.OSVersion.Version.Major >= 6;
