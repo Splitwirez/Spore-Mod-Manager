@@ -264,7 +264,8 @@ namespace SporeMods.Core
 
         public static string LegacyTempFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Spore ModAPI Launcher");
 
-        static string _pathInfo = Path.Combine(TempFolderPath, "path.info");
+        static string _pathInfoFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Spore Mod Manager");
+        static string _pathInfo = Path.Combine(_pathInfoFolder, "path.info");
 
         /// <summary>
         /// Path to wherever the Mod Manager is installed to.
@@ -273,8 +274,8 @@ namespace SporeMods.Core
         {
             get
             {
-                if (!Directory.Exists(TempFolderPath))
-                    Directory.CreateDirectory(TempFolderPath);
+                if (!Directory.Exists(_pathInfoFolder))
+                    Directory.CreateDirectory(_pathInfoFolder);
 
                 if (File.Exists(_pathInfo))
                     Permissions.GrantAccessFile(_pathInfo);
@@ -288,17 +289,17 @@ namespace SporeMods.Core
             {
                 /*try
                 {*/
-                if (!Directory.Exists(TempFolderPath))
-                    Directory.CreateDirectory(TempFolderPath);
+                if (!Directory.Exists(_pathInfoFolder))
+                    Directory.CreateDirectory(_pathInfoFolder);
 
                 if (File.Exists(_pathInfo))
                     Permissions.GrantAccessFile(_pathInfo);
 
-                if (Path.GetFileNameWithoutExtension(Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).ToString()).ToLowerInvariant().StartsWith("SporeMods."))
-                {
+                /*if (Path.GetFileNameWithoutExtension(Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).ToString()).ToLowerInvariant().StartsWith("SporeMods."))
+                {*/
                     File.WriteAllText(_pathInfo, value);
                     Permissions.GrantAccessFile(_pathInfo);
-                }
+                //}
                 /*else
                     throw new Exception("Non-ModAPI Management kit software must not interfere.");
             }

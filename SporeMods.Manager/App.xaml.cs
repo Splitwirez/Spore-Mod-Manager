@@ -58,6 +58,7 @@ namespace SporeMods.Manager
 
             Settings.EnsureDllsAreExtracted();
             CommonUI.Updater.CheckForUpdates();
+            Settings.ManagerInstallLocationPath = Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).ToString();
 
             Exit += App_Exit;
 
@@ -121,7 +122,6 @@ namespace SporeMods.Manager
                             base.OnStartup(e);
 
                             //ModInstallation.DoFirstRunVerification();
-                            Settings.ManagerInstallLocationPath = Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).ToString();
 
                             Window window;
                             ManagerContent content = new ManagerContent();

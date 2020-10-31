@@ -73,6 +73,7 @@ namespace SporeMods.Launcher
                         /*var progressDialog = CommonUI.Updater.GetProgressDialog(string.Empty, null, true);
                         Application.Run();*/
                         CommonUI.Updater.CheckForUpdates();
+                        Settings.ManagerInstallLocationPath = Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).ToString();
                     }
 
                     bool proceed = true;
