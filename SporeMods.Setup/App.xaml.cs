@@ -24,10 +24,10 @@ namespace SporeMods.Setup
         public static string MgrExePath = null;
         protected override void OnStartup(StartupEventArgs e)
         {
-            Resources.MergedDictionaries.Add(new ResourceDictionary()
+            /*Resources.MergedDictionaries.Add(new ResourceDictionary()
             {
                 Source = new Uri("/SporeModManagerSetup;component/Locale/en-ca.xaml", UriKind.RelativeOrAbsolute)
-            });
+            });*/
 
             if (!Environment.GetCommandLineArgs().Skip(1).Any(x => x == SetupInfo.IS_WOULDBE_ADMIN_PROCESS))
             {
@@ -83,7 +83,8 @@ namespace SporeMods.Setup
                         //Process.Start(Path.Combine(mgrPath, "SporeMods.KitImporter.exe"), "\"" + _lkPath + "\"");
                     }
                     //else
-                        Process.Start(Path.Combine(mgrPath, "Spore Mod Manager.exe"));
+                    string mgrExePath = Path.Combine(mgrPath, "Spore Mod Manager.exe");
+                        Process.Start(mgrExePath);
                 }
                 /*else
                     MessageBox.Show("Spore Mod Manager install location was not returned. You should never see this message, so if you somehow do see it, inform Splitwirez or emd immediately.");*/
