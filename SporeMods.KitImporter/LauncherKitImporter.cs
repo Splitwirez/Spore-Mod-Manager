@@ -52,6 +52,76 @@ namespace SporeMods.KitImporter
             }
         }
 
+        static IEnumerable<ModFile> GetModComponentFiles(XElement element)
+        {
+            if (element.Name.LocalName.ToLowerInvariant() == "remove")
+                return new List<ModFile>(); 
+            else if (element.Name.LocalName.ToLowerInvariant() == "componentgroup")
+            {
+                List<ModFile> files = new List<ModFile>();
+                foreach (XElement element2 in element.Elements())
+                {
+                    foreach (ModFile file in GetModComponentFiles(element2))
+                        files.Add(file);
+                }
+                return files;
+            }
+            else
+            {
+                string fileName = element.Value;
+                string[] fileNames = new string[]
+                {
+                    fileName
+                };
+
+                if (fileName.Contains('?'))
+                {
+                    fileNames = fileName.Split('?');
+                }
+
+
+                string game = "modapi";
+                string[] games = new string[]
+                {
+                    game
+                };
+
+                var attr = element.Attribute("game");
+                if (attr != null)
+                    game = attr.Value;
+                else if (fileNames.Count() > 1)
+                {
+                    games = new string[fileNames.Length];
+                    for (int i = 0; i < games.Length; i++)
+                        games[i] = "modapi";
+                }
+
+
+                if (game.Contains('?'))
+                    games = game.Split('?');
+
+                List<ModFile> files = new List<ModFile>();
+
+                for (int i = 0; i < fileNames.Length; i++)
+                {
+                    var mFile = new ModFile()
+                    {
+                        Name = fileNames[i]
+                    };
+
+                    string mGame = games[i].ToLowerInvariant();
+                    
+                    if ((mGame != "spore") && (mGame != "galacticadventures"))
+                    {
+                        mFile.GameDir = ComponentGameDir.ModAPI;
+                        files.Add(mFile);
+                    }
+                }
+
+                return files;
+            }
+        }
+
         /// <summary>
         /// Ensures that there are no installed mods in the launcher kit that use EXE custom installers.
         /// If there are, tells the user to either update them or uninstall them.
@@ -219,6 +289,14 @@ namespace SporeMods.KitImporter
                         else
                         {
                             var document = XDocument.Load(Path.Combine(managerModConfigPath, "ModInfo.xml"));
+
+                            foreach (XElement element in document.Root.Elements()/*.Where(x => x.Name.LocalName.ToLowerInvariant() != "remove")*/)
+                            {
+                                foreach (ModFile file in GetModComponentFiles(element))
+                                    mod.Files.Add(file);
+                            }
+
+
                             var xmlVersionAttr = document.Root.Attribute("installerSystemVersion");
                             if (xmlVersionAttr != null && Version.TryParse(xmlVersionAttr.Value, out Version version)
                                 && version != ModIdentity.XmlModIdentityVersion1_0_0_0)
@@ -244,7 +322,7 @@ namespace SporeMods.KitImporter
 
                     foreach (ModFile file in mod.Files)
                     {
-                        if (file.GameDir == ComponentGameDir.ModAPI)
+                        if ((file.GameDir != ComponentGameDir.Spore) && (file.GameDir != ComponentGameDir.GalacticAdventures))
                         {
                             if (
                                 file.Name.ToLowerInvariant().EndsWith("-disk.dll") ||
@@ -252,19 +330,27 @@ namespace SporeMods.KitImporter
                                 file.Name.ToLowerInvariant().EndsWith("-steam_patched.dll")
                                 )
                             {
-                                launcherKitToMgrDllPaths.Add(Path.Combine(kitPath, file.Name), Path.Combine(Settings.LegacyLibsPath, file.Name));
+                                string key = Path.Combine(kitPath, file.Name);
+                                if (!launcherKitToMgrDllPaths.ContainsKey(key))
+                                    launcherKitToMgrDllPaths.Add(key, Path.Combine(Settings.LegacyLibsPath, file.Name));
                             }
                             else
                             {
-                                launcherKitToMgrDllPaths.Add(Path.Combine(kitPath, "mLibs", file.Name), Path.Combine(Settings.LegacyLibsPath, file.Name));
+                                string key = Path.Combine(kitPath, "mLibs", file.Name);
+
+                                if (!launcherKitToMgrDllPaths.ContainsKey(key))
+                                    launcherKitToMgrDllPaths.Add(key, Path.Combine(Settings.ModLibsPath, file.Name));
                             }
                         }
                     }
 
                     foreach (string key in launcherKitToMgrDllPaths.Keys)
                     {
-                        File.Copy(key, launcherKitToMgrDllPaths[key]);
-                        Permissions.GrantAccessFile(launcherKitToMgrDllPaths[key]);
+                        if (!File.Exists(launcherKitToMgrDllPaths[key]) && File.Exists(key))
+                        {
+                            File.Copy(key, launcherKitToMgrDllPaths[key]);
+                            Permissions.GrantAccessFile(launcherKitToMgrDllPaths[key]);
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -314,12 +400,14 @@ namespace SporeMods.KitImporter
 
                             string kitDllPath = Path.Combine(kitPath, Path.GetFileName(filePath));
                             string mgrDllPath = Path.Combine(Settings.LegacyLibsPath, Path.GetFileName(filePath));
-                            MessageBox.Show(kitDllPath + "\n\n\n" + mgrDllPath, "DLL PATHS");
-                            launcherKitToMgrDllPaths.Add(kitDllPath, mgrDllPath);
+                            //MessageBox.Show(kitDllPath + "\n\n\n" + mgrDllPath, "DLL PATHS");
+                            if (!launcherKitToMgrDllPaths.ContainsKey(kitDllPath))
+                                launcherKitToMgrDllPaths.Add(kitDllPath, mgrDllPath);
                         }
                         else if (filePath.ToLowerInvariant().Contains(@"\mlibs\"))
                         {
-                            launcherKitToMgrDllPaths.Add(filePath, Path.Combine(Settings.ModLibsPath, Path.GetFileName(filePath)));
+                            if (!launcherKitToMgrDllPaths.ContainsKey(filePath))
+                                launcherKitToMgrDllPaths.Add(filePath, Path.Combine(Settings.ModLibsPath, Path.GetFileName(filePath)));
                         }
                     }
 
@@ -363,7 +451,7 @@ namespace SporeMods.KitImporter
 
                     foreach (string key in launcherKitToMgrDllPaths.Keys)
                     {
-                        if (!File.Exists(launcherKitToMgrDllPaths[key]))
+                        if (!File.Exists(launcherKitToMgrDllPaths[key]) && File.Exists(key))
                         {
                             File.Copy(key, launcherKitToMgrDllPaths[key]);
                             Permissions.GrantAccessFile(launcherKitToMgrDllPaths[key]);

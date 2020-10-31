@@ -24,7 +24,10 @@
             </DockPanel>
             <TextBlock x:Name="SpecifyLauncherKitPathInstructionTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </DockPanel>
-        <TextBlock x:Name="ImportInProgressPage" FontSize="18" Visibility="Collapsed"/>
+        <StackPanel x:Name="ImportInProgressPage" Visibility="Collapsed" Orientation="Vertical">
+            <TextBlock x:Name="ImportInProgressTextBlock" FontSize="18"/>
+            <ProgressBar Margin="0,10,0,0" IsIndeterminate="True"/>
+        </StackPanel>
         <DockPanel x:Name="ImportCompletePage" Visibility="Collapsed">
             <Button x:Name="ImportCompleteOkButton" DockPanel.Dock="Bottom" Click="ImportCompleteOkButton_Click"/>
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">

@@ -10,11 +10,11 @@ namespace SporeMods.KitImporter
 {
     public class KitMod
     {
-        public string Name;
-        public string Unique;
-        public string DisplayName;
-        public string ConfiguratorPath;
-        public List<ModFile> Files = new List<ModFile>();
+        public string Name { get; set; } = null;
+        public string Unique { get; set; } = null;
+        public string DisplayName { get; set; } = null;
+        public string ConfiguratorPath { get; set; } = null;
+        public List<ModFile> Files { get; set; } = new List<ModFile>();
     }
 
     /// <summary>

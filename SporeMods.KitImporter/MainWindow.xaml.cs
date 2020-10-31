@@ -168,6 +168,8 @@ namespace SporeMods.KitImporter
         {
             if (_kitAutoImport && (ImportCompletePage.Visibility != Visibility.Visible))
                 e.Cancel = true;
+            else if (ImportInProgressPage.Visibility == Visibility.Visible)
+                e.Cancel = true;
             else
                 System.Windows.Application.Current.Shutdown(300);
         }
@@ -180,7 +182,7 @@ namespace SporeMods.KitImporter
             SpecifyLauncherKitPathInstructionTextBlock.Text = GetLanguageString("LauncherKitNotFoundSpecifyLauncherKitPathInstruction");
             LauncherKitPathBrowseButton.Content = Settings.GetLanguageString(1, "Browse");
 
-            ImportInProgressPage.Text = GetLanguageString("ImportInProgress");
+            ImportInProgressTextBlock.Text = GetLanguageString("ImportInProgress");
 
             ImportCompleteTextBlock.Text = GetLanguageString("ImportComplete");
             ImportCompleteOkButton.Content = Settings.GetLanguageString(1, "OK");
