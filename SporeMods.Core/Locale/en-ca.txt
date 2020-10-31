@@ -107,7 +107,7 @@ Error_CannotCheckForUpdates Cannot check for updates, please check your internet
 Error_CannotCheckForUpdatesTitle Cannot check for updates
 
 HelpHeader Need help?
-GoToForumThread Contact us to get help!
+GoToForumThread Contact us to get help or ask questions!
 SendFeedback Send feedback
 ShowConfig Copy configuration to clipboard
 
