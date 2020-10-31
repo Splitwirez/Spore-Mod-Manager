@@ -184,9 +184,9 @@ Error_SporeProcessCreationFailed The Spore process could not be created. This sh
 Error_SporeProcessResumeFailed The Spore process could not be resumed. This should never happen, so if you see this message, please report the problem immediately.
 
 Error_CantParseIdentityVersion Could not parse XML Mod Identity version. If you did not create this mod, please inform the mod's creator of this problem immediately.
-Error_UnsupportedIdentityVersion Unsupported XML Mod Identity version %VERSION%. If you did not create this mod, please inform the mod's creator of this problem immediately.
+Error_UnsupportedIdentityVersion Unsupported XML Mod Identity version %VERSION%. This mod requires a newer version of the Spore Mod Manager than the version you're currently using.
 Error_CantParseDllsBuild Could not parse DLLs Build. If you did not create this mod, please inform the mod's creator of this problem immediately.
-Error_UnsupportedDllsBuild Unsupported DLLs Build %VERSION%. If you did not create this mod, please inform the mod's creator of this problem immediately.
+Error_UnsupportedDllsBuild Unsupported DLLs Build %VERSION%. This mod requires a newer version of the Spore Mod Manager than the version you're currently using.
 Error_NoIdentityVersion XML Mod Identity version not specified. If you did not create this mod, please inform the mod's creator of this problem immediately.
 Error_IdentityMissingAttribute XML Mod Identity is missing the %ATTRIBUTE% attribute. If you did not create this mod, please inform the mod's creator of this problem immediately.
 
