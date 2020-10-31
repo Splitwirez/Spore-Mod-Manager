@@ -18,9 +18,20 @@ namespace SporeMods.Core
             get => File.Exists(Path.Combine(Settings.ProgramDataPath, "debug.txt"));
         }
 
+
+        static string _isWineMode = "WineMode";
+        /// <summary>
+        /// True only if initially installed/configured under WINE.
+        /// </summary>
         public static bool NonEssentialIsRunningUnderWine
         {
-            get => File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "winecfg.exe"));
+            get
+            {
+                if (bool.TryParse(GetElementValue(_isWineMode), out bool wineMode))
+                        return wineMode;
+                    else
+                        return false;
+            }
         }
 
         /// <summary>
@@ -236,10 +247,19 @@ namespace SporeMods.Core
             _settingsFilePath = Path.Combine(ProgramDataPath, "ModManagerSettings.xml");
             if (!File.Exists(_settingsFilePath))
             {
-                File.WriteAllText(_settingsFilePath,
-@"<Settings>
-    <" + _lastMgrVersion + ">" + ModManagerVersion.ToString() + "</" + _lastMgrVersion + @">
-</Settings>");
+                string xmlStart = @"<Settings>";
+                string xmlMiddle = @"
+    <" + _lastMgrVersion + ">" + ModManagerVersion.ToString() + "</" + _lastMgrVersion + ">";
+                string xmlEnd = @"</Settings>";
+
+                try
+                {
+                    if (File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "winecfg.exe")))
+                        xmlMiddle += "\n    <" + _isWineMode + ">True</" + _isWineMode + ">";
+                }
+                catch { }
+
+                File.WriteAllText(_settingsFilePath, xmlStart + xmlMiddle + xmlEnd);
                 Permissions.GrantAccessFile(_settingsFilePath);
             }
 
