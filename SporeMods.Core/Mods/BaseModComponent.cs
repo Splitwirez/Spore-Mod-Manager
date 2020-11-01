@@ -45,6 +45,11 @@ namespace SporeMods.Core.Mods
         public List<BaseModComponent> SubComponents { get; } = new List<BaseModComponent>();
 
         /// <summary>
+        /// Whether this component is enabled by default.
+        /// </summary>
+        public bool EnabledByDefault { get; set; } = false;
+
+        /// <summary>
         /// Whether the sub components of this component are exclusive.
         /// </summary>
         public bool IsGroup { get; set; }
@@ -60,14 +65,22 @@ namespace SporeMods.Core.Mods
         {
             get
             {
-                return Identity.ParentMod.Configuration.IsComponentEnabled(this);
+                if (Identity.ParentMod.Configuration.UserSetComponents.TryGetValue(Unique, out bool isEnabled))
+                    return isEnabled;
+                else
+                    return EnabledByDefault;
+                //return Identity.ParentMod.Configuration.IsComponentEnabled(this);
             }
             set
             {
-                if (value)
+                if (Identity.ParentMod.Configuration.UserSetComponents.ContainsKey(Unique))
+                    Identity.ParentMod.Configuration.UserSetComponents.Remove(Unique);
+
+                Identity.ParentMod.Configuration.UserSetComponents.Add(Unique, value);
+                /*if (value)
                     Identity.ParentMod.Configuration.EnabledComponents.Add(Unique);
                 else
-                    Identity.ParentMod.Configuration.EnabledComponents.Remove(Unique);
+                    Identity.ParentMod.Configuration.EnabledComponents.Remove(Unique);*/
             }
         }
     }

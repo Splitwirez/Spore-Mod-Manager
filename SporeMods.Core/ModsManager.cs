@@ -29,7 +29,17 @@ namespace SporeMods.Core
 
         public static void AddMod(IInstalledMod mod)
         {
-            SyncContext.Send(state => InstalledMods.Add(mod/*new InstalledMod(Path.GetFileNameWithoutExtension(e.FullPath)*/), null);
+            SyncContext.Send(state => InstalledMods.Add(mod), null);
+        }
+
+        public static void InsertMod(int index, IInstalledMod mod)
+        {
+            SyncContext.Send(state => InstalledMods.Insert(index, mod), null);
+        }
+
+        public static void RemoveMod(IInstalledMod mod)
+        {
+            SyncContext.Send(state => InstalledMods.Remove(mod), null);
         }
 
         /// <summary>

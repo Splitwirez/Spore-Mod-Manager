@@ -88,9 +88,7 @@ namespace SporeMods.Core.Mods
                 if (defaultCheckedAttr != null)
                 {
                     if (bool.TryParse(defaultCheckedAttr.Value, out bool isEnabled))
-                    {
                         component.EnabledByDefault = isEnabled;
-                    }
                     else
                         throw new FormatException("Component " + component.Unique + ": '" + defaultCheckedAttr.Value + "' is not a boolean");
                 }

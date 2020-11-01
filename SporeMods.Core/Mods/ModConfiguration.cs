@@ -26,7 +26,7 @@ namespace SporeMods.Core.Mods
         /// <summary>
         /// The 'unique' identifiers of the components that are currently enabled
         /// </summary>
-        public List<string> EnabledComponents { get; } = new List<string>();
+        public Dictionary<string, bool> UserSetComponents { get; } = new Dictionary<string, bool>();
 
         /// <summary>
         /// Tags used to search and classify this mod
@@ -51,7 +51,15 @@ namespace SporeMods.Core.Mods
             element = document.Root.Element("components");
             if (element != null)
             {
-                EnabledComponents.AddRange(element.Elements().Select(x => x.Value));
+                foreach (XElement subEl in element.Elements())
+                {
+                    var attr = subEl.Attribute("isEnabled");
+                    if ((attr != null) && bool.TryParse(attr.Value, out bool isEnabled))
+                        UserSetComponents.Add(subEl.Value, isEnabled);
+                    else
+                        UserSetComponents.Add(subEl.Value, false);
+                }
+                //EnabledComponents.AddRange(element.Elements().Select(x => x.Value));
             }
 
             element = document.Root.Element("isEnabled");
@@ -77,7 +85,11 @@ namespace SporeMods.Core.Mods
             rootElement.Add(element);
 
             element = new XElement("components");
-            element.Add(EnabledComponents.Select(x => new XElement("component", x)));
+            foreach (string key in UserSetComponents.Keys)
+            {
+                element.Add(key, UserSetComponents[key]);
+            }
+            //element.Add(EnabledComponents.Select(x => new XElement("component", x)));
             rootElement.Add(element);
 
             element = new XElement("isEnabled");
@@ -88,9 +100,9 @@ namespace SporeMods.Core.Mods
             document.Save(path);
         }
 
-        public bool IsComponentEnabled(BaseModComponent component)
+        /*public bool IsComponentEnabled(BaseModComponent component)
         {
             return EnabledComponents.Contains(component.Unique);
-        }
+        }*/
     }
 }

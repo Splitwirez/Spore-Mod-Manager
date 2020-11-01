@@ -23,10 +23,5 @@ namespace SporeMods.Core.Mods
         /// If the image does not fit into the window, autoscrolling will be used to allow the user to see it in its entirety.
         /// </summary>
         public ImagePlacementType ImagePlacement { get; set; } = ImagePlacementType.None;
-
-        /// <summary>
-        /// Whether this component is enabled by default.
-        /// </summary>
-        public bool EnabledByDefault { get; set; }
     }
 }

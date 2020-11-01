@@ -72,9 +72,12 @@ namespace SporeMods.Core.Mods
 
         private void PopulateEnabledUniques(BaseModComponent component)
         {
-            if (component is ModComponent c && c.EnabledByDefault)
+            if (component is ModComponent c)
             {
-                Configuration.EnabledComponents.Add(c.Unique);
+                if (Configuration.UserSetComponents.ContainsKey(c.Unique))
+                    Configuration.UserSetComponents.Remove(c.Unique);
+                
+                Configuration.UserSetComponents.Add(c.Unique, c.EnabledByDefault);
             }
             foreach (var child in component.SubComponents)
             {
@@ -414,14 +417,18 @@ namespace SporeMods.Core.Mods
                 {
                     foreach (var subComponent in component.SubComponents)
                     {
-                        foreach (var file in subComponent.Files)
+                        if (subComponent.IsEnabled)
                         {
-                            FileWrite.SafeCopyFile(Path.Combine(StoragePath, file.Name), FileWrite.GetFileOutputPath(file.GameDir, file.Name, _isLegacy));
-                            Progress += progressIncrease;
+                            foreach (var file in subComponent.Files)
+                            {
+                                FileWrite.SafeCopyFile(Path.Combine(StoragePath, file.Name), FileWrite.GetFileOutputPath(file.GameDir, file.Name, _isLegacy));
+                                Progress += progressIncrease;
+                            }
+                            break;
                         }
                     }
                 }
-                else if (Configuration.IsComponentEnabled(component))
+                else if (component.IsEnabled)
                 {
                     foreach (var file in component.Files)
                     {

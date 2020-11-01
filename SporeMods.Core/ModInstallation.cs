@@ -97,7 +97,7 @@ namespace SporeMods.Core
                 List<string> modNames = new List<string>();
                 foreach (IInstalledMod mod in modsToThinkTwiceBeforeUninstalling)
                     modNames.Add(mod.DisplayName);
-                
+
                 if (!UninstallingSaveDataDependencyMod(modNames))
                 {
                     foreach (IInstalledMod mod in modsToThinkTwiceBeforeUninstalling)
@@ -256,6 +256,9 @@ namespace SporeMods.Core
                     string unique = name;
 
                     string dir = Path.Combine(Settings.ModConfigsPath, name);
+                    string prevConfigDirPath = null;
+                    int prevModIndex = 0;
+                    ManagedMod prevMod = null;
 
                     XDocument document = null;
 
@@ -312,10 +315,10 @@ namespace SporeMods.Core
                             if (uniqueAttr != null)
                             {
                                 unique = uniqueAttr.Value;
-                                
+
                                 foreach (char c in Path.GetInvalidFileNameChars())
                                     unique = unique.Replace(c.ToString(), string.Empty);
-                                
+
                                 dir = Path.Combine(Settings.ModConfigsPath, unique);
                                 name = unique;
                             }
@@ -378,7 +381,13 @@ namespace SporeMods.Core
                                     if (unique.ToLowerInvariant() == modUnique.ToLowerInvariant())
                                     {
                                         MessageDisplay.DebugShowMessageBox("Unique identifier matched: " + unique + ", " + modUnique);
+
+                                        prevMod = ModsManager.GetManagedMod(Path.GetFileName(s).ToLowerInvariant());
+                                        if (prevMod != null)
+                                            prevModIndex = ModsManager.InstalledMods.IndexOf(prevMod);
+
                                         isUnique = false;
+                                        prevConfigDirPath = s;
                                         break;
                                     }
                                 }
@@ -390,12 +399,34 @@ namespace SporeMods.Core
 
                     if (proceed || Settings.AllowVanillaIncompatibleMods)
                     {
-                        //ModInstallation.DebugMessageBoxShow("Evaluating uniqueness");
-                        if (isUnique)
+                        try
                         {
+                            //List<string> oldFiles = new List<string>();
+                            //List<string> newFiles = new List<string>();
+                            //ModInstallation.DebugMessageBoxShow("Evaluating uniqueness");
+
+                            Task ensureOldFilesTask = new Task(() =>
+                            {
+
+                                if (!isUnique)
+                                {
+                                    if ((prevConfigDirPath != null) && Directory.Exists(prevConfigDirPath))
+                                        Directory.Move(prevConfigDirPath, Path.Combine(Settings.TempFolderPath, Path.GetFileName(prevConfigDirPath)));
+                                    //File.Move(Path.Combine(prevConfigDirPath, "ModInfo.xml"), Path.Combine(prevConfigDirPath, "OldModInfo.xml"));*/
+
+
+                                    /*foreach (string s in Directory.EnumerateFiles(prevConfigDirPath))
+                                        oldFiles.Add(s);*/
+
+                                    ModsManager.RemoveMod(prevMod);
+                                }
+                            });
+                            ensureOldFilesTask.Start();
+                            await ensureOldFilesTask;
+
+
                             if (!Directory.Exists(dir))
                                 Directory.CreateDirectory(dir);
-
 
                             bool hasXmlInZip = false;
                             //ModInstallation.DebugMessageBoxShow("Mod is unique");
@@ -430,7 +461,7 @@ namespace SporeMods.Core
                               //ManagedMods.Instance.AddMod(mod);
 
                             //ModInstallation.DebugMessageBoxShow("Adding InstalledMod");
-                            ModsManager.InstalledMods.Add(mod);
+                            ModsManager.AddMod(mod);
                             //ModInstallation.DebugMessageBoxShow("InstalledMod should be added");
 
                             Task evaluateArchiveAndCountFilesTask = new Task(() =>
@@ -473,8 +504,8 @@ namespace SporeMods.Core
                                     {
                                         e.Extract(dir, ExtractExistingFileAction.OverwriteSilently);
                                         Permissions.GrantAccessFile(Path.Combine(dir, e.FileName));
-                                    //remove corresponding manually-installed file
-                                    if (!isModInfo)
+                                        //remove corresponding manually-installed file
+                                        if (!isModInfo)
                                             mod.Progress += totalProgress / fileCount;
                                     }
                                 }
@@ -486,13 +517,50 @@ namespace SporeMods.Core
                                 await RegisterSporemodModWithInstallerAsync(name);
                             else
                                 await mod.EnableMod();
-                        }
-                        else
-                        {
-                            /*if (Directory.Exists(dir))
-                                Directory.Delete(dir, true);*/
+                            /*}
+                            else
+                            {
+                                if (Directory.Exists(dir))
+                                    Directory.Delete(dir, true);
 
-                            throw new ModAlreadyInstalledException();
+                                throw new ModAlreadyInstalledException();
+                            }*/
+
+                            if (!isUnique)
+                            {
+                                Task deletOldModFolderTask = new Task(() =>
+                                {
+                                    Directory.Delete(Path.Combine(Settings.TempFolderPath, Path.GetFileName(prevConfigDirPath)), true);
+                                });
+                                deletOldModFolderTask.Start();
+                                await deletOldModFolderTask;
+                            }
+                        }
+                        catch (Exception x)
+                        {
+                            if (Directory.Exists(dir))
+                                Directory.Delete(dir, true);
+
+                            if (Directory.Exists(prevConfigDirPath))
+                                Directory.Move(Path.Combine(Settings.TempFolderPath, Path.GetFileName(prevConfigDirPath)), prevConfigDirPath);
+
+                            if (mod != null)
+                                ModsManager.RemoveMod(mod);
+
+                            if (prevMod != null)
+                            {
+                                try
+                                {
+                                    ModsManager.InsertMod(prevModIndex, prevMod);
+                                }
+                                catch
+                                {
+                                    ModsManager.AddMod(prevMod);
+                                }
+                            }
+
+                            MessageDisplay.ShowMessageBox(x.ToString());
+                            throw x;
                         }
                     }
                     else
@@ -561,7 +629,7 @@ namespace SporeMods.Core
 
                 await ModsManager.Instance.ShowModConfigurator(mod); // theMod would be a ModConfiguration
                                                                      // The properties on theMod were set in that event handler down there, so theMod now has the user's specified configuration
-                List<string> lines = new List<string>();
+                /*List<string> lines = new List<string>();
 
                 foreach (var file in mod.Identity.Files)
                 {
@@ -598,7 +666,7 @@ namespace SporeMods.Core
 
                 string installLogPath = Path.Combine(Settings.ProgramDataPath, "installLog");
                 File.WriteAllLines(installLogPath, lines.ToArray());
-                Permissions.GrantAccessFile(installLogPath);
+                Permissions.GrantAccessFile(installLogPath);*/
 
                 /*Task task = new Task(() =>
                 {
@@ -708,12 +776,12 @@ namespace SporeMods.Core
     public class ModInstallationStatus
     {
         public List<string> Successes = new List<string>();
-        
+
         public bool AnySucceeded
         {
             get => Successes.Count > 0;
         }
-        
+
         public Dictionary<string, Exception> Failures = new Dictionary<string, Exception>();
 
         public bool AnyFailed

@@ -42,11 +42,17 @@ namespace SporeMods.Manager
                         string imgPath = Path.Combine((configurator.DataContext as ManagedMod).StoragePath, component.Unique + ".png");
                         if (File.Exists(imgPath))
                         {
+                            MemoryStream mStream = new MemoryStream();
+                            using (FileStream fStream = new FileStream(imgPath, FileMode.Open))
+                            {
+                                fStream.CopyTo(mStream);
+                            }
+
                             var image = new Image()
                             {
                                 HorizontalAlignment = HorizontalAlignment.Stretch,
                                 Stretch = Stretch.Uniform,
-                                Source = new BitmapImage(new Uri(imgPath, UriKind.RelativeOrAbsolute)),
+                                Source = BitmapFrame.Create(mStream), //new BitmapImage(new Uri(imgPath, UriKind.RelativeOrAbsolute)),
                                 IsHitTestVisible = false
                             };
                             if (component.ImagePlacement == ImagePlacementType.Before)
