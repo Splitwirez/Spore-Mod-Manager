@@ -489,8 +489,8 @@ namespace SporeMods.Core
                         }
                         else
                         {
-                            if (Directory.Exists(dir))
-                                Directory.Delete(dir, true);
+                            /*if (Directory.Exists(dir))
+                                Directory.Delete(dir, true);*/
 
                             throw new ModAlreadyInstalledException();
                         }
