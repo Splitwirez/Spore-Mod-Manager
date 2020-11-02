@@ -390,6 +390,8 @@ namespace SporeMods.Core.Mods
             return count + GetEnabledComponentFileCount(Identity);
         }
 
+        private event EventHandler CompatibilityProgressIncreased;
+
         //TODO: Implement this for XML Mod Identity v2.0.0.0, in a generalized way for components
         private void EnableModAdvanced(double progressRange)
         {
@@ -404,13 +406,26 @@ namespace SporeMods.Core.Mods
                     if (File.Exists(f.FullName))
                         FileWrite.SafeDeleteFile(f.FullName);
                 }
+
+                if (file.GameDir == ComponentGameDir.ModAPI && (!_isLegacy))
+                {
+                    foreach (FileInfo f2 in new DirectoryInfo(Settings.LegacyLibsPath).EnumerateFiles(file.Name))
+                    {
+                        string path = Path.Combine(Settings.LegacyLibsPath, f2.Name);
+                        if (File.Exists(path))
+                            FileWrite.SafeDeleteFile(path);
+                    }
+                }
+
                 Progress += progressIncrease;
             }
+
             foreach (var file in Identity.Files)
             {
                 FileWrite.SafeCopyFile(Path.Combine(StoragePath, file.Name), FileWrite.GetFileOutputPath(file.GameDir, file.Name, _isLegacy));
                 Progress += progressIncrease;
             }
+
             foreach (var component in Identity.SubComponents)
             {
                 if (component.IsGroup)
@@ -438,33 +453,61 @@ namespace SporeMods.Core.Mods
                 }
             }
 
-            foreach (var fix in Identity.CompatibilityFixes)
+            void CompatibilityProgressIncreasedHandler(object sender, EventArgs e)
             {
-                bool proceed = true;
-                foreach (var file in fix.RequiredFiles)
+                Progress += progressIncrease;
+            }
+            CompatibilityProgressIncreased += CompatibilityProgressIncreasedHandler;
+            EvaluateCompatibilityFixes();
+            CompatibilityProgressIncreased -= CompatibilityProgressIncreasedHandler;
+        }
+
+        public void EvaluateCompatibilityFixes()
+        {
+            if (_copyAllFiles)
+            {
+                foreach (var fix in Identity.CompatibilityFixes)
                 {
-                    if (!File.Exists(FileWrite.GetFileOutputPath(file.GameDir, file.Name, _isLegacy)))
+                    bool proceed = true;
+                    foreach (var file in fix.RequiredFiles)
                     {
-                        proceed = false;
-                        break;
-                    }
-                }
-                if (proceed)
-                {
-                    foreach (var file in fix.FilesToRemove)
-                    {
-                        DirectoryInfo info = new DirectoryInfo(FileWrite.GetGameDirectory(file.GameDir, _isLegacy));
-                        foreach (FileInfo f in info.EnumerateFiles(file.Name))
+                        bool fileDoesntExist = !File.Exists(FileWrite.GetFileOutputPath(file.GameDir, file.Name, _isLegacy));
+                        if ((!_isLegacy) && (!fileDoesntExist) && (file.GameDir == ComponentGameDir.ModAPI))
+                            fileDoesntExist = !File.Exists(FileWrite.GetFileOutputPath(file.GameDir, file.Name, true));
+                        if (fileDoesntExist)
                         {
-                            if (File.Exists(f.FullName))
-                                FileWrite.SafeDeleteFile(f.FullName);
+                            proceed = false;
+                            break;
                         }
-                        Progress += progressIncrease;
                     }
-                    foreach (var file in fix.FilesToAdd)
+                    if (proceed)
                     {
-                        FileWrite.SafeCopyFile(Path.Combine(StoragePath, file.Name), FileWrite.GetFileOutputPath(file.GameDir, file.Name, _isLegacy));
-                        Progress += progressIncrease;
+                        foreach (var file in fix.FilesToRemove)
+                        {
+                            DirectoryInfo info = new DirectoryInfo(FileWrite.GetGameDirectory(file.GameDir, _isLegacy));
+                            foreach (FileInfo f in info.EnumerateFiles(file.Name))
+                            {
+                                if (File.Exists(f.FullName))
+                                    FileWrite.SafeDeleteFile(f.FullName);
+                            }
+
+                            if ((!_isLegacy) && (file.GameDir == ComponentGameDir.ModAPI))
+                            {
+                                foreach (FileInfo f in new DirectoryInfo(Settings.LegacyLibsPath).EnumerateFiles(file.Name))
+                                {
+                                    string path = Path.Combine(Settings.LegacyLibsPath, file.Name);
+                                    if (File.Exists(path))
+                                        FileWrite.SafeDeleteFile(path);
+                                }
+                            }
+
+                            CompatibilityProgressIncreased?.Invoke(this, null);
+                        }
+                        foreach (var file in fix.FilesToAdd)
+                        {
+                            FileWrite.SafeCopyFile(Path.Combine(StoragePath, file.Name), FileWrite.GetFileOutputPath(file.GameDir, file.Name, _isLegacy));
+                            CompatibilityProgressIncreased?.Invoke(this, null);
+                        }
                     }
                 }
             }
