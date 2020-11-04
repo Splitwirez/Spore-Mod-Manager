@@ -44,7 +44,12 @@ namespace SporeMods.Core
                 string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), @"SporeModManagerStorage");
                 string redirectStorageFilePath = Path.Combine(path, "redirectStorage.txt");
                 if (File.Exists(redirectStorageFilePath))
-                    return File.ReadAllText(redirectStorageFilePath);
+                {
+                    string redirPath = File.ReadAllText(redirectStorageFilePath);
+                    if (!Directory.Exists(redirPath))
+                        Directory.CreateDirectory(redirPath);
+                    return redirPath;
+                }
                 else
                 {
                     if (!Directory.Exists(path))
