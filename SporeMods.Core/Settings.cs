@@ -890,14 +890,23 @@ namespace SporeMods.Core
             set => SetElementValue(_useCustomWindowDecorations, value.ToString(), true);
         }
 
-        static string _forceSoftwareRenderingPath = Path.Combine(ProgramDataPath, "WpfUseSoftwareRendering.info");
         /// <summary>
         /// Forces WPF software rendering if true. Some unlucky user with a weird OS+GPU combination needed this option a while back.
         /// </summary>
         public static bool ForceSoftwareRendering
         {
-            get => (!File.Exists(_forceSoftwareRenderingPath));
-            set
+            get
+            {
+                try
+                {
+                    return File.Exists(Path.Combine(ProgramDataPath, "WpfUseSoftwareRendering.info"));
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
+            /*set
             {
                 if (value == true)
                 {
@@ -912,7 +921,7 @@ namespace SporeMods.Core
                         Permissions.GrantAccessFile(_forceSoftwareRenderingPath);
                     }
                 }
-            }
+            }*/
         }
 
         static string _allowVanillaIncompatibleMods = "allowVanillaIncompatibleMods";

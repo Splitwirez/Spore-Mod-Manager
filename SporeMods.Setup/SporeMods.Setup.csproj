@@ -150,24 +150,6 @@
     <EmbeddedResource Include="..\Output\Mechanism.Wpf.Styles.Shale.pdb">
       <Link>Mechanism.Wpf.Styles.Shale.pdb</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\Microsoft.Threading.Tasks.dll">
-      <Link>Microsoft.Threading.Tasks.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\Microsoft.Threading.Tasks.Extensions.Desktop.dll">
-      <Link>Microsoft.Threading.Tasks.Extensions.Desktop.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\Microsoft.Threading.Tasks.Extensions.Desktop.xml">
-      <Link>Microsoft.Threading.Tasks.Extensions.Desktop.xml</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\Microsoft.Threading.Tasks.Extensions.dll">
-      <Link>Microsoft.Threading.Tasks.Extensions.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\Microsoft.Threading.Tasks.Extensions.xml">
-      <Link>Microsoft.Threading.Tasks.Extensions.xml</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\Microsoft.Threading.Tasks.xml">
-      <Link>Microsoft.Threading.Tasks.xml</Link>
-    </EmbeddedResource>
     <EmbeddedResource Include="..\Output\Newtonsoft.Json.dll">
       <Link>Newtonsoft.Json.dll</Link>
     </EmbeddedResource>
@@ -203,24 +185,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="..\Output\SporeMods.DragServant.pdb">
       <Link>SporeMods.DragServant.pdb</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\System.IO.dll">
-      <Link>System.IO.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\System.IO.xml">
-      <Link>System.IO.xml</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\System.Runtime.dll">
-      <Link>System.Runtime.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\System.Runtime.xml">
-      <Link>System.Runtime.xml</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\System.Threading.Tasks.dll">
-      <Link>System.Threading.Tasks.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\System.Threading.Tasks.xml">
-      <Link>System.Threading.Tasks.xml</Link>
     </EmbeddedResource>
     <EmbeddedResource Include="..\Output\System.Windows.Interactivity.dll">
       <Link>System.Windows.Interactivity.dll</Link>
