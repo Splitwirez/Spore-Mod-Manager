@@ -243,6 +243,12 @@ namespace SporeMods.KitImporter
 
 
                     string modConfigPath = Path.Combine(kitModConfigsPath, mod.Unique);
+                    if (!Directory.Exists(modConfigPath) && (!mod.Name.IsNullOrEmptyOrWhiteSpace()))
+                    {
+                        modConfigPath = Path.Combine(kitModConfigsPath, mod.Name);
+                    }
+
+
                     if (!Directory.Exists(modConfigPath))
                     {
                         foreach (string dir in Directory.EnumerateDirectories(kitModConfigsPath))
