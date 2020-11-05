@@ -49,8 +49,25 @@ namespace SporeMods.Core
             }
         }
 
+        public static string AnyInstallActivitiesPath = Path.Combine(Settings.TempFolderPath, "InstallingSomething");
+        static int _installActivitiesCounter = 0;
+        internal static int InstallActivitiesCounter
+        {
+            get => _installActivitiesCounter;
+            set
+            {
+                _installActivitiesCounter = value;
+
+                if ((_installActivitiesCounter > 0) && (!File.Exists(AnyInstallActivitiesPath)))
+                    File.Create(AnyInstallActivitiesPath).Close();
+                else if ((_installActivitiesCounter <= 0) && File.Exists(AnyInstallActivitiesPath))
+                    File.Delete(AnyInstallActivitiesPath);
+            }
+        }
+
         public static async Task<ModInstallationStatus> InstallModsAsync(string[] modPaths)
         {
+            InstallActivitiesCounter++;
             var retVal = new ModInstallationStatus();
             //Task<ModInstallationStatus> task = new Task<ModInstallationStatus>(())
             for (int i = 0; i < modPaths.Length; i++)
@@ -81,11 +98,14 @@ namespace SporeMods.Core
                     retVal.Successes.Add(Path.GetFileName(path));
             }
 
+            InstallActivitiesCounter--;
             return retVal;
         }
 
         public static void UninstallModsAsync(IInstalledMod[] modConfigurations)
         {
+            InstallActivitiesCounter++;
+
             List<IInstalledMod> modsToUninstall = modConfigurations.ToList();
             List<IInstalledMod> modsToThinkTwiceBeforeUninstalling = new List<IInstalledMod>();
 
@@ -111,6 +131,8 @@ namespace SporeMods.Core
                 // This function doesn't throw exceptions, the code inside must handle it
                 mod.UninstallModAsync();
             }
+
+            InstallActivitiesCounter--;
         }
 
         [DllImport("kernel32.dll", SetLastError = true)]

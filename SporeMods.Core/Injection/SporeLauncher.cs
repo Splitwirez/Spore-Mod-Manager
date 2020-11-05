@@ -537,9 +537,9 @@ namespace SporeMods.Core.Injection
             if (Settings.ForceWindowedMode == 2)
             {
                 Process process = Process.GetProcessById(pid);
-                while ((!process.HasExited) && (process.MainWindowHandle == IntPtr.Zero))
+                while ((!process.HasExited) && ((process.MainWindowHandle == IntPtr.Zero) || (!NativeMethods.IsWindow(process.MainWindowHandle))))
                 { }
-                if ((!process.HasExited) && (process.MainWindowHandle != IntPtr.Zero))
+                if ((!process.HasExited) && (process.MainWindowHandle != IntPtr.Zero) && NativeMethods.IsWindow(process.MainWindowHandle))
                 {
                     Debug.WriteLine("process.MainWindowTitle: " + process.MainWindowTitle);
                     var monitor = NativeMethods.AllMonitors[0];

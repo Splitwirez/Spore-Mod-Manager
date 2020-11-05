@@ -72,7 +72,12 @@ namespace SporeMods.Launcher
                         //uncomment below to test ProgressDialog appearance
                         /*var progressDialog = CommonUI.Updater.GetProgressDialog(string.Empty, null, true);
                         Application.Run();*/
-                        
+                        if (File.Exists(Path.Combine(Settings.TempFolderPath, "InstallingSomething")))
+                        {
+                            MessageBox.Show("Cannot run Spore while mods are being installed or uninstalled. (NOT LOCALIZED)");
+                            Process.GetCurrentProcess().Kill();
+                        }
+
 
                         if (!Permissions.AreAnyOtherModManagersRunning())
                             CommonUI.Updater.CheckForUpdates();

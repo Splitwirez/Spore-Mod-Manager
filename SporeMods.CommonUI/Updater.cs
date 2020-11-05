@@ -117,8 +117,7 @@ namespace SporeMods.CommonUI
 
                 if (webException != null)
                 {
-                    MessageBox.Show(Settings.GetLanguageString("Error_CannotCheckForUpdates") + "\n" + webException.Message,
-                        Settings.GetLanguageString("Error_CannotCheckForUpdatesTitle"));
+                    MessageBox.Show(Settings.GetLanguageString("Error_CannotCheckForUpdates") + "\n" + webException.ToString(), Settings.GetLanguageString("Error_CannotCheckForUpdatesTitle"));
                     return;
                 }
 

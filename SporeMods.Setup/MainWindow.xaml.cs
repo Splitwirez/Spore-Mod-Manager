@@ -50,6 +50,7 @@ namespace SporeMods.Setup
                     if (args.ElementAt(1).Contains("--update"))
                     {
                         isUpdatingModManager = true;
+                        Height /= 2;
 
                         string mgrPath = args.ElementAt(2).Trim('"', ' ');
                         if (Directory.Exists(mgrPath))

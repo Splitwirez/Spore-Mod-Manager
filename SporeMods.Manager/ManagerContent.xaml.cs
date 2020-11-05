@@ -447,6 +447,11 @@ namespace SporeMods.Manager
 
                 ModInstallation.UninstallingSaveDataDependencyMod += ModInstallation_UninstallingSaveDataDependencyMod;
 
+
+
+                if (File.Exists(ModInstallation.AnyInstallActivitiesPath))
+                    File.Delete(ModInstallation.AnyInstallActivitiesPath);
+
                 //Install mod passed via commandline, if any
                 string[] clArgs = Environment.GetCommandLineArgs();
                 if (clArgs.Length > 1)
@@ -455,18 +460,28 @@ namespace SporeMods.Manager
                     path = path.Trim(@"\".ToCharArray());
                     InstallSingleMod(path);
                     FoldersNotFoundContentControl.IsManipulationEnabled = false;*/
-                    List<string> modArgs = new List<string>();
-
-                    foreach (string rawArg in clArgs)
+                    IEnumerable<string> modArgs = clArgs.Skip(1).Where(x =>
+                    {
+                        try
+                        {
+                            return File.Exists(x);
+                        }
+                        catch
+                        {
+                            return false;
+                        }
+                    });
+                    //new List<string>();
+                    /*foreach (string rawArg in clArgs)
                     {
                         string tArg = rawArg.Trim(" ".ToCharArray()).Trim("\"".ToCharArray());
                         if (Uri.IsWellFormedUriString(tArg, UriKind.RelativeOrAbsolute) && File.Exists(tArg))
                         {
                             modArgs.Add(tArg);
                         }
-                    }
+                    }*/
 
-                    if (modArgs.Count > 0)
+                    if (modArgs.Count() > 0)
                         InstallModsFromFilesAsync(modArgs.ToArray());
                 }
             }

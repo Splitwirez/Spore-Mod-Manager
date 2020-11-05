@@ -82,8 +82,15 @@ namespace SporeMods.Setup
                         //Process.Start(Path.Combine(mgrPath, "SporeMods.KitImporter.exe"), "\"" + _lkPath + "\"");
                     }
                     //else
-                    string mgrExePath = Path.Combine(mgrPath, "Spore Mod Manager.exe");
-                        Process.Start(mgrExePath);
+                    if ((MgrExePath != null) && File.Exists(MgrExePath))
+                        Process.Start(MgrExePath);
+                    else
+                    {
+                        MgrExePath = Path.Combine(mgrPath, "Spore Mod Manager.exe");
+
+                        if (File.Exists(MgrExePath))
+                            Process.Start(MgrExePath);
+                    }
                 }
                 /*else
                     MessageBox.Show("Spore Mod Manager install location was not returned. You should never see this message, so if you somehow do see it, inform Splitwirez or emd immediately.");*/
