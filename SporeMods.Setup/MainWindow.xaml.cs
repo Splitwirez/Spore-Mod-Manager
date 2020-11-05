@@ -54,7 +54,7 @@ namespace SporeMods.Setup
 
                         string mgrPath = args.ElementAt(2).Trim('"', ' ');
                         if (Directory.Exists(mgrPath))
-                            _storagePath = mgrPath;
+                            _installPath = mgrPath;
 
                         string mgrExePath = args.ElementAt(3).Trim('"', ' ');
                         if (File.Exists(mgrExePath))
