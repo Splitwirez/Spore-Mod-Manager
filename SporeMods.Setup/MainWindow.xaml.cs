@@ -315,7 +315,7 @@ namespace SporeMods.Setup
                         string forceLkImportPath = Path.Combine(_storagePath, "ForceLkImport.info");
                         File.WriteAllText(forceLkImportPath, string.Empty);
                         Permissions.GrantAccessFile(forceLkImportPath);
-                        DebugMessageBox(forceLkImportPath, "forceLkImportPath");
+                        DebugMessageBox("forceLkImportPath: " + forceLkImportPath);
                     }
                 }
             }
