@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Xml;
 using System.Xml.Linq;
 using static SporeMods.Core.GameInfo;
 
@@ -252,23 +253,36 @@ namespace SporeMods.Core
             _settingsFilePath = Path.Combine(ProgramDataPath, "ModManagerSettings.xml");
             if (!File.Exists(_settingsFilePath))
             {
-                string xmlStart = @"<Settings>";
-                string xmlMiddle = @"
-    <" + _lastMgrVersion + ">" + ModManagerVersion.ToString() + "</" + _lastMgrVersion + ">";
-                string xmlEnd = @"</Settings>";
-
-                try
-                {
-                    if (File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "winecfg.exe")))
-                        xmlMiddle += "\n    <" + _isWineMode + ">True</" + _isWineMode + ">";
-                }
-                catch { }
-
-                File.WriteAllText(_settingsFilePath, xmlStart + xmlMiddle + xmlEnd);
-                Permissions.GrantAccessFile(_settingsFilePath);
+                WriteSettingsXmlFile();
             }
 
-            _document = XDocument.Load(_settingsFilePath);
+            try
+            {
+                _document = XDocument.Load(_settingsFilePath);
+            }
+            catch (XmlException ex)
+            {
+                WriteSettingsXmlFile();
+                _document = XDocument.Load(_settingsFilePath);
+            }
+        }
+
+        static void WriteSettingsXmlFile()
+        {
+            string xmlStart = @"<Settings>";
+            string xmlMiddle = @"
+    <" + _lastMgrVersion + ">" + ModManagerVersion.ToString() + "</" + _lastMgrVersion + ">";
+            string xmlEnd = @"</Settings>";
+
+            try
+            {
+                if (File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "winecfg.exe")))
+                    xmlMiddle += "\n    <" + _isWineMode + ">True</" + _isWineMode + ">";
+            }
+            catch { }
+
+            File.WriteAllText(_settingsFilePath, xmlStart + xmlMiddle + xmlEnd);
+            Permissions.GrantAccessFile(_settingsFilePath);
         }
 
         static XElement rootElement
