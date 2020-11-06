@@ -44,7 +44,8 @@ namespace SporeMods.Setup
             if (Permissions.IsAdministrator())
             {
                 IEnumerable<string> args = Environment.GetCommandLineArgs()/*.Skip(1)*/;
-
+                foreach (string str in args)
+                    MessageBox.Show(str, "arg");
                 if (args.Count() >= 5)
                 {
                     if (args.ElementAt(1).Contains("--update"))
@@ -159,7 +160,12 @@ namespace SporeMods.Setup
                 text = Path.Combine(text, "Spore Mod Manager");
             }
 
-            if ((!Directory.Exists(text)) && (!text.ToLowerInvariant().StartsWith(usersDir)))
+            bool dirDoesntExistOrIsExistingModMgr = !Directory.Exists(text);
+
+            if (!dirDoesntExistOrIsExistingModMgr)
+                dirDoesntExistOrIsExistingModMgr = File.Exists(Path.Combine(text, "Spore Mod Manager.exe"));
+
+            if (dirDoesntExistOrIsExistingModMgr && (!text.ToLowerInvariant().StartsWith(usersDir)))
             {
                 _installPath = text;
                 SelectInstallPathBadPathBorder.BorderThickness = new Thickness(0);
@@ -190,7 +196,11 @@ namespace SporeMods.Setup
                 text = Path.Combine(text, "SporeModManagerStorage");
             }
 
-            if ((!Directory.Exists(text)) && (!text.ToLowerInvariant().StartsWith(usersDir)))
+            bool storageDoesntExistOrIsAlreadyMgrStoragePath = !Directory.Exists(text);
+            if (!storageDoesntExistOrIsAlreadyMgrStoragePath)
+                storageDoesntExistOrIsAlreadyMgrStoragePath = File.Exists(Path.Combine(text, "ModManagerSettings.xml"));
+
+            if (storageDoesntExistOrIsAlreadyMgrStoragePath && (!text.ToLowerInvariant().StartsWith(usersDir)))
             {
                 _storagePath = text;
                 SelectStoragePathBadPathBorder.BorderThickness = new Thickness(0);
