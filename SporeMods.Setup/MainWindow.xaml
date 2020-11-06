@@ -79,7 +79,7 @@
                 </ScrollViewer>
             </Grid>
         </DockPanel>
-        <DockPanel x:Name="InstallModePage" Visibility="Collapsed">
+        <DockPanel x:Name="InstallModePage" Visibility="Collapsed" Background="#01000000">
             <TextBlock Margin="10" DockPanel.Dock="Bottom" Text="{DynamicResource InstallModeIdk}"/>
             <UniformGrid Margin="25" Columns="1">
                 <Button x:Name="SimpleInstallButton" HorizontalContentAlignment="Left" Padding="20" Click="SimpleInstallButton_Click">

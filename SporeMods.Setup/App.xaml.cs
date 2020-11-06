@@ -84,7 +84,15 @@ namespace SporeMods.Setup
                     //else
                     if ((MgrExePath != null) && File.Exists(MgrExePath))
                         Process.Start(MgrExePath);
-                    else
+                    
+                    if ((MgrExePath == null) && File.Exists(SetupInfo.LAST_EXE_PATH))
+                    {
+                        string path = File.ReadAllText(SetupInfo.LAST_EXE_PATH);
+                        if (File.Exists(path))
+                            MgrExePath = path;
+                    }
+
+                    if (MgrExePath == null)
                     {
                         MgrExePath = Path.Combine(mgrPath, "Spore Mod Manager.exe");
 
@@ -177,6 +185,7 @@ namespace SporeMods.Setup
         public static int EXIT_RUN_LK_IMPORTER = 201;
 
         public static string INSTALL_DIR_LOCATOR_PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "SporeModManagerStorage", "SporeModManager_InstallPath.info");
+        public static string LAST_EXE_PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "SporeModManagerStorage", "LastRunProgram.info");
 
         public static string IS_WOULDBE_ADMIN_PROCESS = "--wouldBeAdmin";
     }

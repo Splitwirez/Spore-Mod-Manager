@@ -103,7 +103,7 @@ namespace SporeMods.Manager
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show(ex.GetType().FullName + "\n\n" + ex.Message + "\n\n" + ex.StackTrace, "Fatal error");
+                            //MessageBox.Show(ex.GetType().FullName + "\n\n" + ex.Message + "\n\n" + ex.StackTrace, "Fatal error");
                             foreach (Process proc in Process.GetProcessesByName("SporeMods.DragServant").ToList())
                                 proc.Kill();
                             Application.Current.Shutdown();

@@ -263,6 +263,17 @@ namespace SporeMods.Setup
                 File.WriteAllText(SetupInfo.INSTALL_DIR_LOCATOR_PATH, _installPath);
 
                 Permissions.GrantAccessFile(SetupInfo.INSTALL_DIR_LOCATOR_PATH);
+
+
+                if (isUpdatingModManager && (App.MgrExePath != null))
+                {
+                    if (File.Exists(SetupInfo.LAST_EXE_PATH))
+                        Permissions.GrantAccessFile(SetupInfo.LAST_EXE_PATH);
+
+                    File.WriteAllText(SetupInfo.LAST_EXE_PATH, App.MgrExePath);
+
+                    Permissions.GrantAccessFile(SetupInfo.LAST_EXE_PATH);
+                }
                 /*}
                 Permissions.GrantAccessFile(SetupInfo.INSTALL_DIR_LOCATOR_PATH);
 
