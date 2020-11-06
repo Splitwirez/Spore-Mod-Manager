@@ -44,8 +44,7 @@ namespace SporeMods.Setup
             if (Permissions.IsAdministrator())
             {
                 IEnumerable<string> args = Environment.GetCommandLineArgs()/*.Skip(1)*/;
-                foreach (string str in args)
-                    MessageBox.Show(str, "arg");
+                
                 if (args.Count() >= 5)
                 {
                     if (args.ElementAt(1).Contains("--update"))
@@ -316,7 +315,7 @@ namespace SporeMods.Setup
                         string forceLkImportPath = Path.Combine(_storagePath, "ForceLkImport.info");
                         File.WriteAllText(forceLkImportPath, string.Empty);
                         Permissions.GrantAccessFile(forceLkImportPath);
-                        MessageBox.Show(forceLkImportPath, "forceLkImportPath");
+                        DebugMessageBox(forceLkImportPath, "forceLkImportPath");
                     }
                 }
             }
