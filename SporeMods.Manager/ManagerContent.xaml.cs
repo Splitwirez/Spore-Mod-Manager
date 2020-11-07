@@ -1575,7 +1575,7 @@ namespace SporeMods.Manager
 
         private void HelpThreadButton_Click(object sender, RoutedEventArgs e)
         {
-            OpenUrl(@"http://davoonline.com/phpBB3/viewtopic.php?f=108&t=6300");
+            OpenUrl(@"https://github.com/Splitwirez/Spore-Mod-Manager/issues/new?assignees=&labels=bug&template=bug_report.md&title="); //@"http://davoonline.com/phpBB3/viewtopic.php?f=108&t=6300");
         }
 
         public void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
