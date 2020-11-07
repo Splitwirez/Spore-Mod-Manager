@@ -71,7 +71,9 @@ namespace SporeMods.Manager
             new CreditsItem("Darhagonable", "Provided creative input, helped confirm the feasibility of supporting WINE setups on Linux.", @"http://youtube.com/Darhagonable"),
             new CreditsItem("KloxEdge", "Testing"),
             new CreditsItem("Liskomato", "Testing"),
-            new CreditsItem("ChocIce75", "Testing")
+            new CreditsItem("ChocIce75", "Testing"),
+            new CreditsItem("TheRublixCube", "Testing"),
+            new CreditsItem("Deoxys_0", "Testing")
         }));
 
         FileSystemWatcher _dragWatcher = new FileSystemWatcher(Settings.TempFolderPath)
@@ -1940,7 +1942,7 @@ namespace SporeMods.Manager
 
         private void SendFeedbackButton_Click(object sender, RoutedEventArgs e)
         {
-            OpenUrl(@"https://github.com/Splitwirez/Spore-Mod-Manager/issues/new");
+            OpenUrl(@"https://github.com/Splitwirez/Spore-Mod-Manager/issues/new?assignees=&labels=enhancement&template=feature_request.md&title="); //@"https://github.com/Splitwirez/Spore-Mod-Manager/issues/new");
         }
 
         void OpenUrl(string url)
