@@ -82,7 +82,7 @@ namespace SporeMods.CommonUI
                             /*});
                             prgThread.Start();*/
                         });
-                        progressDialog.Show();
+                        progressDialog.ShowDialog();
 
                         if (progressDialog.Error != null)
                         {
@@ -148,7 +148,7 @@ namespace SporeMods.CommonUI
                                     (s as BackgroundWorker).ReportProgress(e_.ProgressPercentage);
                                 });
                             });
-                            progressDialog.Show();
+                            progressDialog.ShowDialog();
 
                             if (progressDialog.Error != null)
                             {
@@ -170,7 +170,7 @@ namespace SporeMods.CommonUI
             ProgressDialog dialog = new ProgressDialog(text, action);
 
             Window window;
-            if (Settings.UseCustomWindowDecorations)
+            if (false) //Settings.UseCustomWindowDecorations)
             {
                 window = new DecoratableWindow();
                 window.SetResourceReference(DecoratableWindow.StyleProperty, typeof(DecoratableWindow));

@@ -69,6 +69,8 @@ namespace SporeMods.Launcher
                     }
                     else
                     {
+                        if (Settings.ForceSoftwareRendering)
+                            RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
                         //uncomment below to test ProgressDialog appearance
                         /*var progressDialog = CommonUI.Updater.GetProgressDialog(string.Empty, null, true);
                         Application.Run();*/
@@ -83,49 +85,47 @@ namespace SporeMods.Launcher
                             CommonUI.Updater.CheckForUpdates();
 
                         Settings.ManagerInstallLocationPath = Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).ToString();
-                    }
 
-                    bool proceed = true;
-                    if (Permissions.IsAtleastWindowsVista() && Permissions.IsAdministrator())
-                    {
-                        proceed = false;
-                        if (Settings.NonEssentialIsRunningUnderWine)
-                            proceed = true;
-                        else if (MessageBox.Show(Settings.GetLanguageString(1, "DontRunAsAdmin").Replace("%APPNAME%", "Spore Mod Launcher"), String.Empty, MessageBoxButtons.YesNo) == DialogResult.Yes)
-                            proceed = true;
-                    }
+                        bool proceed = true;
+                        if (Permissions.IsAtleastWindowsVista() && Permissions.IsAdministrator())
+                        {
+                            proceed = false;
+                            if (Settings.NonEssentialIsRunningUnderWine)
+                                proceed = true;
+                            else if (MessageBox.Show(Settings.GetLanguageString(1, "DontRunAsAdmin").Replace("%APPNAME%", "Spore Mod Launcher"), String.Empty, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                                proceed = true;
+                        }
 
-                    try
-                    {
-                        if (!Settings.AreDllsPresent())
+                        try
+                        {
+                            if (!Settings.AreDllsPresent())
+                            {
+                                MessageBox.Show(Settings.GetLanguageString(3, "ModApiDllsNotPresent"));
+                                proceed = false;
+                            }
+                        }
+                        catch (Exception ex)
                         {
                             MessageBox.Show(Settings.GetLanguageString(3, "ModApiDllsNotPresent"));
                             proceed = false;
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(Settings.GetLanguageString(3, "ModApiDllsNotPresent"));
-                        proceed = false;
-                    }
 
-                    if (proceed)
-                    {
-                        if (Settings.ForceSoftwareRendering)
-                            RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
-
-                        GameInfo.BadGameInstallPath += (sneder, args) =>
+                        if (proceed)
                         {
-                            MessageBox.Show(Settings.GetLanguageString(3, "RunModManagerFirst")); //Please run the Spore Mod Manager at least once before running the Spore Mod Launcher.
-                        Process.GetCurrentProcess().Kill();
-                        };
+                            GameInfo.BadGameInstallPath += (sneder, args) =>
+                            {
+                                MessageBox.Show(Settings.GetLanguageString(3, "RunModManagerFirst")); //Please run the Spore Mod Manager at least once before running the Spore Mod Launcher.
+                            Process.GetCurrentProcess().Kill();
+                            };
 
-                        SporeLauncher.CaptionHeight = SystemInformation.CaptionHeight;
+                            SporeLauncher.CaptionHeight = SystemInformation.CaptionHeight;
 
-                        if (SporeLauncher.IsInstalledDarkInjectionCompatible())
-                            SporeLauncher.LaunchGame();
+                            if (SporeLauncher.IsInstalledDarkInjectionCompatible())
+                                SporeLauncher.LaunchGame();
+                        }
+                        else
+                            Application.Exit();
                     }
-                    else Application.Exit();
                 }
             }
         }
