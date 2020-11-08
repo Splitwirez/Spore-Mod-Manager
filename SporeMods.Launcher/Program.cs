@@ -18,16 +18,16 @@ namespace SporeMods.Launcher
 {
     class Program
     {
-        public static void ExtractModAPIFix(string folderPath)
+        public static void ExtractModAPIFix()
         {
             using (var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream("SporeMods.Launcher.ModAPIFix.SporeApp_ModAPIFix.exe"))
-            using (var file = new FileStream(Path.Combine(folderPath, "SporeApp_ModAPIFix.exe"), FileMode.Create, FileAccess.Write))
+            using (var file = new FileStream(Path.Combine(GameInfo.SporebinEP1, "SporeApp_ModAPIFix.exe"), FileMode.Create, FileAccess.Write))
             {
                 resource.CopyTo(file);
             }
 
             using (var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream("SporeMods.Launcher.ModAPIFix.steam_api.dll"))
-            using (var file = new FileStream(Path.Combine(folderPath, "steam_api.dll"), FileMode.Create, FileAccess.Write))
+            using (var file = new FileStream(Path.Combine(GameInfo.SporebinEP1, "steam_api.dll"), FileMode.Create, FileAccess.Write))
             {
                 resource.CopyTo(file);
             }
@@ -64,7 +64,7 @@ namespace SporeMods.Launcher
 
                     if (programArgs.Length > 1 && programArgs[0] == "--modapifix")
                     {
-                        ExtractModAPIFix(programArgs[1]);
+                        ExtractModAPIFix();
                         return;
                     }
                     else
