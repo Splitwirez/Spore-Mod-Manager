@@ -151,12 +151,8 @@ namespace SporeMods.Core
                     Permissions.GrantAccessDirectory(LegacyLibsPath);
                 }
 
-                ExtractResource(CoreLibsPath, "SporeModAPI.lib");
-                ExtractResource(CoreLibsPath, "SporeModAPI.disk.dll");
-                ExtractResource(CoreLibsPath, "SporeModAPI.march2017.dll");
-
-                ExtractResource(LegacyLibsPath, "SporeModAPI-disk.dll");
-                ExtractResource(LegacyLibsPath, "SporeModAPI-steam_patched.dll");
+                if (!AreDllsPresent())
+                    ExtractDlls();
 
 
 
@@ -184,11 +180,21 @@ namespace SporeMods.Core
             return Directory.Exists(Settings.CoreLibsPath) && (Directory.EnumerateFiles(Settings.CoreLibsPath).Count() >= 3) && Directory.Exists(Settings.LegacyLibsPath) && (Directory.EnumerateFiles(Settings.LegacyLibsPath).Count() >= 2);
         }
 
+        public static void ExtractDlls()
+        {
+            ExtractResource(CoreLibsPath, "SporeModAPI.lib");
+            ExtractResource(CoreLibsPath, "SporeModAPI.disk.dll");
+            ExtractResource(CoreLibsPath, "SporeModAPI.march2017.dll");
+
+            ExtractResource(LegacyLibsPath, "SporeModAPI-disk.dll");
+            ExtractResource(LegacyLibsPath, "SporeModAPI-steam_patched.dll");
+        }
+
         public static void EnsureDllsAreExtracted()
         {
             if (!AreDllsPresent())
             {
-                Version lolwut = CurrentDllsBuild;
+                ExtractDlls();
             }
         }
 
