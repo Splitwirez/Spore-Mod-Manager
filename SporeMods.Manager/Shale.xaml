@@ -670,7 +670,7 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.5" Grid.ColumnSpan="4"/>
+                        <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="4" TextElement.Foreground="{DynamicResource WindowForegroundBrush}"/>
                         <Path x:Name="ArrowHintPath" Data="M 15 0 L 14 50 L 0 35 L 15 50 L 30 35 L 16 50 Z" Stroke="{DynamicResource WindowForegroundBrush}" StrokeThickness="3" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="20,0">
                             <Path.RenderTransform>
                                 <TranslateTransform x:Name="HowToArrowTranslateTransform0" X="0" Y="-20"/>
