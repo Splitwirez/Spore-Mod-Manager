@@ -87,17 +87,15 @@ namespace SporeMods.Core
 
         public static string GetFromRegistry(string[] keys, string[] values)
         {
-            string result = null;
-
             foreach (string key in keys)
             {
                 foreach (string value in values)
                 {
-                    result = (string)Registry.GetValue(key, value, null);
+                    string result = (string)Registry.GetValue(key, value, null);
                     if (result != null)
                     {
 
-                        return result;
+                        return result.Trim('\"');
                     }
                 }
             }

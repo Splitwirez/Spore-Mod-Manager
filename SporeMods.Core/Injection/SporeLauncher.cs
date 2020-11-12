@@ -295,7 +295,7 @@ namespace SporeMods.Core.Injection
         {
             var pOpenThreads = new List<IntPtr>();
             
-            string sporeAppName = Path.GetFileNameWithoutExtension(ExecutableFileNames[GameExecutableType.GogOrSteam__March2017]); //"SporeApp";
+            string sporeAppName = "SporeApp";
             string steamPath = SteamInfo.SteamPath;
             steamPath = Path.Combine(steamPath, "Steam.exe");
             Process steamProcess = Process.Start(steamPath, "-applaunch " + SteamInfo.GalacticAdventuresSteamID.ToString());
@@ -377,11 +377,6 @@ namespace SporeMods.Core.Injection
                 NativeMethods.CloseHandle(pOpenThread);
 
             }
-
-            if (!steamProcess.HasExited)
-                steamProcess.WaitForExit();
-
-            MessageDisplay.ShowMessageBox("STEAM EXITED WITH EXIT CODE: " + steamProcess.ExitCode);
 
             return;
             //}
