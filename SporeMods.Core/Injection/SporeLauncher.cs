@@ -22,7 +22,6 @@ namespace SporeMods.Core.Injection
         public static IntPtr _processHandle = IntPtr.Zero;
         private static bool _debugMode = File.Exists(Path.Combine(Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).ToString(), "debug.txt"));
 
-        //static string ModAPIFixDownloadURL = "http://davoonline.com/sporemodder/emd4600/SporeApp_ModAPIFix.zip";
         static string ModApiHelpThreadURL = "http://davoonline.com/phpBB3/viewtopic.php?f=108&t=6300";
         static string DarkInjectionPageURL = "http://davoonline.com/sporemodder/rob55rod/DarkInjection/";
 
@@ -69,18 +68,19 @@ namespace SporeMods.Core.Injection
                     bool exeSizeRecognized = ExecutableFileGameTypes.Keys.Contains(new FileInfo(_executablePath).Length);
                     if (IsValidExe())
                     {
-                        // Steam users need to do something different
+                        try
+                        {
+                            _executableType = GetExecutableType();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageDisplay.RaiseError(new ErrorEventArgs(ex)); //ex.Message + "\n\n" + ex.StackTrace
+                            return;
+                        }
+
+                        // Steam users need to do something different...something which doesn't even work most of the time.
                         if (!SporeIsInstalledOnSteam())
                         {
-                            try
-                            {
-                                _executableType = GetExecutableType();
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageDisplay.RaiseError(new ErrorEventArgs(ex)); //ex.Message + "\n\n" + ex.StackTrace
-                                return;
-                            }
 
                             MessageDisplay.DebugShowMessageBox("2. Executable type: " + _executableType);
 
