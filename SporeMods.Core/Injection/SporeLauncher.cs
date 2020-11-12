@@ -293,98 +293,102 @@ namespace SporeMods.Core.Injection
         // Steam spore needs special treatment: the game will clsoe if not executed through Steam
         static void InjectSteamSporeProcess()
         {
-            string sporeAppName = "SporeApp";
-            ProcessInfo info = new ProcessInfo("SporeApp.exe");
-
-            info.Started += (sneder, args) =>
-            {
-                /*try
-                {
-                    Process process = Process.GetProcessesByName(sporeAppName)[0];
-                    //NativeMethods.NtSuspendProcess(Process.GetProcessesByName(sporeAppName)[0].Handle);//(System.Management.EventArrivedEventArgs)args)
-                    //NtSuspendProcess thingy
-                    NativeMethods.DebugActiveProcess(process.Id);
-                    _processInfo.dwProcessId = Convert.ToUInt32(process.Id);
-                    _processInfo.hProcess = process.Handle;
-                    InjectDLLs(GameInfo.GetExecutableDllSuffix(GameExecutableType.GogOrSteam__March2017));
-                    NativeMethods.DebugActiveProcessStop(process.Id);
-                }
-                catch (Exception ex)
-                {*/
-                //Thread.Sleep(50);
-
-                // OLD Get process and suspend all threads
-                Process[] processes = Process.GetProcessesByName(sporeAppName);
-                while (processes.Length == 0)
-                {
-                    // Just wait and try again
-                    //Thread.Sleep(50);
-                    //continue;
-                    processes = Process.GetProcessesByName(sporeAppName);
-                }
-
-                var process = processes[0];
-
-                var pOpenThreads = new List<IntPtr>();
-                // now pause all threads so we can inject; it's the equivalent to running in suspended state
-                foreach (ProcessThread pT in process.Threads)
-                {
-                    IntPtr pOpenThread = NativeMethods.OpenThread(ThreadAccess.SUSPEND_RESUME, false, (uint)pT.Id);
-                    if (pOpenThread != IntPtr.Zero) //((pOpenThread != IntPtr.Zero) && (Injector.WaitForSingleObject(pOpenThread, 0) != WAIT_ABANDONED))
-                    {
-                        NativeMethods.SuspendThread(pOpenThread); //     r/therewasanattempt
-                        pOpenThreads.Add(pOpenThread);
-                    }
-                }
-                _processInfo.dwProcessId = (uint)process.Id;
-                _processInfo.hProcess = process.Handle; //NativeMethods.OpenProcess(NativeMethods.AccessRequired, false, ProcessInfo.dwProcessId);
-                                                        // We must detect the executable type now
-                /*this.ProcessExecutableType();
-                if (this.ExecutableType == GameVersionType.None)
-                {
-                    // don't execute the game if the user closed the dialog
-                    return;
-                }
-                // get the corerct executable path
-                if (LauncherSettings.ForcedGalacticAdventuresSporeAppPath == null)
-                    this.ExecutablePath = process.MainModule.FileName;
-
-                this.ProcessExecutableType();*
-
-                //GameVersion.VersionNames[(int)(GameVersionType.Steam_Patched)]; //string dllEnding = GameVersion.VersionNames[(int)this.ExecutableType];
-                */
-                InjectDLLs(GameInfo.GetExecutableDllSuffix(GameExecutableType.GogOrSteam__March2017));
-
-                foreach (IntPtr pOpenThread in pOpenThreads)
-                {
-                    if (pOpenThread == IntPtr.Zero)
-                    {
-                        continue;
-                    }
-
-                    uint suspendCount = 0;
-                    do
-                    {
-                        suspendCount = NativeMethods.ResumeThread(pOpenThread);
-                    } while (suspendCount > 0);
-
-                    NativeMethods.CloseHandle(pOpenThread);
-
-                }
-
-                return;
-                //}
-                //}
-                //ModInstallation.InvokeErrorOccurred(new ErrorEventArgs(new Exception("EXPERIMENTAL INJECTION FAILURE")));
-                //}
-
-            };
-
-
-
+            var pOpenThreads = new List<IntPtr>();
+            
+            string sporeAppName = Path.GetFileNameWithoutExtension(ExecutableFileNames[GameExecutableType.GogOrSteam__March2017]); //"SporeApp";
             string steamPath = SteamInfo.SteamPath;
             steamPath = Path.Combine(steamPath, "Steam.exe");
-            System.Diagnostics.Process.Start(steamPath, "-applaunch " + SteamInfo.GalacticAdventuresSteamID.ToString());
+            Process steamProcess = Process.Start(steamPath, "-applaunch " + SteamInfo.GalacticAdventuresSteamID.ToString());
+            /*ProcessInfo info = new ProcessInfo("SporeApp.exe");
+
+            info.Started += (sneder, args) =>
+            {*/
+            /*try
+            {
+                Process process = Process.GetProcessesByName(sporeAppName)[0];
+                //NativeMethods.NtSuspendProcess(Process.GetProcessesByName(sporeAppName)[0].Handle);//(System.Management.EventArrivedEventArgs)args)
+                //NtSuspendProcess thingy
+                NativeMethods.DebugActiveProcess(process.Id);
+                _processInfo.dwProcessId = Convert.ToUInt32(process.Id);
+                _processInfo.hProcess = process.Handle;
+                InjectDLLs(GameInfo.GetExecutableDllSuffix(GameExecutableType.GogOrSteam__March2017));
+                NativeMethods.DebugActiveProcessStop(process.Id);
+            }
+            catch (Exception ex)
+            {*/
+            //Thread.Sleep(50);
+
+
+            // OLD Get process and suspend all threads
+            Process[] processes = Process.GetProcessesByName(sporeAppName);
+            while (processes.Length == 0)
+            {
+                // Just wait and try again
+                //Thread.Sleep(50);
+                //continue;
+                processes = Process.GetProcessesByName(sporeAppName);
+            }
+
+            var process = processes[0];
+
+            // now pause all threads so we can inject; it's the equivalent to running in suspended state
+            foreach (ProcessThread pT in process.Threads)
+            {
+                IntPtr pOpenThread = NativeMethods.OpenThread(ThreadAccess.SUSPEND_RESUME, false, (uint)pT.Id);
+                if (pOpenThread != IntPtr.Zero) //((pOpenThread != IntPtr.Zero) && (Injector.WaitForSingleObject(pOpenThread, 0) != WAIT_ABANDONED))
+                {
+                    NativeMethods.SuspendThread(pOpenThread); //     r/therewasanattempt
+                    pOpenThreads.Add(pOpenThread);
+                }
+            }
+            _processInfo.dwProcessId = (uint)process.Id;
+            _processInfo.hProcess = process.Handle; //NativeMethods.OpenProcess(NativeMethods.AccessRequired, false, ProcessInfo.dwProcessId);
+                                                    // We must detect the executable type now
+            /*this.ProcessExecutableType();
+            if (this.ExecutableType == GameVersionType.None)
+            {
+                // don't execute the game if the user closed the dialog
+                return;
+            }
+            // get the corerct executable path
+            if (LauncherSettings.ForcedGalacticAdventuresSporeAppPath == null)
+                this.ExecutablePath = process.MainModule.FileName;
+
+            this.ProcessExecutableType();*
+
+            //GameVersion.VersionNames[(int)(GameVersionType.Steam_Patched)]; //string dllEnding = GameVersion.VersionNames[(int)this.ExecutableType];
+            */
+            InjectDLLs(GameInfo.GetExecutableDllSuffix(GameExecutableType.GogOrSteam__March2017));
+
+            foreach (IntPtr pOpenThread in pOpenThreads)
+            {
+                if (pOpenThread == IntPtr.Zero)
+                {
+                    continue;
+                }
+
+                uint suspendCount = 0;
+                do
+                {
+                    suspendCount = NativeMethods.ResumeThread(pOpenThread);
+                } while (suspendCount > 0);
+
+                NativeMethods.CloseHandle(pOpenThread);
+
+            }
+
+            if (!steamProcess.HasExited)
+                steamProcess.WaitForExit();
+
+            MessageDisplay.ShowMessageBox("STEAM EXITED WITH EXIT CODE: " + steamProcess.ExitCode);
+
+            return;
+            //}
+            //}
+            //ModInstallation.InvokeErrorOccurred(new ErrorEventArgs(new Exception("EXPERIMENTAL INJECTION FAILURE")));
+            //}
+
+            //};   
         }
 
 
