@@ -19,7 +19,7 @@ namespace SporeMods.Core.Injection
         }
 
         public static int CaptionHeight = -1;
-        public static IntPtr processHandle = IntPtr.Zero;
+        public static IntPtr _processHandle = IntPtr.Zero;
         private static bool _debugMode = File.Exists(Path.Combine(Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).ToString(), "debug.txt"));
 
         //static string ModAPIFixDownloadURL = "http://davoonline.com/sporemodder/emd4600/SporeApp_ModAPIFix.zip";
@@ -344,6 +344,7 @@ namespace SporeMods.Core.Injection
             _processInfo.dwProcessId = (uint)process.Id;
             _processInfo.hProcess = process.Handle; //NativeMethods.OpenProcess(NativeMethods.AccessRequired, false, ProcessInfo.dwProcessId);
                                                     // We must detect the executable type now
+            _processHandle = _processInfo.hProcess;
             /*this.ProcessExecutableType();
             if (this.ExecutableType == GameVersionType.None)
             {

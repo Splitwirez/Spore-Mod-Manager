@@ -29,7 +29,7 @@ namespace SporeMods.Core.Injection
                 if (objPtr == IntPtr.Zero)
                 {
                     int lastError = System.Runtime.InteropServices.Marshal.GetLastWin32Error();
-                    MessageDisplay.ShowMessageBox("Error: Virtual alloc failure: \n" + lastError.ToString() + "\n" + "hProc: " + hProc.ToString() + "\nProgram.processHandle: " + (SporeLauncher.processHandle == IntPtr.Zero));
+                    MessageDisplay.ShowMessageBox("Error: Virtual alloc failure: \n" + lastError.ToString() + "\n" + "hProc: " + hProc.ToString() + "\nProgram.processHandle: " + (SporeLauncher._processHandle == IntPtr.Zero));
                     throw new System.ComponentModel.Win32Exception(lastError);
                     //throw new InjectException("Virtual alloc failure.");
                 }
