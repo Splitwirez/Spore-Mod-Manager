@@ -347,8 +347,19 @@ namespace SporeMods.KitImporter
                                 if (!launcherKitToMgrDllPaths.ContainsKey(key))
                                     launcherKitToMgrDllPaths.Add(key, Path.Combine(Settings.ModLibsPath, file.Name));
                             }
+
                         }
                     }
+
+                    /*if (mod.PurgeModInfo)
+                    {
+                        string xmlPath = Path.Combine(managerModConfigPath, "ModInfo.xml");
+                        if (File.Exists(xmlPath))
+                        {
+                            File.Delete(xmlPath);
+                            ModInstallation.CreateModInfoXml(mod.Unique, mod.Name, managerModConfigPath, out XDocument document);
+                        }
+                    }*/
 
                     foreach (string key in launcherKitToMgrDllPaths.Keys)
                     {
@@ -463,10 +474,40 @@ namespace SporeMods.KitImporter
                             Permissions.GrantAccessFile(launcherKitToMgrDllPaths[key]);
                         }
                     }
+
+                    /*if (mod.PurgeModInfo)
+                    {
+                        string xmlPath = Path.Combine(managerModConfigPath, "ModInfo.xml");
+                        if (File.Exists(xmlPath))
+                        {
+                            File.Delete(xmlPath);
+                            ModInstallation.CreateModInfoXml(mod.Unique, mod.Name, managerModConfigPath, out XDocument document);
+                        }
+                    }*/
                 }
                 catch (Exception ex)
                 {
                     failures.Add(new ImportFailureEventArgs(ex, mod));
+                }
+            }
+
+            foreach (KitMod mod in mods.Mods)
+            {
+                string managerModConfigPath = Path.Combine(Settings.ModConfigsPath, mod.Unique);
+
+                string prepXmlPath = Path.Combine(managerModConfigPath, "ModInfo.xml");
+                if (File.Exists(prepXmlPath))
+                {
+                    XDocument prepDoc = XDocument.Load(prepXmlPath);
+                    var prepUniqueAttr = prepDoc.Root.Attribute("unique");
+                    if (prepUniqueAttr != null)
+                    {
+                        if (prepUniqueAttr.Value != mod.Unique)
+                        {
+                            File.Delete(prepXmlPath);
+                            ModInstallation.CreateModInfoXml(mod.Unique, mod.Name, managerModConfigPath, out XDocument document);
+                        }
+                    }
                 }
             }
 
