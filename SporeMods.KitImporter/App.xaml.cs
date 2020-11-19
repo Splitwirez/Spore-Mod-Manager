@@ -10,6 +10,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
+using Mechanism.Wpf.Styles.Shale;
 
 namespace SporeMods.KitImporter
 {
@@ -43,10 +44,13 @@ namespace SporeMods.KitImporter
                         }
                     }
                 }
-            Process.GetCurrentProcess().Kill();
+                Process.GetCurrentProcess().Kill();
             }
             else
+            {
                 base.OnStartup(e);
+                Resources.MergedDictionaries[0].MergedDictionaries[1] = ShaleAccents.Sky.Dictionary;
+            }
         }
     }
 }
