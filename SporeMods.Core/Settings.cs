@@ -1013,7 +1013,20 @@ namespace SporeMods.Core
             set => SetElementValue(_updatingMode, value.ToString());
         }
 
-        //static string _modApiVersion = "ModApiVersion";
+
+
+        static string _ignoreSteamInstallInfo = "ignoreSteamInstallInfo";
+        public static bool IgnoreSteamInstallInfo
+        {
+            get
+            {
+                if (bool.TryParse(GetElementValue(_ignoreSteamInstallInfo), out bool ignore))
+                    return ignore;
+                else
+                    return false;
+            }
+            set => SetElementValue(_ignoreSteamInstallInfo, value.ToString());
+        }
 
         /// <summary>
         /// Current version of the Spore Mod Manager.

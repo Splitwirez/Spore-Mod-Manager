@@ -48,6 +48,7 @@ AutoSporebinEp1Path SporebinEP1 Path
 AutoCoreDataPath Core Spore Data Path
 AutoSporebinPath Sporebin Path
 AutoDetectPath Auto-detect
+IgnoreSteamInstallInfo Ignore Steam install info
 
 ModInstallationHeader Mod Installation
 BlockVanillaIncompatibleMods Don't install mods unless they are verified as vanilla-compatible

@@ -48,6 +48,7 @@ AutoSporebinEp1Path Ruta a SporebinEP1
 AutoCoreDataPath Ruta a Core Spore Data
 AutoSporebinPath Ruta a Sporebin
 AutoDetectPath Auto-detectar
+IgnoreSteamInstallInfo Ignore Steam install info (NOT LOCALIZED)
 
 ModInstallationHeader Instalación de Mods
 BlockVanillaIncompatibleMods No instalar mods a no ser que estén verificados como vanilla-compatible

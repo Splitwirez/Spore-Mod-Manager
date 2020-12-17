@@ -544,9 +544,14 @@ namespace SporeMods.Core
 
         public static bool SporeIsInstalledOnSteam()
         {
-            object result = Registry.GetValue(SteamInfo.SteamAppsKey + SteamInfo.GalacticAdventuresSteamID.ToString(), "Installed", 0);
-            // returns null if the key does not exist, or default value if the key existed but the value did not
-            return result == null ? false : ((int)result == 0 ? false : true);
+            if (Settings.IgnoreSteamInstallInfo)
+                return false;
+            else
+            {
+                object result = Registry.GetValue(SteamInfo.SteamAppsKey + SteamInfo.GalacticAdventuresSteamID.ToString(), "Installed", 0);
+                // returns null if the key does not exist, or default value if the key existed but the value did not
+                return result == null ? false : ((int)result == 0 ? false : true);
+            }
         }
 
         public static List<DetectionFailureGuessFolder> GetFailureGuessFolders(GameDlc dlc, bool isSporebin)

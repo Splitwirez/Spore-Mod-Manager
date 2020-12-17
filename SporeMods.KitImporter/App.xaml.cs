@@ -23,10 +23,10 @@ namespace SporeMods.KitImporter
         {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
 
-            Updater.CheckForUpdates();
-
+            
             if (!Permissions.IsAdministrator())
             {
+                Updater.CheckForUpdates();
                 Process process = Permissions.RerunAsAdministrator(false);
                 process.WaitForExit();
                 if (process.ExitCode == 300)

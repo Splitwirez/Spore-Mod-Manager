@@ -321,6 +321,10 @@ namespace SporeMods.Manager
                 /*AutoSporebinPathCheckBox.Checked += AutoSporebinPathCheckBox_Checked;
                 AutoSporebinPathCheckBox.Unchecked += AutoSporebinPathCheckBox_Checked;*/
 
+                IgnoreSteamInstallInfoCheckBox.IsChecked = Settings.IgnoreSteamInstallInfo;
+                IgnoreSteamInstallInfoCheckBox.Checked += IgnoreSteamInstallInfoCheckBox_Checked;
+                IgnoreSteamInstallInfoCheckBox.Unchecked += IgnoreSteamInstallInfoCheckBox_Checked;
+
                 SetupPathControlStates();
 
                 //Setup game Window mode Settings and Controls
@@ -492,6 +496,14 @@ namespace SporeMods.Manager
                 MessageBox.Show(ex.Message + "\n\n" + ex.StackTrace);
                 ModsManager.InstalledMods.Add(new InstallError(ex));
             }
+        }
+
+        private void IgnoreSteamInstallInfoCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            if (IgnoreSteamInstallInfoCheckBox.IsChecked.Value)
+                Settings.IgnoreSteamInstallInfo = true;
+            else
+                Settings.IgnoreSteamInstallInfo = false;
         }
 
         private bool ModInstallation_InstallingExperimentalMod(string arg)
@@ -1002,6 +1014,7 @@ namespace SporeMods.Manager
             AutoCoreDataPathCheckBox.Content = Settings.GetLanguageString("AutoCoreDataPath");
             //AutoSporebinPathCheckBox.Content = Settings.GetLanguageString("AutoSporebinPath");
             Resources["AutoDetectPathText"] = Settings.GetLanguageString("AutoDetectPath");
+            IgnoreSteamInstallInfoCheckBox.Content = Settings.GetLanguageString("IgnoreSteamInstallInfo");
 
             WindowGroupBox.Header = Settings.GetLanguageString("WindowHeader");
             OverrideWindowModeCheckBox.Content = Settings.GetLanguageString("OverrideWindowMode");
