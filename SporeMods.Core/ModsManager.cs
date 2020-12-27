@@ -104,25 +104,34 @@ namespace SporeMods.Core
                 Debug.WriteLine("MOD: " + s);
             }
 
-            foreach (string s in Directory.EnumerateFiles(GameInfo.GalacticAdventuresData).Where(x => x.EndsWith(".package", StringComparison.OrdinalIgnoreCase)))
+            try
             {
-                if (FileWrite.IsUnprotectedFile(s))
+                foreach (string s in Directory.EnumerateFiles(GameInfo.GalacticAdventuresData).Where(x => x.EndsWith(".package", StringComparison.OrdinalIgnoreCase)))
                 {
-                    string name = Path.GetFileName(s);
-                    if (!allModFileNames.Contains(name.ToLowerInvariant()))
-                        InstalledMods.Add(new ManualInstalledFile(name, ComponentGameDir.GalacticAdventures, false));
+                    if (FileWrite.IsUnprotectedFile(s))
+                    {
+                        string name = Path.GetFileName(s);
+                        if (!allModFileNames.Contains(name.ToLowerInvariant()))
+                            InstalledMods.Add(new ManualInstalledFile(name, ComponentGameDir.GalacticAdventures, false));
+                    }
                 }
             }
-            foreach (string s in Directory.EnumerateFiles(GameInfo.CoreSporeData).Where(x => x.EndsWith(".package", StringComparison.OrdinalIgnoreCase)))
+            catch (ArgumentNullException) { }
+
+            try
             {
-                if (FileWrite.IsUnprotectedFile(s))
+                foreach (string s in Directory.EnumerateFiles(GameInfo.CoreSporeData).Where(x => x.EndsWith(".package", StringComparison.OrdinalIgnoreCase)))
                 {
-                    string name = Path.GetFileName(s);
-                    if (!allModFileNames.Contains(name.ToLowerInvariant()))
-                        InstalledMods.Add(new ManualInstalledFile(name, ComponentGameDir.Spore, false));
+                    if (FileWrite.IsUnprotectedFile(s))
+                    {
+                        string name = Path.GetFileName(s);
+                        if (!allModFileNames.Contains(name.ToLowerInvariant()))
+                            InstalledMods.Add(new ManualInstalledFile(name, ComponentGameDir.Spore, false));
+                    }
                 }
             }
-            
+            catch (ArgumentNullException) { }
+
             OrderInstalledMods();
             InstalledMods.CollectionChanged += (sneder, args) =>
             {

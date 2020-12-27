@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SporeMods.Core
@@ -173,7 +174,8 @@ namespace SporeMods.Core
             }
             else
             {
-                BadGameInstallPath?.Invoke(null, new BadPathEventArgs(subPath, output, dlc));
+                if (!BadGameInstallPaths.Any(x => (x.BasePath == subPath) && (x.BadPath == output) && (x.DlcLevel == dlc) && (!x.IsSporebin)))
+                    BadGameInstallPaths.Add(new BadPathEventArgs(subPath, output, dlc));
                 return string.Empty;
             }
         }
@@ -191,6 +193,8 @@ namespace SporeMods.Core
         public static List<string> GetAllGameInstallPathsFromRegistry(GameDlc dlc)
         {
             string regPath = GetRegistryPath(dlc);
+            if (regPath == null)
+                return new List<string>();
 
             List<string> allPaths = new List<string>();
 
@@ -312,11 +316,13 @@ namespace SporeMods.Core
 
                     //MessageDisplay.DebugShowMessageBox("AutoSporebinEp1: " + gaPath);
                 }
-                else
-                    BadGameInstallPath?.Invoke(null, new BadPathEventArgs(null, null, GameDlc.GalacticAdventures)
+                else if (!BadGameInstallPaths.Any(x => (x.BasePath == null) && (x.BadPath == null) && (x.DlcLevel == GameDlc.GalacticAdventures) && x.IsSporebin))
+                {
+                    BadGameInstallPaths.Add(new BadPathEventArgs(null, null, GameDlc.GalacticAdventures)
                     {
                         IsSporebin = true
                     });
+                }
 
                 return gaPath;
                 /*string gaPath = GetGameInstallPathFromRegistry(GameDlc.GalacticAdventures);
@@ -385,8 +391,8 @@ namespace SporeMods.Core
                     }
                     //MessageDisplay.DebugShowMessageBox("AutoGAData: " + gaPath);
                 }
-                else
-                    BadGameInstallPath?.Invoke(null, new BadPathEventArgs(null, null, GameDlc.GalacticAdventures)
+                else if (!BadGameInstallPaths.Any(x => (x.BasePath == null) && (x.BadPath == null) && (x.DlcLevel == GameDlc.GalacticAdventures) && (!x.IsSporebin)))
+                    BadGameInstallPaths.Add(new BadPathEventArgs(null, null, GameDlc.GalacticAdventures)
                     {
                         IsSporebin = false
                     });
@@ -498,8 +504,8 @@ namespace SporeMods.Core
 
                     //MessageDisplay.DebugShowMessageBox("AutoCoreSporeData: " + crPath);
                 }
-                else
-                    BadGameInstallPath?.Invoke(null, new BadPathEventArgs(null, null, GameDlc.CoreSpore)
+                else if (!BadGameInstallPaths.Any(x => (x.BasePath == null) && (x.BadPath == null) && (x.DlcLevel == GameDlc.CoreSpore) && (!x.IsSporebin)))
+                    BadGameInstallPaths.Add(new BadPathEventArgs(null, null, GameDlc.CoreSpore)
                     {
                         IsSporebin = false
                     });
@@ -538,7 +544,8 @@ namespace SporeMods.Core
             }
         }
 
-        public static event EventHandler<BadPathEventArgs> BadGameInstallPath;
+        //public static event EventHandler<BadPathEventArgs> BadGameInstallPath;
+        public static List<BadPathEventArgs> BadGameInstallPaths = new List<BadPathEventArgs>();
 
         //public static event EventHandler<MultiplePathEventArgs> MultiplePossibleGameInstallPaths;
 

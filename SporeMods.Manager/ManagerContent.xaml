@@ -391,7 +391,7 @@
                         <ui:CornerCurves TopLeft="False" TopRight="False" BottomLeft="True" BottomRight="True"/>
                     </ui:AttachedProperties.CornerCurves>
                 </Button>
-                <ui:ActionBox x:Name="FolderNotFoundBrowseByHandActionBox" Grid.Column="1" Grid.Row="0" IsTogglable="False" ButtonContent="Browse" TextChanged="FolderNotFoundBrowseByHandActionBox_TextChanged" ActionSubmitted="FolderNotFoundBrowseByHandButton_Click" DockPanel.Dock="Bottom">
+                <ui:ActionBox x:Name="FolderNotFoundBrowseByHandActionBox" Grid.Column="1" Grid.Row="0" IsTogglable="False" ButtonContent="Browse" TextChanged="FolderNotFoundBrowseByHandActionBox_TextChanged" ActionSubmitted="FolderNotFoundBrowseByHandActionBox_ActionSubmitted" DockPanel.Dock="Bottom">
                     <ui:AttachedProperties.CornerCurves>
                         <ui:CornerCurves TopLeft="False" TopRight="False" BottomLeft="False" BottomRight="False"/>
                     </ui:AttachedProperties.CornerCurves>

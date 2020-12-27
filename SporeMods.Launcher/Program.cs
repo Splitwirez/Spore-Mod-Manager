@@ -112,11 +112,12 @@ namespace SporeMods.Launcher
 
                         if (proceed)
                         {
-                            GameInfo.BadGameInstallPath += (sneder, args) =>
+                            //GameInfo..badBadGameInstallPath += (sneder, args) =>
+                            if (GameInfo.BadGameInstallPaths.Any())
                             {
                                 MessageBox.Show(Settings.GetLanguageString(3, "RunModManagerFirst")); //Please run the Spore Mod Manager at least once before running the Spore Mod Launcher.
-                            Process.GetCurrentProcess().Kill();
-                            };
+                                Process.GetCurrentProcess().Kill();
+                            }//;
 
                             SporeLauncher.CaptionHeight = SystemInformation.CaptionHeight;
 

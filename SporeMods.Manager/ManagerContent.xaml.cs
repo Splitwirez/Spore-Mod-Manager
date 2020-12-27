@@ -86,10 +86,10 @@ namespace SporeMods.Manager
         {
             InitializeComponent();
 
-            GameInfo.BadGameInstallPath += (sneder, args) =>
+            /*GameInfo.BadGameInstallPath += (sneder, args) =>
             {
                 Dispatcher.BeginInvoke(new Action(() => GameInfo_BadGameInstallPath(sneder, args)));
-            };
+            };*/
             ModInstallation.ClearQueues();
             //GameInfo.GetRegistryPath(GameInfo.GameDlc.GalacticAdventures);
             MessageDisplay.DebugShowMessageBox("DATA FOLDERS: \n\n" + GameInfo.CoreSporeData + "\n\n" + GameInfo.GalacticAdventuresData);
@@ -179,7 +179,7 @@ namespace SporeMods.Manager
         private void GameInfo_BadGameInstallPath(object sender, BadPathEventArgs e)
         {
             bool add = true;
-            BadPathEventArgs[] argsList = _badPaths.ToArray();
+            BadPathEventArgs[] argsList = GameInfo.BadGameInstallPaths.ToArray();
             foreach (BadPathEventArgs args in argsList)
             {
                 if ((args.IsSporebin == e.IsSporebin) && (args.DlcLevel == e.DlcLevel))
@@ -189,8 +189,8 @@ namespace SporeMods.Manager
                 }
             }
 
-            if (add)
-                _badPaths.Add(e);
+            /*if (add)
+                _badPaths.Add(e);*/
         }
 
         private void ModConfigurations_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -443,7 +443,14 @@ namespace SporeMods.Manager
                 AdditionalCommandLineOptionsTextBox.TextChanged += AdditionalCommandLineOptionsTextBox_TextChanged;
 
                 //Check bad paths, if game could not be automatically detected
-                ProceedToNextBadPath(false);
+                if (GameInfo.BadGameInstallPaths.Count > 0)
+                {
+                    //MessageBox.Show("GameInfo.BadGameInstallPaths.Count >= 1");
+                    //MessageBox.Show("GameInfo.BadGameInstallPaths.FirstOrDefault() != null");
+                    HandleBadPath(GameInfo.BadGameInstallPaths.First());
+                }
+                /*else
+                    MessageBox.Show("GameInfo.BadGameInstallPaths.Count == 0");*/
 
                 ModsManager.Instance.ModConfiguratorShown += Instance_ModConfiguratorShown;
 
@@ -756,34 +763,24 @@ namespace SporeMods.Manager
 
         private void ProceedToNextBadPath(bool removeFirst)
         {
-            if (_badPaths.Count > 0)
+            if (GameInfo.BadGameInstallPaths.Count > 0)
             {
                 if (removeFirst)
                 {
-                    if (_badPaths.Count > 1)
-                        _badPaths.RemoveAt(0);
+                    if (GameInfo.BadGameInstallPaths.Count > 1)
+                        GameInfo.BadGameInstallPaths.RemoveAt(0);
                     else
                     {
                         Dispatcher.BeginInvoke(new Action(() =>
                         {
                             FoldersNotFoundContentControl.IsOpen = false;
-
-                            /*if (string.IsNullOrEmpty(GameInfo.AutoGalacticAdventuresData) || string.IsNullOrWhiteSpace(GameInfo.AutoGalacticAdventuresData))
-                                AutoGaDataPathCheckBox.IsChecked = false;
-                            if (string.IsNullOrEmpty(GameInfo.AutoCoreSporeData) || string.IsNullOrWhiteSpace(GameInfo.AutoCoreSporeData))
-                                AutoCoreDataPathCheckBox.IsChecked = false;
-                            if (string.IsNullOrEmpty(GameInfo.AutoSporebin) || string.IsNullOrWhiteSpace(GameInfo.AutoSporebin))
-                                AutoSporebinPathCheckBox.IsChecked = false;
-                            if (string.IsNullOrEmpty(GameInfo.AutoSporebinEP1) || string.IsNullOrWhiteSpace(GameInfo.AutoSporebinEP1))
-                                AutoSporebinEp1PathCheckBox.IsChecked = false;*/
-                            //SetupPathControlStates();
                             Permissions.RerunAsAdministrator(true);
                         }));
                         return;
                     }
                 }
 
-                BadPathEventArgs[] argsList = _badPaths.ToArray();
+                BadPathEventArgs[] argsList = GameInfo.BadGameInstallPaths.ToArray();
                 int index = 0;
                 while (index < argsList.Length)
                 {
@@ -815,92 +812,94 @@ namespace SporeMods.Manager
 
         private bool HandleBadPath(BadPathEventArgs args)
         {
+            if (GameInfo.BadGameInstallPaths.Contains(args))
+                GameInfo.BadGameInstallPaths.Remove(args);
+
+            FolderNotFoundBrowseByHandActionBox.Text = string.Empty;
             Debug.WriteLine("HANDLING BAD PATH: " + args.DlcLevel.ToString() + ", " + args.IsSporebin);
             List<DetectionFailureGuessFolder> folders = GameInfo.GetFailureGuessFolders(args.DlcLevel, args.IsSporebin);
-            if (folders.Count > 0)
+            
+            Debug.WriteLine("BAD PATH GUESS COUNT != 1");
+            string folderName = string.Empty;
+            if (args.DlcLevel == GameInfo.GameDlc.GalacticAdventures)
             {
-                Debug.WriteLine("BAD PATH GUESS COUNT != 1");
-                string folderName = string.Empty;
-                if (args.DlcLevel == GameInfo.GameDlc.GalacticAdventures)
+                folderName = Settings.GetLanguageString(3, "SporeGAFolder"); //"Galactic Adventures ";
+
+                if (args.IsSporebin)
                 {
-                    folderName = Settings.GetLanguageString(3, "SporeGAFolder"); //"Galactic Adventures ";
+                    if (Settings.ForcedGalacticAdventuresSporebinEP1Path != null)
+                        return true;
 
-                    if (args.IsSporebin)
-                    {
-                        if (Settings.ForcedGalacticAdventuresSporebinEP1Path != null)
-                            return true;
-
-                        folderName = folderName.Replace("%DIRNAME%", "SporebinEP1");
-                    }
-                    else
-                    {
-                        if (Settings.ForcedGalacticAdventuresDataPath != null)
-                            return true;
-
-                        folderName = folderName.Replace("%DIRNAME%", "DataEP1/Data");
-                    }
-                }
-                else if (args.DlcLevel == GameInfo.GameDlc.CoreSpore)
-                {
-                    folderName += Settings.GetLanguageString(3, "SporeCoreFolder"); //"Core Spore ";
-
-                    if (args.IsSporebin)
-                    {
-
-                        if (Settings.ForcedCoreSporeSporeBinPath != null)
-                            return true;
-
-                        folderName = folderName.Replace("%DIRNAME%", "SporeBin");
-                    }
-                    else
-                    {
-                        if (Settings.ForcedCoreSporeDataPath != null)
-                            return true;
-
-                        folderName = folderName.Replace("%DIRNAME%", "Data");
-                    }
-                }
-
-
-                _notFoundFolderIsSporeBin = args.IsSporebin;
-                _notFoundFolderDlcLevel = args.DlcLevel;
-
-                //int index = -1;
-                /*while (index == -1)
-                {
-                    //Thread.Sleep(500);
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        index = FolderNotFoundListView.SelectedIndex;
-                    }));
-                }*/
-
-                /*Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    FoldersNotFoundContentControl.IsManipulationEnabled = false;
-                }));*/
-                //Thread.Sleep(125);
-                if (folders.Count > 1)
-                {
-                    FolderNotFoundErrorTextBlock.Text = Settings.GetLanguageString(3, "FolderNotFound").Replace("%FOLDERNAME%", folderName);
-                    FolderNotFoundListView.ItemsSource = folders;
-                    FolderNotFoundListView.SelectedItem = null;
-                    FolderNotFoundListView.SelectionChanged += FolderNotFoundListView_SelectionChanged;
+                    folderName = folderName.Replace("%DIRNAME%", "SporebinEP1");
                 }
                 else
-                    FolderNotFoundErrorTextBlock.Text = Settings.GetLanguageString(3, "FolderNotFoundNoGuesses").Replace("%FOLDERNAME%", folderName);
+                {
+                    if (Settings.ForcedGalacticAdventuresDataPath != null)
+                        return true;
 
-                FoldersNotFoundContentControl.IsOpen = true;
-                Debug.WriteLine("BAD PATH PANEL SHOWN");
-                return true;
+                    folderName = folderName.Replace("%DIRNAME%", "DataEP1/Data");
+                }
+            }
+            else if (args.DlcLevel == GameInfo.GameDlc.CoreSpore)
+            {
+                folderName += Settings.GetLanguageString(3, "SporeCoreFolder"); //"Core Spore ";
+
+                if (args.IsSporebin)
+                {
+
+                    if (Settings.ForcedCoreSporeSporeBinPath != null)
+                        return true;
+
+                    folderName = folderName.Replace("%DIRNAME%", "SporeBin");
+                }
+                else
+                {
+                    if (Settings.ForcedCoreSporeDataPath != null)
+                        return true;
+
+                    folderName = folderName.Replace("%DIRNAME%", "Data");
+                }
+            }
+
+
+            _notFoundFolderIsSporeBin = args.IsSporebin;
+            _notFoundFolderDlcLevel = args.DlcLevel;
+
+            //int index = -1;
+            /*while (index == -1)
+            {
+                //Thread.Sleep(500);
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    index = FolderNotFoundListView.SelectedIndex;
+                }));
+            }*/
+
+            /*Dispatcher.BeginInvoke(new Action(() =>
+            {
+                FoldersNotFoundContentControl.IsManipulationEnabled = false;
+            }));*/
+            //Thread.Sleep(125);
+            if (folders.Count > 1)
+            {
+                FolderNotFoundErrorTextBlock.Text = Settings.GetLanguageString(3, "FolderNotFound").Replace("%FOLDERNAME%", folderName);
+                FolderNotFoundListView.SelectedItem = null;
+                FolderNotFoundListView.ItemsSource = folders;
+                FolderNotFoundListView.SelectionChanged += FolderNotFoundListView_SelectionChanged;
             }
             else
             {
-                return false;
+                FolderNotFoundErrorTextBlock.Text = Settings.GetLanguageString(3, "FolderNotFoundNoGuesses").Replace("%FOLDERNAME%", folderName);
             }
+
+            //FolderNotFoundBrowseByHandActionBox.ActionSubmitted += (sneder, e) => FolderNotFoundBrowseByHandActionBox_ActionSubmitted(args.DlcLevel, !args.IsSporebin);
+            
+            FoldersNotFoundContentControl.IsOpen = true;
+            Debug.WriteLine("BAD PATH PANEL SHOWN");
+            return true;
         }
 
-        List<BadPathEventArgs> _badPaths = new List<BadPathEventArgs>();
+        //List<BadPathEventArgs> _badPaths = new List<BadPathEventArgs>();
         bool _notFoundFolderIsSporeBin = false;
         GameInfo.GameDlc _notFoundFolderDlcLevel = GameInfo.GameDlc.None;
 
@@ -1610,10 +1609,46 @@ namespace SporeMods.Manager
             }
         }
 
-        private void FolderNotFoundBrowseByHandButton_Click(object sender, RoutedEventArgs e)
+        private void FolderNotFoundBrowseByHandActionBox_ActionSubmitted(object sender, ActionSubmittedEventArgs e)
         {
+            bool isData = !_notFoundFolderIsSporeBin;
+            GameInfo.GameDlc dlc = _notFoundFolderDlcLevel;
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            if (dialog.ShowDialog() != DialogResult.Cancel)
+            {
+                string rawPath = dialog.SelectedPath;
+                string fixedPath = string.Empty;
+                
+                if (GameInfo.CorrectGameInstallPath(dialog.SelectedPath, dlc, out fixedPath))
+                {
+                    if ((dlc == GameInfo.GameDlc.GalacticAdventures) && isData)
+                    {
+                        fixedPath = Path.Combine(fixedPath, "DataEP1");
+                        if (!Directory.Exists(fixedPath))
+                            fixedPath = Path.Combine(fixedPath, "Data");
+                    }
+                    else if ((dlc == GameInfo.GameDlc.CoreSpore) && isData)
+                        fixedPath = Path.Combine(fixedPath, "Data");
+                    else if (dlc == GameInfo.GameDlc.GalacticAdventures && (!isData))
+                        fixedPath = Path.Combine(fixedPath, "SporebinEP1");
 
+                    if ((!fixedPath.IsNullOrEmptyOrWhiteSpace()) && Directory.Exists(fixedPath) && (!fixedPath.ToLowerInvariant().Equals(rawPath.ToLowerInvariant())))
+                    {
+                        if (MessageBox.Show("You selected the path " + rawPath + "\n\nA corrected path was found at " + fixedPath + "\n\nUse the corrected path? (If unsure, click Yes)", string.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                        {
+                            FolderNotFoundBrowseByHandActionBox.Text = fixedPath;
+                        }
+                        else
+                            FolderNotFoundBrowseByHandActionBox.Text = rawPath;
+                    }
+                    else
+                        FolderNotFoundBrowseByHandActionBox.Text = rawPath;
+                }
+                else
+                    FolderNotFoundBrowseByHandActionBox.Text = rawPath;
+            }
         }
+
         private void FolderNotFoundBrowseByHandActionBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
@@ -1628,11 +1663,19 @@ namespace SporeMods.Manager
                 FolderNotFoundConfirmButton.IsEnabled = false;
             }
         }
+
         private void FolderNotFoundConfirmButton_Click(object sender, RoutedEventArgs e)
         {
             ConfirmForcedInstallPath(FolderNotFoundBrowseByHandActionBox.Text, true);
 
-            ProceedToNextBadPath(true);
+            if (GameInfo.BadGameInstallPaths.Count > 0)
+                HandleBadPath(GameInfo.BadGameInstallPaths.First());
+            else
+            {
+                FoldersNotFoundContentControl.IsOpen = false;
+                Permissions.RerunAsAdministrator(true);
+            }
+            //ProceedToNextBadPath(true);
         }
         private void OverrideWindowModeCheckBox_Checked(object sender, RoutedEventArgs e)
         {
