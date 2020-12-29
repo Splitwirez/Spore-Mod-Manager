@@ -16,6 +16,9 @@ namespace SporeMods.Core
 {
     public static class ModInstallation
     {
+        [DllImport("shlwapi.dll")]
+        static extern bool PathIsNetworkPath(string pszPath);
+
         public static event Func<string, bool> InstallingExperimentalMod;
         public static event Func<string, bool> InstallingRequiresGalaxyResetMod;
         public static event Func<string, bool> InstallingSaveDataDependencyMod;
@@ -75,7 +78,12 @@ namespace SporeMods.Core
                 string path = modPaths[i];
                 bool validExtension = true;
                 Exception result = null;
-                if (Path.GetExtension(path).ToLowerInvariant() == ".package")
+                
+                if (PathIsNetworkPath(path))
+                {
+                    result = new Exception("Cannot install mods from network locations. Please move the mod(s) to local storage and try again from there.");
+                }
+                else if (Path.GetExtension(path).ToLowerInvariant() == ".package")
                 {
                     result = await RegisterLoosePackageModAsync(path);
                 }

@@ -23,7 +23,7 @@ namespace SporeMods.Core.Mods
             if (fileGamesStr != null)
             {
                 fileGames = fileGamesStr.Split('?');
-                if (fileGames.Length != fileNames.Length)
+                if (fileGames.Length < fileNames.Length)
                     throw new FormatException(errorTitle + ": the '" + attributeGame + "' attribute must have as many elements as files in the component");
             }
 
