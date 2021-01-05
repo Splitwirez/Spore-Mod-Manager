@@ -60,41 +60,48 @@ namespace SporeMods.Setup
             if (!Environment.GetCommandLineArgs().Skip(1).Any(x => x == SetupInfo.IS_WOULDBE_ADMIN_PROCESS))
             {
                 ShutdownMode = ShutdownMode.OnExplicitShutdown;
-                Process proc = Permissions.RerunAsAdministrator(Permissions.GetProcessCommandLineArgs() + " " + SetupInfo.IS_WOULDBE_ADMIN_PROCESS, false);
-                proc.WaitForExit();
+                try
+                {
+                    Process proc = Permissions.RerunAsAdministrator(Permissions.GetProcessCommandLineArgs() + " " + SetupInfo.IS_WOULDBE_ADMIN_PROCESS, false);
+                    proc.WaitForExit();
 
-                if (File.Exists(SetupInfo.LAST_EXE_PATH))
-                {
-                    string path = File.ReadAllText(SetupInfo.LAST_EXE_PATH);
-                    if (File.Exists(path))
-                        MgrExePath = path;
-                }
-                else if (File.Exists(SetupInfo.INSTALL_DIR_LOCATOR_PATH))
-                {
-                    /*string[] paths = File.ReadAllText(SetupInfo.INSTALL_DIR_LOCATOR_PATH);
-                    if (proc.ExitCode == SetupInfo.EXIT_RUN_MOD_MGR)
+                    if (File.Exists(SetupInfo.LAST_EXE_PATH))
                     {
-                        Process.Start(Path.Combine(paths[0], "Spore Mod Manager.exe"));
+                        string path = File.ReadAllText(SetupInfo.LAST_EXE_PATH);
+                        if (File.Exists(path))
+                            MgrExePath = path;
                     }
-                    else if ((proc.ExitCode == SetupInfo.EXIT_RUN_LK_IMPORTER) && (_lkPath != null))
+                    else if (File.Exists(SetupInfo.INSTALL_DIR_LOCATOR_PATH))
                     {
-                        Process.Start(Path.Combine(paths[0], "SporeMods.KitImporter.exe"), "\"" + _lkPath + "\"");
-                    }*/
+                        /*string[] paths = File.ReadAllText(SetupInfo.INSTALL_DIR_LOCATOR_PATH);
+                        if (proc.ExitCode == SetupInfo.EXIT_RUN_MOD_MGR)
+                        {
+                            Process.Start(Path.Combine(paths[0], "Spore Mod Manager.exe"));
+                        }
+                        else if ((proc.ExitCode == SetupInfo.EXIT_RUN_LK_IMPORTER) && (_lkPath != null))
+                        {
+                            Process.Start(Path.Combine(paths[0], "SporeMods.KitImporter.exe"), "\"" + _lkPath + "\"");
+                        }*/
 
-                    string mgrPath = File.ReadAllText(SetupInfo.INSTALL_DIR_LOCATOR_PATH);
+                        string mgrPath = File.ReadAllText(SetupInfo.INSTALL_DIR_LOCATOR_PATH);
 
-                    if (MgrExePath == null)
-                        MgrExePath = Path.Combine(mgrPath, "Spore Mod Manager.exe");
+                        if (MgrExePath == null)
+                            MgrExePath = Path.Combine(mgrPath, "Spore Mod Manager.exe");
+                    }
+
+
+                    if ((MgrExePath != null) && File.Exists(MgrExePath))
+                        Process.Start(MgrExePath);
+
+                    /*else
+                        MessageBox.Show("Spore Mod Manager install location was not returned. You should never see this message, so if you somehow do see it, inform Splitwirez or emd immediately.");*/
+
+                    Shutdown();
                 }
-
-
-                if ((MgrExePath != null) && File.Exists(MgrExePath))
-                    Process.Start(MgrExePath);
-
-                /*else
-                    MessageBox.Show("Spore Mod Manager install location was not returned. You should never see this message, so if you somehow do see it, inform Splitwirez or emd immediately.");*/
-
-                Shutdown();
+                catch (System.ComponentModel.Win32Exception)
+                {
+                    Shutdown();
+                }
             }
             else
             {

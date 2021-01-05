@@ -1066,9 +1066,12 @@ namespace SporeMods.Manager
             UpdateNeverRadioButton.Content = Settings.GetLanguageString("UpdateNever");
 
             HelpGroupBox.Header = Settings.GetLanguageString("HelpHeader");
-            HelpThreadButton.Content = Settings.GetLanguageString("GoToForumThread");
-            SendFeedbackButton.Content = Settings.GetLanguageString("SendFeedback");
-            ShowConfigurationFileButton.Content = Settings.GetLanguageString("ShowConfig");
+            //HelpThreadButton.Content = Settings.GetLanguageString("GoToForumThread");
+            //SendFeedbackButton.Content = Settings.GetLanguageString("SendFeedback");
+            //ShowConfigurationFileButton.Content = Settings.GetLanguageString("ShowConfig");
+            AskQuestionButton.Content = Settings.GetLanguageString("AskQuestion");
+            SuggestFeatureButton.Content = Settings.GetLanguageString("SuggestFeature");
+            ReportBugButton.Content = Settings.GetLanguageString("ReportBug");
 
             CloseSporeFirstTextBlock.Text = Settings.GetLanguageString("CloseSporeFirst");
             SporeCantCloseTextBlock.Text = Settings.GetLanguageString("SporeCantClose");
@@ -1998,7 +2001,22 @@ namespace SporeMods.Manager
 
         private void SendFeedbackButton_Click(object sender, RoutedEventArgs e)
         {
-            OpenUrl(@"https://github.com/Splitwirez/Spore-Mod-Manager/issues/new?assignees=&labels=enhancement&template=feature_request.md&title="); //@"https://github.com/Splitwirez/Spore-Mod-Manager/issues/new");
+            
+        }
+
+        private void AskQuestionButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenUrl(@"https://github.com/Splitwirez/Spore-Mod-Manager/issues/new?assignees=&labels=question&template=question.md&title=");
+        }
+
+        private void SuggestFeatureButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenUrl(@"https://github.com/Splitwirez/Spore-Mod-Manager/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=");
+        }
+
+        private void ReportBugButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenUrl(@"https://github.com/Splitwirez/Spore-Mod-Manager/issues/new?assignees=&labels=bug&template=bug_report.md&title=");
         }
 
         void OpenUrl(string url)

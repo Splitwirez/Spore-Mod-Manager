@@ -9,7 +9,7 @@ Globals_Browse Buscar...
 
 
 # Main Window text
-WindowTitle Spore Mod Manager v%VERSION% [Versión DLLs %DLLSBUILD%]
+WindowTitle Spore Mod Manager BETA v%VERSION% [Versión DLLs %DLLSBUILD%]
 
 ModsTabItem Mods
 TweaksTabItem Retoques
@@ -48,7 +48,7 @@ AutoSporebinEp1Path Ruta a SporebinEP1
 AutoCoreDataPath Ruta a Core Spore Data
 AutoSporebinPath Ruta a Sporebin
 AutoDetectPath Auto-detectar
-IgnoreSteamInstallInfo Ignore Steam install info (NOT LOCALIZED)
+IgnoreSteamInstallInfo Ignore Steam install info (TRANSLATION PENDING)
 
 ModInstallationHeader Instalación de Mods
 BlockVanillaIncompatibleMods No instalar mods a no ser que estén verificados como vanilla-compatible
@@ -108,9 +108,9 @@ Error_CannotCheckForUpdates No se pueden buscar actualizaciones, por favor compr
 Error_CannotCheckForUpdatesTitle No se pueden buscar actualizaciones
 
 HelpHeader ¿Necesitas ayuda?
-GoToForumThread ¡Contáctanos para poder ayudarte o hacernos preguntas!
-SendFeedback Comunícanos algo
-ShowConfig Copiar configuración al portapapeles
+AskQuestion Ask a question (TRANSLATION PENDING)
+SuggestFeature Suggest a feature (TRANSLATION PENDING)
+ReportBug Report a bug (TRANSLATION PENDING)
 
 CloseSporeFirst Por favor cierra Spore para continuar
 CloseSporeModManagerFirst Solo puedes tener una instancia del Spore Mod Manager abierta a la vez.

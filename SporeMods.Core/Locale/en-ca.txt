@@ -9,7 +9,7 @@ Globals_Browse Browse...
 
 
 # Main Window text
-WindowTitle Spore Mod Manager v%VERSION% [DLLs Build %DLLSBUILD%]
+WindowTitle Spore Mod Manager BETA v%VERSION% [DLLs Build %DLLSBUILD%]
 
 ModsTabItem Mods
 TweaksTabItem Tweaks
@@ -108,9 +108,9 @@ Error_CannotCheckForUpdates Cannot check for updates, please check your internet
 Error_CannotCheckForUpdatesTitle Cannot check for updates
 
 HelpHeader Need help?
-GoToForumThread Contact us to get help or ask questions!
-SendFeedback Send feedback
-ShowConfig Copy configuration to clipboard
+AskQuestion Ask a question
+SuggestFeature Suggest a feature
+ReportBug Report a bug
 
 CloseSporeFirst Please close Spore to continue
 CloseSporeModManagerFirst Only one instance of the Spore Mod Manager can be used at any given time.

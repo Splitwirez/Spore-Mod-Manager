@@ -9,7 +9,7 @@ Globals_Browse Buscar...
 
 
 # Main Window text
-WindowTitle Spore Mod Manager v%VERSION% [Versió DLLs %DLLSBUILD%]
+WindowTitle Spore Mod Manager BETA v%VERSION% [Versió DLLs %DLLSBUILD%]
 
 ModsTabItem Mods
 TweaksTabItem Retocs
@@ -48,7 +48,7 @@ AutoSporebinEp1Path Ruta a SporebinEP1
 AutoCoreDataPath Ruta a Core Spore Data
 AutoSporebinPath Ruta a Sporebin
 AutoDetectPath Auto-detectar
-IgnoreSteamInstallInfo Ignore Steam install info (NOT LOCALIZED)
+IgnoreSteamInstallInfo Ignore Steam install info (TRANSLATION PENDING)
 
 ModInstallationHeader Instal·lació de Mods
 BlockVanillaIncompatibleMods No instal·lar mods a no ser que estiguin verificats com a vanilla-compatible
@@ -108,9 +108,9 @@ Error_CannotCheckForUpdates No es poden buscar actualitzacions, si us plau compr
 Error_CannotCheckForUpdatesTitle No es poden buscar actualitzacions
 
 HelpHeader Necessites ajuda?
-GoToForumThread Contacta'ns per poder ajudar-te o fer-nos preguntes!
-SendFeedback Comunica'ns alguna cosa
-ShowConfig Copiar configuració al porta-retalls
+AskQuestion Ask a question (TRANSLATION PENDING)
+SuggestFeature Suggest a feature (TRANSLATION PENDING)
+ReportBug Report a bug (TRANSLATION PENDING)
 
 CloseSporeFirst Si us plau, tanca Spore per a continuar
 CloseSporeModManagerFirst Només pots tenir una instància del Spore Mod Manager executant-se.
