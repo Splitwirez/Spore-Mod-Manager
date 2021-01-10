@@ -110,7 +110,7 @@
                             </Grid.RenderTransform>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Text="{Binding ModVersion}" Visibility="{Binding ModHasVersion, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="15,0" VerticalAlignment="Center"/>
-                                <ui:ToggleSwitch x:Name="IsEnabledToggleSwitch" TrueText="{DynamicResource ModSwitchOnText}" FalseText="{DynamicResource ModSwitchOffText}" Content="{x:Null}" IsChecked="{Binding IsEnabled, FallbackValue=True}" Visibility="{Binding Source={x:Static core:Settings.DeveloperMode}, Converter={StaticResource BooleanToVisibilityConverter}}" VerticalAlignment="Center" Width="110" MinWidth="110" HorizontalAlignment="Right"/>
+                                <!--ui:ToggleSwitch x:Name="IsEnabledToggleSwitch" TrueText="{DynamicResource ModSwitchOnText}" FalseText="{DynamicResource ModSwitchOffText}" Content="{x:Null}" IsChecked="{Binding IsEnabled, FallbackValue=True}" Visibility="{Binding Source={x:Static core:Settings.DeveloperMode}, Converter={StaticResource BooleanToVisibilityConverter}}" VerticalAlignment="Center" Width="110" MinWidth="110" HorizontalAlignment="Right"/-->
                                 <!--{Binding CanDisable, Converter={StaticResource BooleanToVisibilityConverter}}-->
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding IsProgressing, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
                                     <TextBlock x:Name="InstallingNowTextBlock" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left" Text="{DynamicResource ModInstallingNowText}" Margin="0,0,5,0"/>
@@ -168,7 +168,7 @@
                             <!--{DynamicResource ButtonForegroundBrush}-->
                         </Grid>
                         <!--Rectangle DockPanel.Dock="Left" Width="{Binding Height, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DockPanel}}, Converter={StaticResource WidthToHalfWidthConverter}}"/-->
-                        <TextBlock Margin="5,0,0,0" Text="{Binding DisplayName}" VerticalAlignment="Center" TextAlignment="Left" HorizontalAlignment="Left"/>
+                        <TextBlock x:Name="DisplayNameTextBlock" Margin="5,0,0,0" Text="{Binding DisplayName}" VerticalAlignment="Center" TextAlignment="Left" HorizontalAlignment="Left"/>
                     </DockPanel>
                     <StackPanel x:Name="DescriptionGrid" Orientation="Vertical" Visibility="{Binding Visibility, ElementName=ExpandCollapseToggleButton}">
                         <!--MaxWidth="{Binding ActualWidth, ElementName=ModRootDockPanel}"-->
@@ -242,7 +242,9 @@
                         </DataTrigger.ExitActions>
                     </DataTrigger>
                     <DataTrigger Binding="{Binding Icon}" Value="{x:Null}">
-                        <Setter TargetName="IconContainer" Property="Content" Value="{DynamicResource NoIconModIcon}"/>
+                        <!--Setter TargetName="IconContainer" Property="Content" Value="{DynamicResource NoIconModIcon}"/-->
+                        <Setter TargetName="IconGrid" Property="Visibility" Value="Collapsed"/>
+                        <Setter TargetName="DisplayNameTextBlock" Property="Margin" Value="10,0,0,0"/>
                     </DataTrigger>
                     <!--DataTrigger Binding="{Binding IsProgressing}" Value="True">
                             <Setter TargetName="StatusGrid" Property="Width" Value="200"/>
