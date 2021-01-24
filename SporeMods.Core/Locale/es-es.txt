@@ -48,7 +48,7 @@ AutoSporebinEp1Path Ruta a SporebinEP1
 AutoCoreDataPath Ruta a Core Spore Data
 AutoSporebinPath Ruta a Sporebin
 AutoDetectPath Auto-detectar
-IgnoreSteamInstallInfo Ignore Steam install info (TRANSLATION PENDING)
+IgnoreSteamInstallInfo Ignorar información de instalación de Steam
 
 ModInstallationHeader Instalación de Mods
 BlockVanillaIncompatibleMods No instalar mods a no ser que estén verificados como vanilla-compatible
@@ -108,9 +108,9 @@ Error_CannotCheckForUpdates No se pueden buscar actualizaciones, por favor compr
 Error_CannotCheckForUpdatesTitle No se pueden buscar actualizaciones
 
 HelpHeader ¿Necesitas ayuda?
-AskQuestion Ask a question (TRANSLATION PENDING)
-SuggestFeature Suggest a feature (TRANSLATION PENDING)
-ReportBug Report a bug (TRANSLATION PENDING)
+AskQuestion Haz una pregunta
+SuggestFeature Dinos como mejorar el programa
+ReportBug Reportar un error
 
 CloseSporeFirst Por favor cierra Spore para continuar
 CloseSporeModManagerFirst Solo puedes tener una instancia del Spore Mod Manager abierta a la vez.
@@ -123,11 +123,11 @@ CustomInstaller_ModInstallerHeader Instalador de %MODNAME%
 CustomInstaller_Proceed Proceder
 CustomInstaller_Apply Aplicar
 
-ModIsExperimental %MODNAME% is presently in an experimental state. It may contain unexpected bugs, and using it may have unexpected, potentially undesirable consequences. Are you sure you wish to install it?
-ModRequiresGalaxyReset %MODNAME% requires a Galaxy reset to take effect. Performing a Galaxy reset will erase all of your save game planets. The necessary Galaxy Reset will NOT be performed automatically, you'll have to do it by hand. Are you sure you wish to install this mod?
-ModCausesSaveDataDependency %MODNAME% will cause save data dependency if installed. This means that if you ever uninstall it, your save planets may become corrupted or otherwise inaccessible, or be adversely affected in some other way. Are you sure you wish to install this mod?
-CausesSaveDataDependencyWarning This mod causes save data dependency. Uninstalling it could damage or corrupt your save planets.
-CausesSaveDataDependencyUninstallWarning The following mods cause save data dependency. Uninstalling them could damage or corrupt your save planets.<br><br>%MODNAMES%<br><br>Are you ABSOLUTELY CERTAIN that you wish to uninstall them?
+ModIsExperimental Actualmente %MODNAME% está en un estado experimental. Es posible que tenga errores inesperados, y usarlo puede tener consequencias inesperadas. ¿Estás seguro de que quieres instalarlo?
+ModRequiresGalaxyReset %MODNAME% necesita resetear la Galaxia para funcionar. Resetear la Galaxia eliminará tus partidas guardadas. El reseteo de Galaxia no se hace automáticamente, tendrás que hacerlo tu mismo. ¿Estás seguro de que quieres instalarlo?
+ModCausesSaveDataDependency %MODNAME% creará una dependencia con tus partidas guardadas. Esto significa que si lo desinstalas, tus partidas podrian corromperse o volverse injugables, o ser afectadas de alguna manera negativa. ¿Estás seguro de que quieres instalarlo?
+CausesSaveDataDependencyWarning Este mod crea una dependencia con tus partidas guardadas. Desinstalarlo podria dañar o corromper tus partidas.
+CausesSaveDataDependencyUninstallWarning Los siguientes mods crean una dependencia con tus partidas guardadas. Desinstalarlos podria dañar o corromper tus partidas.<br><br>%MODNAMES%<br><br>¿Estás COMPLETAMENTE SEGURO de que quieres desinstalarlos?
 
 CreditsHeader Créditos
 
