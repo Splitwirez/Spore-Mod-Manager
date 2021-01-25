@@ -108,9 +108,9 @@ Error_CannotCheckForUpdates No es poden buscar actualitzacions, si us plau compr
 Error_CannotCheckForUpdatesTitle No es poden buscar actualitzacions
 
 HelpHeader Necessites ajuda?
-AskQuestion Ask a question (TRANSLATION PENDING)
-SuggestFeature Suggest a feature (TRANSLATION PENDING)
-ReportBug Report a bug (TRANSLATION PENDING)
+AskQuestion Fes una pregunta
+SuggestFeature Digue'ns com millorar
+ReportBug Reporta un error
 
 CloseSporeFirst Si us plau, tanca Spore per a continuar
 CloseSporeModManagerFirst Només pots tenir una instància del Spore Mod Manager executant-se.
@@ -181,7 +181,7 @@ Error_SporeVersionTooOld Aquesta versió de Spore és massa vella. Si us plau, a
 Error_DidTheyUpdateSpore Aquesta versió de Spore és massa nova, i el programa encara no la soporta. Per a protegir les teves dades guardades, no juguis  al Spore (amb mods o sense), fins que hi hagi una actualització del Spore Mod Manager que solucioni això.
 Error_CouldNotGetExeVersion No s'ha pogut llegir la versió de SporeApp.exe. Això no hauria de passar mai, així que si veus aquest missatge, si us plau reporta el problema immediatament.
 
-Error_KillSporeFailed Something went wrong when trying to force-close Spore. (LOCALIZATION PENDING)
+Error_KillSporeFailed No s'ha pogut tancar forçadament Spore degut a un error.
 
 Error_NullDllSuffix El Spore Mod Launcher ha determinat que no hi ha un sufix DLL corresponent a la teva versió de Spore. Això no hauria de passar mai, així que si veus aquest missatge, si us plau reporta el problema immediatament.
 Error_SporeProcessCreationFailed No s'ha pogut crear el procés de Spore. Això no hauria de passar mai, així que si veus aquest missatge, si us plau reporta el problema immediatament.
