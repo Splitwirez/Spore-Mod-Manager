@@ -181,6 +181,8 @@ Error_SporeVersionTooOld This version of Spore is too old. Please update to a su
 Error_DidTheyUpdateSpore This version of Spore is too new, and is not yet supported. To protect your save data, please refraing from playing Spore, modded or otherwise, until an update to the Spore Mod Manager is released to address this.
 Error_CouldNotGetExeVersion SporeApp.exe version could not be read. This should never happen, so if you see this message, please report the problem immediately.
 
+Error_KillSporeFailed Something went wrong when trying to force-close Spore.
+
 Error_NullDllSuffix Somehow, the Spore Mod Launcher has determined that there is no DLL suffix corresponding to your version of Spore. This should never happen, so if you see this message, please report the problem immediately.
 Error_SporeProcessCreationFailed The Spore process could not be created. This should never happen, so if you see this message, please report the problem immediately.
 Error_SporeProcessResumeFailed The Spore process could not be resumed. This should never happen, so if you see this message, please report the problem immediately.

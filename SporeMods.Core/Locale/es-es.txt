@@ -181,6 +181,8 @@ Error_SporeVersionTooOld Esta versión de Spore es demasiado vieja. Por favor, a
 Error_DidTheyUpdateSpore Esta versión de Spore es demasiado nueva, y el programa aún no la soporta. Para proteger tus datos guardados, no jueges al Spore (con mods o sin), hasta que haya una actualización del Spore Mod Manager para solucionar esto.
 Error_CouldNotGetExeVersion No se pudo leer la versión de SporeApp.exe. Esto no debería ocurrir nunca, así que si ves este mensaje, por favor reporta el problema inmediatamente.
 
+Error_KillSporeFailed Something went wrong when trying to force-close Spore. (LOCALIZATION PENDING)
+
 Error_NullDllSuffix El Spore Mod Launcher ha determinado que no hay un sufijo DLL correspondiente a tu versión de Spore. Esto no debería ocurrir nunca, así que si ves este mensaje, por favor reporta el problema inmediatamente.
 Error_SporeProcessCreationFailed No se pudo crear el proceso de Spore. Esto no debería ocurrir nunca, así que si ves este mensaje, por favor reporta el problema inmediatamente.
 Error_SporeProcessResumeFailed No se pudo reanudar el proceso de Spore. Esto no debería ocurrir nunca, así que si ves este mensaje, por favor reporta el problema inmediatamente.

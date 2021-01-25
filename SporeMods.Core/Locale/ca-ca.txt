@@ -181,6 +181,8 @@ Error_SporeVersionTooOld Aquesta versió de Spore és massa vella. Si us plau, a
 Error_DidTheyUpdateSpore Aquesta versió de Spore és massa nova, i el programa encara no la soporta. Per a protegir les teves dades guardades, no juguis  al Spore (amb mods o sense), fins que hi hagi una actualització del Spore Mod Manager que solucioni això.
 Error_CouldNotGetExeVersion No s'ha pogut llegir la versió de SporeApp.exe. Això no hauria de passar mai, així que si veus aquest missatge, si us plau reporta el problema immediatament.
 
+Error_KillSporeFailed Something went wrong when trying to force-close Spore. (LOCALIZATION PENDING)
+
 Error_NullDllSuffix El Spore Mod Launcher ha determinat que no hi ha un sufix DLL corresponent a la teva versió de Spore. Això no hauria de passar mai, així que si veus aquest missatge, si us plau reporta el problema immediatament.
 Error_SporeProcessCreationFailed No s'ha pogut crear el procés de Spore. Això no hauria de passar mai, així que si veus aquest missatge, si us plau reporta el problema immediatament.
 Error_SporeProcessResumeFailed No s'ha pogut reanudar el procés de Spore. Això no hauria de passar mai, així que si veus aquest missatge, si us plau reporta el problema immediatament.

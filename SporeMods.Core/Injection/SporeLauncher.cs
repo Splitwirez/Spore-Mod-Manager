@@ -719,10 +719,17 @@ namespace SporeMods.Core.Injection
 
         public static void KillSporeProcesses()
         {
-            List<Process> sporeProcesses = GetSporeProcesses();
+            try
+            {
+                List<Process> sporeProcesses = GetSporeProcesses();
 
-            for (int i = 0; i < sporeProcesses.Count; i++)
-                sporeProcesses[0].Kill();
+                for (int i = 0; i < sporeProcesses.Count; i++)
+                    sporeProcesses[0].Kill();
+            }
+            catch (Exception ex)
+            {
+                MessageDisplay.ShowMessageBox(Settings.GetLanguageString(3, "KillSporeFailed") + "\n\n" + ex.GetType() + ": " + ex.Message + "\n" + ex.Source + "\n" + ex.StackTrace);
+            }
         }
     }
 }
