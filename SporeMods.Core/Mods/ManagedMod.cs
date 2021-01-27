@@ -309,8 +309,6 @@ namespace SporeMods.Core.Mods
             {
                 try
                 {
-                    Configuration.Save(_configPath);
-
                     // It is possible that this is called RegisterSporemodModAsync, and some progress has already happened
                     double totalProgress = 100.0;
 
@@ -351,6 +349,8 @@ namespace SporeMods.Core.Mods
                     IsProgressing = false;
 
                     Configuration.IsEnabled = true;
+
+                    Configuration.Save(_configPath);
 
                     return true;
                 }

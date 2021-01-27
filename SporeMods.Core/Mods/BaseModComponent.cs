@@ -13,6 +13,8 @@ namespace SporeMods.Core.Mods
     /// </summary>
     public abstract class BaseModComponent
     {
+        static bool AUTO_DISABLE_RADIO_GROUPS = true;
+
         public BaseModComponent(ModIdentity identity, string uniqueTag)
         {
             Unique = uniqueTag;
@@ -56,10 +58,10 @@ namespace SporeMods.Core.Mods
 
         public List<ModFile> Files { get; } = new List<ModFile>();
 
-        public bool IsInGroup { get
-            {
-                return Parent != null && Parent.IsGroup;
-            } }
+        public bool IsInGroup
+        {
+            get => (Parent != null) && Parent.IsGroup;
+        }
 
         public bool IsEnabled
         {
@@ -77,6 +79,17 @@ namespace SporeMods.Core.Mods
                     Identity.ParentMod.Configuration.UserSetComponents.Remove(Unique);
 
                 Identity.ParentMod.Configuration.UserSetComponents.Add(Unique, value);
+
+                //MessageDisplay.ShowMessageBox("Component " + Unique + " set to " + value);
+                if (AUTO_DISABLE_RADIO_GROUPS && IsInGroup && value)
+                {
+                    AUTO_DISABLE_RADIO_GROUPS = false;
+                    foreach (BaseModComponent oth in Parent.SubComponents.Where(x => x != this))
+                    {
+                        oth.IsEnabled = false;
+                    }
+                    AUTO_DISABLE_RADIO_GROUPS = true;
+                }
                 /*if (value)
                     Identity.ParentMod.Configuration.EnabledComponents.Add(Unique);
                 else

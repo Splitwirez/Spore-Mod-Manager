@@ -704,6 +704,7 @@ namespace SporeMods.Manager
                 {
                     ModConfiguratorDialogContentControl.IsOpen = false;
                     ConfiguratorBodyContentControl.Content = null;
+                    UpdateActionButtonStates();
                 }));
                 tcs.TrySetResult(true);
             }

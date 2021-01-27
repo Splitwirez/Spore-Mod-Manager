@@ -657,57 +657,8 @@ namespace SporeMods.Core
 
                 //DebugMessageBoxShow("Component count: " + mod.Configurator.Components.Count + "\nXML Mod Identity Version: " + mod.XmlVersion);
 
-                await ModsManager.Instance.ShowModConfigurator(mod); // theMod would be a ModConfiguration
-                                                                     // The properties on theMod were set in that event handler down there, so theMod now has the user's specified configuration
-                /*List<string> lines = new List<string>();
-
-                foreach (var file in mod.Identity.Files)
-                {
-                    string prer = "COMPONENT: " + file.Name;
-                    lines.Add(prer);
-                }
-
-                //TODO if component trees installation is implemented, change the log here
-                foreach (var component in mod.Identity.SubComponents)
-                {
-                    if (component.IsGroup)
-                    {
-                        foreach (var subComponent in component.SubComponents)
-                        {
-                            if (mod.Configuration.IsComponentEnabled(subComponent))
-                            {
-                                string prer = "COMPONENT: ";
-                                foreach (var file in subComponent.Files)
-                                    prer += file.Name + ", ";
-
-                                lines.Add(prer);
-                            }
-                        }
-                    }
-                    else if (mod.Configuration.IsComponentEnabled(component))
-                    {
-                        string prer = "COMPONENT: ";
-                        foreach (var file in component.Files)
-                            prer += file.Name + ", ";
-
-                        lines.Add(prer);
-                    }
-                }
-
-                string installLogPath = Path.Combine(Settings.ProgramDataPath, "installLog");
-                File.WriteAllLines(installLogPath, lines.ToArray());
-                Permissions.GrantAccessFile(installLogPath);*/
-
-                /*Task task = new Task(() =>
-                {
-
-                    mod.Progress = 0.0;
-                    mod.FileCount = mod.Configurator.GetComponentFileCount() + mod.Configurator.GetEnabledComponentFileCount();
-                    MessageDisplay.DebugShowMessageBox("Progress: " + mod.Progress + "\nFileCount: " + mod.FileCount);
-                });
-                task.Start();
-                await task;*/
-                await mod.EnableMod();
+                if (await ModsManager.Instance.ShowModConfigurator(mod))
+                    await mod.EnableMod();
             }
             else
             {

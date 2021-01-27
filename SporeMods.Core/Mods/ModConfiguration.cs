@@ -56,8 +56,8 @@ namespace SporeMods.Core.Mods
                     var attr = subEl.Attribute("isEnabled");
                     if ((attr != null) && bool.TryParse(attr.Value, out bool isEnabled))
                         UserSetComponents.Add(subEl.Value, isEnabled);
-                    else
-                        UserSetComponents.Add(subEl.Value, false);
+                    /*else
+                        UserSetComponents.Add(subEl.Value, false);*/
                 }
                 //EnabledComponents.AddRange(element.Elements().Select(x => x.Value));
             }
@@ -71,7 +71,7 @@ namespace SporeMods.Core.Mods
                 } 
                 else
                 {
-                    IsEnabled = false;
+                    IsEnabled = true;
                 }
             }
         }
@@ -87,7 +87,9 @@ namespace SporeMods.Core.Mods
             element = new XElement("components");
             foreach (string key in UserSetComponents.Keys)
             {
-                element.Add(key, UserSetComponents[key]);
+                XElement cmpEl = new XElement("component", key);
+                cmpEl.SetAttributeValue("isEnabled", UserSetComponents[key]);
+                element.Add(cmpEl);
             }
             //element.Add(EnabledComponents.Select(x => new XElement("component", x)));
             rootElement.Add(element);
