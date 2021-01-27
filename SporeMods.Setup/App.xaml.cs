@@ -22,6 +22,51 @@ namespace SporeMods.Setup
         public static string Language = null;
         public static string LkPath = null;
         public static string MgrExePath = null;
+
+        public App()
+        {
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            DispatcherUnhandledException += App_DispatcherUnhandledException;
+        }
+
+        private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            ShowException(e.Exception);
+        }
+
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            if (e.ExceptionObject is Exception exc)
+                ShowException(exc);
+        }
+
+        static bool EXCEPTION_SHOWN = false;
+        public static void ShowException(Exception exception)
+        {
+            if (!EXCEPTION_SHOWN)
+            {
+                EXCEPTION_SHOWN = true;
+                Exception current = exception;
+                int count = 0;
+                string errorText = "\n\nPlease send the contents this MessageBox and all which follow it to rob55rod\\Splitwirez, along with a description of what you were doing at the time.\n\nSpore Mod Manager Setup will exit after the last Inner exception has been reported.";
+                string errorTitle = "Something is very wrong here. Layer ";
+                while (current != null)
+                {
+                    MessageBox.Show(current.GetType() + ": " + current.Message + "\n" + current.Source + "\n" + current.StackTrace + errorText, errorTitle + count);
+                    count++;
+                    current = current.InnerException;
+                    if (count > 4)
+                        break;
+                }
+                if (current != null)
+                {
+                    MessageBox.Show(current.GetType() + ": " + current.Message + "\n" + current.Source + "\n" + current.StackTrace + errorText, errorTitle + count);
+                }
+                Process.GetCurrentProcess().Close();
+            }
+        }
+
+
         protected override void OnStartup(StartupEventArgs e)
         {
             /*Resources.MergedDictionaries.Add(new ResourceDictionary()

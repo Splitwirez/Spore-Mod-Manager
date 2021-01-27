@@ -12,12 +12,12 @@ namespace SporeMods.CommonUI
 {
     public static class MessageDisplay
     {
-        static bool exceptionShown = false;
+        static bool EXCEPTION_SHOWN = false;
         public static void ShowException(Exception exception)
         {
-            if (!exceptionShown)
+            if (!EXCEPTION_SHOWN)
             {
-                exceptionShown = true;
+                EXCEPTION_SHOWN = true;
                 Exception current = exception;
                 int count = 0;
                 string errorText = "\n\nPlease send the contents this MessageBox and all which follow it to rob55rod\\Splitwirez, along with a description of what you were doing at the time.\n\nThe Spore Mod Manager will exit after the last Inner exception has been reported.";
