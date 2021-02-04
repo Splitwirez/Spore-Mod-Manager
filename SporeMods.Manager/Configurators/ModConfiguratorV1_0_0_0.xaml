@@ -6,6 +6,9 @@
              xmlns:local="clr-namespace:SporeMods.Manager.Configurators"
              xmlns:core="clr-namespace:SporeMods.Core;assembly=SporeMods.Core"
              xmlns:ui="clr-namespace:Mechanism.Wpf.Core;assembly=Mechanism.Wpf.Core"
+             xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:beh="clr-namespace:SporeMods.Manager"
+             xmlns:mods="clr-namespace:SporeMods.Core.Mods;assembly=SporeMods.Core"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <DockPanel>
@@ -13,6 +16,29 @@
             <ui:AttachedProperties.CornerCurves>
                 <ui:CornerCurves TopLeft="True" TopRight="False" BottomRight="False" BottomLeft="False"/>
             </ui:AttachedProperties.CornerCurves>
+            <ListView.Resources>
+                <DataTemplate DataType="{x:Type mods:MutualExclusiveComponentGroup}">
+                    <GroupBox x:Name="SubComponentsGroupBox" Header="{Binding DisplayName}">
+                        <GroupBox.Resources>
+                            <DataTemplate DataType="{x:Type mods:ModComponent}">
+                                <RadioButton x:Name="ComponentRadioButton" Content="{Binding DisplayName}" IsChecked="{Binding IsEnabled, Mode=TwoWay}">
+                                    <e:Interaction.Behaviors>
+                                        <beh:CheckBoxComponentMouseOverBehavior/>
+                                    </e:Interaction.Behaviors>
+                                </RadioButton>
+                            </DataTemplate>
+                        </GroupBox.Resources>
+                        <ListView ItemsSource="{Binding SubComponents}" ItemContainerStyle="{DynamicResource ModConfiguratorComponentsListViewItemStyle}"/>
+                    </GroupBox>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type mods:ModComponent}">
+                    <CheckBox x:Name="ComponentCheckBox" Content="{Binding DisplayName}" IsChecked="{Binding IsEnabled, Mode=TwoWay}">
+                        <e:Interaction.Behaviors>
+                            <beh:CheckBoxComponentMouseOverBehavior/>
+                        </e:Interaction.Behaviors>
+                    </CheckBox>
+                </DataTemplate>
+            </ListView.Resources>
         </ListView>
         <ScrollViewer x:Name="CustomInstallerContentPaneScrollViewer" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
             <ui:AttachedProperties.CornerCurves>

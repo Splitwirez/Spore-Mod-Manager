@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
@@ -11,10 +12,8 @@ namespace SporeMods.Core.Mods
     /// and a description. Components are defined hierarchically, through its 'Parent'  and 'SubComponents' properties.
     /// The class also has a list of files that are used by the component.
     /// </summary>
-    public abstract class BaseModComponent
+    public abstract class BaseModComponent : INotifyPropertyChanged
     {
-        static bool AUTO_DISABLE_RADIO_GROUPS = true;
-
         public BaseModComponent(ModIdentity identity, string uniqueTag)
         {
             Unique = uniqueTag;
@@ -65,36 +64,45 @@ namespace SporeMods.Core.Mods
 
         public bool IsEnabled
         {
-            get
-            {
-                if (Identity.ParentMod.Configuration.UserSetComponents.TryGetValue(Unique, out bool isEnabled))
-                    return isEnabled;
-                else
-                    return EnabledByDefault;
-                //return Identity.ParentMod.Configuration.IsComponentEnabled(this);
-            }
+            get => GetIsEnabled();
             set
             {
-                if (Identity.ParentMod.Configuration.UserSetComponents.ContainsKey(Unique))
-                    Identity.ParentMod.Configuration.UserSetComponents.Remove(Unique);
-
-                Identity.ParentMod.Configuration.UserSetComponents.Add(Unique, value);
-
-                //MessageDisplay.ShowMessageBox("Component " + Unique + " set to " + value);
-                if (AUTO_DISABLE_RADIO_GROUPS && IsInGroup && value)
-                {
-                    AUTO_DISABLE_RADIO_GROUPS = false;
-                    foreach (BaseModComponent oth in Parent.SubComponents.Where(x => x != this))
-                    {
-                        oth.IsEnabled = false;
-                    }
-                    AUTO_DISABLE_RADIO_GROUPS = true;
-                }
-                /*if (value)
-                    Identity.ParentMod.Configuration.EnabledComponents.Add(Unique);
-                else
-                    Identity.ParentMod.Configuration.EnabledComponents.Remove(Unique);*/
+                SetIsEnabled(value);
+                NotifyPropertyChanged(nameof(IsEnabled));
             }
         }
+
+        protected virtual bool GetIsEnabled()
+        {
+            return true;
+        }
+        
+        
+        protected virtual void SetIsEnabled(bool value)
+        {
+        }
+
+        public static event EventHandler<ModComponentIsEnabledChangedEventArgs> ModComponentIsEnabledChanged;
+
+
+        protected void RaiseIsEnabledChanged()
+        {
+            ModComponentIsEnabledChanged?.Invoke(this, new ModComponentIsEnabledChangedEventArgs(this));
+        }
+
+
+        protected void NotifyPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+    }
+
+    public class ModComponentIsEnabledChangedEventArgs : EventArgs
+    {
+        public BaseModComponent Component = null;
+
+        public ModComponentIsEnabledChangedEventArgs(BaseModComponent component) => Component = component;
     }
 }

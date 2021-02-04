@@ -73,6 +73,7 @@
     <Compile Include="Mods\ModComponent.cs" />
     <Compile Include="Mods\ModConfiguration.cs" />
     <Compile Include="Mods\ModIdentity.cs" />
+    <Compile Include="Mods\MutualExclusiveComponentGroup.cs" />
     <Compile Include="Mods\XmlModIdentityV1.cs" />
     <Compile Include="ModInstallation.cs" />
     <Compile Include="ModsManager.cs" />

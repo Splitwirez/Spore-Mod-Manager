@@ -17,6 +17,25 @@ namespace SporeMods.Core.Mods
         {
         }
 
+        protected override bool GetIsEnabled()
+        {
+            if (Identity.ParentMod.Configuration.UserSetComponents.TryGetValue(Unique, out bool isEnabled))
+                return isEnabled;
+            else
+                return EnabledByDefault;
+        }
+
+
+        protected override void SetIsEnabled(bool value)
+        {
+            if (Identity.ParentMod.Configuration.UserSetComponents.ContainsKey(Unique))
+                Identity.ParentMod.Configuration.UserSetComponents.Remove(Unique);
+
+            Identity.ParentMod.Configuration.UserSetComponents.Add(Unique, value);
+
+            RaiseIsEnabledChanged();
+        }
+
         /// <summary>
         /// Controls the position of an image associated with the component's description. 
         /// Specify an image by including it in your .sporemod with a filename matching the component's unique. 

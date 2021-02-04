@@ -47,13 +47,17 @@ namespace SporeMods.Core.Mods
             return output;
         }
 
-        static ModComponent ParseModComponent(ModIdentity identity, XElement node)
+        static BaseModComponent ParseModComponent(ModIdentity identity, XElement node)
         {
             var uniqueAttr = node.Attribute("unique");
             if (uniqueAttr == null)
                 throw new FormatException("A component must have a 'unique' attribute");
 
-            var component = new ModComponent(identity, uniqueAttr.Value);
+            BaseModComponent component = null;
+            if (node.Name.LocalName.ToLowerInvariant() == "componentgroup")
+                component = new MutualExclusiveComponentGroup(identity, uniqueAttr.Value);
+            else
+                component = new ModComponent(identity, uniqueAttr.Value);
 
             var displayAttr = node.Attribute("displayName");
             if (displayAttr != null)
@@ -97,10 +101,13 @@ namespace SporeMods.Core.Mods
             var imagePlacement = node.Attribute("imagePlacement");
             if (imagePlacement != null)
             {
-                if (Enum.TryParse(imagePlacement.Value, out ImagePlacementType placement))
-                    component.ImagePlacement = placement;
-                else
-                    throw new FormatException("Component " + component.Unique + ": '" + imagePlacement.Value + "' is not a valid value for 'imagePlacement'");
+                if (component is ModComponent cmpnt)
+                {
+                    if (Enum.TryParse(imagePlacement.Value, out ImagePlacementType placement))
+                        cmpnt.ImagePlacement = placement;
+                    else
+                        throw new FormatException("Component " + component.Unique + ": '" + imagePlacement.Value + "' is not a valid value for 'imagePlacement'");
+                }
             }
 
             return component;

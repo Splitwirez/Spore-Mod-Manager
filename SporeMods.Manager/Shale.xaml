@@ -741,50 +741,8 @@
         </Setter>
     </Style>
 
-    <DataTemplate x:Name="ModConfiguratorComponentTemplate" DataType="{x:Type mods:ModComponent}">
-        <Grid>
-            <Grid x:Name="BoxGrid" Visibility="Collapsed">
-                <RadioButton x:Name="ComponentRadioButton" Content="{Binding DisplayName}">
-                    <e:Interaction.Behaviors>
-                        <local:CheckBoxComponentMouseOverBehavior/>
-                    </e:Interaction.Behaviors>
-                </RadioButton>
-                <CheckBox x:Name="ComponentCheckBox" Content="{Binding DisplayName}">
-                    <e:Interaction.Behaviors>
-                        <local:CheckBoxComponentMouseOverBehavior/>
-                    </e:Interaction.Behaviors>
-                </CheckBox>
-            </Grid>
-            <GroupBox x:Name="SubComponentsGroupBox" Header="{Binding DisplayName}">
-                <ListView ItemsSource="{Binding SubComponents}" ItemContainerStyle="{DynamicResource ModConfiguratorComponentsListViewItemStyle}" ItemTemplate="{DynamicResource ModConfiguratorComponentTemplate}"/>
-            </GroupBox>
-        </Grid>
-        <DataTemplate.Triggers>
-            <!--DataTrigger Binding="{Binding GroupUnique, Converter={StaticResource StringIsComponentGroupNameConverter}}" Value="False">
-                <Setter TargetName="ComponentCheckBox" Property="IsChecked" Value="{Binding Path=IsEnabled, Mode=TwoWay}"/>
-            </DataTrigger-->
-            <DataTrigger Binding="{Binding IsGroup}" Value="False">
-                <Setter TargetName="SubComponentsGroupBox" Property="Visibility" Value="Collapsed"/>
-                <Setter TargetName="BoxGrid" Property="Visibility" Value="Visible"/>
-            </DataTrigger>
-            <!--DataTrigger Binding="{Binding GroupUnique, Converter={StaticResource StringIsComponentGroupNameConverter}}" Value="True"-->
-            <DataTrigger Binding="{Binding IsInGroup}" Value="False">
-                <Setter TargetName="ComponentCheckBox" Property="IsChecked" Value="{Binding Path=IsEnabled, Mode=TwoWay}"/>
-                <Setter TargetName="ComponentCheckBox" Property="Visibility" Value="Visible"/>
-                <Setter TargetName="ComponentRadioButton" Property="Visibility" Value="Collapsed"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding IsInGroup}" Value="True">
-                <Setter TargetName="ComponentRadioButton" Property="IsChecked" Value="{Binding Path=IsEnabled, Mode=TwoWay}"/>
-                <Setter TargetName="ComponentRadioButton" Property="Visibility" Value="Visible"/>
-                <Setter TargetName="ComponentCheckBox" Property="Visibility" Value="Collapsed"/>
-                <Setter TargetName="ComponentRadioButton" Property="GroupName" Value="{Binding Path=Parent.Unique}"/>
-            </DataTrigger>
-        </DataTemplate.Triggers>
-    </DataTemplate>
-
     <Style x:Key="ModConfiguratorComponentsListViewStyle" TargetType="{x:Type ListView}" BasedOn="{StaticResource {x:Type ListView}}">
         <Setter Property="MinWidth" Value="300"/>
-        <Setter Property="ItemTemplate" Value="{DynamicResource ModConfiguratorComponentTemplate}"/>
         <Setter Property="Margin" Value="0,0,-14,0"/>
         <Setter Property="Panel.ZIndex" Value="999"/>
         <Setter Property="Template">
