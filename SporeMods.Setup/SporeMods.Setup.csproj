@@ -1,13 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop" TreatAsLocalProperty="SelfContained">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
     <AssemblyTitle>SporeMods.Setup</AssemblyTitle>
     <Product>SporeMods.Setup</Product>
     <Copyright>Copyright © 2021</Copyright>
     <AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath>
+    <AssemblyName>SporeModManagerSetup</AssemblyName>
+    <!--RuntimeIdentifier>win-x86</RuntimeIdentifier>
+    <-SelfContained>True</SelfContained>
+    <PublishSingleFile>True</PublishSingleFile>
+    <PublishReadyToRun>true</PublishReadyToRun-->
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -18,111 +24,9 @@
     <OutputPath>..\setup\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
+    <EmbeddedResource Include="..\output\$(Configuration)\**" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\output\$(Configuration)\Spore Mod Launcher.exe.config">
-      <Link>Spore Mod Launcher.exe.config</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\output\$(Configuration)\Spore Mod Manager.exe.config">
-      <Link>Spore Mod Manager.exe.config</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\output\$(Configuration)\SporeMods.CommonUI.dll.config">
-      <Link>SporeMods.CommonUI.dll.config</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\output\$(Configuration)\SporeMods.Core.dll.config">
-      <Link>SporeMods.Core.dll.config</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\output\$(Configuration)\SporeMods.DragServant.exe.config">
-      <Link>SporeMods.DragServant.exe.config</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\output\$(Configuration)\SporeMods.KitImporter.exe.config">
-      <Link>SporeMods.KitImporter.exe.config</Link>
-    </EmbeddedResource>
-    <None Include="app.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\output\$(Configuration)\ColorMine.dll">
-      <Link>ColorMine.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\output\$(Configuration)\Ionic.Zip.dll">
-      <Link>Ionic.Zip.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\output\$(Configuration)\Mechanism.Wpf.Core.dll">
-      <Link>Mechanism.Wpf.Core.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\output\$(Configuration)\Mechanism.Wpf.Core.pdb">
-      <Link>Mechanism.Wpf.Core.pdb</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\output\$(Configuration)\Mechanism.Wpf.Styles.Shale.dll">
-      <Link>Mechanism.Wpf.Styles.Shale.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\output\$(Configuration)\Mechanism.Wpf.Styles.Shale.pdb">
-      <Link>Mechanism.Wpf.Styles.Shale.pdb</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\output\$(Configuration)\Newtonsoft.Json.dll">
-      <Link>Newtonsoft.Json.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\output\$(Configuration)\Newtonsoft.Json.xml">
-      <Link>Newtonsoft.Json.xml</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\output\$(Configuration)\Spore Mod Launcher.exe">
-      <Link>Spore Mod Launcher.exe</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\output\$(Configuration)\Spore Mod Launcher.pdb">
-      <Link>Spore Mod Launcher.pdb</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\output\$(Configuration)\Spore Mod Manager.exe">
-      <Link>Spore Mod Manager.exe</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\output\$(Configuration)\Spore Mod Manager.pdb">
-      <Link>Spore Mod Manager.pdb</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\output\$(Configuration)\SporeMods.CommonUI.dll">
-      <Link>SporeMods.CommonUI.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\output\$(Configuration)\SporeMods.CommonUI.pdb">
-      <Link>SporeMods.CommonUI.pdb</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\output\$(Configuration)\SporeMods.Core.dll">
-      <Link>SporeMods.Core.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\output\$(Configuration)\SporeMods.Core.pdb">
-      <Link>SporeMods.Core.pdb</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\output\$(Configuration)\SporeMods.DragServant.exe">
-      <Link>SporeMods.DragServant.exe</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\output\$(Configuration)\SporeMods.DragServant.pdb">
-      <Link>SporeMods.DragServant.pdb</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\output\$(Configuration)\System.Windows.Interactivity.dll">
-      <Link>System.Windows.Interactivity.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\output\$(Configuration)\WPFTextBoxAutoComplete.dll">
-      <Link>WPFTextBoxAutoComplete.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\output\$(Configuration)\WPFTextBoxAutoComplete.pdb">
-      <Link>WPFTextBoxAutoComplete.pdb</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\output\$(Configuration)\SporeMods.KitImporter.exe">
-      <Link>SporeMods.KitImporter.exe</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\output\$(Configuration)\SporeMods.KitImporter.pdb">
-      <Link>SporeMods.KitImporter.pdb</Link>
-    </EmbeddedResource>
+    <PackageReference Include="System.IO.FileSystem.AccessControl" Version="5.0.0" />
   </ItemGroup>
 </Project>

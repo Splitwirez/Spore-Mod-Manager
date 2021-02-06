@@ -19,22 +19,6 @@
     <OutputPath>..\output\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </ApplicationDefinition>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <None Include="app.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Mechanism-for-WPF\Mechanism.Wpf.Core\Mechanism.Wpf.Core.csproj">
       <Project>{727669ac-3f83-41e1-aefd-13a8f0c1fdad}</Project>
       <Name>Mechanism.Wpf.Core</Name>
