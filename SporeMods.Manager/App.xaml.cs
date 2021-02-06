@@ -91,13 +91,16 @@ namespace SporeMods.Manager
                         /*foreach (Process proc in Process.GetProcessesByName("SporeMods.DragServant").ToList())
                             proc.Kill();*/
                         string parentDirectoryPath = Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).ToString();
-                        Process p = Process.Start(Path.Combine(parentDirectoryPath, "SporeMods.DragServant.exe"), Process.GetCurrentProcess().Id.ToString());
+                        Process p = Process.Start(new ProcessStartInfo(Path.Combine(parentDirectoryPath, "SporeMods.DragServant.exe"), Process.GetCurrentProcess().Id.ToString())
+                        {
+                            UseShellExecute = true
+                        });
                         string args = Permissions.GetProcessCommandLineArgs();
                         args += " " + DragServantIdArg + p.Id;
                         if (!Environment.GetCommandLineArgs().Contains(UpdaterService.IgnoreUpdatesArg)) args += " " + UpdaterService.IgnoreUpdatesArg;
                         try
                         {
-                            while (p.MainWindowHandle == IntPtr.Zero) { }
+                            //while (p.MainWindowHandle == IntPtr.Zero) { }
 
                             Permissions.RerunAsAdministrator(args);
                         }
@@ -134,7 +137,10 @@ namespace SporeMods.Manager
                         }
                         else if ((!Permissions.IsAtleastWindowsVista()) && (DragServantProcess == null))
                         {
-                            DragServantProcess = Process.Start(Path.Combine(Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).ToString(), "SporeMods.DragServant.exe"));
+                            DragServantProcess = Process.Start(new ProcessStartInfo(Path.Combine(Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).ToString(), "SporeMods.DragServant.exe"))
+                            {
+                                UseShellExecute = true
+                            });
                         }
 
                         if (proceed)

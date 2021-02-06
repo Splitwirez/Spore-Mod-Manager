@@ -156,7 +156,10 @@ namespace SporeMods.KitImporter
                 if (result == MessageBoxResult.Cancel)
                     throw new OperationCanceledException();
 
-                var process = Process.Start(Path.Combine(kitPath, "Spore ModAPI Easy Uninstaller.exe"));
+                var process = Process.Start(new ProcessStartInfo(Path.Combine(kitPath, "Spore ModAPI Easy Uninstaller.exe"))
+                {
+                    UseShellExecute = true
+                });
                 process.WaitForExit();
 
                 return EnsureNoModsWithExeInstallers(kitPath, mods);

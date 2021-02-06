@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
+//using System.Runtime.Remoting.Messaging;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Text;
@@ -100,6 +100,7 @@ namespace SporeMods.Core
             Process process = null;
             ProcessStartInfo startInfo = new ProcessStartInfo(exeName, args)
             {
+                UseShellExecute = true,
                 Verb = "runas"
             };
             /*try
@@ -148,11 +149,12 @@ namespace SporeMods.Core
         {
             if (Permissions.IsAdministrator() && File.Exists(filePath))
             {
-                var security = File.GetAccessControl(filePath);
-                security.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), 
+                //var security = File.GetAccessControl(filePath);
+                var sec = new FileSecurity(filePath, AccessControlSections.All);
+                sec.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), 
                                                              FileSystemRights.FullControl, InheritanceFlags.None,
                                                              PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
-                File.SetAccessControl(filePath, security);
+                
                 return true;
 
                 //string parentPath = Path.GetDirectoryName(filePath);

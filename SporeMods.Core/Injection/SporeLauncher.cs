@@ -15,7 +15,10 @@ namespace SporeMods.Core.Injection
     {
         public static void StartLauncher()
         {
-            Process.Start(Path.Combine(Settings.ManagerInstallLocationPath, "Spore Mod Launcher.exe"));
+            Process.Start(new ProcessStartInfo(Path.Combine(Settings.ManagerInstallLocationPath, "Spore Mod Launcher.exe"))
+            {
+                UseShellExecute = true
+            });
         }
 
         public static int CaptionHeight = -1;
@@ -27,7 +30,10 @@ namespace SporeMods.Core.Injection
 
         public static void OpenDarkInjectionPage()
         {
-            Process.Start(DarkInjectionPageURL);
+            Process.Start(new ProcessStartInfo(DarkInjectionPageURL)
+            {
+                UseShellExecute = true
+            });
         }
 
         //private string SporebinPath;
@@ -101,6 +107,7 @@ namespace SporeMods.Core.Injection
                                     Path.Combine(Settings.ManagerInstallLocationPath, "Spore Mod Launcher.exe"), 
                                     "--modapifix " + Directory.GetParent(_executablePath).FullName)
                                 {
+                                    UseShellExecute = true,
                                     Verb = "runas"
                                 };
                                 var p = Process.Start(startInfo);
@@ -298,7 +305,10 @@ namespace SporeMods.Core.Injection
             string sporeAppName = "SporeApp";
             string steamPath = SteamInfo.SteamPath;
             steamPath = Path.Combine(steamPath, "Steam.exe");
-            Process steamProcess = Process.Start(steamPath, "-applaunch " + SteamInfo.GalacticAdventuresSteamID.ToString());
+            Process steamProcess = Process.Start(new ProcessStartInfo(steamPath, "-applaunch " + SteamInfo.GalacticAdventuresSteamID.ToString())
+            {
+                UseShellExecute = true
+            });
             /*ProcessInfo info = new ProcessInfo("SporeApp.exe");
 
             info.Started += (sneder, args) =>

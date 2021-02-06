@@ -8,7 +8,7 @@
  * Date			: 26-oct-2005
  * https://www.codeproject.com/Articles/12138/Process-Information-and-Notifications-using-WMI
  ***********************************************************************************************/
-using System;
+/*using System;
 using System.Data;
 using System.Management;
 
@@ -64,7 +64,7 @@ namespace SporeMods.Core.Injection
 			string condition = "";
 			string[] selectedProperties = new string[] {"Name", "ProcessId", "Caption", "ExecutablePath"};
 			SelectQuery query = new SelectQuery(className, condition, selectedProperties);
-			*/
+			*
 
             // The second way of constructing a query
             string queryString =
@@ -123,4 +123,4 @@ namespace SporeMods.Core.Injection
         }
 
     }
-}
+}*/
