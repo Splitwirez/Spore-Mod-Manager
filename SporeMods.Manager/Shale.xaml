@@ -1250,7 +1250,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="CreditsListViewStyle" TargetType="{x:Type ListView}">
+    <Style x:Key="CreditsItemsControlStyle" TargetType="{x:Type ItemsControl}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
@@ -1261,27 +1261,69 @@
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="ListView">
+                <ControlTemplate TargetType="ItemsControl">
                     <ItemsPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}"/>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsGrouping" Value="True">
-                            <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate DataType="{x:Type local:CreditsItem}">
-                    <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
-                        <TextBlock Foreground="{DynamicResource WindowForegroundBrush}" Text="{Binding Name}" FontSize="16" FontWeight="Bold" HorizontalAlignment="Left" TextAlignment="Left" />
-                        <TextBlock Foreground="{DynamicResource WindowForegroundBrush}" Text="{Binding Contribution}" TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Left"/>
-                        <StackPanel x:Name="LinkAreaStackPanel" Orientation="Horizontal" Opacity="0.5">
-                            <TextBlock Foreground="{DynamicResource WindowForegroundBrush}" Text="Click to visit " TextWrapping="NoWrap" HorizontalAlignment="Left" TextAlignment="Left"/>
-                            <TextBlock Foreground="{DynamicResource WindowForegroundBrush}" Text="{Binding Link}" TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Left"/>
+                    <Button x:Name="TemplateRootButton" Style="{DynamicResource CreditsButtonStyle}" DataContext="{Binding}">
+                        <e:Interaction.Behaviors>
+                            <local:OpenCreditsLinkBehavior/>
+                        </e:Interaction.Behaviors>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
+                            <TextBlock Foreground="{DynamicResource WindowForegroundBrush}" Text="{Binding Name}" FontSize="16" FontWeight="Bold" HorizontalAlignment="Left" TextAlignment="Left" Margin="0,0,0,4"/>
+                            <TextBlock Foreground="{DynamicResource WindowForegroundBrush}" Text="{Binding Contribution}" TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Left" Margin="4"/>
+                            <StackPanel x:Name="LinkAreaStackPanel" Orientation="Horizontal" Opacity="0.5" Margin="4,0">
+                                <TextBlock Foreground="{DynamicResource WindowForegroundBrush}" Text="Click to visit " TextWrapping="NoWrap" HorizontalAlignment="Left" TextAlignment="Left"/>
+                                <TextBlock Foreground="{DynamicResource WindowForegroundBrush}" Text="{Binding Link}" TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Left"/>
+                            </StackPanel>
                         </StackPanel>
-                        <Rectangle HorizontalAlignment="Stretch" Margin="40,5,40,0" Height="5">
+                    </Button>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding HasLink}" Value="False">
+                            <Setter TargetName="LinkAreaStackPanel" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="TemplateRootButton" Property="IsHitTestVisible" Value="False"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="CreditsButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <StackPanel Orientation="Vertical">
+                        <Grid>
+                            <Border x:Name="HoverBackground" CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonHoverBorderBrush}" BorderThickness="1" Opacity="0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonHoverBackgroundGradientStops}"/>
+                                </Border.Background>
+                                <Border x:Name="HoverInnerBackground" CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,2,2,2;0,0,0,0'}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonHoverSecondaryBackgroundGradientStops}"/>
+                                    </Border.Background>
+                                </Border>
+                            </Border>
+                            <Border x:Name="PressedBackground" CornerRadius="{Binding CornerRadius, ElementName=HoverBackground}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonPressedBorderBrush}" BorderThickness="1" Opacity="0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedBackgroundGradientStops}"/>
+                                </Border.Background>
+                                <Border CornerRadius="{Binding CornerRadius, ElementName=HoverInnerBackground}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedSecondaryBackgroundGradientStops}"/>
+                                    </Border.Background>
+                                </Border>
+                            </Border>
+                            <ContentPresenter Margin="{TemplateBinding Padding}"/>
+                        </Grid>
+                        <Rectangle HorizontalAlignment="Stretch" Margin="40,0,40,5" Height="5">
                             <Rectangle.Fill>
                                 <LinearGradientBrush StartPoint="0,1" EndPoint="0,0" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>
                             </Rectangle.Fill>
@@ -1290,12 +1332,41 @@
                             </Rectangle.OpacityMask>
                         </Rectangle>
                     </StackPanel>
-                    <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding Link}" Value="{x:Static sys:String.Empty}">
-                            <Setter TargetName="LinkAreaStackPanel" Property="Visibility" Value="Collapsed"/>
-                        </DataTrigger>
-                    </DataTemplate.Triggers>
-                </DataTemplate>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="HoverBackground" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.0625" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="HoverBackground" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.5" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PressedBackground" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.125" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PressedBackground" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.5" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>

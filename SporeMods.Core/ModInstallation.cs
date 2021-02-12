@@ -237,16 +237,25 @@ namespace SporeMods.Core
                         IsProgressing = true
                     };
 
-                    ModsManager.AddMod(mod);
-                    //mod = await ManagedMods.Instance.GetModConfigurationAsync(noExtensionName);
-                    //mod.FileCount = 2;
-
                     Task task = new Task(() =>
                     {
-                        File.Copy(path, Path.Combine(dir, name));
+                        var prevMod = ModsManager.GetManagedMod(noExtensionName);
+                        if (prevMod != null)
+                        {
+                            int prevModIndex = ModsManager.InstalledMods.IndexOf(prevMod);
+                            ModsManager.RemoveMod(prevMod);
+                            ModsManager.InsertMod(prevModIndex, mod);
+                        }
+                        else
+                            ModsManager.AddMod(mod);
+                        //mod = await ManagedMods.Instance.GetModConfigurationAsync(noExtensionName);
+                        //mod.FileCount = 2;
+
+                        FileWrite.SafeCopyFile(path, Path.Combine(dir, name));
                     });
                     task.Start();
                     await task;
+
                     ModsManager.RemoveMatchingManuallyInstalledFile(name, ComponentGameDir.GalacticAdventures);
                     mod.Progress++;
 

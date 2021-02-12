@@ -311,7 +311,7 @@
                                 </Grid>
                             </GroupBox>
                             <GroupBox x:Name="CreditsGroupBox">
-                                <ListView x:Name="CreditsListView" Style="{DynamicResource CreditsListViewStyle}" ItemsSource="{Binding Credits}" SelectionChanged="CreditsListView_SelectionChanged"/>
+                                <ItemsControl x:Name="CreditsItemsControl" Style="{DynamicResource CreditsItemsControlStyle}" ItemsSource="{Binding Credits}"/>
                             </GroupBox>
                         </StackPanel>
                     </ScrollViewer>

@@ -60,20 +60,25 @@ namespace SporeMods.Manager
         public static readonly DependencyProperty CreditsProperty =
         DependencyProperty.Register(nameof(Credits), typeof(ObservableCollection<CreditsItem>), typeof(ManagerContent), new PropertyMetadata(new ObservableCollection<CreditsItem>()
         {
-            new CreditsItem("rob55rod", "Designed and (mostly) built the Spore Mod Manager."),
+            new CreditsItem("Splitwirez (formerly rob55rod)", "Designed and (mostly) built the Spore Mod Manager.", @"https://github.com/Splitwirez/"),
             new CreditsItem("emd4600", "Started the Spore ModAPI Project, created the original Spore ModAPI Launcher Kit from which the Spore Mod Manager was derived, and helped build the Spore Mod Manager to be as robust as possible.", @"https://github.com/emd4600/"),
-            new CreditsItem("reflectronic", "Provided significant guidance and assistance with internal structure and asynchronous behaviour.", @"https://github.com/reflectronic"),
-            new CreditsItem("DotNetZip (formerly Ionic.Zip)", "Zip archive library used throughout the Spore Mod Manager.", @"https://www.nuget.org/packages/Ionic.Zip"),
+            new CreditsItem("reflectronic", "Provided significant guidance and assistance with internal structure and asynchronous behaviour.", @"https://github.com/reflectronic/"),
+            new CreditsItem("DotNetZip (formerly Ionic.Zip)", "Zip archive library used throughout the Spore Mod Manager.", @"https://www.nuget.org/packages/DotNetZip/"),
             new CreditsItem("Newtonsoft", "Made the library to read JSON data.", @"https://www.newtonsoft.com/json"),
             new CreditsItem("cederenescio", "Provided substantial creative influence."),
-            new CreditsItem("ThePixelMouse", "Assisted substantially with figuring out how to make WINE cooperate."),
+            new CreditsItem("PricklySaguaro/ThePixelMouse", "Found a way to run the Spore ModAPI Launcher Kit under WINE, assisted with figuring out how to make WINE cooperate.", @"https://github.com/PricklySaguaro"),
             new CreditsItem("Huskky", "Assisted substantially with figuring out how to make WINE cooperate."),
-            new CreditsItem("Darhagonable", "Provided creative input, helped confirm the feasibility of supporting WINE setups on Linux.", @"http://youtube.com/Darhagonable"),
+            new CreditsItem("Darhagonable", "Provided creative input, helped confirm the feasibility of supporting WINE setups on Linux.", @"https://www.youtube.com/user/darhagonable"),
             new CreditsItem("KloxEdge", "Testing"),
             new CreditsItem("Liskomato", "Testing"),
             new CreditsItem("ChocIce75", "Testing"),
             new CreditsItem("TheRublixCube", "Testing"),
-            new CreditsItem("Deoxys_0", "Testing")
+            new CreditsItem("Deoxys_0", "Testing"),
+            new CreditsItem("Psi", "Testing"),
+            new CreditsItem("Ivy", "Testing"),
+            new CreditsItem("bandithedoge", "WINE regression testing", @"http://bandithedoge.com/"),
+            new CreditsItem("Masaochism", "Testing"),
+            new CreditsItem("Magic_Gonads", "Testing")
         }));
 
         FileSystemWatcher _dragWatcher = new FileSystemWatcher(Settings.TempFolderPath)
@@ -1576,7 +1581,7 @@ namespace SporeMods.Manager
 
         private void CreditsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (CreditsListView.SelectedItem != null)
+            /*if (CreditsListView.SelectedItem != null)
             {
                 try
                 {
@@ -1588,7 +1593,7 @@ namespace SporeMods.Manager
                 }
 
                 CreditsListView.SelectedItem = null;
-            }
+            }*/
         }
 
         private void HelpThreadButton_Click(object sender, RoutedEventArgs e)
