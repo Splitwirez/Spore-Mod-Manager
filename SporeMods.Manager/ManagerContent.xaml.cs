@@ -28,7 +28,7 @@ using SporeMods.Core.Mods;
 using System.Windows.Controls.Primitives;
 using static SporeMods.Core.Injection.SporeLauncher;
 using SporeMods.Core.Injection;
-using System.Runtime.Remoting.Messaging;
+//using System.Runtime.Remoting.Messaging;
 using SporeMods.Manager.Configurators;
 using FolderBrowserDialog = System.Windows.Forms.FolderBrowserDialog;
 using DialogResult = System.Windows.Forms.DialogResult;

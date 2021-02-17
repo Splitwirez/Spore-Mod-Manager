@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
-using System.Runtime.Remoting.Messaging;
+//using System.Runtime.Remoting.Messaging;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Text;
@@ -136,7 +136,10 @@ namespace SporeMods.Setup
 
 
                     if ((MgrExePath != null) && File.Exists(MgrExePath))
-                        Process.Start(MgrExePath);
+                        Process.Start(new ProcessStartInfo(MgrExePath)
+                        {
+                            UseShellExecute = true
+                        });
 
                     /*else
                         MessageBox.Show("Spore Mod Manager install location was not returned. You should never see this message, so if you somehow do see it, inform Splitwirez or emd immediately.");*/
@@ -296,6 +299,7 @@ namespace SporeMods.Setup
             Process process = null;
             ProcessStartInfo startInfo = new ProcessStartInfo(exeName, args)
             {
+                UseShellExecute = true,
                 Verb = "runas"
             };
             /*try
@@ -344,11 +348,12 @@ namespace SporeMods.Setup
         {
             if (Permissions.IsAdministrator() && File.Exists(filePath))
             {
-                var security = File.GetAccessControl(filePath);
-                security.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null),
+                //var security = File.GetAccessControl(filePath);
+                var sec = new FileSecurity(filePath, AccessControlSections.All);
+                sec.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null),
                                                              FileSystemRights.FullControl, InheritanceFlags.None,
                                                              PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
-                File.SetAccessControl(filePath, security);
+
                 return true;
 
                 //string parentPath = Path.GetDirectoryName(filePath);

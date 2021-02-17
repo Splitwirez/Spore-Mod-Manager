@@ -307,7 +307,10 @@ namespace SporeMods.Setup
 
                     try
                     {
-                        Process process = Process.Start(importerPath);
+                        Process process = Process.Start(new ProcessStartInfo(importerPath)
+                        {
+                            UseShellExecute = true
+                        });
                         process.WaitForExit();
                     }
                     catch (Win32Exception w32ex)

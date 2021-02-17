@@ -30,7 +30,10 @@ namespace SporeMods.Core
             string parentDirectoryPath = Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).ToString();
             if (File.Exists(forceLkImportPath))
             {
-                Process process = Process.Start(Path.Combine(parentDirectoryPath, "SporeMods.KitImporter.exe"), "\"--relaunch:" + Process.GetCurrentProcess().MainModule.FileName + "\"");
+                Process process = Process.Start(new ProcessStartInfo(Path.Combine(parentDirectoryPath, "SporeMods.KitImporter.exe"), "\"--relaunch:" + Process.GetCurrentProcess().MainModule.FileName + "\"")
+                {
+                    UseShellExecute = true
+                });
                 if (exitCaller)
                     Process.GetCurrentProcess().Kill();
                 

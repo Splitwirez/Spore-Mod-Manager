@@ -39,7 +39,10 @@ namespace SporeMods.KitImporter
                             string probablyPath = arg.Substring("--relaunch:".Length);
                             if (File.Exists(probablyPath))
                             {
-                                Process.Start(probablyPath);
+                                Process.Start(new ProcessStartInfo(probablyPath)
+                                {
+                                    UseShellExecute = true
+                                });
                             }
                         }
                     }
