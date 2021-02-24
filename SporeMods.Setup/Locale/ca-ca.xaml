@@ -49,14 +49,14 @@
     <sys:String x:Key="InstallModeAdvancedDesc">Configura la instal·lació del Spore Mod Manager al teu gust. Hi ha més passos, només per usuaris avançats.</sys:String>
 
     <sys:String x:Key="InstallToWhere">Si us plau especifica la carpeta on s'hauria d'instal·lar el Spore Mod Manager.</sys:String>
-    <sys:String x:Key="CannotInstallToUserSpecificLocation">Cannot install the Spore Mod Manager to a user-specific location. (LOCALIZATION PENDING)</sys:String>
-    <sys:String x:Key="CannotInstallToExistingFolder">Cannot install the Spore Mod Manager to a pre-existing folder. (LOCALIZATION PENDING)</sys:String>
+    <sys:String x:Key="CannotInstallToUserSpecificLocation">No es pot instal·lar el Spore Mod Manager en una ruta que depengui de l'usuari.</sys:String>
+    <sys:String x:Key="CannotInstallToExistingFolder">No es pot instal·lar el Spore Mod Manager en una carpeta que ja existeixi.</sys:String>
 
     <sys:String x:Key="StoreConfigWhere">Si us plau especifica la carpeta on el Spore Mod Manager hauria de guardar informació adicional, com mods i configuració.</sys:String>
-    <sys:String x:Key="CannotStoreConfigInUserSpecificLocation">The Spore Mod Manager cannot store additional information in a user-specific location. (LOCALIZATION PENDING)</sys:String>
-    <sys:String x:Key="CannotStoreConfigInExistingFolder">The Spore Mod Manager cannot store additional information in a pre-existing folder. (LOCALIZATION PENDING)</sys:String>
+    <sys:String x:Key="CannotStoreConfigInUserSpecificLocation">El Spore Mod Manager no pot guardar informació addicional en una ruta que depengui de l'usuari.</sys:String>
+    <sys:String x:Key="CannotStoreConfigInExistingFolder">El Spore Mod Manager no pot guardar informació addicional en una carpeta que ja existeixi.</sys:String>
 
-    <sys:String x:Key="CreateDesktopShortcuts">Create shortcuts to the Spore Mod Manager on the desktop (LOCALIZATION PENDING)</sys:String>
+    <sys:String x:Key="CreateDesktopShortcuts">Crear accessos directes al Spore Mod Manager a l'escriptori.</sys:String>
 
 
 
