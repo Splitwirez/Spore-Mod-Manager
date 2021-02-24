@@ -78,7 +78,7 @@ namespace SporeMods.Manager
             new CreditsItem("Ivy", "Testing"),
             new CreditsItem("bandithedoge", "WINE regression testing", @"http://bandithedoge.com/"),
             new CreditsItem("Masaochism", "Testing"),
-            new CreditsItem("Magic_Gonads", "Testing")
+            new CreditsItem("Magic Gonads", "Testing", @"https://github.com/MagicGonads")
         }));
 
         FileSystemWatcher _dragWatcher = new FileSystemWatcher(Settings.TempFolderPath)

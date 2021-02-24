@@ -99,7 +99,7 @@
         </DockPanel>
         <DockPanel x:Name="SelectInstallPathPage" Visibility="Collapsed">
             <Button x:Name="SelectInstallPathNextButton" DockPanel.Dock="Bottom" Click="SelectInstallPathNextButton_Click" Content="{DynamicResource Next}"/>
-            <UniformGrid Columns="1" Margin="20">
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="20">
                 <TextBlock VerticalAlignment="Center" Text="{DynamicResource InstallToWhere}"/>
                 <Border x:Name="SelectInstallPathBadPathBorder" BorderBrush="Red" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                     <DockPanel HorizontalAlignment="Stretch">
@@ -109,12 +109,13 @@
                         <TextBox x:Name="SelectInstallPathTextBox" TextChanged="SelectInstallPathTextBox_TextChanged"/>
                     </DockPanel>
                 </Border>
-            </UniformGrid>
+                <CheckBox x:Name="CreateDesktopShortcutsCheckBox" Content="{DynamicResource CreateDesktopShortcuts}" IsChecked="True"/>
+            </StackPanel>
         </DockPanel>
         <DockPanel x:Name="SelectStoragePathPage" Visibility="Collapsed">
             <Button x:Name="SelectStoragePathNextButton" DockPanel.Dock="Bottom" Click="SelectStoragePathNextButton_Click" Content="{DynamicResource Next}"/>
-            <UniformGrid Columns="1" Margin="20">
-                <TextBlock VerticalAlignment="Center"></TextBlock>
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="20">
+                <TextBlock VerticalAlignment="Center" Text="{DynamicResource StoreConfigWhere}"/>
                 <Border x:Name="SelectStoragePathBadPathBorder" BorderBrush="Red" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                     <DockPanel HorizontalAlignment="Stretch">
                         <TextBlock DockPanel.Dock="Bottom" x:Name="SelectStoragePathError" Foreground="Red"/>
@@ -123,7 +124,7 @@
                         <TextBox x:Name="SelectStoragePathTextBox" TextChanged="SelectStoragePathTextBox_TextChanged"/>
                     </DockPanel>
                 </Border>
-            </UniformGrid>
+            </StackPanel>
         </DockPanel>
         <Grid x:Name="InstallProgressPage" Visibility="Collapsed">
             <ProgressBar x:Name="InstallProgressBar" VerticalAlignment="Center" Margin="20" Height="24"/>

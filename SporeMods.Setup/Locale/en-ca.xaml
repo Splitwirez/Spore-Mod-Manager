@@ -56,6 +56,8 @@
     <sys:String x:Key="CannotStoreConfigInUserSpecificLocation">The Spore Mod Manager cannot store additional information in a user-specific location.</sys:String>
     <sys:String x:Key="CannotStoreConfigInExistingFolder">The Spore Mod Manager cannot store additional information in a pre-existing folder.</sys:String>
 
+    <sys:String x:Key="CreateDesktopShortcuts">Create shortcuts to the Spore Mod Manager on the desktop</sys:String>
+
 
 
     <sys:String x:Key="InstallationComplete">Installation complete!</sys:String>
