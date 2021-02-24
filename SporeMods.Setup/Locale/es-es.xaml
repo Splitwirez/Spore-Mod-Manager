@@ -49,7 +49,15 @@
     <sys:String x:Key="InstallModeAdvancedDesc">Configura tu instalación de Spore Mod Manager a tu gusto. Hay más pasos, solo para usuarios avanzados.</sys:String>
 
     <sys:String x:Key="InstallToWhere">Por favor especifica la ruta donde se debería instalar el Spore Mod Manager.</sys:String>
+    <sys:String x:Key="CannotInstallToUserSpecificLocation">Cannot install the Spore Mod Manager to a user-specific location. (LOCALIZATION PENDING)</sys:String>
+    <sys:String x:Key="CannotInstallToExistingFolder">Cannot install the Spore Mod Manager to a pre-existing folder. (LOCALIZATION PENDING)</sys:String>
+
     <sys:String x:Key="StoreConfigWhere">Por favor especifica la ruta donde el Spore Mod Manager debería guardar información adicional, cómo mods y ajustes.</sys:String>
+    <sys:String x:Key="CannotStoreConfigInUserSpecificLocation">The Spore Mod Manager cannot store additional information in a user-specific location. (LOCALIZATION PENDING)</sys:String>
+    <sys:String x:Key="CannotStoreConfigInExistingFolder">The Spore Mod Manager cannot store additional information in a pre-existing folder. (LOCALIZATION PENDING)</sys:String>
+
+    <sys:String x:Key="CreateDesktopShortcuts">Create shortcuts to the Spore Mod Manager on the desktop (LOCALIZATION PENDING)</sys:String>
+    
 
 
     <sys:String x:Key="InstallationComplete">¡Instalación completa!</sys:String>
