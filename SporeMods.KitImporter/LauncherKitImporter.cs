@@ -570,28 +570,53 @@ namespace SporeMods.KitImporter
             //purge Launcher Kit shortcuts
             try
             {
-                string[] shortcutFilePaths = Directory.EnumerateFiles(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)).ToArray();
-                foreach (string s in shortcutFilePaths)
+                string[] desktopShortcutPaths = Directory.EnumerateFiles(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)).ToArray();
+                foreach (string s in desktopShortcutPaths)
                 {
-                    try
-                    {
-                        string shortcutName = Path.GetFileName(s).ToLowerInvariant();
-                        if (shortcutName.Contains("spore modapi") &&
-                        (
-                        shortcutName.EndsWith(".lnk") ||
-                        shortcutName.EndsWith(".bat")
-                        ))
-                        {
-                            if (File.Exists(s))
-                                File.Delete(s);
-                        }
-                    }
-                    catch { }
+                    YeetShortcutIfLauncherKit(s);
+                }
+
+                string startMenuShortcutFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Programs), "Spore ModAPI Launcher Kit");
+                string[] startMenuShortcutPaths = Directory.EnumerateFiles(startMenuShortcutFolder).ToArray();
+                foreach (string s in startMenuShortcutPaths)
+                {
+                    YeetShortcutIfLauncherKit(s);
+                }
+                if ((Directory.EnumerateFiles(startMenuShortcutFolder).Count() == 0) && (Directory.EnumerateDirectories(startMenuShortcutFolder).Count() == 0))
+                    Directory.Delete(startMenuShortcutFolder);
+            }
+            catch { }
+
+            //purge Launcher Kit locator path
+            try
+            {
+                string locatorFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Spore ModAPI Launcher");
+                if (Directory.Exists(locatorFolderPath))
+                {
+                    Directory.Move(locatorFolderPath, Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ModAPILauncherSMMBKP"));
                 }
             }
             catch { }
 
             return new ImportResult(skippedMods, failedMods, hasRecord, settingsReason);
+        }
+
+        static void YeetShortcutIfLauncherKit(string shortcutPath)
+        {
+            try
+            {
+                string shortcutName = Path.GetFileName(shortcutPath).ToLowerInvariant();
+                if (shortcutName.Contains("spore modapi") &&
+                (
+                shortcutName.EndsWith(".lnk") ||
+                shortcutName.EndsWith(".bat")
+                ))
+                {
+                    if (File.Exists(shortcutPath))
+                        File.Delete(shortcutPath);
+                }
+            }
+            catch { }
         }
     }
 
