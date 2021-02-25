@@ -20,6 +20,7 @@
     <OutputPath>..\output\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+	<PackageReference Include="Antlr4.Runtime.Standard" Version="4.9.1" />
 	<PackageReference Include="DotNetZip" Version="1.15.0" />
 	<PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
 	<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />

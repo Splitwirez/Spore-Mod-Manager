@@ -240,7 +240,7 @@ namespace SporeMods.Core.ArgScript
 			foreach (ColorRGBA value in values) ColorRgba(value);
 			return this;
 		}
-		
+
 		public Writer Vectors(List<float[]> values) {
 			foreach (float[] value in values) Vector(value);
 			return this;
