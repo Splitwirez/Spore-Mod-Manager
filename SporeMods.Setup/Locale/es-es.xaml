@@ -50,14 +50,14 @@
 
     <sys:String x:Key="InstallToWhere">Por favor especifica la ruta donde se debería instalar el Spore Mod Manager.</sys:String>
     <sys:String x:Key="CannotInstallToUserSpecificLocation">No se puede instalar el Spore Mod Manager en una ruta que dependa del usuario.</sys:String>
-    <sys:String x:Key="CannotInstallToExistingFolder">No se puede instalar el Spore Mod Manager en una carpeta que ya exista. (LOCALIZATION PENDING)</sys:String>
+    <sys:String x:Key="CannotInstallToExistingFolder">No se puede instalar el Spore Mod Manager en una carpeta que ya exista.</sys:String>
 
     <sys:String x:Key="StoreConfigWhere">Por favor especifica la ruta donde el Spore Mod Manager debería guardar información adicional, como mods y ajustes.</sys:String>
     <sys:String x:Key="CannotStoreConfigInUserSpecificLocation">El Spore Mod Manager no puede almacenar información adicional en una ruta que dependa del usuario.</sys:String>
+    <sys:String x:Key="CannotStoreConfigInProtectedLocation">The Spore Mod Manager cannot store additional information in a protected location. (LOCALIZATION PENDING)</sys:String>
     <sys:String x:Key="CannotStoreConfigInExistingFolder">El Spore Mod Manager no puede almacenar información adicional en una carpeta que ya exista.</sys:String>
 
     <sys:String x:Key="CreateDesktopShortcuts">Crear accesos directos al Spore Mod Manager en el escritorio</sys:String>
-    
 
 
     <sys:String x:Key="InstallationComplete">¡Instalación completa!</sys:String>

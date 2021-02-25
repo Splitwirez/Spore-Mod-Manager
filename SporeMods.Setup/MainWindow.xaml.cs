@@ -26,7 +26,7 @@ namespace SporeMods.Setup
     /// </summary>
     public partial class MainWindow : Window
     {
-        static string usersDir = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)).Parent.ToString().ToLowerInvariant();
+        static string usersDir = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)).Parent.ToString().ToLowerInvariant() + Path.DirectorySeparatorChar;
         static bool debug = Environment.GetCommandLineArgs().Skip(1).Any(x => x.ToLower() == "--debug");
         static bool isUpdatingModManager = false;
         static bool isUpdatingFromLauncherKit = false;
@@ -199,7 +199,11 @@ namespace SporeMods.Setup
             if (!storageDoesntExistOrIsAlreadyMgrStoragePath)
                 storageDoesntExistOrIsAlreadyMgrStoragePath = File.Exists(Path.Combine(text, "ModManagerSettings.xml"));
 
-            if (storageDoesntExistOrIsAlreadyMgrStoragePath && (!text.ToLowerInvariant().StartsWith(usersDir)))
+            bool inUserDir = text.ToLowerInvariant().StartsWith(usersDir);
+            bool inProgramFiles = text.ToLowerInvariant().StartsWith(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles).ToLowerInvariant() + Path.DirectorySeparatorChar) ||
+                            (Environment.Is64BitOperatingSystem && text.ToLowerInvariant().StartsWith(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86).ToLowerInvariant() + Path.DirectorySeparatorChar));
+
+            if (storageDoesntExistOrIsAlreadyMgrStoragePath && (!inUserDir) && (!inProgramFiles))
             {
                 _storagePath = text;
                 SelectStoragePathBadPathBorder.BorderThickness = new Thickness(0);
@@ -210,8 +214,10 @@ namespace SporeMods.Setup
             {
                 SelectStoragePathBadPathBorder.BorderThickness = new Thickness(1);
                 SelectStoragePathNextButton.IsEnabled = false;
-                if (text.ToLowerInvariant().StartsWith(usersDir))
+                if (inUserDir)
                     SelectStoragePathError.SetResourceReference(TextBlock.TextProperty, "CannotStoreConfigInUserSpecificLocation"); //.Text = "The Spore Mod Manager cannot store additional information in a user-specific location.";
+                else if (inProgramFiles)
+                    SelectStoragePathError.SetResourceReference(TextBlock.TextProperty, "CannotStoreConfigInProtectedLocation");
                 else
                     SelectStoragePathError.SetResourceReference(TextBlock.TextProperty, "CannotStoreConfigInExistingFolder"); //.Text = "The Spore Mod Manager cannot store additional information in a pre-existing folder.";
             }
@@ -372,16 +378,20 @@ namespace SporeMods.Setup
 
                     if (App.MgrExePath == null)
                     {
+                        string redirect = Path.Combine(DEFAULT_STORAGE_PATH, "redirectStorage.txt");
                         if (_storagePath != DEFAULT_STORAGE_PATH)
                         {
                             if (!Directory.Exists(DEFAULT_STORAGE_PATH))
                                 Directory.CreateDirectory(DEFAULT_STORAGE_PATH);
 
-                            string redirect = Path.Combine(DEFAULT_STORAGE_PATH, "redirectStorage.txt");
+
                             File.WriteAllText(redirect, _storagePath);
 
                             Permissions.GrantAccessFile(redirect);
                         }
+                        else if (File.Exists(redirect))
+                            File.Delete(redirect);
+
                         Permissions.GrantAccessDirectory(_storagePath);
                         /*Dispatcher.BeginInvoke(new Action(() =>
                         {

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SporeMods.Setup"
         mc:Ignorable="d"
-        Title="{DynamicResource SelectLanguageTitle}" SizeToContent="WidthAndHeight" Closing="LanguagesWindow_Closing">
+        Title="{DynamicResource SelectLanguageTitle}" SizeToContent="WidthAndHeight" ResizeMode="CanMinimize" Closing="LanguagesWindow_Closing">
     <DockPanel Margin="50">
         <TextBlock DockPanel.Dock="Top" Text="{DynamicResource SelectLanguage}"/>
         <Button x:Name="OkButton" DockPanel.Dock="Bottom" Content="{DynamicResource Ok}" Click="OkButton_Click"/>
