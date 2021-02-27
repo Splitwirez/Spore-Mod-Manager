@@ -74,11 +74,40 @@ public interface IArgScriptVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitElse([NotNull] ArgScriptParser.ElseContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ArgScriptParser.expression"/>.
+	/// Visit a parse tree produced by the <c>op</c>
+	/// labeled alternative in <see cref="ArgScriptParser.expression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitExpression([NotNull] ArgScriptParser.ExpressionContext context);
+	Result VisitOp([NotNull] ArgScriptParser.OpContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>comp</c>
+	/// labeled alternative in <see cref="ArgScriptParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitComp([NotNull] ArgScriptParser.CompContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>paren</c>
+	/// labeled alternative in <see cref="ArgScriptParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitParen([NotNull] ArgScriptParser.ParenContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>bool</c>
+	/// labeled alternative in <see cref="ArgScriptParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBool([NotNull] ArgScriptParser.BoolContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>atomic</c>
+	/// labeled alternative in <see cref="ArgScriptParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitAtomic([NotNull] ArgScriptParser.AtomicContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ArgScriptParser.call"/>.
 	/// </summary>
@@ -86,23 +115,17 @@ public interface IArgScriptVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitCall([NotNull] ArgScriptParser.CallContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ArgScriptParser.paramList"/>.
+	/// Visit a parse tree produced by <see cref="ArgScriptParser.param"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitParamList([NotNull] ArgScriptParser.ParamListContext context);
+	Result VisitParam([NotNull] ArgScriptParser.ParamContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ArgScriptParser.ref"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitRef([NotNull] ArgScriptParser.RefContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="ArgScriptParser.stringInterp"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitStringInterp([NotNull] ArgScriptParser.StringInterpContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ArgScriptParser.command"/>.
 	/// </summary>

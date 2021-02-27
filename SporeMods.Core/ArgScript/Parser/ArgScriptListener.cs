@@ -101,15 +101,65 @@ public interface IArgScriptListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitElse([NotNull] ArgScriptParser.ElseContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ArgScriptParser.expression"/>.
+	/// Enter a parse tree produced by the <c>op</c>
+	/// labeled alternative in <see cref="ArgScriptParser.expression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterExpression([NotNull] ArgScriptParser.ExpressionContext context);
+	void EnterOp([NotNull] ArgScriptParser.OpContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ArgScriptParser.expression"/>.
+	/// Exit a parse tree produced by the <c>op</c>
+	/// labeled alternative in <see cref="ArgScriptParser.expression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitExpression([NotNull] ArgScriptParser.ExpressionContext context);
+	void ExitOp([NotNull] ArgScriptParser.OpContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>comp</c>
+	/// labeled alternative in <see cref="ArgScriptParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterComp([NotNull] ArgScriptParser.CompContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>comp</c>
+	/// labeled alternative in <see cref="ArgScriptParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitComp([NotNull] ArgScriptParser.CompContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>paren</c>
+	/// labeled alternative in <see cref="ArgScriptParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterParen([NotNull] ArgScriptParser.ParenContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>paren</c>
+	/// labeled alternative in <see cref="ArgScriptParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitParen([NotNull] ArgScriptParser.ParenContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>bool</c>
+	/// labeled alternative in <see cref="ArgScriptParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterBool([NotNull] ArgScriptParser.BoolContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>bool</c>
+	/// labeled alternative in <see cref="ArgScriptParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitBool([NotNull] ArgScriptParser.BoolContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>atomic</c>
+	/// labeled alternative in <see cref="ArgScriptParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterAtomic([NotNull] ArgScriptParser.AtomicContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>atomic</c>
+	/// labeled alternative in <see cref="ArgScriptParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitAtomic([NotNull] ArgScriptParser.AtomicContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="ArgScriptParser.call"/>.
 	/// </summary>
@@ -121,15 +171,15 @@ public interface IArgScriptListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitCall([NotNull] ArgScriptParser.CallContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ArgScriptParser.paramList"/>.
+	/// Enter a parse tree produced by <see cref="ArgScriptParser.param"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterParamList([NotNull] ArgScriptParser.ParamListContext context);
+	void EnterParam([NotNull] ArgScriptParser.ParamContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ArgScriptParser.paramList"/>.
+	/// Exit a parse tree produced by <see cref="ArgScriptParser.param"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitParamList([NotNull] ArgScriptParser.ParamListContext context);
+	void ExitParam([NotNull] ArgScriptParser.ParamContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="ArgScriptParser.ref"/>.
 	/// </summary>
@@ -140,16 +190,6 @@ public interface IArgScriptListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitRef([NotNull] ArgScriptParser.RefContext context);
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="ArgScriptParser.stringInterp"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterStringInterp([NotNull] ArgScriptParser.StringInterpContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="ArgScriptParser.stringInterp"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitStringInterp([NotNull] ArgScriptParser.StringInterpContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="ArgScriptParser.command"/>.
 	/// </summary>
