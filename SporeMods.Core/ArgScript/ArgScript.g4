@@ -1,50 +1,115 @@
 grammar ArgScript;
 
+tokens { INDENT, DEDENT }
+
+@lexer::header {
+using SporeMods.Core.ArgScript.DenterHelper;
+}
+
+@lexer::members {
+private DenterHelper denter;
+  
+public override IToken NextToken()
+{
+    if (denter == null)
+    {
+        denter = DenterHelper.Builder()
+            .Nl(EOL)
+            .Indent(ArgScriptParser.INDENT)
+            .Dedent(ArgScriptParser.DEDENT)
+            .PullToken(base.NextToken());
+    }
+
+    return denter
+        .NextToken();
+}
+}
+
+
 root : statement* EOF;
 
 statement 
     : if
-    | blockCommand
+    | block
     | command
+    | include
+    | EOL
     ;
-
-blockCommand 
-    : keyword ID tabulatedCommand* end
+    
+include
+    : 'include' STRING
+    ;
+    
+block
+    : keyword argument INDENT statement+ 'end'
     ;
 
 if 
-    : 'if' '(' expression ')' statement* (elif)? ('else' statement*)? 'endif'
+    : 'if' '(' expression ')' EOL INDENT? statement* elif* else? 'endif'
     ;
     
 elif
-    : 'elif' '(' expression ')' statement*
+    : 'elseif' '(' expression ')' EOL INDENT? statement*
+    ;
+    
+else
+    : 'else' EOL INDENT? statement*
     ;
 
 expression 
     : ref
+    | literal
+    | argument
+    | call
+    | expression '*' expression
+    | expression '/' expression
+    | expression '+' expression
+    | expression '-' expression
+    | expression '>' expression
+    | expression '==' expression
+    | expression '>=' expression
+    | expression '<' expression
+    | expression '<=' expression
+    | expression 'and' expression
+    | expression 'or' expression
+    | 'not' expression
+    | '(' expression ')'
+    ;
+    
+call
+    : keyword '(' paramList ')'
+    ;
+    
+paramList
+    : expression ','
+    | expression
+    | ID
     ;
     
 ref
-    : '$' ID
+    : '$'  ID
+    | '${' ID '}'
     ;
-
-end 
-    : END
+    
+stringInterp
+    : '${' expression '}'
     ;
 
 command 
-    : d=keyword {_input.LT(1).getType() != d}? argument*
-    ;
-    
-tabulatedCommand
-    : TAB command
+    : keyword argument*
     ;
 
 argument
-    : ID
-    | INTEGER 
-    | FLOAT 
+    : ID expression
+    | literal
+    | ref
     | OPTION
+    ;
+    
+literal
+    : INTEGER
+    | FLOAT
+    | STRING
     ;
 
 keyword
@@ -53,31 +118,22 @@ keyword
     
     
 ID : [a-zA-Z_]+ [a-zA-Z0-9_]* ;
+    
 
-TAB 
-    : '\t'
-    | '    '
-    ;
-WS : [ \n\r]+ -> channel(HIDDEN) ;
+EOL: '\r'? '\n' '\t'*;
+WS : [ \t]+ -> channel(HIDDEN) ;
 
-COMMENT : '#' ~'\n'* '\n'?-> channel(HIDDEN);
+COMMENT : '#' ~'\n'*-> channel(HIDDEN);
+
+STRING : '"' ~'\n'* '"';
 
 OPTION : '-' ID;
-END : 'end';
 
 INTEGER : '-'? INT;
 FLOAT
     :   '-'? INT '.' INT EXP?   // 1.35, 1.35E-9, 0.3, -4.5
     |   '-'? INT EXP            // 1e10 -3e4
     ;
-
-OR : 'or';
-AND : 'and';
-
-LT : '<';
-GT : '>';
-LEQ : '<=';
-GEQ : '>=';
 
 fragment INT :   '0' | [1-9] [0-9]* ; // no leading zeros
 fragment EXP :   [Ee] [+\-]? INT ;
