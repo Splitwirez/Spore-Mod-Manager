@@ -17,7 +17,7 @@ public override IToken NextToken()
             .Nl(EOL)
             .Indent(ArgScriptParser.INDENT)
             .Dedent(ArgScriptParser.DEDENT)
-            .PullToken(base.NextToken());
+            .PullToken(base.NextToken);
     }
 
     return denter
