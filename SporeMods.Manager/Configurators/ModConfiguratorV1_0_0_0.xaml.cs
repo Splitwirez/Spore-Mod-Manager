@@ -32,15 +32,7 @@ namespace SporeMods.Manager.Configurators
                 Text = arg.Description
             });
 
-            //ModConfiguratorComponentsListView.ItemsSource = arg.Components;
-        }
-
-        public void HeaderHover()
-        {
-            SetBody(new TextBlock()
-            {
-                Text = (DataContext as ManagedMod).Description
-            });
+            ModNameTextBlock.Text = SporeMods.Core.Settings.GetLanguageString(2, "ModInstallerHeader").Replace("%MODNAME%", arg.DisplayName);
         }
 
         public void SetBody(params UIElement[] elements)
@@ -48,6 +40,14 @@ namespace SporeMods.Manager.Configurators
             CustomInstallerContentStackPanel.Children.Clear();
             foreach (UIElement element in elements)
                 CustomInstallerContentStackPanel.Children.Add(element);
+        }
+
+        private void HeaderContentControl_MouseEnter(object sender, MouseEventArgs e)
+        {
+            SetBody(new TextBlock()
+            {
+                Text = (DataContext as ManagedMod).Description
+            });
         }
     }
 }

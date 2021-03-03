@@ -716,13 +716,12 @@ namespace SporeMods.Manager
 
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                ModConfiguratorModNameTextBlock.Text = Settings.GetLanguageString(2, "ModInstallerHeader").Replace("%MODNAME%", arg.DisplayName);
-
-                if (arg.Identity.InstallerSystemVersion.Major == 1)
+                var identityVersion = arg.Identity.InstallerSystemVersion;
+                if ((identityVersion == ModIdentity.XmlModIdentityVersion1_0_0_0) ||
+                    (identityVersion == ModIdentity.XmlModIdentityVersion1_0_1_0) ||
+                    (identityVersion == ModIdentity.XmlModIdentityVersion1_0_1_1))
                 {
                     var configurator = new ModConfiguratorV1_0_0_0(arg);
-
-                    ModConfiguratorHeaderContentControl.MouseEnter += (sneder, args) => configurator.HeaderHover();
 
                     ConfiguratorBodyContentControl.Content = configurator;
                 }

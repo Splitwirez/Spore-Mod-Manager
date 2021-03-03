@@ -148,12 +148,55 @@ namespace SporeMods.Core.Mods
         {
             get
             {
-                string iconPath = Path.Combine(StoragePath, "Icon.ico");
+                return null;
+                //TODO: Restore for Mod Identity 2
+                /*string iconPath = Path.Combine(StoragePath, "Icon.ico");
                 if (File.Exists(iconPath))
                     return new System.Drawing.Icon(iconPath);
                 else
-                    return null;
+                    return null;*/
             }
+        }
+
+
+        string LogoPath => Path.Combine(StoragePath, "Branding.png"); 
+        
+        public bool HasLogo
+        {
+            get => File.Exists(LogoPath) && TryGetLogo(LogoPath, out System.Drawing.Image img);
+        }
+
+        /// <summary>
+        /// The mod's logo, if any, or null if no logois provided.
+        /// </summary>
+        public System.Drawing.Image Logo
+        {
+            get
+            {
+
+                if (HasLogo && TryGetLogo(LogoPath, out System.Drawing.Image img))
+                    return img;
+                return null;
+
+            }
+        }
+
+        bool TryGetLogo(string path, out System.Drawing.Image img)
+        {
+            try
+            {
+                System.Drawing.Image logo = null;
+                using (FileStream stream = new FileStream(LogoPath, FileMode.Open))
+                {
+                    stream.Seek(0, SeekOrigin.Begin);
+                    logo = System.Drawing.Image.FromStream(stream);
+                }
+                img = logo;
+                return true;
+            }
+            catch { }
+            img = null;
+            return false;
         }
 
         /// <summary>

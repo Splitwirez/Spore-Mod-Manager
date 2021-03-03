@@ -369,11 +369,6 @@
         <ui:AnimatableContentControl x:Name="ModConfiguratorDialogContentControl" Style="{DynamicResource ModalDialogContentControlStyle}" HasCloseButton="True">
             <ContentControl x:Name="ModConfiguratorContentControl" Style="{DynamicResource InitialModConfiguratorContentControlStyle}">
                 <DockPanel x:Name="ModConfiguratorDialogDockPanel">
-                    <ContentControl x:Name="ModConfiguratorHeaderContentControl" Style="{DynamicResource ModConfiguratorHeaderContentControlStyle}" DockPanel.Dock="Top">
-                        <Grid>
-                            <TextBlock x:Name="ModConfiguratorModNameTextBlock" Style="{DynamicResource ModConfiguratorModNameTextBlockStyle}"/>
-                        </Grid>
-                    </ContentControl>
                     <ContentControl Style="{DynamicResource CustomInstallerFooterContentControlStyle}" DockPanel.Dock="Bottom">
                         <Grid>
                             <Button x:Name="CustomInstallerInstallButton"/>
