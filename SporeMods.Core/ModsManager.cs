@@ -16,7 +16,12 @@ namespace SporeMods.Core
 {
     public class ModsManager : INotifyPropertyChanged
     {
-        public static SynchronizationContext SyncContext = null;
+        private static SynchronizationContext SyncContext = null;
+
+        public static void RunOnMainSyncContext(SendOrPostCallback d)
+        {
+            SyncContext.Send(d, null);
+        }
 
         private static readonly string[] MOD_EXTENSIONS = { ".package", ".dll" };
         /// <summary>
@@ -143,7 +148,7 @@ namespace SporeMods.Core
 
         public static void RemoveMatchingManuallyInstalledFile(string fileName, ComponentGameDir targetLocation)
         {
-            ModsManager.SyncContext.Send(state =>
+            SyncContext.Send(state =>
             {
                 foreach (ManualInstalledFile file in ModsManager.InstalledMods.Where(
                     x => x is ManualInstalledFile && ((ManualInstalledFile)x).Location == targetLocation))

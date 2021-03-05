@@ -1252,7 +1252,11 @@ namespace SporeMods.Manager
 
         async Task InstallModsFromFilesAsync(string[] modPaths)
         {
-            ModInstallationStatus status = await ModInstallation.InstallModsAsync(modPaths);
+            /*ModInstallationStatus status = */await ModInstallation.InstallModsAsync(modPaths);
+        }
+
+        void ShowCompletionMessage(ModInstallationStatus status)
+        {
             if (status.AnySucceeded)
             {
                 string output = string.Empty;

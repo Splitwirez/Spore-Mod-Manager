@@ -43,7 +43,7 @@ namespace SporeMods.Core.Mods
                 try
                 {
                     FileWrite.SafeDeleteFile(FileWrite.GetFileOutputPath(Location, RealName, _legacy));
-                    ModsManager.SyncContext.Send(state => ModsManager.InstalledMods.Remove(this), null);
+                    ModsManager.RunOnMainSyncContext(state => ModsManager.InstalledMods.Remove(this));
                     return true;
                 }
                 catch (Exception ex)

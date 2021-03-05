@@ -85,11 +85,11 @@ namespace SporeMods.Core
                 }
                 else if (Path.GetExtension(path).ToLowerInvariant() == ".package")
                 {
-                    result = await RegisterLoosePackageModAsync(path);
+                    /*result = await */RegisterLoosePackageModAsync(path);
                 }
                 else if (Path.GetExtension(path).ToLowerInvariant() == ".sporemod")
                 {
-                    result = await RegisterSporemodModAsync(path);
+                    /*result = await */RegisterSporemodModAsync(path);
                 }
                 else
                 {
@@ -287,6 +287,7 @@ namespace SporeMods.Core
             string name = string.Empty;
             bool proceed = false;
             ManagedMod mod = null;
+            string compareUniquePath = string.Empty;
             try
             {
                 name = Path.GetFileNameWithoutExtension(path).Replace(".", "-");
@@ -306,9 +307,15 @@ namespace SporeMods.Core
                         if (zip.ContainsEntry("ModInfo.xml"))
                         {
                             ZipEntry entry = zip["ModInfo.xml"];
-                            entry.Extract(Settings.TempFolderPath, ExtractExistingFileAction.OverwriteSilently);
-                            Permissions.GrantAccessFile(Path.Combine(Settings.TempFolderPath, entry.FileName));
-                            XDocument compareDocument = XDocument.Load(Path.Combine(Settings.TempFolderPath, "ModInfo.xml"));
+                            compareUniquePath = Path.Combine(Settings.TempFolderPath, name + ".xml");
+                            //entry.OpenReader()
+                            //entry.Extract(Settings.TempFolderPath, ExtractExistingFileAction.OverwriteSilently);
+                            using (FileStream stream = new FileStream(compareUniquePath, FileMode.OpenOrCreate))
+                            {
+                                entry.Extract(stream);
+                            }
+                            Permissions.GrantAccessFile(compareUniquePath);
+                            XDocument compareDocument = XDocument.Load(compareUniquePath);
 
                             Version identityVersion = ModIdentity.UNKNOWN_MOD_VERSION;
                             var xmlModIdentityVersionAttr = compareDocument.Root.Attribute("installerSystemVersion");
@@ -428,6 +435,8 @@ namespace SporeMods.Core
                                 }
                             }
                         }
+                        if (File.Exists(compareUniquePath))
+                            File.Delete(compareUniquePath);
                     }/*, TaskCreationOptions.LongRunning*/);
                     validateModTask.Start();
                     await validateModTask;
@@ -618,6 +627,7 @@ namespace SporeMods.Core
                     ModsManager.InstalledMods.Remove(mod);
                 }
                 ModsManager.InstalledMods.Add(new InstallError(path, ex));*/
+                MessageDisplay.ShowMessageBox(ex.ToString());
                 return ex;
             }
         }

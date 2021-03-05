@@ -325,7 +325,7 @@ namespace SporeMods.Core.Mods
 
                     Directory.Delete(StoragePath, true);
 
-                    ModsManager.SyncContext.Send(state => ModsManager.InstalledMods.Remove(this), null);
+                    ModsManager.RunOnMainSyncContext(state => ModsManager.InstalledMods.Remove(this));
 
                     Progress = 0;
                     IsProgressing = false;
