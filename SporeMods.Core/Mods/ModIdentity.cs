@@ -19,6 +19,48 @@ namespace SporeMods.Core.Mods
         public static readonly Version XmlModIdentityVersion1_1_0_0 = new Version(1, 1, 0, 0);
         public static readonly Version UNKNOWN_MOD_VERSION = new Version(0, 0, 0, 0);
 
+        public static bool IsLauncherKitCompatibleXmlModIdentityVersion(Version identityVersion)
+        {
+            return (identityVersion == ModIdentity.XmlModIdentityVersion1_0_0_0) ||
+                   (identityVersion == ModIdentity.XmlModIdentityVersion1_0_1_0) ||
+                   (identityVersion == ModIdentity.XmlModIdentityVersion1_0_1_1);
+        }
+
+        /*public static bool IsValidUnique(string inputUnique)
+        {
+            bool returnValue = true;
+
+            foreach (char c in System.IO.Path.GetInvalidPathChars())
+            {
+                if (inputUnique.Contains(c))
+                {
+                    returnValue = false;
+                    break;
+                }
+            }
+            return returnValue;
+        }
+
+        public static bool IsValidUnique(string inputUnique, out string validUnique)
+        {
+            string value = inputUnique;
+
+            bool returnValue = true;
+
+            foreach (char c in System.IO.Path.GetInvalidPathChars())
+            {
+                if (value.Contains(c))
+                {
+                    returnValue = false;
+                    value = value.Replace(c.ToString(), string.Empty);
+                    //break;
+                }
+            }
+            validUnique = value;
+
+            return returnValue;
+        }*/
+
         public ModIdentity(ManagedMod mod, string uniqueTag)
             : base(null, uniqueTag)
         {

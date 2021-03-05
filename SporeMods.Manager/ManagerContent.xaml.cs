@@ -717,9 +717,7 @@ namespace SporeMods.Manager
             Dispatcher.BeginInvoke(new Action(() =>
             {
                 var identityVersion = arg.Identity.InstallerSystemVersion;
-                if ((identityVersion == ModIdentity.XmlModIdentityVersion1_0_0_0) ||
-                    (identityVersion == ModIdentity.XmlModIdentityVersion1_0_1_0) ||
-                    (identityVersion == ModIdentity.XmlModIdentityVersion1_0_1_1))
+                if (ModIdentity.IsLauncherKitCompatibleXmlModIdentityVersion(identityVersion))
                 {
                     var configurator = new ModConfiguratorV1_0_0_0(arg);
 

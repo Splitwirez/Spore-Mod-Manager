@@ -316,11 +316,7 @@ namespace SporeMods.Core
                             {
                                 if (Version.TryParse(xmlModIdentityVersionAttr.Value, out identityVersion))
                                 {
-                                    if (
-                                            (identityVersion != ModIdentity.XmlModIdentityVersion1_0_0_0) &&
-                                            (identityVersion != ModIdentity.XmlModIdentityVersion1_0_1_0) &&
-                                            (identityVersion != ModIdentity.XmlModIdentityVersion1_0_1_1)
-                                        )
+                                    if (!ModIdentity.IsLauncherKitCompatibleXmlModIdentityVersion(identityVersion))
                                     {
                                         throw new UnsupportedXmlModIdentityVersionException(identityVersion);
                                     }
@@ -355,7 +351,7 @@ namespace SporeMods.Core
                             {
                                 unique = uniqueAttr.Value;
 
-                                foreach (char c in Path.GetInvalidFileNameChars())
+                                foreach (char c in Path.GetInvalidPathChars())
                                     unique = unique.Replace(c.ToString(), string.Empty);
 
                                 dir = Path.Combine(Settings.ModConfigsPath, unique);
@@ -628,7 +624,7 @@ namespace SporeMods.Core
 
         public static void CreateModInfoXml(string name, string dir, out XDocument document)
         {
-            document = XDocument.Parse(@"<mod>
+            /*document = XDocument.Parse(@"<mod>
 </mod>");
             document.Root.SetAttributeValue("unique", name);
             document.Root.SetAttributeValue("displayName", name);
@@ -636,7 +632,8 @@ namespace SporeMods.Core
             document.Root.SetAttributeValue("copyAllFiles", true.ToString());
             document.Root.SetAttributeValue("canDisable", false.ToString());
 
-            document.Save(Path.Combine(dir, "ModInfo.xml"));
+            document.Save(Path.Combine(dir, "ModInfo.xml"));*/
+            CreateModInfoXml(name, name, dir, out document);
         }
 
         public static void CreateModInfoXml(string unique, string displayName, string dir, out XDocument document)
