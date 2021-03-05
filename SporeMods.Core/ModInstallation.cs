@@ -70,6 +70,7 @@ namespace SporeMods.Core
 
         public static async Task<ModInstallationStatus> InstallModsAsync(string[] modPaths)
         {
+            //ModsManager.Instance.AddToTaskCount(modPaths.Count(x => !PathIsNetworkPath(x)));
             InstallActivitiesCounter++;
             var retVal = new ModInstallationStatus();
             //Task<ModInstallationStatus> task = new Task<ModInstallationStatus>(())
@@ -112,6 +113,7 @@ namespace SporeMods.Core
 
         public static void UninstallModsAsync(IInstalledMod[] modConfigurations)
         {
+            //ModsManager.Instance.AddToTaskCount(modConfigurations.Length);
             InstallActivitiesCounter++;
 
             List<IInstalledMod> modsToUninstall = modConfigurations.ToList();
@@ -307,15 +309,16 @@ namespace SporeMods.Core
                         if (zip.ContainsEntry("ModInfo.xml"))
                         {
                             ZipEntry entry = zip["ModInfo.xml"];
-                            compareUniquePath = Path.Combine(Settings.TempFolderPath, name + ".xml");
+                            //compareUniquePath = Path.Combine(Settings.TempFolderPath, name + ".xml");
                             //entry.OpenReader()
                             //entry.Extract(Settings.TempFolderPath, ExtractExistingFileAction.OverwriteSilently);
-                            using (FileStream stream = new FileStream(compareUniquePath, FileMode.OpenOrCreate))
+                            XDocument compareDocument = null; //XDocument.Load(compareUniquePath);
+                            using (Stream strm = entry.OpenReader() /*FileStream stream = new FileStream(compareUniquePath, FileMode.OpenOrCreate)*/)
                             {
-                                entry.Extract(stream);
+                                compareDocument = XDocument.Load(strm); //compareUniquePath);
+                                //entry.Extract(stream);
                             }
-                            Permissions.GrantAccessFile(compareUniquePath);
-                            XDocument compareDocument = XDocument.Load(compareUniquePath);
+                            //Permissions.GrantAccessFile(compareUniquePath);
 
                             Version identityVersion = ModIdentity.UNKNOWN_MOD_VERSION;
                             var xmlModIdentityVersionAttr = compareDocument.Root.Attribute("installerSystemVersion");
@@ -415,7 +418,11 @@ namespace SporeMods.Core
                                 string xmlPath = Path.Combine(s, "ModInfo.xml");
                                 if (File.Exists(xmlPath))
                                 {
-                                    XDocument modDocument = XDocument.Load(xmlPath);
+                                    XDocument modDocument = null;
+                                    using (FileStream stream = new FileStream(xmlPath, FileMode.OpenOrCreate, FileAccess.Read))
+                                    {
+                                        modDocument = XDocument.Load(stream);
+                                    }
                                     string modUnique = Path.GetFileName(s);
                                     var modAttr = modDocument.Root.Attribute("unique");
                                     if (modAttr != null)

@@ -7,6 +7,7 @@
              xmlns:core="clr-namespace:SporeMods.Core;assembly=SporeMods.Core"
              xmlns:ui="clr-namespace:Mechanism.Wpf.Core;assembly=Mechanism.Wpf.Core"
              xmlns:win="clr-namespace:Mechanism.Wpf.Core.Windows;assembly=Mechanism.Wpf.Core"
+             xmlns:mods="clr-namespace:SporeMods.Core.Mods;assembly=SporeMods.Core"
              DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -21,7 +22,10 @@
                     <Button x:Name="InstallModsButton" Style="{DynamicResource InstallModsButtonStyle}" Click="InstallModsButton_Click"/>
                     <Button x:Name="ConfigureModButton" Style="{DynamicResource ConfigureModButtonStyle}" IsEnabled="False" Click="ConfigureModButton_Click"/>
                     <Button x:Name="UninstallModsButton" Style="{DynamicResource UninstallModsButtonStyle}" IsEnabled="False" Click="UninstallModsButton_Click"/>
-                    <Button x:Name="LaunchGameButton" Style="{DynamicResource LaunchGameButtonStyle}" Click="LaunchGameButton_Click"/>
+                    <Grid>
+                        <Button x:Name="LaunchGameButton" Style="{DynamicResource LaunchGameButtonStyle}" Click="LaunchGameButton_Click"/>
+                        <ProgressBar x:Name="OverallProgressProgressBar" Minimum="0" Maximum="{Binding OverallProgressTotal, Source={x:Static core:ModsManager.Instance}, Mode=OneWay}" Value="{Binding OverallProgress, Source={x:Static core:ModsManager.Instance}, Mode=OneWay}" Visibility="{Binding AnyTasksRunning, Source={x:Static core:ModsManager.Instance}, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Margin="5,5,10,5"/>
+                    </Grid>
                 </UniformGrid>
             </ContentControl>
             <TabControl x:Name="PrimaryTabControl" Style="{DynamicResource PrimaryTabControlStyle}" SelectionChanged="PrimaryTabControl_SelectionChanged">

@@ -15,8 +15,6 @@ namespace SporeMods.CommonUI
 {
     public static class Updater
     {
-
-
         public static void CheckForUpdates()
         {
             CheckForUpdates(false);

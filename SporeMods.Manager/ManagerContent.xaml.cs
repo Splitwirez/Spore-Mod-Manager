@@ -249,7 +249,7 @@ namespace SporeMods.Manager
                 }
                 LaunchGameButton.IsEnabled = canLaunch;*/
 
-                LaunchGameButton.IsEnabled = ModsManager.InstalledMods.Where(mod => mod.IsProgressing).Count() == 0;
+                LaunchGameButton.IsEnabled = ModsManager.InstalledMods.OfType<ManagedMod>().Where(mod => mod.IsProgressing).Count() == 0;
             }));
         }
 
@@ -1540,7 +1540,7 @@ namespace SporeMods.Manager
                     bool areNoneProgressing = true;
                     IInstalledMod[] configurations = new IInstalledMod[list.SelectedItems.Count];
                     list.SelectedItems.CopyTo(configurations, 0);
-                    foreach (IInstalledMod mod in configurations/*.Where(x => x is InstalledMod)*/)
+                    foreach (ManagedMod mod in configurations.OfType<ManagedMod>()/*.Where(x => x is InstalledMod)*/)
                     {
                         if (mod.IsProgressing)
                         {
@@ -1552,11 +1552,11 @@ namespace SporeMods.Manager
                 }
                 else if (list.SelectedItems.Count == 1)
                 {
-                    if ((list.SelectedItem is IInstalledMod item) && (!item.IsProgressing))
+                    if ((list.SelectedItem is ManagedMod item) && (!item.IsProgressing))
                     {
                         UninstallModsButton.IsEnabled = true;
 
-                        if ((list.SelectedItem is ManagedMod mod) && mod.HasConfigurator)
+                        if (item.HasConfigurator)
                             ConfigureModButton.IsEnabled = true;
                         else
                             ConfigureModButton.IsEnabled = false;
@@ -1609,7 +1609,7 @@ namespace SporeMods.Manager
             win.Activated -= MainWindow_IsActiveChanged;
             win.Deactivated -= MainWindow_IsActiveChanged;
 
-            foreach (var mod in ModsManager.InstalledMods)
+            foreach (var mod in ModsManager.InstalledMods.OfType<ManagedMod>())
             {
                 if (mod.IsProgressing)
                 {

@@ -50,6 +50,13 @@ namespace SporeMods.Core.Mods
                 _copyAllFiles = value;
             else
                 _copyAllFiles = false;
+
+            if (IsProgressing)
+            {
+                NotifyPropertyChanged(nameof(IsProgressing));
+                IsProgressingChanged?.Invoke(this, null);
+                RaiseAnyModIsProgressingChanged(this, false, true);
+            }
         }
 
         private Version ParseXmlVersion(XDocument document)
@@ -213,6 +220,7 @@ namespace SporeMods.Core.Mods
             {
                 if (HasConfigurator)
                 {
+                    //ModsManager.Instance.AddToTaskCount(1);
                     await ModInstallation.RegisterSporemodModWithInstallerAsync(this.RealName);
                     //await EnableMod();
                 }
@@ -251,9 +259,11 @@ namespace SporeMods.Core.Mods
             get => _isProgressing;
             set
             {
+                bool oldVal = _isProgressing;
                 _isProgressing = value;
                 NotifyPropertyChanged(nameof(IsProgressing));
                 IsProgressingChanged?.Invoke(this, null);
+                RaiseAnyModIsProgressingChanged(this, oldVal, _isProgressing);
             }
         }
 
@@ -266,6 +276,7 @@ namespace SporeMods.Core.Mods
             get => _progress;
             set
             {
+                double oldVal = _progress;
                 _progress = value;
                 NotifyPropertyChanged(nameof(Progress));
                 /*if ((FileCount > 0) && (Progress >= FileCount) && (IsProgressing))
@@ -274,6 +285,7 @@ namespace SporeMods.Core.Mods
                     _watcher.EnableRaisingEvents = false;
                     Progress = 0.0;
                 }*/
+                AnyModProgressChanged?.Invoke(this, new ModProgressChangedEventArgs(this, _progress - oldVal));
             }
         }
 
@@ -605,9 +617,42 @@ namespace SporeMods.Core.Mods
 
         public event EventHandler IsProgressingChanged;
 
+        public static event EventHandler<ModIsProgressingChangedEventArgs> AnyModIsProgressingChanged;
+        public static event EventHandler<ModProgressChangedEventArgs> AnyModProgressChanged;
+
+        internal static void RaiseAnyModIsProgressingChanged(IInstalledMod mod, bool oldVal, bool newVal)
+        {
+            if (oldVal != newVal)
+                AnyModIsProgressingChanged?.Invoke(mod, new ModIsProgressingChangedEventArgs(mod, newVal));
+        }
+
         public override string ToString()
         {
             return DisplayName;
+        }
+    }
+
+    public class ModProgressChangedEventArgs : EventArgs
+    {
+        public ManagedMod Mod { get; private set; } = null;
+        public double Change { get; private set; } = 0.0;
+
+        public ModProgressChangedEventArgs(ManagedMod mod, double change)
+        {
+            Mod = mod;
+            Change = change;
+        }
+    }
+
+    public class ModIsProgressingChangedEventArgs : EventArgs
+    {
+        public IInstalledMod Mod { get; private set; } = null;
+        public bool IsNowProgressing { get; private set; } = false;
+
+        public ModIsProgressingChangedEventArgs(IInstalledMod mod, bool isNowProgressing)
+        {
+            Mod = mod;
+            IsNowProgressing = isNowProgressing;
         }
     }
 }

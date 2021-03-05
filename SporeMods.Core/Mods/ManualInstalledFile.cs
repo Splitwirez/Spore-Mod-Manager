@@ -56,21 +56,6 @@ namespace SporeMods.Core.Mods
             return await task;
         }
 
-        bool _isProgressing = false;
-        /// <summary>
-        /// Whether or not this mod is currently being installed/reconfigured/removed.
-        /// </summary>
-        public bool IsProgressing
-        {
-            get => _isProgressing;
-            set
-            {
-                _isProgressing = value;
-                NotifyPropertyChanged(nameof(IsProgressing));
-                IsProgressingChanged?.Invoke(this, null);
-            }
-        }
-
         private void NotifyPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using TTimer = System.Timers.Timer;
 
 namespace SporeMods.Core
 {
@@ -222,6 +223,68 @@ namespace SporeMods.Core
 
         public event Func<ManagedMod, Task<bool>> ModConfiguratorShown;
 
+        
+        bool _anyTasksRunning = false;
+        public bool AnyTasksRunning
+        {
+            get => _anyTasksRunning;
+            set
+            {
+                _anyTasksRunning = value;
+                NotifyPropertyChanged(nameof(AnyTasksRunning));
+            }
+        }
+
+
+        double _overallProgress = 0.0;
+        public double OverallProgress
+        {
+            get => _overallProgress;
+            set
+            {
+                _overallProgress = value;
+                NotifyPropertyChanged(nameof(OverallProgress));
+            }
+        }
+
+        double _overallProgressTotal = 0.0;
+        public double OverallProgressTotal
+        {
+            get => _overallProgressTotal;
+            set
+            {
+                if (
+                        (value > _overallProgressTotal)
+                        || (value == 0)
+                   )
+                {
+                    _overallProgressTotal = value;
+                    NotifyPropertyChanged(nameof(OverallProgressTotal));
+                }
+            }
+        }
+
+        /*int _taskCount = 0;
+        public int TaskCount
+        {
+            get => _taskCount;
+            private set
+            {
+                _taskCount = value;
+                NotifyPropertyChanged(nameof(TaskCount));
+            }
+        }
+        
+        public void AddToTaskCount(int add)
+        {
+            if (add > 0)
+            {
+                OverallProgressTotal += (add * 100.0);
+                TaskCount += add;
+            }
+        }*/
+
+
         // This must come last so it can initialize correctly
         public static ModsManager Instance = new ModsManager();
         private ModsManager()
@@ -229,15 +292,87 @@ namespace SporeMods.Core
 
             SyncContext = SynchronizationContext.Current;
 
-            /*FileSystemWatcher watcher = new FileSystemWatcher(Settings.ModConfigsPath)
+
+            PopulateModConfigurations();
+
+            ManagedMod.AnyModIsProgressingChanged += (sneder, e) =>
             {
-                IncludeSubdirectories = false
+                SyncContext.Send(state =>
+                {
+                    /*if (e.IsNowProgressing)
+                    {
+                        AnyTasksRunning = true;
+                    }
+                    else
+                    {
+                        TaskCount--;
+
+                        if (TaskCount == 0)
+                        {
+                            OverallProgress = 0;
+                            OverallProgressTotal = 0;
+                            AnyTasksRunning = false;
+                        }
+                    }*/
+                    if (e.IsNowProgressing)
+                    {
+                        AnyTasksRunning = true;
+                        OverallProgressTotal += 100;
+                    }
+                    else
+                    {
+                        AnyTasksRunning = InstalledMods.OfType<ManagedMod>().Any(x => x.IsProgressing);
+                        if (!AnyTasksRunning)
+                        {
+                            OverallProgress = 0;
+                            OverallProgressTotal = 0;
+                        }
+                    }
+                    /*else if (!InstalledMods.OfType<ManagedMod>().Any(x => x.IsProgressing))
+                    {
+                        bool anyRunning = false;
+                        int time = 0;
+                        TTimer timer = new TTimer(10);
+                        timer.Elapsed += (s, a) =>
+                        {
+                            time++;
+                            if (anyRunning)
+                            {
+                                timer.Stop();
+                            }
+                            else
+                            {
+                                SyncContext.Send(state2 => anyRunning = InstalledMods.OfType<ManagedMod>().Any(x => x.IsProgressing), null);
+                                if (time >= 10)
+                                {
+                                    SyncContext.Send(state2 =>
+                                    {
+                                        if (!InstalledMods.OfType<ManagedMod>().Any(x => x.IsProgressing))
+                                        {
+                                            AnyTasksRunning = false;
+                                            OverallProgress = 0;
+                                            OverallProgressTotal = 0;
+                                        }
+                                    }, null);
+                                    timer.Stop();
+                                }
+                            }
+                        };
+                        timer.Start();
+                        //MessageDisplay.ShowMessageBox("!AnyTasksRunning");
+                    }*/
+                    //MessageDisplay.ShowMessageBox("Progress", OverallProgress + " --> " + OverallProgressTotal);
+                }, null);
             };
 
-            watcher.Created += Watcher_Created;
-
-            watcher.EnableRaisingEvents = true;*/
-            PopulateModConfigurations();
+            ManagedMod.AnyModProgressChanged += (sneder, e) =>
+            {
+                SyncContext.Send(state =>
+                {
+                    if (e.Change > 0)
+                        OverallProgress += e.Change;
+                }, null);
+            };
         }
     }
 }
