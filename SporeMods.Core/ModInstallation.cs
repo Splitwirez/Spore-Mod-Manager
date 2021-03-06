@@ -21,6 +21,8 @@ namespace SporeMods.Core
 
         internal static bool IS_UNINSTALLING_MODS = false;
 
+        internal static bool IS_RECONFIGURING_MODS = false;
+
 
         [DllImport("shlwapi.dll")]
         static extern bool PathIsNetworkPath(string pszPath);
@@ -683,6 +685,7 @@ namespace SporeMods.Core
             Debug.Assert(mod != null);
             if (mod.HasConfigurator)
             {
+                bool isProgressing = mod.IsProgressing;
                 /*foreach (ModComponent m in mod.Configurator.Components)
                 {
                     DebugMessageBoxShow("DisplayName: " + m.DisplayName + "\nUnique: " + m.Unique + "\nIsEnabled: " + m.IsEnabled);
@@ -691,7 +694,11 @@ namespace SporeMods.Core
                 //DebugMessageBoxShow("Component count: " + mod.Configurator.Components.Count + "\nXML Mod Identity Version: " + mod.XmlVersion);
 
                 if (await ModsManager.Instance.ShowModConfigurator(mod))
+                {
+                    if (!isProgressing)
+                        IS_RECONFIGURING_MODS = true;
                     await mod.EnableMod();
+                }
             }
             else
             {

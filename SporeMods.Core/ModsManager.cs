@@ -332,7 +332,7 @@ namespace SporeMods.Core
                             {
                                 InstalledAnyMods = ModInstallation.IS_INSTALLING_MODS,
                                 UninstalledAnyMods = ModInstallation.IS_UNINSTALLING_MODS,
-                                //ConfiguredMods //TODO
+                                ReconfiguredAnyMods = ModInstallation.IS_RECONFIGURING_MODS,
                                 Failures = ModInstallation.INSTALL_FAILURES
                             });
                             ModInstallation.IS_INSTALLING_MODS = false;
@@ -392,10 +392,7 @@ namespace SporeMods.Core
     {
         public bool InstalledAnyMods { get; internal set; } = false;
         public bool UninstalledAnyMods { get; internal set; } = false;
-
-        public bool ReconfiguredAnyMods => ConfiguredMods.Count > 0;
-        public List<string> ConfiguredMods { get; internal set; } = new List<string>();
-
+        public bool ReconfiguredAnyMods { get; internal set; } = false;
         public Dictionary<string, Exception> Failures { get; internal set; } = new Dictionary<string, Exception>();
     }
 }
