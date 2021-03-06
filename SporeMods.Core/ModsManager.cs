@@ -337,6 +337,7 @@ namespace SporeMods.Core
                             });
                             ModInstallation.IS_INSTALLING_MODS = false;
                             ModInstallation.IS_UNINSTALLING_MODS = false;
+                            ModInstallation.IS_RECONFIGURING_MODS = false;
                             ModInstallation.INSTALL_FAILURES.Clear();
                         }
                     }

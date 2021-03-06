@@ -699,6 +699,8 @@ namespace SporeMods.Core
                         IS_RECONFIGURING_MODS = true;
                     await mod.EnableMod();
                 }
+                else if (!isProgressing)
+                    mod.Configuration.Reload();
             }
             else
             {

@@ -38,6 +38,7 @@ namespace SporeMods.Core.Mods
         /// </summary>
         public bool IsEnabled { get; set; }
 
+        string _prevPath = string.Empty;
         public void Load(string path)
         {
             var document = XDocument.Load(path);
@@ -55,7 +56,7 @@ namespace SporeMods.Core.Mods
                 {
                     var attr = subEl.Attribute("isEnabled");
                     if ((attr != null) && bool.TryParse(attr.Value, out bool isEnabled))
-                        UserSetComponents.Add(subEl.Value, isEnabled);
+                        UserSetComponents[subEl.Value] = isEnabled;
                     /*else
                         UserSetComponents.Add(subEl.Value, false);*/
                 }
@@ -73,6 +74,17 @@ namespace SporeMods.Core.Mods
                 {
                     IsEnabled = true;
                 }
+            }
+
+            _prevPath = path;
+        }
+
+        public void Reload()
+        {
+            if ((!string.IsNullOrEmpty(_prevPath)) && (!string.IsNullOrWhiteSpace(_prevPath)))
+            {
+                Load(_prevPath);
+                ConfigurationReset?.Invoke(Parent, null);
             }
         }
 
@@ -106,5 +118,7 @@ namespace SporeMods.Core.Mods
         {
             return EnabledComponents.Contains(component.Unique);
         }*/
+
+        internal static event EventHandler ConfigurationReset;
     }
 }

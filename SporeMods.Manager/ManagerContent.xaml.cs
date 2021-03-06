@@ -704,15 +704,32 @@ namespace SporeMods.Manager
                 await task;
             }
 
+            bool proceedClicked = false;
             void ProceedButton_Click(object sender, RoutedEventArgs e)
             {
+                proceedClicked = true;
                 Dispatcher.BeginInvoke(new Action(() =>
                 {
+                    ModConfiguratorDialogContentControl.IsVisibleChanged -= ModConfiguratorDialogContentControl_IsVisibleChanged;
                     ModConfiguratorDialogContentControl.IsOpen = false;
                     ConfiguratorBodyContentControl.Content = null;
                     UpdateActionButtonStates();
                 }));
                 tcs.TrySetResult(true);
+            }
+
+            void ModConfiguratorDialogContentControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+            {
+                if ((!proceedClicked)  && (e.NewValue is bool isVis) && (!isVis))
+                {
+                    Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        ModConfiguratorDialogContentControl.IsVisibleChanged -= ModConfiguratorDialogContentControl_IsVisibleChanged;
+                        ConfiguratorBodyContentControl.Content = null;
+                        UpdateActionButtonStates();
+                    }));
+                    tcs.TrySetResult(false);
+                }
             }
 
             Dispatcher.BeginInvoke(new Action(() =>
@@ -725,9 +742,11 @@ namespace SporeMods.Manager
                     ConfiguratorBodyContentControl.Content = configurator;
                 }
 
+
                 CustomInstallerInstallButton.Click += ProceedButton_Click;
 
                 ModConfiguratorDialogContentControl.IsOpen = true;
+                ModConfiguratorDialogContentControl.IsVisibleChanged += ModConfiguratorDialogContentControl_IsVisibleChanged;
             }));
             bool retVal = await tcs.Task;
             Dispatcher.BeginInvoke(new Action(() =>
