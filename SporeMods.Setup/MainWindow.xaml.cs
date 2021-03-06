@@ -324,6 +324,7 @@ namespace SporeMods.Setup
                         DebugMessageBox("forceLkImportPath: " + forceLkImportPath);
                     }
                 }
+                Application.Current.Shutdown(300);
             }
         }
 
@@ -504,6 +505,7 @@ namespace SporeMods.Setup
 
         private void SuccessCloseButton_Click(object sender, RoutedEventArgs e)
         {
+            Application.Current.Shutdown(300);
             Close();
         }
 
