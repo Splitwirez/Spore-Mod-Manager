@@ -140,8 +140,13 @@ AllSporeModsFilter Spore mods (%EXTENSIONS%)
 NowInstalling Installing...
 InstallationComplete Installation complete!
 
-ModsInstalledSuccessfully These mods were installed successfully
-ModsFailedToInstall These mods couldn't be installed
+TasksCompleted Tasks completed
+ModsInstalledSuccessfully Mods were installed successfully
+ModsUninstalledSuccessfully Mods were uninstalled successfully
+ModsReconfiguredSuccessfully Mods were reconfigured successfully
+ModsFailedToInstall Something went wrong when processing these mods:
+ModsFailedToInstall2 and several more
+ModsFailedToInstall3 More information has been saved to "%LOGFILEPATH%"
 
 CopyUrlIntoBrowser Copy the following URL into your internet browser.
 CopypasteToTechSupport Copy the text below, and send it to whoever asked you for it.

@@ -140,8 +140,13 @@ AllSporeModsFilter Spore mods (%EXTENSIONS%)
 NowInstalling Instalando...
 InstallationComplete ¡Instalación completa!
 
-ModsInstalledSuccessfully Estos mods se instalaron correctamente
-ModsFailedToInstall Estos mods no se pudieron instalar
+TasksCompleted Tasks completed (LOCALIZATION PENDING)
+ModsInstalledSuccessfully Mods were installed successfully (LOCALIZATION PENDING)
+ModsUninstalledSuccessfully Mods were uninstalled successfully (LOCALIZATION PENDING)
+ModsReconfiguredSuccessfully Mods were reconfigured successfully (LOCALIZATION PENDING)
+ModsFailedToInstall Something went wrong when processing these mods: (LOCALIZATION PENDING)
+ModsFailedToInstall2 and several more (LOCALIZATION PENDING)
+ModsFailedToInstall3 More information has been saved to "%LOGFILEPATH%" (LOCALIZATION PENDING)
 
 CopyUrlIntoBrowser Copia el siguiente enlace en tu navegador web.
 CopypasteToTechSupport Copia el texto de abajo, y enviaselo a quién te lo haya pedido.

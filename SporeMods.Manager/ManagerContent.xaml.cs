@@ -106,6 +106,7 @@ namespace SporeMods.Manager
             {
                 Dispatcher.BeginInvoke(new Action(() => ModInstallation_AddModProgress(sneder, args)));
             };
+            ModsManager.TasksCompleted += ModsManager_TasksCompleted;
 
             Application.Current.Resources.MergedDictionaries[0].MergedDictionaries[1] = ShaleAccents.Sky.Dictionary;
             if (Settings.ShaleDarkTheme)
@@ -1255,7 +1256,59 @@ namespace SporeMods.Manager
             /*ModInstallationStatus status = */await ModInstallation.InstallModsAsync(modPaths);
         }
 
-        void ShowCompletionMessage(ModInstallationStatus status)
+        void ModsManager_TasksCompleted(object sender, ModTasksCompletedEventArgs e)
+        {
+            string logOutput = string.Empty;
+            string output = string.Empty;
+            if (e.InstalledAnyMods)
+                output += Settings.GetLanguageString(0, "ModsInstalledSuccessfully") + "\n\n";
+            
+            if (e.UninstalledAnyMods)
+                output += Settings.GetLanguageString(0, "ModsUninstalledSuccessfully") + "\n\n";
+
+            if (e.ReconfiguredAnyMods)
+                output += Settings.GetLanguageString(0, "ModsReconfiguredSuccessfully") + "\n\n";
+
+            if (e.Failures.Keys.Count > 0)
+            {
+                string logFileName = "InstallError___";
+                string dateNow = DateTime.Now.ToString();
+                foreach (char c in Path.GetInvalidPathChars())
+                {
+                    dateNow = dateNow.Replace(c, '-');
+                }
+                logFileName += dateNow + ".txt";
+                string logPath = Path.Combine(Settings.LogsPath, logFileName);
+
+
+                output += "\n\n" + Settings.GetLanguageString(0, "ModsFailedToInstall");
+
+                for (int i = 0; (i < e.Failures.Count) && (i < 5); i++)
+                {
+                    output += e.Failures.Keys.ElementAt(i) + "\n";
+                }
+
+                if (e.Failures.Count > 5)
+                    output += Settings.GetLanguageString(0, "ModsFailedToInstall2");
+
+                foreach (string s in e.Failures.Keys)
+                {
+                    logOutput += e.Failures + ": " + e.Failures[s].ToString() + "\n\n\n\n\n";
+                }
+
+                output += "\n\n" + Settings.GetLanguageString(0, "ModsFailedToInstall3").Replace("%LOGFILEPATH%", logPath);
+
+                if ((!string.IsNullOrEmpty(logOutput)) && (!string.IsNullOrWhiteSpace(logOutput)))
+                {
+                    File.WriteAllText(logPath, logOutput);
+                }
+            }
+
+            Window.GetWindow(this).Activate();
+            MessageBox.Show(output, Settings.GetLanguageString("TasksCompleted"));
+        }
+
+        void zShowCompletionMessage(ModInstallationStatus status)
         {
             if (status.AnySucceeded)
             {

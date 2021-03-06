@@ -16,6 +16,12 @@ namespace SporeMods.Core
 {
     public static class ModInstallation
     {
+        internal static bool IS_INSTALLING_MODS = false;
+        internal static Dictionary<string, Exception> INSTALL_FAILURES = new Dictionary<string, Exception>();
+
+        internal static bool IS_UNINSTALLING_MODS = false;
+
+
         [DllImport("shlwapi.dll")]
         static extern bool PathIsNetworkPath(string pszPath);
 
@@ -70,6 +76,7 @@ namespace SporeMods.Core
 
         public static async Task<ModInstallationStatus> InstallModsAsync(string[] modPaths)
         {
+            IS_INSTALLING_MODS = true;
             //ModsManager.Instance.AddToTaskCount(modPaths.Count(x => !PathIsNetworkPath(x)));
             InstallActivitiesCounter++;
             var retVal = new ModInstallationStatus();
@@ -82,7 +89,7 @@ namespace SporeMods.Core
                 
                 if (PathIsNetworkPath(path))
                 {
-                    result = new Exception("Cannot install mods from network locations. Please move the mod(s) to local storage and try again from there.");
+                    INSTALL_FAILURES.Add(Path.GetFileName(path), new Exception("Cannot install mods from network locations. Please move the mod(s) to local storage and try again from there."));
                 }
                 else if (Path.GetExtension(path).ToLowerInvariant() == ".package")
                 {
@@ -113,6 +120,7 @@ namespace SporeMods.Core
 
         public static void UninstallModsAsync(IInstalledMod[] modConfigurations)
         {
+            IS_UNINSTALLING_MODS = true;
             //ModsManager.Instance.AddToTaskCount(modConfigurations.Length);
             InstallActivitiesCounter++;
 
@@ -279,6 +287,7 @@ namespace SporeMods.Core
             }
             catch (Exception ex)
             {
+                INSTALL_FAILURES.Add(Path.GetFileName(path), ex);
                 return ex;
             }
         }
@@ -634,7 +643,8 @@ namespace SporeMods.Core
                     ModsManager.InstalledMods.Remove(mod);
                 }
                 ModsManager.InstalledMods.Add(new InstallError(path, ex));*/
-                MessageDisplay.ShowMessageBox(ex.ToString());
+                //MessageDisplay.ShowMessageBox(ex.ToString());
+                INSTALL_FAILURES.Add(Path.GetFileName(path), ex);
                 return ex;
             }
         }

@@ -223,7 +223,7 @@ namespace SporeMods.Core
 
         public event Func<ManagedMod, Task<bool>> ModConfiguratorShown;
 
-        
+
         bool _anyTasksRunning = false;
         public bool AnyTasksRunning
         {
@@ -284,6 +284,8 @@ namespace SporeMods.Core
             }
         }*/
 
+        public static event EventHandler<ModTasksCompletedEventArgs> TasksCompleted;
+
 
         // This must come last so it can initialize correctly
         public static ModsManager Instance = new ModsManager();
@@ -326,6 +328,16 @@ namespace SporeMods.Core
                         {
                             OverallProgress = 0;
                             OverallProgressTotal = 0;
+                            TasksCompleted?.Invoke(this, new ModTasksCompletedEventArgs()
+                            {
+                                InstalledAnyMods = ModInstallation.IS_INSTALLING_MODS,
+                                UninstalledAnyMods = ModInstallation.IS_UNINSTALLING_MODS,
+                                //ConfiguredMods //TODO
+                                Failures = ModInstallation.INSTALL_FAILURES
+                            });
+                            ModInstallation.IS_INSTALLING_MODS = false;
+                            ModInstallation.IS_UNINSTALLING_MODS = false;
+                            ModInstallation.INSTALL_FAILURES.Clear();
                         }
                     }
                     /*else if (!InstalledMods.OfType<ManagedMod>().Any(x => x.IsProgressing))
@@ -374,5 +386,16 @@ namespace SporeMods.Core
                 }, null);
             };
         }
+    }
+
+    public class ModTasksCompletedEventArgs : EventArgs
+    {
+        public bool InstalledAnyMods { get; internal set; } = false;
+        public bool UninstalledAnyMods { get; internal set; } = false;
+
+        public bool ReconfiguredAnyMods => ConfiguredMods.Count > 0;
+        public List<string> ConfiguredMods { get; internal set; } = new List<string>();
+
+        public Dictionary<string, Exception> Failures { get; internal set; } = new Dictionary<string, Exception>();
     }
 }

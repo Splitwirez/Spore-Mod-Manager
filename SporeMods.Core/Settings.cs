@@ -89,6 +89,20 @@ namespace SporeMods.Core
         }
 
         /// <summary>
+        /// Path to the Logs subfolder. Used for storing error logs and such.
+        /// </summary>
+        public static string LogsPath
+        {
+            get
+            {
+                string path = Path.Combine(ProgramDataPath, "Logs");
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+                return path;
+            }
+        }
+
+        /// <summary>
         /// Path to the mLibs subfolder. Used for storing ModAPI mods' DLLs for injection.
         /// </summary>
         public static string ModLibsPath
