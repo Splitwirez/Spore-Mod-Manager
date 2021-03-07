@@ -54,7 +54,7 @@
 
     <sys:String x:Key="StoreConfigWhere">Si us plau especifica la carpeta on el Spore Mod Manager hauria de guardar informació adicional, com mods i configuració.</sys:String>
     <sys:String x:Key="CannotStoreConfigInUserSpecificLocation">El Spore Mod Manager no pot guardar informació addicional en una ruta que depengui de l'usuari.</sys:String>
-    <sys:String x:Key="CannotStoreConfigInProtectedLocation">The Spore Mod Manager cannot store additional information in a protected location. (LOCALIZATION PENDING)</sys:String>
+    <sys:String x:Key="CannotStoreConfigInProtectedLocation">El Spore Mod Manager no pot guardar informació addicional en una carpeta protegida.</sys:String>
     <sys:String x:Key="CannotStoreConfigInExistingFolder">El Spore Mod Manager no pot guardar informació addicional en una carpeta que ja existeixi.</sys:String>
 
     <sys:String x:Key="CreateDesktopShortcuts">Crear accessos directes al Spore Mod Manager a l'escriptori.</sys:String>
