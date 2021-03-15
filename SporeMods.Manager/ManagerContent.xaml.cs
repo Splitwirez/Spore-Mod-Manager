@@ -107,6 +107,7 @@ namespace SporeMods.Manager
                 Dispatcher.BeginInvoke(new Action(() => ModInstallation_AddModProgress(sneder, args)));
             };
             ModsManager.TasksCompleted += ModsManager_TasksCompleted;
+            ManagedMod.AnyModIsProgressingChanged += (sneder, args) => EvaluateCanLaunch();
 
             Application.Current.Resources.MergedDictionaries[0].MergedDictionaries[1] = ShaleAccents.Sky.Dictionary;
             if (Settings.ShaleDarkTheme)
@@ -250,9 +251,19 @@ namespace SporeMods.Manager
                 }
                 LaunchGameButton.IsEnabled = canLaunch;*/
 
-                LaunchGameButton.IsEnabled = ModsManager.InstalledMods.OfType<ManagedMod>().Where(mod => mod.IsProgressing).Count() == 0;
+                LaunchGameButton.IsEnabled = !IsAnythingHappening(ModsManager.InstalledMods);
             }));
         }
+
+        bool IsAnythingHappening(IEnumerable<IInstalledMod> modsInQuestion) => modsInQuestion.Any(x =>
+        {
+            if (x == null)
+                return false;
+            if (x is ManagedMod mod)
+                return mod.IsProgressing;
+            else
+                return false;
+        });
 
         private void ModInstallation_AddModProgress(object sender, ModRegistrationEventArgs e)
         {
@@ -714,6 +725,7 @@ namespace SporeMods.Manager
                     ModConfiguratorDialogContentControl.IsOpen = false;
                     ConfiguratorBodyContentControl.Content = null;
                     UpdateActionButtonStates();
+                    EvaluateCanLaunch();
                 }));
                 tcs.TrySetResult(true);
             }
@@ -1609,18 +1621,18 @@ namespace SporeMods.Manager
                 if (list.SelectedItems.Count > 1)
                 {
                     ConfigureModButton.IsEnabled = false;
-                    bool areNoneProgressing = true;
-                    IInstalledMod[] configurations = new IInstalledMod[list.SelectedItems.Count];
-                    list.SelectedItems.CopyTo(configurations, 0);
-                    foreach (ManagedMod mod in configurations.OfType<ManagedMod>()/*.Where(x => x is InstalledMod)*/)
+                    //bool areNoneProgressing = true;
+                    IInstalledMod[] selectedMods = new IInstalledMod[list.SelectedItems.Count];
+                    list.SelectedItems.CopyTo(selectedMods, 0);
+                    /*foreach (ManagedMod mod in configurations.OfType<ManagedMod>()/*.Where(x => x is InstalledMod)*)
                     {
                         if (mod.IsProgressing)
                         {
                             areNoneProgressing = false;
                             break;
                         }
-                    }
-                    UninstallModsButton.IsEnabled = areNoneProgressing;
+                    }*/
+                    UninstallModsButton.IsEnabled = !IsAnythingHappening(selectedMods);
                 }
                 else if (list.SelectedItems.Count == 1)
                 {
@@ -1635,7 +1647,7 @@ namespace SporeMods.Manager
                     }
                     else
                     {
-                        UninstallModsButton.IsEnabled = false;
+                        UninstallModsButton.IsEnabled = list.SelectedItem is ManualInstalledFile;
                         ConfigureModButton.IsEnabled = false;
                     }
                 }

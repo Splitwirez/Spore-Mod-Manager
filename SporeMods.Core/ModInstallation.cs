@@ -80,7 +80,7 @@ namespace SporeMods.Core
         {
             IS_INSTALLING_MODS = true;
             //ModsManager.Instance.AddToTaskCount(modPaths.Count(x => !PathIsNetworkPath(x)));
-            InstallActivitiesCounter++;
+            //InstallActivitiesCounter++;
             var retVal = new ModInstallationStatus();
             //Task<ModInstallationStatus> task = new Task<ModInstallationStatus>(())
             for (int i = 0; i < modPaths.Length; i++)
@@ -116,7 +116,7 @@ namespace SporeMods.Core
                     retVal.Successes.Add(Path.GetFileName(path));
             }
 
-            InstallActivitiesCounter--;
+            //InstallActivitiesCounter--;
             return retVal;
         }
 
@@ -124,7 +124,7 @@ namespace SporeMods.Core
         {
             IS_UNINSTALLING_MODS = true;
             //ModsManager.Instance.AddToTaskCount(modConfigurations.Length);
-            InstallActivitiesCounter++;
+            //InstallActivitiesCounter++;
 
             List<IInstalledMod> modsToUninstall = modConfigurations.ToList();
             List<IInstalledMod> modsToThinkTwiceBeforeUninstalling = new List<IInstalledMod>();
@@ -152,7 +152,7 @@ namespace SporeMods.Core
                 mod.UninstallModAsync();
             }
 
-            InstallActivitiesCounter--;
+            //InstallActivitiesCounter--;
         }
 
         [DllImport("kernel32.dll", SetLastError = true)]

@@ -320,6 +320,7 @@ namespace SporeMods.Core
                     {
                         AnyTasksRunning = true;
                         OverallProgressTotal += 100;
+                        ModInstallation.InstallActivitiesCounter++;
                     }
                     else
                     {
@@ -328,6 +329,7 @@ namespace SporeMods.Core
                         {
                             OverallProgress = 0;
                             OverallProgressTotal = 0;
+                            ModInstallation.InstallActivitiesCounter = 0;
                             TasksCompleted?.Invoke(this, new ModTasksCompletedEventArgs()
                             {
                                 InstalledAnyMods = ModInstallation.IS_INSTALLING_MODS,
