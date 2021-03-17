@@ -53,7 +53,13 @@ namespace SporeMods.Core.ArgScript
                     {
                         if (line.StartsWith("#pragma"))
                         {
-                            currTweakId = line.Split(' ')[1];
+                            string[] lineSplit = line.Split(' ');
+                            if (lineSplit.Length == 1)
+                            {
+                                throw new InvalidPragmaException(
+                                    $"Invalid pragma on line {lineno}, missing tweak identifier.");
+                            }
+                            currTweakId = lineSplit[1];
                             start = lineno;
                             pragmaCount++;
                             recording = true;
@@ -65,6 +71,21 @@ namespace SporeMods.Core.ArgScript
                 {
                     Console.WriteLine("Expected #endpragma, got EOF");
                 }
+            }
+        }
+        
+        public class InvalidPragmaException : Exception
+        {
+            public override string ToString()
+            {
+                return Message;
+            }
+
+            public override string Message { get; }
+
+            public InvalidPragmaException(string message)
+            {
+                Message = message;
             }
         }
     }
