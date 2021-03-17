@@ -42,6 +42,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SporeMods.Setup", "SporeMod
 		{F32EB7C1-AD5B-44AE-941F-08339482B581} = {F32EB7C1-AD5B-44AE-941F-08339482B581}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgScriptTest", "ArgScriptTest\ArgScriptTest.csproj", "{2A94C372-7F4D-4817-8991-68939304CB1F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -88,6 +90,10 @@ Global
 		{D594F7E6-87BB-47C2-8701-1D976E38183B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D594F7E6-87BB-47C2-8701-1D976E38183B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D594F7E6-87BB-47C2-8701-1D976E38183B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A94C372-7F4D-4817-8991-68939304CB1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A94C372-7F4D-4817-8991-68939304CB1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A94C372-7F4D-4817-8991-68939304CB1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A94C372-7F4D-4817-8991-68939304CB1F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
