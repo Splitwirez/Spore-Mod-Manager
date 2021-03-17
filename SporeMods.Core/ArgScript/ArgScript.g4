@@ -20,13 +20,12 @@ public override IToken NextToken()
             .PullToken(base.NextToken);
     }
 
-    return denter
-        .NextToken();
+    return denter.NextToken();
 }
 }
 
 // An ArgScript file consists of a series of statements
-root : statement* EOF;
+root : (statement | EOL)* EOF;
 
 // A statement can be an if-statement, a command, a block-statement, or an include-statement
 // Also matches empty lines, i.e. \n
@@ -35,46 +34,53 @@ statement
     | block
     | command
     | include
-    | EOL
-    | COMMENT
+    | (pragma | COMMENT)
     ;
 
 // An include statement is the include keyword followed by a string with the name of the file to be included
 include
-    : 'include' STRING COMMENT?
+    : 'include' STRING COMMENT? EOL
+    ;
+    
+pragma
+    : '#pragma' expression EOL
     ;
     
 block
-    : keyword argument COMMENT? EOL statement+ 'end' COMMENT? EOL
+    : keyword argument COMMENT? structuralBlock 'end' COMMENT? EOL
+    ;
+    
+structuralBlock
+    : INDENT statement (EOL statement)* DEDENT
     ;
 
 if 
-    : 'if' '(' expression ')' COMMENT? EOL statement* elif* else? 'endif' COMMENT? EOL
+    : 'if' '(' expression ')' COMMENT? EOL? structuralBlock elif? 'endif' COMMENT? EOL
     ;
     
 elif
-    : 'elseif' '(' expression ')' COMMENT? EOL statement*
+    : 'elseif' '(' expression ')' COMMENT? structuralBlock else?
     ;
     
 else
-    : 'else' COMMENT? EOL statement*
+    : 'else' COMMENT? structuralBlock
     ;
 
 expression 
-    : ref           #atomic
-    | literal       #atomic
-    | call          #atomic
-    | left=expression op=('*' | '/') right=expression  #op
-    | left=expression op=('+' | '-') right=expression  #op
-    | left=expression op='>' right=expression #comp
-    | left=expression op='==' right=expression #comp
-    | left=expression op='>=' right=expression #comp
-    | left=expression op='<' right=expression #comp
-    | left=expression op='<=' right=expression #comp
-    | left=expression op='and' right=expression #bool
-    | left=expression op='or' right=expression #bool
-    | op='not' expression #bool
-    | '(' expression ')' #paren
+    : ref                                               #atomic
+    | literal                                           #atomic
+    | call                                              #atomic
+    | left=expression op=('*' | '/') right=expression   #op
+    | left=expression op=('+' | '-') right=expression   #op
+    | left=expression op='>' right=expression           #comp
+    | left=expression op='==' right=expression          #comp
+    | left=expression op='>=' right=expression          #comp
+    | left=expression op='<' right=expression           #comp
+    | left=expression op='<=' right=expression          #comp
+    | left=expression op='and' right=expression         #bool
+    | left=expression op='or' right=expression          #bool
+    | op='not' expression                               #bool
+    | '(' expression ')'                                #paren
     ;
     
 call
@@ -82,9 +88,7 @@ call
     ;
     
 param
-    : expression ','
-    | expression
-    | ID
+    : expression (',' expression)*
     ;
     
 ref
@@ -115,6 +119,8 @@ keyword
     : ID
     ;
     
+EOL: ('\r'?'\n'' '*);    
+
 STRING
   : UnterminatedStringLiteral '"'
   ;
@@ -127,13 +133,9 @@ UnterminatedStringLiteral
 ID : [a-zA-Z_]+ [a-zA-Z0-9_]* ;
     
 
-EOL: '\r'? '\n';
+COMMENT: CommentStart ~'\n'* | '#' [\n\r];
 
-COMMENT : '#' ~'\n'*;
-
-//COMMENT : '#' ~'\n'* -> channel(HIDDEN);
-
-//STRING : '"' ~'\n'* '"';
+CommentStart : '# ' | '##';
 
 OPTION : '-' ID;
 
@@ -143,7 +145,7 @@ FLOAT
     |   '-'? INT EXP            // 1e10 -3e4
     ;
     
-WS : [ \t]+ -> channel(HIDDEN) ;
+WS : [ \t]+ -> skip;
 
 fragment INT :   '0' | [1-9] [0-9]* ; // no leading zeros
 fragment EXP :   [Ee] [+\-]? INT ;

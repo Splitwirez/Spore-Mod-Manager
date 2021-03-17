@@ -8,6 +8,7 @@ namespace SporeMods.Core.ArgScript
 {
 	/**
 	 * Originally ArgScriptWriter from SMFX.
+	 * Extended to allow adding of pragma statements
 	 * Credit to Eric Mor
 	 */
     public class Writer
@@ -111,15 +112,12 @@ namespace SporeMods.Core.ArgScript
 			if (value) Option(name);
 			return this;
 		}
-		
-	//	public Writer arguments(String ... values) {
-	//		for (String v : values) {
-	//			if (!firstArgument) sb.append(' ');
-	//			sb.append(v);
-	//			firstArgument = false;
-	//		}
-	//		return this;
-	//	}
+
+		public Writer Pragma(string name)
+		{
+			_sb.Append($"#pragma {name}");
+			return this;
+		}
 		
 		public Writer Arguments(params object[] values) {
 			foreach (object v in values) {

@@ -13,7 +13,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
     <OutputPath>..\output\Debug\</OutputPath>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -43,5 +43,8 @@
     <EmbeddedResource Include="ModAPIDLLs\SporeModAPI-steam_patched.dll" />
     <EmbeddedResource Include="ModAPIDLLs\SporeModAPI.disk.dll" />
     <EmbeddedResource Include="ModAPIDLLs\SporeModAPI.march2017.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ArgScript\Parser" />
   </ItemGroup>
 </Project>

@@ -50,6 +50,12 @@ public interface IArgScriptVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitInclude([NotNull] ArgScriptParser.IncludeContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="ArgScriptParser.pragma"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitPragma([NotNull] ArgScriptParser.PragmaContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="ArgScriptParser.block"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

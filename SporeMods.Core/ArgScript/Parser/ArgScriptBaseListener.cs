@@ -72,6 +72,18 @@ public partial class ArgScriptBaseListener : IArgScriptListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitInclude([NotNull] ArgScriptParser.IncludeContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="ArgScriptParser.pragma"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterPragma([NotNull] ArgScriptParser.PragmaContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="ArgScriptParser.pragma"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitPragma([NotNull] ArgScriptParser.PragmaContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="ArgScriptParser.block"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>

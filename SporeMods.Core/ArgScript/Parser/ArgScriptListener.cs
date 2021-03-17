@@ -61,6 +61,16 @@ public interface IArgScriptListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitInclude([NotNull] ArgScriptParser.IncludeContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="ArgScriptParser.pragma"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterPragma([NotNull] ArgScriptParser.PragmaContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="ArgScriptParser.pragma"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitPragma([NotNull] ArgScriptParser.PragmaContext context);
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="ArgScriptParser.block"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
