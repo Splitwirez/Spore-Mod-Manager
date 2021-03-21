@@ -104,7 +104,7 @@ UpdatingProgressText Updating program, please wait...
 UpdatingProgressDllsText Updating ModAPI DLLs, please wait...
 Error_UpdateAvailableDlls An update to the ModAPI DLLs, needed to run modern mods, is available. However, it cannot be installed until you update the program. Please restart the program and allow it to update.
 Error_UpdateAvailableDllsTitle ModAPI DLLs cannot update
-Error_CannotCheckForUpdates Cannot check for updates, please check your internet connection.
+Error_CannotCheckForUpdates Update check failed, please check your internet connection.
 Error_CannotCheckForUpdatesTitle Cannot check for updates
 
 HelpHeader Need help?
@@ -181,6 +181,8 @@ Error_NotAClue Unknown
 
 Error_RunModManagerFirst Please run the Spore Mod Manager at least once before running the Spore Mod Launcher.
 
+Error_CantRunSporeWhileInstallingMods Cannot run Spore while mods are being installed or uninstalled.
+Error_StartupAborted To protect your save data, Spore startup was aborted.
 Error_ExeVersionNotRecognized Game executable version not recognized.
 Error_SporeVersionTooOld This version of Spore is too old. Please update to a supported patch.
 Error_DidTheyUpdateSpore This version of Spore is too new, and is not yet supported. To protect your save data, please refraing from playing Spore, modded or otherwise, until an update to the Spore Mod Manager is released to address this.

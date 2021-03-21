@@ -797,6 +797,12 @@ namespace SporeMods.Core
             return GetLanguageString(0, identifier);
         }
 
+        /// <summary>
+        /// 1 = Globals, 2 = CustomInstaller, 3 = Error, 4 = Importer
+        /// </summary>
+        /// <param name="prefix"></param>
+        /// <param name="identifier"></param>
+        /// <returns></returns>
         public static string GetLanguageString(int prefix, string identifier)
         {
             string prefixText = "";

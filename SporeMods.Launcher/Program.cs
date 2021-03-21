@@ -39,7 +39,20 @@ namespace SporeMods.Launcher
         [STAThread]
         static void Main(string[] programArgs)
         {
-            MessageDisplay.ErrorOccurred += (sender, args) => CommonUI.MessageDisplay.ShowException(args.Exception);
+            MessageDisplay.ErrorOccurred += (sender, args) =>
+            {
+                CommonUI.MessageDisplay.ShowException(args.Exception, false);
+                try
+                {
+                    if (SporeLauncher.IsSporeSuspended(true, out bool killed) && killed)
+                    {
+                        MessageBox.Show(Settings.GetLanguageString(3, "StartupAborted"));
+                    }
+                }
+                catch { }
+
+                Process.GetCurrentProcess().Close();
+            };
             MessageDisplay.MessageBoxShown += (sender, args) => CommonUI.MessageDisplay.ShowMessageBox(args.Content, args.Title);
             MessageDisplay.DebugMessageSent += (sneder, args) => CommonUI.MessageDisplay.ShowMessageBox(args.Content, args.Title);
             /*{
@@ -76,7 +89,7 @@ namespace SporeMods.Launcher
                         Application.Run();*/
                         if (File.Exists(Path.Combine(Settings.TempFolderPath, "InstallingSomething")))
                         {
-                            MessageBox.Show("Cannot run Spore while mods are being installed or uninstalled. (NOT LOCALIZED)");
+                            MessageBox.Show(Settings.GetLanguageString(3, "CantRunSporeWhileInstallingMods"));
                             Process.GetCurrentProcess().Kill();
                         }
 

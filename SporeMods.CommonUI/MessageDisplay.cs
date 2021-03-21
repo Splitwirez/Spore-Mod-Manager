@@ -13,7 +13,9 @@ namespace SporeMods.CommonUI
     public static class MessageDisplay
     {
         static bool EXCEPTION_SHOWN = false;
-        public static void ShowException(Exception exception)
+        public static void ShowException(Exception exception) => ShowException(exception, true);
+
+        public static void ShowException(Exception exception, bool killAfter)
         {
             if (!EXCEPTION_SHOWN)
             {
@@ -34,7 +36,9 @@ namespace SporeMods.CommonUI
                 {
                     MessageBox.Show(current.GetType() + ": " + current.Message + "\n" + current.Source + "\n" + current.StackTrace + errorText, errorTitle + count);
                 }
-                Process.GetCurrentProcess().Close();
+
+                if (killAfter)
+                    Process.GetCurrentProcess().Close();
             }
         }
 
