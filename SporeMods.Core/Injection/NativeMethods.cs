@@ -133,10 +133,10 @@ namespace SporeMods.Core.Injection
         public static extern IntPtr OpenThread(ThreadAccess dwDesiredAccess, bool bInheritHandle, uint dwThreadId);
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern uint ResumeThread(IntPtr hThread);
+        public static extern int ResumeThread(IntPtr hThread);
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern uint SuspendThread(IntPtr hThread);
+        public static extern int SuspendThread(IntPtr hThread);
 
         [DllImport("kernel32", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern bool CloseHandle(IntPtr handle);

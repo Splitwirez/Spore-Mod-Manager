@@ -305,8 +305,12 @@ namespace SporeMods.Core.Injection
                 IntPtr pOpenThread = NativeMethods.OpenThread(ThreadAccess.SUSPEND_RESUME, false, (uint)pT.Id);
                 if (pOpenThread != IntPtr.Zero) //((pOpenThread != IntPtr.Zero) && (Injector.WaitForSingleObject(pOpenThread, 0) != WAIT_ABANDONED))
                 {
-                    NativeMethods.SuspendThread(pOpenThread); //     r/therewasanattempt
-                    pOpenThreads.Add(pOpenThread);
+                    if (NativeMethods.SuspendThread(pOpenThread) == -1) //     r/therewasanattempt
+                    {
+                        ThrowWin32Exception("Thread suspend failed (NOT LOCALIZED)");
+                    }
+                    else
+                        pOpenThreads.Add(pOpenThread);
                 }
             }
             _processInfo.dwProcessId = (uint)process.Id;
@@ -336,11 +340,15 @@ namespace SporeMods.Core.Injection
                     continue;
                 }
 
-                uint suspendCount = 0;
+                /*uint suspendCount = 0;
                 do
                 {
-                    suspendCount = NativeMethods.ResumeThread(pOpenThread);
-                } while (suspendCount > 0);
+                    suspendCount = */
+                if (NativeMethods.ResumeThread(pOpenThread) == -1)
+                {
+                    ThrowWin32Exception("Thread resume failed (NOT LOCALIZED)");
+                }
+                //} while (suspendCount > 0);
 
                 NativeMethods.CloseHandle(pOpenThread);
 
