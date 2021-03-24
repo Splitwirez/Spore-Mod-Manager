@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.Loader;
 using System.Text;
 using System.Windows;
 using SporeMods.Core;
@@ -51,6 +53,32 @@ namespace SporeMods.CommonUI
 
             _isConfigValidationCompleted = true;
             return compatible;
+        }
+
+        public static void WarnIfMissingOriginPrerequisites(string assemblyPath/*System.Reflection.Assembly assembly*/)
+        {
+            AssemblyLoadContext ctx = new AssemblyLoadContext("e", true);
+            var assembly = ctx.LoadFromAssemblyPath(assemblyPath); //Assembly.Load(assemblyPath);
+            WarnIfMissingOriginPrerequisites(assembly);
+            ctx.Unload();
+        }
+
+        public static void WarnIfMissingOriginPrerequisites(Assembly assembly)
+        {
+            try
+            {
+                var apifix = assembly.GetManifestResourceStream("SporeMods.Launcher.ModAPIFix.SporeApp_ModAPIFix.exe");
+                var apidll = assembly.GetManifestResourceStream("SporeMods.Launcher.ModAPIFix.steam_api.dll");
+                if ((apifix == null) || (apidll == null))
+                    throw new ArgumentNullException();
+                else if (apifix.Length != 24885248)
+                    throw new InvalidOperationException();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("You are running a build of the Spore Mod Manager which is missing Origin Spore-specific prerequisites.\n\n" +
+                    "As such, if you are have installed Spore from Origin, you will have to use a build which has these prerequisites (such as an official build) at least once before you will be able to use this one. (NOT LOCALIZED)\n\n\n\n" + ex.ToString(), "Warning regarding Origin Spore (NOT LOCALIZED)");
+            }
         }
     }
 }

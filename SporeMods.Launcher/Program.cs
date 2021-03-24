@@ -70,6 +70,8 @@ namespace SporeMods.Launcher
                     MessageBox.Show(args.Content + "\n\n" + args.Exception.ToString(), args.Title);
              };*/
 
+            CommonUI.VersionValidation.WarnIfMissingOriginPrerequisites(Assembly.GetExecutingAssembly());
+
             if (CommonUI.VersionValidation.IsConfigVersionCompatible(false, out Version previousModMgrVersion))
             {
                 if (ServantCommands.RunLkImporter() == null)
