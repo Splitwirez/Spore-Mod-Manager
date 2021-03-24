@@ -19,6 +19,8 @@ namespace SporeMods.Setup
     /// </summary>
     public partial class App : Application
     {
+        public static string SetupExeName => Path.GetFileNameWithoutExtension(Process.GetCurrentProcess().MainModule.FileName);
+
         public static string Language = null;
         public static string LkPath = null;
         public static string MgrExePath = null;
@@ -71,7 +73,7 @@ namespace SporeMods.Setup
         {
             /*Resources.MergedDictionaries.Add(new ResourceDictionary()
             {
-                Source = new Uri("/SporeModManagerSetup;component/Locale/en-ca.xaml", UriKind.RelativeOrAbsolute)
+                Source = new Uri("/" + SetupExeName + ";component/Locale/en-ca.xaml", UriKind.RelativeOrAbsolute)
             });*/
             IEnumerable<string> args = Environment.GetCommandLineArgs().Skip(1);
 
@@ -168,7 +170,7 @@ namespace SporeMods.Setup
                     {
                         Resources.MergedDictionaries[0] = new ResourceDictionary()
                         {
-                            Source = new Uri("/SporeModManagerSetup;component/Locale/" + Language + ".xaml", UriKind.RelativeOrAbsolute)
+                            Source = new Uri("/" + SetupExeName + ";component/Locale/" + Language + ".xaml", UriKind.RelativeOrAbsolute)
                         };
                     }
                     catch

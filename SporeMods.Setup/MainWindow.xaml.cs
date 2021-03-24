@@ -129,9 +129,17 @@ namespace SporeMods.Setup
         {
             if (PleaseReadTheTermsBeforeCheckingThis.IsChecked == true)
             {
+                string reso = string.Empty;
+                foreach (string s in Application.ResourceAssembly.GetManifestResourceNames())
+                {
+                    reso += s + "\n";
+                }
+
+                Dispatcher.BeginInvoke(new Action(() => MessageBox.Show(reso, "RESOURCES")));
+#if OFFLINE_INSTALLER
                 DotnetRuntimeInstall.EnsureRuntimeIsInstalled(this);
+#endif
                 SetPage(InstallModePage);
-                //InstallSporeModManager();
             }
         }
 
@@ -359,14 +367,31 @@ namespace SporeMods.Setup
                     if (!Directory.Exists(_installPath))
                         Directory.CreateDirectory(_installPath);
 
-                //string rresources = string.Empty;
-                IEnumerable<string> resources = Application.ResourceAssembly.GetManifestResourceNames().Where(x => DotnetRuntimeInstall.IsPartOfSporeModManager(x));
 
+                    IEnumerable<string> resources = Application.ResourceAssembly.GetManifestResourceNames().Where(x => DotnetRuntimeInstall.IsPartOfSporeModManager(x));
                     Dispatcher.BeginInvoke(new Action(() => InstallProgressBar.Maximum = resources.Count() + 4));
 
                     foreach (string s in resources)
                     {
-                        string fileOutPath = Path.Combine(_installPath, s.Replace("SporeMods.Setup.", string.Empty));
+                        string fileOutPath = string.Empty;
+                        if (s.Contains(@"\"))
+                        {
+                            List<string> pathParts = s.Split('\\').ToList();
+                            List<string> dir = pathParts.Take(pathParts.Count - 1).ToList();
+                            
+                            dir.Insert(0, _installPath);
+                            string dirPath = Path.Combine(dir.ToArray());
+
+                            if (!Directory.Exists(dirPath))
+                                Directory.CreateDirectory(dirPath);
+
+                            //fileOutPath = Path.Combine(_installPath, s);
+                        }
+                        //else
+
+                        fileOutPath = Path.Combine(_installPath, s/*.Replace("SporeMods.Setup.", string.Empty)*/);
+                        
+
                         using (var resource = Application.ResourceAssembly.GetManifestResourceStream(s))
                         {
                             using (var file = new FileStream(fileOutPath, FileMode.Create, FileAccess.Write))

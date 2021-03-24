@@ -7,23 +7,32 @@
     <UseWindowsForms>true</UseWindowsForms>
     <AssemblyTitle>SporeMods.Setup</AssemblyTitle>
     <Product>SporeMods.Setup</Product>
-    <AssemblyName>SporeModManagerSetup</AssemblyName>
+    <AssemblyName>updater-$(TargetFramework)</AssemblyName>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
     <!--RuntimeIdentifier>win-x86</RuntimeIdentifier>
     <-SelfContained>True</SelfContained>
     <PublishSingleFile>True</PublishSingleFile>
     <PublishReadyToRun>true</PublishReadyToRun-->
   </PropertyGroup>
+  <PropertyGroup Condition="'$(SelfContained)' == 'true'">
+    <DefineConstants>OFFLINE_INSTALLER</DefineConstants>
+    <AssemblyName>SporeModManagerSetup</AssemblyName>
+  </PropertyGroup>
+  <!--PropertyGroup Condition="'$(PublishSingleFile)' != 'true'">
+  </PropertyGroup-->
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>full</DebugType>
-    <OutputPath>..\setupBin\Debug\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugType>pdbonly</DebugType>
-    <OutputPath>..\setupBin\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="DotnetRuntime\dotnet-desktopruntime-installer.exe" LogicalName="dotnet-desktopruntime-installer.exe"/>
-    <EmbeddedResource Include="..\unpackagedBin\$(Configuration)\$(TargetFramework)\**" />
+    <!--EmbeddedResource Include="..\unpackagedBin\$(Configuration)\$(TargetFramework)\**" /-->
+    <EmbeddedResource Include="..\unpackagedBin\$(Configuration)\$(TargetFramework)\**">
+      <Link>$(TargetFramework)\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.IO.FileSystem.AccessControl" Version="5.0.0" />

@@ -11,21 +11,9 @@
         <Button x:Name="OkButton" DockPanel.Dock="Bottom" Content="{DynamicResource Ok}" Click="OkButton_Click"/>
         <!--Path Data="M 0 4 L 4 8 L 8 0" Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" StrokeThickness="2"/-->
         <ComboBox x:Name="LanguagesComboBox" SelectionChanged="LanguagesComboBox_SelectionChanged" SelectedIndex="0" Margin="0,25">
-            <ComboBoxItem Content="English (Canada)">
-                <ComboBoxItem.Tag>
-                    <ResourceDictionary Source="pack://application:,,,/SporeModManagerSetup;component/Locale/en-ca.xaml"/>
-                </ComboBoxItem.Tag>
-            </ComboBoxItem>
-            <ComboBoxItem Content="Español (España)">
-                <ComboBoxItem.Tag>
-                    <ResourceDictionary Source="pack://application:,,,/SporeModManagerSetup;component/Locale/es-es.xaml"/>
-                </ComboBoxItem.Tag>
-            </ComboBoxItem>
-            <ComboBoxItem Content="Català">
-                <ComboBoxItem.Tag>
-                    <ResourceDictionary Source="pack://application:,,,/SporeModManagerSetup;component/Locale/ca-ca.xaml"/>
-                </ComboBoxItem.Tag>
-            </ComboBoxItem>
+            <ComboBoxItem Content="English (Canada)" Tag="pack://application:,,,/%EXENAME%;component/Locale/en-ca.xaml"/>
+            <ComboBoxItem Content="Español (España)" Tag="pack://application:,,,/%EXENAME%;component/Locale/es-es.xaml"/>
+            <ComboBoxItem Content="Català" Tag="pack://application:,,,/%EXENAME%;component/Locale/ca-ca.xaml"/>
         </ComboBox>
     </DockPanel>
 </Window>

@@ -21,6 +21,7 @@ namespace SporeMods.Setup
 
         public static void EnsureRuntimeIsInstalled(MainWindow window)
         {
+#if OFFLINE_INSTALLER
             window.Hide();
 
             string output = "RESOURCES:\n\n";
@@ -43,7 +44,7 @@ namespace SporeMods.Setup
                 }
             }
 
-            Process runtimeInstaller = Process.Start(new ProcessStartInfo(RUNTIME_SETUP_PATH/*, @"/passive /norestart"*/)
+            Process runtimeInstaller = Process.Start(new ProcessStartInfo(RUNTIME_SETUP_PATH, @"/passive /norestart")
             {
                 UseShellExecute = true
             });
@@ -51,14 +52,18 @@ namespace SporeMods.Setup
 
 
             //MessageBox.Show(output, "RESOURCES BE LIKE");
-            MessageBox.Show("Exit code was " + runtimeInstaller.ExitCode);
-            //1602 = cancelled?
+            if (runtimeInstaller.ExitCode != 0)
+            {
+                MessageBox.Show("Exit code was " + runtimeInstaller.ExitCode + "! SOMETHING MAY BE WRONG. IF YOU SEE THIS, REPORT THE POTENTIAL PROBLEM IMMEDIATELY (NOT LOCALIZED).");
+            }
+            //0 = success, 1602 = not success(?)
 
             if (Directory.Exists(RUNTIME_SETUP_FOLDER))
                 Directory.Delete(RUNTIME_SETUP_FOLDER, true);
 
 
             window.Show();
+#endif
         }
     }
 }

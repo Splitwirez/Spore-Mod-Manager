@@ -25,9 +25,16 @@ namespace SporeMods.Setup
 
         private void LanguagesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if ((LanguagesComboBox.SelectedItem is ComboBoxItem item) && (item.Tag is ResourceDictionary language))
+            if ((LanguagesComboBox.SelectedIndex > -1) && (LanguagesComboBox.SelectedIndex < LanguagesComboBox.Items.Count) && (LanguagesComboBox.SelectedItem != null) && (LanguagesComboBox.SelectedItem is ComboBoxItem item) && (item.Tag is string)/* && (item.Tag is ResourceDictionary language)*/)
             {
-                Application.Current.Resources.MergedDictionaries[0] = language;
+                var lang = new ResourceDictionary()
+                {
+                    Source = new Uri(item.Tag.ToString().Replace("%EXENAME%", App.SetupExeName), UriKind.RelativeOrAbsolute)
+                };
+                Application.Current.Resources.MergedDictionaries.Clear();
+                /*if (Application.Current.Resources.MergedDictionaries.Count > 0)
+                else*/
+                    Application.Current.Resources.MergedDictionaries.Add(lang);
             }
         }
 

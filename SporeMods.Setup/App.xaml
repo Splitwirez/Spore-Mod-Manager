@@ -5,7 +5,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/SporeModManagerSetup;component/Locale/en-ca.xaml"/>
+                <!--ResourceDictionary Source="pack://application:,,,/component/Locale/en-ca.xaml"/-->
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
