@@ -313,7 +313,11 @@ namespace SporeMods.Setup
 
                     try
                     {
-                        Process process = Process.Start(importerPath, "--mandate");
+                        Process process = Process.Start(new ProcessStartInfo(importerPath)
+                        {
+                            UseShellExecute = true,
+                            Arguments = "--mandate"
+                        });
                         process.WaitForExit();
                     }
                     catch (Win32Exception w32ex)

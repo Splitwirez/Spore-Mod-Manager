@@ -44,7 +44,10 @@ namespace SporeMods.CommonUI
                 {*/
                 try
                 {
-                    Process process = Process.Start(url);
+                    Process process = Process.Start(new ProcessStartInfo(url)
+                    {
+                        UseShellExecute = true
+                    });
 
                     if (process == null)
                         showFallback = true;

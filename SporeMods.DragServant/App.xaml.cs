@@ -42,7 +42,10 @@ namespace SporeMods.DragServant
                     case "OpenUrl":
                         string path = File.ReadAllText(args.FullPath);
                         if (path.StartsWith("http"))
-                            Process.Start(path);
+                            Process.Start(new ProcessStartInfo(path)
+                            {
+                                UseShellExecute = true
+                            });
                         break;
                     default:
                         processed = false;

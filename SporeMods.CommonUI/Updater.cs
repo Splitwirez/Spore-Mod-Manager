@@ -31,8 +31,7 @@ namespace SporeMods.CommonUI
                         return;
 
                     // Necessary to stablish SSL connection with Github API
-                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls |
-                        (SecurityProtocolType)768 | (SecurityProtocolType)3072;
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 
                     // We will only show one error even if it cannot check the two updates
                     WebException webException = null;
@@ -92,7 +91,10 @@ namespace SporeMods.CommonUI
 
                             while (Permissions.IsFileLocked(updaterPath))
                             { }
-                            Process.Start(updaterPath, "--update \"" + Path.GetDirectoryName(Process.GetCurrentProcess().GetExecutablePath()) + "\" \"" + Process.GetCurrentProcess().GetExecutablePath() + "\" --lang:" + Settings.CurrentLanguageCode);
+                            Process.Start(new ProcessStartInfo(updaterPath, "--update \"" + Path.GetDirectoryName(Process.GetCurrentProcess().GetExecutablePath()) + "\" \"" + Process.GetCurrentProcess().GetExecutablePath() + "\" --lang:" + Settings.CurrentLanguageCode)
+                            {
+                                UseShellExecute = true
+                            });
                             Process.GetCurrentProcess().Kill();
                         }
                     }
