@@ -60,20 +60,25 @@ namespace SporeMods.Manager
         public static readonly DependencyProperty CreditsProperty =
         DependencyProperty.Register(nameof(Credits), typeof(ObservableCollection<CreditsItem>), typeof(ManagerContent), new PropertyMetadata(new ObservableCollection<CreditsItem>()
         {
-            new CreditsItem("rob55rod", "Designed and (mostly) built the Spore Mod Manager."),
+            new CreditsItem("Splitwirez (formerly rob55rod)", "Designed and (mostly) built the Spore Mod Manager.", @"https://github.com/Splitwirez/"),
             new CreditsItem("emd4600", "Started the Spore ModAPI Project, created the original Spore ModAPI Launcher Kit from which the Spore Mod Manager was derived, and helped build the Spore Mod Manager to be as robust as possible.", @"https://github.com/emd4600/"),
-            new CreditsItem("reflectronic", "Provided significant guidance and assistance with internal structure and asynchronous behaviour.", @"https://github.com/reflectronic"),
-            new CreditsItem("DotNetZip (formerly Ionic.Zip)", "Zip archive library used throughout the Spore Mod Manager.", @"https://www.nuget.org/packages/Ionic.Zip"),
+            new CreditsItem("reflectronic", "Provided significant guidance and assistance with internal structure and asynchronous behaviour.", @"https://github.com/reflectronic/"),
+            new CreditsItem("DotNetZip (formerly Ionic.Zip)", "Zip archive library used throughout the Spore Mod Manager.", @"https://www.nuget.org/packages/DotNetZip/"),
             new CreditsItem("Newtonsoft", "Made the library to read JSON data.", @"https://www.newtonsoft.com/json"),
             new CreditsItem("cederenescio", "Provided substantial creative influence."),
-            new CreditsItem("ThePixelMouse", "Assisted substantially with figuring out how to make WINE cooperate."),
+            new CreditsItem("PricklySaguaro/ThePixelMouse", "Found a way to run the Spore ModAPI Launcher Kit under WINE, assisted with figuring out how to make WINE cooperate.", @"https://github.com/PricklySaguaro"),
             new CreditsItem("Huskky", "Assisted substantially with figuring out how to make WINE cooperate."),
-            new CreditsItem("Darhagonable", "Provided creative input, helped confirm the feasibility of supporting WINE setups on Linux.", @"http://youtube.com/Darhagonable"),
+            new CreditsItem("Darhagonable", "Provided creative input, helped confirm the feasibility of supporting WINE setups on Linux.", @"https://www.youtube.com/user/darhagonable"),
             new CreditsItem("KloxEdge", "Testing"),
             new CreditsItem("Liskomato", "Testing"),
             new CreditsItem("ChocIce75", "Testing"),
             new CreditsItem("TheRublixCube", "Testing"),
-            new CreditsItem("Deoxys_0", "Testing")
+            new CreditsItem("Deoxys_0", "Testing"),
+            new CreditsItem("Psi", "Testing"),
+            new CreditsItem("Ivy", "Testing"),
+            new CreditsItem("bandithedoge", "WINE regression testing", @"http://bandithedoge.com/"),
+            new CreditsItem("Masaochism", "Testing"),
+            new CreditsItem("Magic Gonads", "Testing", @"https://github.com/MagicGonads")
         }));
 
         FileSystemWatcher _dragWatcher = new FileSystemWatcher(Settings.TempFolderPath)
@@ -101,6 +106,8 @@ namespace SporeMods.Manager
             {
                 Dispatcher.BeginInvoke(new Action(() => ModInstallation_AddModProgress(sneder, args)));
             };
+            ModsManager.TasksCompleted += ModsManager_TasksCompleted;
+            ManagedMod.AnyModIsProgressingChanged += (sneder, args) => EvaluateCanLaunch();
 
             Application.Current.Resources.MergedDictionaries[0].MergedDictionaries[1] = ShaleAccents.Sky.Dictionary;
             if (Settings.ShaleDarkTheme)
@@ -244,9 +251,19 @@ namespace SporeMods.Manager
                 }
                 LaunchGameButton.IsEnabled = canLaunch;*/
 
-                LaunchGameButton.IsEnabled = ModsManager.InstalledMods.Where(mod => mod.IsProgressing).Count() == 0;
+                LaunchGameButton.IsEnabled = !IsAnythingHappening(ModsManager.InstalledMods);
             }));
         }
+
+        bool IsAnythingHappening(IEnumerable<IInstalledMod> modsInQuestion) => modsInQuestion.Any(x =>
+        {
+            if (x == null)
+                return false;
+            if (x is ManagedMod mod)
+                return mod.IsProgressing;
+            else
+                return false;
+        });
 
         private void ModInstallation_AddModProgress(object sender, ModRegistrationEventArgs e)
         {
@@ -698,33 +715,50 @@ namespace SporeMods.Manager
                 await task;
             }
 
+            bool proceedClicked = false;
             void ProceedButton_Click(object sender, RoutedEventArgs e)
             {
+                proceedClicked = true;
                 Dispatcher.BeginInvoke(new Action(() =>
                 {
+                    ModConfiguratorDialogContentControl.IsVisibleChanged -= ModConfiguratorDialogContentControl_IsVisibleChanged;
                     ModConfiguratorDialogContentControl.IsOpen = false;
                     ConfiguratorBodyContentControl.Content = null;
                     UpdateActionButtonStates();
+                    EvaluateCanLaunch();
                 }));
                 tcs.TrySetResult(true);
             }
 
+            void ModConfiguratorDialogContentControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+            {
+                if ((!proceedClicked)  && (e.NewValue is bool isVis) && (!isVis))
+                {
+                    Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        ModConfiguratorDialogContentControl.IsVisibleChanged -= ModConfiguratorDialogContentControl_IsVisibleChanged;
+                        ConfiguratorBodyContentControl.Content = null;
+                        UpdateActionButtonStates();
+                    }));
+                    tcs.TrySetResult(false);
+                }
+            }
+
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                ModConfiguratorModNameTextBlock.Text = Settings.GetLanguageString(2, "ModInstallerHeader").Replace("%MODNAME%", arg.DisplayName);
-
-                if (arg.Identity.InstallerSystemVersion.Major == 1)
+                var identityVersion = arg.Identity.InstallerSystemVersion;
+                if (ModIdentity.IsLauncherKitCompatibleXmlModIdentityVersion(identityVersion))
                 {
                     var configurator = new ModConfiguratorV1_0_0_0(arg);
-
-                    ModConfiguratorHeaderContentControl.MouseEnter += (sneder, args) => configurator.HeaderHover();
 
                     ConfiguratorBodyContentControl.Content = configurator;
                 }
 
+
                 CustomInstallerInstallButton.Click += ProceedButton_Click;
 
                 ModConfiguratorDialogContentControl.IsOpen = true;
+                ModConfiguratorDialogContentControl.IsVisibleChanged += ModConfiguratorDialogContentControl_IsVisibleChanged;
             }));
             bool retVal = await tcs.Task;
             Dispatcher.BeginInvoke(new Action(() =>
@@ -1250,7 +1284,63 @@ namespace SporeMods.Manager
 
         async Task InstallModsFromFilesAsync(string[] modPaths)
         {
-            ModInstallationStatus status = await ModInstallation.InstallModsAsync(modPaths);
+            /*ModInstallationStatus status = */await ModInstallation.InstallModsAsync(modPaths);
+        }
+
+        void ModsManager_TasksCompleted(object sender, ModTasksCompletedEventArgs e)
+        {
+            string logOutput = string.Empty;
+            string output = string.Empty;
+            if (e.InstalledAnyMods)
+                output += Settings.GetLanguageString(0, "ModsInstalledSuccessfully") + "\n\n";
+            
+            if (e.UninstalledAnyMods)
+                output += Settings.GetLanguageString(0, "ModsUninstalledSuccessfully") + "\n\n";
+
+            if (e.ReconfiguredAnyMods)
+                output += Settings.GetLanguageString(0, "ModsReconfiguredSuccessfully") + "\n\n";
+
+            if (e.Failures.Keys.Count > 0)
+            {
+                string logFileName = "InstallError___";
+                string dateNow = DateTime.Now.ToString();
+                foreach (char c in Path.GetInvalidPathChars())
+                {
+                    dateNow = dateNow.Replace(c, '-');
+                }
+                logFileName += dateNow + ".txt";
+                string logPath = Path.Combine(Settings.LogsPath, logFileName);
+
+
+                output += "\n\n" + Settings.GetLanguageString(0, "ModsFailedToInstall");
+
+                for (int i = 0; (i < e.Failures.Count) && (i < 5); i++)
+                {
+                    output += e.Failures.Keys.ElementAt(i) + "\n";
+                }
+
+                if (e.Failures.Count > 5)
+                    output += Settings.GetLanguageString(0, "ModsFailedToInstall2");
+
+                foreach (string s in e.Failures.Keys)
+                {
+                    logOutput += e.Failures + ": " + e.Failures[s].ToString() + "\n\n\n\n\n";
+                }
+
+                output += "\n\n" + Settings.GetLanguageString(0, "ModsFailedToInstall3").Replace("%LOGFILEPATH%", logPath);
+
+                if ((!string.IsNullOrEmpty(logOutput)) && (!string.IsNullOrWhiteSpace(logOutput)))
+                {
+                    File.WriteAllText(logPath, logOutput);
+                }
+            }
+
+            Window.GetWindow(this).Activate();
+            MessageBox.Show(output, Settings.GetLanguageString("TasksCompleted"));
+        }
+
+        void zShowCompletionMessage(ModInstallationStatus status)
+        {
             if (status.AnySucceeded)
             {
                 string output = string.Empty;
@@ -1531,33 +1621,33 @@ namespace SporeMods.Manager
                 if (list.SelectedItems.Count > 1)
                 {
                     ConfigureModButton.IsEnabled = false;
-                    bool areNoneProgressing = true;
-                    IInstalledMod[] configurations = new IInstalledMod[list.SelectedItems.Count];
-                    list.SelectedItems.CopyTo(configurations, 0);
-                    foreach (IInstalledMod mod in configurations/*.Where(x => x is InstalledMod)*/)
+                    //bool areNoneProgressing = true;
+                    IInstalledMod[] selectedMods = new IInstalledMod[list.SelectedItems.Count];
+                    list.SelectedItems.CopyTo(selectedMods, 0);
+                    /*foreach (ManagedMod mod in configurations.OfType<ManagedMod>()/*.Where(x => x is InstalledMod)*)
                     {
                         if (mod.IsProgressing)
                         {
                             areNoneProgressing = false;
                             break;
                         }
-                    }
-                    UninstallModsButton.IsEnabled = areNoneProgressing;
+                    }*/
+                    UninstallModsButton.IsEnabled = !IsAnythingHappening(selectedMods);
                 }
                 else if (list.SelectedItems.Count == 1)
                 {
-                    if ((list.SelectedItem is IInstalledMod item) && (!item.IsProgressing))
+                    if ((list.SelectedItem is ManagedMod item) && (!item.IsProgressing))
                     {
                         UninstallModsButton.IsEnabled = true;
 
-                        if ((list.SelectedItem is ManagedMod mod) && mod.HasConfigurator)
+                        if (item.HasConfigurator)
                             ConfigureModButton.IsEnabled = true;
                         else
                             ConfigureModButton.IsEnabled = false;
                     }
                     else
                     {
-                        UninstallModsButton.IsEnabled = false;
+                        UninstallModsButton.IsEnabled = list.SelectedItem is ManualInstalledFile;
                         ConfigureModButton.IsEnabled = false;
                     }
                 }
@@ -1576,7 +1666,7 @@ namespace SporeMods.Manager
 
         private void CreditsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (CreditsListView.SelectedItem != null)
+            /*if (CreditsListView.SelectedItem != null)
             {
                 try
                 {
@@ -1588,7 +1678,7 @@ namespace SporeMods.Manager
                 }
 
                 CreditsListView.SelectedItem = null;
-            }
+            }*/
         }
 
         private void HelpThreadButton_Click(object sender, RoutedEventArgs e)
@@ -1603,7 +1693,7 @@ namespace SporeMods.Manager
             win.Activated -= MainWindow_IsActiveChanged;
             win.Deactivated -= MainWindow_IsActiveChanged;
 
-            foreach (var mod in ModsManager.InstalledMods)
+            foreach (var mod in ModsManager.InstalledMods.OfType<ManagedMod>())
             {
                 if (mod.IsProgressing)
                 {

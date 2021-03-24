@@ -15,6 +15,13 @@ namespace SporeMods.Core.Mods
         public ModComponent(ModIdentity identity, string uniqueTag)
             : base(identity, uniqueTag)
         {
+            ModConfiguration.ConfigurationReset += (sneder, e) =>
+            {
+                if ((sneder is ManagedMod mod) && (mod == Identity.ParentMod))
+                {
+                    IsEnabled = GetIsEnabled();
+                }
+            };
         }
 
         protected override bool GetIsEnabled()

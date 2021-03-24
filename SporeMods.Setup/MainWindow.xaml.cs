@@ -26,7 +26,7 @@ namespace SporeMods.Setup
     /// </summary>
     public partial class MainWindow : Window
     {
-        static string usersDir = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)).Parent.ToString().ToLowerInvariant();
+        static string usersDir = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)).Parent.ToString().ToLowerInvariant() + Path.DirectorySeparatorChar;
         static bool debug = Environment.GetCommandLineArgs().Skip(1).Any(x => x.ToLower() == "--debug");
         static bool isUpdatingModManager = false;
         static bool isUpdatingFromLauncherKit = false;
@@ -129,6 +129,7 @@ namespace SporeMods.Setup
         {
             if (PleaseReadTheTermsBeforeCheckingThis.IsChecked == true)
             {
+                DotnetRuntimeInstall.EnsureRuntimeIsInstalled(this);
                 SetPage(InstallModePage);
                 //InstallSporeModManager();
             }
@@ -199,7 +200,11 @@ namespace SporeMods.Setup
             if (!storageDoesntExistOrIsAlreadyMgrStoragePath)
                 storageDoesntExistOrIsAlreadyMgrStoragePath = File.Exists(Path.Combine(text, "ModManagerSettings.xml"));
 
-            if (storageDoesntExistOrIsAlreadyMgrStoragePath && (!text.ToLowerInvariant().StartsWith(usersDir)))
+            bool inUserDir = text.ToLowerInvariant().StartsWith(usersDir);
+            bool inProgramFiles = text.ToLowerInvariant().StartsWith(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles).ToLowerInvariant() + Path.DirectorySeparatorChar) ||
+                            (Environment.Is64BitOperatingSystem && text.ToLowerInvariant().StartsWith(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86).ToLowerInvariant() + Path.DirectorySeparatorChar));
+
+            if (storageDoesntExistOrIsAlreadyMgrStoragePath && (!inUserDir) && (!inProgramFiles))
             {
                 _storagePath = text;
                 SelectStoragePathBadPathBorder.BorderThickness = new Thickness(0);
@@ -210,8 +215,10 @@ namespace SporeMods.Setup
             {
                 SelectStoragePathBadPathBorder.BorderThickness = new Thickness(1);
                 SelectStoragePathNextButton.IsEnabled = false;
-                if (text.ToLowerInvariant().StartsWith(usersDir))
+                if (inUserDir)
                     SelectStoragePathError.SetResourceReference(TextBlock.TextProperty, "CannotStoreConfigInUserSpecificLocation"); //.Text = "The Spore Mod Manager cannot store additional information in a user-specific location.";
+                else if (inProgramFiles)
+                    SelectStoragePathError.SetResourceReference(TextBlock.TextProperty, "CannotStoreConfigInProtectedLocation");
                 else
                     SelectStoragePathError.SetResourceReference(TextBlock.TextProperty, "CannotStoreConfigInExistingFolder"); //.Text = "The Spore Mod Manager cannot store additional information in a pre-existing folder.";
             }
@@ -287,7 +294,7 @@ namespace SporeMods.Setup
                     Application.Current.Shutdown(SetupInfo.EXIT_RUN_MOD_MGR);
                 }*/
 
-                if (false) //dodging this UAC prompt seems to be a bridge too far
+                /*if (false) //dodging this UAC prompt seems to be a bridge too far
                 {
                     Hide();
                     AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
@@ -299,7 +306,7 @@ namespace SporeMods.Setup
                     var importer = Assembly.LoadFrom(Path.Combine(_installPath, "SporeMods.KitImporter.exe"));
                     Window importerWindow = (Window)Activator.CreateInstance(importer.GetType("SporeMods.KitImporter.MainWindow"));
                     importerWindow.ShowDialog();
-                }
+                }*/
 
                 if ((!isUpdatingModManager) && isUpdatingFromLauncherKit)
                 {
@@ -309,7 +316,8 @@ namespace SporeMods.Setup
                     {
                         Process process = Process.Start(new ProcessStartInfo(importerPath)
                         {
-                            UseShellExecute = true
+                            UseShellExecute = true,
+                            Arguments = "--mandate"
                         });
                         process.WaitForExit();
                     }
@@ -321,6 +329,7 @@ namespace SporeMods.Setup
                         DebugMessageBox("forceLkImportPath: " + forceLkImportPath);
                     }
                 }
+                Application.Current.Shutdown(300);
             }
         }
 
@@ -340,13 +349,18 @@ namespace SporeMods.Setup
             {
                 SetPage(InstallProgressPage);
                 DebugMessageBox("INSTALL PATH: " + _installPath + "\nSTORAGE PATH: " + _storagePath);
+
+                bool createShortcuts = CreateDesktopShortcutsCheckBox.IsChecked.Value;
+                if (isUpdatingModManager)
+                    createShortcuts = false;
+
                 Thread thread = new Thread(() =>
                 {
                     if (!Directory.Exists(_installPath))
                         Directory.CreateDirectory(_installPath);
 
                 //string rresources = string.Empty;
-                IEnumerable<string> resources = Application.ResourceAssembly.GetManifestResourceNames().Where(x => !x.ToLowerInvariant().EndsWith(".resources"));
+                IEnumerable<string> resources = Application.ResourceAssembly.GetManifestResourceNames().Where(x => DotnetRuntimeInstall.IsPartOfSporeModManager(x));
 
                     Dispatcher.BeginInvoke(new Action(() => InstallProgressBar.Maximum = resources.Count() + 4));
 
@@ -370,21 +384,26 @@ namespace SporeMods.Setup
 
                     if (App.MgrExePath == null)
                     {
+                        string redirect = Path.Combine(DEFAULT_STORAGE_PATH, "redirectStorage.txt");
                         if (_storagePath != DEFAULT_STORAGE_PATH)
                         {
                             if (!Directory.Exists(DEFAULT_STORAGE_PATH))
                                 Directory.CreateDirectory(DEFAULT_STORAGE_PATH);
 
-                            string redirect = Path.Combine(DEFAULT_STORAGE_PATH, "redirectStorage.txt");
+
                             File.WriteAllText(redirect, _storagePath);
 
                             Permissions.GrantAccessFile(redirect);
                         }
+                        else if (File.Exists(redirect))
+                            File.Delete(redirect);
+
                         Permissions.GrantAccessDirectory(_storagePath);
                         /*Dispatcher.BeginInvoke(new Action(() =>
                         {
                             DebugMessageBox(rresources);
                         }));*/
+
                         string menuShortcutDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu), "Spore Mod Manager");
                         if (!Directory.Exists(menuShortcutDir))
                             Directory.CreateDirectory(menuShortcutDir);
@@ -413,26 +432,33 @@ namespace SporeMods.Setup
                         Dispatcher.BeginInvoke(new Action(() => InstallProgressBar.Value++));
 
 
-                        Shortcut.IShellLinkW mgrDesktopShortcut = Shortcut.GetShortcut();
-                        mgrDesktopShortcut.SetPath(mgrPath);
-                        string mgrDesktopOutPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory), "Spore Mod Manager.lnk");
-                        if (File.Exists(mgrDesktopOutPath))
-                            File.Delete(mgrDesktopOutPath);
-                        ((IPersistFile)mgrDesktopShortcut).Save(mgrDesktopOutPath, false);
-                        Permissions.GrantAccessFile(mgrDesktopOutPath);
+                        if (createShortcuts)
+                        {
+                            Shortcut.IShellLinkW mgrDesktopShortcut = Shortcut.GetShortcut();
+                            mgrDesktopShortcut.SetPath(mgrPath);
+                            string mgrDesktopOutPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory), "Spore Mod Manager.lnk");
+                            if (File.Exists(mgrDesktopOutPath))
+                                File.Delete(mgrDesktopOutPath);
+                            ((IPersistFile)mgrDesktopShortcut).Save(mgrDesktopOutPath, false);
+                            Permissions.GrantAccessFile(mgrDesktopOutPath);
+                        }
                         Dispatcher.BeginInvoke(new Action(() => InstallProgressBar.Value++));
 
-                        Shortcut.IShellLinkW launcherDesktopShortcut = Shortcut.GetShortcut();
-                        launcherDesktopShortcut.SetPath(launcherPath);
-                        string launcherDesktopOutPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory), "Launch Spore.lnk");
-                        if (File.Exists(launcherDesktopOutPath))
-                            File.Delete(launcherDesktopOutPath);
-                        ((IPersistFile)launcherDesktopShortcut).Save(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory), "Launch Spore.lnk"), false);
-                        Permissions.GrantAccessFile(launcherDesktopOutPath);
+                        if (createShortcuts)
+                        {
+                            Shortcut.IShellLinkW launcherDesktopShortcut = Shortcut.GetShortcut();
+                            launcherDesktopShortcut.SetPath(launcherPath);
+                            string launcherDesktopOutPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory), "Launch Spore.lnk");
+                            if (File.Exists(launcherDesktopOutPath))
+                                File.Delete(launcherDesktopOutPath);
+                            ((IPersistFile)launcherDesktopShortcut).Save(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory), "Launch Spore.lnk"), false);
+                            Permissions.GrantAccessFile(launcherDesktopOutPath);
+                        }
                         Dispatcher.BeginInvoke(new Action(() => InstallProgressBar.Value++));
 
                         Permissions.GrantAccessDirectory(menuShortcutDir);
 
+                        /*
                         //purge Launcher Kit shortcuts
                         try
                         {
@@ -456,6 +482,7 @@ namespace SporeMods.Setup
                             }
                         }
                         catch { }
+                        */
                     }
 
 
@@ -483,6 +510,7 @@ namespace SporeMods.Setup
 
         private void SuccessCloseButton_Click(object sender, RoutedEventArgs e)
         {
+            Application.Current.Shutdown(300);
             Close();
         }
 

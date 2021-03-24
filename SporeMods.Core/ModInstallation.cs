@@ -16,6 +16,14 @@ namespace SporeMods.Core
 {
     public static class ModInstallation
     {
+        internal static bool IS_INSTALLING_MODS = false;
+        internal static Dictionary<string, Exception> INSTALL_FAILURES = new Dictionary<string, Exception>();
+
+        internal static bool IS_UNINSTALLING_MODS = false;
+
+        internal static bool IS_RECONFIGURING_MODS = false;
+
+
         [DllImport("shlwapi.dll")]
         static extern bool PathIsNetworkPath(string pszPath);
 
@@ -70,7 +78,9 @@ namespace SporeMods.Core
 
         public static async Task<ModInstallationStatus> InstallModsAsync(string[] modPaths)
         {
-            InstallActivitiesCounter++;
+            IS_INSTALLING_MODS = true;
+            //ModsManager.Instance.AddToTaskCount(modPaths.Count(x => !PathIsNetworkPath(x)));
+            //InstallActivitiesCounter++;
             var retVal = new ModInstallationStatus();
             //Task<ModInstallationStatus> task = new Task<ModInstallationStatus>(())
             for (int i = 0; i < modPaths.Length; i++)
@@ -81,15 +91,15 @@ namespace SporeMods.Core
                 
                 if (PathIsNetworkPath(path))
                 {
-                    result = new Exception("Cannot install mods from network locations. Please move the mod(s) to local storage and try again from there.");
+                    INSTALL_FAILURES.Add(Path.GetFileName(path), new Exception("Cannot install mods from network locations. Please move the mod(s) to local storage and try again from there."));
                 }
                 else if (Path.GetExtension(path).ToLowerInvariant() == ".package")
                 {
-                    result = await RegisterLoosePackageModAsync(path);
+                    /*result = await */RegisterLoosePackageModAsync(path);
                 }
                 else if (Path.GetExtension(path).ToLowerInvariant() == ".sporemod")
                 {
-                    result = await RegisterSporemodModAsync(path);
+                    /*result = await */RegisterSporemodModAsync(path);
                 }
                 else
                 {
@@ -106,13 +116,15 @@ namespace SporeMods.Core
                     retVal.Successes.Add(Path.GetFileName(path));
             }
 
-            InstallActivitiesCounter--;
+            //InstallActivitiesCounter--;
             return retVal;
         }
 
         public static void UninstallModsAsync(IInstalledMod[] modConfigurations)
         {
-            InstallActivitiesCounter++;
+            IS_UNINSTALLING_MODS = true;
+            //ModsManager.Instance.AddToTaskCount(modConfigurations.Length);
+            //InstallActivitiesCounter++;
 
             List<IInstalledMod> modsToUninstall = modConfigurations.ToList();
             List<IInstalledMod> modsToThinkTwiceBeforeUninstalling = new List<IInstalledMod>();
@@ -140,7 +152,7 @@ namespace SporeMods.Core
                 mod.UninstallModAsync();
             }
 
-            InstallActivitiesCounter--;
+            //InstallActivitiesCounter--;
         }
 
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -237,16 +249,25 @@ namespace SporeMods.Core
                         IsProgressing = true
                     };
 
-                    ModsManager.AddMod(mod);
-                    //mod = await ManagedMods.Instance.GetModConfigurationAsync(noExtensionName);
-                    //mod.FileCount = 2;
-
                     Task task = new Task(() =>
                     {
-                        File.Copy(path, Path.Combine(dir, name));
+                        var prevMod = ModsManager.GetManagedMod(noExtensionName);
+                        if (prevMod != null)
+                        {
+                            int prevModIndex = ModsManager.InstalledMods.IndexOf(prevMod);
+                            ModsManager.RemoveMod(prevMod);
+                            ModsManager.InsertMod(prevModIndex, mod);
+                        }
+                        else
+                            ModsManager.AddMod(mod);
+                        //mod = await ManagedMods.Instance.GetModConfigurationAsync(noExtensionName);
+                        //mod.FileCount = 2;
+
+                        FileWrite.SafeCopyFile(path, Path.Combine(dir, name));
                     });
                     task.Start();
                     await task;
+
                     ModsManager.RemoveMatchingManuallyInstalledFile(name, ComponentGameDir.GalacticAdventures);
                     mod.Progress++;
 
@@ -268,6 +289,7 @@ namespace SporeMods.Core
             }
             catch (Exception ex)
             {
+                INSTALL_FAILURES.Add(Path.GetFileName(path), ex);
                 return ex;
             }
         }
@@ -278,6 +300,7 @@ namespace SporeMods.Core
             string name = string.Empty;
             bool proceed = false;
             ManagedMod mod = null;
+            string compareUniquePath = string.Empty;
             try
             {
                 name = Path.GetFileNameWithoutExtension(path).Replace(".", "-");
@@ -297,9 +320,16 @@ namespace SporeMods.Core
                         if (zip.ContainsEntry("ModInfo.xml"))
                         {
                             ZipEntry entry = zip["ModInfo.xml"];
-                            entry.Extract(Settings.TempFolderPath, ExtractExistingFileAction.OverwriteSilently);
-                            Permissions.GrantAccessFile(Path.Combine(Settings.TempFolderPath, entry.FileName));
-                            XDocument compareDocument = XDocument.Load(Path.Combine(Settings.TempFolderPath, "ModInfo.xml"));
+                            //compareUniquePath = Path.Combine(Settings.TempFolderPath, name + ".xml");
+                            //entry.OpenReader()
+                            //entry.Extract(Settings.TempFolderPath, ExtractExistingFileAction.OverwriteSilently);
+                            XDocument compareDocument = null; //XDocument.Load(compareUniquePath);
+                            using (Stream strm = entry.OpenReader() /*FileStream stream = new FileStream(compareUniquePath, FileMode.OpenOrCreate)*/)
+                            {
+                                compareDocument = XDocument.Load(strm); //compareUniquePath);
+                                //entry.Extract(stream);
+                            }
+                            //Permissions.GrantAccessFile(compareUniquePath);
 
                             Version identityVersion = ModIdentity.UNKNOWN_MOD_VERSION;
                             var xmlModIdentityVersionAttr = compareDocument.Root.Attribute("installerSystemVersion");
@@ -307,11 +337,7 @@ namespace SporeMods.Core
                             {
                                 if (Version.TryParse(xmlModIdentityVersionAttr.Value, out identityVersion))
                                 {
-                                    if (
-                                            (identityVersion != ModIdentity.XmlModIdentityVersion1_0_0_0) &&
-                                            (identityVersion != ModIdentity.XmlModIdentityVersion1_0_1_0) &&
-                                            (identityVersion != ModIdentity.XmlModIdentityVersion1_0_1_1)
-                                        )
+                                    if (!ModIdentity.IsLauncherKitCompatibleXmlModIdentityVersion(identityVersion))
                                     {
                                         throw new UnsupportedXmlModIdentityVersionException(identityVersion);
                                     }
@@ -346,7 +372,7 @@ namespace SporeMods.Core
                             {
                                 unique = uniqueAttr.Value;
 
-                                foreach (char c in Path.GetInvalidFileNameChars())
+                                foreach (char c in Path.GetInvalidPathChars())
                                     unique = unique.Replace(c.ToString(), string.Empty);
 
                                 dir = Path.Combine(Settings.ModConfigsPath, unique);
@@ -403,7 +429,11 @@ namespace SporeMods.Core
                                 string xmlPath = Path.Combine(s, "ModInfo.xml");
                                 if (File.Exists(xmlPath))
                                 {
-                                    XDocument modDocument = XDocument.Load(xmlPath);
+                                    XDocument modDocument = null;
+                                    using (FileStream stream = new FileStream(xmlPath, FileMode.OpenOrCreate, FileAccess.Read))
+                                    {
+                                        modDocument = XDocument.Load(stream);
+                                    }
                                     string modUnique = Path.GetFileName(s);
                                     var modAttr = modDocument.Root.Attribute("unique");
                                     if (modAttr != null)
@@ -423,6 +453,8 @@ namespace SporeMods.Core
                                 }
                             }
                         }
+                        if (File.Exists(compareUniquePath))
+                            File.Delete(compareUniquePath);
                     }/*, TaskCreationOptions.LongRunning*/);
                     validateModTask.Start();
                     await validateModTask;
@@ -613,13 +645,15 @@ namespace SporeMods.Core
                     ModsManager.InstalledMods.Remove(mod);
                 }
                 ModsManager.InstalledMods.Add(new InstallError(path, ex));*/
+                //MessageDisplay.ShowMessageBox(ex.ToString());
+                INSTALL_FAILURES.Add(Path.GetFileName(path), ex);
                 return ex;
             }
         }
 
         public static void CreateModInfoXml(string name, string dir, out XDocument document)
         {
-            document = XDocument.Parse(@"<mod>
+            /*document = XDocument.Parse(@"<mod>
 </mod>");
             document.Root.SetAttributeValue("unique", name);
             document.Root.SetAttributeValue("displayName", name);
@@ -627,7 +661,8 @@ namespace SporeMods.Core
             document.Root.SetAttributeValue("copyAllFiles", true.ToString());
             document.Root.SetAttributeValue("canDisable", false.ToString());
 
-            document.Save(Path.Combine(dir, "ModInfo.xml"));
+            document.Save(Path.Combine(dir, "ModInfo.xml"));*/
+            CreateModInfoXml(name, name, dir, out document);
         }
 
         public static void CreateModInfoXml(string unique, string displayName, string dir, out XDocument document)
@@ -650,6 +685,7 @@ namespace SporeMods.Core
             Debug.Assert(mod != null);
             if (mod.HasConfigurator)
             {
+                bool isProgressing = mod.IsProgressing;
                 /*foreach (ModComponent m in mod.Configurator.Components)
                 {
                     DebugMessageBoxShow("DisplayName: " + m.DisplayName + "\nUnique: " + m.Unique + "\nIsEnabled: " + m.IsEnabled);
@@ -658,7 +694,13 @@ namespace SporeMods.Core
                 //DebugMessageBoxShow("Component count: " + mod.Configurator.Components.Count + "\nXML Mod Identity Version: " + mod.XmlVersion);
 
                 if (await ModsManager.Instance.ShowModConfigurator(mod))
+                {
+                    if (!isProgressing)
+                        IS_RECONFIGURING_MODS = true;
                     await mod.EnableMod();
+                }
+                else if (!isProgressing)
+                    mod.Configuration.Reload();
             }
             else
             {

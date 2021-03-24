@@ -59,12 +59,12 @@ namespace SporeMods.Core
 
             _searching = true;
             var mods = new ObservableCollection<IInstalledMod>();
-            ModsManager.SyncContext.Send(state => mods = ModsManager.InstalledMods, null);
+            ModsManager.RunOnMainSyncContext(state => mods = ModsManager.InstalledMods);
             for (int i = 0; i < mods.Count; i++)
             {
                 if (_cancel)
                 {
-                    ModsManager.SyncContext.Send(state => Instance.SearchResults.Clear(), null);
+                    ModsManager.RunOnMainSyncContext(state => Instance.SearchResults.Clear());
                     _cancel = false;
                     break;
                 }
@@ -78,9 +78,7 @@ namespace SporeMods.Core
                     || (searchTags && false/*temp*/)
                     )
                     {
-                        ModsManager.SyncContext.Send(state => {
-                            Instance.SearchResults.Add(mod);
-                        }, null);
+                        ModsManager.RunOnMainSyncContext(state => Instance.SearchResults.Add(mod));
                     }
                 }
             }

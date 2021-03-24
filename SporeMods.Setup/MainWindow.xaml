@@ -99,31 +99,32 @@
         </DockPanel>
         <DockPanel x:Name="SelectInstallPathPage" Visibility="Collapsed">
             <Button x:Name="SelectInstallPathNextButton" DockPanel.Dock="Bottom" Click="SelectInstallPathNextButton_Click" Content="{DynamicResource Next}"/>
-            <UniformGrid Columns="1" Margin="20">
-                <TextBlock VerticalAlignment="Center" Text="{DynamicResource InstallToWhere}"/>
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="20">
+                <TextBlock VerticalAlignment="Center" Text="{DynamicResource InstallToWhere}" TextWrapping="Wrap"/>
                 <Border x:Name="SelectInstallPathBadPathBorder" BorderBrush="Red" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                     <DockPanel HorizontalAlignment="Stretch">
-                        <TextBlock DockPanel.Dock="Bottom" x:Name="SelectInstallPathError" Foreground="Red"/>
+                        <TextBlock DockPanel.Dock="Bottom" x:Name="SelectInstallPathError" Foreground="Red" TextWrapping="Wrap"/>
                         <Button x:Name="SelectInstallPathBrowseButton" Click="SelectInstallPathBrowseButton_Click" DockPanel.Dock="Right" Content="{DynamicResource Browse}"/>
                         <Button x:Name="SelectInstallPathDefaultButton" Click="SelectInstallPathDefaultButton_Click" DockPanel.Dock="Left" Content="{DynamicResource Reset}"/>
                         <TextBox x:Name="SelectInstallPathTextBox" TextChanged="SelectInstallPathTextBox_TextChanged"/>
                     </DockPanel>
                 </Border>
-            </UniformGrid>
+                <CheckBox x:Name="CreateDesktopShortcutsCheckBox" Content="{DynamicResource CreateDesktopShortcuts}" IsChecked="True"/>
+            </StackPanel>
         </DockPanel>
         <DockPanel x:Name="SelectStoragePathPage" Visibility="Collapsed">
             <Button x:Name="SelectStoragePathNextButton" DockPanel.Dock="Bottom" Click="SelectStoragePathNextButton_Click" Content="{DynamicResource Next}"/>
-            <UniformGrid Columns="1" Margin="20">
-                <TextBlock VerticalAlignment="Center"></TextBlock>
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="20">
+                <TextBlock VerticalAlignment="Center" Text="{DynamicResource StoreConfigWhere}" TextWrapping="Wrap"/>
                 <Border x:Name="SelectStoragePathBadPathBorder" BorderBrush="Red" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                     <DockPanel HorizontalAlignment="Stretch">
-                        <TextBlock DockPanel.Dock="Bottom" x:Name="SelectStoragePathError" Foreground="Red"/>
+                        <TextBlock DockPanel.Dock="Bottom" x:Name="SelectStoragePathError" Foreground="Red" TextWrapping="Wrap"/>
                         <Button x:Name="SelectStoragePathBrowseButton" Click="SelectStoragePathBrowseButton_Click" DockPanel.Dock="Right" Content="{DynamicResource Browse}"/>
                         <Button x:Name="SelectStoragePathDefaultButton" Click="SelectStoragePathDefaultButton_Click" DockPanel.Dock="Left" Content="{DynamicResource Reset}"/>
                         <TextBox x:Name="SelectStoragePathTextBox" TextChanged="SelectStoragePathTextBox_TextChanged"/>
                     </DockPanel>
                 </Border>
-            </UniformGrid>
+            </StackPanel>
         </DockPanel>
         <Grid x:Name="InstallProgressPage" Visibility="Collapsed">
             <ProgressBar x:Name="InstallProgressBar" VerticalAlignment="Center" Margin="20" Height="24"/>

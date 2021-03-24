@@ -140,8 +140,13 @@ AllSporeModsFilter Spore mods (%EXTENSIONS%)
 NowInstalling Instal·lant...
 InstallationComplete Instal·lació finalitzada!
 
-ModsInstalledSuccessfully Aquests mods s'han instal·lat correctament
-ModsFailedToInstall Aquests mods no s'han pogut instal·lar
+TasksCompleted Tasques completades
+ModsInstalledSuccessfully Els mods s'han instal·lat correctament
+ModsUninstalledSuccessfully Els mods s'han desinstal·lat correctament
+ModsReconfiguredSuccessfully Els mods han estat reconfigurats correctament
+ModsFailedToInstall Alguna cosa ha sortit malament en processar aquests mods:
+ModsFailedToInstall2 i uns quants més
+ModsFailedToInstall3 S'ha guardat més informació a "%LOGFILEPATH%"
 
 CopyUrlIntoBrowser Copia el següent enllaç al teu navegador web.
 CopypasteToTechSupport Copia el text de baix, i envia'l a qui te l'hagi demanat.
@@ -176,6 +181,8 @@ Error_NotAClue Desconegut
 
 Error_RunModManagerFirst Si us plau, executa el Spore Mod Manager almenys un cop abans de poder utilitzar el Spore Mod Launcher.
 
+Error_CantRunSporeWhileInstallingMods Cannot run Spore while mods are being installed or uninstalled. (LOCALIZATION PENDING)
+Error_StartupAborted To protect your save data, Spore startup was aborted. (LOCALIZATION PENDING)
 Error_ExeVersionNotRecognized Versió de l'executable del joc no reconeguda.
 Error_SporeVersionTooOld Aquesta versió de Spore és massa vella. Si us plau, actualitza a una versió soportada.
 Error_DidTheyUpdateSpore Aquesta versió de Spore és massa nova, i el programa encara no la soporta. Per a protegir les teves dades guardades, no juguis  al Spore (amb mods o sense), fins que hi hagi una actualització del Spore Mod Manager que solucioni això.

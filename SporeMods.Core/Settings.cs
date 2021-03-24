@@ -89,6 +89,20 @@ namespace SporeMods.Core
         }
 
         /// <summary>
+        /// Path to the Logs subfolder. Used for storing error logs and such.
+        /// </summary>
+        public static string LogsPath
+        {
+            get
+            {
+                string path = Path.Combine(ProgramDataPath, "Logs");
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+                return path;
+            }
+        }
+
+        /// <summary>
         /// Path to the mLibs subfolder. Used for storing ModAPI mods' DLLs for injection.
         /// </summary>
         public static string ModLibsPath
@@ -322,10 +336,10 @@ namespace SporeMods.Core
                 if (!Directory.Exists(_pathInfoFolder))
                     Directory.CreateDirectory(_pathInfoFolder);
 
-                if (File.Exists(_pathInfo))
+                if (File.Exists(_pathInfo) && Permissions.IsAdministrator())
                     Permissions.GrantAccessFile(_pathInfo);
 
-                if (!Permissions.IsFileLocked(_pathInfo, FileAccess.Write))
+                if (!Permissions.IsFileLocked(_pathInfo, FileAccess.Read))
                     return File.ReadAllText(_pathInfo);
                 else
                     return System.IO.Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).ToString();
@@ -337,12 +351,13 @@ namespace SporeMods.Core
                 if (!Directory.Exists(_pathInfoFolder))
                     Directory.CreateDirectory(_pathInfoFolder);
 
-                if (File.Exists(_pathInfo))
+                if (File.Exists(_pathInfo) && Permissions.IsAdministrator())
                     Permissions.GrantAccessFile(_pathInfo);
 
                 /*if (Path.GetFileNameWithoutExtension(Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).ToString()).ToLowerInvariant().StartsWith("SporeMods."))
                 {*/
-                    File.WriteAllText(_pathInfo, value);
+                File.WriteAllText(_pathInfo, value);
+                if (Permissions.IsAdministrator())
                     Permissions.GrantAccessFile(_pathInfo);
                 //}
                 /*else
@@ -782,6 +797,12 @@ namespace SporeMods.Core
             return GetLanguageString(0, identifier);
         }
 
+        /// <summary>
+        /// 1 = Globals, 2 = CustomInstaller, 3 = Error, 4 = Importer
+        /// </summary>
+        /// <param name="prefix"></param>
+        /// <param name="identifier"></param>
+        /// <returns></returns>
         public static string GetLanguageString(int prefix, string identifier)
         {
             string prefixText = "";

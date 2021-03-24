@@ -43,7 +43,7 @@ namespace SporeMods.Core.Mods
                 try
                 {
                     FileWrite.SafeDeleteFile(FileWrite.GetFileOutputPath(Location, RealName, _legacy));
-                    ModsManager.SyncContext.Send(state => ModsManager.InstalledMods.Remove(this), null);
+                    ModsManager.RunOnMainSyncContext(state => ModsManager.InstalledMods.Remove(this));
                     return true;
                 }
                 catch (Exception ex)
@@ -54,21 +54,6 @@ namespace SporeMods.Core.Mods
             });
             task.Start();
             return await task;
-        }
-
-        bool _isProgressing = false;
-        /// <summary>
-        /// Whether or not this mod is currently being installed/reconfigured/removed.
-        /// </summary>
-        public bool IsProgressing
-        {
-            get => _isProgressing;
-            set
-            {
-                _isProgressing = value;
-                NotifyPropertyChanged(nameof(IsProgressing));
-                IsProgressingChanged?.Invoke(this, null);
-            }
         }
 
         private void NotifyPropertyChanged(string propertyName)

@@ -11,12 +11,18 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using TTimer = System.Timers.Timer;
 
 namespace SporeMods.Core
 {
     public class ModsManager : INotifyPropertyChanged
     {
-        public static SynchronizationContext SyncContext = null;
+        private static SynchronizationContext SyncContext = null;
+
+        public static void RunOnMainSyncContext(SendOrPostCallback d)
+        {
+            SyncContext.Send(d, null);
+        }
 
         private static readonly string[] MOD_EXTENSIONS = { ".package", ".dll" };
         /// <summary>
@@ -143,7 +149,7 @@ namespace SporeMods.Core
 
         public static void RemoveMatchingManuallyInstalledFile(string fileName, ComponentGameDir targetLocation)
         {
-            ModsManager.SyncContext.Send(state =>
+            SyncContext.Send(state =>
             {
                 foreach (ManualInstalledFile file in ModsManager.InstalledMods.Where(
                     x => x is ManualInstalledFile && ((ManualInstalledFile)x).Location == targetLocation))
@@ -217,6 +223,70 @@ namespace SporeMods.Core
 
         public event Func<ManagedMod, Task<bool>> ModConfiguratorShown;
 
+
+        bool _anyTasksRunning = false;
+        public bool AnyTasksRunning
+        {
+            get => _anyTasksRunning;
+            set
+            {
+                _anyTasksRunning = value;
+                NotifyPropertyChanged(nameof(AnyTasksRunning));
+            }
+        }
+
+
+        double _overallProgress = 0.0;
+        public double OverallProgress
+        {
+            get => _overallProgress;
+            set
+            {
+                _overallProgress = value;
+                NotifyPropertyChanged(nameof(OverallProgress));
+            }
+        }
+
+        double _overallProgressTotal = 0.0;
+        public double OverallProgressTotal
+        {
+            get => _overallProgressTotal;
+            set
+            {
+                if (
+                        (value > _overallProgressTotal)
+                        || (value == 0)
+                   )
+                {
+                    _overallProgressTotal = value;
+                    NotifyPropertyChanged(nameof(OverallProgressTotal));
+                }
+            }
+        }
+
+        /*int _taskCount = 0;
+        public int TaskCount
+        {
+            get => _taskCount;
+            private set
+            {
+                _taskCount = value;
+                NotifyPropertyChanged(nameof(TaskCount));
+            }
+        }
+        
+        public void AddToTaskCount(int add)
+        {
+            if (add > 0)
+            {
+                OverallProgressTotal += (add * 100.0);
+                TaskCount += add;
+            }
+        }*/
+
+        public static event EventHandler<ModTasksCompletedEventArgs> TasksCompleted;
+
+
         // This must come last so it can initialize correctly
         public static ModsManager Instance = new ModsManager();
         private ModsManager()
@@ -224,15 +294,108 @@ namespace SporeMods.Core
 
             SyncContext = SynchronizationContext.Current;
 
-            /*FileSystemWatcher watcher = new FileSystemWatcher(Settings.ModConfigsPath)
+
+            PopulateModConfigurations();
+
+            ManagedMod.AnyModIsProgressingChanged += (sneder, e) =>
             {
-                IncludeSubdirectories = false
+                SyncContext.Send(state =>
+                {
+                    /*if (e.IsNowProgressing)
+                    {
+                        AnyTasksRunning = true;
+                    }
+                    else
+                    {
+                        TaskCount--;
+
+                        if (TaskCount == 0)
+                        {
+                            OverallProgress = 0;
+                            OverallProgressTotal = 0;
+                            AnyTasksRunning = false;
+                        }
+                    }*/
+                    if (e.IsNowProgressing)
+                    {
+                        AnyTasksRunning = true;
+                        OverallProgressTotal += 100;
+                        ModInstallation.InstallActivitiesCounter++;
+                    }
+                    else
+                    {
+                        AnyTasksRunning = InstalledMods.OfType<ManagedMod>().Any(x => x.IsProgressing);
+                        if (!AnyTasksRunning)
+                        {
+                            OverallProgress = 0;
+                            OverallProgressTotal = 0;
+                            ModInstallation.InstallActivitiesCounter = 0;
+                            TasksCompleted?.Invoke(this, new ModTasksCompletedEventArgs()
+                            {
+                                InstalledAnyMods = ModInstallation.IS_INSTALLING_MODS,
+                                UninstalledAnyMods = ModInstallation.IS_UNINSTALLING_MODS,
+                                ReconfiguredAnyMods = ModInstallation.IS_RECONFIGURING_MODS,
+                                Failures = ModInstallation.INSTALL_FAILURES
+                            });
+                            ModInstallation.IS_INSTALLING_MODS = false;
+                            ModInstallation.IS_UNINSTALLING_MODS = false;
+                            ModInstallation.IS_RECONFIGURING_MODS = false;
+                            ModInstallation.INSTALL_FAILURES.Clear();
+                        }
+                    }
+                    /*else if (!InstalledMods.OfType<ManagedMod>().Any(x => x.IsProgressing))
+                    {
+                        bool anyRunning = false;
+                        int time = 0;
+                        TTimer timer = new TTimer(10);
+                        timer.Elapsed += (s, a) =>
+                        {
+                            time++;
+                            if (anyRunning)
+                            {
+                                timer.Stop();
+                            }
+                            else
+                            {
+                                SyncContext.Send(state2 => anyRunning = InstalledMods.OfType<ManagedMod>().Any(x => x.IsProgressing), null);
+                                if (time >= 10)
+                                {
+                                    SyncContext.Send(state2 =>
+                                    {
+                                        if (!InstalledMods.OfType<ManagedMod>().Any(x => x.IsProgressing))
+                                        {
+                                            AnyTasksRunning = false;
+                                            OverallProgress = 0;
+                                            OverallProgressTotal = 0;
+                                        }
+                                    }, null);
+                                    timer.Stop();
+                                }
+                            }
+                        };
+                        timer.Start();
+                        //MessageDisplay.ShowMessageBox("!AnyTasksRunning");
+                    }*/
+                    //MessageDisplay.ShowMessageBox("Progress", OverallProgress + " --> " + OverallProgressTotal);
+                }, null);
             };
 
-            watcher.Created += Watcher_Created;
-
-            watcher.EnableRaisingEvents = true;*/
-            PopulateModConfigurations();
+            ManagedMod.AnyModProgressChanged += (sneder, e) =>
+            {
+                SyncContext.Send(state =>
+                {
+                    if (e.Change > 0)
+                        OverallProgress += e.Change;
+                }, null);
+            };
         }
+    }
+
+    public class ModTasksCompletedEventArgs : EventArgs
+    {
+        public bool InstalledAnyMods { get; internal set; } = false;
+        public bool UninstalledAnyMods { get; internal set; } = false;
+        public bool ReconfiguredAnyMods { get; internal set; } = false;
+        public Dictionary<string, Exception> Failures { get; internal set; } = new Dictionary<string, Exception>();
     }
 }

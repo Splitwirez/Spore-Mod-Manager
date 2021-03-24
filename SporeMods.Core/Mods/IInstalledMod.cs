@@ -36,11 +36,6 @@ namespace SporeMods.Core.Mods
         string RealName { get; }
 
         /// <summary>
-        /// Whether or not this mod is currently being installed/reconfigured/removed.
-        /// </summary>
-        bool IsProgressing { get; }
-
-        /// <summary>
         /// The mod's in-UI description.
         /// </summary>
         string Description { get; }

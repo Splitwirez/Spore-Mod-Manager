@@ -49,7 +49,15 @@
     <sys:String x:Key="InstallModeAdvancedDesc">Configura la instal·lació del Spore Mod Manager al teu gust. Hi ha més passos, només per usuaris avançats.</sys:String>
 
     <sys:String x:Key="InstallToWhere">Si us plau especifica la carpeta on s'hauria d'instal·lar el Spore Mod Manager.</sys:String>
+    <sys:String x:Key="CannotInstallToUserSpecificLocation">No es pot instal·lar el Spore Mod Manager en una ruta que depengui de l'usuari.</sys:String>
+    <sys:String x:Key="CannotInstallToExistingFolder">No es pot instal·lar el Spore Mod Manager en una carpeta que ja existeixi.</sys:String>
+
     <sys:String x:Key="StoreConfigWhere">Si us plau especifica la carpeta on el Spore Mod Manager hauria de guardar informació adicional, com mods i configuració.</sys:String>
+    <sys:String x:Key="CannotStoreConfigInUserSpecificLocation">El Spore Mod Manager no pot guardar informació addicional en una ruta que depengui de l'usuari.</sys:String>
+    <sys:String x:Key="CannotStoreConfigInProtectedLocation">El Spore Mod Manager no pot guardar informació addicional en una carpeta protegida.</sys:String>
+    <sys:String x:Key="CannotStoreConfigInExistingFolder">El Spore Mod Manager no pot guardar informació addicional en una carpeta que ja existeixi.</sys:String>
+
+    <sys:String x:Key="CreateDesktopShortcuts">Crear accessos directes al Spore Mod Manager a l'escriptori.</sys:String>
 
 
     <sys:String x:Key="InstallationComplete">Instal·lació completa!</sys:String>

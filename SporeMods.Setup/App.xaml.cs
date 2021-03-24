@@ -136,10 +136,13 @@ namespace SporeMods.Setup
 
 
                     if ((MgrExePath != null) && File.Exists(MgrExePath))
-                        Process.Start(new ProcessStartInfo(MgrExePath)
-                        {
-                            UseShellExecute = true
-                        });
+                    {
+                        if ((proc != null) && proc.HasExited && (proc.ExitCode == 300))
+                            Process.Start(new ProcessStartInfo(MgrExePath)
+                            {
+                                UseShellExecute = true
+                            });
+                    }
 
                     /*else
                         MessageBox.Show("Spore Mod Manager install location was not returned. You should never see this message, so if you somehow do see it, inform Splitwirez or emd immediately.");*/

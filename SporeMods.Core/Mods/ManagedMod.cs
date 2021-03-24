@@ -50,6 +50,13 @@ namespace SporeMods.Core.Mods
                 _copyAllFiles = value;
             else
                 _copyAllFiles = false;
+
+            if (IsProgressing)
+            {
+                NotifyPropertyChanged(nameof(IsProgressing));
+                IsProgressingChanged?.Invoke(this, null);
+                RaiseAnyModIsProgressingChanged(this, false, true);
+            }
         }
 
         private Version ParseXmlVersion(XDocument document)
@@ -148,12 +155,55 @@ namespace SporeMods.Core.Mods
         {
             get
             {
-                string iconPath = Path.Combine(StoragePath, "Icon.ico");
+                return null;
+                //TODO: Restore for Mod Identity 2
+                /*string iconPath = Path.Combine(StoragePath, "Icon.ico");
                 if (File.Exists(iconPath))
                     return new System.Drawing.Icon(iconPath);
                 else
-                    return null;
+                    return null;*/
             }
+        }
+
+
+        string LogoPath => Path.Combine(StoragePath, "Branding.png"); 
+        
+        public bool HasLogo
+        {
+            get => File.Exists(LogoPath) && TryGetLogo(LogoPath, out System.Drawing.Image img);
+        }
+
+        /// <summary>
+        /// The mod's logo, if any, or null if no logois provided.
+        /// </summary>
+        public System.Drawing.Image Logo
+        {
+            get
+            {
+
+                if (HasLogo && TryGetLogo(LogoPath, out System.Drawing.Image img))
+                    return img;
+                return null;
+
+            }
+        }
+
+        bool TryGetLogo(string path, out System.Drawing.Image img)
+        {
+            try
+            {
+                System.Drawing.Image logo = null;
+                using (FileStream stream = new FileStream(LogoPath, FileMode.Open))
+                {
+                    stream.Seek(0, SeekOrigin.Begin);
+                    logo = System.Drawing.Image.FromStream(stream);
+                }
+                img = logo;
+                return true;
+            }
+            catch { }
+            img = null;
+            return false;
         }
 
         /// <summary>
@@ -170,6 +220,7 @@ namespace SporeMods.Core.Mods
             {
                 if (HasConfigurator)
                 {
+                    //ModsManager.Instance.AddToTaskCount(1);
                     await ModInstallation.RegisterSporemodModWithInstallerAsync(this.RealName);
                     //await EnableMod();
                 }
@@ -208,9 +259,11 @@ namespace SporeMods.Core.Mods
             get => _isProgressing;
             set
             {
+                bool oldVal = _isProgressing;
                 _isProgressing = value;
                 NotifyPropertyChanged(nameof(IsProgressing));
                 IsProgressingChanged?.Invoke(this, null);
+                RaiseAnyModIsProgressingChanged(this, oldVal, _isProgressing);
             }
         }
 
@@ -223,6 +276,7 @@ namespace SporeMods.Core.Mods
             get => _progress;
             set
             {
+                double oldVal = _progress;
                 _progress = value;
                 NotifyPropertyChanged(nameof(Progress));
                 /*if ((FileCount > 0) && (Progress >= FileCount) && (IsProgressing))
@@ -231,6 +285,7 @@ namespace SporeMods.Core.Mods
                     _watcher.EnableRaisingEvents = false;
                     Progress = 0.0;
                 }*/
+                AnyModProgressChanged?.Invoke(this, new ModProgressChangedEventArgs(this, _progress - oldVal));
             }
         }
 
@@ -282,7 +337,7 @@ namespace SporeMods.Core.Mods
 
                     Directory.Delete(StoragePath, true);
 
-                    ModsManager.SyncContext.Send(state => ModsManager.InstalledMods.Remove(this), null);
+                    ModsManager.RunOnMainSyncContext(state => ModsManager.InstalledMods.Remove(this));
 
                     Progress = 0;
                     IsProgressing = false;
@@ -562,9 +617,42 @@ namespace SporeMods.Core.Mods
 
         public event EventHandler IsProgressingChanged;
 
+        public static event EventHandler<ModIsProgressingChangedEventArgs> AnyModIsProgressingChanged;
+        public static event EventHandler<ModProgressChangedEventArgs> AnyModProgressChanged;
+
+        internal static void RaiseAnyModIsProgressingChanged(IInstalledMod mod, bool oldVal, bool newVal)
+        {
+            if (oldVal != newVal)
+                AnyModIsProgressingChanged?.Invoke(mod, new ModIsProgressingChangedEventArgs(mod, newVal));
+        }
+
         public override string ToString()
         {
             return DisplayName;
+        }
+    }
+
+    public class ModProgressChangedEventArgs : EventArgs
+    {
+        public ManagedMod Mod { get; private set; } = null;
+        public double Change { get; private set; } = 0.0;
+
+        public ModProgressChangedEventArgs(ManagedMod mod, double change)
+        {
+            Mod = mod;
+            Change = change;
+        }
+    }
+
+    public class ModIsProgressingChangedEventArgs : EventArgs
+    {
+        public IInstalledMod Mod { get; private set; } = null;
+        public bool IsNowProgressing { get; private set; } = false;
+
+        public ModIsProgressingChangedEventArgs(IInstalledMod mod, bool isNowProgressing)
+        {
+            Mod = mod;
+            IsNowProgressing = isNowProgressing;
         }
     }
 }

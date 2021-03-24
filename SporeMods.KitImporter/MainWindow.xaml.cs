@@ -31,6 +31,7 @@ namespace SporeMods.KitImporter
 
         string _kitPath = null;
         bool _kitAutoImport = false;
+        bool _mandatoryImport = false;
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
@@ -38,6 +39,13 @@ namespace SporeMods.KitImporter
             IEnumerable<string> args = Environment.GetCommandLineArgs().Skip(1);
             _kitPath = args.FirstOrDefault(x => IsPathValid(x));
             string lkPathFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Spore ModAPI Launcher\path.info");
+
+            if (Environment.GetCommandLineArgs().Contains("--mandate"))
+            {
+                _mandatoryImport = true;
+            }
+
+
             if ((!string.IsNullOrEmpty(_kitPath)) && (!string.IsNullOrWhiteSpace(_kitPath)))
             {
                 _kitAutoImport = true;
@@ -166,6 +174,8 @@ namespace SporeMods.KitImporter
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            if (_mandatoryImport && (ImportCompletePage.Visibility != Visibility.Visible))
+                e.Cancel = true;
             if (_kitAutoImport && (ImportCompletePage.Visibility != Visibility.Visible))
                 e.Cancel = true;
             else if (ImportInProgressPage.Visibility == Visibility.Visible)

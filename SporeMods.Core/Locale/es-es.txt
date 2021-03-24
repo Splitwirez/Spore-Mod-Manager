@@ -140,8 +140,13 @@ AllSporeModsFilter Spore mods (%EXTENSIONS%)
 NowInstalling Instalando...
 InstallationComplete ¡Instalación completa!
 
-ModsInstalledSuccessfully Estos mods se instalaron correctamente
-ModsFailedToInstall Estos mods no se pudieron instalar
+TasksCompleted Tareas completadas
+ModsInstalledSuccessfully Los mods se instalaron correctamente
+ModsUninstalledSuccessfully Los mods se desinstalaron correctamente
+ModsReconfiguredSuccessfully Los mods han sido reconfigurados correctamente
+ModsFailedToInstall Algo salió mal al procesar estos mods:
+ModsFailedToInstall2 y varios más
+ModsFailedToInstall3 Se ha guardado más información en "%LOGFILEPATH%"
 
 CopyUrlIntoBrowser Copia el siguiente enlace en tu navegador web.
 CopypasteToTechSupport Copia el texto de abajo, y enviaselo a quién te lo haya pedido.
@@ -176,6 +181,8 @@ Error_NotAClue Desconocido
 
 Error_RunModManagerFirst Por favor, ejecuta el Spore Mod Manager al menos una vez antes de poder usar el Spore Mod Launcher.
 
+Error_CantRunSporeWhileInstallingMods Cannot run Spore while mods are being installed or uninstalled. (LOCALIZATION PENDING)
+Error_StartupAborted To protect your save data, Spore startup was aborted. (LOCALIZATION PENDING)
 Error_ExeVersionNotRecognized Versión del ejecutable del juego no reconozida.
 Error_SporeVersionTooOld Esta versión de Spore es demasiado vieja. Por favor, actualiza a un parche soportado.
 Error_DidTheyUpdateSpore Esta versión de Spore es demasiado nueva, y el programa aún no la soporta. Para proteger tus datos guardados, no jueges al Spore (con mods o sin), hasta que haya una actualización del Spore Mod Manager para solucionar esto.
