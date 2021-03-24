@@ -1,30 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop" TreatAsLocalProperty="SelfContained">
+  <Import Project="..\SporeMods.SharedAssemblyInfo.props" />
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
     <AssemblyTitle>SporeMods.Setup</AssemblyTitle>
     <Product>SporeMods.Setup</Product>
-    <Copyright>Copyright © 2021</Copyright>
-    <AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath>
     <AssemblyName>SporeModManagerSetup</AssemblyName>
     <!--RuntimeIdentifier>win-x86</RuntimeIdentifier>
     <-SelfContained>True</SelfContained>
     <PublishSingleFile>True</PublishSingleFile>
     <PublishReadyToRun>true</PublishReadyToRun-->
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>full</DebugType>
-    <OutputPath>..\setup\Debug\</OutputPath>
+    <OutputPath>..\setupBin\Debug\</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugType>pdbonly</DebugType>
-    <OutputPath>..\setup\Release\</OutputPath>
+    <OutputPath>..\setupBin\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\output\$(Configuration)\**" />
+    <EmbeddedResource Include="DotnetRuntime\dotnet-desktopruntime-installer.exe" LogicalName="dotnet-desktopruntime-installer.exe"/>
+    <EmbeddedResource Include="..\unpackagedBin\$(Configuration)\$(TargetFramework)\**" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.IO.FileSystem.AccessControl" Version="5.0.0" />

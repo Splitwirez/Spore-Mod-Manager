@@ -1,23 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <Import Project="..\SporeMods.SharedAssemblyInfo.props" />
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-	  <UseWPF>true</UseWPF>
-	  <AssemblyTitle>SporeMods.DragServant</AssemblyTitle>
+	<UseWPF>true</UseWPF>
+	<AssemblyTitle>SporeMods.DragServant</AssemblyTitle>
     <Product>SporeMods.DragServant</Product>
-    <Copyright>Copyright © 2021</Copyright>
-    <AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugType>full</DebugType>
-    <OutputPath>..\output\Debug\</OutputPath>
-    <PlatformTarget>x86</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <OutputPath>..\output\Release\</OutputPath>
-  </PropertyGroup>
+  <Import Project="..\SporeMods.SharedOutputDirs.props" />
   <ItemGroup>
     <ProjectReference Include="..\Mechanism-for-WPF\Mechanism.Wpf.Core\Mechanism.Wpf.Core.csproj">
       <Project>{727669ac-3f83-41e1-aefd-13a8f0c1fdad}</Project>

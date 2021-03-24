@@ -1,31 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\SporeMods.SharedAssemblyInfo.props" />
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-	  <AssemblyTitle>SporeMods.Core</AssemblyTitle>
+	<AssemblyTitle>SporeMods.Core</AssemblyTitle>
     <Product>SporeMods.Core</Product>
-    <Copyright>Copyright © 2021</Copyright>
-    <AssemblyVersion>1.6.19.0</AssemblyVersion>
-    <FileVersion>1.6.19.0</FileVersion>
-    <AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugType>full</DebugType>
-    <OutputPath>..\output\Debug\</OutputPath>
-    <PlatformTarget>x86</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <OutputPath>..\output\Release\</OutputPath>
-  </PropertyGroup>
+  <Import Project="..\SporeMods.SharedOutputDirs.props" />
   <ItemGroup>
-	<PackageReference Include="DotNetZip" Version="1.15.0" />
-	<PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
-	<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-	<PackageReference Include="System.Drawing.Common" Version="5.0.0" />
-	<PackageReference Include="System.IO.FileSystem.AccessControl" Version="5.0.0" />
-	<PackageReference Include="System.Security.Principal.Windows" Version="5.0.0" />
+	  <PackageReference Include="DotNetZip" Version="1.15.0" />
+	  <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
+	  <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+	  <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
+	  <PackageReference Include="System.IO.FileSystem.AccessControl" Version="5.0.0" />
+	  <PackageReference Include="System.Security.Principal.Windows" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

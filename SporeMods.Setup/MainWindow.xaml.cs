@@ -129,6 +129,7 @@ namespace SporeMods.Setup
         {
             if (PleaseReadTheTermsBeforeCheckingThis.IsChecked == true)
             {
+                DotnetRuntimeInstall.EnsureRuntimeIsInstalled(this);
                 SetPage(InstallModePage);
                 //InstallSporeModManager();
             }
@@ -359,7 +360,7 @@ namespace SporeMods.Setup
                         Directory.CreateDirectory(_installPath);
 
                 //string rresources = string.Empty;
-                IEnumerable<string> resources = Application.ResourceAssembly.GetManifestResourceNames().Where(x => !x.ToLowerInvariant().EndsWith(".resources"));
+                IEnumerable<string> resources = Application.ResourceAssembly.GetManifestResourceNames().Where(x => DotnetRuntimeInstall.IsPartOfSporeModManager(x));
 
                     Dispatcher.BeginInvoke(new Action(() => InstallProgressBar.Maximum = resources.Count() + 4));
 
