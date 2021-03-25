@@ -129,14 +129,15 @@ namespace SporeMods.Setup
         {
             if (PleaseReadTheTermsBeforeCheckingThis.IsChecked == true)
             {
-                string reso = string.Empty;
+                /*string reso = string.Empty;
                 foreach (string s in Application.ResourceAssembly.GetManifestResourceNames())
                 {
                     reso += s + "\n";
                 }
 
-                Dispatcher.BeginInvoke(new Action(() => MessageBox.Show(reso, "RESOURCES")));
+                Dispatcher.BeginInvoke(new Action(() => MessageBox.Show(reso, "RESOURCES")));*/
 #if OFFLINE_INSTALLER
+                MessageBox.Show("Before installation can proceed, the following prerequisite(s) will be installed: (NOT LOCALIZED)\n- .NET Core 3.1 Desktop Runtime");
                 DotnetRuntimeInstall.EnsureRuntimeIsInstalled(this);
 #endif
                 SetPage(InstallModePage);

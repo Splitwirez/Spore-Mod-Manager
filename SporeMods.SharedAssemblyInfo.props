@@ -6,5 +6,6 @@
 	<TargetFramework>netcoreapp3.1</TargetFramework>
     <PlatformTarget>x86</PlatformTarget>
 	<!--AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath-->
+	<ForceManagedImplementation>true</ForceManagedImplementation>
   </PropertyGroup>
 </Project>

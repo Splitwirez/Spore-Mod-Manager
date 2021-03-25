@@ -55,6 +55,7 @@ namespace SporeMods.Setup
             if (runtimeInstaller.ExitCode != 0)
             {
                 MessageBox.Show("Exit code was " + runtimeInstaller.ExitCode + "! SOMETHING MAY BE WRONG. IF YOU SEE THIS, REPORT THE POTENTIAL PROBLEM IMMEDIATELY (NOT LOCALIZED).");
+                throw new InvalidOperationException();
             }
             //0 = success, 1602 = not success(?)
 

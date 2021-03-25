@@ -89,7 +89,7 @@ namespace SporeMods.Core
         /// <returns></returns>
         public static bool HasDllsUpdate(out GithubRelease release)
         {
-            release = GetLatestGithubRelease("emd4600", "spore-modapi");
+            release = GetLatestGithubRelease("emd4600", "Spore-ModAPI");
             var updateVersion = ParseGithubVersion(release.tag_name);
 
             return updateVersion > Settings.CurrentDllsBuild;
