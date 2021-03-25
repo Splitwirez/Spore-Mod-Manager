@@ -29,7 +29,7 @@
   <ItemGroup>
     <EmbeddedResource Include="DotnetRuntime\dotnet-desktopruntime-installer.exe" LogicalName="dotnet-desktopruntime-installer.exe"/>
     <!--EmbeddedResource Include="..\unpackagedBin\$(Configuration)\$(TargetFramework)\**" /-->
-    <EmbeddedResource Include="..\unpackagedBin\$(Configuration)\$(TargetFramework)\**">
+    <EmbeddedResource Include="..\unpackagedBin\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\**">
       <Link>$(TargetFramework)\%(RecursiveDir)%(Filename)%(Extension)</Link>
       <LogicalName>%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
     </EmbeddedResource>
