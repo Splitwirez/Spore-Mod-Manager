@@ -29,7 +29,7 @@ namespace SporeMods.Setup
             {
                 var lang = new ResourceDictionary()
                 {
-                    Source = new Uri(item.Tag.ToString().Replace("%EXENAME%", App.SetupExeName), UriKind.RelativeOrAbsolute)
+                    Source = new Uri(item.Tag.ToString().Replace("%EXENAME%", App.SetupAssemblyNameForPackURIs), UriKind.RelativeOrAbsolute)
                 };
                 Application.Current.Resources.MergedDictionaries.Clear();
                 /*if (Application.Current.Resources.MergedDictionaries.Count > 0)

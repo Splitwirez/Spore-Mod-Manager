@@ -11,6 +11,9 @@ using System.Windows;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Text;
+using System.Runtime.InteropServices;
+using System.Windows.Media;
+using System.Windows.Interop;
 
 namespace SporeMods.Setup
 {
@@ -19,7 +22,30 @@ namespace SporeMods.Setup
     /// </summary>
     public partial class App : Application
     {
-        public static string SetupExeName => Path.GetFileNameWithoutExtension(Process.GetCurrentProcess().MainModule.FileName);
+        [DllImport("ntdll.dll", EntryPoint = "wine_get_version", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        private static extern string GetWineVersion();
+
+        private static bool? IsRunningUnderWine(out Version version)
+        {
+            version = new Version(0, 0, 0, 0);
+            try
+            {
+                string wineVer = GetWineVersion();
+                if (!Version.TryParse(wineVer, out version))
+                    return null;
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+
+
+
+        public static string SetupAssemblyNameForPackURIs => Assembly.GetExecutingAssembly().GetName().Name; //Path.GetFileNameWithoutExtension(Process.GetCurrentProcess().MainModule.FileName);
 
         public static string Language = null;
         public static string LkPath = null;
@@ -69,8 +95,35 @@ namespace SporeMods.Setup
         }
 
 
+        bool AllowInstallOnUnsupportedOS => Environment.GetCommandLineArgs().Any(x => x == "--allow-unsupported-platforms");
+
+        string _areYouSureAboutThat = " Installing the Spore Mod Manager on an unsupported platform could damage your install of Spore or your save data, or leave you stranded on an outdated version of the Spore Mod Manager (and thus locked out of mods which require newer versions). Are you ABSOLUTELY 100% CERTAIN you wish to proceed with installation? (NOT LOCALIZED)";
+
+        void WarnOrRejectUnsupportedOS(string baseText)
+        {
+            string msg = baseText;
+            if (AllowInstallOnUnsupportedOS)
+            {
+                msg += _areYouSureAboutThat;
+
+                if (MessageBox.Show(msg, string.Empty, button: MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+                {
+                    Application.Current.Shutdown(-1);
+                }
+            }
+            else
+            {
+                MessageBox.Show(msg, string.Empty);
+                Application.Current.Shutdown(-1);
+            }
+        }
+
+
         protected override void OnStartup(StartupEventArgs e)
         {
+            RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+
+            
             /*Resources.MergedDictionaries.Add(new ResourceDictionary()
             {
                 Source = new Uri("/" + SetupExeName + ";component/Locale/en-ca.xaml", UriKind.RelativeOrAbsolute)
@@ -159,6 +212,25 @@ namespace SporeMods.Setup
             else
             {
                 base.OnStartup(e);
+
+
+                bool? wine = IsRunningUnderWine(out Version wineVersion);
+
+                if (wine == true)
+                {
+                    if (wineVersion < new Version(6, 0))
+                        WarnOrRejectUnsupportedOS("This version of WINE is not supported. The Spore Mod Manager requires WINE 6.0 or newer to function as intended. (NOT LOCALIZED)");
+                }
+                else if (wine == null)
+                {
+                    WarnOrRejectUnsupportedOS("Unable to determine currently-used WINE version. The Spore Mod Manager requires at least WINE 6.0. (NOT LOCALIZED)");
+                }
+                else if (Environment.OSVersion.Version < new Version(6, 1, 7601))
+                {
+                    WarnOrRejectUnsupportedOS("This version of Windows is not supported. The Spore Mod Manager requires Windows 7 SP1 or newer to function as intended. (NOT LOCALIZED)");
+                }
+
+
                 MainWindow = new MainWindow();
                 if (Language == null)
                 {
@@ -170,7 +242,7 @@ namespace SporeMods.Setup
                     {
                         Resources.MergedDictionaries[0] = new ResourceDictionary()
                         {
-                            Source = new Uri("/" + SetupExeName + ";component/Locale/" + Language + ".xaml", UriKind.RelativeOrAbsolute)
+                            Source = new Uri("/" + SetupAssemblyNameForPackURIs + ";component/Locale/" + Language + ".xaml", UriKind.RelativeOrAbsolute)
                         };
                     }
                     catch

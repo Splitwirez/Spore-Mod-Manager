@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
@@ -19,6 +20,28 @@ namespace SporeMods.Core
             get => File.Exists(Path.Combine(Settings.ProgramDataPath, "debug.txt"));
         }
 
+
+        
+        
+        [DllImport("ntdll.dll", EntryPoint = "wine_get_version", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        private static extern string GetWineVersion();
+
+        private static bool? IsRunningUnderWine(out Version version)
+        {
+            version = new Version(0, 0, 0, 0);
+            try
+            {
+                string wineVer = GetWineVersion();
+                if (!Version.TryParse(wineVer, out version))
+                    return null;
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
 
         static string _isWineMode = "WineMode";
         /// <summary>
@@ -289,20 +312,38 @@ namespace SporeMods.Core
 
         static void WriteSettingsXmlFile()
         {
-            string xmlStart = @"<Settings>";
+            XDocument document = new XDocument(new XElement("Settings"));
+            document.Root.Add(new XElement(_lastMgrVersion, ModManagerVersion));
+
+            /*string xmlStart = @"<Settings>";
             string xmlMiddle = @"
     <" + _lastMgrVersion + ">" + ModManagerVersion.ToString() + "</" + _lastMgrVersion + ">";
-            string xmlEnd = @"</Settings>";
+            string xmlEnd = @"</Settings>";*/
 
+            bool wine = false;
             try
             {
-                if (File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "winecfg.exe")))
-                    xmlMiddle += "\n    <" + _isWineMode + ">True</" + _isWineMode + ">";
+                wine = IsRunningUnderWine(out Version ver) == true;
             }
             catch { }
 
-            File.WriteAllText(_settingsFilePath, xmlStart + xmlMiddle + xmlEnd);
-            Permissions.GrantAccessFile(_settingsFilePath);
+            try
+            {
+                if (!wine)
+                    wine = File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "winecfg.exe"));
+            }
+            catch { }
+
+
+            if (wine)
+            {
+                document.Root.Add(new XElement(_isWineMode, true));
+            }
+            //xmlMiddle += "\n    <" + _isWineMode + ">True</" + _isWineMode + ">";
+
+            /*File.WriteAllText(_settingsFilePath, xmlStart + xmlMiddle + xmlEnd);
+            Permissions.GrantAccessFile(_settingsFilePath);*/
+            document.Save(_settingsFilePath);
         }
 
         static XElement rootElement
@@ -937,19 +978,51 @@ namespace SporeMods.Core
         }
 
         /// <summary>
-        /// Forces WPF software rendering if true. Some unlucky user with a weird OS+GPU combination needed this option a while back.
+        /// Forces WPF software rendering if true. Some unlucky user with a weird OS+GPU combination needed this option a while back. Also seems to work better under WINE.
         /// </summary>
+        static string _useSoftwareRendering = "UseWpfSoftwareRendering";
+        static string _forceSoftwareRendering = Path.Combine(ProgramDataPath, "WpfUseSoftwareRendering.info");
         public static bool ForceSoftwareRendering
         {
             get
             {
                 try
                 {
-                    return File.Exists(Path.Combine(ProgramDataPath, "WpfUseSoftwareRendering.info"));
+                    if (File.Exists(_forceSoftwareRendering))
+                    {
+                        if (bool.TryParse(File.ReadAllText(_forceSoftwareRendering), out bool forceSoftwareRendering))
+                            return forceSoftwareRendering;
+                        else
+                            return true;
+                    }
+                }
+                catch { }
+
+                if (bool.TryParse(GetElementValue(_useSoftwareRendering), out bool returnValue))
+                    return returnValue;
+                else
+                    return NonEssentialIsRunningUnderWine;
+            }
+            set => SetElementValue(_useSoftwareRendering, value.ToString(), true);
+        }
+        /*public static bool ForceSoftwareRendering
+        {
+            get
+            {
+                bool isWine = NonEssentialIsRunningUnderWine;
+                try
+                {
+                    if (isWine)
+                    {
+                        if (File.Exists(Path.Combine(ProgramDataPath, "WpfUseSoftwareRendering.info"));
+
+                    }
+                    else
+                        return File.Exists(Path.Combine(ProgramDataPath, "WpfUseSoftwareRendering.info"));
                 }
                 catch (Exception ex)
                 {
-                    return false;
+                    return isWine;
                 }
             }
             /*set
@@ -967,8 +1040,8 @@ namespace SporeMods.Core
                         Permissions.GrantAccessFile(_forceSoftwareRenderingPath);
                     }
                 }
-            }*/
-        }
+            }*
+        }*/
 
         static string _allowVanillaIncompatibleMods = "allowVanillaIncompatibleMods";
         /// <summary>
