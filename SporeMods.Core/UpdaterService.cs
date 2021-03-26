@@ -18,6 +18,8 @@ namespace SporeMods.Core
     /// </summary>
     public static class UpdaterService
     {
+        public static string UpdaterPath => Path.Combine(Settings.TempFolderPath, "smmUpdater.exe"); //"SporeModManagerSetup.exe");
+
         public static readonly string IgnoreUpdatesArg = "-ignoreUpdates";
 
         private static readonly string GITHUB_API_URL = "https://api.github.com";
@@ -181,11 +183,15 @@ namespace SporeMods.Core
         /// <returns></returns>
         public static bool UpdateProgram(GithubRelease release, ProgressChangedEventHandler progressHandler)
         {
-            string fileName = Path.Combine(Settings.TempFolderPath, "SporeModManagerSetup.exe");
-            var asset = Array.Find(release.assets, a => a.name.ToLowerInvariant() == "sporemodmanagersetup.exe");
+            string targetFramework = Settings.TargetFramework.ToLowerInvariant();
+            string fileName = Path.Combine(Settings.TempFolderPath, "smmUpdater.exe");
+
+            var asset = Array.Find(release.assets, a => a.name.ToLowerInvariant() == "updater-" + targetFramework + ".exe");
             if (asset == null)
             {
-                throw new InvalidOperationException("Invalid update: no 'SporeModManagerSetup.exe' asset");
+                asset = Array.Find(release.assets, a => a.name.ToLowerInvariant() == "sporemodmanagersetup.exe");
+                if (asset == null)
+                    throw new InvalidOperationException("Invalid update: no 'SporeModManagerSetup.exe' or 'updater-" + targetFramework + ".exe' asset");
             }
             using (var client = new WebClient())
             {

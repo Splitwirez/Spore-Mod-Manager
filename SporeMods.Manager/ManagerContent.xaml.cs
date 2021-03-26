@@ -1006,7 +1006,7 @@ namespace SporeMods.Manager
                 /*if (Permissions.IsAdministrator())
                     Window.GetWindow(this).Title = GetLanguageString("WindowTitle") + Settings.ModApiManagementKitVersion.ToString() + GetLanguageString("VersionIdentifierSuffix");
                     Title += GetLanguageString("IsAdministrator");*/
-                Window.GetWindow(this).Title = Settings.GetLanguageString("WindowTitle").Replace("%VERSION%", Settings.ModManagerVersion.ToString()).Replace("%DLLSBUILD%", Settings.CurrentDllsBuildString);
+                Window.GetWindow(this).Title = Settings.GetLanguageString("WindowTitle").Replace("%VERSION%", Settings.ModManagerVersion.ToString()).Replace("%DLLSBUILD%", Settings.CurrentDllsBuildString) + " (" + Settings.TargetFramework + ")";
             }
 
             LaunchGameButton.Content = Settings.GetLanguageString("LaunchGameButton");

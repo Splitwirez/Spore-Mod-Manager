@@ -4,7 +4,7 @@
   <Import Project="..\SporeMods.NetCoreSharedAssemblyInfo.props" />
   <PropertyGroup>
     <OutputType>Library</OutputType>
-	<AssemblyTitle>SporeMods.Core</AssemblyTitle>
+    <AssemblyTitle>SporeMods.Core</AssemblyTitle>
     <Product>SporeMods.Core</Product>
   </PropertyGroup>
   <Import Project="..\SporeMods.SharedOutputDirs.props" />
@@ -32,4 +32,24 @@
     <EmbeddedResource Include="ModAPIDLLs\SporeModAPI.disk.dll" />
     <EmbeddedResource Include="ModAPIDLLs\SporeModAPI.march2017.dll" />
   </ItemGroup>
+  <UsingTask TaskName="WriteTargetFramework" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll" >
+    <ParameterGroup>
+      <Framework ParameterType="System.String" Required="true"/>
+    </ParameterGroup>
+    <Task>
+      <Using Namespace="System"/>
+      <Using Namespace="System.IO"/>
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[
+        File.WriteAllText("RuntimeVersion.txt", Framework);
+        ]]>
+      </Code>
+    </Task>
+  </UsingTask>
+  <Target Name="EmbedLocal" BeforeTargets="PrepareForBuild">
+    <WriteTargetFramework Framework="$(TargetFramework)"/>
+    <ItemGroup>
+      <EmbeddedResource Include="RuntimeVersion.txt" LogicalName="RuntimeVersion.txt" />
+    </ItemGroup>
+  </Target>
 </Project>

@@ -52,9 +52,27 @@ namespace SporeMods.Core
             get
             {
                 if (bool.TryParse(GetElementValue(_isWineMode), out bool wineMode))
-                        return wineMode;
-                    else
-                        return false;
+                    return wineMode;
+                else
+                {
+                    bool retVal = IsRunningUnderWine(out Version wineVer) != false;
+                    SetElementValue(_isWineMode, retVal.ToString());
+                    return retVal;
+                }
+            }
+        }
+
+        public static string TargetFramework
+        {
+            get
+            {
+                string targetFramework = string.Empty;
+                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("RuntimeVersion.txt"))
+                {
+                    StreamReader reader = new StreamReader(stream);
+                    targetFramework = reader.ReadToEnd();
+                }
+                return targetFramework;
             }
         }
 

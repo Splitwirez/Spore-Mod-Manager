@@ -20,10 +20,15 @@ namespace SporeMods.CommonUI
             CheckForUpdates(false);
         }
 
+        static string UpdaterPath => UpdaterService.UpdaterPath; //"SporeModManagerSetup.exe");
+
         public static void CheckForUpdates(bool forceInstallUpdate)
         {
             try
             {
+                if (File.Exists(UpdaterPath))
+                    File.Delete(UpdaterPath);
+
                 bool ignoreUpdates = Environment.GetCommandLineArgs().Contains(UpdaterService.IgnoreUpdatesArg);
                 if (!ignoreUpdates)
                 {
@@ -63,10 +68,10 @@ namespace SporeMods.CommonUI
 
                         if (update)
                         {
-                            string updaterPath = Path.Combine(Settings.TempFolderPath, "SporeModManagerSetup.exe");
+                            
                             bool updateDownloadFinished = false;
 
-                            /*while ((!File.Exists(updaterPath)) || Permissions.IsFileLocked(updaterPath) || (!updateDownloadFinished))
+                            /*while ((!File.Exists(UpdaterPath)) || Permissions.IsFileLocked(UpdaterPath) || (!updateDownloadFinished))
                             { }*/
 
                             var progressDialog = GetProgressDialog(Settings.GetLanguageString("UpdatingProgressText"), (s, e) =>
@@ -89,9 +94,9 @@ namespace SporeMods.CommonUI
                                 return;
                             }
 
-                            while (Permissions.IsFileLocked(updaterPath))
+                            while (Permissions.IsFileLocked(UpdaterPath))
                             { }
-                            Process.Start(new ProcessStartInfo(updaterPath, "--update \"" + Path.GetDirectoryName(Process.GetCurrentProcess().GetExecutablePath()) + "\" \"" + Process.GetCurrentProcess().GetExecutablePath() + "\" --lang:" + Settings.CurrentLanguageCode)
+                            Process.Start(new ProcessStartInfo(UpdaterPath, "--update \"" + Path.GetDirectoryName(Process.GetCurrentProcess().GetExecutablePath()) + "\" \"" + Process.GetCurrentProcess().GetExecutablePath() + "\" --lang:" + Settings.CurrentLanguageCode)
                             {
                                 UseShellExecute = true
                             });
