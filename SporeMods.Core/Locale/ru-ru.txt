@@ -1,0 +1,207 @@
+# Language info
+LanguageName Русский
+
+
+# Global generic strings
+Globals_OK OK
+Globals_DontRunAsAdmin Для вашей безопасности не рекомендуется запускать %APPNAME% от имени Администратора. Это не решит вашу проблему и приведёт к непредвиденным последствиям. Вы ДЕЙСТВИТЕЛЬНО хотите продолжить? (Если не уверены, выберите Нет)
+Globals_Browse Обзор...
+
+
+# Main Window text
+WindowTitle Spore Mod Manager BETA v%VERSION% [DLLs Build %DLLSBUILD%]
+
+ModsTabItem Моды
+TweaksTabItem Твики
+SettingsTabItem Настройки
+ConsoleTabItem Консоль
+HelpTabItem Помощь
+
+GetModsButton Получить моды
+InstallModFromDiskButton Установить моды
+UninstallModButton Удалить выбранные моды
+ConfigureModButton Изменить настройки мода
+
+CopyModsListToClipboard Скопировать список модов
+
+DropModsHerePrompt Нажмите кнопку "Установить моды", чтобы установить моды для Spore!
+DropModsHereInstruction Перетащите моды сюда, чтобы установить
+
+SearchWatermark Найти моды...
+SearchNames Поиск по названию
+SearchDescriptions Поиск по описанию
+SearchTags Поиск по тегам
+
+ModSwitchOn Включен
+ModSwitchOff Выключен
+ModInstallingNow Установка...
+ModEnablingNow Включение...
+ModDisablingNow Выключение...
+ModUninstallingNow Удаление...
+ModInstalledManually Установлен вручную
+
+ExitSporeToManageMods Выйдите из Spore, чтобы управлять модами.
+
+FoldersHeader Папки
+AutoGaDataPath Путь к данным Galactic Adventures
+AutoSporebinEp1Path Путь к SporebinEP1
+AutoCoreDataPath Путь к данным Spore
+AutoSporebinPath Путь к Sporebin
+AutoDetectPath Определить автоматически
+IgnoreSteamInstallInfo Игнорировать информацию об установке из Steam
+
+ModInstallationHeader Установка модов
+BlockVanillaIncompatibleMods Устанавливать только моды, наверняка совместимые с vanilla
+UseDeveloperMode Включить режим разработчика
+
+DeveloperHeader Для разработчиков
+SideloadCoreDlls Подгруженные DLL
+AddSideloadCoreDlls Добавить DLL
+RemoveSideloadCoreDlls Удалить подгруженные DLL
+BuildSideloadCoreDlls или собрать DLL ModAPI в %OVERRIDELIBSPATH% самому.
+SelectDlls Выбрать набор DLL
+DllBundlesFilter Наборы DLL (%EXTENSIONS%)
+
+SwitchOn Вкл.
+SwitchOff Выкл.
+SwitchYes Да
+SwitchNo Нет
+
+WindowHeader Окно
+OverrideWindowMode Изменить режим окна
+WindowModeFullscreen Полноэкранный
+WindowModeBorderlessWindowed Оконный без рамок
+WindowModeWindowed Оконный
+OverrideGameResolution Изменить разрешение игры
+ResolutionAuto Автоматическое разрешение
+ResolutionCustom Пользовательское разрешение
+
+GameEntryHeader Запуск игры
+CommandLineState Запуск игры с начальным состоянием
+CommandLineStateName Название состояния
+CommandLineLanguage Запуск игры с другим языков
+CommandLineLocaleName Название локали
+CommandLineOptions Дополнительные параметры командной строки
+
+AppearanceHeader Внешний вид
+
+LanguageHeader Язык
+SkinOptionsHeader Параметры темы
+LightSwitchHeader Светлая тема
+AccentColourHeader Цвет акцента
+UseStandardWindowDecorations Использовать стандартные рамки окна
+
+UpdateHeader Обновление
+UpdateQuestion Когда лучше обновлять Spore Mod Manager?
+UpdateAutomatically Автоматически (рекомендуется)
+UpdateAutoCheck Проверять автоматически, спрашивать перед установкой
+UpdateNever Не обновлять (не рекомендуется)
+UpdateAvailableTitle Доступно обновление
+UpdateAvailableText Доступно обновление для Mod Manager. Оно содержит новые функции и исправления ошибок. Вы хотите его установить?
+UpdateAvailableDllsTitle Доступно обновление DLL-файлов ModAPI
+UpdateAvailableDllsText Доступно обновление DLL-файлов ModAPI. Оно необходимо для запуска современных модов и содержит новые функции и исправления ошибок. Вы хотите его установить?
+UpdatingProgressText Обновление программы, пожалуйста, подождите...
+UpdatingProgressDllsText Обновление DLL, пожалуйста, подождите...
+Error_UpdateAvailableDlls Доступно обновление DLL-файлов ModAPI, необходимое для запуска современных модов. Однако, оно не может быть установлено на старой версии программы. Пожалуйста, перезапустите менеджер модов и разрешите обновление.
+Error_UpdateAvailableDllsTitle Ошибка при обновлении DLL-файлов ModAPI
+Error_CannotCheckForUpdates Не удалось получить обновления, проверьте подключение к сети.
+Error_CannotCheckForUpdatesTitle Ошибка при проверке обновлений.
+
+HelpHeader Нужна помощь?
+AskQuestion Задать вопрос
+SuggestFeature Предложить функцию
+ReportBug Сообщить об ошибке
+
+CloseSporeFirst Закройте Spore, чтобы продолжить
+CloseSporeModManagerFirst Spore Mod Manager уже запущен
+SporeCantClose Если Spore не отвечает или не может быть закрыта, нажмите сюда:
+ForceKillSporeButton Закрыть Spore
+ForceKillConfirmTitle Принудительно закрыть Spore?
+ForceKillConfirmDesc ВЕСЬ НЕСОХРАНЁННЫЙ ПРОГРЕСС БУДЕТ ПОТЕРЯН. Вы уверены, что хотите принудительно закрыть Spore?
+
+CustomInstaller_ModInstallerHeader Установщик %MODNAME%
+CustomInstaller_Proceed Продолжить
+CustomInstaller_Apply Применить
+
+ModIsExperimental Вы устанавливаете экспериментальную версию мода %MODNAME%. При использовании могут возникнуть неожиданные ошибки, влияющие на прогресс. Вы уверены, что хотите продолжить?
+ModRequiresGalaxyReset Для %MODNAME% требуется сброс Галактики, который удалит все ваши сохранённые планеты. Сброс необходимо провести вручную. Вы уверены, что хотите установить этот мод?
+ModCausesSaveDataDependency %MODNAME% вызовет зависимость сохранений. При удалении мода сохранения могут повредиться или стать недоступными. Вы уверены, что хотите установить этот мод?
+CausesSaveDataDependencyWarning От этого мода зависят данные сохранений. Удаление может привести к повреждению сохранений.
+CausesSaveDataDependencyUninstallWarning От следующих модов зависят данные сохранений. Удаление может привести к повреждению сохранений.<br><br>%MODNAMES%<br><br>Вы действительно хотите их удалить?
+
+CreditsHeader Благодарности
+
+RequiresAppRestart %CONTEXT% (необходим перезапуск)
+
+LaunchGameButton Запустить Spore
+
+SelectMod Выберите один или несколько модов, чтобы установить
+AllSporeModsFilter Моды для Spore (%EXTENSIONS%)
+NowInstalling Установка...
+InstallationComplete Установка завершена!
+
+TasksCompleted Задачи выполнены
+ModsInstalledSuccessfully Моды успешно установлены
+ModsUninstalledSuccessfully Моды успешно удалены
+ModsReconfiguredSuccessfully Моды успешно перенастроены
+ModsFailedToInstall Что-то пошло не так при обработке этих модов:
+ModsFailedToInstall2 и некоторых других...
+ModsFailedToInstall3 Подробная информация сохранена в "%LOGFILEPATH%"
+
+CopyUrlIntoBrowser Скопируйте следующий URL в браузер.
+CopypasteToTechSupport Скопируйте текст снизу и отправьте тому, кто попросил
+
+
+# Launcher kit importer
+Importer_ProceedWithAutoPath Да, путь правильный
+Importer_DiscardAutoPath Нет, указать путь вручную
+Importer_AutoLauncherKitPath Spore ModAPI Launcher Kit обнаружен здесь:<br><br>%KITPATH%<br><br>Всё верно?
+Importer_SpecifyLauncherKitPathInstruction Пожалуйста, укажите путь к Spore ModAPI Launcher Kit ниже.
+Importer_LauncherKitNotFoundSpecifyLauncherKitPathInstruction Spore ModAPI Launcher Kit не найден. Укажите его путь ниже.
+Importer_ImportInProgress Перенос...
+Importer_ImportComplete Перенос завершён
+Importer_ImportFailed Не удалось перенести
+Importer_SettingsImportFailed Произошла ошибка при переносе некоторых настроек.
+Importer_NoModsRecord Моды не найдены, переносить нечего.
+Importer_FailedMods Не удалось перенести следующие моды:
+Importer_SkippedMods Следующие моды уже установлены с помощью Spore Mod Manager, перенос не требуется
+
+
+# Error messages
+Error_SporeCoreFolder Core Spore %DIRNAME%
+Error_SporeGAFolder Galactic Adventures %DIRNAME%
+
+Error_FolderNotFound Не удалось выбрать среди нескольких папок %FOLDERNAME%. Выберите из списка ниже или укажите свой путь. (Путь можно изменить в Настройках, если понадобится)
+Error_FolderNotFoundNoGuesses Папка %FOLDERNAME% не найдена. Пожалуйста, укажите свой путь к папке. (Путь можно изменить в Настройках, если понадобится)
+
+Error_ProbablyDiskGuess Скорее всего, установка с диска
+Error_ProbablyOriginGuess Скорее всего, установка из Origin
+Error_ProbablyGOGGuess Скорее всего, установка из GOG или Amazon (или из Steam, если вам не повезло)
+Error_NotAClue Неизвестно
+
+Error_RunModManagerFirst Пожалуйста, запустите Spore Mod Manager перед запуском Spore Mod Launcher.
+
+Error_CantRunSporeWhileInstallingMods Запуск Spore невозможен, пока устанавливаются или удаляются моды.
+Error_StartupAborted Запуск Spore отменён, чтобы защитить данные сохранений.
+Error_ExeVersionNotRecognized Не удалось определить версию исполняемых файлов игры.
+Error_SporeVersionTooOld Версия Spore слишком старая. Пожалуйста, обновите игру до поддерживаемой версии.
+Error_DidTheyUpdateSpore Версия Spore слишком новая и ещё не поддерживается. Чтобы сохранить данные, не рекомендуется запускать Spore с модами или без модов, пока не выйдет обновление для Spore Mod Manager.
+Error_CouldNotGetExeVersion Версия SporeApp.exe не распознана. Этого не должно было произойти. Пожалуйста, сообщите о проблеме немедленно.
+
+Error_KillSporeFailed Что-то пошло не так при принудительном закрытии Spore.
+
+Error_NullDllSuffix Spore Mod Launcher определил, что данной версии Spore не соответствует никакой DLL suffix. Этого не должно было произойти. Пожалуйста, сообщите о проблеме немедленно.
+Error_SporeProcessCreationFailed Не удалось создать процесс Spore. Этого не должно было произойти. Пожалуйста, сообщите о проблеме немедленно.
+Error_SporeProcessResumeFailed Не удалось возобновить процесс Spore. Этого не должно было произойти. Пожалуйста, сообщите о проблеме немедленно.
+
+Error_CantParseIdentityVersion Не удалось распознать версию XML Mod Identity. Сообщите о проблеме автору мода.
+Error_UnsupportedIdentityVersion Версия XML Mod Identity %VERSION% не поддерживается. Данный мод требует более новую версию Spore Mod Manager. Пожалуйста, обновите менеджер модов.
+Error_CantParseDllsBuild Не удалось распознать Build DLL-файлов. Сообщите о проблеме автору мода.
+Error_UnsupportedDllsBuild Версия %VERSION Build DLL-файлов. Данный мод требует более новую версию DLL-файлов Spore ModAPI. Пожалуйста, обновите их.
+Error_NoIdentityVersion Не указана версия XML Mod Identity. Сообщите о проблеме автору мода.
+Error_IdentityMissingAttribute Атрибут %ATTRIBUTE% не найден в XML Mod Identity. Сообщите о проблеме автору мода.
+
+Error_ModApiDllsNotPresent Пожалуйста, запустите Spore Mod Manager перед запуском Spore Mod Launcher.
+
+Error_ModIdentityCantParseValue Mod identity '%ATTRIBUTE%': '%VALUE%' не является действительным %TYPE%. Сообщите о проблеме автору мода.
+Error_ModIdentityUnrecognizedTag Неизвестный тег элемента '%TAGNAME%'. Сообщите о проблеме автору мода.
