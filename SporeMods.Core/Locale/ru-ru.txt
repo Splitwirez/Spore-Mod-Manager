@@ -43,7 +43,7 @@ ModInstalledManually Установлен вручную
 ExitSporeToManageMods Выйдите из Spore, чтобы управлять модами.
 
 FoldersHeader Папки
-AutoGaDataPath Путь к данным Galactic Adventures
+AutoGaDataPath Путь к данным "Космические приключения"
 AutoSporebinEp1Path Путь к SporebinEP1
 AutoCoreDataPath Путь к данным Spore
 AutoSporebinPath Путь к Sporebin
@@ -168,8 +168,8 @@ Importer_SkippedMods Следующие моды уже установлены �
 
 
 # Error messages
-Error_SporeCoreFolder Core Spore %DIRNAME%
-Error_SporeGAFolder Galactic Adventures %DIRNAME%
+Error_SporeCoreFolder Папка Core Spore %DIRNAME%
+Error_SporeGAFolder Папка "Космические приключения" %DIRNAME%
 
 Error_FolderNotFound Не удалось выбрать среди нескольких папок %FOLDERNAME%. Выберите из списка ниже или укажите свой путь. (Путь можно изменить в Настройках, если понадобится)
 Error_FolderNotFoundNoGuesses Папка %FOLDERNAME% не найдена. Пожалуйста, укажите свой путь к папке. (Путь можно изменить в Настройках, если понадобится)
