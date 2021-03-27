@@ -26,6 +26,11 @@
                     <ResourceDictionary Source="pack://application:,,,/SporeModManagerSetup;component/Locale/ca-ca.xaml"/>
                 </ComboBoxItem.Tag>
             </ComboBoxItem>
+            <ComboBoxItem Content="Русский">
+                <ComboBoxItem.Tag>
+                    <ResourceDictionary Source="pack://application:,,,/SporeModManagerSetup;component/Locale/ru-ru.xaml"/>
+                </ComboBoxItem.Tag>
+            </ComboBoxItem>
         </ComboBox>
     </DockPanel>
 </Window>

@@ -751,6 +751,7 @@ namespace SporeMods.Core
             _availableLanguages["en-ca"] = true;
             _availableLanguages["es-es"] = true;
             _availableLanguages["ca-ca"] = true;
+            _availableLanguages["ru-ru"] = true;
 
             // User-provided languages
             foreach (var file in Directory.GetFiles(_languagesDir, "*.txt"))

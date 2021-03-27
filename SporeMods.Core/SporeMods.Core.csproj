@@ -94,6 +94,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Locale\en-ca.txt" />
     <EmbeddedResource Include="Locale\es-es.txt" />
+    <EmbeddedResource Include="Locale\ru-ru.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ModAPIDLLs\SporeModAPI-disk.dll" />
