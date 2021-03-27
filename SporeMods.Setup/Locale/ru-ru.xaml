@@ -1,0 +1,64 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="SelectLanguage">Выбрать язык установки</sys:String>
+    <sys:String x:Key="SelectLanguageTitle">Выбрать язык</sys:String>
+    
+    
+    <sys:String x:Key="Ok">OK</sys:String>
+    <sys:String x:Key="Next">Далее</sys:String>
+    <sys:String x:Key="Browse">Обзор...</sys:String>
+    <sys:String x:Key="Reset">Сброс</sys:String>
+    <sys:String x:Key="Close">Закрыть</sys:String>
+
+
+    <sys:String x:Key="MainWindowTitle">Установка Spore Mod Manager</sys:String>
+    
+    <sys:String x:Key="TimeToUpgradeHeader">Время обновиться!</sys:String>
+    <sys:String x:Key="TimeToUpgrade">Это обновление особенное - мы обновляем Вас до Spore Mod Manager.</sys:String>
+
+    <sys:String x:Key="IAgreeToTheTerms">Я осознаю (ОЧЕНЬ ВАЖНО) и принимаю эти правила использования.</sys:String>
+
+    <sys:String x:Key="LegaleseAgreementHeader">Лицензионное соглашение</sys:String>
+    <sys:String x:Key="HumanLanguageSummaryHeader">Краткое содержание</sys:String>
+
+    <sys:String x:Key="TermsYoureAllowedTo">Это означает, что Вы можете...</sys:String>
+    <sys:String x:Key="TermsYoureAllowedTo1">• Использовать Spore Mod Manager в некоммерческих целях</sys:String>
+    <sys:String x:Key="TermsYoureAllowedTo2">• Также использовать Spore Mod Manager в коммерческих целях.</sys:String>
+    <sys:String x:Key="TermsYoureAllowedTo3">• Изменять и модифицировать Spore Mod Manager.</sys:String>
+    <sys:String x:Key="TermsYoureAllowedTo4">• Распространять Spore Mod Manager, если необходимо.</sys:String>
+
+    <sys:String x:Key="TermsBeware">Но это также означает, что...</sys:String>
+    <sys:String x:Key="TermsBeware1">• Spore Mod Manager предоставляется без гарантии, так что если он сломается, мы не виноваты.</sys:String>
+    <sys:String x:Key="TermsBeware2">• Разработчики не несут ответственность за причинённый вред и другие последствия использования Spore Mod Manager.</sys:String>
+
+    <sys:String x:Key="TermsYouMust">Также Вы должны...</sys:String>
+    <sys:String x:Key="TermsYouMust1">• Включать соглашение слева во все производные от Spore Mod Manager работы и продукты, если Ваш проект основан на Spore Mod Manager или на его компонентах.</sys:String>
+
+    <sys:String x:Key="TermsPleaseDo">Хотя это и необязательно, нам будет приятно, если Вы...</sys:String>
+    <sys:String x:Key="TermsPleaseDo1">• Сообщите об ошибках и проблемах Spore Mod Manager, если столкнётесь с ними.</sys:String>
+    <sys:String x:Key="TermsPleaseDo2">• Упомянете нас (emd4600 и Splitwirez) в производных от Spore Mod Manager работах.</sys:String>
+
+
+
+    <sys:String x:Key="InstallModeSimpleHeader">Простая установка</sys:String>
+    <sys:String x:Key="InstallModeSimpleDesc">Без лишних настроек, просто установить всё за несколько шагов.</sys:String>
+    <sys:String x:Key="InstallModeIdk">Если не уверены, выберите "Простую установку".</sys:String>
+
+    <sys:String x:Key="InstallModeAdvancedHeader">Выборочная установка</sys:String>
+    <sys:String x:Key="InstallModeAdvancedDesc">Настроить установку Spore Mod Manager под себя. Только для продвинутых пользователей.</sys:String>
+
+    <sys:String x:Key="InstallToWhere">Укажите путь для установки Spore Mod Manager.</sys:String>
+    <sys:String x:Key="CannotInstallToUserSpecificLocation">Невозможно установить Spore Mod Manager по пользовательскому пути.</sys:String>
+    <sys:String x:Key="CannotInstallToExistingFolder">Невозможно установить Spore Mod Manager в существующую папку.</sys:String>
+    
+    <sys:String x:Key="StoreConfigWhere">Укажите путь для хранения дополнительных данных Spore Mod Manager, настроек и установленных модов.</sys:String>
+    <sys:String x:Key="CannotStoreConfigInUserSpecificLocation">Невозможно хранение дополнительных данных Spore Mod Manager по пользовательскому пути.</sys:String>
+    <sys:String x:Key="CannotStoreConfigInProtectedLocation">Местоположение защищено; Spore Mode Manager не может хранить здесь дополнительные данные.</sys:String>
+    <sys:String x:Key="CannotStoreConfigInExistingFolder">Невозможно хранение дополнительных данных Spore Mod Manager в существующей папке.</sys:String>
+
+    <sys:String x:Key="CreateDesktopShortcuts">Создать ярлыки к Spore Mod Manager на рабочем столе</sys:String>
+
+
+    <sys:String x:Key="InstallationComplete">Установка завершена!</sys:String>
+</ResourceDictionary>
