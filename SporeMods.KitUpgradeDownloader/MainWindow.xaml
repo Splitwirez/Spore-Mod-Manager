@@ -5,9 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SporeMods.KitUpgradeDownloader"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Downloading Spore Mod Manager Upgrader" Width="800" SizeToContent="Height" Closing="MainWindow_Closing" ResizeMode="CanMinimize" ContentRendered="MainWindow_ContentRendered">
     <DockPanel Margin="10">
-        <TextBlock Text="Copypaste the text below and send it to Splitwirez" DockPanel.Dock="Top" Margin="0,0,0,10"/>
-        <TextBox x:Name="OutputTextBox" IsReadOnly="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"/>
+        <TextBlock Text="This update is a bit larger than most, and thus may take a bit longer to download. Please be patient...it'll be worth the wait." DockPanel.Dock="Top"/>
+        <TextBlock x:Name="DownloadPercentageTextBlock" DockPanel.Dock="Bottom"/>
+        <ProgressBar x:Name="DownloadProgressBar" Minimum="0" Maximum="100" Height="24" Margin="0,15,0,5"/>
+        <!--TextBlock Text="Copypaste the text below and send it to Splitwirez" DockPanel.Dock="Top" Margin="0,0,0,10"/>
+        <TextBox x:Name="OutputTextBox" IsReadOnly="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"/-->
     </DockPanel>
 </Window>

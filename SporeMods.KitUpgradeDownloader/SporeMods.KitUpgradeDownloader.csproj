@@ -6,9 +6,16 @@
 	  <UseWPF>true</UseWPF>
 	  <AssemblyTitle>SporeMods.KitUpgradeDownloader</AssemblyTitle>
     <Product>SporeMods.KitUpgradeDownloader</Product>
-	<TargetFramework>net45</TargetFramework>
+	  <TargetFramework>net45</TargetFramework>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <AssemblyName>ModAPIUpdateSetup</AssemblyName>
   </PropertyGroup>
-  <Import Project="..\SporeMods.SharedOutputDirs.props" />
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+  </PropertyGroup>
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
