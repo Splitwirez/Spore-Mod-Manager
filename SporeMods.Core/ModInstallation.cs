@@ -1,9 +1,10 @@
-﻿using Ionic.Zip;
+﻿//using Ionic.Zip;
 using SporeMods.Core.Mods;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -22,6 +23,8 @@ namespace SporeMods.Core
         internal static bool IS_UNINSTALLING_MODS = false;
 
         internal static bool IS_RECONFIGURING_MODS = false;
+
+        static readonly string MOD_INFO = "ModInfo.xml";
 
 
         [DllImport("shlwapi.dll")]
@@ -304,7 +307,7 @@ namespace SporeMods.Core
             try
             {
                 name = Path.GetFileNameWithoutExtension(path).Replace(".", "-");
-                using (ZipFile zip = new ZipFile(path))
+                using (ZipArchive zip = ZipFile.OpenRead(path)) //ZipFile zip = new ZipFile(path))
                 {
                     string unique = name;
 
@@ -315,16 +318,28 @@ namespace SporeMods.Core
 
                     XDocument document = null;
 
+
+
+                    if (Settings.DebugMode)
+                    {
+                        string entryNames = string.Empty;
+                        foreach (var entry in zip.Entries)
+                            entryNames += "NAME: " + entry.Name + "\n      FULLNAME: " + entry.FullName + "\n\n";
+
+                        MessageDisplay.ShowMessageBox(entryNames);
+                        //return null;
+                    }
+
                     Task validateModTask = new Task(() =>
                     {
-                        if (zip.ContainsEntry("ModInfo.xml"))
+                        if (zip.TryGetEntry(MOD_INFO, out ZipArchiveEntry entry))
                         {
-                            ZipEntry entry = zip["ModInfo.xml"];
+                            //ZipArchiveEntry entry = zip.GetEntry(MOD_INFO);
                             //compareUniquePath = Path.Combine(Settings.TempFolderPath, name + ".xml");
                             //entry.OpenReader()
                             //entry.Extract(Settings.TempFolderPath, ExtractExistingFileAction.OverwriteSilently);
                             XDocument compareDocument = null; //XDocument.Load(compareUniquePath);
-                            using (Stream strm = entry.OpenReader() /*FileStream stream = new FileStream(compareUniquePath, FileMode.OpenOrCreate)*/)
+                            using (Stream strm = entry.Open() /*FileStream stream = new FileStream(compareUniquePath, FileMode.OpenOrCreate)*/)
                             {
                                 compareDocument = XDocument.Load(strm); //compareUniquePath);
                                 //entry.Extract(stream);
@@ -426,7 +441,7 @@ namespace SporeMods.Core
                             string[] modConfigDirs = Directory.EnumerateDirectories(Settings.ModConfigsPath).ToArray();
                             foreach (string s in modConfigDirs)
                             {
-                                string xmlPath = Path.Combine(s, "ModInfo.xml");
+                                string xmlPath = Path.Combine(s, MOD_INFO);
                                 if (File.Exists(xmlPath))
                                 {
                                     XDocument modDocument = null;
@@ -494,12 +509,12 @@ namespace SporeMods.Core
                             //ModInstallation.DebugMessageBoxShow("Mod is unique");
                             Task extractXMLTask = new Task(() =>
                             {
-                                if (zip.ContainsEntry("ModInfo.xml"))
+                                if (zip.TryGetEntry(MOD_INFO, out ZipArchiveEntry entry))
                                 {
                                     hasXmlInZip = true;
-                                    ZipEntry entry = zip["ModInfo.xml"];
-                                    entry.Extract(dir, ExtractExistingFileAction.OverwriteSilently);
-                                    Permissions.GrantAccessFile(Path.Combine(dir, entry.FileName));
+                                    string xmlOutPath = Path.Combine(dir, MOD_INFO);
+                                    entry.ExtractToFile(xmlOutPath, true);
+                                    Permissions.GrantAccessFile(xmlOutPath);
                                 }
                                 else
                                 {
@@ -526,7 +541,7 @@ namespace SporeMods.Core
                             ModsManager.AddMod(mod);
                             //ModInstallation.DebugMessageBoxShow("InstalledMod should be added");
 
-                            Task evaluateArchiveAndCountFilesTask = new Task(() =>
+                            /*Task evaluateArchiveAndCountFilesTask = new Task(() =>
                             {
                                 for (int i = 0; i < zip.Entries.Count; i++)
                                 {
@@ -542,7 +557,7 @@ namespace SporeMods.Core
                                 }
                             });
                             evaluateArchiveAndCountFilesTask.Start();
-                            await evaluateArchiveAndCountFilesTask;
+                            await evaluateArchiveAndCountFilesTask;*/
 
                             for (int i = 0; i < Directory.EnumerateDirectories(dir).Count(); i++)
                             {
@@ -557,8 +572,32 @@ namespace SporeMods.Core
 
                             Task extractFilesTask = new Task(() =>
                             {
-                                int fileCount = zip.Entries.Count;
+                                var fileEntries = zip.Entries.Where(x => !x.IsDirectory());
+                                int fileCount = fileEntries.Count();
+                                if (hasXmlInZip)
+                                    fileCount--;
+                                
+                                foreach (ZipArchiveEntry e in fileEntries)
+                                {
+                                    string name = e.Name.ToLowerInvariant();
+                                    bool isModInfo = name.EndsWith(MOD_INFO.ToLowerInvariant()) || name.Contains(MOD_INFO.ToLowerInvariant()) || (name == MOD_INFO.ToLowerInvariant());
+                                    //MessageDisplay.ShowMessageBox(name + " isModInfo: " + isModInfo + ", " + totalProgress + " / " + fileCount);
+
+                                    if ((!isModInfo) || (isModInfo && document == null))
+                                    {
+                                        string outPath = Path.Combine(dir, e.Name);
+                                        e.ExtractToFile(outPath, true); //.Extract(dir, ExtractExistingFileAction.OverwriteSilently);
+                                        Permissions.GrantAccessFile(outPath);
+
+
+
+                                        ModsManager.RemoveMatchingManuallyInstalledFile(e.Name, ComponentGameDir.GalacticAdventures);
+                                        mod.Progress += totalProgress / fileCount;
+                                    }
+                                }
+                                /*int fileCount = zip.Entries.Count;
                                 if (hasXmlInZip) fileCount--;
+                                //TODO
                                 foreach (ZipEntry e in zip.Entries)
                                 {
                                     bool isModInfo = e.FileName.ToLowerInvariant().EndsWith("modinfo.xml");
@@ -570,7 +609,7 @@ namespace SporeMods.Core
                                         if (!isModInfo)
                                             mod.Progress += totalProgress / fileCount;
                                     }
-                                }
+                                }*/
                             });
                             extractFilesTask.Start();
                             await extractFilesTask;
@@ -706,6 +745,23 @@ namespace SporeMods.Core
             {
                 MessageDisplay.RaiseError(new ErrorEventArgs(new Exception("This mod does not have a configurator!")));
             }
+        }
+
+        public static bool TryGetEntry(this ZipArchive archive, string entryName, out ZipArchiveEntry entry)
+        {
+            entry = archive.Entries.FirstOrDefault(x => x.FullName == entryName);
+            return entry != null;
+        }
+
+        public static bool IsDirectory(this ZipArchiveEntry entry)
+        {
+            string eName = entry.Name;
+            string eFull = entry.FullName;
+            bool backSlash = eFull.EndsWith(@"\");
+            bool foreSlash = eFull.EndsWith(@"/");
+            bool blankName = string.IsNullOrEmpty(eName);
+
+            return (backSlash || foreSlash) && blankName;
         }
     }
 

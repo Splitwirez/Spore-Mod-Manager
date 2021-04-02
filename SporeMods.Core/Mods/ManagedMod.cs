@@ -193,7 +193,7 @@ namespace SporeMods.Core.Mods
             try
             {
                 System.Drawing.Image logo = null;
-                using (FileStream stream = new FileStream(LogoPath, FileMode.Open))
+                using (FileStream stream = new FileStream(LogoPath, FileMode.Open, FileAccess.Read))
                 {
                     stream.Seek(0, SeekOrigin.Begin);
                     logo = System.Drawing.Image.FromStream(stream);
