@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.1-dev (1fceb22, 2019-12-30)"
+   sodipodi:docname="show-grid-symbolic.svg"
+   viewBox="0 0 16 16"
+   height="16"
+   width="16"
+   id="svg1"
+   version="1.1">
+  <metadata
+     id="metadata2572">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs2570" />
+  <style
+     id="s0">
+.success { fill:#009909; }
+.warning { fill:#FF1990; }
+.error { fill:#00AAFF; }
+</style>
+  <style
+     id="s2">
+@import '../../highlights.css';
+</style>
+  <sodipodi:namedview
+     inkscape:document-rotation="0"
+     inkscape:current-layer="svg1"
+     inkscape:window-maximized="1"
+     inkscape:window-y="-8"
+     inkscape:window-x="54"
+     inkscape:window-height="1177"
+     inkscape:window-width="1858"
+     inkscape:cy="8"
+     inkscape:cx="8"
+     inkscape:zoom="60.1875"
+     showgrid="true"
+     id="namedview"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10">
+    <inkscape:grid
+       id="grid"
+       type="xygrid" />
+  </sodipodi:namedview>
+  <g
+     id="show-grid"
+     inkscape:label="00033"
+     transform="translate(-75,-727.3622)">
+    <path
+       transform="translate(0,512.3622)"
+       style="opacity:0;fill:none"
+       d="m 75,215 h 16 v 16 H 75 Z"
+       id="rect17376"
+       inkscape:connector-curvature="0" />
+    <path
+       transform="translate(0,512.3622)"
+       style="opacity:1"
+       d="m 75,215 h 1 v 16 h -1 z"
+       id="rect17397"
+       inkscape:connector-curvature="0" />
+    <path
+       transform="translate(0,512.3622)"
+       style="opacity:1"
+       d="m 75,215 h 16 v 1 H 75 Z"
+       id="rect17399"
+       inkscape:connector-curvature="0" />
+    <path
+       transform="translate(0,512.3622)"
+       style="opacity:1"
+       d="m 90,215 h 1 v 16 h -1 z"
+       id="rect17401"
+       inkscape:connector-curvature="0" />
+    <path
+       transform="translate(0,512.3622)"
+       style="opacity:1"
+       d="m 75,230 h 16 v 1 H 75 Z"
+       id="rect17403"
+       inkscape:connector-curvature="0" />
+    <path
+       transform="translate(0,512.3622)"
+       style="opacity:1"
+       d="m 75,218 h 16 v 1 H 75 Z"
+       id="rect17408"
+       inkscape:connector-curvature="0" />
+    <path
+       transform="translate(0,512.3622)"
+       style="opacity:1"
+       d="m 75,221 h 16 v 1 H 75 Z"
+       id="rect17410"
+       inkscape:connector-curvature="0" />
+    <path
+       transform="translate(0,512.3622)"
+       style="opacity:1"
+       d="m 75,224 h 16 v 1 H 75 Z"
+       id="rect17412"
+       inkscape:connector-curvature="0" />
+    <path
+       style="opacity:1"
+       d="m 75,739.36218 h 16 v 1 H 75 Z"
+       id="rect17414"
+       inkscape:connector-curvature="0" />
+    <path
+       transform="translate(0,512.3622)"
+       style="opacity:1"
+       d="m 78,215 h 1 v 16 h -1 z"
+       id="rect17416"
+       inkscape:connector-curvature="0" />
+    <path
+       transform="translate(0,512.3622)"
+       style="opacity:1"
+       d="m 81,215 h 1 v 16 h -1 z"
+       id="rect17418"
+       inkscape:connector-curvature="0" />
+    <path
+       transform="translate(0,512.3622)"
+       style="opacity:1"
+       d="m 84,215 h 1 v 16 h -1 z"
+       id="rect17420"
+       inkscape:connector-curvature="0" />
+    <path
+       transform="translate(0,512.3622)"
+       style="opacity:1"
+       d="m 87,215 h 1 v 16 h -1 z"
+       id="rect17422"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1"
+   width="24.005186"
+   height="24"
+  >
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingy="1pt"
+     gridspacingx="1pt"
+     gridoriginy="0pt"
+     gridoriginx="0pt"
+  />
+  <defs id="defs3">
+
+  </defs>
+<g id="align-horizontal-node" inkscape:label="#node_valign" transform="translate(-1174.99481,-140)">
+  <path d="M 1186.5,140.5008 1186.5,163.5 1186.5,163.5" id="path5262" inkscape:connector-curvature="0" style="fill:none;stroke:#c80000;stroke-width:1.0000004;stroke-linecap:square"/>
+  <path d="M 1175.5,140.5 C 1178.5,144 1194.475,142.0988 1193,148 1192,152 1176,149 1175.5,156.5 1175.134,161.9878 1192.5,159 1198.5,163" id="path5249" inkscape:connector-curvature="0" sodipodi:nodetypes="cssc" style="fill:none;stroke:#969696;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0"/>
+  <rect height="4.007167" id="rect5251" style="color:#000000;fill:#8ab3de;fill-rule:evenodd;stroke:#0000ff;stroke-width:0.9999997;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0" width="4.066208" x="1184.5" y="141.5"/>
+  <rect height="4.007167" id="use5438" style="color:#000000;fill:#8ab3de;fill-rule:evenodd;stroke:#0000ff;stroke-width:0.9999997;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0" transform="matrix(1,0,0,1,0.0188999,6.991948)" width="4.066208" x="1184.5" y="141.5"/>
+  <rect height="4.007167" id="use5440" style="color:#000000;fill:#8ab3de;fill-rule:evenodd;stroke:#0000ff;stroke-width:0.9999997;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0" transform="matrix(1,0,0,1,-0.0473082,16.99195)" width="4.066208" x="1184.5" y="141.5"/>
+</g>
+
+</svg>

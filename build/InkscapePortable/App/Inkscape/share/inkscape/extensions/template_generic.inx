@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape">
+    <name>Generic Canvas</name>
+    <id>org.inkscape.template.generic_canvas</id>
+
+    <param name="width"  gui-text="Custom Width:"  type="float" min="1" max="15360">800</param>
+    <param name="height" gui-text="Custom Height:" type="float" min="1" max="8640">600</param>
+
+    <param name="unit" gui-text="SVG Unit:" type="optiongroup" appearance="combo">
+        <option translatable="no" value="px">px</option>
+        <option translatable="no" value="in">in</option>
+        <option translatable="no" value="mm">mm</option>
+        <option translatable="no" value="cm">cm</option>
+        <option translatable="no" value="pc">pc</option>
+        <option translatable="no" value="pt">pt</option>
+    </param>
+
+    <param name="background" gui-text="Canvas background:" type="optiongroup" appearance="combo">
+        <option value="normal">Normal</option>
+        <option value="black">Black Opaque</option>
+        <option value="gray">Gray Opaque</option>
+        <option value="white">White Opaque</option>
+    </param>
+
+    <param name="noborder" type="bool" gui-text="Hide border">false</param>
+
+    <effect needs-live-preview="false">
+        <object-type>all</object-type>
+        <effects-menu hidden="true" />
+    </effect>
+    <inkscape:templateinfo>
+      <inkscape:name>Generic canvas...</inkscape:name>
+      <inkscape:author>Tavmjong Bah</inkscape:author>
+      <inkscape:shortdesc>Generic canvas of chosen size.</inkscape:shortdesc>
+      <inkscape:date>2014-10-09</inkscape:date>
+      <inkscape:keywords>empty generic canvas</inkscape:keywords>
+    </inkscape:templateinfo>
+    <script>
+        <command location="inx" interpreter="python">template.py</command>
+    </script>
+</inkscape-extension>

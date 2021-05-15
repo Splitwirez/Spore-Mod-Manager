@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>SVG 1.1 Specification</name>
+    <id>org.inkscape.help.svgspec</id>
+    <param name="url" gui-hidden="true" type="string">http://www.w3.org/TR/SVG11/</param>
+    <effect needs-document="false">
+        <object-type>all</object-type>
+        <effects-menu hidden="true"/>
+    </effect>
+    <script>
+        <command location="inx" interpreter="python">launch_webbrowser.py</command>
+    </script>
+</inkscape-extension>

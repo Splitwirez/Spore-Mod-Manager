@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+      <name>DPI 96 to 90</name>
+      <id>org.inkscape.dpi96to90</id>
+        <param name="switcher" type="optiongroup" appearance="combo" gui-hidden="true">
+          <option value="1">DPI Switch from 96 to 90</option>
+        </param>
+      <effect needs-live-preview="false">
+        <object-type>all</object-type>
+        <effects-menu>
+          <submenu name="Document"/>
+        </effects-menu>
+      </effect>
+      <script>
+        <command location="inx" interpreter="python">dpiswitcher.py</command>
+      </script>
+</inkscape-extension>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="svg1"
+   width="16"
+   height="16"
+   viewBox="0 0 16 16"
+   sodipodi:docname="edit-select-invert-symbolic.svg"
+   inkscape:version="1.1-dev (3d47766, 2020-01-22)">
+  <metadata
+     id="metadata10643">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs10641" />
+  <style
+     id="s0">
+.success { fill:#009909; }
+.warning { fill:#FF1990; }
+.error { fill:#00AAFF; }
+</style>
+  <style
+     id="s2">
+@import '../../highlights.css';
+</style>
+  <sodipodi:namedview
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     id="namedview"
+     showgrid="true"
+     inkscape:zoom="29.180143"
+     inkscape:cx="4.6047734"
+     inkscape:cy="9.7702545"
+     inkscape:window-width="1296"
+     inkscape:window-height="890"
+     inkscape:window-x="65"
+     inkscape:window-y="-6"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1"
+     inkscape:document-rotation="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid" />
+  </sodipodi:namedview>
+  <g
+     transform="matrix(0.996109,0,0,0.992248,-44.824903,-741.56867)"
+     inkscape:label="00020"
+     id="edit-select-invert">
+    <path
+       sodipodi:nodetypes="ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+       inkscape:connector-curvature="0"
+       transform="matrix(1.0039062,0,0,1.0078126,44.999998,747.36222)"
+       d="m 0,0 v 15.000001 l 15,0 V 0 Z M 1,1 H 2 V 2 H 1 Z M 3,1 H 4 V 2 H 3 Z M 5,1 H 6 V 2 H 5 Z M 7,1 H 8 V 2 H 7 Z m 2,0 h 1 V 2 H 9 Z m 2,0 h 1 v 1 h -1 z m 2,0 h 1 V 2 H 13 Z M 1,3 H 2 V 4 H 1 Z m 12,0 h 1 V 4 H 13 Z M 1,5 H 2 V 6 H 1 Z m 12,0 h 1 V 6 H 13 Z M 1,7 H 2 V 8 H 1 Z m 12,0 h 1 V 8 H 13 Z M 1,9 h 1 v 1 H 1 Z m 12,0 h 1 v 1 H 13 Z M 1,11 h 1 v 1 H 1 Z m 12,0 h 1 v 1 H 13 Z M 1,13 h 1 v 1 H 1 Z m 2,0 h 1 v 1 H 3 Z m 2,0 h 1 v 1 H 5 Z m 2,0 h 1 v 1 H 7 Z m 2,0 h 1 v 1 H 9 Z m 2,0 h 1 v 1 h -1 z m 2,0 h 1 v 1 h -1 z"
+       style="display:inline;opacity:0.999;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.831519;stroke-linejoin:round;paint-order:stroke fill markers"
+       id="rect412" />
+  </g>
+</svg>

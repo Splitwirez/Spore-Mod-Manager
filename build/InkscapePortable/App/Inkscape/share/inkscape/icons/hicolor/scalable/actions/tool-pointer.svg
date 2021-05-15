@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1"
+   width="24"
+   height="24"
+  >
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingy="1pt"
+     gridspacingx="1pt"
+     gridoriginy="0pt"
+     gridoriginx="0pt"
+  />
+  <defs id="defs3">
+
+  </defs>
+<g id="tool-pointer" inkscape:label="#draw_select" transform="translate(110,-135)">
+  <rect height="24" id="rect10522" style="color:#000000;fill:none" width="24" x="-110" y="135"/>
+  <path d="M -104.4426,154.8912 C -104.4426,154.8912 -104.5001,136.625 -104.5001,136.625 -104.5001,136.625 -92.45996,149.5002 -92.45996,149.5002 -92.45996,149.5002 -97.66194,149.382 -97.66194,149.382 -97.66194,149.382 -94.23654,155.0591 -94.23654,155.0591 -94.23654,155.0591 -98.70961,157.1774 -98.70961,157.1774 -98.70961,157.1774 -100.7184,150.7187 -100.7184,150.7187 -100.7184,150.7187 -104.4426,154.8912 -104.4426,154.8912 Z" id="path730" inkscape:connector-curvature="0" sodipodi:nodetypes="csssssss" style="fill-rule:evenodd;stroke:#ffffff;stroke-linejoin:round"/>
+</g>
+
+</svg>

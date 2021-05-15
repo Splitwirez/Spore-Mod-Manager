@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+  <name>Merge Styles into CSS</name>
+  <id>org.inkscape.stylesheet.merge_styles</id>
+
+  <label>All selected nodes will be grouped together and their common style attributes will create a new class, this class will replace the existing inline style attributes. Please use a name which best describes the kinds of objects and their common context for best effect.</label>
+
+  <param name="name" type="string" gui-text="New Class Name:">class1</param>
+
+  <effect needs-live-preview="false">
+    <object-type>all</object-type>
+    <effects-menu>
+     <submenu name="Stylesheet"/>
+    </effects-menu>
+  </effect>
+  <script>
+    <command location="inx" interpreter="python">merge_styles.py</command>
+  </script>
+</inkscape-extension>

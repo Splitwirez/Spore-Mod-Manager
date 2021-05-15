@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.1-dev (6039630, 2019-12-20)"
+   sodipodi:docname="path-offset-dynamic-symbolic.svg"
+   viewBox="0 0 16 16"
+   height="16"
+   width="16"
+   id="svg1"
+   version="1.1">
+  <metadata
+     id="metadata1896">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1894" />
+  <style
+     id="s0">
+.success { fill:#009909; }
+.warning { fill:#FF1990; }
+.error { fill:#00AAFF; }
+</style>
+  <style
+     id="s2">
+@import '../../highlights.css';
+</style>
+  <sodipodi:namedview
+     inkscape:document-rotation="0"
+     inkscape:current-layer="svg1"
+     inkscape:window-maximized="1"
+     inkscape:window-y="-6"
+     inkscape:window-x="65"
+     inkscape:window-height="890"
+     inkscape:window-width="1296"
+     inkscape:cy="7.9987061"
+     inkscape:cx="8.0026474"
+     inkscape:zoom="41.125"
+     showgrid="true"
+     id="namedview"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10">
+    <inkscape:grid
+       id="grid"
+       type="xygrid" />
+  </sodipodi:namedview>
+  <g
+     id="path-offset-dynamic"
+     inkscape:label="00086"
+     transform="matrix(1,0,0,0.999999,-165,-787.3612)">
+    <path
+       style="opacity:0;fill:none"
+       d="m 165,787.36218 h 16 v 16 h -16 z"
+       id="rect19698"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path19700"
+       d="m 165,787.4247 v 1.9687 c 8,-0.0313 14,5.9688 13.9687,13.9688 h 1.9063 c -0.875,-10 -5.875,-15 -15.875,-15.9375 z"
+       style="opacity:1" />
+    <path
+       transform="translate(0,512.3622)"
+       id="path19751"
+       d="m 165,279 v 2 c 5.5228,0 10,4.4771 10,10 h 2 c 0,-6.6274 -5.3726,-12 -12,-12 z"
+       style="opacity:0.4"
+       inkscape:connector-curvature="0" />
+    <path
+       transform="translate(0,512.3622)"
+       id="path19763"
+       d="m 165,283 v 2 c 3.1558,0 5.7294,2.6477 5.9687,6 h 2 c -0.2435,-4.4617 -3.7084,-8 -7.9687,-8 z"
+       style="opacity:1"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

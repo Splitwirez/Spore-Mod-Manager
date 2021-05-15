@@ -28,13 +28,13 @@
     <EmbeddedResource Include="ModAPIDLLs\SporeModAPI.disk.dll" />
     <EmbeddedResource Include="ModAPIDLLs\SporeModAPI.march2017.dll" />
   </ItemGroup>
-  <UsingTask TaskName="WriteTargetFramework" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll" >
+  <UsingTask TaskName="WriteTargetFramework" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
     <ParameterGroup>
-      <Framework ParameterType="System.String" Required="true"/>
+      <Framework ParameterType="System.String" Required="true" />
     </ParameterGroup>
     <Task>
-      <Using Namespace="System"/>
-      <Using Namespace="System.IO"/>
+      <Using Namespace="System" />
+      <Using Namespace="System.IO" />
       <Code Type="Fragment" Language="cs">
         <![CDATA[
         File.WriteAllText("RuntimeVersion.txt", Framework);
@@ -43,7 +43,7 @@
     </Task>
   </UsingTask>
   <Target Name="EmbedLocal" BeforeTargets="PrepareForBuild">
-    <WriteTargetFramework Framework="$(TargetFramework)"/>
+    <WriteTargetFramework Framework="$(TargetFramework)" />
     <ItemGroup>
       <EmbeddedResource Include="RuntimeVersion.txt" LogicalName="RuntimeVersion.txt" />
     </ItemGroup>

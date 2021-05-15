@@ -4,14 +4,14 @@
   <Import Project="..\SporeMods.NetCoreSharedAssemblyInfo.props" />
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-	<UseWPF>true</UseWPF>
-	<AssemblyTitle>SporeMods.Launcher</AssemblyTitle>
+	  <UseWPF>true</UseWPF>
+	  <AssemblyTitle>SporeMods.Launcher</AssemblyTitle>
     <Product>SporeMods.Launcher</Product>
   </PropertyGroup>
   <Import Project="..\SporeMods.SharedOutputDirs.props" />
   <PropertyGroup>
-    <ApplicationIcon>ModLauncherIcon.ico</ApplicationIcon>
-    <AssemblyName>Spore Mod Launcher</AssemblyName>
+    <ApplicationIcon>..\AppIcons\ModLauncherIcon.ico</ApplicationIcon>
+    <AssemblyName>SporeMods.Launcher</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\SporeMods.CommonUI\SporeMods.CommonUI.csproj">
@@ -27,7 +27,10 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ModLauncherIcon.ico" />
+    <Content Include="..\AppIcons\ModLauncherIcon.ico">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <LogicalName>ModLauncherIcon.ico</LogicalName>
+    </Content>
   </ItemGroup>
   <ItemGroup Condition="Exists('ModAPIFix\SporeApp_ModAPIFix.exe') And Exists('ModAPIFix\steam_api.dll')">
     <EmbeddedResource Include="ModAPIFix\SporeApp_ModAPIFix.exe" />

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="svg1"
+   width="16"
+   height="16"
+   viewBox="0 0 16 16"
+   sodipodi:docname="transform-2pts-symbolic.svg"
+   inkscape:version="1.1-dev (1fceb22, 2019-12-30)">
+  <defs
+     id="defs299" />
+  <style
+     id="s0">
+.success { fill:#009909; }
+.warning { fill:#FF1990; }
+.error { fill:#00AAFF; }
+</style>
+  <style
+     id="s2">
+@import '../../highlights.css';
+</style>
+  <sodipodi:namedview
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     id="namedview"
+     showgrid="true"
+     inkscape:zoom="76.83758"
+     inkscape:cx="8.6765157"
+     inkscape:cy="8.3712592"
+     inkscape:window-x="54"
+     inkscape:window-y="-8"
+     inkscape:document-rotation="0"
+     inkscape:window-width="1858"
+     inkscape:window-height="1177"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layercompo">
+    <inkscape:grid
+       type="xygrid"
+       id="grid" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata1906">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
+        <dc:title />
+        <dc:date>13 Jan 2019</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Ramón Miranda</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:rights>
+          <cc:Agent>
+            <dc:title>see the license tab</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>icon ui</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:description>This is a contribution with Inkscape Project from
+Ramon Miranda www.ramonmiranda.com (design and SVG file)
+Jabiertxo (SVG stuff to integrate them in UI)</dc:description>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title />
+          </cc:Agent>
+        </dc:publisher>
+        <dc:identifier />
+        <dc:source />
+        <dc:relation />
+        <dc:language>-</dc:language>
+        <dc:coverage />
+        <dc:contributor>
+          <cc:Agent>
+            <dc:title>Ramon Miranda
+Jabier Arraiza</dc:title>
+          </cc:Agent>
+        </dc:contributor>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layercompo"
+     inkscape:label="transform-2ptss">
+    <path
+       inkscape:connector-curvature="0"
+       id="rect22048"
+       d="M 0,0 H 16 V 16 H 0 Z"
+       style="opacity:0;fill:none" />
+    <path
+       inkscape:connector-curvature="0"
+       style="opacity:1"
+       d="m 11.321189,11.679541 -0.279551,0.41493 0.450605,0.303498 0.280042,-0.414929 z"
+       id="path319"
+       class="error" />
+    <path
+       inkscape:connector-curvature="0"
+       style="opacity:1"
+       d="m 10.41998,11.072057 -0.279551,0.414927 0.450605,0.303499 0.279551,-0.414928 z"
+       id="path317"
+       class="error" />
+    <path
+       inkscape:connector-curvature="0"
+       style="opacity:1"
+       d="m 9.5182815,10.46457 -0.279549,0.41493 0.4506043,0.303498 0.2800396,-0.41493 z"
+       id="path315"
+       class="error" />
+    <path
+       inkscape:connector-curvature="0"
+       style="opacity:1"
+       d="M 8.6170727,9.8570862 8.3375212,10.272012 8.7881256,10.575511 9.067677,10.160585 Z"
+       id="path313"
+       class="error" />
+    <path
+       inkscape:connector-curvature="0"
+       style="opacity:1"
+       d="M 7.715376,9.2491113 7.4358245,9.6645289 7.8864289,9.9680272 8.1664683,9.5531003 Z"
+       id="path311"
+       class="error" />
+    <path
+       inkscape:connector-curvature="0"
+       style="opacity:1"
+       d="M 6.8141646,8.6416269 6.5346132,9.0565539 6.9852201,9.3605402 7.2647691,8.945613 Z"
+       id="path309"
+       class="error" />
+    <path
+       inkscape:connector-curvature="0"
+       style="opacity:1"
+       d="M 5.9124679,8.03414 5.6329165,8.4490694 6.0835209,8.7530556 6.3635603,8.3381287 Z"
+       id="path307"
+       class="error" />
+    <path
+       class="error"
+       id="path324"
+       d="M 5.0112563,7.4266555 4.7317078,7.8415825 5.1823117,8.1455712 5.461864,7.7306418 Z"
+       style="opacity:1"
+       inkscape:connector-curvature="0" />
+    <path
+       id="path9609"
+       style="opacity:1"
+       d="M 6.0991601,1.350335 C 5.9183483,1.3444197 5.7369831,1.3530801 5.5566744,1.3767265 4.8354247,1.4712825 4.1529272,1.8035743 3.6301198,2.3136127 3.1072666,2.8236411 2.7554875,3.499445 2.6380084,4.2215962 2.568502,4.6488668 2.5877724,5.0851582 2.6800391,5.5054776 H 2.3667662 c -0.2729129,0 -0.5009446,0.2275317 -0.5009446,0.5004546 V 7.549815 c 0,0.2729204 0.2280317,0.5009426 0.5009446,0.5009426 h 1.5165136 c 0.2729222,0 0.5004538,-0.2280122 0.5004538,-0.5009426 V 7.3851128 L 4.3914645,7.1687079 4.3837336,7.003909 V 6.0059322 c 0,-0.2729329 -0.2275316,-0.5004546 -0.5004538,-0.5004546 H 3.3681636 C 3.2634015,5.1234956 3.2342673,4.7191007 3.2977878,4.3286259 3.3918129,3.7506082 3.677625,3.1991047 4.0953871,2.7915844 4.5131388,2.3840267 5.0696322,2.1132332 5.6436684,2.0379698 6.2176853,1.9626889 6.8198073,2.0808613 7.322439,2.3668836 7.7994999,2.6382927 8.1877851,3.076063 8.321882,3.5769654 8.393797,3.8457171 8.399663,4.1534092 8.386396,4.4781768 8.373191,4.8033872 8.341368,5.1526496 8.369778,5.523559 8.398462,5.896738 8.4921742,6.294607 8.7338787,6.6358971 8.855189,6.8072753 9.0115711,6.9595086 9.2030551,7.0698864 c 0.1925524,0.1109908 0.4146767,0.175497 0.6480487,0.1715433 0.2337022,-0.00397 0.4456452,-0.074986 0.6280132,-0.169589 0.181185,-0.094035 0.334149,-0.2099208 0.47113,-0.3196254 0.272573,-0.2183059 0.503127,-0.4113662 0.727711,-0.4765079 0.193992,-0.056281 0.421446,-0.02522 0.584029,0.081129 0.160803,0.1051555 0.278708,0.3021821 0.291767,0.4911687 0.0098,0.1416437 -0.0308,0.3068238 -0.108984,0.4657557 -0.07922,0.1609562 -0.195765,0.3206888 -0.32696,0.4911688 -0.131296,0.1708001 -0.280191,0.3546872 -0.406619,0.5727853 -0.127146,0.2194494 -0.231836,0.4747038 -0.251203,0.7629006 -0.0306,0.4559592 0.158817,0.8595415 0.380716,1.1802715 0.219187,0.316775 0.469276,0.564726 0.657337,0.816169 0.153157,0.204753 0.282008,0.42887 0.384627,0.665157 H 12.5518 c -0.272923,0 -0.500455,0.227522 -0.500455,0.500454 -0.0069,0.513243 0,0.919688 0,1.544371 0,0.272923 0.227532,0.500455 0.500455,0.500455 h 1.518469 c 0.272923,0 0.498501,-0.227542 0.498501,-0.500455 v -1.544371 c 0,-0.272913 -0.225578,-0.500454 -0.498501,-0.500454 H 13.593761 C 13.45973,11.422397 13.273843,11.061272 13.032217,10.738256 12.806449,10.436394 12.563156,10.191783 12.389055,9.9401691 12.217704,9.6925095 12.111162,9.4219431 12.127096,9.1846002 12.13716,9.0348417 12.196502,8.8722489 12.289354,8.7120033 12.382984,8.5504791 12.510212,8.3883443 12.646123,8.2115486 12.782349,8.0345328 12.928345,7.8403539 13.042969,7.6074848 13.158528,7.3725513 13.240833,7.0980145 13.220377,6.8020656 13.191909,6.3900512 12.967017,6.0206857 12.627551,5.7987115 12.289875,5.5778158 11.872803,5.5239519 11.491755,5.6344998 11.073291,5.7558851 10.78487,6.0294111 10.532876,6.2312345 10.407557,6.3316057 10.289257,6.4180292 10.172686,6.4785291 10.057333,6.538366 9.9407331,6.573105 9.8403516,6.5748066 9.7408612,6.5765007 9.6312666,6.5469938 9.535387,6.4917237 9.4384689,6.4358579 9.350504,6.3511034 9.2788064,6.2498038 9.1344101,6.0459211 9.057688,5.7683639 9.0349323,5.4722424 9.012074,5.1739088 9.0394614,4.8500021 9.0535042,4.5040778 9.0676521,4.1577656 9.0678497,3.7836757 8.9665127,3.4049341 8.7758594,2.6927647 8.2584518,2.1321604 7.6513527,1.7867666 7.1773947,1.5170591 6.6415979,1.3680812 6.0991601,1.350335 Z M 2.3667662,6.0059322 H 3.8832798 V 7.549815 H 2.3667662 Z M 12.5518,12.302667 h 1.518469 v 1.544371 H 12.5518 Z"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="sccccsssssscccsscccccccccccccccccccccccscsssssscccccccccccccccccccscccccccccc" />
+  </g>
+</svg>

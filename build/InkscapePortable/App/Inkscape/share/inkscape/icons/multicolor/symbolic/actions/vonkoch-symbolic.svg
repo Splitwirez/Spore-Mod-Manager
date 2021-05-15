@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="svg1"
+   width="16"
+   height="16"
+   viewBox="0 0 16 16"
+   sodipodi:docname="vonkoch-symbolic.svg"
+   inkscape:version="1.1-dev (1fceb22ce1, 2019-12-30, custom)">
+  <defs
+     id="defs1457" />
+  <style
+     id="s0">
+.success { fill:#009909; }
+.warning { fill:#FF1990; }
+.error { fill:#00AAFF; }
+</style>
+  <style
+     id="s2">
+@import '../../highlights.css';
+</style>
+  <sodipodi:namedview
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     id="namedview"
+     showgrid="true"
+     inkscape:zoom="27.166187"
+     inkscape:cx="5.6432559"
+     inkscape:cy="8.9170542"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:document-rotation="0"
+     inkscape:window-width="2560"
+     inkscape:window-height="1376"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layercompo">
+    <inkscape:grid
+       type="xygrid"
+       id="grid" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata1906">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
+        <dc:title></dc:title>
+        <dc:date>13 Jan 2019</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Ramón Miranda</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:rights>
+          <cc:Agent>
+            <dc:title>see the license tab</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>icon ui</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:description>This is a contribution with Inkscape Project from
+Ramon Miranda www.ramonmiranda.com (design and SVG file)
+Jabiertxo (SVG stuff to integrate them in UI)</dc:description>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title />
+          </cc:Agent>
+        </dc:publisher>
+        <dc:identifier />
+        <dc:source />
+        <dc:relation />
+        <dc:language>-</dc:language>
+        <dc:coverage />
+        <dc:contributor>
+          <cc:Agent>
+            <dc:title>Ramon Miranda
+Jabier Arraiza</dc:title>
+          </cc:Agent>
+        </dc:contributor>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layercompo"
+     inkscape:label="vonkoch-box">
+    <path
+       id="rect22048"
+       d="M 0,0 H 16 V 16 H 0 Z"
+       style="opacity:0;fill:none"
+       inkscape:connector-curvature="0" />
+    <path
+       d="M 5.9854752,4.8007029 A 0.24968278,0.2464817 0 0 0 5.7824802,4.9237611 L 0.79529574,13.449064 a 0.24968278,0.2464817 0 0 0 0.21704476,0.369653 h 9.9719475 a 0.24968278,0.2464817 0 0 0 0.216559,-0.369653 L 6.2151156,4.9237611 A 0.24968278,0.2464817 0 0 0 5.9854752,4.8007029 Z M 5.9980713,5.5395281 10.55262,13.326006 H 1.444009 Z"
+       style="opacity:1"
+       id="path2517" />
+    <path
+       class="error"
+       d="m 10.030842,2.1816327 a 0.24548906,0.25069076 89.999999 0 0 -0.2039654,0.122572 l -1.2523675,2.123454 a 0.24548906,0.25069076 89.999999 0 0 0.217531,0.3681998 H 11.295806 A 0.24548906,0.25069076 89.999999 0 0 11.513818,4.4276587 L 10.26145,2.3042047 a 0.24548906,0.25069076 89.999999 0 0 -0.230608,-0.122572 z m 0.01308,0.7364018 0.818278,1.386566 H 9.2256427 Z M 8.4703471,5.8704233 A 0.24555359,0.25062371 89.999999 0 0 8.253786,6.2386255 l 2.568686,4.3597885 a 0.24555359,0.25062371 89.999999 0 0 0.43409,4.83e-4 l 2.569169,-4.3597878 a 0.24555359,0.25062371 89.999999 0 0 -0.0068,-0.2567726 0.24555359,0.25062371 89.999999 0 0 -0.210263,-0.111427 z M 8.9044364,6.3616812 H 13.174598 L 11.040003,9.985068 Z M 13.722056,8.617396 a 0.24548906,0.25069076 89.999999 0 0 -4.86e-4,4.837e-4 0.24548906,0.25069076 89.999999 0 0 -0.203962,0.122572 l -1.252369,2.1229703 a 0.24548906,0.25069076 89.999999 0 0 0.217529,0.368199 h 2.503766 a 0.24548906,0.25069076 89.999999 0 0 0.218015,-0.368199 L 13.95218,8.7404517 A 0.24548906,0.25069076 89.999999 0 0 13.722056,8.617396 Z m 0.01211,0.7364017 0.818762,1.3870513 h -1.636554 z"
+       style="opacity:1"
+       id="path9609" />
+  </g>
+</svg>

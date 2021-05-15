@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+  <name>Mouse handler</name>
+  <id>org.inkscape.jessyink.add_mouse_handler</id>
+  <param name="tab" type="notebook">
+    <page name="settings" gui-text="Mouse handler">
+            <param name="mouseSetting" type="optiongroup" appearance="radio" gui-text="Mouse settings:">
+        <option value="default">Default</option>
+        <option value="noclick">No-click</option>
+        <option value="draggingZoom">Dragging/zoom</option>
+            </param>
+        </page>
+    <page name="help" gui-text="Help">
+      <label>This extension allows you customize the mouse handler JessyInk uses. Please see code.google.com/p/jessyink for more details.</label>
+    </page>
+  </param>
+  <effect>
+    <object-type>g</object-type>
+      <effects-menu>
+        <submenu name="JessyInk"/>
+      </effects-menu>
+  </effect>
+  <script>
+    <command location="inx" interpreter="python">jessyink_mouse_handler.py</command>
+  </script>
+</inkscape-extension>
+

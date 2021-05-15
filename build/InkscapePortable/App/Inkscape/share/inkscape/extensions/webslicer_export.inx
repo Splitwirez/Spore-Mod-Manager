@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>Export layout pieces and HTML+CSS code</name>
+    <id>org.inkscape.web.slicer.export</id>
+    <dependency type="file" location="inx">webslicer_effect.py</dependency>
+    <param name="tab" type="notebook">
+        <page name="Options" gui-text="Options">
+            <param name="dir" type="string" gui-text="Directory path to export:"></param>
+            <param name="create-dir" type="bool" gui-text="Create directory, if it does not exists">false</param>
+            <param name="with-code" type="bool" gui-text="With HTML and CSS">true</param>
+        </page>
+        <page name="Help" gui-text="Help">
+            <label>All sliced images, and optionally - code, will be generated as you had configured and saved to one directory.</label>
+        </page>
+    </param>
+    <effect needs-live-preview="false">
+    <object-type>all</object-type>
+    <effects-menu>
+        <submenu name="Web">
+            <submenu name="Slicer"/>
+        </submenu>
+    </effects-menu>
+    </effect>
+    <script>
+        <command location="inx" interpreter="python">webslicer_export.py</command>
+    </script>
+</inkscape-extension>

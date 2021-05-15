@@ -1,0 +1,24 @@
+<svg width="24" height="24" inkscape:version="1.0alpha2 (b35655a8fd, 2019-07-19, custom)" sodipodi:docname="draw-eraser.svg" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd">
+ <sodipodi:namedview id="base" inkscape:current-layer="svg37" inkscape:cx="9.1459706" inkscape:cy="9.4930559" inkscape:snap-bbox="false" inkscape:snap-grids="true" inkscape:zoom="15.839192" showgrid="true">
+  <inkscape:grid id="GridFromPre046Settings" color="#3f3fff" opacity=".15" empcolor="#3f3fff" empopacity="0.38" empspacing="5" originx="0pt" originy="0pt" spacingx="1pt" spacingy="1pt" type="xygrid"/>
+ </sodipodi:namedview>
+ <defs>
+  <linearGradient id="linearGradient7424" x1="104.88" x2="111.51" y1="220.94" y2="230.8" gradientTransform="matrix(1.1336 0 0 1.1334 339.57 -131.41)" gradientUnits="userSpaceOnUse" inkscape:collect="always">
+   <stop stop-color="#f8d8c8" offset="0"/>
+   <stop stop-color="#eb8654" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient1050" x1="464.06" x2="456.44" y1="138.45" y2="132.28" gradientUnits="userSpaceOnUse" inkscape:collect="always">
+   <stop stop-color="#00e" offset="0"/>
+   <stop stop-color="#88f" offset="1"/>
+  </linearGradient>
+ </defs>
+ <g id="draw-eraser" transform="translate(-450,-115)" inkscape:label="#draw_erase">
+  <rect x="450" y="115" width="24" height="24" color="#000000" fill="none"/>
+  <g transform="rotate(30 462.62 127.47)">
+   <rect x="456.51" y="117.51" width="10.992" height="18.992" color="#000000" fill="url(#linearGradient7424)" fill-rule="evenodd"/>
+   <rect x="456.51" y="129.83" width="10.992" height="6.6684" color="#000000" fill="url(#linearGradient1050)" fill-rule="evenodd"/>
+   <rect x="456.51" y="117.51" width="10.992" height="18.992" color="#000000" fill="none" stroke="#000" stroke-linejoin="round" stroke-miterlimit="0"/>
+  </g>
+ </g>
+ <path d="m0 22.667h6.6667m9.3333 0h8" fill="none" stroke="#000" stroke-width="1px" inkscape:connector-curvature="0" sodipodi:nodetypes="cccc"/>
+</svg>

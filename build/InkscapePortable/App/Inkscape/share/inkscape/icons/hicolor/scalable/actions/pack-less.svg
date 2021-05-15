@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1"
+   width="16"
+   height="16"
+  >
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingy="1pt"
+     gridspacingx="1pt"
+     gridoriginy="0pt"
+     gridoriginx="0pt"
+  />
+  <defs id="defs3">
+
+  </defs>
+<g id="pack-less" transform="translate(-350,-215)">
+  <rect height="16" id="rect19756" style="fill:none" width="16" x="350" y="215"/>
+  <g id="g19758" style="fill:#98b6d6;fill-opacity:0.7;stroke:#000000">
+    <rect height="5" id="rect19760" width="5" x="351.5" y="216.5"/>
+    <rect height="5" id="rect19762" width="5" x="359.5" y="216.5"/>
+    <rect height="5" id="rect19764" width="5" x="351.5" y="224.5"/>
+    <rect height="5" id="rect19766" width="5" x="359.5" y="224.5"/>
+  </g>
+</g>
+
+</svg>

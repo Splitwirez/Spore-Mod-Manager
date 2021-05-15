@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>Alphabet Soup</name>
+    <id>org.inkscape.filter.alphabet_soup</id>
+    <dependency type="file" location="inx">render_alphabetsoup_config.py</dependency>
+    <param name="text" type="string" gui-text="Text:">Inkscape</param>
+    <param name="zoom" type="float" min="0.0" max="1000.0" gui-text="Scale:">8.0</param>
+    <param name="randomize" type="bool" gui-text="Randomize">false</param>
+    <effect>
+        <object-type>all</object-type>
+        <effects-menu>
+            <submenu name="Render"/>
+         </effects-menu>                                    
+    </effect>
+    <script>
+        <command location="inx" interpreter="python">render_alphabetsoup.py</command>
+    </script>
+</inkscape-extension>

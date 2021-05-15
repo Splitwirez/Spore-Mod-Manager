@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1"
+   width="16.602538"
+   height="16.562858"
+  >
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingy="1pt"
+     gridspacingx="1pt"
+     gridoriginy="0pt"
+     gridoriginx="0pt"
+  />
+  <defs id="defs3">
+
+  </defs>
+<g id="path-mode-bezier" inkscape:label="bezier_mode" transform="matrix(0.6666666,0,0,0.6666666,73.66062,-119.633293)">
+  <rect height="24" id="rect4983" style="color:#000000;fill:none" width="24" x="-110" y="180"/>
+  <path d="M -107.5,202 C -108,194 -106.8635,189.643 -103.5351,186.5978 -100.5976,183.9103 -96,182 -88,182.5" id="path4985" inkscape:connector-curvature="0" sodipodi:nodetypes="csc" style="fill:none;stroke:#646464;stroke-width:2.2500002"/>
+  <rect height="5.996136" id="rect4987" style="color:#000000;fill:#0000ff;fill-opacity:0.3921569;fill-rule:evenodd;stroke:#0000ff;stroke-width:1.5000001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0" width="6.117705" x="-106.5" y="183.5039"/>
+  <rect height="4.801509" id="rect4989" style="color:#000000;fill:#6464ff;fill-opacity:0.3921569;fill-rule:evenodd;stroke:#6464ff;stroke-width:1.2004722;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0" width="4.799528" x="-109.8907" y="198.8925"/>
+  <rect height="3.999682" id="use4993" style="color:#000000;fill:#6464ff;fill-opacity:0.3921569;fill-rule:evenodd;stroke:#6464ff;stroke-width:0.9999995;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0" transform="matrix(1.200473,0,0,1.200473,40.4649,-59.44417)" width="3.998032" x="-109.5" y="199.5"/>
+</g>
+
+</svg>

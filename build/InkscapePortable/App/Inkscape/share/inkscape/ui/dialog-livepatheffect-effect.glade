@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.1 -->
+<interface>
+  <requires lib="gtk+" version="3.20"/>
+  <object class="GtkEventBox" id="LPESelectorEffect">
+    <property name="name">LPESelectorEffect</property>
+    <property name="visible">True</property>
+    <property name="can_focus">True</property>
+    <property name="valign">start</property>
+    <property name="visible_window">False</property>
+    <child>
+      <object class="GtkBox" id="LPESelectorEffectBox">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="double_buffered">False</property>
+        <property name="halign">start</property>
+        <property name="hexpand">False</property>
+        <property name="orientation">vertical</property>
+        <property name="baseline_position">top</property>
+        <child>
+          <object class="GtkOverlay" id="LPEOverlay">
+            <property name="name">LPEOverlay</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkImage" id="LPEIcon">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">center</property>
+                <property name="valign">start</property>
+                <property name="pixel_size">60</property>
+                <property name="icon_name">align-vertical-baseline</property>
+                <property name="icon_size">6</property>
+              </object>
+              <packing>
+                <property name="index">1</property>
+              </packing>
+            </child>
+            <child type="overlay">
+              <object class="GtkEventBox" id="LPESelectorEffectEventFavTop">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="no_show_all">True</property>
+                <property name="halign">end</property>
+                <property name="valign">start</property>
+                <child>
+                  <object class="GtkImage" id="LPESelectorEffectFavTop">
+                    <property name="name">LPESelectorEffectFavTop</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">end</property>
+                    <property name="valign">start</property>
+                    <property name="pixel_size">20</property>
+                    <property name="icon_name">draw-star</property>
+                    <property name="icon_size">2</property>
+                    <style>
+                      <class name="fab"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="index">2</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="LPEName">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">LPEName</property>
+            <property name="justify">center</property>
+            <property name="wrap">True</property>
+            <property name="ellipsize">end</property>
+            <property name="width_chars">14</property>
+            <property name="max_width_chars">23</property>
+            <style>
+              <class name="lpename"/>
+            </style>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="LPEDescription">
+            <property name="width_request">200</property>
+            <property name="can_focus">False</property>
+            <property name="no_show_all">True</property>
+            <property name="label" translatable="yes">Description</property>
+            <property name="use_markup">True</property>
+            <property name="ellipsize">end</property>
+            <property name="single_line_mode">True</property>
+            <property name="lines">1</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="padding">10</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkCheckButton" id="LPEExperimentalToggle">
+            <property name="label" translatable="yes">Experimental</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <property name="no_show_all">True</property>
+            <property name="draw_indicator">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEventBox" id="LPESelectorEffectEventExpander">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="no_show_all">True</property>
+            <child>
+              <object class="GtkImage" id="LPESelectorEffectExpander">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="no_show_all">True</property>
+                <property name="halign">center</property>
+                <property name="valign">center</property>
+                <property name="margin_left">5</property>
+                <property name="margin_right">5</property>
+                <property name="margin_top">5</property>
+                <property name="margin_bottom">5</property>
+                <property name="pixel_size">16</property>
+                <property name="icon_name">go-down</property>
+                <property name="icon_size">2</property>
+                <style>
+                  <class name="info"/>
+                </style>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">4</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButtonBox" id="LPESelectorButtonBox">
+            <property name="name">LPESelectorButtonBox</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">center</property>
+            <property name="valign">start</property>
+            <property name="baseline_position">top</property>
+            <property name="layout_style">center</property>
+            <child>
+              <object class="GtkEventBox" id="LPESelectorEffectEventInfo">
+                <property name="name">LPESelectorEffectEventInfo</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">end</property>
+                <property name="valign">start</property>
+                <property name="visible_window">False</property>
+                <child>
+                  <object class="GtkImage" id="LPESelectorEffectInfo">
+                    <property name="name">LPESelectorEffectInfo</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">end</property>
+                    <property name="valign">start</property>
+                    <property name="pixel_size">23</property>
+                    <property name="icon_name">info-outline</property>
+                    <property name="icon_size">2</property>
+                    <style>
+                      <class name="info"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="pack_type">end</property>
+                <property name="position">0</property>
+                <property name="non_homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="LPESelectorEffectEventFav">
+                <property name="name">LPESelectorEffectEventFav</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">center</property>
+                <property name="valign">start</property>
+                <property name="visible_window">False</property>
+                <child>
+                  <object class="GtkImage" id="LPESelectorEffectFav">
+                    <property name="name">LPESelectorEffectFav</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">center</property>
+                    <property name="valign">start</property>
+                    <property name="pixel_size">23</property>
+                    <property name="icon_name">draw-star-outline</property>
+                    <property name="icon_size">2</property>
+                    <style>
+                      <class name="fab"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="pack_type">end</property>
+                <property name="position">1</property>
+                <property name="non_homogeneous">True</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="LPESelectorEffectEventApply">
+                <property name="name">LPESelectorEffectEventApply</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="valign">start</property>
+                <property name="visible_window">False</property>
+                <child>
+                  <object class="GtkImage">
+                    <property name="can_focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="valign">start</property>
+                    <property name="pixel_size">23</property>
+                    <property name="icon_name">on-outline</property>
+                    <property name="icon_size">2</property>
+                    <style>
+                      <class name="apply"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="pack_type">end</property>
+                <property name="position">2</property>
+                <property name="non_homogeneous">True</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">5</property>
+          </packing>
+        </child>
+        <style>
+          <class name="lpeselectoreffect"/>
+        </style>
+      </object>
+    </child>
+  </object>
+</interface>

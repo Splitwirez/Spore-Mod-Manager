@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>Calendar</name>
+    <id>org.inkscape.render.calendar</id>
+    <param name="tab" type="notebook">
+        <page name="config" gui-text="Configuration">
+            <param name="year" type="int" min="0" max="3000" gui-text="Year (4 digits):">2020</param>
+            <param name="month" type="int" min="0" max="12" gui-text="Month (0 for all):">0</param>
+            <param name="fill-empty-day-boxes" type="bool" gui-text="Fill empty day boxes with next month's days">true</param>
+            <param name="show-week-number" type="bool" gui-text="Show week number">false</param>
+            <param name="start-day" type="optiongroup" appearance="combo" gui-text="Week start day:">
+                <option value="sun">Sunday</option>
+                <option value="mon">Monday</option>
+            </param>
+            <param name="weekend" type="optiongroup" appearance="combo" gui-text="Weekend:">
+                <option value="sat+sun">Saturday and Sunday</option>
+                <option value="sat">Saturday</option>
+                <option value="sun">Sunday</option>
+            </param>
+        </page>
+        <page name="layout" gui-text="Layout">
+            <param name="auto-organize" type="bool" gui-text="Automatically set size and position">true</param>
+            <label>The options below have no influence when the above is checked.</label>
+            <param name="months-per-line" type="int" min="1" max="12" gui-text="Months per line:">3</param>
+            <param name="month-width" type="string" gui-text="Month Width:">6cm</param>
+            <param name="month-margin" type="string" gui-text="Month Margin:">1cm</param>
+        </page>
+        <page name="colors" gui-text="Colors">
+            <param name="color-year"     type="string" gui-text="Year color:">#808080</param>
+            <param name="color-month"    type="string" gui-text="Month color:">#686868</param>
+            <param name="color-day-name" type="string" gui-text="Weekday name color:">#909090</param>
+            <param name="color-day"      type="string" gui-text="Day color:">#000000</param>
+            <param name="color-weekend"  type="string" gui-text="Weekend day color:">#787878</param>
+            <param name="color-nmd"      type="string" gui-text="Next month day color:">#B0B0B0</param>
+            <param name="color-weeknr"   type="string" gui-text="Week number color:">#787878</param>
+        </page>
+    <page name="fonts" gui-text="Fonts">
+            <param name="font-year"     type="string" gui-text="Year font:">arial</param>
+            <param name="font-month"    type="string" gui-text="Month font:">arial</param>
+            <param name="font-day-name" type="string" gui-text="Weekday name font:">arial</param>
+            <param name="font-day"      type="string" gui-text="Day font:">arial</param>
+    </page>
+        <page name="localization" gui-text="Localization">
+            <label>You may change the names for other languages:</label>
+            <param name="month-names" type="string" translatable="yes" gui-text="Month names:">January February March April May June July August September October November December</param>
+            <param name="day-names"   type="string" translatable="yes" gui-text="Day names:">Sun Mon Tue Wed Thu Fri Sat</param>
+            <label>The day names list must start with Sunday.</label>
+            <param name="weeknr-name" type="string" translatable="yes" gui-text="Week number column name:">Wk</param>
+            <param name="encoding" gui-text="Char Encoding:" type="optiongroup" appearance="combo">
+                <option translatable="no" value="arabic">arabic</option>
+                <option translatable="no" value="big5-tw">big5-tw</option>
+                <option translatable="no" value="big5-hkscs">big5-hkscs</option>
+                <option translatable="no" value="chinese">chinese</option>
+                <option translatable="no" value="cp737">cp737</option>
+                <option translatable="no" value="cp856">cp856</option>
+                <option translatable="no" value="cp874">cp874</option>
+                <option translatable="no" value="cp875">cp875</option>
+                <option translatable="no" value="cp1006">cp1006</option>
+                <option translatable="no" value="cyrillic">cyrillic</option>
+                <option translatable="no" value="cyrillic-asian">cyrillic-asian</option>
+                <option translatable="no" value="eucjis2004">eucjis2004</option>
+                <option translatable="no" value="eucjisx0213">eucjisx0213</option>
+                <option translatable="no" value="gbk">gbk</option>
+                <option translatable="no" value="gb18030-2000">gb18030-2000</option>
+                <option translatable="no" value="greek">greek</option>
+                <option translatable="no" value="hebrew">hebrew</option>
+                <option translatable="no" value="hz-gb">hz-gb</option>
+                <option translatable="no" value="IBM037">IBM037</option>
+                <option translatable="no" value="IBM424">IBM424</option>
+                <option translatable="no" value="IBM437">IBM437</option>
+                <option translatable="no" value="IBM500">IBM500</option>
+                <option translatable="no" value="IBM775">IBM775</option>
+                <option translatable="no" value="IBM850">IBM850</option>
+                <option translatable="no" value="IBM852">IBM852</option>
+                <option translatable="no" value="IBM855">IBM855</option>
+                <option translatable="no" value="IBM857">IBM857</option>
+                <option translatable="no" value="IBM860">IBM860</option>
+                <option translatable="no" value="IBM861">IBM861</option>
+                <option translatable="no" value="IBM862">IBM862</option>
+                <option translatable="no" value="IBM863">IBM863</option>
+                <option translatable="no" value="IBM864">IBM864</option>
+                <option translatable="no" value="IBM865">IBM865</option>
+                <option translatable="no" value="IBM866">IBM866</option>
+                <option translatable="no" value="IBM869">IBM869</option>
+                <option translatable="no" value="IBM1026">IBM1026</option>
+                <option translatable="no" value="IBM1140">IBM1140</option>
+                <option translatable="no" value="iso-2022-jp">iso-2022-jp</option>
+                <option translatable="no" value="iso-2022-jp-1">iso-2022-jp-1</option>
+                <option translatable="no" value="iso-2022-jp-2">iso-2022-jp-2</option>
+                <option translatable="no" value="iso-2022-jp-2004">iso-2022-jp-2004</option>
+                <option translatable="no" value="iso-2022-jp-3">iso-2022-jp-3</option>
+                <option translatable="no" value="iso-2022-jp-ext">iso-2022-jp-ext</option>
+                <option translatable="no" value="iso-2022-kr">iso-2022-kr</option>
+                <option translatable="no" value="johab">johab</option>
+                <option translatable="no" value="korean">korean</option>
+                <option translatable="no" value="koi8_r">koi8_r</option>
+                <option translatable="no" value="koi8_u">koi8_u</option>
+                <option translatable="no" value="latin1">latin1</option>
+                <option translatable="no" value="latin2">latin2</option>
+                <option translatable="no" value="latin3">latin3</option>
+                <option translatable="no" value="latin4">latin4</option>
+                <option translatable="no" value="latin5">latin5</option>
+                <option translatable="no" value="latin6">latin6</option>
+                <option translatable="no" value="latin8">latin8</option>
+                <option value="iso-8859-15">Latin - iso-8859-15 - Western Europe</option>
+                <option translatable="no" value="macgreek">macgreek</option>
+                <option translatable="no" value="maciceland">maciceland</option>
+                <option translatable="no" value="maccentraleurope">maccentraleurope</option>
+                <option translatable="no" value="macroman">macroman</option>
+                <option translatable="no" value="macturkish">macturkish</option>
+                <option translatable="no" value="ms932">ms932</option>
+                <option translatable="no" value="ms949">ms949</option>
+                <option translatable="no" value="ms950">ms950</option>
+                <option translatable="no" value="sjis">sjis</option>
+                <option translatable="no" value="sjis2004">sjis2004</option>
+                <option translatable="no" value="sjisx0213">sjisx0213</option>
+                <option translatable="no" value="u-jis">u-jis</option>
+                <option translatable="no" value="us-ascii">us-ascii</option>
+                <option value="windows-1250">Windows - Central and Eastern Europe</option>
+                <option value="windows-1251">Windows - Russian and more</option>
+                <option value="windows-1252">Windows - Western Europe</option>
+                <option value="windows-1253">Windows - Greek</option>
+                <option value="windows-1254">Windows - Turkish</option>
+                <option value="windows-1255">Windows - Hebrew</option>
+                <option value="windows-1256">Windows - Arabic</option>
+                <option value="windows-1257">Windows - Baltic languages</option>
+                <option value="windows-1258">Windows - Vietnamese</option>
+                <option value="utf_32">UTF-32 - All languages</option>
+                <option value="utf_16">UTF-16 - All languages</option>
+                <option value="utf_8">UTF-8 - All languages</option>
+            </param>
+            <label>Select your system encoding. More information at http://docs.python.org/library/codecs.html#standard-encodings.</label>
+        </page>
+    </param>
+    <effect needs-live-preview="false">
+        <object-type>all</object-type>
+        <effects-menu>
+          <submenu name="Render"/>
+        </effects-menu>
+    </effect>
+    <script>
+        <command location="inx" interpreter="python">svgcalendar.py</command>
+    </script>
+</inkscape-extension>

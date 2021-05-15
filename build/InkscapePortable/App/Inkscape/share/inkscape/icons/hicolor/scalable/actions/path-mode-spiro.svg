@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1"
+   width="17.032087"
+   height="11.23537"
+  >
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingy="1pt"
+     gridspacingx="1pt"
+     gridoriginy="0pt"
+     gridoriginx="0pt"
+  />
+  <defs id="defs3">
+
+  </defs>
+<path d="M 887.0928,67.57225 C 885.0341,67.31083 883.3117,65.50657 883.1525,63.43651 882.9202,61.37378 884.2714,59.27622 886.2454,58.63449 888.196,57.92353 890.5511,58.74534 891.6405,60.51171 892.3223,61.5405 892.4753,62.82227 892.3121,64.02456 892.1368,65.22738 892.6277,66.54912 893.7105,67.16949 895.0589,68.03424 897.0395,67.50402 897.7755,66.08115 898.5889,64.70109 897.9844,62.74188 896.5348,62.05998" id="path-mode-spiro" inkscape:connector-curvature="0" inkscape:label="#spiro_splines_mode" sodipodi:nodetypes="cccccccs" style="color:#000000;fill:none;stroke:#0000ff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round" transform="translate(-882.12533,-57.370976)"/>
+</svg>

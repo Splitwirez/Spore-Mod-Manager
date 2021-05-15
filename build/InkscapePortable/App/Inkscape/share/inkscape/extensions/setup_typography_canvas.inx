@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+  <name>1 - Setup Typography Canvas</name>
+  <id>org.inkscape.typography.setup_typography_canvas</id>
+  <param name="emsize" type="int" gui-text="Em-size:" min="10" max="2048">1000</param>
+  <param name="ascender" type="int" gui-text="Ascender:" min="0" max="2048">750</param>
+  <param name="caps" type="int" gui-text="Caps Height:" min="0" max="2048">700</param>
+  <param name="xheight" type="int" gui-text="X-Height:" min="0" max="2048">500</param>
+  <param name="descender" type="int" gui-text="Descender:" min="0" max="1024">250</param>
+  <effect>
+    <object-type>all</object-type>
+    <effects-menu>
+      <submenu name="Typography"/>
+    </effects-menu>
+  </effect>
+  <script>
+    <command location="inx" interpreter="python">setup_typography_canvas.py</command>
+  </script>
+</inkscape-extension>

@@ -1,8 +1,0 @@
-Multiply by 1.75 for export size (as drawing)
-28x28 for 16px
-42x42 for 24px
-56x56 for 32px
-84x84 for 48px
-226x226 for 128px
-454x454 for 256px
-910x910 for 512px

@@ -1,19 +1,19 @@
 ﻿<Window x:Class="SporeMods.Setup.LanguagesWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SporeMods.Setup"
-        mc:Ignorable="d"
-        Title="{DynamicResource SelectLanguageTitle}" SizeToContent="WidthAndHeight" ResizeMode="CanMinimize" Closing="LanguagesWindow_Closing">
-    <DockPanel Margin="50">
-        <TextBlock DockPanel.Dock="Top" Text="{DynamicResource SelectLanguage}"/>
-        <Button x:Name="OkButton" DockPanel.Dock="Bottom" Content="{DynamicResource Ok}" Click="OkButton_Click"/>
-        <!--Path Data="M 0 4 L 4 8 L 8 0" Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" StrokeThickness="2"/-->
-        <ComboBox x:Name="LanguagesComboBox" SelectionChanged="LanguagesComboBox_SelectionChanged" SelectedIndex="0" Margin="0,25">
-            <ComboBoxItem Content="English (Canada)" Tag="pack://application:,,,/%EXENAME%;component/Locale/en-ca.xaml"/>
-            <ComboBoxItem Content="Español (España)" Tag="pack://application:,,,/%EXENAME%;component/Locale/es-es.xaml"/>
-            <ComboBoxItem Content="Català" Tag="pack://application:,,,/%EXENAME%;component/Locale/ca-ca.xaml"/>
-        </ComboBox>
-    </DockPanel>
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:local="clr-namespace:SporeMods.Setup"
+		mc:Ignorable="d"
+		Title="{DynamicResource SelectLanguageTitle}" SizeToContent="WidthAndHeight" ResizeMode="CanMinimize" Closing="LanguagesWindow_Closing" Style="{DynamicResource {x:Type Window}}">
+	<DockPanel Margin="50">
+		<TextBlock DockPanel.Dock="Top" Text="{DynamicResource SelectLanguage}"/>
+		<Button x:Name="OkButton" DockPanel.Dock="Bottom" Content="{DynamicResource Ok}" Click="OkButton_Click"/>
+		<!--Path Data="M 0 4 L 4 8 L 8 0" Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" StrokeThickness="2"/-->
+		<ComboBox x:Name="LanguagesComboBox" SelectionChanged="LanguagesComboBox_SelectionChanged" SelectedIndex="0" Margin="0,25">
+			<ComboBoxItem Content="English (Canada)" Tag="pack://application:,,,/%EXENAME%;component/Locale/en-ca.xaml"/>
+			<ComboBoxItem Content="Español (España)" Tag="pack://application:,,,/%EXENAME%;component/Locale/es-es.xaml"/>
+			<ComboBoxItem Content="Català" Tag="pack://application:,,,/%EXENAME%;component/Locale/ca-ca.xaml"/>
+		</ComboBox>
+	</DockPanel>
 </Window>

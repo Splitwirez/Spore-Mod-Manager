@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+  <name>Merge</name>
+  <id>org.inkscape.text.merge</id>
+  <param name="direction" type="optiongroup" appearance="combo" gui-text="Text direction:">
+    <option value="lr">Left to right</option>
+    <option value="bt">Bottom to top</option>
+    <option value="rl">Right to left</option>
+    <option value="tb">Top to bottom</option>
+  </param>
+  <param name="xanchor" type="optiongroup" appearance="combo" gui-text="Horizontal point:">
+    <option value="left">Left</option>
+    <option value="center_x">Middle</option>
+    <option value="right">Right</option>
+  </param>
+  <param name="yanchor" type="optiongroup" appearance="combo" gui-text="Vertical point:">
+    <option value="top">Top</option>
+    <option value="center_y">Middle</option>
+    <option value="bottom">Bottom</option>
+  </param>
+  <param name="flowtext" type="bool" gui-text="Flow text">false</param>
+  <param name="keepstyle" type="bool" gui-text="Keep style">true</param>
+  <effect>
+    <object-type>all</object-type>
+    <effects-menu>
+      <submenu name="Text"/>
+    </effects-menu>
+  </effect>
+  <script>
+    <command location="inx" interpreter="python">text_merge.py</command>
+  </script>
+</inkscape-extension>

@@ -1,0 +1,62 @@
+/* ADWAITA DARK SPECIFIC STYLE */
+
+/*
+ * Keep as small as possible
+ */
+
+spinbutton {
+    padding: 0;
+    outline-style: none;
+}
+
+spinbutton entry {
+    padding-left: 2px;
+    padding-right: 0;
+}
+
+spinbutton undershoot {
+    outline-style: none;
+}
+
+spinbutton entry {
+    padding-left: 2px;
+    padding-right: 0;
+}
+
+spinbutton undershoot {
+    outline-style: none;
+}
+
+.inkswitch slider {
+    min-width: 18px;
+    min-height: 18px;
+}
+
+.inkswitch image {
+    color: transparent;
+    background-color: transparent;
+    background-image: image(transparent);
+    -gtk-icon-style:symbolic;
+}
+
+.inkswitch {
+    margin: 2px;
+    padding: 0;
+    font-size: 8px;
+}
+
+/* Reduce width of +/- buttons. */
+.up,
+.down {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#monoStrokeWidth,
+#fillEmptySpace,
+#SelectStatus,
+#CoordinateStatusX,
+#CoordinateStatusY,
+#DesktopMainTable spinbutton{
+    font-family: sans-serif;
+}

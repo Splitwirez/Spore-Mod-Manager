@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="svg1"
+   width="16"
+   height="16"
+   viewBox="0 0 16 16"
+   sodipodi:docname="edit-delete-symbolic.svg"
+   inkscape:version="1.0alpha2 (a708b3a688, 2019-09-04, custom)">
+  <metadata
+     id="metadata21">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs19">
+    <inkscape:path-effect
+       effect="offset"
+       id="path-effect31"
+       is_visible="true"
+       linejoin_type="miter"
+       unit="mm"
+       offset="0.22568149"
+       miter_limit="4"
+       attempt_force_join="true"
+       update_on_knot_move="true" />
+  </defs>
+  <sodipodi:namedview
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     id="namedview"
+     showgrid="true"
+     inkscape:zoom="31.5625"
+     inkscape:cx="7.6831683"
+     inkscape:cy="8"
+     inkscape:window-width="2560"
+     inkscape:window-height="1376"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid" />
+  </sodipodi:namedview>
+  <g
+     id="edit-delete"
+     inkscape:label="00384">
+    <title
+       id="title34114">edit-delete</title>
+    <path
+       inkscape:connector-curvature="0"
+       id="gtk-remove"
+       d="M 0,0 H 16 V 16 H 0 Z"
+       style="opacity:0;fill:none" />
+    <path
+       d="M 8,1.03125 C 4.14673,1.03125 1.03125,4.14672 1.03125,8 c 0,3.85327 3.11548,6.96875 6.96875,6.96875 3.85327,0 6.96875,-3.11548 6.96875,-6.96875 C 14.96875,4.14672 11.85327,1.03125 8,1.03125 Z M 5,11 h 1 c 0.01037,0 0.02079,0 0.03125,0 0.254951,-0.0112 0.50987,-0.12858 0.6875,-0.3125 L 8,9.40625 9.3125,10.6875 C 9.578125,10.918 9.759172,10.993 10,11 h 1 V 10 C 11,9.71353 10.9657,9.44935 10.75,9.25 l -1.28125,-1.28125 1.25,-1.25 C 10.90694,6.53058 11,6.2653 11,6 V 5 H 10 C 9.734699,5.00001 9.469414,5.0931 9.28125,5.28125 L 8,6.5625 6.71875,5.28125 C 6.530586,5.09306 6.26529,5 6,5 H 5 V 6 C 5,6.26529 5.09306,6.53058 5.28125,6.71875 L 6.5625,7.96875 5.28125,9.25 C 5.070508,9.44463 4.97809,9.71925 5,10 Z"
+       style="opacity:1;fill-rule:evenodd"
+       id="path34118" />
+  </g>
+</svg>

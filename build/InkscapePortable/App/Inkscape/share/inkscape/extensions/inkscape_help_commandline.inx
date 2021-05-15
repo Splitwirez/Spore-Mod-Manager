@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+  <name>Command Line Options</name>
+  <id>org.inkscape.help.commandline</id>
+  <!-- i18n. Please don't translate link unless the page exists in your language. Add your language code to the link this way: https://inkscape.org/doc/inkscape-man.[lang].html -->
+  <param name="url" gui-hidden="true" type="string" translatable="yes">https://inkscape.org/doc/inkscape-man.html</param>
+  <effect needs-document="false">
+    <object-type>all</object-type>
+    <effects-menu hidden="true" />
+  </effect>
+  <script>
+    <command location="inx" interpreter="python">launch_webbrowser.py</command>
+  </script>
+</inkscape-extension>

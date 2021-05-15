@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="16"
+   height="16"
+   viewBox="0 0 16.125 16.25"
+  >
+  <g
+     transform="translate(-304,-421)" 
+     id="grid_xy">
+    <path
+       id="path12102"
+       d="M 306.25,421.75 306.25,436.75"
+       style="fill:#204a87;stroke:#204a87;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       id="path12104"
+       d="M 310.25,421.75 310.25,436.75"
+       style="fill:#204a87;stroke:#204a87;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       id="path12106"
+       d="M 314.25,421.75 314.25,436.75"
+       style="fill:#204a87;stroke:#204a87;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       id="path12108"
+       d="M 318.25,421.75 318.25,436.75"
+       style="fill:#204a87;stroke:#204a87;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       style="fill:#204a87;stroke:#204a87;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 319.625,423.25 304.625,423.25"
+       id="path12110" />
+    <path
+       style="fill:#204a87;stroke:#204a87;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 319.625,427.25 304.625,427.25"
+       id="path12112" />
+    <path
+       style="fill:#204a87;stroke:#204a87;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 319.625,431.25 304.625,431.25"
+       id="path12114" />
+    <path
+       style="fill:#204a87;stroke:#204a87;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 319.625,435.25 304.625,435.25"
+       id="path12116" />
+    <path
+       style="fill:#729fcf;stroke:#729fcf;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 305.5,421.5 305.5,436.5"
+       id="path12074" />
+    <path
+       style="fill:#729fcf;stroke:#729fcf;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 309.5,421.5 309.5,436.5"
+       id="use12076" />
+    <path
+       style="fill:#729fcf;stroke:#729fcf;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 313.5,421.5 313.5,436.5"
+       id="use12078" />
+    <path
+       style="fill:#729fcf;stroke:#729fcf;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 317.5,421.5 317.5,436.5"
+       id="use12080" />
+    <path
+       id="path12082"
+       d="M 319.5,422.5 304.5,422.5"
+       style="fill:#729fcf;stroke:#729fcf;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       id="use12084"
+       d="M 319.5,426.5 304.5,426.5"
+       style="fill:#729fcf;stroke:#729fcf;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       id="use12086"
+       d="M 319.5,430.5 304.5,430.5"
+       style="fill:#729fcf;stroke:#729fcf;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       id="use12088"
+       d="M 319.5,434.5 304.5,434.5"
+       style="fill:#729fcf;stroke:#729fcf;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  </g>
+</svg>

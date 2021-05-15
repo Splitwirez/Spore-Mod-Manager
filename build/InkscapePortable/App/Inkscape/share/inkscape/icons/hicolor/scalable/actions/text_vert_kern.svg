@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="28"
+   height="28"
+  >
+
+  <defs id="defs3">
+
+    <linearGradient id="vectorGradientBlack">
+      <stop offset="0" style="stop-color:#5a5a5a"/>
+      <stop offset="1" style="stop-color:black"/>
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" id="linearGradientBlack" x1="4" x2="8" xlink:href="#vectorGradientBlack" y1="8" y2="16"/>
+
+    <linearGradient id="vectorGradientBlue">
+      <stop offset="0" style="stop-color:#a2d3ff"/>
+      <stop offset="1" style="stop-color:#004c91"/>
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" id="linearGradientBlue" x1="4" x2="8" xlink:href="#vectorGradientBlue" y1="8" y2="16"/>
+
+  </defs>
+
+  <g id="text_vert_kern">
+
+    <!-- Black Letter -->
+    <g style="stroke-width:0.7px" transform="translate(0,2)">
+      <path d="m 5.29,7.21 h 3.42 l 4.49,12.29 h -2.8 l -0.66,-1.7 h -5.48 l -0.68,1.7 h -2.738 z m 3.76,8.19 -2.05,-5.79 -2.05,5.79 z" style="fill:url(#linearGradientBlack);stroke:black"/>
+      <path d="m 5.8,7.9 -4,10.9" style="fill:none;stroke:#646464;stroke-linecap:round"/>
+      <path d="m 9.3,16.1 -4.6,0" style="fill:none;stroke:#646464;stroke-linecap:round"/>
+    </g>
+
+    <!-- Blue Letter -->
+    <g style="stroke-width:0.7px" transform="translate(14,-2)">
+      <path d="m 5.29,7.21 h 3.42 l 4.49,12.29 h -2.8 l -0.66,-1.7 h -5.48 l -0.68,1.7 h -2.738 z m 3.76,8.19 -2.05,-5.79 -2.05,5.79 z" style="fill:url(#linearGradientBlue);stroke:black"/>
+      <path d="m 5.8,7.9 -4,10.9" style="fill:none;stroke:#b2dafe;stroke-linecap:round"/>
+      <path d="m 9.3,16.1 -4.6,0" style="fill:none;stroke:#b2dafe;stroke-linecap:round"/>
+    </g>
+
+    <g style="fill:none;stroke:black;stroke-width:1.2px">
+      <path d="m 14,2  0,24"/>
+      <path d="m  0,22.4 14,0"/>
+      <path d="m 14,18.4 14,0"/>
+    </g>
+
+  </g>
+</svg>

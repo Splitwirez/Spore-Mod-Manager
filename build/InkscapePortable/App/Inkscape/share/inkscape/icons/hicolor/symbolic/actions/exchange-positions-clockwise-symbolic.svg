@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Inkscape (http://www.inkscape.org/) and export_objects.py -->
+<svg xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" version="1.1" id="svg1" width="16" height="16" viewBox="0 0 16 16" sodipodi:docname="exchange-positions-clockwise-symbolic.svg">
+<sodipodi:namedview objecttolerance="10" gridtolerance="10" guidetolerance="10" id="namedview" showgrid="true" inkscape:zoom="0.6002936" inkscape:cx="732.67439" inkscape:cy="-567.94603" inkscape:window-width="1920" inkscape:window-height="1016" inkscape:window-x="0" inkscape:window-y="27" inkscape:window-maximized="1" inkscape:current-layer="layer1">
+    <inkscape:grid type="xygrid" id="grid"/>
+  </sodipodi:namedview>
+  <g transform="matrix(0.665804,0,0,0.666667,0.020707,0)" id="exchange-positions-clockwise" inkscape:label="00362">
+      <title id="title40821">exchange-positions-clockwise</title>
+      <path inkscape:connector-curvature="0" id="rect40823" d="M 0,0 H 24 V 24 H 0 Z" style="opacity:0;fill:none"/>
+      <path id="path40825" d="m 5.1875,23.9059 -1.0937,0.062 0.031,-1 0.8748,-0.031 z M 3.3428,22.8117 2.9365,23.718 1.9688,23.2185 2.5313,22.3747 Z m 3.2822,-0.562 0.6563,0.7812 -1.0295,0.5922 -0.375,-0.9375 z M 1.8745,21.8125 1.1245,22.4687 0.4686,21.5939 1.3437,21.0936 Z M 8.75,20.9059 v 2.8438 L 5.9063,20.9059 Z m -7.7812,-1.5002 0.094,0.9055 -0.9688,0.1563 -0.1251,-1.0928 z m 7.9687,0.6867 -1,-0.094 0.031,-0.9052 0.9689,-0.094 z M 8.7173,17.9354 7.7485,18.2167 7.3743,17.4997 8.1559,16.8749 Z M 6.5,15.4684 l 0.9055,0.6245 -0.625,0.75 -0.7492,-0.4682 z M 0.25,15.2497 3.0938,18.0934 H 0.25 Z m 3.25,0.9065 -0.844,0.375 -0.4688,-0.875 1,-0.4374 z M 5.4678,15.094 5.249,16.094 4.3745,16 4.2805,15.0312 Z" inkscape:connector-curvature="0" inkscape:transform-center-x="0.0468" inkscape:transform-center-y="-0.00045" style="opacity:1"/>
+      <path inkscape:connector-curvature="0" id="rect40831" d="m 5,0 h 7 c 0.554,0 1,0.446 1,1 v 7 c 0,0.554 -0.446,1 -1,1 H 5 C 4.446,9 4,8.554 4,8 V 1 C 4,0.446 4.446,0 5,0 Z" style="opacity:1"/>
+      <path inkscape:connector-curvature="0" id="rect40833" d="m 15,10 h 7 c 0.554,0 1,0.446 1,1 v 7 c 0,0.554 -0.446,1 -1,1 h -7 c -0.554,0 -1,-0.446 -1,-1 v -7 c 0,-0.554 0.446,-1 1,-1 z" style="opacity:1"/>
+      <path id="path40863-1" d="m 13.969,3 v 1 h 3 a 1,1 0 0 1 1,1 v 1 h -2 l 2.5,3 2.5,-3 h -2 V 5 a 2,2 0 0 0 -2,-2 z" style="opacity:1" inkscape:connector-curvature="0"/>
+      <path inkscape:connector-curvature="0" style="opacity:1" d="m 12.969,16 v -1 h -3 a 1,1 0 0 1 -1,-1 v -1 h 2 l -2.5,-3 -2.5,3 h 2 v 1 a 2,2 0 0 0 2,2 z" id="path40889-9"/>
+    </g>
+    </svg>

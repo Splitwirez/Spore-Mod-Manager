@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.0beta2 (7cf281c, 2019-12-21)"
+   sodipodi:docname="paint-gradient-radial-symbolic.svg"
+   viewBox="0 0 16 16"
+   height="16"
+   width="16"
+   id="svg1"
+   version="1.1">
+  <metadata
+     id="metadata15106">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs15104" />
+  <style
+     id="s0">
+.success { fill:#009909; }
+.warning { fill:#FF1990; }
+.error { fill:#00AAFF; }
+</style>
+  <style
+     id="s2">
+@import '../../highlights.css';
+</style>
+  <sodipodi:namedview
+     inkscape:document-rotation="0"
+     inkscape:current-layer="paint-gradient-radial"
+     inkscape:window-maximized="1"
+     inkscape:window-y="-6"
+     inkscape:window-x="65"
+     inkscape:window-height="890"
+     inkscape:window-width="1296"
+     inkscape:cy="7.3596758"
+     inkscape:cx="8"
+     inkscape:zoom="41.125"
+     showgrid="true"
+     id="namedview"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10">
+    <inkscape:grid
+       id="grid"
+       type="xygrid" />
+  </sodipodi:namedview>
+  <g
+     id="paint-gradient-radial"
+     inkscape:label="00304"
+     transform="matrix(0.800004,0,0,0.799999,-916.80458,-743.489)">
+    <path
+       style="opacity:0;fill:none"
+       d="m 1146,929.36218 h 19.9999 V 949.3622 H 1146 Z"
+       id="rect21034"
+       inkscape:connector-curvature="0" />
+    <ellipse
+       class="error"
+       ry="9.9998941"
+       rx="9.9999523"
+       cy="939.3623"
+       cx="1156"
+       id="path15669"
+       style="opacity:0.2;fill-rule:evenodd;stroke-width:1.25" />
+    <ellipse
+       style="opacity:0.2;fill-rule:evenodd;stroke-width:1.09422"
+       id="ellipse15671"
+       cx="1156"
+       cy="939.3623"
+       rx="8.7537575"
+       ry="8.7537069"
+       class="error" />
+    <ellipse
+       class="error"
+       ry="7.3859239"
+       rx="7.3859668"
+       cy="939.3623"
+       cx="1156"
+       id="ellipse15673"
+       style="opacity:0.2;fill-rule:evenodd;stroke-width:0.923246" />
+    <ellipse
+       style="opacity:0.2;fill-rule:evenodd;stroke-width:0.759871"
+       id="ellipse15675"
+       cx="1156"
+       cy="939.3623"
+       rx="6.0789666"
+       ry="6.0789313"
+       class="error" />
+    <ellipse
+       class="error"
+       ry="4.4679871"
+       rx="4.4680128"
+       cy="939.3623"
+       cx="1156"
+       id="ellipse15677"
+       style="opacity:0.3;fill-rule:evenodd;stroke-width:0.558502" />
+    <ellipse
+       style="opacity:1;fill-rule:evenodd;stroke-width:0.364734"
+       id="ellipse15679"
+       cx="1156"
+       cy="939.3623"
+       rx="2.9178686"
+       ry="2.9178517"
+       class="error" />
+  </g>
+</svg>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.1-dev (1fceb22, 2019-12-30)"
+   sodipodi:docname="zoom-fit-page-symbolic.svg"
+   viewBox="0 0 16 16"
+   height="16"
+   width="16"
+   id="svg1"
+   version="1.1">
+  <metadata
+     id="metadata4744">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs4742" />
+  <style
+     id="s0">
+.success { fill:#009909; }
+.warning { fill:#FF1990; }
+.error { fill:#00AAFF; }
+</style>
+  <style
+     id="s2">
+@import '../../highlights.css';
+</style>
+  <sodipodi:namedview
+     inkscape:document-rotation="0"
+     inkscape:current-layer="svg1"
+     inkscape:window-maximized="1"
+     inkscape:window-y="-8"
+     inkscape:window-x="54"
+     inkscape:window-height="1177"
+     inkscape:window-width="1858"
+     inkscape:cy="-15.738006"
+     inkscape:cx="31.099158"
+     inkscape:zoom="13.583094"
+     showgrid="true"
+     id="namedview"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10">
+    <inkscape:grid
+       id="grid"
+       type="xygrid" />
+  </sodipodi:namedview>
+  <g
+     id="zoom-fit-page"
+     inkscape:label="00028"
+     transform="translate(-96,-547.36218)">
+    <path
+       style="opacity:0;fill:none"
+       d="m 96,547.36218 h 16 v 16 H 96 Z"
+       id="rect11581"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path11585"
+       d="m 103.5,547.3622 c -4.14213,0 -7.5,3.3371 -7.5,7.4375 0,4.1004 3.35787,7.4062 7.5,7.4062 1.4733,0 2.8409,-0.4297 4,-1.1562 l 1.9688,1.9375 c 0.5179,0.5116 1.3333,0.4881 1.8437,-0.031 l 0.25,-0.25 c 0.5104,-0.5192 0.518,-1.3634 0,-1.875 l -1.9062,-1.844 c 0.8392,-1.199 1.3437,-2.6183 1.3437,-4.1875 0,-4.1004 -3.3579,-7.4375 -7.5,-7.4375 z m -3.5,2 h 7 v 11 h -7 z m 1,1 v 9 h 5 v -2 -5 -2 h -1 z"
+       style="opacity:1" />
+  </g>
+</svg>

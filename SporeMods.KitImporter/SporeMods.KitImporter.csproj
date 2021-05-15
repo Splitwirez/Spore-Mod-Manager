@@ -7,7 +7,14 @@
     <UseWPF>true</UseWPF>
     <AssemblyTitle>SporeMods.KitImporter</AssemblyTitle>
     <Product>SporeMods.KitImporter</Product>
+    <ApplicationIcon>..\AppIcons\ModManagerSetupIcon.ico</ApplicationIcon>
   </PropertyGroup>
+  <ItemGroup>
+    <Content Include="..\AppIcons\ModManagerSetupIcon.ico">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <LogicalName>ModManagerSetupIcon.ico</LogicalName>
+    </Content>
+  </ItemGroup>
   <Import Project="..\SporeMods.SharedOutputDirs.props" />
   <ItemGroup>
     <ProjectReference Include="..\Mechanism-for-WPF\Mechanism.Wpf.Core\Mechanism.Wpf.Core.csproj">

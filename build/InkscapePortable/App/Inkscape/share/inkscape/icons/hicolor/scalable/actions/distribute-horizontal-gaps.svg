@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="24"
+   height="24"
+  >
+
+  <g id="distribute-horizontal-gaps" inkscape:label="#distribute_hdist">
+
+    <!-- Rectangles -->
+    <g style="fill:#98b6d3;stroke:#222222;stroke-linejoin:round">
+      <rect x="0.5"  y="6.5" width="3" height="15"/>
+      <rect x="10.5" y="8.5" width="3" height="9" />
+      <rect x="20.5" y="5.5" width="3" height="18"/>
+    </g>
+
+    <!-- Rectangle highlights -->
+    <g style="fill:none;stroke:#e2e8f0">
+      <path d="m  1.5,20 v -12.5 h 1.5"/>
+      <path d="m 11.5,16 v  -6.5 h 1.5"/>
+      <path d="m 21.5,22 v -15.5 h 1.5"/>
+    </g>
+
+    <!-- Lines -->
+    <g style="fill:none;stroke:#c80000">
+      <path d="m  3.5,0 0,12"/>
+      <path d="m 10.5,0 0,12"/>
+      <path d="m 13.5,0 0,12"/>
+      <path d="m 20.5,0 0,12"/>
+    </g>
+
+    <!-- Arrows -->
+    <path d="m  6,3 -2,-1.5 2,-1.5 v 1 l 2,0 v -1 l 2,1.5 -2,1.5 v -1 l -2,0 z"/>
+    <path d="m 16,3 -2,-1.5 2,-1.5 v 1 l 2,0 v -1 l 2,1.5 -2,1.5 v -1 l -2,0 z"/>
+
+
+  </g>
+
+</svg>

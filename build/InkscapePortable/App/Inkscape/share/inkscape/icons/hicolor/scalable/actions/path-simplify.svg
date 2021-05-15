@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1"
+   width="16"
+   height="15.970944"
+  >
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingy="1pt"
+     gridspacingx="1pt"
+     gridoriginy="0pt"
+     gridoriginx="0pt"
+  />
+  <defs id="defs3">
+
+  </defs>
+<g id="path-simplify" inkscape:label="#simplify" style="stroke:#000000" transform="translate(-486.453,-190.02906)">
+  <path d="M 486.953,205.5 501.953,205.5 M 501.953,201.4255 C 495.453,205.9255 493.453,194.4542 486.953,200.4255 M 486.953,193.6678 C 488.953,198.6678 489.0896,191.5995 490.953,190.6678 492.953,189.6678 493.2942,193.6914 493.953,195.6678 494.953,198.6678 495.953,192.6678 497.953,191.6678 500.7814,190.2536 497.953,198.6678 501.953,194.6678" id="path10936" inkscape:connector-curvature="0" style="fill:none;stroke-linecap:round"/>
+</g>
+
+</svg>

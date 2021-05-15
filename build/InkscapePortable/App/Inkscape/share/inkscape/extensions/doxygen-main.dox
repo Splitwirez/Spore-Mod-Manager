@@ -1,0 +1,55 @@
+/** \mainpage Inkscape Extensions Source Code Documentation
+ * This documentation contains API documentation for Inkscape extensions.
+ * 
+ * It describes in more detail common libraries for creating extensions
+ * and some extensions that are good examples for inspiration.
+ *
+ * \section groups Main directory documentation
+ * - \subpage CommonClasses - Common classes used for writing extensions.
+ * - \subpage ExampleExtensions - Links to selected extensions.
+ * - \subpage Testing - How to write tests for extensions.
+ * - \subpage CommandLine - Command-line usage
+ *
+ * \section extlinks Links to external documentation
+ *
+ * \subpage ExtensionGuides - Extension guides
+ */
+
+/**
+ * \page CommonClasses Common classes
+ *
+ * \section inkex
+ * [\ref inkex.py]
+ * The inkex module exposes the primary interface for writing extensions.
+ * \subsection effect inkex.Effect
+ * inkex.Effect is a class from which all extensions are derived. It provides the pipeline that directs the original svg document to the extension, and then reads the resulting svg and inserts it into the document. It also manages effect options, and provides tools for working with them. There are also functions for operating on svgs, converting units, working with guides, writing debug messages to Inkscape's debug window, etc.
+ * \subsection inkoption inkex.InkOption
+ * inkex.InkOption is a thin wrapper around optparse that adds the "inkbool" option
+ * 
+ * \section simplepath
+ * [\ref simplepath.py]
+ *
+ * Utility module for working with paths
+ * - parse and serialize svg paths
+ * - transform paths
+ *
+ * \section simpletransform
+ * [\ref simpletransform.py]
+ *
+ * Utility module for working with transforms
+ * - matrices
+ * - points
+ * - bounding boxes
+ *
+ * \section simplestyle
+ * [\ref simplestyle.py]
+ *
+ * Utility module for working with styles
+ * - parse and serialize stylesheets
+ * - parse and format colors
+ */
+/** \page ExtensionGuides Extension writing guides on the wiki
+ * - <a href="http://wiki.inkscape.org/wiki/index.php/Script_extensions">Script_extensions</a>
+ * - <a href="http://wiki.inkscape.org/wiki/index.php/PythonEffectTutorial">PythonEffectTutorial</a>
+ * - <a href="http://wiki.inkscape.org/wiki/index.php/Category:Developer_Documentation">Category Developer_Documentation</a>
+ */

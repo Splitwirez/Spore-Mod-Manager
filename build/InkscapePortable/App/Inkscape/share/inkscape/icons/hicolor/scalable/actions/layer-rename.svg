@@ -1,0 +1,23 @@
+<svg width="16" height="15.999" inkscape:version="1.0alpha2 (941498d2b1, 2019-07-19, custom)" sodipodi:docname="layer-rename.svg" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <sodipodi:namedview id="base" inkscape:bbox-nodes="true" inkscape:current-layer="svg1" inkscape:cx="3.6741088" inkscape:cy="4.4089041" inkscape:snap-bbox="true" inkscape:zoom="31.678384" showgrid="true">
+  <inkscape:grid id="GridFromPre046Settings" color="#3f3fff" opacity=".15" empcolor="#3f3fff" empopacity="0.38" empspacing="5" originx="0pt" originy="0pt" spacingx="1pt" spacingy="1pt" type="xygrid"/>
+ </sodipodi:namedview>
+ <defs>
+  <linearGradient id="linearGradient5787" x1="974.2" x2="979.8" y1="182.47" y2="184.8" gradientUnits="userSpaceOnUse" inkscape:collect="always">
+   <stop stop-color="#fff" offset="0"/>
+   <stop stop-color="#aaa" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient5789" x1="968.89" x2="977.93" y1="178.32" y2="181.71" gradientUnits="userSpaceOnUse" inkscape:collect="always">
+   <stop stop-color="#5a5a5a" offset="0"/>
+   <stop offset="1"/>
+  </linearGradient>
+ </defs>
+ <g id="layer-rename" transform="matrix(1 0 0 .9945 -984.96 -178.88)" inkscape:label="#rename_layer">
+  <path transform="matrix(1 0 0 1.0048 19.959 12.074)" d="m969.5 182.5h11l-4-5h-11l4 5z" color="#000000" fill="url(#linearGradient5787)" fill-rule="evenodd" stroke="url(#linearGradient5789)" stroke-linecap="square" stroke-linejoin="round" stroke-miterlimit="0" stroke-width=".99995" inkscape:connector-curvature="0" sodipodi:nodetypes="ccccc"/>
+  <g transform="scale(.99725 1.0028)" stroke-width="1.0028" aria-label="abc">
+   <path d="m992.73 186.81h-0.73249v-0.46612q-0.0979 0.0666-0.26635 0.18801-0.16452 0.11752-0.3212 0.18802-0.1841 0.0901-0.42304 0.14885-0.23894 0.0627-0.56013 0.0627-0.59147 0-1.0028-0.3917t-0.41129-0.99884q0-0.49747 0.21152-0.80299 0.21544-0.30945 0.61106-0.48571 0.39953-0.17627 0.95967-0.23894 0.56013-0.0627 1.2025-0.094v-0.1136q0-0.25069-0.0901-0.4152-0.0862-0.16452-0.25069-0.25852-0.15668-0.0901-0.37603-0.12143-0.21935-0.0313-0.45829-0.0313-0.28986 0-0.64631 0.0783-0.35645 0.0744-0.7364 0.21936h-0.0392v-0.74816q0.21543-0.0588 0.6228-0.12926 0.40737-0.0705 0.80299-0.0705 0.46221 0 0.80299 0.0783 0.3447 0.0744 0.59539 0.25852 0.24678 0.18018 0.37604 0.46613 0.12926 0.28594 0.12926 0.70898zm-0.73249-1.0772v-1.2182q-0.33686 0.0196-0.79515 0.0588-0.45438 0.0392-0.72073 0.1136-0.31728 0.0901-0.51313 0.28202-0.19586 0.18802-0.19586 0.52097 0 0.37603 0.22719 0.56796 0.22719 0.18802 0.69332 0.18802 0.38778 0 0.70898-0.14885 0.32119-0.15276 0.59538-0.36428z"/>
+   <path d="m998.01 184.59q0 0.54838-0.15668 0.98709-0.15276 0.43871-0.4152 0.7364-0.27811 0.30945-0.61106 0.46613-0.33295 0.15276-0.73248 0.15276-0.37212 0-0.65023-0.0901-0.27811-0.0862-0.54838-0.23502l-0.047 0.20368h-0.68939v-6.0949h0.7364v2.1779q0.30944-0.25461 0.65806-0.41521 0.34861-0.16451 0.7834-0.16451 0.77557 0 1.2221 0.59539 0.45045 0.59538 0.45045 1.6804zm-0.7599 0.0196q0-0.7834-0.25852-1.1868-0.25853-0.40738-0.83433-0.40738-0.3212 0-0.65023 0.14102-0.32903 0.13709-0.61105 0.35645v2.5069q0.31336 0.14102 0.53663 0.19586 0.22719 0.0548 0.51313 0.0548 0.61106 0 0.95576-0.39953 0.34861-0.40346 0.34861-1.2613z"/>
+   <path d="m1002.4 186.53q-0.3682 0.17627-0.7012 0.27419-0.329 0.0979-0.7011 0.0979-0.474 0-0.8696-0.1371-0.39564-0.14101-0.67766-0.42304-0.28595-0.28202-0.44263-0.71289-0.15668-0.43088-0.15668-1.0067 0-1.0733 0.58755-1.6843 0.59152-0.61106 1.559-0.61106 0.376 0 0.7364 0.10576 0.3642 0.10576 0.6659 0.25853v0.81865h-0.039q-0.3369-0.26244-0.6972-0.40345-0.3565-0.14101-0.6973-0.14101-0.6267 0-0.99098 0.42304-0.36037 0.41912-0.36037 1.2339 0 0.79124 0.35253 1.2182 0.35642 0.42304 0.99882 0.42304 0.2233 0 0.4544-0.0588t0.4152-0.15277q0.1606-0.0823 0.3016-0.17234 0.141-0.094 0.2233-0.1606h0.039z"/>
+  </g>
+ </g>
+</svg>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="svg1"
+   width="16"
+   height="16"
+   viewBox="0 0 16 16"
+   sodipodi:docname="draw-ellipse-symbolic.svg"
+   inkscape:version="1.0beta0 (1d85f8e, 2019-09-11)">
+<style id="s0">
+   .success { fill: #009909; }
+   .warning { fill: #FF1990; }
+   .error   { fill: #00AAFF; }
+  </style>
+  <style id="s2"> 
+     @import '../../highlights.css'; 
+  </style>
+  
+  <metadata
+     id="metadata1213">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1211">
+    <inkscape:path-effect
+       effect="join_type"
+       id="path-effect992"
+       is_visible="true"
+       linecap_type="butt"
+       line_width="1.75"
+       linejoin_type="extrp_arc"
+       miter_limit="100"
+       attempt_force_join="true" />
+    <inkscape:path-effect
+       effect="join_type"
+       id="path-effect950"
+       is_visible="true"
+       linecap_type="butt"
+       line_width="2.5"
+       linejoin_type="extrp_arc"
+       miter_limit="100"
+       attempt_force_join="true" />
+    <inkscape:path-effect
+       effect="join_type"
+       id="path-effect942"
+       is_visible="true"
+       linecap_type="butt"
+       line_width="2.5"
+       linejoin_type="extrp_arc"
+       miter_limit="100"
+       attempt_force_join="true" />
+  </defs>
+  <sodipodi:namedview
+     inkscape:showpageshadow="true"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     id="namedview"
+     showgrid="true"
+     inkscape:zoom="31.678384"
+     inkscape:cx="8.3682456"
+     inkscape:cy="12.711904"
+     inkscape:window-width="1858"
+     inkscape:window-height="1177"
+     inkscape:window-x="54"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1"
+     inkscape:document-rotation="0"
+     inkscape:snap-global="false">
+    <inkscape:grid
+       type="xygrid"
+       id="grid" />
+  </sodipodi:namedview>
+  <g
+     inkscape:label="draw-ellipse"
+     id="g0">
+    <path
+       id="background"
+       d="M 0,0 H 16 V 16 H 0 Z"
+       style="opacity:0"
+       inkscape:connector-curvature="0" />
+    <path
+       sodipodi:nodetypes="sssss"
+       inkscape:connector-curvature="0"
+       d="m 7.9999953,14.058221 c -3.3458752,0 -6.0582406,-2.712357 -6.0582406,-6.0582348 0,-3.3458766 2.7123654,-6.0582415 6.0582406,-6.0582415 3.3458737,0 6.0582337,2.7123649 6.0582337,6.0582415 0,3.3458708 -2.712365,6.0582348 -6.0582337,6.0582348 z"
+       id="path949"
+       class="warning" />
+    <path
+       id="path990"
+       d="m 3.2763787,7.9999867 c 0,-2.6043712 2.1192473,-4.7236179 4.723617,-4.7236179 2.6043693,0 4.7236113,2.1192458 4.7236113,4.7236179 0,2.6043653 -2.119248,4.7236123 -4.7236113,4.7236123 -2.604371,0 -4.723617,-2.11924 -4.723617,-4.7236123 z m 11.1972283,0 c 0,-3.5796945 -2.893918,-6.4736179 -6.4736113,-6.4736179 -3.5796943,0 -6.473617,2.8939225 -6.473617,6.4736179 0,3.5796963 2.893924,6.4736123 6.473617,6.4736123 3.5796893,0 6.4736113,-2.893921 6.4736113,-6.4736123 z"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="sssss"
+       
+       inkscape:path-effect="#path-effect992"
+       inkscape:original-d="m 7.9999957,13.598599 c -3.092032,0 -5.598617,-2.506578 -5.598617,-5.5986123 0,-3.0920333 2.506585,-5.5986179 5.598617,-5.5986179 3.0920313,0 5.5986113,2.5065846 5.5986113,5.5986179 0,3.0920283 -2.506585,5.5986123 -5.5986113,5.5986123 z"
+       transform="matrix(1.082096,0,0,1.082096,-0.65676737,-0.65676663)" />
+  </g>
+</svg>

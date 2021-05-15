@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1"
+   width="24"
+   height="24"
+  >
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingy="1pt"
+     gridspacingx="1pt"
+     gridoriginy="0pt"
+     gridoriginx="0pt"
+  />
+  <defs id="defs3">
+
+    <linearGradient id="linearGradient6206">
+      <stop id="stop6208" offset="0" style="stop-color:#8ab3df;stop-opacity:1"/>
+      <stop id="stop6210" offset="1" style="stop-color:#5eba69;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" id="linearGradient6212" x1="-15.4575" x2="-0.9575" xlink:href="#linearGradient6206" y1="94.60669" y2="109.6067"/>
+  </defs>
+<g id="mesh-gradient" inkscape:label="#mesh-gradient" transform="translate(19.9575,-90.10669)">
+  <rect height="24" id="box" style="color:#000000;fill:none" width="24" x="-19.9575" y="90.10669"/>
+  <path d="M -0.4575,109.6067 C -3.9575,102.1067 4.0425,102.1067 -0.4575,94.60669 -7.9575,99.10669 -7.9575,91.10669 -15.4575,94.60669 -10.9575,102.1067 -18.9575,102.1067 -15.4575,109.6067 -7.9575,106.1067 -7.9575,114.1067 -0.4575,109.6067 Z" id="path6190" inkscape:connector-curvature="0" sodipodi:nodetypes="ccccc" style="fill:url(#linearGradient6212);stroke:#3c3c3c;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round"/>
+  <rect height="4" id="rect6105" style="fill:#ffffff;stroke:#000000" width="4" x="-17.4575" y="92.60669"/>
+  <rect height="4.01786" id="use3133" style="color:#000000;fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0" transform="matrix(1,0,0,0.99644,13.7166,13.06755)" width="4.0099" x="-16.184" y="94.8769"/>
+  <rect height="4.01786" id="use3135" style="color:#000000;fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0" transform="matrix(1,0,0,0.99644,13.7265,-1.932448)" width="4.0099" x="-16.184" y="94.8769"/>
+  <rect height="4.01786" id="use3137" style="color:#000000;fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0" transform="matrix(1,0,0,0.99644,-1.2735,13.06755)" width="4.0099" x="-16.184" y="94.8769"/>
+</g>
+
+</svg>

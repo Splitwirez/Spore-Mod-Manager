@@ -10,48 +10,48 @@ using System.Windows.Media;
 
 namespace SporeMods.Manager
 {
-    public class DeselectAllBehavior : Behavior<FrameworkElement>
-    {
-        public ItemsPresenter ItemsPresenterElement
-        {
-            get => (ItemsPresenter)GetValue(ItemsPresenterElementProperty);
-            set => SetValue(ItemsPresenterElementProperty, value);
-        }
+	public class DeselectAllBehavior : Behavior<FrameworkElement>
+	{
+		public ItemsPresenter ItemsPresenterElement
+		{
+			get => (ItemsPresenter)GetValue(ItemsPresenterElementProperty);
+			set => SetValue(ItemsPresenterElementProperty, value);
+		}
 
-        public static readonly DependencyProperty ItemsPresenterElementProperty =
-            DependencyProperty.Register(nameof(ItemsPresenterElement), typeof(ItemsPresenter), typeof(DeselectAllBehavior), new PropertyMetadata(null));
+		public static readonly DependencyProperty ItemsPresenterElementProperty =
+			DependencyProperty.Register(nameof(ItemsPresenterElement), typeof(ItemsPresenter), typeof(DeselectAllBehavior), new PropertyMetadata(null));
 
-        protected override void OnAttached()
-        {
-            base.OnAttached();
+		protected override void OnAttached()
+		{
+			base.OnAttached();
 
-            AssociatedObject.PreviewMouseLeftButtonDown += AssociatedObject_MouseLeftButtonDown;
-        }
+			AssociatedObject.PreviewMouseLeftButtonDown += AssociatedObject_MouseLeftButtonDown;
+		}
 
-        private void AssociatedObject_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            if ((AssociatedObject!= null) && (AssociatedObject.IsMouseOver))
-            {
-                bool areChildrenMousedOver = false;
-                Panel panel = (Panel)VisualTreeHelper.GetChild(ItemsPresenterElement, 0);
-                ListViewItem[] items = new ListViewItem[panel.Children.Count];
+		private void AssociatedObject_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		{
+			if ((AssociatedObject!= null) && (AssociatedObject.IsMouseOver))
+			{
+				bool areChildrenMousedOver = false;
+				Panel panel = (Panel)VisualTreeHelper.GetChild(ItemsPresenterElement, 0);
+				ListViewItem[] items = new ListViewItem[panel.Children.Count];
 
-                panel.Children.CopyTo(items, 0);
-                foreach (ListViewItem item in items)
-                {
-                    if (item.IsMouseOver)
-                    {
-                        areChildrenMousedOver = true;
-                        break;
-                    }
-                }
+				panel.Children.CopyTo(items, 0);
+				foreach (ListViewItem item in items)
+				{
+					if (item.IsMouseOver)
+					{
+						areChildrenMousedOver = true;
+						break;
+					}
+				}
 
-                if (!areChildrenMousedOver)
-                {
-                    ((Window.GetWindow(AssociatedObject) as Window).Content as ManagerContent).InstalledModsListView.SelectedItem = null;
-                    e.Handled = true;
-                }
-            }
-        }
-    }
+				if (!areChildrenMousedOver)
+				{
+					((Window.GetWindow(AssociatedObject) as Window).Content as ManagerContent).InstalledModsListView.SelectedItem = null;
+					e.Handled = true;
+				}
+			}
+		}
+	}
 }

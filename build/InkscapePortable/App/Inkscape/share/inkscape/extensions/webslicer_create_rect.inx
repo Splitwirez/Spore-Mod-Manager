@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+  <name>Create a slicer rectangle</name>
+  <id>org.inkscape.web.slicer.create_rect</id>
+  <dependency type="file" location="inx">webslicer_effect.py</dependency>
+  <param name="name" type="string" gui-text="Name:"></param>
+  <param name="format" type="optiongroup" appearance="combo" gui-text="Format:">
+    <option translatable="no" value="png">PNG</option>
+    <option translatable="no" value="jpg">JPG</option>
+    <option translatable="no" value="gif">GIF</option>
+  </param>
+  <param name="dpi" type="float" min="1" max="9999" gui-text="DPI:">96</param>
+  <param name="dimension" type="string" gui-text="Force Dimension:"></param>
+<!-- i18n. Description duplicated in a fake value attribute in order to make it translatable -->
+  <label>Force Dimension must be set as &lt;width&gt;x&lt;height&gt;</label>
+  <label>If set, this will replace DPI.</label>
+  <param name="bg-color" type="string" gui-text="Background color:"></param>
+  <param name="tab" type="notebook">
+    <page name="tabJPG" gui-text="JPG">
+      <label appearance="header">JPG specific options</label>
+      <param name="quality" type="int" min="0" max="100" gui-text="Quality:">85</param>
+      <label>0 is the lowest image quality and highest compression, and 100 is the best quality but least effective compression</label>
+    </page>
+    <page name="tabGIF" gui-text="GIF">
+      <label appearance="header">GIF specific options</label>
+      <param name="gif-type" type="optiongroup" appearance="combo" gui-text="Type:">
+        <option value="grayscale">Grayscale</option>
+        <option value="palette">Palette</option>
+      </param>
+      <param name="palette-size" type="int" min="2" max="256" gui-text="Palette size:">256</param>
+    </page>
+    <page name="tabHTML" gui-text="HTML">
+      <param name="html-id" type="string" gui-text="HTML id attribute:"></param>
+      <param name="html-class" type="string" gui-text="HTML class attribute:"></param>
+      <label appearance="header">Options for HTML export</label>
+      <param name="layout-disposition" type="optiongroup" appearance="combo" gui-text="Layout disposition:">
+        <option value="bg-el-norepeat">Positioned html block element with the image as Background</option>
+        <option value="bg-parent-repeat">Tiled Background (on parent group)</option>
+        <option value="bg-parent-repeat-x">Background — repeat horizontally (on parent group)</option>
+        <option value="bg-parent-repeat-y">Background — repeat vertically (on parent group)</option>
+        <option value="bg-parent-norepeat">Background — no repeat (on parent group)</option>
+        <option value="img-pos">Positioned Image</option>
+        <option value="img-nonpos">Non Positioned Image</option>
+        <option value="img-float-left">Left Floated Image</option>
+        <option value="img-float-right">Right Floated Image</option>
+      </param>
+      <param name="layout-position-anchor" type="optiongroup" appearance="combo" gui-text="Position anchor:">
+        <option value="tl">Top and Left</option>
+        <option value="tc">Top and Center</option>
+        <option value="tr">Top and right</option>
+        <option value="ml">Middle and Left</option>
+        <option value="mc">Middle and Center</option>
+        <option value="mr">Middle and Right</option>
+        <option value="bl">Bottom and Left</option>
+        <option value="bc">Bottom and Center</option>
+        <option value="br">Bottom and Right</option>
+      </param>
+    </page>
+  </param>
+  <effect needs-live-preview="false">
+    <object-type>all</object-type>
+    <effects-menu>
+      <submenu name="Web">
+        <submenu name="Slicer"/>
+      </submenu>
+    </effects-menu>
+  </effect>
+  <script>
+    <command location="inx" interpreter="python">webslicer_create_rect.py</command>
+  </script>
+</inkscape-extension>

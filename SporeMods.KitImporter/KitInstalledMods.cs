@@ -8,116 +8,116 @@ using SporeMods.Core.Mods;
 
 namespace SporeMods.KitImporter
 {
-    public class KitMod
-    {
-        public string Name { get; set; } = null;
-        public string Unique { get; set; } = null;
-        public string DisplayName { get; set; } = null;
-        public string ConfiguratorPath { get; set; } = null;
-        public List<ModFile> Files { get; set; } = new List<ModFile>();
-    }
+	public class KitMod
+	{
+		public string Name { get; set; } = null;
+		public string Unique { get; set; } = null;
+		public string DisplayName { get; set; } = null;
+		public string ConfiguratorPath { get; set; } = null;
+		public List<ModFile> Files { get; set; } = new List<ModFile>();
+	}
 
-    /// <summary>
-    /// Used to read the list of mods installed in the old launcher kit.
-    /// </summary>
-    public class KitInstalledMods
-    {
-        public static event EventHandler<ImportFailureEventArgs> ModImportFailed;
+	/// <summary>
+	/// Used to read the list of mods installed in the old launcher kit.
+	/// </summary>
+	public class KitInstalledMods
+	{
+		public static event EventHandler<ImportFailureEventArgs> ModImportFailed;
 
-        public List<KitMod> Mods = new List<KitMod>();
+		public List<KitMod> Mods = new List<KitMod>();
 
-        public KitInstalledMods(string path)
-        {
-            var document = XDocument.Load(path);
-            foreach (var modElem in document.Root.Elements())
-            {
-                if (modElem.Name.LocalName.ToLowerInvariant() != "mod") continue;
+		public KitInstalledMods(string path)
+		{
+			var document = XDocument.Load(path);
+			foreach (var modElem in document.Root.Elements())
+			{
+				if (modElem.Name.LocalName.ToLowerInvariant() != "mod") continue;
 
-                var mod = new KitMod();
+				var mod = new KitMod();
 
-                try
-                {
+				try
+				{
 
-                    var attr = modElem.Attribute("name");
-                    if (attr != null) mod.Name = attr.Value;
+					var attr = modElem.Attribute("name");
+					if (attr != null) mod.Name = attr.Value;
 
-                    attr = modElem.Attribute("unique");
-                    if (attr != null) mod.Unique = attr.Value;
+					attr = modElem.Attribute("unique");
+					if (attr != null) mod.Unique = attr.Value;
 
-                    attr = modElem.Attribute("displayName");
-                    if (attr != null) mod.DisplayName = attr.Value;
+					attr = modElem.Attribute("displayName");
+					if (attr != null) mod.DisplayName = attr.Value;
 
-                    attr = modElem.Attribute("configurator");
-                    if (attr != null) mod.ConfiguratorPath = attr.Value;
+					attr = modElem.Attribute("configurator");
+					if (attr != null) mod.ConfiguratorPath = attr.Value;
 
-                    foreach (var fileElem in modElem.Elements())
-                    {
-                        if (fileElem.Name.LocalName.ToLowerInvariant() != "file") continue;
+					foreach (var fileElem in modElem.Elements())
+					{
+						if (fileElem.Name.LocalName.ToLowerInvariant() != "file") continue;
 
-                        string value = fileElem.Value;
-                        string[] values = new string[]
-                        {
-                        value
-                        };
+						string value = fileElem.Value;
+						string[] values = new string[]
+						{
+						value
+						};
 
-                        if (value.Contains('?'))
-                        {
-                            values = value.Split('?');
-                        }
+						if (value.Contains('?'))
+						{
+							values = value.Split('?');
+						}
 
-                        string gameValue = "modapi";
-                        if (fileElem.Attribute("game") != null)
-                        {
-                            gameValue = fileElem.Attribute("game").Value;
-                        }
-                        string[] gameValues = new string[]
-                        {
-                        gameValue
-                        };
+						string gameValue = "modapi";
+						if (fileElem.Attribute("game") != null)
+						{
+							gameValue = fileElem.Attribute("game").Value;
+						}
+						string[] gameValues = new string[]
+						{
+						gameValue
+						};
 
-                        if (gameValue.Contains('?'))
-                        {
-                            gameValues = gameValue.Split('?');
-                        }
+						if (gameValue.Contains('?'))
+						{
+							gameValues = gameValue.Split('?');
+						}
 
 
 
-                        for (int i = 0; i < values.Length; i++)
-                        {
-                            var val = values[i];
-                            var file = new ModFile();
-                            //string[] value = new 
-                            file.Name = val;
-                            file.GameDir = ComponentGameDir.ModAPI;
+						for (int i = 0; i < values.Length; i++)
+						{
+							var val = values[i];
+							var file = new ModFile();
+							//string[] value = new 
+							file.Name = val;
+							file.GameDir = ComponentGameDir.ModAPI;
 
-                            /*attr = fileElem.Attribute("game");
-                            if (attr != null)
-                            {*/
-                            switch (gameValues[i].ToLowerInvariant())
-                            {
-                                case "galacticadventures":
-                                    file.GameDir = ComponentGameDir.GalacticAdventures;
-                                    break;
-                                case "spore":
-                                    file.GameDir = ComponentGameDir.Spore;
-                                    break;
-                                case "modapi":
-                                default:
-                                    file.GameDir = ComponentGameDir.ModAPI;
-                                    break;
-                            }
-                            //}
+							/*attr = fileElem.Attribute("game");
+							if (attr != null)
+							{*/
+							switch (gameValues[i].ToLowerInvariant())
+							{
+								case "galacticadventures":
+									file.GameDir = ComponentGameDir.GalacticAdventures;
+									break;
+								case "spore":
+									file.GameDir = ComponentGameDir.Spore;
+									break;
+								case "modapi":
+								default:
+									file.GameDir = ComponentGameDir.ModAPI;
+									break;
+							}
+							//}
 
-                            mod.Files.Add(file);
-                        }
-                    }
-                    Mods.Add(mod);
-                }
-                catch (Exception ex)
-                {
-                    ModImportFailed?.Invoke(mod, new ImportFailureEventArgs(ex, mod));
-                }
-            }
-        }
-    }
+							mod.Files.Add(file);
+						}
+					}
+					Mods.Add(mod);
+				}
+				catch (Exception ex)
+				{
+					ModImportFailed?.Invoke(mod, new ImportFailureEventArgs(ex, mod));
+				}
+			}
+		}
+	}
 }

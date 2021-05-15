@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+  <name>Plot</name>
+  <id>org.ekips.filter.plot</id>
+  <dependency type="file" location="inx">hpgl_decoder.py</dependency>
+  <dependency type="file" location="inx">hpgl_encoder.py</dependency>
+  <label>Please make sure that all objects you want to plot are converted to paths.</label>
+  <param name="tab" type="notebook">
+    <page name="connection" gui-text="Connection Settings">
+      <param name="portType" type="optiongroup" appearance="radio" gui-text="Port type:">
+        <option value="serial">Serial</option>
+        <option value="parallel">Parallel</option>
+      </param>
+      <param name="parallelPort" type="string" gui-text="Parallel port:" gui-description="The port of your parallel connection, on Windows not currently supported, on Linux something like: '/dev/usb/lp2' (Default: /dev/usb/lp2)">/dev/usb/lp2</param>
+      <param name="serialPort" type="string" gui-text="Serial port:" gui-description="The port of your serial connection, on Windows something like 'COM1', on Linux something like: '/dev/ttyUSB0' (Default: COM1)">COM1</param>
+      <param name="serialBaudRate" type="optiongroup" appearance="combo" gui-text="Serial baud rate:" gui-description="The Baud rate of your serial connection (Default: 9600)">
+        <option translatable="no" value="9600">9600</option>
+        <option translatable="no" value="110">110</option>
+        <option translatable="no" value="300">300</option>
+        <option translatable="no" value="600">600</option>
+        <option translatable="no" value="1200">1200</option>
+        <option translatable="no" value="2400">2400</option>
+        <option translatable="no" value="4800">4800</option>
+        <!-- <option translatable="no" value="9600">9600</option> -->
+        <option translatable="no" value="14400">14400</option>
+        <option translatable="no" value="19200">19200</option>
+        <option translatable="no" value="28800">28800</option>
+        <option translatable="no" value="38400">38400</option>
+        <option translatable="no" value="56000">56000</option>
+        <option translatable="no" value="57600">57600</option>
+        <option translatable="no" value="115200">115200</option>
+      </param>
+      <param name="serialByteSize" type="optiongroup" appearance="combo" gui-text="Serial byte size:" gui-description="The Byte size of your serial connection, 99% of all plotters use the default setting (Default: 8 Bits)">
+        <option translatable="no" value="eight">8 Bits</option>
+        <option translatable="no" value="seven">7 Bits</option>
+        <option translatable="no" value="six">6 Bits</option>
+        <option translatable="no" value="five">5 Bits</option>
+      </param>
+      <param name="serialStopBits" type="optiongroup" appearance="combo" gui-text="Serial stop bits:" gui-description="The Stop bits of your serial connection, 99% of all plotters use the default setting (Default: 1 Bit)">
+        <option translatable="no" value="one">1 Bit</option>
+        <option translatable="no" value="onePointFive">1.5 Bits</option>
+        <option translatable="no" value="two">2 Bits</option>
+      </param>
+      <param name="serialParity" type="optiongroup" appearance="combo" gui-text="Serial parity:" gui-description="The Parity of your serial connection, 99% of all plotters use the default setting (Default: None)">
+        <option translatable="no" value="none">None</option>
+        <option translatable="no" value="even">Even</option>
+        <option translatable="no" value="odd">Odd</option>
+        <option translatable="no" value="mark">Mark</option>
+        <option translatable="no" value="space">Space</option>
+      </param>
+      <param name="serialFlowControl" type="optiongroup" appearance="combo" gui-text="Serial flow control:" gui-description="The Software / Hardware flow control of your serial connection (Default: Software)">
+        <option value="xonxoff">Software (XON/XOFF)</option>
+        <option value="rtscts">Hardware (RTS/CTS)</option>
+        <option value="dsrdtrrtscts">Hardware (DSR/DTR + RTS/CTS)</option>
+        <option value="none">None</option>
+      </param>
+      <param name="commandLanguage" type="optiongroup" appearance="combo" gui-text="Command language:" gui-description="The command language to use (Default: HPGL)">
+        <option value="HPGL">HPGL</option>
+        <option value="DMPL">DMPL</option>
+        <option value="KNK">KNK Plotter (HPGL variant)</option>
+      </param>
+      <spacer/>
+      <label>Using wrong settings can under certain circumstances cause Inkscape to freeze. Always save your work before plotting!</label>
+      <label>This can be a physical serial connection or a USB-to-Serial bridge. Ask your plotter manufacturer for drivers if needed.</label>
+      <label>Parallel (LPT) connections are not supported.</label>
+    </page>
+    <page name="plotter" gui-text="Plotter Settings">
+      <param name="resolutionX" type="float" min="1.0" max="4096.0" precision="1" gui-text="Resolution X (dpi):" gui-description="The amount of steps the plotter moves if it moves for 1 inch on the X axis (Default: 1016.0)">1016.0</param>
+      <param name="resolutionY" type="float" min="1.0" max="4096.0" precision="1" gui-text="Resolution Y (dpi):" gui-description="The amount of steps the plotter moves if it moves for 1 inch on the Y axis (Default: 1016.0)">1016.0</param>
+      <param name="pen" type="int" min="0" max="99" gui-text="Pen number:" gui-description="The number of the pen (tool) to use (Standard: '1')">1</param>
+      <param name="force" type="int" min="0" max="1000" gui-text="Pen force (g):" gui-description="The amount of force pushing down the pen in grams, set to 0 to omit command; most plotters ignore this command (Default: 0)">0</param>
+      <param name="speed" type="int" min="0" max="10000" gui-text="Pen speed (cm/s or mm/s):" gui-description="The speed the pen will move with in centimeters or millimeters per second (depending on your plotter model), set to 0 to omit command. Most plotters ignore this command. (Default: 0)">0</param>
+      <param name="orientation" type="optiongroup" appearance="combo" gui-text="Rotation (°, clockwise):" gui-description="Rotation of the drawing (Default: 0°)">
+        <option translatable="no" value="0">0</option>
+        <option translatable="no" value="90">90</option>
+        <option translatable="no" value="180">180</option>
+        <option translatable="no" value="270">270</option>
+      </param>
+      <param name="mirrorX" type="bool" gui-text="Mirror X axis" gui-description="Check this to mirror the X axis (Default: Unchecked)">false</param>
+      <param name="mirrorY" type="bool" gui-text="Mirror Y axis" gui-description="Check this to mirror the Y axis (Default: Unchecked)">false</param>
+      <param name="center" type="bool" gui-text="Center zero point" gui-description="Check this if your plotter uses a centered zero point (Default: Unchecked)">false</param>
+      <spacer/>
+      <label>If you want to use multiple pens on your pen plotter create one layer for each pen, name the layers "Pen 1", "Pen 2", etc., and put your drawings in the corresponding layers. This overrules the pen number option above.</label>
+    </page>
+    <page name="plot_features" gui-text="Plot Features">
+      <param name="overcut" type="float" min="0.0" max="100.0" precision="2" gui-text="Overcut (mm):" gui-description="The distance in mm that will be cut over the starting point of the path to prevent open paths, set to 0.0 to omit command (Default: 1.00)">1.00</param>
+      <param name="toolOffset" type="float" min="0.0" max="20.0" precision="2" gui-text="Tool (Knife) offset correction (mm):" gui-description="The offset from the tool tip to the tool axis in mm, set to 0.0 to omit command (Default: 0.25)">0.25</param>
+      <param name="precut" type="bool" gui-text="Precut" gui-description="Check this to cut a small line before the real drawing starts to correctly align the tool orientation. (Default: Checked)">true</param>
+      <param name="flat" type="float" min="0.1" max="10.0" precision="1" gui-text="Curve flatness:" gui-description="Curves are divided into lines, this number controls how fine the curves will be reproduced, the smaller the finer (Default: '1.2')">1.2</param>
+      <param name="autoAlign" type="bool" gui-text="Auto align" gui-description="Check this to auto align the drawing to the zero point (Plus the tool offset if used). If unchecked you have to make sure that all parts of your drawing are within the document border! (Default: Checked)">true</param>
+      <spacer/>
+    </page>
+  </param>
+  <label>All these settings depend on the plotter you use, for more information please consult the manual or homepage for your plotter.</label>
+  <effect needs-live-preview="false" needs-document="true">
+    <object-type>path</object-type>
+    <effects-menu>
+      <submenu name="Export"/>
+    </effects-menu>
+  </effect>
+  <script>
+    <command location="inx" interpreter="python">plotter.py</command>
+  </script>
+</inkscape-extension>

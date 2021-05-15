@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>Remove Red</name>
+    <id>org.inkscape.color.remove_red</id>
+    <effect>
+        <object-type>all</object-type>
+        <effects-menu>
+            <submenu name="Color"/>
+        </effects-menu>
+    </effect>
+    <script>
+        <command location="inx" interpreter="python">color_removered.py</command>
+    </script>
+</inkscape-extension>

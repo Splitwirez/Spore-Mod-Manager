@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1"
+   width="16"
+   height="16.301221"
+  >
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingy="1pt"
+     gridspacingx="1pt"
+     gridoriginy="0pt"
+     gridoriginx="0pt"
+  />
+  <defs id="defs3">
+
+  </defs>
+<g id="snap-nodes-midpoint" inkscape:label="#toggle_snap_to_midpoints" transform="translate(-764,-29.773572)">
+  <rect height="16" id="rect5385-6-5-8" style="color:#000000;fill:none;stroke-width:0.1" width="16" x="764" y="30.00114"/>
+  <rect height="16" id="rect5385-6-0-1-8" style="color:#000000;fill:none;stroke-width:0.1" width="16" x="764" y="30.00171"/>
+  <path d="M 765,45 779,31" id="path6507" inkscape:connector-curvature="0" style="color:#000000;fill:none;stroke:#646464;stroke-width:1.0000002;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0"/>
+  <circle cx="753.5" cy="33" id="path6530" r="2" style="color:#000000;fill:#6464ff;fill-opacity:0.3921569;fill-rule:evenodd;stroke:#008000;stroke-width:1.1428572;stroke-linecap:round" transform="matrix(0.8749999,0,0,0.875,112.6876,9.126711)"/>
+  <g id="g6242" transform="matrix(1.5,0,0,1.5,-383.9324,-21.06763)">
+    <path d="M 766.7737,40.68077 767.7737,44.68077" id="path6218" inkscape:connector-curvature="0" style="color:#000000;fill:#c00000;stroke:#c00000;stroke-width:0.6666667px"/>
+    <path d="M 767.9558,39.58974 768.9558,43.58974" id="path6218-9" inkscape:connector-curvature="0" style="color:#000000;fill:#c00000;stroke:#c00000;stroke-width:0.6666667px"/>
+  </g>
+  <g id="g6242-2" transform="matrix(1.5,0,0,1.5,-375.4835,-29.48977)">
+    <path d="M 766.7737,40.68077 767.7737,44.68077" id="path6218-2" inkscape:connector-curvature="0" style="color:#000000;fill:#c00000;stroke:#c00000;stroke-width:0.6666667px"/>
+    <path d="M 767.9558,39.58974 768.9558,43.58974" id="path6218-9-6" inkscape:connector-curvature="0" style="color:#000000;fill:#c00000;stroke:#c00000;stroke-width:0.6666667px"/>
+  </g>
+</g>
+
+</svg>

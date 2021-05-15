@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1"
+   width="16"
+   height="16"
+  >
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingy="1pt"
+     gridspacingx="1pt"
+     gridoriginy="0pt"
+     gridoriginx="0pt"
+  />
+  <defs id="defs3">
+
+  </defs>
+<g id="object-tweak-paint" inkscape:label="#g4416" transform="translate(45,-175)">
+  <rect height="16" id="rect4527" style="fill:none" width="16" x="-45" y="175"/>
+  <rect height="4.069275" id="rect4542" style="fill:#cccccc" width="4.069275" x="-42.99393" y="176.8167"/>
+  <rect height="4.069275" id="rect4544" style="fill:#999999" transform="scale(-1,1)" width="4.069275" x="34.85538" y="176.8167"/>
+  <rect height="4.069275" id="rect4547" style="fill:#cccccc" width="4.069275" x="-34.85538" y="176.8167"/>
+  <rect height="4.069275" id="rect4549" style="fill:#999999" transform="scale(1,-1)" width="4.069275" x="-42.99393" y="-184.9553"/>
+  <rect height="4.069275" id="rect4551" style="fill:#000000" transform="scale(-1)" width="4.069275" x="34.85538" y="-184.9553"/>
+  <rect height="4.069275" id="rect4553" style="fill:#999999" transform="scale(1,-1)" width="4.069275" x="-34.85538" y="-184.9553"/>
+  <rect height="4.069275" id="rect4555" style="fill:#cccccc" width="4.069275" x="-42.99393" y="184.9553"/>
+  <rect height="4.069275" id="rect4557" style="fill:#999999" transform="scale(-1,1)" width="4.069275" x="34.85538" y="184.9553"/>
+  <rect height="4.069275" id="rect4559" style="fill:#cccccc" width="4.069275" x="-34.85538" y="184.9553"/>
+</g>
+
+</svg>

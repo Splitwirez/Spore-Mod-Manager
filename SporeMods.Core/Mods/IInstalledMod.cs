@@ -6,42 +6,42 @@ using System.Threading.Tasks;
 
 namespace SporeMods.Core.Mods
 {
-    /// <summary>
-    /// An abstract interface representing a mod installed on the manager.
-    /// </summary>
-    public interface IInstalledMod
-    {
-        /// <summary>
-        /// Queues this mod to be uninstalled, returning true if it was successful or false if there was any error.
-        /// This method should not throw any exception.
-        /// </summary>
-        /// <returns></returns>
-        Task<bool> UninstallModAsync();
+	/// <summary>
+	/// An abstract interface representing a mod installed on the manager.
+	/// </summary>
+	public interface IInstalledMod
+	{
+		/// <summary>
+		/// Queues this mod to be uninstalled, returning true if it was successful or false if there was any error.
+		/// This method should not throw any exception.
+		/// </summary>
+		/// <returns></returns>
+		Task<bool> UninstallModAsync();
 
-        bool HasConfigsDirectory { get; }
+		bool HasConfigsDirectory { get; }
 
-        /// <summary>
-        /// The name the user knows this mod by. Only used in UI.
-        /// </summary>
-        string DisplayName { get; }
+		/// <summary>
+		/// The name the user knows this mod by. Only used in UI.
+		/// </summary>
+		string DisplayName { get; }
 
-        /// <summary>
-        /// The unique identifier for this mod. This value should never change between versions of a mod.
-        /// </summary>
-        string Unique { get; }
+		/// <summary>
+		/// The unique identifier for this mod. This value should never change between versions of a mod.
+		/// </summary>
+		string Unique { get; }
 
-        /// <summary>
-        /// The name of the installation directory used by this mod.
-        /// </summary>
-        string RealName { get; }
+		/// <summary>
+		/// The name of the installation directory used by this mod.
+		/// </summary>
+		string RealName { get; }
 
-        /// <summary>
-        /// The mod's in-UI description.
-        /// </summary>
-        string Description { get; }
+		/// <summary>
+		/// The mod's in-UI description.
+		/// </summary>
+		string Description { get; }
 
-        List<string> Tags { get; }
+		List<string> Tags { get; }
 
-        Version ModVersion { get; }
-    }
+		Version ModVersion { get; }
+	}
 }

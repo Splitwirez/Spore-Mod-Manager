@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.0beta0 (1d85f8e, 2019-09-11)"
+   sodipodi:docname="draw-connector-symbolic.svg"
+   viewBox="0 0 16 16"
+   height="16"
+   width="16"
+   id="svg1"
+   version="1.1">
+<style id="s0">
+   .success { fill: #009909; }
+   .warning { fill: #FF1990; }
+   .error   { fill: #00AAFF; }
+  </style>
+  <style id="s2"> 
+     @import '../../highlights.css'; 
+  </style>
+  
+  <metadata
+     id="metadata1676">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1674">
+    <inkscape:path-effect
+       attempt_force_join="false"
+       miter_limit="100"
+       linejoin_type="round"
+       line_width="1"
+       linecap_type="round"
+       is_visible="true"
+       id="path-effect2376"
+       effect="join_type" />
+    <inkscape:path-effect
+       effect="join_type"
+       id="path-effect2329"
+       is_visible="true"
+       linecap_type="round"
+       line_width="1"
+       linejoin_type="round"
+       miter_limit="100"
+       attempt_force_join="true" />
+  </defs>
+  <sodipodi:namedview
+     inkscape:document-rotation="0"
+     inkscape:current-layer="g0"
+     inkscape:window-maximized="1"
+     inkscape:window-y="-8"
+     inkscape:window-x="54"
+     inkscape:window-height="1177"
+     inkscape:window-width="1858"
+     inkscape:cy="7.0706626"
+     inkscape:cx="6.1879845"
+     inkscape:zoom="44.8"
+     showgrid="true"
+     id="namedview"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10">
+    <inkscape:grid
+       id="grid"
+       type="xygrid" />
+  </sodipodi:namedview>
+  <g
+     id="g0"
+     inkscape:label="draw-connector">
+    <path
+       inkscape:connector-curvature="0"
+       style="opacity:0"
+       d="M 0,0 H 16 V 16 H 0 Z"
+       id="background" />
+    <path
+       sodipodi:nodetypes="ccccc"
+       style="stroke-width:1.06139"
+       inkscape:connector-curvature="0"
+       id="rect1026"
+       d="m 1,11 h 6 v 4 H 1 Z"
+        />
+    <path
+       inkscape:connector-curvature="0"
+       id="rect1028"
+       style="opacity:0.5;stroke-width:0.921103"
+       d="m 10,6 h 5.038901 v 4 H 10 Z"
+        />
+    <path
+       sodipodi:nodetypes="ccccc"
+       style="stroke-width:0.968089"
+       inkscape:connector-curvature="0"
+       id="rect1030"
+       d="M 0.9999975,1.0000019 H 6 V 4 H 0.9999975 Z"
+        />
+    <path
+       transform="translate(1.0044643,-0.39418)"
+       id="line1036"
+       d="m 6.2651603,3.3262044 2.836153,1.8986704 A 0.5,0.5 0 1 0 9.6576153,4.3938946 L 6.8214623,2.4952242 a 0.5,0.5 0 1 0 -0.556302,0.8309802 z"
+       inkscape:path-effect="#path-effect2329"
+       inkscape:original-d="m 6.5433113,2.9107143 2.836153,1.8986704"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+        />
+    <path
+       id="line2346"
+       d="m 3.0133929,5.5128274 v 3.9827309 a 0.5,0.5 0 1 0 1,0 V 5.5128274 a 0.5,0.5 0 1 0 -1,0 z"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:original-d="M 3.5133929,5.5128274 V 9.4955583"
+       inkscape:path-effect="#path-effect2376"
+        />
+  </g>
+</svg>

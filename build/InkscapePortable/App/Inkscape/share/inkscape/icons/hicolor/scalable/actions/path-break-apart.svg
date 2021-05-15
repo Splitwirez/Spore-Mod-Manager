@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1"
+   width="15.903875"
+   height="16.000704"
+  >
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingy="1pt"
+     gridspacingx="1pt"
+     gridoriginy="0pt"
+     gridoriginx="0pt"
+  />
+  <defs id="defs3">
+
+  </defs>
+<g id="path-break-apart" inkscape:label="#selection_break" style="fill:#8ab3df;fill-opacity:0.5882353;stroke:#0000ff" transform="translate(-314.90647,-209.0076)">
+  <path d="M 235.5312,230.5312 235.5312,240.5 245.625,240.5 245.625,236.5312 C 245.4547,236.5472 245.2994,236.5625 245.125,236.5625 242.0805,236.5625 239.5937,234.0852 239.5937,231.0312 239.5937,230.8642 239.6105,230.6945 239.625,230.5312 L 235.5312,230.5312 Z" id="rect10834" inkscape:connector-curvature="0" style="color:#000000;fill:#99b6d4;fill-opacity:0.7;fill-rule:evenodd;stroke-width:1.0000002;stroke-linejoin:round;stroke-miterlimit:0" transform="translate(79.87527,-15.9917)"/>
+  <circle cx="328" cy="215" id="path5724" r="5" style="color:#000000;fill:#99b7d5;fill-opacity:0.7019608;fill-rule:evenodd;stroke-width:0.8193182;stroke-linejoin:round;stroke-miterlimit:0" transform="matrix(1.103062,0,0,1.10649,-36.96118,-22.90202)"/>
+</g>
+
+</svg>

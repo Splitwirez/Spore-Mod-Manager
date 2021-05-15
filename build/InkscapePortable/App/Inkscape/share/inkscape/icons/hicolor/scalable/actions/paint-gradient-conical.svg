@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1"
+   width="20"
+   height="20"
+  >
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingy="1pt"
+     gridspacingx="1pt"
+     gridoriginy="0pt"
+     gridoriginx="0pt"
+  />
+  <defs id="defs3">
+
+  </defs>
+<g id="paint-gradient-conical" inkscape:label="#fill_conical" transform="translate(-1125,-347)">
+  <path d="M 1144.5,357 A 9.5,9.5 0 0 1 1139.75,365.2272 L 1135,357 Z" id="path3145" sodipodi:cx="1135" sodipodi:cy="357" sodipodi:end="1.047198" sodipodi:rx="9.5" sodipodi:ry="9.5" sodipodi:start="0" sodipodi:type="arc" style="fill:#ffffff"/>
+  <path d="M 1130.25,348.7728 A 9.5,9.5 0 0 1 1139.75,348.7728 L 1135,357 Z" id="path3147" sodipodi:cx="1135" sodipodi:cy="357" sodipodi:end="5.235988" sodipodi:rx="9.5" sodipodi:ry="9.5" sodipodi:start="4.18879" sodipodi:type="arc" style="fill:#ffffff"/>
+  <path d="M 1139.75,365.2272 A 9.5,9.5 0 0 1 1130.25,365.2272 L 1135,357 Z" id="path3149" sodipodi:cx="1135" sodipodi:cy="357" sodipodi:end="2.094395" sodipodi:rx="9.5" sodipodi:ry="9.5" sodipodi:start="1.047198" sodipodi:type="arc" style="fill:#99b6d4"/>
+  <path d="M 1130.25,365.2272 A 9.5,9.5 0 0 1 1125.5,357 L 1135,357 Z" id="path3151" sodipodi:cx="1135" sodipodi:cy="357" sodipodi:end="3.141593" sodipodi:rx="9.5" sodipodi:ry="9.5" sodipodi:start="2.094395" sodipodi:type="arc" style="fill:#ffffff"/>
+  <path d="M 1125.5,357 A 9.5,9.5 0 0 1 1130.25,348.7728 L 1135,357 Z" id="path3153" sodipodi:cx="1135" sodipodi:cy="357" sodipodi:end="4.18879" sodipodi:rx="9.5" sodipodi:ry="9.5" sodipodi:start="3.141593" sodipodi:type="arc" style="fill:#99b6d4"/>
+  <path d="M 1139.75,348.7728 A 9.5,9.5 0 0 1 1144.5,357 L 1135,357 Z" id="path3155" sodipodi:cx="1135" sodipodi:cy="357" sodipodi:end="6.283185" sodipodi:rx="9.5" sodipodi:ry="9.5" sodipodi:start="5.235988" sodipodi:type="arc" style="fill:#99b6d4"/>
+  <circle cx="1135" cy="357" id="path3157" r="9.5" style="fill:none;stroke:#000000"/>
+</g>
+
+</svg>

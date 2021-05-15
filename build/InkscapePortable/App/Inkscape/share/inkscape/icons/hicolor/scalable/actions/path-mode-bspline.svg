@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1"
+   width="15.496272"
+   height="15.497098"
+  >
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingy="1pt"
+     gridspacingx="1pt"
+     gridoriginy="0pt"
+     gridoriginx="0pt"
+  />
+  <defs id="defs3">
+
+  </defs>
+<g id="path-mode-bspline" inkscape:label="#bspline_mode" transform="matrix(1.395066,-1.366399,1.366399,1.395066,-1413.93624,1250.007963)">
+  <path d="M 961.8604,56.03607 C 961.8604,56.03607 963.2385,54.53784 965.1208,54.27549 967.0031,54.01314 968.7049,56.05562 968.7049,56.05562" id="path-mode-spiro-3-8-8" inkscape:connector-curvature="0" inkscape:label="#spiro_splines_mode" sodipodi:nodetypes="czc" style="color:#000000;fill:none;stroke:#0000ff;stroke-width:0.9960949;stroke-linecap:round;stroke-linejoin:round"/>
+  <path d="M 960.716,54.82044 965.2198,50.24637 969.7936,54.72621" id="path6177-8-2" inkscape:connector-curvature="0" sodipodi:nodetypes="ccc" style="fill:none;stroke:#646464;stroke-width:0.7501467;stroke-linecap:round;stroke-linejoin:round"/>
+  <rect height="1.022964" id="rect8372-9-8" style="color:#000000;fill:#6464ff;fill-opacity:0.3921569;fill-rule:evenodd;stroke:#6464ff;stroke-width:0.2557612;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0" transform="rotate(44.40522)" width="1.022542" x="724.2002" y="-639.9971"/>
+  <rect height="1.022964" id="rect6941" style="color:#000000;fill:#6464ff;fill-opacity:0.3921569;fill-rule:evenodd;stroke:#6464ff;stroke-width:0.2557612;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0" transform="rotate(44.40522)" width="1.022542" x="724.2002" y="-633.3398"/>
+  <rect height="1.022964" id="rect6954" style="color:#000000;fill:#6464ff;fill-opacity:0.3921569;fill-rule:evenodd;stroke:#6464ff;stroke-width:0.2557612;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0" transform="rotate(44.40522)" width="1.022542" x="730.8575" y="-639.9971"/>
+</g>
+
+</svg>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1"
+   width="16"
+   height="16"
+  >
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingy="1pt"
+     gridspacingx="1pt"
+     gridoriginy="0pt"
+     gridoriginx="0pt"
+  />
+  <defs id="defs3">
+
+  </defs>
+<g id="path-difference" inkscape:label="#difference" transform="translate(-314.91614,-209)">
+  <circle cx="229.5" cy="155.5" id="path10888" r="5.5" style="color:#000000;fill:none;stroke:#c80000;stroke-linejoin:round;stroke-miterlimit:0;stroke-dasharray:1, 1" transform="translate(95.41614,59.5)"/>
+  <path d="M 220.5,155.5625 220.5,165.5 230.5937,165.5 230.5937,161.375 C 230.3877,161.3984 230.2123,161.5 230,161.5 226.964,161.5 224.5,159.036 224.5,156 224.5,155.8435 224.5809,155.7157 224.5937,155.5625 L 220.5,155.5625 Z" id="rect10884" inkscape:connector-curvature="0" style="color:#000000;fill:#99b7d6;fill-opacity:0.7019608;fill-rule:evenodd;stroke:#000000;stroke-width:1.0000002;stroke-linejoin:round;stroke-miterlimit:0" transform="translate(94.91614,59)"/>
+</g>
+
+</svg>

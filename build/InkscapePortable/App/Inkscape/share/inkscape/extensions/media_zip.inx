@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+  <name>Compressed Inkscape SVG with media export</name>
+  <id>org.inkscape.output.compressed_media</id>
+  <dependency type="extension">org.inkscape.output.svg.inkscape</dependency>
+  <param name="image_dir" type="string" gui-text="Image zip directory:">images</param>
+  <param name="font_list" type="bool" gui-text="Add font list">false</param>
+  <output>
+    <extension>.zip</extension>
+    <mimetype>application/x-zip</mimetype>
+    <filetypename>Compressed Inkscape SVG with media (*.zip)</filetypename>
+    <filetypetooltip>Inkscape's native file format compressed with Zip and including all media files</filetypetooltip>
+    <dataloss>false</dataloss>
+  </output>
+  <script>
+    <command location="inx" interpreter="python">media_zip.py</command>
+    <helper_extension>org.inkscape.output.svg.inkscape</helper_extension>
+  </script>
+</inkscape-extension>

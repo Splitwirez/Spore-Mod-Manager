@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1"
+   width="12.180031"
+   height="12.006089"
+  >
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingy="1pt"
+     gridspacingx="1pt"
+     gridoriginy="0pt"
+     gridoriginx="0pt"
+  />
+  <defs id="defs3">
+
+    <linearGradient gradientTransform="matrix(1.016495,0,0,-1,-11.43409,493.3688)" gradientUnits="userSpaceOnUse" id="linearGradient12555" inkscape:collect="always" x1="713.5084" x2="717.6405" xlink:href="#linearGradient2485" y1="248.9147" y2="240.8761"/>
+    <linearGradient id="linearGradient2485">
+      <stop id="stop2486" offset="0" style="stop-color:#ffffff;stop-opacity:1"/>
+      <stop id="stop2487" offset="1" style="stop-color:#aaaaaa;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+<g id="object-hidden" inkscape:label="#hidden" transform="matrix(0.823787,0,0,0.645052,-582.40402,-152.19034)">
+  <rect height="18.61259" id="rect12545" style="color:#000000;fill:#ffffff;fill-opacity:0;fill-rule:evenodd;stroke-width:0.83269" width="14.52438" x="707.1481" y="235.935"/>
+  <g id="g12547" transform="translate(1.571853e-4,-2.424845)">
+    <path d="M 719.0955,243.8639 C 719.8265,244.5813 720.5076,245.5349 721.1508,246.7745 719.2872,250.3658 717.7437,251.8726 714.9482,251.8726 712.1528,251.8726 709.9355,249.62 707.6335,246.6911 709.4972,243.0997 711.8328,241.9924 714.3111,241.9924 714.744,241.9924 715.1623,242.021 715.5669,242.0826 715.9527,242.1414 716.3261,242.2302 716.6881,242.353" id="path12549" inkscape:connector-curvature="0" sodipodi:nodetypes="ccscsss" style="color:#000000;fill:url(#linearGradient12555);fill-rule:evenodd;stroke:#000000;stroke-width:1.0974514;stroke-linecap:round"/>
+    <path d="M 714.4315,249.1956 714.5074,256.0334 M 716.8989,248.7953 718.1936,254.8548 M 719.3476,247.864 721.0799,252.4594 M 712.0036,249.0005 710.3345,254.8614 M 709.6897,247.3399 707.7171,252.3217" id="path12562" inkscape:connector-curvature="0" style="color:#000000;fill:none;stroke:#000000;stroke-width:1.0974512;stroke-linecap:round"/>
+  </g>
+</g>
+
+</svg>

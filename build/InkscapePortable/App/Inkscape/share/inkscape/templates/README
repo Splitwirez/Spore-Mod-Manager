@@ -1,0 +1,26 @@
+This folder contains the templates for new documents created in
+Inkscape. They're listed in the "File > New From Template..." submenu.
+A template may store any document-specific settings (such as initial
+zoom and view, paper size, background and borders, metadata, window
+geometry, grid and guide settings, export hints) as well as any
+objects. To add a new template, simply use "File > Save Template".
+Alternatively you can manually save or copy it into this folder or
+(preferred option) to the corresponding "templates" directory in your
+profile directory.
+
+Procedural templates are located in the adjacent 'extensions'
+directory. By convention, they begin with 'empty_'.
+
+
+## Default template ##
+
+At startup or when creating a new document, Inkscape will load the
+default template, which is named "default.svg". A localized version in
+the current locale (default.*.svg) will be preferred over the English
+version if available. To customize the default template simply use
+"File > Save Template" and make sure to enable "Set as default
+template". Alternatively you can manually edit the files in this
+folder or (preferred option) save or copy them to the corresponding
+"templates" directory in your profile directory. Default templates in
+the profile directory will always be preferred over the stock versions
+that ship with Inkscape (i.e. the files in this folder).

@@ -1,64 +1,64 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <sys:String x:Key="SelectLanguage">Selecciona l'idioma de la instal·lació</sys:String>
-    <sys:String x:Key="SelectLanguageTitle">Selecciona l'idioma</sys:String>
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:sys="clr-namespace:System;assembly=mscorlib">
+	<sys:String x:Key="SelectLanguage">Selecciona l'idioma de la instal·lació</sys:String>
+	<sys:String x:Key="SelectLanguageTitle">Selecciona l'idioma</sys:String>
 
 
-    <sys:String x:Key="Ok">OK</sys:String>
-    <sys:String x:Key="Next">Següent</sys:String>
-    <sys:String x:Key="Browse">Buscar...</sys:String>
-    <sys:String x:Key="Reset">Reiniciar</sys:String>
-    <sys:String x:Key="Close">Tancar</sys:String>
+	<sys:String x:Key="Ok">OK</sys:String>
+	<sys:String x:Key="Next">Següent</sys:String>
+	<sys:String x:Key="Browse">Buscar...</sys:String>
+	<sys:String x:Key="Reset">Reiniciar</sys:String>
+	<sys:String x:Key="Close">Tancar</sys:String>
 
 
-    <sys:String x:Key="MainWindowTitle">Instal·lació del Spore Mod Manager</sys:String>
+	<sys:String x:Key="MainWindowTitle">Instal·lació del Spore Mod Manager</sys:String>
 
-    <sys:String x:Key="TimeToUpgradeHeader">És el moment per fer una millora!</sys:String>
-    <sys:String x:Key="TimeToUpgrade">Aquesta actualització és una mica diferent - et passarem al Spore Mod Manager, que és millor.</sys:String>
+	<sys:String x:Key="TimeToUpgradeHeader">És el moment per fer una millora!</sys:String>
+	<sys:String x:Key="TimeToUpgrade">Aquesta actualització és una mica diferent - et passarem al Spore Mod Manager, que és millor.</sys:String>
 
-    <sys:String x:Key="IAgreeToTheTerms">He llegit, HE ENTÉS (IMPORTANT), i accepto aquestes condicions d'ús.</sys:String>
+	<sys:String x:Key="IAgreeToTheTerms">He llegit, HE ENTÉS (IMPORTANT), i accepto aquestes condicions d'ús.</sys:String>
 
-    <sys:String x:Key="LegaleseAgreementHeader">Acord legal</sys:String>
-    <sys:String x:Key="HumanLanguageSummaryHeader">Resum bàsic</sys:String>
+	<sys:String x:Key="LegaleseAgreementHeader">Acord legal</sys:String>
+	<sys:String x:Key="HumanLanguageSummaryHeader">Resum bàsic</sys:String>
 
-    <sys:String x:Key="TermsYoureAllowedTo">Això significa que pots...</sys:String>
-    <sys:String x:Key="TermsYoureAllowedTo1">• Utilitzar el Spore Mod Manager per fins no comercials.</sys:String>
-    <sys:String x:Key="TermsYoureAllowedTo2">• Utilitzar el Spore Mod Manager per fins comercials.</sys:String>
-    <sys:String x:Key="TermsYoureAllowedTo3">• Modificar el Spore Mod Manager.</sys:String>
-    <sys:String x:Key="TermsYoureAllowedTo4">• Redistribuir el Spore Mod Manager, si fos necessari.</sys:String>
+	<sys:String x:Key="TermsYoureAllowedTo">Això significa que pots...</sys:String>
+	<sys:String x:Key="TermsYoureAllowedTo1">• Utilitzar el Spore Mod Manager per fins no comercials.</sys:String>
+	<sys:String x:Key="TermsYoureAllowedTo2">• Utilitzar el Spore Mod Manager per fins comercials.</sys:String>
+	<sys:String x:Key="TermsYoureAllowedTo3">• Modificar el Spore Mod Manager.</sys:String>
+	<sys:String x:Key="TermsYoureAllowedTo4">• Redistribuir el Spore Mod Manager, si fos necessari.</sys:String>
 
-    <sys:String x:Key="TermsBeware">Però també significa que...</sys:String>
-    <sys:String x:Key="TermsBeware1">• El Spore Mod Manager no ofereix cap tipus de garantia, així que si és trenca et quedes amb les peces.</sys:String>
-    <sys:String x:Key="TermsBeware2">• No som legalment responsables per cap dany que es pugui derivar de l'utilització del Spore Mod Manager.</sys:String>
+	<sys:String x:Key="TermsBeware">Però també significa que...</sys:String>
+	<sys:String x:Key="TermsBeware1">• El Spore Mod Manager no ofereix cap tipus de garantia, així que si és trenca et quedes amb les peces.</sys:String>
+	<sys:String x:Key="TermsBeware2">• No som legalment responsables per cap dany que es pugui derivar de l'utilització del Spore Mod Manager.</sys:String>
 
-    <sys:String x:Key="TermsYouMust">I significa que estàs obligat a...</sys:String>
-    <sys:String x:Key="TermsYouMust1">• Incluir el document legal de l'esquerra en qualsevol derivat del Spore Mod Manager que produeixis, en cas de que decideixis crear alguna cosa a partir del Spore Mod Manager o utilitzar tot o part del programa en un altre projecte.</sys:String>
+	<sys:String x:Key="TermsYouMust">I significa que estàs obligat a...</sys:String>
+	<sys:String x:Key="TermsYouMust1">• Incluir el document legal de l'esquerra en qualsevol derivat del Spore Mod Manager que produeixis, en cas de que decideixis crear alguna cosa a partir del Spore Mod Manager o utilitzar tot o part del programa en un altre projecte.</sys:String>
 
-    <sys:String x:Key="TermsPleaseDo">Tot i que no és necessari, estaria bé que...</sys:String>
-    <sys:String x:Key="TermsPleaseDo1">• Reportis qualsevol error o problema que et puguis trobar mentres utilitzes el Spore Mod Manager.</sys:String>
-    <sys:String x:Key="TermsPleaseDo2">• Ens donis crédit (a emd4600 i a Splitwirez) en qualsevol derivat del Spore Mod Manager que decideixis crear.</sys:String>
-
-
-
-    <sys:String x:Key="InstallModeSimpleHeader">Instal·lació senzilla</sys:String>
-    <sys:String x:Key="InstallModeSimpleDesc">Sense opcions, tan sols instal·lar el programa ràpidament per poder començar a utilitzar-lo.</sys:String>
-    <sys:String x:Key="InstallModeIdk">Si no estàs segur, selecciona 'Instal·lació senzilla'.</sys:String>
-
-    <sys:String x:Key="InstallModeAdvancedHeader">Instal·lació avançada</sys:String>
-    <sys:String x:Key="InstallModeAdvancedDesc">Configura la instal·lació del Spore Mod Manager al teu gust. Hi ha més passos, només per usuaris avançats.</sys:String>
-
-    <sys:String x:Key="InstallToWhere">Si us plau especifica la carpeta on s'hauria d'instal·lar el Spore Mod Manager.</sys:String>
-    <sys:String x:Key="CannotInstallToUserSpecificLocation">No es pot instal·lar el Spore Mod Manager en una ruta que depengui de l'usuari.</sys:String>
-    <sys:String x:Key="CannotInstallToExistingFolder">No es pot instal·lar el Spore Mod Manager en una carpeta que ja existeixi.</sys:String>
-
-    <sys:String x:Key="StoreConfigWhere">Si us plau especifica la carpeta on el Spore Mod Manager hauria de guardar informació adicional, com mods i configuració.</sys:String>
-    <sys:String x:Key="CannotStoreConfigInUserSpecificLocation">El Spore Mod Manager no pot guardar informació addicional en una ruta que depengui de l'usuari.</sys:String>
-    <sys:String x:Key="CannotStoreConfigInProtectedLocation">El Spore Mod Manager no pot guardar informació addicional en una carpeta protegida.</sys:String>
-    <sys:String x:Key="CannotStoreConfigInExistingFolder">El Spore Mod Manager no pot guardar informació addicional en una carpeta que ja existeixi.</sys:String>
-
-    <sys:String x:Key="CreateDesktopShortcuts">Crear accessos directes al Spore Mod Manager a l'escriptori.</sys:String>
+	<sys:String x:Key="TermsPleaseDo">Tot i que no és necessari, estaria bé que...</sys:String>
+	<sys:String x:Key="TermsPleaseDo1">• Reportis qualsevol error o problema que et puguis trobar mentres utilitzes el Spore Mod Manager.</sys:String>
+	<sys:String x:Key="TermsPleaseDo2">• Ens donis crédit (a emd4600 i a Splitwirez) en qualsevol derivat del Spore Mod Manager que decideixis crear.</sys:String>
 
 
-    <sys:String x:Key="InstallationComplete">Instal·lació completa!</sys:String>
+
+	<sys:String x:Key="InstallModeSimpleHeader">Instal·lació senzilla</sys:String>
+	<sys:String x:Key="InstallModeSimpleDesc">Sense opcions, tan sols instal·lar el programa ràpidament per poder començar a utilitzar-lo.</sys:String>
+	<sys:String x:Key="InstallModeIdk">Si no estàs segur, selecciona 'Instal·lació senzilla'.</sys:String>
+
+	<sys:String x:Key="InstallModeAdvancedHeader">Instal·lació avançada</sys:String>
+	<sys:String x:Key="InstallModeAdvancedDesc">Configura la instal·lació del Spore Mod Manager al teu gust. Hi ha més passos, només per usuaris avançats.</sys:String>
+
+	<sys:String x:Key="InstallToWhere">Si us plau especifica la carpeta on s'hauria d'instal·lar el Spore Mod Manager.</sys:String>
+	<sys:String x:Key="CannotInstallToUserSpecificLocation">No es pot instal·lar el Spore Mod Manager en una ruta que depengui de l'usuari.</sys:String>
+	<sys:String x:Key="CannotInstallToExistingFolder">No es pot instal·lar el Spore Mod Manager en una carpeta que ja existeixi.</sys:String>
+
+	<sys:String x:Key="StoreConfigWhere">Si us plau especifica la carpeta on el Spore Mod Manager hauria de guardar informació adicional, com mods i configuració.</sys:String>
+	<sys:String x:Key="CannotStoreConfigInUserSpecificLocation">El Spore Mod Manager no pot guardar informació addicional en una ruta que depengui de l'usuari.</sys:String>
+	<sys:String x:Key="CannotStoreConfigInProtectedLocation">El Spore Mod Manager no pot guardar informació addicional en una carpeta protegida.</sys:String>
+	<sys:String x:Key="CannotStoreConfigInExistingFolder">El Spore Mod Manager no pot guardar informació addicional en una carpeta que ja existeixi.</sys:String>
+
+	<sys:String x:Key="CreateDesktopShortcuts">Crear accessos directes al Spore Mod Manager a l'escriptori.</sys:String>
+
+
+	<sys:String x:Key="InstallationComplete">Instal·lació completa!</sys:String>
 </ResourceDictionary>

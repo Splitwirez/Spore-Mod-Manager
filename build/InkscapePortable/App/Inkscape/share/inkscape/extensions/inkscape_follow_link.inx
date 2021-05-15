@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+  <name>Follow Link</name>
+  <id>org.inkscape.follow_link</id>
+  <effect needs-live-preview="false">
+    <object-type>all</object-type>
+    <effects-menu hidden="true" />
+  </effect>
+  <script>
+    <command location="inx" interpreter="python">inkscape_follow_link.py</command>
+  </script>
+</inkscape-extension>

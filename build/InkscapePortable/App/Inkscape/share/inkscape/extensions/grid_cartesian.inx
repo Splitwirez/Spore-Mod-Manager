@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+  <name>Cartesian Grid</name>
+  <id>org.inkscape.render.grid_cartesian</id>
+
+  <param name="border_th"       type="float"   min="0" max="1000" gui-text="Border Thickness:">1</param>
+  <param name="border_th_unit" type="optiongroup" appearance="combo" gui-text="Border Thickness Unit:">
+    <option translatable="no" value="px">px</option>
+    <option translatable="no" value="mm">mm</option>
+    <option translatable="no" value="cm">cm</option>
+    <option translatable="no" value="in">in</option>
+  </param>
+  <param name="tab" type="notebook">
+    <page name="x_tab" gui-text="X Axis">
+      <param name="x_divs"          type="int"     min="1" max="1000" gui-text="Major X Divisions:">6</param>
+      <param name="dx"              type="float"   min="1" max="1000" gui-text="Major X Division Spacing:">5</param>
+      <param name="dx_unit" type="optiongroup" appearance="combo" gui-text="Major X Division Spacing Unit:">
+        <option translatable="no" value="mm">mm</option>
+        <option translatable="no" value="cm">cm</option>
+        <option translatable="no" value="in">in</option>
+        <option translatable="no" value="px">px</option>
+      </param>
+      <param name="x_subdivs"       type="int"     min="1" max="1000" gui-text="Subdivisions per Major X Division:">1</param>
+      <param name="x_log"           type="bool"                       gui-text="Logarithmic X Subdiv. (Base given by entry above)">false</param>
+      <param name="x_subsubdivs"    type="int"     min="1" max="1000" gui-text="Subsubdivs. per X Subdivision:">1</param>
+      <param name="x_half_freq"     type="int"     min="1" max="1000" gui-text="Halve X Subsubdiv. Frequency after 'n' Subdivs. (log only):">1</param>
+      <param name="x_divs_th"       type="float"   min="0" max="1000" gui-text="Major X Division Thickness:">1</param>
+      <param name="x_subdivs_th"    type="float"   min="0" max="1000" gui-text="Minor X Division Thickness:">0.5</param>
+      <param name="x_subsubdivs_th" type="float"   min="0" max="1000" gui-text="Subminor X Division Thickness:">0.3</param>
+      <param name="x_div_unit" type="optiongroup" appearance="combo" gui-text="X Division Thickness Unit:">
+        <option translatable="no" value="px">px</option>
+        <option translatable="no" value="mm">mm</option>
+        <option translatable="no" value="cm">cm</option>
+        <option translatable="no" value="in">in</option>
+      </param>
+    </page>
+    <page name="y_tab" gui-text="Y Axis">
+      <param name="y_divs"          type="int"     min="1" max="1000" gui-text="Major Y Divisions:">5</param>
+      <param name="dy"              type="float"   min="1" max="1000" gui-text="Major Y Division Spacing:">5</param>
+      <param name="dy_unit" type="optiongroup" appearance="combo" gui-text="Major Y Division Spacing Unit:">
+        <option translatable="no" value="mm">mm</option>
+        <option translatable="no" value="cm">cm</option>
+        <option translatable="no" value="in">in</option>
+        <option translatable="no" value="px">px</option>
+      </param>
+      <param name="y_subdivs"       type="int"     min="1" max="1000" gui-text="Subdivisions per Major Y Division:">1</param>
+      <param name="y_log"           type="bool"                       gui-text="Logarithmic Y Subdiv. (Base given by entry above)">false</param>
+      <param name="y_subsubdivs"    type="int"     min="1" max="1000" gui-text="Subsubdivs. per Y Subdivision:">5</param>
+      <param name="y_half_freq"     type="int"     min="1" max="1000" gui-text="Halve Y Subsubdiv. Frequency after 'n' Subdivs. (log only):">1</param>
+      <param name="y_divs_th"       type="float"   min="0" max="1000" gui-text="Major Y Division Thickness:">1</param>
+      <param name="y_subdivs_th"    type="float"   min="0" max="1000" gui-text="Minor Y Division Thickness:">0.5</param>
+      <param name="y_subsubdivs_th" type="float"   min="0" max="1000" gui-text="Subminor Y Division Thickness:">0.3</param>
+      <param name="y_div_unit" type="optiongroup" appearance="combo" gui-text="Y Division Thickness Unit:">
+        <option translatable="no" value="px">px</option>
+        <option translatable="no" value="mm">mm</option>
+        <option translatable="no" value="cm">cm</option>
+        <option translatable="no" value="in">in</option>
+      </param>
+    </page>
+  </param>
+
+  <effect>
+    <object-type>all</object-type>
+    <effects-menu>
+      <submenu name="Render">
+          <submenu name="Grids"/>
+      </submenu>
+    </effects-menu>
+  </effect>
+  <script>
+    <command location="inx" interpreter="python">grid_cartesian.py</command>
+  </script>
+</inkscape-extension>

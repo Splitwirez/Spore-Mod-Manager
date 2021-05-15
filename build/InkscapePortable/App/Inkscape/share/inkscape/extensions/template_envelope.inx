@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape">
+    <name>Envelope</name>
+    <id>org.inkscape.template.envelope</id>
+
+    <param name="size" gui-text="Envelope size:" type="optiongroup" appearance="combo">
+        <option translatable="no" value="220mmx110mm">DL — 220 x 110 mm</option>
+        <option translatable="no" value="9.5inx4.125in">No. 10 — 9.5 × 4.125 in</option>
+    </param>
+
+    <effect needs-live-preview="false">
+        <object-type>all</object-type>
+        <effects-menu hidden="true" />
+    </effect>
+    <inkscape:templateinfo>
+      <inkscape:name>Envelope...</inkscape:name>
+      <inkscape:author>Windell Oskay</inkscape:author>
+      <inkscape:shortdesc>Blank envelope of chosen size.</inkscape:shortdesc>
+      <inkscape:date>2019-07-11</inkscape:date>
+      <inkscape:keywords>empty envelope dl no10</inkscape:keywords>
+    </inkscape:templateinfo>
+    <script>
+        <command location="inx" interpreter="python">template.py</command>
+    </script>
+</inkscape-extension>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1"
+   width="16.03125"
+   height="16.005392"
+  >
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingy="1pt"
+     gridspacingx="1pt"
+     gridoriginy="0pt"
+     gridoriginx="0pt"
+  />
+  <defs id="defs3">
+
+    <linearGradient gradientTransform="matrix(1.006993,0,0,1,-1.456289,0.0155694)" gradientUnits="userSpaceOnUse" id="linearGradient6160" inkscape:collect="always" x1="206.4689" x2="223.9659" xlink:href="#linearGradient5704" y1="15.97338" y2="1.491036"/>
+    <linearGradient id="linearGradient5704">
+      <stop id="stop5706" offset="0" style="stop-color:#5a5a5a;stop-opacity:1"/>
+      <stop id="stop5708" offset="1" style="stop-color:#000000;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+<g id="swatches" transform="rotate(90,184.5174,23.51385)">
+  <rect height="4" id="rect6024" style="color:#000000;fill:#ffbf00;fill-rule:evenodd" width="4" x="212" y="13"/>
+  <rect height="4" id="rect6029" style="color:#000000;fill:#ff69bc;fill-rule:evenodd" width="4" x="212" y="8"/>
+  <rect height="4" id="rect6033" style="color:#000000;fill:#ffffff;fill-rule:evenodd" width="4" x="207" y="8"/>
+  <rect height="4" id="rect6035" style="color:#000000;fill:#c8c8c8;fill-rule:evenodd" width="3" x="217" y="13"/>
+  <rect height="4" id="rect6037" style="color:#000000;fill:#f0fa00;fill-rule:evenodd" width="4" x="212" y="3"/>
+  <path d="M 217,8 221,8 220,12 217,12 217,8 Z" id="rect6045" inkscape:connector-curvature="0" sodipodi:nodetypes="ccccc" style="color:#000000;fill:#a4602b;fill-rule:evenodd"/>
+  <rect height="4" id="rect6048" style="color:#000000;fill:#00c626;fill-rule:evenodd" width="4" x="217" y="3"/>
+  <rect height="4" id="rect6050" style="color:#000000;fill:#8ab3de;fill-rule:evenodd" width="4" x="207" y="13"/>
+  <rect height="4" id="rect6009" style="color:#000000;fill:#ff0000;fill-rule:evenodd" width="4" x="207" y="3"/>
+  <path d="M 206.5035,2.5 206.5035,17.53125 220.1608,17.53125 C 219.6434,16.08209 219.0304,13.23016 220.6014,10.5 222.6154,7 220.6014,2.5 220.6014,2.5 L 206.5035,2.5 Z M 211.5385,2.5 211.5385,17.5 M 216.5734,2.5 216.5734,17.5 M 206.5035,12.5 219.5944,12.5 M 221.1049,7.5 206.5035,7.5" id="rect6103" inkscape:connector-curvature="0" sodipodi:nodetypes="cccscccccccccc" style="color:#000000;fill:none;stroke:url(#linearGradient6160);stroke-width:0.9999999;stroke-linecap:round;stroke-linejoin:round"/>
+  <path d="M 210.5035,16.5312 207.5035,16.5312 207.5035,13.5312" id="path6163" inkscape:connector-curvature="0" style="fill:none;stroke:#bad2ec;stroke-width:1px"/>
+  <path d="M 210.5035,6.5312 207.5035,6.5312 207.5035,3.5312" id="path6165" inkscape:connector-curvature="0" style="fill:none;stroke:#ff6565;stroke-width:1px"/>
+  <path d="M 215.5035,11.5312 212.5035,11.5312 212.5035,8.5312" id="path6168" inkscape:connector-curvature="0" style="fill:none;stroke:#ffb5e0;stroke-width:1px"/>
+  <path d="M 215.5035,16.5312 212.5035,16.5312 212.5035,13.5312" id="path6170" inkscape:connector-curvature="0" style="fill:none;stroke:#ffe185;stroke-width:1px"/>
+  <path d="M 215.5035,6.5312 212.5035,6.5312 212.5035,3.5312" id="path6172" inkscape:connector-curvature="0" style="fill:none;stroke:#feffcd;stroke-width:1px"/>
+  <path d="M 220.5035,6.5312 217.5035,6.5312 217.5035,3.5312" id="path6174" inkscape:connector-curvature="0" style="fill:none;stroke:#5cff7c;stroke-width:1px"/>
+  <path d="M 219.0035,11.5312 217.5035,11.5312 217.5035,8.5312" id="path6176" inkscape:connector-curvature="0" sodipodi:nodetypes="ccc" style="fill:none;stroke:#d28b51;stroke-width:1px"/>
+  <path d="M 219.0035,16.5312 217.5035,16.5312 217.5035,13.5312" id="path6178" inkscape:connector-curvature="0" sodipodi:nodetypes="ccc" style="fill:none;stroke:#ffffff;stroke-width:1px"/>
+</g>
+
+</svg>

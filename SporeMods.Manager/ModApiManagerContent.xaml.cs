@@ -14,14 +14,14 @@ using System.Windows.Shapes;
 
 namespace SporeMods.Manager
 {
-    /// <summary>
-    /// Interaction logic for ModApiManagerContent.xaml
-    /// </summary>
-    public partial class ModApiManagerContent : UserControl
-    {
-        public ModApiManagerContent()
-        {
-            InitializeComponent();
-        }
-    }
+	/// <summary>
+	/// Interaction logic for ModApiManagerContent.xaml
+	/// </summary>
+	public partial class ModApiManagerContent : UserControl
+	{
+		public ModApiManagerContent()
+		{
+			InitializeComponent();
+		}
+	}
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>Rubber Stretch</name>
+    <id>org.inkscape.path.rubber_stretch</id>
+    <param name="ratio" type="float" gui-text="Strength (%):"  min="-400" max="400">25</param>
+    <param name="curve" type="float" gui-text="Curve (%):"     min="-400" max="400">25</param>
+    <effect>
+        <object-type>path</object-type>
+        <effects-menu>
+            <submenu name="Modify Path"/>
+        </effects-menu>
+    </effect>
+    <script>
+        <command location="inx" interpreter="python">rubberstretch.py</command>
+    </script>
+</inkscape-extension>

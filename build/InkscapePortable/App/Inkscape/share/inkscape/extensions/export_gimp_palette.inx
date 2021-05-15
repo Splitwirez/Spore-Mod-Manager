@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>Export as GIMP Palette</name>
+    <id>com.kaioa.export_gimp_palette</id>
+    <output>
+        <extension>.gpl</extension>
+        <mimetype>text/plain</mimetype>
+        <filetypename>GIMP Palette (*.gpl)</filetypename>
+        <filetypetooltip>Exports the colors of this document as GIMP Palette</filetypetooltip>
+    </output>
+    <script>
+        <command location="inx" interpreter="python">export_gimp_palette.py</command>
+    </script>
+</inkscape-extension>

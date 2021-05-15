@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="svg1"
+   width="16"
+   height="16"
+   viewBox="0 0 16 16"
+   sodipodi:docname="dialog-xml-editor-symbolic.svg"
+   inkscape:version="1.1-dev (1fceb22, 2019-12-30)">
+  <metadata
+     id="metadata1392">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1390">
+    <inkscape:path-effect
+       split_items="false"
+       oposite_fuse="false"
+       fuse_paths="false"
+       discard_orig_path="false"
+       mode="free"
+       lpeversion="1"
+       is_visible="true"
+       id="path-effect6673"
+       center_point="52.968579,677.37065"
+       end_point="52.968579,680.76064"
+       start_point="52.968579,673.98066"
+       effect="mirror_symmetry" />
+    <inkscape:path-effect
+       attempt_force_join="true"
+       miter_limit="100"
+       linejoin_type="extrp_arc"
+       line_width="1.1"
+       linecap_type="butt"
+       lpeversion="1"
+       is_visible="true"
+       id="path-effect6671"
+       effect="join_type" />
+  </defs>
+  <style
+     id="s0">
+.success { fill:#009909; }
+.warning { fill:#FF1990; }
+.error { fill:#00AAFF; }
+</style>
+  <style
+     id="s2">
+@import '../../highlights.css';
+</style>
+  <sodipodi:namedview
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     id="namedview"
+     showgrid="true"
+     inkscape:zoom="58.159533"
+     inkscape:cx="4.7791219"
+     inkscape:cy="10.292366"
+     inkscape:window-width="1858"
+     inkscape:window-height="1177"
+     inkscape:window-x="54"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="dialog-xml-editor"
+     inkscape:document-rotation="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid" />
+  </sodipodi:namedview>
+  <g
+     transform="translate(-44.976438,-667.36216)"
+     inkscape:label="00016"
+     id="dialog-xml-editor">
+    <g
+       id="g2966"
+       transform="matrix(0.9985297,0,0,1,30.02202,59.99998)">
+      <path
+         inkscape:connector-curvature="0"
+         id="rect10285-1"
+         d="m 14.97644,607.36218 h 16 v 16 h -16 z"
+         style="opacity:0;fill:none" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path10291-8"
+         d="m 17,609.3622 h 12 v 2 H 17 Z"
+         style="opacity:1"
+         class="success" />
+      <path
+         inkscape:connector-curvature="0"
+         id="rect10298-7"
+         d="m 15,607.36218 h 1 v 16 h -1 z"
+         style="opacity:1" />
+      <path
+         inkscape:connector-curvature="0"
+         id="rect10300-4"
+         d="m 15,607.36218 h 16 v 1 H 15 Z"
+         style="opacity:1" />
+      <path
+         inkscape:connector-curvature="0"
+         id="rect10302-5"
+         d="m 30,607.36218 h 1 v 16 h -1 z"
+         style="opacity:1" />
+      <path
+         inkscape:connector-curvature="0"
+         id="rect10304-6"
+         d="m 15,622.36218 h 16 v 1 H 15 Z"
+         style="opacity:1" />
+    </g>
+    <path
+       inkscape:original-d="m 51.563064,673.74043 -3.727713,3.40703 3.727713,3.42558"
+       inkscape:path-effect="#path-effect6671;#path-effect6673"
+       sodipodi:nodetypes="ccc"
+       inkscape:connector-curvature="0"
+       id="path6669"
+       d="m 51.19201,673.33445 -4.1707,3.81191 4.169603,3.83165 0.744302,-0.80994 -3.727713,-3.42558 -0.0011,0.81095 3.727713,-3.40703 z m 3.553138,0 4.1707,3.81191 -4.169603,3.83165 -0.744302,-0.80994 3.727713,-3.42558 0.0011,0.81095 -3.727713,-3.40703 z"
+       style="opacity:1;fill:#000000;fill-rule:nonzero;stroke:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers fill stroke" />
+  </g>
+</svg>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1"
+   width="12"
+   height="12.000007"
+  >
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingy="1pt"
+     gridspacingx="1pt"
+     gridoriginy="0pt"
+     gridoriginx="0pt"
+  />
+  <defs id="defs3">
+
+  </defs>
+<g id="transform-affect-rounded-corners" inkscape:label="#transform_corners" transform="translate(-673,-245)">
+  <path d="M 673.5,248.5 677.5,248.5 C 680,248.5 681,249.5 681,251.8" id="path4434" inkscape:connector-curvature="0" sodipodi:nodetypes="ccc" style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round"/>
+  <path d="M 673.5,245.5 679,245.5 C 682.5,245.5 684.5,247.5 684.5,250.5" id="path4436" inkscape:connector-curvature="0" sodipodi:nodetypes="ccc" style="fill:none;stroke:#000000;stroke-width:1.0000004px;stroke-linecap:round;stroke-linejoin:round"/>
+  <g id="use4586" transform="matrix(0.695835,0,0,0.741921,207.1801,63.71)">
+    <path d="M 682.3742,253.7871 682.3742,256.4828 679.5,256.4828 679.5,257.8307 682.3742,257.8307 682.3742,260.5264 686.6856,257.1568 682.3742,253.7871 Z" id="path12910" inkscape:connector-curvature="0" sodipodi:nodetypes="cccccccc" style="fill:#000000;fill-rule:evenodd"/>
+    <path d="M 505.9072,37.19576 507.3443,37.19576" id="path5764" inkscape:connector-curvature="0" sodipodi:nodetypes="cc" style="fill:none;stroke:#000000;stroke-width:1.391772px;stroke-linecap:square" transform="translate(170,219.961)"/>
+    <path d="M 672.3144,257.1568 673.7515,257.1568" id="path5770" inkscape:connector-curvature="0" sodipodi:nodetypes="cc" style="fill:none;stroke:#000000;stroke-width:1.391772px"/>
+  </g>
+</g>
+
+</svg>

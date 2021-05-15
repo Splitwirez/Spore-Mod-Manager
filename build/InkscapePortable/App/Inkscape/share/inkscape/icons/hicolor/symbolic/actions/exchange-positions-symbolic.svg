@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Inkscape (http://www.inkscape.org/) and export_objects.py -->
+<svg xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" version="1.1" id="svg1" width="16" height="16" viewBox="0 0 16 16" sodipodi:docname="exchange-positions-symbolic.svg">
+<sodipodi:namedview objecttolerance="10" gridtolerance="10" guidetolerance="10" id="namedview" showgrid="true" inkscape:zoom="0.6002936" inkscape:cx="732.67439" inkscape:cy="-567.94603" inkscape:window-width="1920" inkscape:window-height="1016" inkscape:window-x="0" inkscape:window-y="27" inkscape:window-maximized="1" inkscape:current-layer="layer1">
+    <inkscape:grid type="xygrid" id="grid"/>
+  </sodipodi:namedview>
+  <g transform="scale(0.666667)" id="exchange-positions" inkscape:label="00360">
+      <title id="title40855">exchange-positions</title>
+      <path inkscape:connector-curvature="0" id="rect40857" d="M 0,0 H 24 V 24 H 0 Z" style="opacity:0;fill:none"/>
+      <path d="m 3.3125,16 0.031,7.125 1.4375,-1.625 0.7813,2.5 1.75,-0.8125 -1.3438,-2.2188 2.0313,0.031 -4.6875,-5 z" id="path40859" inkscape:connector-curvature="0" style="opacity:1"/>
+      <path inkscape:connector-curvature="0" id="path40863" transform="translate(-1230,-311)" d="m 1244,314 v 1 h 3 a 1,1 0 0 1 1,1 v 1 h -2 l 2.5,3 2.5,-3 h -2 v -1 a 2,2 0 0 0 -2,-2 z" style="opacity:1"/>
+      <path inkscape:connector-curvature="0" id="rect40865" d="m 5,0 h 7 c 0.554,0 1,0.446 1,1 v 7 c 0,0.554 -0.446,1 -1,1 H 5 C 4.446,9 4,8.554 4,8 V 1 C 4,0.446 4.446,0 5,0 Z" style="opacity:1"/>
+      <path inkscape:connector-curvature="0" id="rect40867" d="m 15,10 h 7 c 0.554,0 1,0.446 1,1 v 7 c 0,0.554 -0.446,1 -1,1 h -7 c -0.554,0 -1,-0.446 -1,-1 v -7 c 0,-0.554 0.446,-1 1,-1 z" style="opacity:1"/>
+      <path inkscape:connector-curvature="0" style="opacity:1" d="M 13,16 V 15 H 10 A 1,1 0 0 1 9,14 v -1 h 2 L 8.5,10 6,13 h 2 v 1 a 2,2 0 0 0 2,2 z" id="path40889"/>
+    </g>
+    </svg>

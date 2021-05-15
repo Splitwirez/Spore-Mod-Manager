@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.1-dev (6039630, 2019-12-20)"
+   sodipodi:docname="transform-skew-horizontal-symbolic.svg"
+   viewBox="0 0 16 16"
+   height="16"
+   width="16"
+   id="svg1"
+   version="1.1">
+  <metadata
+     id="metadata1826">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1824">
+    <inkscape:path-effect
+       hide_knots="false"
+       only_selected="false"
+       apply_with_radius="true"
+       apply_no_radius="true"
+       use_knot_distance="true"
+       flexible="false"
+       chamfer_steps="1"
+       radius="0"
+       mode="F"
+       method="auto"
+       unit="px"
+       satellites_param="F,0,1,1,0,1.0126427,0,1 @ F,0,1,1,0,1.0126427,0,1 @ F,0,0,1,0,1.0126427,0,1 @ F,0,1,1,0,1.0126427,0,1"
+       lpeversion="1"
+       is_visible="true"
+       id="path-effect2971"
+       effect="fillet_chamfer" />
+  </defs>
+  <style
+     id="s0">
+.success { fill:#009909; }
+.warning { fill:#FF1990; }
+.error { fill:#00AAFF; }
+</style>
+  <style
+     id="s2">
+@import '../../highlights.css';
+</style>
+  <sodipodi:namedview
+     inkscape:document-rotation="0"
+     inkscape:current-layer="transform-skew-horizontal"
+     inkscape:window-maximized="1"
+     inkscape:window-y="-6"
+     inkscape:window-x="65"
+     inkscape:window-height="890"
+     inkscape:window-width="1296"
+     inkscape:cy="7.1338026"
+     inkscape:cx="5.9150831"
+     inkscape:zoom="29.079766"
+     showgrid="true"
+     id="namedview"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10">
+    <inkscape:grid
+       id="grid"
+       type="xygrid" />
+  </sodipodi:namedview>
+  <g
+     id="transform-skew-horizontal"
+     inkscape:label="00242"
+     transform="matrix(1,0,0,0.999999,-498,-712.36129)">
+    <path
+       style="opacity:0;fill:none"
+       d="m 498,712.36218 h 16 v 16 h -16 z"
+       id="rect4820"
+       inkscape:connector-curvature="0" />
+    <path
+       class="success"
+       id="path4834"
+       transform="translate(0,512.3622)"
+       d="m 504,210 v 2 h -6 v 2 h 6 v 2 l 4,-3 z"
+       style="opacity:1"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:connector-curvature="0"
+       id="rect4845"
+       d="m 498,712.3622 v 7 h 7 v -7 z"
+       style="opacity:0.3" />
+    <path
+       inkscape:original-d="m 498,712.3622 8.5625,10 h 7.3125 l -8.5313,-10 z"
+       inkscape:path-effect="#path-effect2971"
+       inkscape:connector-curvature="0"
+       id="path4855"
+       d="m 498.65862,713.13139 7.24526,8.46162 a 2.2002163,2.2002163 24.714104 0 0 1.67126,0.76919 h 5.28722 a 0.46717236,0.46717236 114.76576 0 0 0.3554,-0.77038 l -7.21682,-8.45924 a 2.1950041,2.1950041 24.765755 0 0 -1.66988,-0.77038 h -5.31842 a 0.46606565,0.46606565 114.7141 0 0 -0.35402,0.76919 z"
+       style="opacity:1" />
+  </g>
+</svg>

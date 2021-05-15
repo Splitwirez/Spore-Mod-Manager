@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1"
+   width="16.5"
+   height="16.50057"
+  >
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingy="1pt"
+     gridspacingx="1pt"
+     gridoriginy="0pt"
+     gridoriginx="0pt"
+  />
+  <defs id="defs3">
+
+  </defs>
+<g id="snap-nodes-center" inkscape:label="#toggle_snap_to_bbox_midpoints-3" transform="translate(-673.5,-29.5)">
+  <g id="toggle_snap_to_object_midpoints">
+    <rect height="16" id="rect5385-6-4-0-8-1" style="color:#000000;fill:none;stroke-width:0.1" width="16" x="674" y="30.00057"/>
+    <path d="M 687,30 687,43 674,43" id="path9141-9-2-5-1" inkscape:connector-curvature="0" style="color:#000000;fill:none;stroke:#646464;stroke-linecap:square"/>
+    <circle cx="753.5" cy="33" id="path6530-3-6" r="2" style="color:#000000;fill:#6464ff;fill-opacity:0.3921569;fill-rule:evenodd;stroke:#008000;stroke-width:1.1428572;stroke-linecap:round" transform="matrix(0.8749999,0,0,0.875,19.93758,6.375)"/>
+  </g>
+</g>
+
+</svg>
