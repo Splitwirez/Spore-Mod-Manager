@@ -94,41 +94,8 @@ namespace SporeMods.Setup
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
+			SetupInformation.EnsureAll();
 			RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
-
-			
-			/*Resources.MergedDictionaries.Add(new ResourceDictionary()
-			{
-				Source = new Uri("/" + SetupExeName + ";component/Locale/en-ca.xaml", UriKind.RelativeOrAbsolute)
-			});*
-			/*IEnumerable<string> args = Environment.GetCommandLineArgs()/*.Skip(1)*;
-
-			foreach (string p in args)
-			{
-				//MessageBox.Show("p: " + p);
-				if (IsLauncherKitInstallDir(p, out string fixedPath))
-				{
-					//MessageBox.Show("fixedPath: " + fixedPath);
-					SetupInformation.LkPath = fixedPath;
-					break;
-				}
-			}
-
-			if (SetupInformation.LkPath == null)
-			{
-				string lkPathFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Spore ModAPI Launcher", "path.info");
-				if (File.Exists(lkPathFilePath))
-				{
-					string lkPathFilePathText = File.ReadAllText(lkPathFilePath);
-
-					//MessageBox.Show("lkPathFilePathText: " + lkPathFilePathText);
-					if (IsLauncherKitInstallDir(lkPathFilePathText, out string fixedLkPath))
-					{
-						//MessageBox.Show("fixedLkPath: " + fixedLkPath);
-						SetupInformation.LkPath = fixedLkPath;
-					}
-				}
-			}*/
 
 			if (!Environment.GetCommandLineArgs().Skip(1).Any(x => x == SetupInformation.IS_WOULDBE_ADMIN_PROCESS))
 			{
@@ -137,50 +104,6 @@ namespace SporeMods.Setup
 				{
 					Process proc = Permissions.RerunAsAdministrator(Permissions.GetProcessCommandLineArgs() + " " + SetupInformation.IS_WOULDBE_ADMIN_PROCESS, false);
 					proc.WaitForExit();
-
-					if (File.Exists(SetupInformation.LAST_EXE_PATH))
-					{
-						string path = File.ReadAllText(SetupInformation.LAST_EXE_PATH);
-						if (File.Exists(path))
-							SetupInformation.MgrExePath = path;
-					}
-					else if (File.Exists(SetupInformation.INSTALL_DIR_LOCATOR_PATH))
-					{
-						string mgrPath = File.ReadAllText(SetupInformation.INSTALL_DIR_LOCATOR_PATH);
-
-						if (SetupInformation.MgrExePath == null)
-							SetupInformation.MgrExePath = Path.Combine(mgrPath, "Spore Mod Manager.exe");
-					}
-
-
-					if ((SetupInformation.MgrExePath != null) && File.Exists(SetupInformation.MgrExePath))
-					{
-						if ((proc != null) && proc.HasExited && (proc.ExitCode == 300))
-						{
-							string storagePath = SetupInformation.DEFAULT_STORAGE_PATH;
-							string redirectStorageFilePath = Path.Combine(storagePath, "redirectStorage.txt");
-							if (File.Exists(redirectStorageFilePath))
-                            {
-								storagePath = File.ReadAllText(redirectStorageFilePath);
-                            }
-
-							var startInfo = new ProcessStartInfo(SetupInformation.MgrExePath)
-							{
-								UseShellExecute = true
-							};
-
-							string argsPath = Path.Combine(storagePath, "Temp", "postUpdateCmdArgs.info");
-							if (File.Exists(argsPath))
-							{
-								startInfo.Arguments = File.ReadAllText(argsPath);
-								File.Delete(argsPath);
-							}
-							Process.Start(startInfo);
-						}
-					}
-
-					/*else
-						MessageBox.Show("Spore Mod Manager install location was not returned. You should never see this message, so if you somehow do see it, inform Splitwirez or emd immediately.");*/
 
 					Shutdown();
 				}
@@ -210,10 +133,15 @@ namespace SporeMods.Setup
 					WarnOrRejectUnsupportedOS("This version of Windows is not supported. The Spore Mod Manager requires Windows 7 SP1 or newer to function as intended. (NOT LOCALIZED)");
 				}
 
-
-				MainWindow = new MainWindow();
-				if (SetupInformation.Language == null)
+				ShutdownMode = ShutdownMode.OnExplicitShutdown;
+				bool isLangNullOrEmpty = string.IsNullOrEmpty(SetupInformation.Language);
+				bool isLangNullOrWhiteSpace = string.IsNullOrWhiteSpace(SetupInformation.Language);
+				
+				SetupSteps.DebugMessageBox("isLangNullOrEmpty: " + isLangNullOrEmpty + "\nisLangNullOrWhiteSpace: " + isLangNullOrWhiteSpace, "Language null?");
+				
+				if (isLangNullOrEmpty || isLangNullOrWhiteSpace)
 				{
+					SetupSteps.DebugMessageBox("Reason: (" + nameof(isLangNullOrEmpty) + " || " + nameof(isLangNullOrWhiteSpace) + ") was true", "Showing LanguagesWindow");
 					new LanguagesWindow().ShowDialog();
 				}
 				else
@@ -225,12 +153,15 @@ namespace SporeMods.Setup
 							Source = new Uri("/" + SetupInformation.SetupAssemblyNameForPackURIs + ";component/Locale/" + SetupInformation.Language + ".xaml", UriKind.RelativeOrAbsolute)
 						};
 					}
-					catch
+					catch (Exception langMergeEx)
 					{
+						SetupSteps.DebugMessageBox("Reason:\n\n\n\n" + langMergeEx.ToString(), "Showing LanguagesWindow");
 						new LanguagesWindow().ShowDialog();
 					}
 				}
-				MainWindow.Show();
+				MainWindow = new MainWindow();
+				(MainWindow as MainWindow).Start();
+				ShutdownMode = ShutdownMode.OnLastWindowClose;
 			}
 		}
 
@@ -317,11 +248,22 @@ namespace SporeMods.Setup
 			startInfo = new ProcessStartInfo(exeName, args)
 			{
 				UseShellExecute = true,
-				Verb = "runas"
+				Verb = "runas",
+				WorkingDirectory = new FileInfo(exeName).Directory.ToString()
 			};
 			/*try
 			{*/
 			//System.Windows.Forms.MessageBox.Show(args);
+			bool disableAutoRelaunch = Environment.CurrentDirectory.Contains(SetupInformation.InstallPath, StringComparison.OrdinalIgnoreCase)
+			|| SetupInformation.InstallPath.Contains(Environment.CurrentDirectory, StringComparison.OrdinalIgnoreCase);
+			
+			if (disableAutoRelaunch)
+				MessageBox.Show("Auto-relaunch after this update has been disabled. If you see this message, it means the workaround for that problem I was screaming about on Discord has taken effect...so if this update somehow STILL fails, please let me know.\n\nThis message should never appear outside of pre-release builds of the Spore Mod Manager. If it does, something is wrong. (NOT LOCALIZED)");
+			
+			process = Process.Start(startInfo);
+			
+			if (disableAutoRelaunch)
+				Process.GetCurrentProcess().Kill();
 #else
 			string extraArgs = "--elevateUpdater";
 			exeName = Path.Combine(SetupInformation.InstallPath, "Spore Mod Manager.exe");
@@ -335,10 +277,15 @@ namespace SporeMods.Setup
 				startInfo.Arguments = args + " " + extraArgs;
 			else
 				startInfo.Arguments = extraArgs;
-#endif
-			MessageBox.Show("exeName: " + exeName + "\n\n\n\n\nArgs: " + startInfo.Arguments);
+			//MessageBox.Show("exeName: " + exeName + "\n\n\n\n\nArgs: " + startInfo.Arguments);
 
-			process = Process.Start(startInfo);
+			var proc = Process.Start(startInfo);
+			proc.WaitForExit();
+			if (proc.ExitCode == -1)
+				process = null;
+			else
+				process = Process.GetProcessById(proc.ExitCode);
+#endif
 			/*}
 			catch (Exception ex)
 			{
@@ -357,7 +304,7 @@ namespace SporeMods.Setup
 		/// </summary>
 		/// <param name="filePath"></param>
 		/// <returns></returns>
-		public static bool GrantAccessDirectory(string fullPath)
+		public static bool GrantAccessDirectory(string fullPath, bool recursive = true)
 		{
 			if (Permissions.IsAdministrator() && Directory.Exists(fullPath))
 			{
@@ -365,8 +312,23 @@ namespace SporeMods.Setup
 				DirectorySecurity dSecurity = dInfo.GetAccessControl();
 				dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), FileSystemRights.FullControl,
 																 InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit,
-																 PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+																 PropagationFlags.None, AccessControlType.Allow));
 				dInfo.SetAccessControl(dSecurity);
+
+				if (recursive)
+				{
+					foreach (string fil in Directory.EnumerateFiles(fullPath))
+					{
+						if (!GrantAccessFile(fil))
+							return false;
+					}
+
+					foreach (string dir in Directory.EnumerateDirectories(fullPath))
+					{
+						if (!GrantAccessDirectory(dir, true))
+							return false;
+					}
+				}
 				return true;
 			}
 			return false;
@@ -385,7 +347,7 @@ namespace SporeMods.Setup
 				var sec = new FileSecurity(filePath, AccessControlSections.All);
 				sec.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null),
 															 FileSystemRights.FullControl, InheritanceFlags.None,
-															 PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+															 PropagationFlags.None, AccessControlType.Allow));
 
 				return true;
 

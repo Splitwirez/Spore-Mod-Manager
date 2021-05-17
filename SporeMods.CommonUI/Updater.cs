@@ -98,7 +98,8 @@ namespace SporeMods.CommonUI
 
 							var updaterInfo = new ProcessStartInfo(UpdaterService.UpdaterPath, "--update \"" + Path.GetDirectoryName(Process.GetCurrentProcess().GetExecutablePath()) + "\" \"" + Process.GetCurrentProcess().GetExecutablePath() + "\" --lang:" + Settings.CurrentLanguageCode + " " + Permissions.GetProcessCommandLineArgs())
 							{
-								UseShellExecute = false
+								UseShellExecute = false,
+								WorkingDirectory = Settings.TempFolderPath
 							};
 							CrossProcess.PropagateDotnetEnvironmentVariables(ref updaterInfo);
 							Process.Start(updaterInfo);

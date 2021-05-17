@@ -29,16 +29,20 @@ namespace SporeMods.Setup
 		public MainWindow()
 		{
 			InitializeComponent();
+		}
 
-			if (SetupInformation.MgrExePath != null)
+		public void Start()
+        {
+			Show();
+
+			//MessageBox.Show(SetupInformation.IsUpdatingModManager.ToString(), "IsUpdatingModManager");
+
+			if (SetupInformation.IsAutoUpdatingModManager)
 				SetupSteps.InstallSporeModManager(this);
 			else if (SetupInformation.IsUpgradingFromLauncherKit)
-					SetPage(WelcomeToUpgradePathPage);
-				else
-					SetPage(LicensePage);
-			/*}
+				SetPage(WelcomeToUpgradePathPage);
 			else
-				Close();*/
+				SetPage(LicensePage);
 		}
 
 		public void SetPage(int index)
@@ -220,7 +224,7 @@ namespace SporeMods.Setup
 				Permissions.GrantAccessFile(SetupInformation.INSTALL_DIR_LOCATOR_PATH);
 
 
-				if (SetupInformation.IsUpdatingModManager && (SetupInformation.MgrExePath != null))
+				if (SetupInformation.IsAutoUpdatingModManager && (SetupInformation.MgrExePath != null))
 				{
 					if (File.Exists(SetupInformation.LAST_EXE_PATH))
 						Permissions.GrantAccessFile(SetupInformation.LAST_EXE_PATH);
@@ -257,7 +261,7 @@ namespace SporeMods.Setup
 					importerWindow.ShowDialog();
 				}*/
 
-				if ((!SetupInformation.IsUpdatingModManager) && SetupInformation.IsUpgradingFromLauncherKit)
+				if ((!SetupInformation.IsAutoUpdatingModManager) && SetupInformation.IsUpgradingFromLauncherKit)
 				{
 					//var importerPath = Path.Combine(SetupInformation.InstallPath, "SporeMods.KitImporter.exe");
 
