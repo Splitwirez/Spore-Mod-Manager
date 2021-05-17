@@ -86,8 +86,18 @@ namespace SporeMods.Setup
 
 
 						installPathAccess = Permissions.GrantAccessDirectory(SetupInformation.InstallPath);
-						Directory.Move(SetupInformation.InstallPath, bkpPath);
+						Directory.CreateDirectory(bkpPath);
+						foreach (string dir in Directory.EnumerateDirectories(SetupInformation.InstallPath))
+                        {
+							string dirName = Path.GetFileName(dir);
+							if (!dirName.Equals("Runtime", StringComparison.OrdinalIgnoreCase))
+                            {
+								Directory.Move(dir, Path.Combine(bkpPath, dirName));
+                            }
+                        }
 
+						foreach (string fil in Directory.EnumerateFiles(SetupInformation.InstallPath))
+							File.Move(fil, Path.Combine(bkpPath, Path.GetFileName(fil)));
 					}
 
 					if (!Directory.Exists(SetupInformation.InstallPath))
@@ -214,9 +224,9 @@ namespace SporeMods.Setup
 					*/
 					//}
 
-					if ((!string.IsNullOrEmpty(bkpPath)) && (!string.IsNullOrWhiteSpace(bkpPath)))
+					if ((!string.IsNullOrEmpty(bkpPath)) && (!string.IsNullOrWhiteSpace(bkpPath)) && Directory.Exists(bkpPath))
 					{
-						Directory.Delete(bkpPath, true);
+						//Directory.Delete(bkpPath, true);
 					}
 
 					window.SwitchToInstallCompletedPage();

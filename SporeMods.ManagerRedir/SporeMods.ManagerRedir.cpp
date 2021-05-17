@@ -85,42 +85,45 @@ int wmain(int argc,      //argv count
 		wcscpy_s(cmdOptions, L"");
 		for (int argIndex = 0; argIndex < argc; argIndex++)
 		{
-			if (argIndex > 0)
-				wcscat_s(cmdOptions, L" ");
-
 			auto currentArg = argv[argIndex];
 			if (_wcsicmp(currentArg, L"--elevateUpdater") == 0)
 				runUpdater = true;
-
-			bool hasSpaces = false;
-			int argLength = 0;
-
-			for (int charIndex = 0; charIndex < bigLength; charIndex++)
+			else
 			{
-				if (currentArg[charIndex] == L'\0')
+				if (argIndex > 0)
+					wcscat_s(cmdOptions, L" ");
+
+
+				bool hasSpaces = false;
+				int argLength = 0;
+
+				for (int charIndex = 0; charIndex < bigLength; charIndex++)
 				{
-					argLength = charIndex;
-					break;
+					if (currentArg[charIndex] == L'\0')
+					{
+						argLength = charIndex;
+						break;
+					}
 				}
-			}
 
-			for (int charIndex = 0; charIndex < argLength; charIndex++)
-			{
-				if (currentArg[charIndex] == L' ')
+				for (int charIndex = 0; charIndex < argLength; charIndex++)
 				{
-					hasSpaces = true;
-					break;
+					if (currentArg[charIndex] == L' ')
+					{
+						hasSpaces = true;
+						break;
+					}
 				}
+
+				if (hasSpaces)
+					wcscat_s(cmdOptions, L"\"");
+
+
+				wcscat_s(cmdOptions, currentArg);
+
+				if (hasSpaces)
+					wcscat_s(cmdOptions, L"\"");
 			}
-
-			if (hasSpaces)
-				wcscat_s(cmdOptions, L"\"");
-
-
-			wcscat_s(cmdOptions, currentArg);
-
-			if (hasSpaces)
-				wcscat_s(cmdOptions, L"\"");
 		}
 		wcscat_s(cmdOptions, L"\0");
 	}
@@ -152,7 +155,7 @@ int wmain(int argc,      //argv count
 
 		auto redirectStorageFilePath = RedirHelpers::CombinePaths(storagePath.c_str(), L"redirectStorage.txt");
 		auto redirectStorageFilePathC = redirectStorageFilePath.c_str();
-		MessageBoxW(nullptr, redirectStorageFilePathC, L"redirectStorageFilePathC", MB_OK);
+		//MessageBoxW(nullptr, redirectStorageFilePathC, L"redirectStorageFilePathC", MB_OK);
 
 
 		if (PathFileExistsW(redirectStorageFilePathC))
@@ -164,12 +167,12 @@ int wmain(int argc,      //argv count
 			pathSStream << redirectStorage.rdbuf();
 			storagePath = pathSStream.str();
 
-			MessageBoxW(nullptr, storagePath.c_str(), L"new storagePath", MB_OK);
+			//MessageBoxW(nullptr, storagePath.c_str(), L"new storagePath", MB_OK);
 		}
-		lpCurrentDirectoryC = storagePath;
+		lpCurrentDirectoryC = RedirHelpers::CombinePaths(storagePath, L"Temp");
 
-		lpApplicationNameC = RedirHelpers::CombinePaths(RedirHelpers::CombinePaths(storagePath, L"Temp"), L"smmUpdater.exe");
-		MessageBoxW(nullptr, lpApplicationNameC.c_str(), L"lpApplicationNameC", MB_OK);
+		lpApplicationNameC = RedirHelpers::CombinePaths(lpCurrentDirectoryC, L"smmUpdater.exe");
+		//MessageBoxW(nullptr, lpApplicationNameC.c_str(), L"lpApplicationNameC", MB_OK);
 	}
 	else
 	{

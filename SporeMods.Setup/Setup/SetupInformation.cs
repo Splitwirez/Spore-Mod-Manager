@@ -87,10 +87,10 @@ namespace SporeMods.Setup
 		public static Dictionary<string, ResourceDictionary> Languages
 		{
 			get
-            {
+			{
 				EnsureAll();
 				return _languages;
-            }
+			}
 
 			private set => _languages = value;
 		}
@@ -115,7 +115,7 @@ namespace SporeMods.Setup
 				_languages = new Dictionary<string, ResourceDictionary>();
 				//foreach (string langName in _languageNames)
 				for (int langIndex = 0; langIndex < _languageNames.Count; langIndex++)
-                {
+				{
 					_languages[_languageNames[langIndex]] = App.Current.Resources.MergedDictionaries[0];
 					App.Current.Resources.MergedDictionaries.RemoveAt(0);
 				}
