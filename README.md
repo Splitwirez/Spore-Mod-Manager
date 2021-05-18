@@ -11,13 +11,13 @@ The **Spore Mod Manager** is a .NET-based mod manager for the game [Spore](http:
 ### What does the Spore Mod Manager run on?
 The Spore Mod Manager is built to run on any PC running either:
 - Windows 7 or newer
-- Linux with WINE 5.5 or newer
+- Linux with WINE 6.0 or newer
 
 If you somehow manage to get it up and running on anything else, I'd love to know.
 <br><br>
 
 ### What language is the Spore Mod Manager written in?
-The Spore Mod Manager is written in C#, with a side of WPF XAML sprinkled in. Currently, it is built with .NET Framework version 4.5, but it is likely that by the time of release, it will be moved to .NET Core 3.1.
+The Spore Mod Manager is written in C#, with a side of WPF XAML sprinkled in, all targeting .NET Core 3.1 (specifically 3.1.12).
 <br><br>
 
 ### Why are the Test builds on the GitHub Releases page not marked as Pre-Release?
