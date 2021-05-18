@@ -5,6 +5,7 @@ using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Xml.Linq;
 using SporeMods.Core.Mods;
+using Path = System.IO.Path;
 
 namespace SporeMods.KitImporter
 {
@@ -39,16 +40,42 @@ namespace SporeMods.KitImporter
 				{
 
 					var attr = modElem.Attribute("name");
-					if (attr != null) mod.Name = attr.Value;
+					if (attr != null)
+						mod.Name = attr.Value;
 
-					attr = modElem.Attribute("unique");
-					if (attr != null) mod.Unique = attr.Value;
+					string fallbackName = mod.Name;
+					if (fallbackName.EndsWith(".package", StringComparison.OrdinalIgnoreCase) || fallbackName.EndsWith(".sporemod", StringComparison.OrdinalIgnoreCase))
+						fallbackName = Path.GetFileNameWithoutExtension(fallbackName);
 
 					attr = modElem.Attribute("displayName");
-					if (attr != null) mod.DisplayName = attr.Value;
+					if (attr != null)
+						mod.DisplayName = attr.Value;
+					else
+						mod.DisplayName = fallbackName;
 
 					attr = modElem.Attribute("configurator");
-					if (attr != null) mod.ConfiguratorPath = attr.Value;
+					if (attr != null)
+						mod.ConfiguratorPath = attr.Value;
+
+					attr = modElem.Attribute("unique");
+					if (attr != null)
+						mod.Unique = attr.Value;
+					else
+						mod.Unique = fallbackName;
+					
+					/*if (mod.Name != null)
+					{
+						if ((mod.Name.Length >= 8) && mod.Name.EndsWith(".package", StringComparison.OrdinalIgnoreCase))
+						{
+							mod.Unique = mod.Name.Substring(0, mod.Name.Length - 8);
+						}
+						else if ((mod.Name.Length >= 9) && mod.Name.EndsWith(".sporemod", StringComparison.OrdinalIgnoreCase))
+						{
+							mod.Unique = mod.Name.Substring(0, mod.Name.Length - 9);
+						}
+						else
+							mod.Unique = mod.Name;
+					}*/
 
 					foreach (var fileElem in modElem.Elements())
 					{

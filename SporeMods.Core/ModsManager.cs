@@ -102,12 +102,19 @@ namespace SporeMods.Core
 
 			// Mod files in lowercase, to know which files don't belong to recognised mods
 			List<string> allModFileNames = new List<string>();
-			foreach (string s in Directory.EnumerateDirectories(Settings.ModConfigsPath))
+			foreach (string s in Directory.EnumerateDirectories(Settings.ModConfigsPath).Where(x => File.Exists(Path.Combine(x, ModInstallation.MOD_INFO))))
 			{
-				var mod = new ManagedMod(Path.GetFileName(s), true);
-				InstalledMods.Add(mod);
-				allModFileNames.AddRange(mod.GetModFileNames().Select(x => x.ToLowerInvariant()));
-				Debug.WriteLine("MOD: " + s);
+				try
+				{
+					var mod = new ManagedMod(Path.GetFileName(s), true);
+					InstalledMods.Add(mod);
+					allModFileNames.AddRange(mod.GetModFileNames().Select(x => x.ToLowerInvariant()));
+					Debug.WriteLine("MOD: " + s);
+				}
+				catch (Exception ex)
+                {
+					MessageDisplay.ShowMessageBox("An error occurred while getting information for the mod '" +s + "': (NOT LOCALIZED)\n\n\n" + ex.ToString(), "ERROR POPULATING MODS (NOT LOCALIZED)");
+                }
 			}
 
 			try

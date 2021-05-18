@@ -251,7 +251,7 @@ namespace SporeMods.KitImporter
 						modConfigPath = Path.Combine(kitModConfigsPath, mod.Name);
 					}
 
-
+					bool hasValidModIdentity = false;
 					if (!Directory.Exists(modConfigPath))
 					{
 						foreach (string dir in Directory.EnumerateDirectories(kitModConfigsPath))
@@ -259,16 +259,22 @@ namespace SporeMods.KitImporter
 							string modInfoPath = Path.Combine(dir, "ModInfo.xml");
 							if (File.Exists(modInfoPath))
 							{
-								XDocument modInfo = XDocument.Load(modInfoPath);
-								var uniqueAttr = modInfo.Root.Attribute("unique");
-								if (uniqueAttr != null)
+								try
 								{
-									if (uniqueAttr.Value == mod.Unique)
+									XDocument modInfo = XDocument.Load(modInfoPath);
+									var uniqueAttr = modInfo.Root.Attribute("unique");
+									if (uniqueAttr != null)
 									{
-										modConfigPath = dir;
-										break;
+										if (uniqueAttr.Value == mod.Unique)
+										{
+											modConfigPath = dir;
+											hasValidModIdentity = true;
+											break;
+										}
 									}
 								}
+								catch
+								{ }
 							}
 						}
 					}
@@ -280,8 +286,14 @@ namespace SporeMods.KitImporter
 
 						bool usesLegacyDlls = true;
 
-						if (!File.Exists(Path.Combine(managerModConfigPath, "ModInfo.xml")))
+
+						string identityPath = Path.Combine(managerModConfigPath, "ModInfo.xml");
+						
+						if (!hasValidModIdentity)
 						{
+							if (File.Exists(identityPath))
+								File.Delete(identityPath);
+
 							string displayName = mod.DisplayName;
 							if (displayName == null) displayName = mod.Name;
 							if (displayName == null) displayName = mod.Unique;

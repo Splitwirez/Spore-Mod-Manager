@@ -72,10 +72,10 @@ namespace SporeMods.Core.Mods
 					subComponent.Parent = component;
 					component.SubComponents.Add(subComponent);
 				}
-				if (!component.SubComponents.Any())
+				/*if (!component.SubComponents.Any())
 				{
 					throw new FormatException("Component group " + component.Unique + ": a 'componentgroup' must have at least one subcomponent");
-				}
+				}*/
 			}
 			else
 			{

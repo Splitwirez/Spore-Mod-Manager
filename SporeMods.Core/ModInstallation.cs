@@ -24,7 +24,7 @@ namespace SporeMods.Core
 
 		internal static bool IS_RECONFIGURING_MODS = false;
 
-		static readonly string MOD_INFO = "ModInfo.xml";
+		internal static readonly string MOD_INFO = "ModInfo.xml";
 
 
 		[DllImport("shlwapi.dll")]
