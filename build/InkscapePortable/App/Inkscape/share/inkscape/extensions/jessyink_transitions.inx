@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+  <name>Transitions</name>
+  <id>jessyink.transitions</id>
+  <param name="tab" type="notebook">
+    <page name="settings" gui-text="Settings">
+            <param name="layerName" type="string" gui-text="Name of layer:"></param>
+            <label>Transition in effect</label>
+            <param name="effectInDuration" precision="1" type="float" min="0.1" max="10.0" gui-text="Duration in seconds:">0.8</param>
+            <param name="effectIn" type="optiongroup" appearance="radio" gui-text="Type:">
+        <option value="default">Default</option>
+        <option value="appear">Appear</option>
+        <option value="fade">Fade</option>
+        <option value="pop">Pop</option>
+            </param>
+            <label>Transition out effect</label>
+            <param name="effectOutDuration" precision="1" type="float" min="0.1" max="10.0" gui-text="Duration in seconds:">0.8</param>
+            <param name="effectOut" type="optiongroup" appearance="radio" gui-text="Type:">
+        <option value="default">Default</option>
+        <option value="appear">Appear</option>
+        <option value="fade">Fade</option>
+        <option value="pop">Pop</option>
+            </param>
+        </page>
+    <page name="help" gui-text="Help">
+      <label>This extension allows you to change the transition JessyInk uses for the selected layer. Please see code.google.com/p/jessyink for more details.</label>
+    </page>
+  </param>
+  <effect>
+    <object-type>g</object-type>
+      <effects-menu>
+        <submenu name="JessyInk"/>
+      </effects-menu>
+  </effect>
+  <script>
+    <command location="inx" interpreter="python">jessyink_transitions.py</command>
+  </script>
+</inkscape-extension>
+

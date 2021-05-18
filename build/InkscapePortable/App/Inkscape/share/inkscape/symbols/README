@@ -1,0 +1,40 @@
+Internationalization
+
+These files are internationalized the same way as
+share/filters/filters/svg The i18n.py script called from the makefile
+will extract strings from the *.svg files into a *.svg.h
+file. Intltool is then able to extracts these strings just like from
+normal .h files.
+
+
+Adding new files
+
+Symbol files should be carefully prepared.
+
+1. The SVG should be clean: No unnecessary transforms, sensible path
+   data, etc. Do a manual inspection. Remove cruft like guide-lines,
+   grids, etc.
+   
+2. The SVG itself needs a <title> element, placed before any <symbol>
+   tags, which contains the name of the symbol set, without any
+   surrounding extra spaces. The whole element needs to be on a line
+   of its own. If no title element is provided, or its syntax isn't
+   correct, the name of the file will be used as a label for the
+   symbol set in the user interface instead.
+ 
+3. Avoid adding unnecessary style properties in the symbol elements;
+   this prevents the user from overriding the default styling by
+   specifying the style on the <use> element. Default styling can be
+   specified in the root SVG element. Inkscape will apply this
+   styling by default in the <use> element.
+
+4. Provide a meaningful <title> element for each symbol. This will be
+   appear in the GUI as a tool-tip.
+
+5. Make sure there are no "transform" elements in the <symbol>
+   element. Transforms are not allowed per specification and are not
+   supported in most browsers. ('refX' and 'refY' are allowed in SVG
+   2.)
+
+6. Add a section with <use> elements to demonstrate the symbols if the
+   file is opened by itself.

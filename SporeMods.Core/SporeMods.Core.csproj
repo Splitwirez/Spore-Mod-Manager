@@ -1,108 +1,51 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\SporeMods.SharedAssemblyInfo.props" />
+  <Import Project="..\SporeMods.NetCoreSharedAssemblyInfo.props" />
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5D0E076F-9C1C-4990-9242-4F7E7C66A045}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SporeMods.Core</RootNamespace>
-    <AssemblyName>SporeMods.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
+    <AssemblyTitle>SporeMods.Core</AssemblyTitle>
+    <Product>SporeMods.Core</Product>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
+  <Import Project="..\SporeMods.SharedOutputDirs.props" />
   <ItemGroup>
-    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ionic.Zip.1.9.1.8\lib\Ionic.Zip.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Management" />
-    <Reference Include="System.Net" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Cmd.cs" />
-    <Compile Include="DetectionFailureGuessFolder.cs" />
-    <Compile Include="FileWrite.cs" />
-    <Compile Include="GameInfo.cs" />
-    <Compile Include="Injection\CoreDllRetriever.cs" />
-    <Compile Include="Injection\Injector.cs" />
-    <Compile Include="Injection\SporeLauncher.cs" />
-    <Compile Include="Injection\NativeMethods.cs" />
-    <Compile Include="Injection\ProcessInfo.cs" />
-    <Compile Include="Mods\IInstalledMod.cs" />
-    <Compile Include="Mods\ManagedMod.cs" />
-    <Compile Include="Mods\InstallError.cs" />
-    <Compile Include="Mods\ManualInstalledFile.cs" />
-    <Compile Include="MessageDisplay.cs" />
-    <Compile Include="Mods\BaseModComponent.cs" />
-    <Compile Include="Mods\Enums.cs" />
-    <Compile Include="Mods\ModComponent.cs" />
-    <Compile Include="Mods\ModConfiguration.cs" />
-    <Compile Include="Mods\ModIdentity.cs" />
-    <Compile Include="Mods\MutualExclusiveComponentGroup.cs" />
-    <Compile Include="Mods\XmlModIdentityV1.cs" />
-    <Compile Include="ModInstallation.cs" />
-    <Compile Include="ModsManager.cs" />
-    <Compile Include="ModSearch.cs" />
-    <Compile Include="Permissions.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegistryHelper.cs" />
-    <Compile Include="ServantCommands.cs" />
-    <Compile Include="Settings.cs" />
-    <Compile Include="SteamInfo.cs" />
-    <Compile Include="UpdaterService.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <EmbeddedResource Include="ModAPIDLLs\SporeModAPI.lib" />
-    <None Include="packages.config" />
+	  <PackageReference Include="DotNetZip" Version="1.13.0" />
+	  <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
+	  <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+	  <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
+	  <PackageReference Include="System.IO.FileSystem.AccessControl" Version="5.0.0" />
+	  <PackageReference Include="System.Security.Principal.Windows" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Locale\en-ca.txt" />
     <EmbeddedResource Include="Locale\es-es.txt" />
+    <EmbeddedResource Include="Locale\ca-ca.txt" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ModAPIDLLs\SporeModAPI.lib" />
     <EmbeddedResource Include="ModAPIDLLs\SporeModAPI-disk.dll" />
     <EmbeddedResource Include="ModAPIDLLs\SporeModAPI-steam_patched.dll" />
     <EmbeddedResource Include="ModAPIDLLs\SporeModAPI.disk.dll" />
     <EmbeddedResource Include="ModAPIDLLs\SporeModAPI.march2017.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Locale\ca-ca.txt" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <UsingTask TaskName="WriteTargetFramework" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+    <ParameterGroup>
+      <Framework ParameterType="System.String" Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Using Namespace="System" />
+      <Using Namespace="System.IO" />
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[
+        File.WriteAllText("RuntimeVersion.txt", Framework);
+        ]]>
+      </Code>
+    </Task>
+  </UsingTask>
+  <Target Name="EmbedLocal" BeforeTargets="PrepareForBuild">
+    <WriteTargetFramework Framework="$(TargetFramework)" />
+    <ItemGroup>
+      <EmbeddedResource Include="RuntimeVersion.txt" LogicalName="RuntimeVersion.txt" />
+    </ItemGroup>
+  </Target>
 </Project>

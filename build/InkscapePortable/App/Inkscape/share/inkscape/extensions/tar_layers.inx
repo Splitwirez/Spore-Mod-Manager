@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+  <name>Collection of SVG files One per root layer</name>
+  <id>org.inkscape.output.tar_layers</id>
+  <dependency type="extension">org.inkscape.output.svg.inkscape</dependency>
+  <output>
+    <extension>.tar</extension>
+    <mimetype>application/tar</mimetype>
+    <filetypename>Layers as Separate SVG (*.tar)</filetypename>
+    <filetypetooltip>Each layer split into it's own svg file and collected as a tape archive (tar file)</filetypetooltip>
+    <dataloss>false</dataloss>
+  </output>
+  <script>
+    <command location="inx" interpreter="python">tar_layers.py</command>
+    <helper_extension>org.inkscape.output.svg.inkscape</helper_extension>
+  </script>
+</inkscape-extension>

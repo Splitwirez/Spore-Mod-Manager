@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+  <name>HPGL Input</name>
+  <id>org.inkscape.input.hpgl_input</id>
+  <dependency type="file" location="inx">hpgl_decoder.py</dependency>
+  <label>Please note that you can only open HPGL files written by Inkscape, to open other HPGL files please change their file extension to .plt, make sure you have UniConverter installed and open them again.</label>
+  <spacer/>
+  <param name="resolutionX"   type="float" min="1.0" max="4096.0" precision="1" gui-text="Resolution X (dpi):" gui-description="The amount of steps the plotter moves if it moves for 1 inch on the X axis (Default: 1016.0)">1016.0</param>
+  <param name="resolutionY"   type="float" min="1.0" max="4096.0" precision="1" gui-text="Resolution Y (dpi):" gui-description="The amount of steps the plotter moves if it moves for 1 inch on the Y axis (Default: 1016.0)">1016.0</param>
+  <param name="showMovements" type="bool" gui-text="Show movements between paths" gui-description="Check this to show movements between paths (Default: Unchecked)">false</param>
+  <input>
+    <extension>.hpgl</extension>
+    <mimetype>image/hpgl</mimetype>
+    <filetypename>HP Graphics Language file (*.hpgl)</filetypename>
+    <filetypetooltip>Import an HP Graphics Language file</filetypetooltip>
+  </input>
+  <script>
+    <command location="inx" interpreter="python">hpgl_input.py</command>
+  </script>
+</inkscape-extension>

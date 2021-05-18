@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>AI SVG Input</name>
+    <id>org.inkscape.input.aisvg</id>
+    <input>
+        <extension>.ai.svg</extension>
+        <mimetype>text/xml+svg</mimetype>
+        <filetypename>Adobe Illustrator SVG (*.ai.svg)</filetypename>
+        <filetypetooltip>Cleans the cruft out of Adobe Illustrator SVGs before opening</filetypetooltip>
+    </input>
+    <xslt>
+        <file location="inx">aisvg.xslt</file>
+    </xslt>
+</inkscape-extension>

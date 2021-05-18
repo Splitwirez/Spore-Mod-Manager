@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1"
+   width="16.045805"
+   height="16"
+  >
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingy="1pt"
+     gridspacingx="1pt"
+     gridoriginy="0pt"
+     gridoriginx="0pt"
+  />
+  <defs id="defs3">
+
+  </defs>
+<g id="dialog-path-effects" transform="translate(-759.9762,-55.0535)">
+  <rect height="16" id="rect6699" style="fill:none" width="16" x="759.9762" y="55.0535"/>
+  <path d="m 761.9292,60.21135 c -1.3234,4.58045 0.575,6.56847 0.863,6.63113 0.6244,0.13585 3.6939,-0.81114 4.2558,-1.49894 -0.7024,-0.7668 -1.5244,-1.24741 -2.6209,-1.99655 -0.9558,-0.653 -2.1687,-1.54649 -2.4979,-3.13564 z m 2.5287,-1.19313 c -0.2505,0.79624 -0.1537,1.6448 0.242,2.34393 0.3352,0.59425 0.8545,1.02916 1.4624,1.31727 0.532,0.2465 1.1266,0.36704 1.7511,0.35988 -1.4671,-0.88543 -2.3354,-1.5733 -2.9025,-2.44951 -0.5203,-0.80386 -0.5573,-1.47454 -0.553,-1.57157 z m 2.7983,-1.0336 c -0.9659,2.04621 0.4165,2.77407 1.734,3.11108 -1.3117,-1.02013 -1.9104,-2.98174 -1.734,-3.11108 z m 3.5258,-2.20259 c -0.5765,0.33177 -0.5058,1.38168 -0.778,1.76289 -0.5215,0.7302 -1.0601,0.85177 -0.7801,1.43544 0.3733,0.77825 0.5096,0.37663 1.516,0.47373 0.3092,0.0298 1.2269,0.97451 1.5502,0.91628 -0.9834,-1.54422 -1.5449,-2.97001 -1.5081,-4.58834 z" id="path6694" inkscape:original-d="m 762.7922,66.84248 c 0.81,-3.72324 2.6964,-6.76942 8.7466,-8.75802" style="fill:#ffffff;stroke:#4d4d4d;stroke-linejoin:round">
+    <desc id="desc6694">
+inkscape:path-effect="#path-effect9860" striped for faster load
+</desc>
+  </path>
+  <path d="m 762.5,68.5 c 0.8058,-6.48429 5.5747,-9.9922 11,-11" style="fill:none;stroke:#008000"/>
+  <rect height="2.026662" id="use6703" rx="1.011026" ry="1.011026" style="color:#000000;fill:#ffffff;fill-opacity:0.3921569;fill-rule:evenodd;stroke:#0000ff;stroke-width:1.0000007;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0" transform="matrix(1,0,0,1,805.0318,-128.6983)" width="2.022052" x="-31.53185" y="185.1983"/>
+  <rect height="2.026662" id="use6705" rx="1.011026" ry="1.011026" style="color:#000000;fill:#ffffff;fill-opacity:0.3921569;fill-rule:evenodd;stroke:#0000ff;stroke-width:1.0000007;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0" transform="matrix(1,0,0,1,793.0318,-116.6983)" width="2.022052" x="-31.53185" y="185.1983"/>
+</g>
+
+</svg>

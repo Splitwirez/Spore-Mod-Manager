@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.1-dev (3d47766, 2020-01-22)"
+   sodipodi:docname="fillet-chamfer-symbolic.svg"
+   viewBox="0 0 16 16"
+   height="16"
+   width="16"
+   id="svg1"
+   version="1.1">
+  <defs
+     id="defs3625" />
+  <style
+     id="s0">
+.success { fill:#009909; }
+.warning { fill:#FF1990; }
+.error { fill:#00AAFF; }
+</style>
+  <style
+     id="s2">
+@import '../../highlights.css';
+</style>
+  <sodipodi:namedview
+     inkscape:snap-global="false"
+     inkscape:current-layer="layercompo"
+     inkscape:window-maximized="1"
+     inkscape:window-height="1177"
+     inkscape:window-width="1858"
+     inkscape:document-rotation="0"
+     inkscape:window-y="-8"
+     inkscape:window-x="54"
+     inkscape:cy="-9.3642174"
+     inkscape:cx="-5.179577"
+     inkscape:zoom="9.6046975"
+     showgrid="false"
+     id="namedview"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10">
+    <inkscape:grid
+       id="grid"
+       type="xygrid" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata1906">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
+        <dc:title />
+        <dc:date>13 Jan 2019</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Ramón Miranda</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:rights>
+          <cc:Agent>
+            <dc:title>see the license tab</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>icon ui</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:description>This is a contribution with Inkscape Project from
+Ramon Miranda www.ramonmiranda.com (design and SVG file)
+Jabiertxo (SVG stuff to integrate them in UI)</dc:description>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title />
+          </cc:Agent>
+        </dc:publisher>
+        <dc:identifier />
+        <dc:source />
+        <dc:relation />
+        <dc:language>-</dc:language>
+        <dc:coverage />
+        <dc:contributor>
+          <cc:Agent>
+            <dc:title>Ramon Miranda
+Jabier Arraiza</dc:title>
+          </cc:Agent>
+        </dc:contributor>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <path
+     style="opacity:1;fill-opacity:1;stroke-width:0.997328"
+     inkscape:connector-curvature="0"
+     id="path3707"
+     d="M 1.1848794,1.1291356 V 1.5237101 14.864177 H 14.919393 V 1.1291356 Z m 0.7860345,0.789149 H 14.135277 V 14.076953 H 1.9709139 Z"
+     class="error" />
+  <g
+     inkscape:label="fillet-chamfer"
+     id="layercompo"
+     inkscape:groupmode="layer">
+    <path
+       sodipodi:nodetypes="cccssccssccssccccc"
+       id="path7"
+       d="M 4.6167698,1.111328 1.171875,4.2781913 V 10.81445 h 0.460937 c 2.006087,0 3.623048,1.61696 3.623047,3.62305 v 0.45898 H 14.93164 V 5.523438 c 0,-2.431715 -1.98235,-4.412108 -4.41406,-4.41211 z M 5.0849965,2.03125 H 10.51758 c 1.93426,0 3.49219,1.557925 3.49219,3.492188 V 13.97656 H 6.082031 C 5.856375,11.8584 4.211917,10.21394 2.09375,9.988281 v -5.23991 z"
+       style="opacity:1"
+       inkscape:connector-curvature="0" />
+    <path
+       style="opacity:0;fill:none"
+       d="M 0,0 H 16 V 16 H 0 Z"
+       id="rect22048"
+       inkscape:connector-curvature="0" />
+  </g>
+  <path
+     inkscape:connector-curvature="0"
+     id="path3658"
+     style="stroke:none;stroke-width:0.631894;fill-opacity:1"
+     d="M 5.2085749,1.5552157 A 0.31594765,0.31594765 0 0 1 4.8926272,1.8711634 0.31594765,0.31594765 0 0 1 4.5766796,1.5552157 0.31594765,0.31594765 0 0 1 4.8926272,1.2392681 0.31594765,0.31594765 0 0 1 5.2085749,1.5552157" />
+  <path
+     inkscape:connector-curvature="0"
+     id="path3660"
+     style="stroke:none;stroke-width:0.631894;fill-opacity:1"
+     d="M 11,1.5920262 A 0.31594765,0.31594765 0 0 1 10.684052,1.9079739 0.31594765,0.31594765 0 0 1 10.368105,1.5920262 0.31594765,0.31594765 0 0 1 10.684052,1.2760786 0.31594765,0.31594765 0 0 1 11,1.5920262" />
+  <path
+     inkscape:connector-curvature="0"
+     id="path3662"
+     style="stroke:none;stroke-width:0.631894;fill-opacity:1"
+     d="M 14.779296,5.291478 A 0.31594765,0.31594765 0 0 1 14.463348,5.6074257 0.31594765,0.31594765 0 0 1 14.147401,5.291478 0.31594765,0.31594765 0 0 1 14.463348,4.9755304 0.31594765,0.31594765 0 0 1 14.779296,5.291478" />
+  <path
+     inkscape:connector-curvature="0"
+     id="path3664"
+     style="stroke:none;stroke-width:0.631894;fill-opacity:1"
+     d="M 6.644183,14.457284 A 0.31594765,0.31594765 0 0 1 6.3282353,14.773232 0.31594765,0.31594765 0 0 1 6.0122877,14.457284 0.31594765,0.31594765 0 0 1 6.3282353,14.141336 0.31594765,0.31594765 0 0 1 6.644183,14.457284" />
+  <path
+     id="path3666"
+     style="stroke:none;stroke-width:0.631894;fill-opacity:1"
+     d="M 1.9631895,9.7791372 A 0.31594765,0.31594765 0 0 1 1.6472418,10.095085 0.31594765,0.31594765 0 0 1 1.3312942,9.7791372 0.31594765,0.31594765 0 0 1 1.6472418,9.4631896 0.31594765,0.31594765 0 0 1 1.9631895,9.7791372"
+     inkscape:connector-curvature="0" />
+  <path
+     inkscape:connector-curvature="0"
+     d="M 1.9263791,4.6808877 A 0.31594765,0.31594765 0 0 1 1.6104314,4.9968357 0.31594765,0.31594765 0 0 1 1.2944838,4.6808877 0.31594765,0.31594765 0 0 1 1.6104314,4.3649401 0.31594765,0.31594765 0 0 1 1.9263791,4.6808877"
+     style="stroke:none;stroke-width:0.631894;fill-opacity:1"
+     id="circle3629" />
+</svg>

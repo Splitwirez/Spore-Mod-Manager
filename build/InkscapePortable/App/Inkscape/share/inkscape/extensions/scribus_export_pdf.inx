@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>Export to PDF via Scribus</name>
+    <id>com.activdesign.export.scribus</id>
+    <dependency type="executable" location="extensions">scribus_export_pdf.py</dependency>
+    <dependency type="executable" location="path">scribus</dependency>
+    <param name="pdf-version" gui-text="PDF version" type="optiongroup" appearance="combo">
+        <option value="11">PDF/X-1a</option>
+        <option value="12">PDF/X-3</option>
+        <option value="13">PDF 1.3</option>
+        <option value="14">PDF 1.4</option>
+        <option value="15">PDF 1.5</option>
+    </param>
+    <param name="title" gui-text="PDF title (mandatory for PDF/X-3)" type="string"></param>
+    <param name="bleed" gui-text="bleed added to each side of the document (mm)" type="float" min="0" max="1000">0</param>
+    <param name="bleed-marks" gui-text="show bleed marks" type="bool">false</param>
+    <param name="color-marks" gui-text="show color reference" type="bool">false</param>
+
+    <param name="intent" gui-text="Rendering intent" type="optiongroup" appearance="combo">
+        <option value="0">Perceptual</option>
+        <option value="1">Relative Colorimetric</option>
+        <option value="2">Saturation</option>
+        <option value="3">Absolute Colorimetric</option>
+    </param>
+    <!-- Apparently Scribus always outlines texts when exporting *for print* ? That would make sense. -->
+    <!--<param name="fonts" gui-text="Embed fonts" type="optiongroup" appearance="combo">
+        <option value="0">Embed fonts</option>
+        <option value="1">Convert fonts to path (with Scribus)</option>
+        <option value="2">Do not embed fonts</option>
+    </param> -->
+    <output>
+        <extension>.pdf</extension>
+        <mimetype>application/pdf</mimetype>
+        <filetypename>Scribus CMYK PDF (*.PDF)</filetypename>
+        <filetypetooltip>Exports the document to PDF using scribus</filetypetooltip>
+    </output>
+    <script>
+        <command location="inx" interpreter="python">scribus_export_pdf.py</command>
+    </script>
+</inkscape-extension>
+

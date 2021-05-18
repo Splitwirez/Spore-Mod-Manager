@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1"
+   width="20.000206"
+   height="20"
+  >
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingy="1pt"
+     gridspacingx="1pt"
+     gridoriginy="0pt"
+     gridoriginx="0pt"
+  />
+  <defs id="defs3">
+
+  </defs>
+<path d="M 1105,339 C 1115.397,339 1117.885,319 1111.421,319 1104.873,319 1094.578,335.0032 1105.037,335.0032 1115.363,335.0032 1105.127,319 1098.605,319 1092.082,319 1094.42,339 1105,339 Z" id="fill-rule-even-odd" inkscape:connector-curvature="0" inkscape:label="#fillrule_evenodd" sodipodi:nodetypes="ccccs" style="fill:#000000;fill-rule:evenodd" transform="translate(-1094.9721,-319)"/>
+</svg>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape">
+    <name>Business Card</name>
+    <id>org.inkscape.template.business_card</id>
+
+    <param name="size" gui-text="Business card size:" type="optiongroup" appearance="combo">
+        <option value="74mmx52mm">74mm x 52mm (A8)</option>
+        <option value="85mmx55mm">85mm x 55mm (Europe)</option>
+        <option value="90mmx55mm">90mm x 55mm (Australia, India, ...)</option>
+        <option value="91mmx55mm">91mm x 55mm (Japan)</option>
+        <option value="90mmx54mm">90mm x 54mm (China, ...)</option>
+        <option value="90mmx50mm">90mm x 50mm (India, Russia, ...)</option>
+        <option value="3.5inx2in">3.5in x 2in (United States, Canada)</option>
+    </param>
+
+    <effect needs-live-preview="false">
+        <object-type>all</object-type>
+        <effects-menu hidden="true" />
+    </effect>
+    <inkscape:templateinfo>
+      <inkscape:name>Business Card...</inkscape:name>
+      <inkscape:author>Tavmjong Bah</inkscape:author>
+      <inkscape:shortdesc>Business card of chosen size.</inkscape:shortdesc>
+      <inkscape:date>2014-10-09</inkscape:date>
+      <inkscape:keywords>business card</inkscape:keywords>
+    </inkscape:templateinfo>
+    <script>
+        <command location="inx" interpreter="python">template.py</command>
+    </script>
+</inkscape-extension>

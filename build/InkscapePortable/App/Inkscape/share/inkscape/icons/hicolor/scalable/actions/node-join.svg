@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://www.inkscape.org/namespaces/sodipodi"
+   width="16"
+   height="16"
+  >
+  <g id="node-join" inkscape:label="#node_join">
+    <path d="m 0.5, 13.5 h 14" style="fill:none;stroke:#646464;stroke-linecap:round"/>
+    <path d="m 0.5, 2.5 h 2"   style="fill:none;stroke:#646464;stroke-linecap:round"/>
+    <path d="m 12.5,2.5 h 2"   style="fill:none;stroke:#646464;stroke-linecap:round"/>
+
+    <!-- Nodes -->
+    <rect x="5.5"  y="11.5" width="4" height="4" style="fill:#6464ff;fill-opacity:0.4;stroke:#0000ff;stroke-linejoin:round" />
+    <rect x="1.5"  y="0.5"  width="3" height="4" style="fill:#6464ff;fill-opacity:0.4;stroke:#6464ff;stroke-linejoin:round" />
+    <rect x="10.5" y="0.5"  width="3" height="4" style="fill:#6464ff;fill-opacity:0.4;stroke:#6464ff;stroke-linejoin:round" />
+
+    <!-- Arrow -->
+    <path d="m 7,5 h 1 v 2 h 2 l -2.5,3 -2.5,-3 h 2 z" style="fill:black"/>
+  </g>
+</svg>

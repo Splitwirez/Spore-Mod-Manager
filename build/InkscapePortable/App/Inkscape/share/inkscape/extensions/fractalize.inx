@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>Fractalize</name>
+    <id>org.inkscape.filter.fractalize</id>
+    <param name="subdivs" type="int" gui-text="Subdivisions:">6</param>
+    <param name="smooth" type="float" gui-text="Smoothness:">4.0</param>
+    <effect>
+        <object-type>path</object-type>
+        <effects-menu>
+            <submenu name="Modify Path"/>
+        </effects-menu> 
+    </effect>
+    <script>
+        <command location="inx" interpreter="python">fractalize.py</command>
+    </script>
+</inkscape-extension>

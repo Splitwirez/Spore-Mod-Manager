@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>JessyInk zipped pdf or png output</name>
+    <id>jessyink.export</id>
+    <dependency type="extension">org.inkscape.output.svg.inkscape</dependency>
+  <param name="tab" type="notebook">
+    <page name="settings" gui-text="Settings">
+            <param name="type" type="optiongroup" appearance="radio" gui-text="Type:">
+        <option value="PDF">PDF</option>
+        <option value="PNG">PNG</option>
+            </param>
+            <param name="resolution" type="int" min="1" max="1000" gui-text="Resolution:">92</param>
+        </page>
+    <page name="help" gui-text="Help">
+      <label>This extension allows you to export a JessyInk presentation once you created an export layer in your browser. Please see code.google.com/p/jessyink for more details.</label>
+    </page>
+  </param>
+    <output>
+        <extension>.zip</extension>
+        <mimetype>application/x-zip</mimetype>
+        <filetypename>JessyInk zipped pdf or png output (*.zip)</filetypename>
+        <filetypetooltip>Creates a zip file containing pdfs or pngs of all slides of a JessyInk presentation.</filetypetooltip>
+        <dataloss>true</dataloss>
+    </output>
+    <script>
+        <command location="inx" interpreter="python">jessyink_export.py</command>
+        <helper_extension>org.inkscape.output.svg.inkscape</helper_extension>
+    </script>
+</inkscape-extension>

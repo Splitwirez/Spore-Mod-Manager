@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>Prepare path for plasma</name>
+    <id>ru.cnc-club.filter.gcodetools_plasma-prepare-path_no_options_no_preferences</id>
+    <param name='active-tab' type="notebook">
+
+        <page name='plasma-prepare-path' gui-text='Prepare path for plasma or laser cutters'>
+            <param name='in-out-path' type="bool" gui-text="Create in-out paths">true</param>
+            <param name='in-out-path-len' type="float" precision="5" min="0" max="1000000" gui-text='In-out path length:'>10</param>
+            <param name='in-out-path-point-max-dist' type="float" precision="5" min="0" max="1000000" gui-text='In-out path max distance to reference point:'>10</param>
+            <param name="in-out-path-type" gui-text="In-out path type:" type="optiongroup" appearance="combo">
+                <option value="Round">Round</option>
+                <option value="Perpendicular">Perpendicular</option>
+                <option value="Tangent">Tangent</option>
+            </param>
+            <param name='in-out-path-radius' type="float" precision="5" min="0" max="1000000" gui-text='In-out path radius for round path:'>10</param>
+            <param name='in-out-path-replace-original-path' type="bool" gui-text="Replace original path">false</param>
+            <param name='in-out-path-do-not-add-reference-point' type="bool" gui-text="Do not add in-out reference points">false</param>
+
+            <label>-------------------------------------------------</label>
+            <param name='plasma-prepare-corners' type="bool" gui-text="Prepare corners">true</param>
+            <param name='plasma-prepare-corners-distance' type="float" precision="5" min="0" max="1000000" gui-text='Stepout distance for corners:'>10</param>
+            <param name='plasma-prepare-corners-tolerance' type="float" precision="5" min="0" max="180" gui-text='Maximum angle for corner (0-180 deg):'>140</param>
+
+
+        </page>
+
+        <page name='help' gui-text='Help'>
+            <label xml:space="preserve">
+Gcodetools plug-in:
+Converts paths to Gcode (using circular interpolation), makes offset paths and engraves sharp corners using cone cutters.
+This plug-in calculates Gcode for paths using circular interpolation or linear motion when needed.
+
+Tutorials, manuals and support can be found at
+English support forum:
+    http://www.cnc-club.ru/gcodetools
+
+and Russian support forum:
+    http://www.cnc-club.ru/gcodetoolsru
+
+Credits: Nick Drobchenko, Vladimir Kalyaev, John Brooker, Henry Nicolas, Chris Lusby Taylor.
+
+Gcodetools ver. 1.7
+</label>
+
+        </page>
+
+    </param>
+    <effect>
+        <object-type>path</object-type>
+        <effects-menu>
+            <submenu name="Gcodetools"/>
+        </effects-menu>
+    </effect>
+    <script>
+        <command location="inx" interpreter="python">gcodetools.py</command>
+    </script>
+</inkscape-extension>

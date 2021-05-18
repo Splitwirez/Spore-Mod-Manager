@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+  <name>View Previous Glyph</name>
+  <id>org.inkscape.typography.previous_layer</id>
+  <effect>
+    <object-type>all</object-type>
+    <effects-menu>
+      <submenu name="Typography"/>
+    </effects-menu>
+  </effect>
+  <script>
+    <command location="inx" interpreter="python">previous_glyph_layer.py</command>
+  </script>
+</inkscape-extension>

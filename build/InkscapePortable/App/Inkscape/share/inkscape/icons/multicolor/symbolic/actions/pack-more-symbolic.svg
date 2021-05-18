@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.1-dev (1fceb22, 2019-12-30)"
+   sodipodi:docname="pack-more-symbolic.svg"
+   viewBox="0 0 16 16"
+   height="16"
+   width="16"
+   id="svg1"
+   version="1.1">
+  <style
+     id="s0">
+.success { fill:#009909; }
+.warning { fill:#FF1990; }
+.error { fill:#00AAFF; }
+</style>
+  <style
+     id="s2">
+@import '../../highlights.css';
+</style>
+  <metadata
+     id="metadata128">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs126">
+    <inkscape:path-effect
+       effect="offset"
+       id="path-effect39"
+       is_visible="true"
+       linejoin_type="miter"
+       unit="mm"
+       offset="0.15"
+       miter_limit="4"
+       attempt_force_join="true"
+       update_on_knot_move="true" />
+  </defs>
+  <sodipodi:namedview
+     inkscape:document-rotation="0"
+     inkscape:current-layer="svg1"
+     inkscape:window-maximized="1"
+     inkscape:window-y="-8"
+     inkscape:window-x="54"
+     inkscape:window-height="1177"
+     inkscape:window-width="1858"
+     inkscape:cy="7.1991556"
+     inkscape:cx="13.338287"
+     inkscape:zoom="25.837362"
+     showgrid="true"
+     id="namedview"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10">
+    <inkscape:grid
+       id="grid"
+       type="xygrid" />
+  </sodipodi:namedview>
+  <g
+     inkscape:label="00343"
+     id="pack-more">
+    <title
+       id="title48509">pack-more</title>
+    <path
+       style="opacity:0;fill:none"
+       d="M 0,0 H 16 V 16 H 0 Z"
+       id="rect48511"
+       inkscape:connector-curvature="0" />
+    <path
+       d="M 0.43359375,0.43359375 V 4.796875 H 4.796875 V 0.43359375 Z m 5.38476565,0 V 4.796875 H 10.181641 V 0.43359375 Z m 5.3847656,0 V 4.796875 h 4.363281 V 0.43359375 Z M 0.43359375,5.8183594 V 10.181641 H 4.796875 V 5.8183594 Z m 5.38476565,0 V 10.181641 H 10.181641 V 5.8183594 Z m 5.3847656,0 v 4.3632816 h 4.363281 V 5.8183594 Z M 0.43359375,11.203125 v 4.363281 H 4.796875 v -4.363281 z m 5.38476565,0 v 4.363281 h 4.3632816 v -4.363281 z m 5.3847656,0 v 4.363281 h 4.363281 v -4.363281 z"
+       style="opacity:1;stroke-width:1.07692"
+       id="rect48529"
+       inkscape:connector-curvature="0"
+       transform="matrix(0.92514197,0,0,0.92514197,0.59886422,0.59886422)" />
+  </g>
+</svg>

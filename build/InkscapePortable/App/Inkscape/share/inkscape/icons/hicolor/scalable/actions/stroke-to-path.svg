@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="16"
+   height="16"
+  >
+  <g id="stroke-to-path" inkscape:label="#stroke_tocurve">
+    <path d="m 5.5,15.5 -5,-2 c 0,-7.5 5.5,-13 13,-13 l 2,5 c -7,0 -10,3 -10,10 z" style="fill:#8ab3df;fill-opacity:0.6"/>
+    <path d="m 15.5,5.5 c -7,0 -10,3 -10,10 m -5,-2 c 0,-7.5 5.5,-13 13,-13" style="fill:none;stroke:#6464ff;stroke-linecap:round"/>
+
+    <!-- Nodes -->
+    <rect  x="5.5" y="0.5" width="3" height="3" style="fill:#6464ff;fill-opacity:0.4;stroke:#0000ff;stroke-linejoin:round"/>
+    <rect  x="0.5" y="5.5" width="3" height="3" style="fill:#6464ff;fill-opacity:0.4;stroke:#0000ff;stroke-linejoin:round"/>
+    <rect  x="9.5" y="4.5" width="3" height="3" style="fill:#6464ff;fill-opacity:0.4;stroke:#0000ff;stroke-linejoin:round"/>
+    <rect  x="4.5" y="9.5" width="3" height="3" style="fill:#6464ff;fill-opacity:0.4;stroke:#0000ff;stroke-linejoin:round"/>
+</g>
+
+</svg>

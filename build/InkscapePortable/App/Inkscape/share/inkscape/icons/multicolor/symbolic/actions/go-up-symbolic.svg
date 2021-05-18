@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.0beta2 (7cf281c, 2019-12-21)"
+   sodipodi:docname="go-up-symbolic.svg"
+   viewBox="0 0 16 16"
+   height="16"
+   width="16"
+   id="svg1"
+   version="1.1">
+  <metadata
+     id="metadata11796">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs11794" />
+  <style
+     id="s0">
+.success { fill:#009909; }
+.warning { fill:#FF1990; }
+.error { fill:#00AAFF; }
+</style>
+  <style
+     id="s2">
+@import '../../highlights.css';
+</style>
+  <sodipodi:namedview
+     inkscape:document-rotation="0"
+     inkscape:current-layer="svg1"
+     inkscape:window-maximized="1"
+     inkscape:window-y="-6"
+     inkscape:window-x="65"
+     inkscape:window-height="890"
+     inkscape:window-width="1296"
+     inkscape:cy="8"
+     inkscape:cx="8"
+     inkscape:zoom="41.125"
+     showgrid="true"
+     id="namedview"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10">
+    <inkscape:grid
+       id="grid"
+       type="xygrid" />
+  </sodipodi:namedview>
+  <g
+     inkscape:label="00382"
+     id="go-up">
+    <title
+       id="title47627">go-up</title>
+    <path
+       style="opacity:0;fill:none"
+       d="M 0,0 H 16 V 16 H 0 Z"
+       id="gtk-go-up"
+       inkscape:connector-curvature="0" />
+    <path
+       id="path47631"
+       d="M 8,4.5625 2.28125,10.2812 C 2.08538,10.4771 2,10.7444 2,11 v 1 h 1 c 0.25562,0 0.52288,-0.085 0.71875,-0.2813 L 8,7.4375 12.28125,11.7187 C 12.47712,11.9146 12.74438,12 13,12 h 1 v -1 c 0,-0.2556 -0.0854,-0.5229 -0.28125,-0.7188 z"
+       style="opacity:1"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+  <name>Convert SVG Font to Glyph Layers</name>
+  <id>org.inkscape.typography.svg_font_to_layers</id>
+  <param name="count" type="int" min="1" max="65535" gui-text="Stop after (30 Recommended)">30</param>
+  <effect>
+    <object-type>all</object-type>
+    <effects-menu>
+      <submenu name="Typography"/>
+    </effects-menu>
+  </effect>
+  <script>
+    <command location="inx" interpreter="python">svgfont2layers.py</command>
+  </script>
+</inkscape-extension>

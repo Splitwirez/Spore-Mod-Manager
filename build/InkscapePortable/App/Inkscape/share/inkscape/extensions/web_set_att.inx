@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>Set Attributes</name>
+    <id>org.inkscape.web.set_attribute</id>
+    <param name="tab" type="notebook">
+        <page name="Options" gui-text="Options">
+            <param name="att" type="string" gui-text="Attribute to set:">fill stroke stroke-width</param>
+            <param name="when" type="optiongroup" appearance="combo" gui-text="When should the set be done:">
+                <option value="onclick">on click</option>
+                <option value="onfocusin">on focus</option>
+                <option value="onfocusout">on blur</option>
+                <option value="onactivate">on activate</option>
+                <option value="onmousedown">on mouse down</option>
+                <option value="onmouseup">on mouse up</option>
+                <option value="onmouseover">on mouse over</option>
+                <option value="onmousemove">on mouse move</option>
+                <option value="onmouseout">on mouse out</option>
+                <option value="onload">on element loaded</option>
+            </param>
+            <label>The list of values must have the same size as the attributes list.</label>
+            <param name="val" type="string" gui-text="Value to set:">red black 5px</param>
+            <param name="compatibility" type="optiongroup" appearance="combo" gui-text="Compatibility with previews code to this event:">
+                <option value="append">Run it after</option>
+                <option value="prepend">Run it before</option>
+                <option value="replace">Replace</option>
+            </param>
+            <label>The next parameter is useful when you select more than two elements</label>
+            <param name="from-and-to" type="optiongroup" appearance="combo" gui-text="Source and destination of setting:">
+                <option value="g-to-one">All selected ones set an attribute in the last one</option>
+                <option value="one-to-g">The first selected sets an attribute in all others</option>
+            </param>
+        </page>
+        <page name="Help" gui-text="Help">
+            <label>This effect adds a feature visible (or usable) only on a SVG enabled web browser (like Firefox).</label>
+            <label>This effect sets one or more attributes in the second selected element, when a defined event occurs on the first selected element.</label>
+            <label>If you want to set more than one attribute, you must separate this with a space, and only with a space.</label>
+        </page>
+    </param>
+    <effect>
+        <object-type>all</object-type>
+        <effects-menu>
+            <submenu name="Web">
+                <submenu name="JavaScript"/>
+            </submenu>
+        </effects-menu>
+    </effect>
+    <script>
+        <command location="inx" interpreter="python">web_set_att.py</command>
+    </script>
+</inkscape-extension>

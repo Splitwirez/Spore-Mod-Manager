@@ -14,16 +14,16 @@ using System.Windows.Shapes;
 
 namespace SporeMods.CommonUI
 {
-    /// <summary>
-    /// Interaction logic for ClipboardFallback.xaml
-    /// </summary>
-    public partial class ClipboardFallback : UserControl
-    {
-        public ClipboardFallback(string instruction, string content)
-        {
-            InitializeComponent();
-            InstructionTextBlock.Text = instruction;
-            ContentTextBox.Text = content;
-        }
-    }
+	/// <summary>
+	/// Interaction logic for ClipboardFallback.xaml
+	/// </summary>
+	public partial class ClipboardFallback : UserControl
+	{
+		public ClipboardFallback(string instruction, string content)
+		{
+			InitializeComponent();
+			InstructionTextBlock.Text = instruction;
+			ContentTextBox.Text = content;
+		}
+	}
 }

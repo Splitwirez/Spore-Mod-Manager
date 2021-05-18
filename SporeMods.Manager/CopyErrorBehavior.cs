@@ -9,16 +9,16 @@ using System.Windows.Interactivity;
 
 namespace SporeMods.Manager
 {
-    public class CopyErrorBehavior : Behavior<Button>
-    {
-        protected override void OnAttached()
-        {
-            base.OnAttached();
-            AssociatedObject.Click += (sneder, args) =>
-            {
-                var context = AssociatedObject.DataContext as InstallError;
-                Clipboard.SetText(context.DisplayName + "\n\n" + context.InstallException.ToString());
-            };
-        }
-    }
+	public class CopyErrorBehavior : Behavior<Button>
+	{
+		protected override void OnAttached()
+		{
+			base.OnAttached();
+			AssociatedObject.Click += (sneder, args) =>
+			{
+				var context = AssociatedObject.DataContext as InstallError;
+				Clipboard.SetText(context.DisplayName + "\n\n" + context.InstallException.ToString());
+			};
+		}
+	}
 }

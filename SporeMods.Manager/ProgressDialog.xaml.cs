@@ -15,42 +15,42 @@ using System.Windows.Shapes;
 
 namespace SporeMods.Manager
 {
-    /// <summary>
-    /// Interaction logic for ProgressDialog.xaml
-    /// </summary>
-    public partial class ProgressDialog : Window
-    {
-        readonly DoWorkEventHandler action;
-        public Exception Error = null;
+	/// <summary>
+	/// Interaction logic for ProgressDialog.xaml
+	/// </summary>
+	public partial class ProgressDialog : Window
+	{
+		readonly DoWorkEventHandler action;
+		public Exception Error = null;
 
-        public ProgressDialog(string text, DoWorkEventHandler action)
-        {
-            InitializeComponent();
+		public ProgressDialog(string text, DoWorkEventHandler action)
+		{
+			InitializeComponent();
 
-            Status.Text = text;
-            this.action = action;
-        }
+			Status.Text = text;
+			this.action = action;
+		}
 
-        void OnLoad(object sender, RoutedEventArgs args)
-        {
-            var worker = new BackgroundWorker();
-            worker.WorkerReportsProgress = true;
-            worker.DoWork += action;
-            worker.ProgressChanged += worker_ProgressChanged;
-            worker.RunWorkerCompleted += worker_RunWorkerCompleted;
+		void OnLoad(object sender, RoutedEventArgs args)
+		{
+			var worker = new BackgroundWorker();
+			worker.WorkerReportsProgress = true;
+			worker.DoWork += action;
+			worker.ProgressChanged += worker_ProgressChanged;
+			worker.RunWorkerCompleted += worker_RunWorkerCompleted;
 
-            worker.RunWorkerAsync();
-        }
+			worker.RunWorkerAsync();
+		}
 
-        void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            DownloadProgress.Value = e.ProgressPercentage;
-        }
+		void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+		{
+			DownloadProgress.Value = e.ProgressPercentage;
+		}
 
-        void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            Error = e.Error;
-            Close();
-        }
-    }
+		void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			Error = e.Error;
+			Close();
+		}
+	}
 }

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SporeMods.Launcher
 {
-    public class Injector
-    {
-    }
+	public class Injector
+	{
+	}
 }

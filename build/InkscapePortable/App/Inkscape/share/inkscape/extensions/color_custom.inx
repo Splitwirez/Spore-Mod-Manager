@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>Custom</name>
+    <id>org.inkscape.color.custom</id>
+    <param name="tab" type="notebook">
+        <page name="Options" gui-text="Options">
+            <param name="r" type="string" gui-text="Red Function:">r</param>
+            <param name="g" type="string" gui-text="Green Function:">g</param>
+            <param name="b" type="string" gui-text="Blue Function:">b</param>
+            <param name="scale" type="optiongroup" appearance="radio" gui-text="Input (r,g,b) Color Range:">
+                <option value="1">0 - 1</option>
+                <option value="255">0 - 255</option>
+            </param>
+        </page>
+        <page name="Help" gui-text="Help">
+            <label xml:space="preserve">
+Allows you to evaluate different functions for each channel.
+r, g and b are the normalized values of the red, green and blue channels. The resulting RGB values are automatically clamped.
+
+Example (half the red, swap green and blue):
+  Red Function: r*0.5
+  Green Function: b
+  Blue Function: g
+            </label>
+        </page>
+    </param>
+    <effect>
+        <object-type>all</object-type>
+        <effects-menu>
+            <submenu name="Color"/>
+        </effects-menu>
+    </effect>
+    <script>
+        <command location="inx" interpreter="python">color_custom.py</command>
+    </script>
+</inkscape-extension>

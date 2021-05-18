@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1"
+   width="16"
+   height="16"
+  >
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingy="1pt"
+     gridspacingx="1pt"
+     gridoriginy="0pt"
+     gridoriginx="0pt"
+  />
+  <defs id="defs3">
+
+  </defs>
+<g id="path-offset-linked" inkscape:label="#linked_offset" transform="translate(-344.959,-149.961)">
+  <path d="M 290.5,170.5 290.5,162.5 C 294.5,162.5 298.5,166.5 298.5,170.5 L 290.5,170.5 Z" id="use5697" inkscape:connector-curvature="0" sodipodi:nodetypes="cccc" style="color:#000000;fill:#99b6d4;fill-opacity:0.59;fill-rule:evenodd;stroke-width:1px" transform="matrix(1,0,0,1,54.959,-5.039)"/>
+  <path d="M 290.5,155.5 290.5,162.5 C 294.5,162.5 298.5,166.5 298.5,170.5 L 305.5,170.5 C 305.5,162.5 298.5,155.5 290.5,155.5 Z" id="use5690" inkscape:connector-curvature="0" sodipodi:nodetypes="ccccc" style="fill:#99b7d4;fill-rule:evenodd" transform="matrix(1,0,0,1,54.959,-5.039)"/>
+  <path d="M 290.5,155.5 C 298.5,155.5 305.5,162.5 305.5,170.5" id="use5714" inkscape:connector-curvature="0" sodipodi:nodetypes="cc" style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:round" transform="matrix(1,0,0,1,54.959,-5.039)"/>
+  <rect height="3.023564" id="use5702" style="color:#000000;fill:#6464ff;fill-opacity:0.3921569;fill-rule:evenodd;stroke:#0000ff;stroke-width:1.0000025;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0" transform="matrix(1,0,0,1,393.9721,-22.02453)" width="3.009614" x="-178.495" y="-39.5126"/>
+  <path d="M 290.5,162.5 C 294.5,162.5 298.5,166.5 298.5,170.5" id="use5717" inkscape:connector-curvature="0" sodipodi:nodetypes="cc" style="fill:none;stroke:#000000;stroke-linecap:round" transform="matrix(1,0,0,1,54.959,-5.039)"/>
+</g>
+
+</svg>

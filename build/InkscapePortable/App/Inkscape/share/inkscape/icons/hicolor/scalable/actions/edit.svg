@@ -1,0 +1,27 @@
+<svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape">
+<defs>
+  <linearGradient id="linearGradient5669" x1="989.88" x2="990.57" y1="185.19" y2="179.19" gradientTransform="translate(-.067673 -.23813)" gradientUnits="userSpaceOnUse" inkscape:collect="always">
+   <stop offset="0"/>
+   <stop stop-opacity="0" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient5644" x1="974.44" x2="974.44" y1="172.44" y2="174.94" gradientTransform="matrix(.7 0 0 1 311.2 8.5)" gradientUnits="userSpaceOnUse" inkscape:collect="always">
+   <stop stop-color="#f3ff49" offset="0"/>
+   <stop stop-color="#ffa01e" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient5658" x1="994.15" x2="992.74" y1="181.56" y2="185" gradientUnits="userSpaceOnUse" inkscape:collect="always">
+   <stop stop-color="#5a5a5a" offset="0"/>
+   <stop offset="1"/>
+  </linearGradient>
+ </defs>
+ <g id="edit" transform="matrix(.95818 .85308 -.84839 .95291 -784.16 -1015.4)" inkscape:label="#edit">
+  <g transform="rotate(-90,994,185)">
+   <path transform="translate(20,8)" d="m965.5 174.5 4 2v-4z" fill="#fff" fill-rule="evenodd" inkscape:connector-curvature="0"/>
+   <path d="m997.11 180.46v4l-7.7653-0.0124c0.4462-1.0601 0.42018-3.0999-0.0144-4.0269z" fill="url(#linearGradient5644)" fill-rule="evenodd" inkscape:connector-curvature="0" sodipodi:nodetypes="ccccc"/>
+   <path d="m998.07 180.46h-9.5l-3.0682 2.041 3 2 9.6142-0.041c0.6968-1.102 0.6872-2.9601-0.046-4z" fill="none" stroke="url(#linearGradient5658)" stroke-linecap="round" stroke-linejoin="round" stroke-width=".78163" inkscape:connector-curvature="0" sodipodi:nodetypes="cccccc"/>
+   <path d="m988.88 184.4c0.5-0.6892 0.54607-2.9485 0.0461-3.9485" fill="none" stroke="url(#linearGradient5669)" stroke-linecap="round" stroke-linejoin="round" stroke-width=".78163" inkscape:connector-curvature="0" sodipodi:nodetypes="cc"/>
+   <path d="m996.61 180.46h1.5073c0.5024 1 0.5024 3 0 4h-1.5073z" fill="#c80000" fill-rule="evenodd" inkscape:connector-curvature="0" sodipodi:nodetypes="ccccc"/>
+  </g>
+  <rect x="989.96" y="180.89" width="1" height="1.0048" color="#000000" fill="#fff" fill-rule="evenodd"/>
+  <path d="m990.46 183.4v5.0242" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1.0028px" inkscape:connector-curvature="0"/>
+ </g>
+</svg>

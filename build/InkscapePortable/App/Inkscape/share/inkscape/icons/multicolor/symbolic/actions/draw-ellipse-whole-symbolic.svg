@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="svg1"
+   width="16"
+   height="16"
+   viewBox="0 0 16 16"
+   sodipodi:docname="draw-ellipse-whole-symbolic.svg"
+   inkscape:version="1.1-dev (1fceb22, 2019-12-30)">
+  <metadata
+     id="metadata14592">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs14590">
+    <inkscape:path-effect
+       split_items="false"
+       mirror_copies="false"
+       copies_to_360="true"
+       gap="0.05"
+       rotation_angle="121.7"
+       starting_angle="0.1"
+       num_copies="2"
+       method="normal"
+       lpeversion="1"
+       is_visible="true"
+       id="path-effect4624"
+       origin="8,10"
+       starting_point="12.15625,9.996309"
+       effect="copy_rotate" />
+    <inkscape:path-effect
+       effect="join_type"
+       id="path-effect7712-0"
+       is_visible="true"
+       lpeversion="1"
+       linecap_type="butt"
+       line_width="1.8897638"
+       linejoin_type="extrp_arc"
+       miter_limit="100"
+       attempt_force_join="true" />
+  </defs>
+  <style
+     id="s0">
+.success { fill:#009909; }
+.warning { fill:#FF1990; }
+.error { fill:#00AAFF; }
+</style>
+  <style
+     id="s2">
+@import '../../highlights.css';
+</style>
+  <sodipodi:namedview
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     id="namedview"
+     showgrid="true"
+     inkscape:zoom="32"
+     inkscape:cx="6.5291318"
+     inkscape:cy="8.8265128"
+     inkscape:window-width="1858"
+     inkscape:window-height="1177"
+     inkscape:window-x="54"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1"
+     inkscape:document-rotation="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid" />
+  </sodipodi:namedview>
+  <circle
+     r="8"
+     style="opacity:1;stroke-width:0.377952;stroke-linecap:round;paint-order:markers fill stroke"
+     id="path15166"
+     cx="8.03125"
+     cy="8.03125"
+     class="warning" />
+  <g
+     transform="translate(-349,-651.36218)"
+     inkscape:label="00173"
+     id="draw-ellipse-whole">
+    <path
+       inkscape:connector-curvature="0"
+       id="rect19849"
+       d="m 349,651.36218 h 16 v 16 h -16 z"
+       style="opacity:0;fill:none" />
+  </g>
+</svg>

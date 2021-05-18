@@ -5,12 +5,12 @@ using System.Text;
 
 namespace SporeMods.Core
 {
-    public static class Cmd
-    {
-        public static string InstallModsArgument = "-install";
+	public static class Cmd
+	{
+		public static string InstallModsArgument = "-install";
 
-        public static string UninstallModsArgument = "-uninstall";
+		public static string UninstallModsArgument = "-uninstall";
 
-        public static string ConfigureModArgument = "-configure";
-    }
+		public static string ConfigureModArgument = "-configure";
+	}
 }

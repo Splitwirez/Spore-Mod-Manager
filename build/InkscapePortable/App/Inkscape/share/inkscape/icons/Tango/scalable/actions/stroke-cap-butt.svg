@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1"
+   width="24"
+   height="24"
+   version="1.1"
+   sodipodi:docname="stroke-cap-butt.svg"
+   viewBox="0 0 24 24">
+  <metadata
+     id="metadata24">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="640"
+     inkscape:window-height="480"
+     id="namedview22"
+     showgrid="false" />
+  <defs
+     id="defs3" />
+  <g
+     id="cap_butt"
+     style="display:inline"
+     transform="translate(-899.5,-158.25)">
+    <rect
+       height="24"
+       id="rect18281"
+       style="display:inline;opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:9;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none"
+       width="24"
+       x="899.5"
+       y="158.25" />
+    <path
+       d="m 903,181.7114 v -13.9227 h 17 v 13.9227"
+       id="path18283"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc"
+       style="fill:#729fcf;fill-opacity:1;fill-rule:evenodd;stroke:#204a87;stroke-width:1.00000012px;stroke-linecap:square;stroke-linejoin:miter;stroke-opacity:1" />
+    <rect
+       height="2"
+       id="use18285"
+       style="display:inline;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:9;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none"
+       transform="translate(-9.999997,1)"
+       width="2"
+       x="920.5246"
+       y="167.2491" />
+    <rect
+       height="2"
+       id="use18287"
+       style="display:inline;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:9;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none"
+       transform="translate(-9.999997,5)"
+       width="2"
+       x="920.5246"
+       y="167.2491" />
+    <rect
+       height="2"
+       id="use18289"
+       style="display:inline;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:9;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none"
+       transform="translate(-9.999997,9)"
+       width="2"
+       x="920.5246"
+       y="167.2491" />
+    <rect
+       height="2"
+       id="use18291"
+       style="display:inline;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:9;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none"
+       transform="translate(-9.999997,13)"
+       width="2"
+       x="920.5246"
+       y="167.2491" />
+    <path
+       d="m 904.0606,181.3975 v -12.5244 h 14.9493 v 12.5244"
+       id="path40404"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc"
+       style="opacity:0.5;fill:#729fcf;fill-opacity:0;fill-rule:evenodd;stroke:#eeeeec;stroke-width:0.88941371px;stroke-linecap:square;stroke-linejoin:miter;stroke-opacity:1" />
+  </g>
+</svg>

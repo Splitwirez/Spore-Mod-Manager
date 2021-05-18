@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>Randomize</name>
+    <id>org.inkscape.color.randomize</id>
+    <param name="tab" type="notebook">
+        <page name="Options" gui-text="Options">
+            <param name="hue_range" type="int" appearance="full" min="0" max="100" indent="0" gui-text="Hue range (%)">100</param>
+            <param name="saturation_range" type="int" appearance="full" min="0" max="100" indent="0" gui-text="Saturation range (%)">100</param>
+            <param name="lightness_range" type="int" appearance="full" min="0" max="100" indent="0" gui-text="Lightness range (%)">100</param>
+            <param name="opacity_range" type="int" appearance="full" min="0" max="100" indent="0" gui-text="Opacity range (%)">0</param>
+        </page>
+        <page name="Help" gui-text="Help">
+            <label xml:space="preserve">Randomizes hue, saturation, lightness and/or opacity (opacity randomization only for objects and groups). Change the range values to limit the distance between the original color and the randomized one.</label>
+        </page>
+    </param>
+    <effect>
+        <object-type>all</object-type>
+        <effects-menu>
+            <submenu name="Color"/>
+        </effects-menu>
+    </effect>
+    <script>
+        <command location="inx" interpreter="python">color_randomize.py</command>
+    </script>
+</inkscape-extension>

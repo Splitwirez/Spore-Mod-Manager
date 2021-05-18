@@ -1,0 +1,20 @@
+<svg width="16.001" height="16" inkscape:version="1.0alpha2 (941498d2b1, 2019-07-19, custom)" sodipodi:docname="selection-move-to-layer-below.svg" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <linearGradient id="linearGradient5789" x1="968.89" x2="977.93" y1="178.32" y2="181.71" gradientUnits="userSpaceOnUse" inkscape:collect="always">
+   <stop stop-color="#5a5a5a" offset="0"/>
+   <stop offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient5787" x1="974.2" x2="979.8" y1="182.47" y2="184.8" gradientUnits="userSpaceOnUse" inkscape:collect="always">
+   <stop stop-color="#fff" offset="0"/>
+   <stop stop-color="#aaa" offset="1"/>
+  </linearGradient>
+ </defs>
+ <g id="selection-move-to-layer-below" transform="matrix(.99744 0 0 1 -962.49 -164)" inkscape:label="#move_selection_below">
+  <path transform="translate(-.041 -5.0391)" d="m969.5 182.5h11l-4-5h-11l4 5z" color="#000000" fill="url(#linearGradient5787)" fill-rule="evenodd" stroke="url(#linearGradient5789)" stroke-linecap="square" stroke-linejoin="round" stroke-miterlimit="0" stroke-width=".99995" inkscape:connector-curvature="0" sodipodi:nodetypes="ccccc"/>
+  <rect x="965" y="164" width="16" height="16" color="#000000" fill="none"/>
+  <path d="m973.5 177-2.5-3h2v-5l1-1v6h2l-2.5 3z" fill-rule="evenodd" inkscape:connector-curvature="0" sodipodi:nodetypes="cccccccc"/>
+  <g transform="translate(-.041 -7)">
+   <path d="m965.5 173.5h10l4 4h-10l-4-4z" fill="none" stroke="#000" stroke-dasharray="1 1.5" stroke-linejoin="round" stroke-width="1px" inkscape:connector-curvature="0"/>
+  </g>
+ </g>
+</svg>

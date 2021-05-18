@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.1-dev (1fceb22, 2019-12-30)"
+   sodipodi:docname="symbol-smaller-symbolic.svg"
+   viewBox="0 0 16 16"
+   height="16"
+   width="16"
+   id="svg1"
+   version="1.1">
+  <metadata
+     id="metadata1922">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1920" />
+  <style
+     id="s0">
+.success { fill:#009909; }
+.warning { fill:#FF1990; }
+.error { fill:#00AAFF; }
+</style>
+  <style
+     id="s2">
+@import '../../highlights.css';
+</style>
+  <sodipodi:namedview
+     inkscape:document-rotation="0"
+     inkscape:current-layer="svg1"
+     inkscape:window-maximized="1"
+     inkscape:window-y="-8"
+     inkscape:window-x="54"
+     inkscape:window-height="1177"
+     inkscape:window-width="1858"
+     inkscape:cy="9.0113871"
+     inkscape:cx="5.0543031"
+     inkscape:zoom="32"
+     showgrid="true"
+     id="namedview"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10">
+    <inkscape:grid
+       id="grid"
+       type="xygrid" />
+  </sodipodi:namedview>
+  <g
+     inkscape:label="00345"
+     id="symbol-smaller">
+    <title
+       id="title48483">symbol-smaller</title>
+    <path
+       style="opacity:0;fill:none"
+       d="M 0,0 H 16 V 16 H 0 Z"
+       id="rect48485"
+       inkscape:connector-curvature="0" />
+    <path
+       class="error"
+       style="opacity:0.35"
+       d="M 12.5,8 A 4.5,4.5 0 0 1 8,12.5 4.5,4.5 0 0 1 3.5,8 4.5,4.5 0 0 1 8,3.5 4.5,4.5 0 0 1 12.5,8 Z"
+       id="circle48491"
+       inkscape:connector-curvature="0" />
+    <path
+       style="opacity:1;stroke-linecap:butt"
+       d="M 8,3 C 5.2444986,3 3,5.2444986 3,8 c 0,2.755501 2.2444986,5 5,5 2.755501,0 5,-2.244499 5,-5 C 13,5.2444986 10.755501,3 8,3 Z m 0,1 c 2.215061,0 4,1.7849387 4,4 0,2.215061 -1.784939,4 -4,4 C 5.7849387,12 4,10.215061 4,8 4,5.7849387 5.7849387,4 8,4 Z"
+       id="circle48489"
+       inkscape:connector-curvature="0" />
+    <path
+       style="display:inline;opacity:0;fill:none"
+       d="M 0,0 H 16 V 16 H 0 Z"
+       id="rect48473"
+       inkscape:connector-curvature="0" />
+    <path
+       sodipodi:nodetypes="cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+       style="opacity:1;stroke-linecap:butt"
+       d="M 6.0073101,0.65219926 6.4607611,2.1109988 7.8151469,1.9111211 7.6600189,0.38967381 Z M 9.1605842,1.9916691 10.452322,2.3944043 11.081784,1.013169 9.333611,0.49110371 Z M 3.0747946,2.2034776 4.0473275,3.3818534 5.1839382,2.6121802 4.4560301,1.2697267 Z M 11.547167,3.0417653 12.561466,3.972533 13.739841,3 12.5197,1.8633895 Z M 1.0611144,4.840653 2.403568,5.5685609 3.104627,4.3842187 1.9262512,3.4116858 Z m 12.2849406,0.2595408 0.5161,1.2678729 1.458799,-0.4504678 -0.632446,-1.5482963 z M 0.38690455,8.2504846 1.9083517,8.0983404 2.0246977,6.7320206 0.50623375,6.5768927 Z M 14.07993,7.7194698 l -0.11341,1.5661957 0.01191,0.00298 -0.0031,0.0179 1.449846,0.4325687 0.176149,-2.1717878 z M 0.63152933,9.9061772 1.2311585,11.466406 2.573612,10.738498 2.0903287,9.4557095 Z M 12.78819,11.74683 l 1.178377,0.972533 0.89199,-1.408087 -1.342453,-0.727909 z M 2.1529766,12.856592 3.3492512,14.017069 4.3217842,12.838694 3.3313517,11.88406 Z m 8.5141384,0.611561 0.727908,1.342455 1.399138,-0.906907 -0.972536,-1.178372 z M 4.766286,14.894138 6.3473981,15.446032 6.800849,13.987233 5.4971779,13.551685 Z m 3.2487373,-0.793542 0.1521442,1.521447 1.6616585,-0.229768 -0.4534509,-1.4588 z"
+       id="circle48477"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1"
+   width="16.102016"
+   height="16"
+  >
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingy="1pt"
+     gridspacingx="1pt"
+     gridoriginy="0pt"
+     gridoriginx="0pt"
+  />
+  <defs id="defs3">
+
+  </defs>
+<g id="node-type-symmetric" inkscape:label="#node_symmetric" transform="translate(45.0436100000001,-175)">
+  <path d="M -44.41296,176.5635 C -44.94008,180.0159 -43.02606,186.0936 -37.02606,186.0936 -31.02606,186.0936 -29.0373,180.0159 -29.51018,176.5635 M -42.44776,186.1975 -31.55518,186.1975" id="path10667" inkscape:connector-curvature="0" sodipodi:nodetypes="csccc" style="fill:none;stroke:#646464;stroke-width:1.0000002;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0"/>
+  <rect height="16" id="rect10669" style="color:#000000;fill:none" width="16" x="-45" y="175"/>
+  <rect height="4.950177" id="rect10671" style="color:#000000;fill:#6464ff;fill-opacity:0.3921569;fill-rule:evenodd;stroke:#0000ff;stroke-width:1.0000015;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0" transform="rotate(-89.99984)" width="4.966394" x="-188.4831" y="-39.47938"/>
+  <rect height="2.017743" id="rect10673" rx="1.008872" ry="1.008872" style="color:#000000;fill:#ffffff;fill-opacity:0.3921569;fill-rule:evenodd;stroke:#0000ff;stroke-width:1.0000007;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0" width="2.067648" x="-44.54361" y="185.2228"/>
+  <rect height="2.026662" id="rect10675" rx="1.011026" ry="1.011026" style="color:#000000;fill:#ffffff;fill-opacity:0.3921569;fill-rule:evenodd;stroke:#0000ff;stroke-width:1.0000007;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0" width="2.022052" x="-31.53185" y="185.1983"/>
+</g>
+
+</svg>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>Number Nodes</name>
+    <id>org.inkscape.filter.number_nodes</id>
+    <param name="tab" type="notebook">
+        <page name="Options" gui-text="Options">
+            <param name="fontsize" type="string" gui-text="Font size:">20px</param>
+            <param name="dotsize" type="string" gui-text="Dot size:">10px</param>
+            <param name="start" type="int" min="0" max="1000" gui-text="Starting dot number:">1</param>
+            <param name="step" type="int" min="0" max="1000" gui-text="Step:">1</param>
+        </page>
+        <page name="Help" gui-text="Help">
+            <label xml:space="preserve">This extension replaces the selection's nodes with numbered dots according to the following options:
+    * Font size: size of the node number labels (20px, 12pt...).
+    * Dot size: diameter of the dots placed at path nodes (10px, 2mm...).
+    * Starting dot number: first number in the sequence, assigned to the first node of the path.
+    * Step: numbering step between two nodes.</label>
+        </page>
+    </param>        
+
+    <effect>
+        <object-type>path</object-type>
+                <effects-menu>
+                    <submenu name="Visualize Path"/>
+                </effects-menu>
+    </effect>
+    <script>
+        <command location="inx" interpreter="python">path_number_nodes.py</command>
+    </script>
+</inkscape-extension>

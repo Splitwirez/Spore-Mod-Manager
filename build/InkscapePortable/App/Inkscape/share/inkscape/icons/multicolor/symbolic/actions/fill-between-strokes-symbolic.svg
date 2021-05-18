@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.1-dev (1fceb22, 2019-12-30)"
+   sodipodi:docname="fill-between-strokes-symbolic.svg"
+   viewBox="0 0 16 16"
+   height="16"
+   width="16"
+   id="svg1"
+   version="1.1">
+  <defs
+     id="defs3500">
+    <inkscape:path-effect
+       effect="join_type"
+       id="path-effect2176"
+       is_visible="true"
+       lpeversion="1"
+       linecap_type="round"
+       line_width="1"
+       linejoin_type="extrp_arc"
+       miter_limit="100"
+       attempt_force_join="true" />
+    <inkscape:path-effect
+       effect="join_type"
+       id="path-effect2174"
+       is_visible="true"
+       lpeversion="1"
+       linecap_type="round"
+       line_width="1"
+       linejoin_type="extrp_arc"
+       miter_limit="100"
+       attempt_force_join="true" />
+    <inkscape:path-effect
+       effect="join_type"
+       id="path-effect2172"
+       is_visible="true"
+       lpeversion="1"
+       linecap_type="butt"
+       line_width="1"
+       linejoin_type="extrp_arc"
+       miter_limit="100"
+       attempt_force_join="true" />
+    <inkscape:path-effect
+       effect="fill_between_strokes"
+       id="path-effect2095"
+       is_visible="true"
+       lpeversion="1"
+       linkedpath="#path1943"
+       secondpath="#path1943"
+       reversesecond="false"
+       fuse="false"
+       join="true"
+       close="true" />
+    <inkscape:path-effect
+       effect="fill_between_many"
+       id="path-effect2025"
+       is_visible="true"
+       lpeversion="1"
+       linkedpaths="#path1943,0,1|#path1947,0,1"
+       method="bsplinespiro"
+       fuse="false"
+       join="true"
+       close="true"
+       autoreverse="true"
+       applied="false" />
+    <inkscape:path-effect
+       effect="clone_original"
+       linkeditem="#path4663"
+       method="bsplinespiro"
+       allow_transforms="false"
+       id="path-effect1945"
+       lpeversion="1" />
+    <inkscape:path-effect
+       effect="clone_original"
+       linkeditem="#path4661"
+       method="bsplinespiro"
+       allow_transforms="false"
+       id="path-effect1941"
+       lpeversion="1" />
+    <inkscape:path-effect
+       effect="join_type"
+       id="path-effect1939"
+       is_visible="true"
+       lpeversion="1"
+       linecap_type="butt"
+       line_width="1"
+       linejoin_type="extrp_arc"
+       miter_limit="100"
+       attempt_force_join="true" />
+    <inkscape:path-effect
+       effect="join_type"
+       id="path-effect1937"
+       is_visible="true"
+       lpeversion="1"
+       linecap_type="butt"
+       line_width="1"
+       linejoin_type="extrp_arc"
+       miter_limit="100"
+       attempt_force_join="true" />
+    <inkscape:path-effect
+       effect="fill_between_strokes"
+       id="path-effect4677"
+       is_visible="true"
+       lpeversion="1"
+       linkedpath="#path1943"
+       secondpath="#path1943"
+       reversesecond="true"
+       fuse="true"
+       join="true"
+       close="true" />
+    <inkscape:path-effect
+       close="true"
+       join="true"
+       fuse="false"
+       reversesecond="true"
+       secondpath="#path4663"
+       linkedpath="#path4661"
+       lpeversion="1"
+       is_visible="true"
+       id="path-effect2095-3"
+       effect="fill_between_strokes" />
+  </defs>
+  <style
+     id="s0">
+.success { fill:#009909; }
+.warning { fill:#FF1990; }
+.error { fill:#00AAFF; }
+</style>
+  <style
+     id="s2">
+@import '../../highlights.css';
+</style>
+  <sodipodi:namedview
+     inkscape:current-layer="layercompo"
+     inkscape:window-maximized="1"
+     inkscape:window-height="1177"
+     inkscape:window-width="1858"
+     inkscape:document-rotation="0"
+     inkscape:window-y="-8"
+     inkscape:window-x="54"
+     inkscape:cy="11.80449"
+     inkscape:cx="6.0385405"
+     inkscape:zoom="27.166187"
+     showgrid="true"
+     id="namedview"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10">
+    <inkscape:grid
+       id="grid"
+       type="xygrid" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata1906">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
+        <dc:title />
+        <dc:date>13 Jan 2019</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Ramón Miranda</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:rights>
+          <cc:Agent>
+            <dc:title>see the license tab</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>icon ui</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:description>This is a contribution with Inkscape Project from
+Ramon Miranda www.ramonmiranda.com (design and SVG file)
+Jabiertxo (SVG stuff to integrate them in UI)</dc:description>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title />
+          </cc:Agent>
+        </dc:publisher>
+        <dc:identifier />
+        <dc:source />
+        <dc:relation />
+        <dc:language>-</dc:language>
+        <dc:coverage />
+        <dc:contributor>
+          <cc:Agent>
+            <dc:title>Ramon Miranda
+Jabier Arraiza</dc:title>
+          </cc:Agent>
+        </dc:contributor>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="fill-between-strokes"
+     id="layercompo"
+     inkscape:groupmode="layer">
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:original-d="M 5,1 H 8"
+       inkscape:path-effect="#path-effect2095-3"
+       inkscape:label="fill"
+       class="error"
+       inkscape:connector-curvature="0"
+       id="path4665-9"
+       d="M 9.6767522,1.5799726 C 11,4 14.458429,4 14.268983,7.1464239 14.065639,10.523674 11.635595,11 12.57931,13.963071 L 3.7473606,12.159477 C 4.4132674,10.577422 2.7553763,10.842504 1.5703306,8.8803571 0.37668157,6.9039651 1.4351088,4.6998907 3.0893077,4.0061174 Z"
+       style="opacity:0.998;fill:#00aaff;stroke:none;stroke-width:1;stroke-linecap:round;paint-order:markers fill stroke"
+       sodipodi:insensitive="true" />
+    <path
+       style="opacity:0;fill:none"
+       d="M 0,0 H 16 V 16 H 0 Z"
+       id="rect22048"
+       inkscape:connector-curvature="0" />
+    <path
+       sodipodi:nodetypes="csc"
+       inkscape:connector-curvature="0"
+       id="path4663"
+       d="M 3.0893077,4.0061174 C 1.4351088,4.6998907 0.37668157,6.9039651 1.5703306,8.8803571 c 1.1850457,1.9621469 2.8429368,1.6970649 2.17703,3.2791199"
+       style="display:none;fill:none;fill-rule:nonzero;stroke:#000000;stroke-width:1;stroke-linecap:round;paint-order:markers fill stroke"
+       inkscape:label="a" />
+    <path
+       style="display:none;fill:none;fill-rule:nonzero;stroke:#000000;stroke-width:1;stroke-linecap:round;paint-order:markers fill stroke"
+       d="M 9.6767522,1.5799726 C 11,4 14.458429,4 14.268983,7.1464239 14.065639,10.523674 11.635595,11 12.57931,13.963071"
+       id="path4661"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="csc"
+       inkscape:label="b" />
+    <path
+       d="m 9.238051,1.8198502 c 1.463962,2.6773736 4.703734,2.4415512 4.531836,5.2965232 -0.190925,3.1709856 -2.680731,3.8155166 -1.666997,6.9984336 a 0.5,0.5 0 1 0 0.95284,-0.303472 C 12.184066,11.07449 14.551956,10.765974 14.768079,7.1764745 14.974677,3.7451821 11.301165,3.5085893 10.115453,1.340095 A 0.5,0.5 0 1 0 9.238051,1.8198502 Z"
+       id="path1943"
+       inkscape:path-effect="#path-effect1941;#path-effect2176"
+       inkscape:original-d="M 0,0"
+       inkscape:connector-curvature="0"
+       inkscape:label="2"
+       style="display:inline;fill:#000000;fill-rule:nonzero;stroke:none;stroke-width:1"
+       sodipodi:insensitive="true" />
+    <path
+       d="M 2.8959261,3.5450279 C 0.9548771,4.3591065 -0.20875524,6.901776 1.1423325,9.1388481 1.8884576,10.37425 2.8733977,10.851956 3.2539769,11.237933 c 0.1423495,0.144368 0.2237455,0.273313 0.032543,0.72757 a 0.5,0.5 0 1 0 0.9216816,0.387948 C 5.023317,10.416907 3.0207962,10.314823 1.9983287,8.6218661 0.96211838,6.9061542 1.9153405,5.0406749 3.2826893,4.4672069 A 0.5,0.5 0 1 0 2.8959261,3.5450279 Z"
+       id="path1947"
+       inkscape:path-effect="#path-effect1945;#path-effect2174"
+       inkscape:original-d="M 0,0"
+       inkscape:connector-curvature="0"
+       inkscape:label="1"
+       style="display:inline;fill:#000000;fill-rule:nonzero;stroke:none"
+       sodipodi:insensitive="true" />
+  </g>
+</svg>

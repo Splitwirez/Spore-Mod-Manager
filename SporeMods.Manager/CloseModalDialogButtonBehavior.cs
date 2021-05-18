@@ -7,16 +7,16 @@ using System.Windows.Controls;
 
 namespace SporeMods.Manager
 {
-    public class CloseModalDialogButtonBehavior : Behavior<Button>
-    {
-        protected override void OnAttached()
-        {
-            base.OnAttached();
-            AssociatedObject.Click += (sneder, args) =>
-            {
-                if (AssociatedObject.TemplatedParent is ContentControl control)
-                    control.IsManipulationEnabled = false;
-            };
-        }
-    }
+	public class CloseModalDialogButtonBehavior : Behavior<Button>
+	{
+		protected override void OnAttached()
+		{
+			base.OnAttached();
+			AssociatedObject.Click += (sneder, args) =>
+			{
+				if (AssociatedObject.TemplatedParent is ContentControl control)
+					control.IsManipulationEnabled = false;
+			};
+		}
+	}
 }

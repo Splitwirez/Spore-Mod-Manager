@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>XFIG Input</name>
+    <id>org.inkscape.input.fig_input</id>
+    <dependency type="executable" location="path">fig2dev</dependency>
+    <input>
+        <extension>.fig</extension>
+        <mimetype>image/x-xfig</mimetype>
+        <filetypename>XFIG Graphics File (*.fig)</filetypename>
+        <filetypetooltip>Open files saved with XFIG</filetypetooltip>
+        <output_extension>org.inkscape.output.fig</output_extension>
+    </input>
+    <script>
+        <command location="inx" interpreter="python">fig_input.py</command>
+    </script>
+</inkscape-extension>

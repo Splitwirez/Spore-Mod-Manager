@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1"
+   width="16.5"
+   height="16.501711"
+  >
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingy="1pt"
+     gridspacingx="1pt"
+     gridoriginy="0pt"
+     gridoriginx="0pt"
+  />
+  <defs id="defs3">
+
+  </defs>
+<g id="snap-nodes-rotation-center" inkscape:label="#toggle_snap_center" transform="translate(-799.5,-29.5)">
+  <rect height="16" id="rect5385-6-7-8" style="color:#000000;fill:none;stroke-width:0.1" width="16" x="800" y="30.00114"/>
+  <rect height="16" id="rect5385-6-0-8-4" style="color:#000000;fill:none;stroke-width:0.1" width="16" x="800" y="30.00171"/>
+  <path d="M 813,30 813,43 800,43" id="path9141-9-0" inkscape:connector-curvature="0" style="color:#000000;fill:none;stroke:#000000;stroke-linecap:square;stroke-dasharray:1, 2;stroke-dashoffset:2.5"/>
+  <path d="M 805,31.5 805,34.5" id="path6380" inkscape:connector-curvature="0" style="color:#000000;fill:#000000;stroke:#000000;stroke-width:1px"/>
+  <path d="M 805,35.5 805,38.5" id="path6380-4" inkscape:connector-curvature="0" style="color:#000000;fill:#000000;stroke:#000000;stroke-width:1px"/>
+  <path d="M 801.5,35 804.5,35" id="path6380-8" inkscape:connector-curvature="0" style="color:#000000;fill:#000000;stroke:#000000;stroke-width:1px"/>
+  <path d="M 805.5,35 808.5,35" id="path6380-4-0" inkscape:connector-curvature="0" style="color:#000000;fill:#000000;stroke:#000000;stroke-width:1px"/>
+</g>
+
+</svg>

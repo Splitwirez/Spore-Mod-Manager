@@ -1,0 +1,1 @@
+netcoreapp3.1

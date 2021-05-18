@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>Report a Bug</name>
+    <id>org.inkscape.help.reportabug</id>
+    <param name="url" gui-hidden="true" type="string">http://inkscape.org/contribute/report-bugs/</param>
+    <effect needs-document="false">
+        <object-type>all</object-type>
+        <effects-menu hidden="true"/>
+    </effect>
+    <script>
+        <command location="inx" interpreter="python">launch_webbrowser.py</command>
+    </script>
+</inkscape-extension>

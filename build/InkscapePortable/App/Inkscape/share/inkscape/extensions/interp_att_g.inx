@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>Interpolate Attribute in a group</name>
+    <id>org.inkscape.filter.interp_att_g</id>
+    <param name="tab" type="notebook">
+        <page name="Options" gui-text="Options">
+            <param name="att" type="optiongroup" appearance="combo" gui-text="Attribute to Interpolate:">
+                <option value="width">Width</option>
+                <option value="height">Height</option>
+                <option value="scale">Scale</option>
+                <option value="trans-x">Translate X</option>
+                <option value="trans-y">Translate Y</option>
+                <option value="fill">Fill</option>
+                <option value="opacity">Opacity</option>
+                <option value="other">Other</option>
+            </param>
+            
+            <label appearance="header">Other Attribute</label>
+            <label>If you selected "Other" above, you must specify the details for this "other" here.</label>
+            <param name="att-other" type="string" gui-text="Other Attribute:" gui-description="Examples: r, width, inkscape:rounded, sodipodi:sides"></param>
+            <param name="att-other-type" type="optiongroup" appearance="combo" gui-text="Other Attribute type:">
+                <option value="color">Color</option>
+                <option value="int">Integer Number</option>
+                <option value="float">Float Number</option>
+            </param>
+            <param name="att-other-where" type="optiongroup" appearance="combo" gui-text="Apply to:">
+                <option value="tag">Tag</option>
+                <option value="style">Style</option>
+                <option value="transform">Transformation</option>
+            </param>
+            
+            <label appearance="header">Values</label>
+            <param name="start-val" type="string" gui-text="Start Value:" gui-description="Examples: 0.5, 5, #rgb, #rrggbb or r, g, b"></param>
+            <param name="end-val" type="string" gui-text="End Value:" gui-description="Examples: 0.5, 5, #rgb, #rrggbb or r, g, b"></param>
+            <param name="unit" type="optiongroup" appearance="combo" gui-text="Unit:">
+                <option value="none">No Unit</option>
+                <option value="color">Color</option>
+                <option translatable="no" value="px">px</option>
+                <option translatable="no" value="pt">pt</option>
+                <option translatable="no" value="in">in</option>
+                <option translatable="no" value="cm">cm</option>
+                <option translatable="no" value="mm">mm</option>
+            </param>
+            <param name="zsort" type="bool" gui-text="Use Z-order" gui-description="Workaround for reversed selection order in Live Preview cycles" gui-hidden="true">true</param>
+        </page>
+        <page name="Help" gui-text="Help">
+            <label>This effect applies a value for any interpolatable attribute for all elements inside the selected group or for all elements in a multiple selection.</label>
+        </page>
+    </param>
+    <effect>
+        <object-type>all</object-type>
+        <effects-menu>
+            <submenu name="Modify Path"/>
+        </effects-menu>
+    </effect>
+    <script>
+        <command location="inx" interpreter="python">interp_att_g.py</command>
+    </script>
+</inkscape-extension>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+   <name>Flatten Beziers</name>
+   <id>org.ekips.filter.flatten</id>
+       <param name="flatness" type="float" min="0.1" max="1000.0" gui-text="Flatness:">10.0</param>
+   <effect>
+               <object-type>path</object-type>
+                <effects-menu>
+                    <submenu name="Modify Path"/>
+                </effects-menu>
+   </effect>
+   <script>
+       <command location="inx" interpreter="python">flatten.py</command>
+   </script>
+</inkscape-extension>

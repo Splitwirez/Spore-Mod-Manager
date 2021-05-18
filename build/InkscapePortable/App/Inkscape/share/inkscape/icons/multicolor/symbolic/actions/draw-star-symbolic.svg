@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.1-dev (6039630, 2019-12-20)"
+   sodipodi:docname="draw-star-symbolic.svg"
+   viewBox="0 0 16 16"
+   height="16"
+   width="16"
+   id="svg1"
+   version="1.1">
+  <metadata
+     id="metadata946">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs944">
+    <inkscape:path-effect
+       lpeversion="1"
+       id="path-effect1558"
+       allow_transforms="false"
+       method="bsplinespiro"
+       linkeditem="#path19973"
+       effect="clone_original" />
+  </defs>
+  <style
+     id="s0">
+.success { fill:#009909; }
+.warning { fill:#FF1990; }
+.error { fill:#00AAFF; }
+</style>
+  <style
+     id="s2">
+@import '../../highlights.css';
+</style>
+  <sodipodi:namedview
+     inkscape:document-rotation="0"
+     inkscape:current-layer="draw-star"
+     inkscape:window-maximized="1"
+     inkscape:window-y="-6"
+     inkscape:window-x="65"
+     inkscape:window-height="890"
+     inkscape:window-width="1296"
+     inkscape:cy="8"
+     inkscape:cx="8"
+     inkscape:zoom="41.125"
+     showgrid="true"
+     id="namedview"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10">
+    <inkscape:grid
+       id="grid"
+       type="xygrid" />
+  </sodipodi:namedview>
+  <g
+     inkscape:label="00174"
+     id="draw-star"
+     transform="matrix(1.000006,0,0,1.002537,-348.99376,-684.09339)">
+    <path
+       style="opacity:0;fill:none"
+       d="m 349,682.36218 h 15.97919 v 15.9375 H 349 Z"
+       id="rect19962"
+       inkscape:connector-curvature="0" />
+    <path
+       class="warning"
+       transform="matrix(0.9894997,-0.0031023,0.00325,1.036625,9.063383,513.1218)"
+       style="opacity:0.8"
+       inkscape:transform-center-x="0.009778893"
+       inkscape:transform-center-y="-0.832503"
+       d="m 356.0625,179.6875 -4.99807,-2.83529 -4.99536,2.84006 1.15203,-5.6296 -4.24471,-3.87324 5.71007,-0.64399 2.37198,-5.23386 2.37698,5.23159 5.71068,0.63854 -4.24101,3.8773 z"
+       id="path19973"
+       inkscape:connector-curvature="0" />
+    <path
+       style="opacity:0.2"
+       class="error"
+       inkscape:connector-curvature="0"
+       transform="matrix(0.9894997,-0.0031023,0.00325,1.036625,9.063383,513.1218)"
+       inkscape:original-d="M 0,0"
+       inkscape:path-effect="#path-effect1558"
+       id="path1560"
+       d="m 356.0625,179.6875 -4.99807,-2.83529 -4.99536,2.84006 1.15203,-5.6296 -4.24471,-3.87324 5.71007,-0.64399 2.37198,-5.23386 2.37698,5.23159 5.71068,0.63854 -4.24101,3.8773 z" />
+  </g>
+</svg>

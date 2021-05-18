@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>Dimensions</name>
+    <id>se.lewerin.filter.dimension</id>
+    <param name="xoffset" type="float" min="0" max="1000" gui-text="X Offset:">50</param>
+    <param name="yoffset" type="float" min="0" max="1000" gui-text="Y Offset:">50</param>
+    <param name="type" type="optiongroup" appearance="combo" gui-text="Bounding box type:">
+        <option value="geometric">Geometric</option>
+        <option value="visual">Visual</option>
+    </param>
+    <effect>
+        <object-type>path</object-type>
+        <effects-menu>
+            <submenu name="Visualize Path"/>
+        </effects-menu>
+    </effect>
+    <script>
+        <command location="inx" interpreter="python">dimension.py</command>
+    </script>
+</inkscape-extension>

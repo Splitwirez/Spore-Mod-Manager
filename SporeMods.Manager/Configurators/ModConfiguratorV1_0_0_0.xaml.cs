@@ -15,39 +15,39 @@ using System.Windows.Shapes;
 
 namespace SporeMods.Manager.Configurators
 {
-    /// <summary>
-    /// Interaction logic for ModConfiguratorV1_0_0_0.xaml
-    /// </summary>
-    public partial class ModConfiguratorV1_0_0_0 : UserControl
-    {
+	/// <summary>
+	/// Interaction logic for ModConfiguratorV1_0_0_0.xaml
+	/// </summary>
+	public partial class ModConfiguratorV1_0_0_0 : UserControl
+	{
 
-        public ModConfiguratorV1_0_0_0(ManagedMod arg)
-        {
-            InitializeComponent();
-            DataContext = arg;
+		public ModConfiguratorV1_0_0_0(ManagedMod arg)
+		{
+			InitializeComponent();
+			DataContext = arg;
 
 
-            SetBody(new TextBlock()
-            {
-                Text = arg.Description
-            });
+			SetBody(new TextBlock()
+			{
+				Text = arg.Description
+			});
 
-            ModNameTextBlock.Text = SporeMods.Core.Settings.GetLanguageString(2, "ModInstallerHeader").Replace("%MODNAME%", arg.DisplayName);
-        }
+			ModNameTextBlock.Text = SporeMods.Core.Settings.GetLanguageString(2, "ModInstallerHeader").Replace("%MODNAME%", arg.DisplayName);
+		}
 
-        public void SetBody(params UIElement[] elements)
-        {
-            CustomInstallerContentStackPanel.Children.Clear();
-            foreach (UIElement element in elements)
-                CustomInstallerContentStackPanel.Children.Add(element);
-        }
+		public void SetBody(params UIElement[] elements)
+		{
+			CustomInstallerContentStackPanel.Children.Clear();
+			foreach (UIElement element in elements)
+				CustomInstallerContentStackPanel.Children.Add(element);
+		}
 
-        private void HeaderContentControl_MouseEnter(object sender, MouseEventArgs e)
-        {
-            SetBody(new TextBlock()
-            {
-                Text = (DataContext as ManagedMod).Description
-            });
-        }
-    }
+		private void HeaderContentControl_MouseEnter(object sender, MouseEventArgs e)
+		{
+			SetBody(new TextBlock()
+			{
+				Text = (DataContext as ManagedMod).Description
+			});
+		}
+	}
 }

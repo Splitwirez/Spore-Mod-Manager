@@ -1,0 +1,640 @@
+<?xml version="1.0"?>
+<keys name="Inkscape default">
+
+<!--
+This file contains the default Inkscape keyboard shortcuts. In each "bind" element:
+
+- The "key" attribute contains the key name. The names are the same as those in the
+<gdk/gdkkeysyms.h> header file but without the leading "GDK_". If you don't have GDK
+source locally, you can view that file at:
+
+  http://git.gnome.org/browse/gtk+/plain/gdk/gdkkeysyms.h
+
+- The "modifiers" attribute contains a comma-separated list of modifiers, which can be
+one or more of: "Ctrl", "Shift", "Alt", "Meta", "Super", "Hyper", or "Primary".
+
+"Primary" means Meta on Apple and Ctrl everywhere else, it's recommended over the use of Ctrl.
+
+- The "action" attribute contains the name of the action. The complete list of actions
+(called "verbs") is in the file src/verbs.cpp in Inkscape source; there you can see
+brief descriptions of what each action does. The same action may have multiple key
+bindings.
+
+- The "display" attribute controls whether this binding will be displayed in the menu
+and tooltips. Only one binding for each action may have this attribute.
+
+Note that the current file lists ALL Inkscape actions, even those that do not have any
+keys in the default mapping (those don't have "key" or "modifiers" attributes). You can
+assign any keys to these actions by adding "key" and "modifiers" attributes to
+them. Developers: Please add here any new verbs you create!
+
+This file is inkscape.xml, and in the original installation it is also copied as
+default.xml. The latter is the file that Inkscape reads on startup. If you overwrite
+default.xml with some other keymap file (e.g. xara.xml), you can always restore the
+default keybindings by copying inkscape.xml to default.xml again.
+
+In case of conflict, those bindings that come later override those before them. This
+file resides in the share/keys directory of your Inkscape installation, but you may also
+have a default.xml in your personal Inkscape profile directory (e.g. ~/.config/inkscape
+on Unix). The bindings in that personal file are added to (or, if there's a conflict,
+override) the bindings in the main default.xml.
+-->
+
+
+<!-- File -->
+
+  <bind key="n" modifiers="Primary" action="FileNew" display="true" />
+
+  <bind key="n" modifiers="Primary,Alt" action="FileTemplates" display="true" />
+
+  <bind key="o" modifiers="Primary" action="FileOpen" display="true" />
+
+  <bind action="FileRevert" />
+
+  <bind key="s" modifiers="Primary" action="FileSave" display="true" />
+
+  <bind key="s" modifiers="Primary,Shift" action="FileSaveAs" display="true" />
+
+  <bind key="s" modifiers="Primary,Shift,Alt" action="FileSaveACopy" display="true" />
+
+  <bind key="p" modifiers="Primary" action="FilePrint" display="true" />
+
+  <bind key="i" modifiers="Primary" action="FileImport" display="true" />
+
+  <bind key="e" modifiers="Primary,Shift" action="DialogExport" display="true" />
+
+  <bind action="FileVacuum" />
+
+  <bind key="w" modifiers="Primary" action="FileClose" display="true" />
+
+  <bind key="q" modifiers="Primary" action="FileQuit" display="true" />
+
+<!-- Tools -->
+
+  <bind key="F1" action="ToolSelector" />
+  <bind key="s" action="ToolSelector" display="true" />
+
+  <bind action="SelectPrefs" />
+
+  <bind key="F2" action="ToolNode" />
+  <bind key="n" action="ToolNode" display="true" />
+
+  <bind action="NodePrefs" />
+
+  <bind key="F2" modifiers="Shift" action="ToolTweak" />
+  <bind key="w" action="ToolTweak" display="true" />
+
+  <bind action="TweakPrefs" />
+
+  <bind key="F3" action="ToolZoom" />
+  <bind key="z" action="ToolZoom" display="true" />
+
+  <bind action="ZoomPrefs" />
+
+  <bind key="F4" action="ToolRect" />
+  <bind key="r" action="ToolRect" display="true" />
+
+  <bind action="RectPrefs" />
+
+  <bind key="F4" modifiers="Shift" action="Tool3DBox" />
+  <bind key="x" action="Tool3DBox" display="true" />
+
+  <bind action="3DBoxPrefs" />
+
+  <bind key="F5" action="ToolArc" />
+  <bind key="e" action="ToolArc" display="true" />
+
+  <bind action="ArcPrefs" />
+
+  <bind key="m" action="ToolMeasure" display="true" />
+
+  <bind action="MeasurePrefs" />
+
+  <bind key="F9" modifiers="Shift" action="ToolStar" />
+  <bind key="asterisk" modifiers="Shift" action="ToolStar" />
+  <bind key="asterisk" action="ToolStar" />
+  <bind key="KP_Multiply" action="ToolStar" display="true" />
+
+  <bind action="StarPrefs" />
+
+  <bind key="F9" action="ToolSpiral" />
+  <bind key="i" action="ToolSpiral" display="true" />
+
+  <bind action="SpiralPrefs" />
+
+  <bind key="F6" action="ToolPencil" />
+  <bind key="p" action="ToolPencil" display="true" />
+
+  <bind action="PencilPrefs" />
+
+  <bind key="F6" modifiers="Shift" action="ToolPen" />
+  <bind key="b" action="ToolPen" display="true" />
+
+  <bind action="PenPrefs" />
+
+  <bind key="F6" modifiers="Primary" action="ToolCalligraphic" />
+  <bind key="c" action="ToolCalligraphic" display="true" />
+
+  <bind action="CalligraphicPrefs" />
+
+  <bind key="e" modifiers="Shift" action="ToolEraser" display="true" />
+
+  <bind action="EraserPrefs" />
+
+  <bind key="F7" modifiers="Shift" action="ToolPaintBucket" />
+  <bind key="u" action="ToolPaintBucket" display="true" />
+
+  <bind action="PaintBucketPrefs" />
+
+  <bind key="F8" action="ToolText" />
+  <bind key="t" action="ToolText" display="true" />
+
+  <bind action="TextPrefs" />
+
+  <bind key="F1" modifiers="Primary" action="ToolGradient" />
+  <bind key="g" action="ToolGradient" display="true" />
+
+  <bind action="GradientPrefs" />
+
+  <bind key="F2" modifiers="Primary" action="ToolConnector" />
+  <bind key="o" action="ToolConnector" display="true" />
+
+  <bind action="ConnectorPrefs" />
+
+  <bind key="F7" action="ToolDropper" />
+  <bind key="d" action="ToolDropper" display="true" />
+
+  <bind action="DropperPrefs" />
+
+  <bind key="F3" modifiers="Shift" action="ToolSpray" />
+  <bind key="a" action="ToolSpray" display="true" />
+
+  <bind action="SprayPrefs" />
+
+<!-- Zoom -->
+
+  <bind key="plus" action="ZoomIn" display="true" />
+  <bind key="plus" modifiers="Shift" action="ZoomIn" />
+  <bind key="equal" action="ZoomIn" />
+  <bind key="equal" modifiers="Shift" action="ZoomIn" />
+  <bind key="KP_Add" action="ZoomIn" />
+
+  <bind key="minus" action="ZoomOut" display="true" />
+  <bind key="minus" modifiers="Shift" action="ZoomOut" />
+  <bind key="underscore" action="ZoomOut" />
+  <bind key="underscore" modifiers="Shift" action="ZoomOut" />
+  <bind key="KP_Subtract" action="ZoomOut" />
+
+  <bind key="1" action="Zoom1:0" display="true" />
+  <bind key="1" modifiers="Shift" action="Zoom1:0" />
+  <bind key="KP_1" action="Zoom1:0" />
+  <bind key="2" action="Zoom1:2" display="true" />
+  <bind key="2" modifiers="Shift" action="Zoom1:2" />
+  <bind key="KP_2" action="Zoom1:2" />
+  <bind key="3" action="ZoomSelection" display="true" />
+  <bind key="3" modifiers="Shift" action="ZoomSelection" />
+  <bind key="KP_3" action="ZoomSelection" />
+  <bind key="4" action="ZoomDrawing" display="true" />
+  <bind key="4" modifiers="Shift" action="ZoomDrawing" />
+  <bind key="KP_4" action="ZoomDrawing" />
+  <bind key="4" modifiers="Primary" action="ZoomCenterPage"  display="true"/>
+  <bind key="4" modifiers="Primary" action="ZoomCenterPage" />
+  <bind key="KP_4" modifiers="Primary" action="ZoomCenterPage" />
+  <bind key="5" action="ZoomPage" display="true" />
+  <bind key="5" modifiers="Shift" action="ZoomPage" />
+  <bind key="KP_5" action="ZoomPage" />
+  <bind key="KP_Begin" action="ZoomPage" />
+  <bind key="6" action="ZoomPageWidth" display="true" />
+  <bind key="6" modifiers="Shift" action="ZoomPageWidth" />
+  <bind key="KP_6" action="ZoomPageWidth" />
+
+  <bind key="e" modifiers="Primary" action="ZoomPageWidth" />
+
+  <bind key="grave" modifiers="Shift" action="ZoomNext" display="true" /> <!-- ` -->
+  <bind key="asciitilde" modifiers="Shift" action="ZoomNext" /> <!-- ~ -->
+  <bind key="KP_9" action="ZoomNext" />
+  <bind key="grave" action="ZoomPrev" display="true" /> <!-- ` -->
+  <bind key="KP_8" action="ZoomPrev" />
+
+<!-- View -->
+
+  <bind key="F11" action="FullScreen" display="true" />
+  <bind key="f" modifiers="Ctrl,Meta" action="FullScreen" /> <!-- macOS -->
+  <bind key="F11" action="FocusToggle" modifiers="Shift" display="true" />
+  <bind key="F11" action="FullScreenFocus" modifiers="Primary" display="true" />
+
+  <bind key="Tab" modifiers="Ctrl" action="NextWindow" display="true" />
+  <bind key="ISO_Left_Tab" modifiers="Ctrl" action="PrevWindow" display="true" />
+  <bind key="grave" modifiers="Meta" action="NextWindow" /> <!-- macOS standard -->
+
+  <bind key="numbersign" modifiers="Shift" action="ToggleGrid" /> <!-- # -->
+  <bind key="numbersign" action="ToggleGrid" display="true" />
+
+  <bind key="bar" modifiers="Shift" action="ToggleGuides" /> <!-- | -->
+  <bind key="bar" action="ToggleGuides" display="true" />
+
+  <bind key="percent" action="ToggleSnapGlobal" display="true" /> <!-- % -->
+  <bind key="percent" modifiers="Shift" action="ToggleSnapGlobal" />
+
+  <bind action="ToggleCommandsToolbar" />
+  <bind action="ToggleSnapToolbar" />
+  <bind action="ToggleToolToolbar" />
+  <bind action="ToggleToolbox" />
+
+  <bind key="r" modifiers="Primary" action="ToggleRulers" display="true" />
+
+  <bind key="b" modifiers="Primary" action="ToggleScrollbars" display="true" />
+
+  <bind key="p" modifiers="Shift,Alt" action="TogglePalette" display="true" />
+
+  <bind action="ToggleStatusbar" />
+
+  <bind action="ViewNew" />
+  <bind action="ViewIconPreview" />
+
+  <bind key="5" modifiers="Primary" action="ViewModeToggle" display="true" />
+  <bind key="5" modifiers="Primary" action="ViewModeToggle" />
+  <bind key="KP_5" modifiers="Primary" action="ViewModeToggle" display="true" />
+  <bind key="KP_5" modifiers="Primary" action="ViewModeToggle" />
+
+  <bind action="ViewModeNormal" />
+  <bind action="ViewModeNoFilters" />
+  <bind action="ViewModeOutline" />
+  <bind action="ViewModeVisibleHairlines" />
+
+  <bind key="5" modifiers="Alt" action="ViewColorModeToggle" display="true" />
+  <bind key="5" modifiers="Alt" action="ViewColorModeToggle" />
+  <bind key="KP_5" modifiers="Alt" action="ViewColorModeToggle" display="true" />
+  <bind key="KP_5" modifiers="Alt" action="ViewColorModeToggle" />
+  <bind action="ViewColorModeNormal" />
+  <bind action="ViewColorModeGrayscale" />
+
+  <bind key="6" modifiers="Primary" action="ViewSplitModeToggle" display="true" />
+  <bind key="6" modifiers="Primary" action="ViewSplitModeToggle" />
+  <bind key="KP_6" modifiers="Primary" action="ViewSplitModeToggle" display="true" />
+  <bind key="KP_6" modifiers="Primary" action="ViewSplitModeToggle" />
+
+
+  <bind key="6" modifiers="Alt" action="ViewXRayToggle" display="true" />
+  <bind key="6" modifiers="Alt" action="ViewXRayToggle" />
+  <bind key="KP_6" modifiers="Alt" action="ViewXRayToggle" display="true" />
+  <bind key="KP_6" modifiers="Alt" action="ViewXRayToggle" />
+
+<!-- Edit -->
+
+  <bind key="z" modifiers="Primary" action="EditUndo" display="true" />
+  <!--Do not put in Primary,Shift+Y, already used-->
+
+  <bind key="z" modifiers="Primary,Shift" action="EditRedo" display="true" />
+  <bind key="y" modifiers="Primary" action="EditRedo" />
+
+  <bind key="h" modifiers="Primary,Shift" action="DialogUndoHistory" display="true" />
+
+  <bind key="x" modifiers="Primary" action="EditCut" display="true" />
+  <bind key="Delete" modifiers="Shift" action="EditCut"/>
+
+  <bind key="c" modifiers="Primary" action="EditCopy" display="true" />
+  <bind key="Insert" modifiers="Primary" action="EditCopy"/>
+
+  <bind key="v" modifiers="Primary" action="EditPaste" display="true" />
+  <bind key="Insert" modifiers="Shift" action="EditPaste"/>
+
+  <bind key="v" modifiers="Primary,Shift" action="EditPasteStyle" display="true" />
+
+  <bind key="v" modifiers="Primary,Alt" action="EditPasteInPlace" display="true" />
+
+  <bind action="EditPasteSize" />
+  <bind action="EditPasteWidth" />
+  <bind action="EditPasteHeight" />
+  <bind action="EditPasteSizeSeparately" />
+  <bind action="EditPasteWidthSeparately" />
+  <bind action="EditPasteHeightSeparately" />
+
+  <bind key="Delete" action="EditDelete" display="true" />
+  <bind key="KP_Delete" action="EditDelete" />
+  <bind key="BackSpace" action="EditDelete" />
+
+  <bind key="d" modifiers="Primary" action="EditDuplicate" display="true" />
+
+  <bind key="d" modifiers="Alt" action="EditClone" display="true" />
+
+  <bind key="d" modifiers="Alt,Shift" action="EditUnlinkClone" display="true" />
+
+  <bind action="EditRelinkClone" />
+
+  <bind key="d" modifiers="Shift" action="EditCloneSelectOriginal" display="true" />
+
+  <bind action="EditCloneOriginalPathLPE" />
+
+  <bind key="a" modifiers="Primary" action="EditSelectAll" display="true" />
+
+  <bind action="EditClearAll" />
+
+  <bind key="a" modifiers="Primary,Alt" action="EditSelectAllInAllLayers" display="true" />
+
+  <bind action="EditSelectSameFillStroke" />
+  <bind action="EditSelectSameFillColor" />
+  <bind action="EditSelectSameStrokeColor" />
+  <bind action="EditSelectSameStrokeStyle" />
+
+  <bind key="a" modifiers="Shift,Alt" action="EditSelectSameObjectType" display="true" />
+
+  <bind key="exclam" action="EditInvert" display="true" />
+  <bind key="exclam" modifiers="Shift" action="EditInvert" />
+
+  <bind key="exclam" modifiers="Alt" action="EditInvertInAllLayers" display="true" />
+  <bind key="exclam" modifiers="Alt,Shift" action="EditInvertInAllLayers" />
+
+  <bind key="Tab" action="EditSelectNext" display="true" />
+  <bind key="ISO_Left_Tab" action="EditSelectPrev" display="true" />
+
+  <bind key="Escape" action="EditDeselect" display="true"/>
+
+  <bind key="7" action="EditNextPathEffectParameter" display="true" />
+
+  <bind action="EditSwapFillStroke" display="true" />
+
+  <bind key="r" modifiers="Primary,Shift" action="FitCanvasToSelectionOrDrawing" display="true" />
+
+  <!-- Objects/selection -->
+
+  <bind key="h" action="ObjectFlipHorizontally" display="true" />
+
+  <bind key="v" action="ObjectFlipVertically" display="true" />
+
+  <bind key="Home" action="SelectionToFront" display="true" />
+  <bind key="KP_Home" action="SelectionToFront" />
+
+  <bind key="End" action="SelectionToBack" display="true" />
+  <bind key="KP_End" action="SelectionToBack" />
+
+  <bind key="Page_Up" action="SelectionRaise" display="true" />
+  <bind key="KP_Page_Up" action="SelectionRaise" />
+
+  <bind key="Page_Down" action="SelectionLower" display="true" />
+  <bind key="KP_Page_Down" action="SelectionLower" />
+
+  <bind key="comma" action="SelectionShrink" display="true" />
+  <bind key="less" action="SelectionShrink" />
+
+  <bind key="comma" modifiers="Alt" action="SelectionShrinkScreen" />
+  <bind key="less" modifiers="Alt" action="SelectionShrinkScreen" />
+
+  <bind key="comma" modifiers="Primary" action="SelectionShrinkHalve" />
+  <bind key="less" modifiers="Primary" action="SelectionShrinkHalve" />
+
+  <bind key="period" action="SelectionGrow" display="true" />
+  <bind key="greater" action="SelectionGrow" />
+
+  <bind key="period" modifiers="Alt" action="SelectionGrowScreen" />
+  <bind key="greater" modifiers="Alt" action="SelectionGrowScreen" />
+
+  <bind key="period" modifiers="Primary" action="SelectionGrowDouble" />
+  <bind key="greater" modifiers="Primary" action="SelectionGrowDouble" />
+
+  <bind key="g" modifiers="Primary" action="SelectionGroup" display="true" />
+  <bind key="u" modifiers="Primary,Shift" action="SelectionGroup" />
+
+  <bind key="g" modifiers="Primary,Shift" action="SelectionUnGroup" display="true" />
+  <bind key="u" modifiers="Primary" action="SelectionUnGroup" />
+
+  <bind key="b" modifiers="Alt" action="SelectionCreateBitmap" display="true" />
+
+  <bind key="b" modifiers="Alt,Shift" action="SelectionTrace" display="true" />
+
+  <bind key="i" modifiers="Alt" action="ObjectsToPattern" display="true" />
+
+  <bind key="i" modifiers="Alt,Shift" action="ObjectsFromPattern" display="true" />
+
+  <bind key="g" modifiers="Shift" action="ObjectsToGuides" display="true" />
+
+  <bind action="ObjectSetMask" />
+  <bind action="ObjectUnSetMask" />
+
+  <bind action="ObjectSetClipPath" />
+  <bind action="ObjectUnSetClipPath" />
+
+  <bind key="bracketright" modifiers="Ctrl" action="ObjectRotate90" display="true"/>
+  <bind key="bracketleft" modifiers="Ctrl" action="ObjectRotate90CCW" display="true"/>
+
+  <bind key="t" modifiers="Shift,Alt" action="ObjectRemoveTransform" /> 
+  <bind key="T" modifiers="Shift,Alt" action="ObjectRemoveTransform" /> 
+
+  <bind action="FitCanvasToSelection" />
+  <bind action="FitCanvasToDrawing" />
+  <bind key="r" modifiers="Ctrl,Shift" action="FitCanvasToSelectionOrDrawing" display="true" />
+  <bind key="R" modifiers="Ctrl,Shift" action="FitCanvasToSelectionOrDrawing" />
+
+
+<!-- Path -->
+
+  <bind key="c" modifiers="Primary,Shift" action="ObjectToPath" display="true" />
+
+  <bind key="c" modifiers="Primary,Alt" action="StrokeToPath" display="true" />
+
+  <bind key="k" modifiers="Primary" action="SelectionCombine" display="true" />
+
+  <bind key="k" modifiers="Primary,Shift" action="SelectionBreakApart" display="true" />
+
+  <bind key="plus" modifiers="Primary" action="SelectionUnion" display="true" />
+  <bind key="KP_Add" modifiers="Primary" action="SelectionUnion" />
+  <bind key="plus" modifiers="Primary,Shift" action="SelectionUnion" />
+
+  <bind key="asterisk" modifiers="Primary" action="SelectionIntersect" display="true" />
+  <bind key="KP_Multiply" modifiers="Primary" action="SelectionIntersect" />
+  <bind key="asterisk" modifiers="Primary,Shift" action="SelectionIntersect" />
+
+  <bind key="minus" modifiers="Primary" action="SelectionDiff" display="true" />
+  <bind key="underscore" modifiers="Primary" action="SelectionDiff" />
+  <bind key="underscore" modifiers="Primary,Shift" action="SelectionDiff" />
+  <bind key="KP_Subtract" modifiers="Primary" action="SelectionDiff" />
+  <bind key="minus" modifiers="Primary,Shift" action="SelectionDiff" />
+
+  <bind key="asciicircum" modifiers="Primary" action="SelectionSymDiff" display="true" /> <!-- ^ -->
+  <bind key="asciicircum" modifiers="Primary,Shift" action="SelectionSymDiff" />
+
+  <bind key="slash" modifiers="Primary,Alt" action="SelectionCutPath" display="true" />
+  <bind key="slash" modifiers="Primary,Alt,Shift" action="SelectionCutPath" />
+
+  <bind key="slash" modifiers="Primary" action="SelectionDivide" display="true" />
+  <bind key="KP_Divide" modifiers="Primary" action="SelectionDivide" />
+  <bind key="slash" modifiers="Primary,Shift" action="SelectionDivide" />
+
+  <bind key="parenright" modifiers="Primary" action="SelectionOffset" display="true" />
+  <bind key="parenright" modifiers="Primary,Shift" action="SelectionOffset" />
+  <bind key="0" modifiers="Primary,Shift" action="SelectionOffset" />
+  <bind key="0" modifiers="Primary" action="SelectionOffset" />
+
+  <bind key="parenright" modifiers="Alt" action="SelectionOffsetScreen" display="true" />
+  <bind key="0" modifiers="Alt" action="SelectionOffsetScreen" />
+
+  <bind key="parenright" modifiers="Alt,Shift" action="SelectionOffsetScreen10" display="true" />
+  <bind key="0" modifiers="Alt,Shift" action="SelectionOffsetScreen10" />
+
+  <bind key="parenleft" modifiers="Primary" action="SelectionInset" display="true" />
+  <bind key="parenleft" modifiers="Primary,Shift" action="SelectionInset" />
+  <bind key="9" modifiers="Primary,Shift" action="SelectionInset" />
+  <bind key="9" modifiers="Primary" action="SelectionInset" />
+
+  <bind key="parenleft" modifiers="Alt" action="SelectionInsetScreen" display="true" />
+  <bind key="9" modifiers="Alt" action="SelectionInsetScreen" />
+
+  <bind key="parenleft" modifiers="Alt,Shift" action="SelectionInsetScreen10" display="true" />
+  <bind key="9" modifiers="Alt,Shift" action="SelectionInsetScreen10" />
+
+  <bind key="j" modifiers="Primary" action="SelectionDynOffset" display="true" />
+
+  <bind key="j" modifiers="Primary,Alt" action="SelectionLinkedOffset" display="true" />
+
+  <bind key="l" modifiers="Primary" action="SelectionSimplify" display="true" />
+
+  <bind action="SelectionReverse" />
+
+<!-- Text -->
+
+  <bind key="w" modifiers="Alt" action="ObjectFlowText" display="true" />
+
+  <bind key="w" modifiers="Alt,Shift" action="ObjectUnFlowText" display="true" />
+
+  <bind action="SelectionTextToPath" />
+  <bind action="SelectionTextFromPath" />
+
+  <bind action="ObjectFlowtextToText" />
+  <bind action="SelectionTextRemoveKerns" />
+
+  <bind key="k" modifiers="Primary,Alt" action="DialogSpellcheck" display="true" />
+
+<!-- Layers -->
+
+  <bind key="n" modifiers="Primary,Shift" action="LayerNew" />
+
+  <bind action="LayerRename" />
+  <bind key="Page_Up" modifiers="Primary" action="LayerNext" display="true" />
+  <bind key="KP_Page_Up" modifiers="Primary" action="LayerNext" />
+  <bind key="Page_Down" modifiers="Primary" action="LayerPrev" display="true" />
+  <bind key="KP_Page_Down" modifiers="Primary" action="LayerPrev" />
+  <bind action="LayerDelete" />
+
+  <bind key="Page_Up" modifiers="Primary,Shift" action="LayerRaise" display="true" />
+  <bind key="KP_Page_Up" modifiers="Primary,Shift" action="LayerRaise" />
+
+  <bind key="Page_Down" modifiers="Primary,Shift" action="LayerLower" display="true" />
+  <bind key="KP_Page_Down" modifiers="Primary,Shift" action="LayerLower" />
+
+  <bind key="Home" modifiers="Primary,Shift" action="LayerToTop" display="true" />
+  <bind key="KP_Home" modifiers="Primary,Shift" action="LayerToTop" />
+
+  <bind key="End" modifiers="Primary,Shift" action="LayerToBottom" display="true" />
+  <bind key="KP_End" modifiers="Primary,Shift" action="LayerToBottom" />
+
+  <bind key="Page_Up" modifiers="Shift" action="LayerMoveToNext" display="true" />
+  <bind key="KP_Page_Up" modifiers="Shift" action="LayerMoveToNext" />
+
+  <bind key="Page_Down" modifiers="Shift" action="LayerMoveToPrev" display="true" />
+  <bind key="KP_Page_Down" modifiers="Shift" action="LayerMoveToPrev" />
+
+  <bind action="LayerMoveTo" />
+
+  <bind key="l" modifiers="Primary,Shift" action="DialogLayers" display="true" />
+
+  <bind action="LayerDuplicate" />
+  <bind action="LayerDelete" />
+
+  <bind action="LayerHideAll" />
+  <bind action="LayerSolo" />
+  <bind action="LayerShowAll" />
+
+  <bind action="LayerLockAll" />
+  <bind action="LayerLockOthers" />
+  <bind action="LayerUnlockAll" />
+
+  <bind action="LayerToggleHide" />
+  <bind action="LayerToggleLock" />
+
+<!-- Dialogs -->
+
+  <bind key="x" modifiers="Primary,Shift" action="DialogXMLEditor" display="true" />
+
+  <bind key="q" modifiers="Primary,Shift" action="DialogSelectors" display="true" />
+
+  <bind key="d" modifiers="Primary,Shift" action="DialogDocumentProperties" display="true" />
+
+  <bind key="a" modifiers="Primary,Shift" action="DialogAlignDistribute" display="true" />
+
+  <bind key="t" modifiers="Primary,Shift" action="DialogText" display="true" />
+
+  <bind key="p" modifiers="Primary,Shift" action="DialogPreferences" display="true" />
+  <!-- MacOs standard Prefs key -->
+  <bind key="comma" modifiers="Meta" action="DialogPreferences" />
+
+  <bind key="f" modifiers="Primary,Shift" action="DialogFillStroke" display="true" />
+
+  <bind key="f" modifiers="Primary" action="DialogFind" display="true" />
+
+  <bind key="m" modifiers="Primary,Shift" action="DialogTransform" display="true" />
+
+  <bind key="o" modifiers="Primary,Shift" action="DialogObjectProperties" display="true" />
+
+  <bind action="DialogObjectAttributes" />
+
+  <bind key="w" modifiers="Primary,Shift" action="DialogSwatches" display="true" />
+
+  <bind key="y" modifiers="Primary,Shift" action="DialogSymbols" display="true" />
+
+  <bind key="ampersand" modifiers="Primary" action="DialogLivePathEffect" display="true" />
+  <bind key="7" modifiers="Primary,Shift" action="DialogLivePathEffect" />
+
+  <bind key="ampersand" action="PasteLivePathEffect" display="true" />
+  <bind key="7" modifiers="Primary" action="PasteLivePathEffect" />
+
+  <bind action="RemoveLivePathEffect" />
+
+  <bind action="DialogClonetiler" />
+  <bind action="DialogArrange" />
+  <bind action="DialogDebug" />
+  <bind action="DialogInput" />
+
+  <bind key="F12" action="DialogsToggle" display="true" />
+
+  <bind key="h" modifiers="Primary,Alt" action="AlignHorizontalCenter" display="true" />
+
+  <bind key="t" modifiers="Primary,Alt" action="AlignVerticalCenter" display="true" />
+
+  <bind key="KP_2" modifiers="Primary,Alt" action="AlignVerticalBottom" display="true" />
+  <bind key="KP_2" modifiers="Primary,Alt" action="AlignVerticalBottom" />
+
+  <bind key="KP_4" modifiers="Primary,Alt" action="AlignHorizontalLeft" display="true" />
+  <bind key="KP_4" modifiers="Primary,Alt" action="AlignHorizontalLeft" />
+
+  <bind key="KP_5" modifiers="Primary,Alt" action="AlignVerticalHorizontalCenter" display="true" />
+  <bind key="KP_5" modifiers="Primary,Alt" action="AlignVerticalHorizontalCenter" />
+
+  <bind key="KP_6" modifiers="Primary,Alt" action="AlignHorizontalRight" display="true" />
+  <bind key="KP_6" modifiers="Primary,Alt" action="AlignHorizontalRight" />
+
+  <bind key="KP_8" modifiers="Primary,Alt" action="AlignVerticalTop" display="true" />
+  <bind key="KP_8" modifiers="Primary,Alt" action="AlignVerticalTop" />
+
+<!-- Help -->
+
+  <bind action="HelpAboutExtensions" />
+  <bind action="HelpAboutMemory" />
+  <bind action="HelpAbout" />
+  <!-- There are also verbs for tutorials, if you really need them -->
+  <!-- Other commands in Help are implemented as extensions, with ids of org.inkscape.help.* -->
+
+<!-- Effects -->
+
+  <bind key="q" modifiers="Alt" action="EffectLast" display="true" />
+  <bind key="q" modifiers="Shift,Alt" action="EffectLastPref" display="true" />
+
+  <!-- You can also assign keys to individual effects. The action should be set to he
+  effect id from the .inx file, for example "org.inkscape.filter.add_nodes" for the Add
+  Nodes effect. -->
+<!--
+  <bind key="g" modifiers="Primary,Alt" action="org.inkscape.typography.new_glyph_layer" display="true"/>
+  <bind key="h" modifiers="Primary,Alt" action="org.inkscape.typography.previous_glyph_layer" display="true"/>
+  <bind key="j" modifiers="Primary,Alt" action="org.inkscape.typography.next_glyph_layer" display="true"/>
+ -->
+
+</keys>

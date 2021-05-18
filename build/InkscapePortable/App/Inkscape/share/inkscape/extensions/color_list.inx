@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>List All</name>
+    <id>org.inkscape.color.list_colours</id>
+    <effect>
+        <object-type>all</object-type>
+        <effects-menu>
+            <submenu name="Color"/>
+        </effects-menu>
+    </effect>
+    <script>
+        <command location="inx" interpreter="python">color_list.py</command>
+    </script>
+</inkscape-extension>

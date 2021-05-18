@@ -1,224 +1,235 @@
 ﻿using DecoratableWindow = Mechanism.Wpf.Core.Windows.DecoratableWindow;
 using SporeMods.Core;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Windows;
-using System.Threading;
 
 namespace SporeMods.CommonUI
 {
-    public static class Updater
-    {
-        public static void CheckForUpdates()
-        {
-            CheckForUpdates(false);
-        }
+	public static class Updater
+	{
+		public static void CheckForUpdates()
+		{
+			CheckForUpdates(false);
+		}
 
-        public static void CheckForUpdates(bool forceInstallUpdate)
-        {
-            try
-            {
-                bool ignoreUpdates = Environment.GetCommandLineArgs().Contains(UpdaterService.IgnoreUpdatesArg);
-                if (!ignoreUpdates)
-                {
-                    if ((!forceInstallUpdate) && (Settings.UpdatingMode == Settings.UpdatingModeType.Disabled))
-                        return;
+		public static void CheckForUpdates(bool forceInstallUpdate)
+		{
+			try
+			{
+				if (File.Exists(UpdaterService.UpdaterPath))
+					File.Delete(UpdaterService.UpdaterPath);
 
-                    // Necessary to stablish SSL connection with Github API
-                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls |
-                        (SecurityProtocolType)768 | (SecurityProtocolType)3072;
+				bool ignoreUpdates = Environment.GetCommandLineArgs().Contains(UpdaterService.IgnoreUpdatesArg);
+				if (!ignoreUpdates)
+				{
+					if ((!forceInstallUpdate) && (Settings.UpdatingMode == Settings.UpdatingModeType.Disabled))
+						return;
 
-                    // We will only show one error even if it cannot check the two updates
-                    WebException webException = null;
+					// Necessary to stablish SSL connection with Github API
+					ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 
-                    UpdaterService.GithubRelease release = null;
-                    bool hasProgramUpdate = false;
-                    try
-                    {
-                        hasProgramUpdate = UpdaterService.HasProgramUpdate(out release);
-                    }
-                    catch (WebException ex)
-                    {
-                        webException = ex;
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageDisplay.ShowException(ex);
-                        return;
-                    }
+					// We will only show one error even if it cannot check the two updates
+					WebException webException = null;
 
-                    if (hasProgramUpdate)
-                    {
-                        bool update = true;
-                        if ((!forceInstallUpdate) && (Settings.UpdatingMode == Settings.UpdatingModeType.AutoCheck))
-                        {
-                            update = MessageBox.Show(Settings.GetLanguageString("UpdateAvailableText"),
-                                Settings.GetLanguageString("UpdateAvailableTitle"), MessageBoxButton.YesNo) == MessageBoxResult.Yes;
-                        }
+					UpdaterService.GithubRelease release = null;
+					bool hasProgramUpdate = false;
+					try
+					{
+						hasProgramUpdate = UpdaterService.HasProgramUpdate(out release);
+					}
+					catch (WebException ex)
+					{
+						webException = ex;
+					}
+					catch (Exception ex)
+					{
+						MessageDisplay.ShowException(ex);
+						return;
+					}
 
-                        if (update)
-                        {
-                            string updaterPath = Path.Combine(Settings.TempFolderPath, "SporeModManagerSetup.exe");
-                            bool updateDownloadFinished = false;
+					if (hasProgramUpdate)
+					{
+						bool update = true;
+						if ((!forceInstallUpdate) && (Settings.UpdatingMode == Settings.UpdatingModeType.AutoCheck))
+						{
+							update = MessageBox.Show(Settings.GetLanguageString("UpdateAvailableText"),
+								Settings.GetLanguageString("UpdateAvailableTitle"), MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+						}
 
-                            /*while ((!File.Exists(updaterPath)) || Permissions.IsFileLocked(updaterPath) || (!updateDownloadFinished))
-                            { }*/
+						if (update)
+						{
+							
+							bool updateDownloadFinished = false;
 
-                            var progressDialog = GetProgressDialog(Settings.GetLanguageString("UpdatingProgressText"), (s, e) =>
-                            {
-                            /*Thread prgThread = new Thread(() =>
-                            {*/
-                                updateDownloadFinished = UpdaterService.UpdateProgram(release, (s_, e_) =>
-                            {
-                                        (s as BackgroundWorker).ReportProgress(e_.ProgressPercentage);
-                                    });
+							/*while ((!File.Exists(UpdaterService.UpdaterPath)) || Permissions.IsFileLocked(UpdaterService.UpdaterPath) || (!updateDownloadFinished))
+							{ }*/
 
-                            /*});
-                            prgThread.Start();*/
-                            });
-                            progressDialog.ShowDialog();
+							var progressDialog = GetProgressDialog(Settings.GetLanguageString("UpdatingProgressText"), (s, e) =>
+							{
+							/*Thread prgThread = new Thread(() =>
+							{*/
+								updateDownloadFinished = UpdaterService.UpdateProgram(release, (s_, e_) =>
+							{
+										(s as BackgroundWorker).ReportProgress(e_.ProgressPercentage);
+									});
 
-                            if (progressDialog.Error != null)
-                            {
-                                MessageDisplay.ShowException(progressDialog.Error);
-                                return;
-                            }
+							/*});
+							prgThread.Start();*/
+							});
+							progressDialog.ShowDialog();
 
-                            while (Permissions.IsFileLocked(updaterPath))
-                            { }
-                            Process.Start(updaterPath, "--update \"" + Path.GetDirectoryName(Process.GetCurrentProcess().GetExecutablePath()) + "\" \"" + Process.GetCurrentProcess().GetExecutablePath() + "\" --lang:" + Settings.CurrentLanguageCode);
-                            Process.GetCurrentProcess().Kill();
-                        }
-                    }
+							if (progressDialog.Error != null)
+							{
+								MessageDisplay.ShowException(progressDialog.Error);
+								return;
+							}
 
-                    //TODO remember to restore this
-                    webException = null;
+							while (Permissions.IsFileLocked(UpdaterService.UpdaterPath))
+							{ }
 
-                    bool hasDllsUpdate = false;
-                    try
-                    {
-                        hasDllsUpdate = UpdaterService.HasDllsUpdate(out release);
-                    }
-                    catch (WebException ex)
-                    {
-                        webException = ex;
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageDisplay.ShowException(ex);
-                        return;
-                    }
+							string argsPath = Path.Combine(Settings.TempFolderPath, "postUpdateCmdArgs.info");
+							File.WriteAllText(argsPath, Permissions.GetProcessCommandLineArgs());
+							Permissions.GrantAccessFile(argsPath);
 
-                    if (webException != null)
-                    {
-                        MessageBox.Show(Settings.GetLanguageString("Error_CannotCheckForUpdates") + "\n" + webException.ToString(), Settings.GetLanguageString("Error_CannotCheckForUpdatesTitle"));
-                        return;
-                    }
+							var updaterInfo = new ProcessStartInfo(UpdaterService.UpdaterPath, "--update \"" + Path.GetDirectoryName(Process.GetCurrentProcess().GetExecutablePath()) + "\" \"" + Process.GetCurrentProcess().GetExecutablePath() + "\" --lang:" + Settings.CurrentLanguageCode + " " + Permissions.GetProcessCommandLineArgs())
+							{
+								UseShellExecute = false,
+								WorkingDirectory = Settings.TempFolderPath
+							};
+							CrossProcess.PropagateDotnetEnvironmentVariables(ref updaterInfo);
+							Process.Start(updaterInfo);
+							
+							Process.GetCurrentProcess().Kill();
+						}
+					}
 
-                    if (hasDllsUpdate)
-                    {
-                        // If we reach this point with a program update available, it means it didn't update
-                        // (as the update restarts the program), so we cannot continue
-                        if (hasProgramUpdate)
-                        {
-                            MessageBox.Show(Settings.GetLanguageString("Error_UpdateAvailableDlls"),
-                                Settings.GetLanguageString("Error_UpdateAvailableDllsTitle"));
-                        }
-                        else
-                        {
-                            bool update = true;
-                            if (Settings.UpdatingMode == Settings.UpdatingModeType.AutoCheck)
-                            {
-                                update = MessageBox.Show(Settings.GetLanguageString("UpdateAvailableDllsText"),
-                                    Settings.GetLanguageString("UpdateAvailableDllsTitle"), MessageBoxButton.YesNo) == MessageBoxResult.Yes;
-                            }
+					//TODO remember to restore this
+					webException = null;
 
-                            if (update)
-                            {
-                                var progressDialog = GetProgressDialog(Settings.GetLanguageString("UpdatingProgressDllsText"), (s, e) =>
-                                {
-                                    UpdaterService.UpdateDlls(release, (s_, e_) =>
-                                    {
-                                        (s as BackgroundWorker).ReportProgress(e_.ProgressPercentage);
-                                    });
-                                });
-                                progressDialog.ShowDialog();
+					bool hasDllsUpdate = false;
+					try
+					{
+						hasDllsUpdate = UpdaterService.HasDllsUpdate(out release);
+					}
+					catch (WebException ex)
+					{
+						webException = ex;
+					}
+					catch (Exception ex)
+					{
+						MessageDisplay.ShowException(ex);
+						return;
+					}
 
-                                if (progressDialog.Error != null)
-                                {
-                                    MessageDisplay.ShowException(progressDialog.Error);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ShowExceptionNoExit(ex);
-            }
-        }
+					if (webException != null)
+					{
+						MessageBox.Show(Settings.GetLanguageString("Error_CannotCheckForUpdates") + "\n" + webException.ToString(), Settings.GetLanguageString("Error_CannotCheckForUpdatesTitle"));
+						return;
+					}
 
-        static bool exceptionShown = false;
-        static void ShowExceptionNoExit(Exception exception)
-        {
-            if (!exceptionShown)
-            {
-                exceptionShown = true;
-                Exception current = exception;
-                int count = 0;
-                string errorText = "\n\nPlease send the contents this MessageBox and all which follow it to rob55rod\\Splitwirez, along with a description of what you were doing at the time.\n\nThe Spore Mod Manager will exit after the last Inner exception has been reported.";
-                string errorTitle = "Something is very wrong here. Layer ";
-                while (current != null)
-                {
-                    MessageBox.Show(current.GetType() + ": " + current.Message + "\n" + current.Source + "\n" + current.StackTrace + errorText, errorTitle + count);
-                    count++;
-                    current = current.InnerException;
-                    if (count > 4)
-                        break;
-                }
-                if (current != null)
-                {
-                    MessageBox.Show(current.GetType() + ": " + current.Message + "\n" + current.Source + "\n" + current.StackTrace + errorText, errorTitle + count);
-                }
-            }
-        }
+					if (hasDllsUpdate)
+					{
+						// If we reach this point with a program update available, it means it didn't update
+						// (as the update restarts the program), so we cannot continue
+						if (hasProgramUpdate)
+						{
+							MessageBox.Show(Settings.GetLanguageString("Error_UpdateAvailableDlls"),
+								Settings.GetLanguageString("Error_UpdateAvailableDllsTitle"));
+						}
+						else
+						{
+							bool update = true;
+							if (Settings.UpdatingMode == Settings.UpdatingModeType.AutoCheck)
+							{
+								update = MessageBox.Show(Settings.GetLanguageString("UpdateAvailableDllsText"),
+									Settings.GetLanguageString("UpdateAvailableDllsTitle"), MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+							}
 
-        public static ProgressDialog GetProgressDialog(string text, DoWorkEventHandler action)
-        {
-            return GetProgressDialog(text, action, false);
-        }
+							if (update)
+							{
+								var progressDialog = GetProgressDialog(Settings.GetLanguageString("UpdatingProgressDllsText"), (s, e) =>
+								{
+									UpdaterService.UpdateDlls(release, (s_, e_) =>
+									{
+										(s as BackgroundWorker).ReportProgress(e_.ProgressPercentage);
+									});
+								});
+								progressDialog.ShowDialog();
 
-        public static ProgressDialog GetProgressDialog(string text, DoWorkEventHandler action, bool testUI)
-        {
-            ProgressDialog dialog = new ProgressDialog(text, action);
+								if (progressDialog.Error != null)
+								{
+									MessageDisplay.ShowException(progressDialog.Error);
+								}
+							}
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				ShowExceptionNoExit(ex);
+			}
+		}
 
-            Window window;
-            if (false) //Settings.UseCustomWindowDecorations)
-            {
-                window = new DecoratableWindow();
-                window.SetResourceReference(DecoratableWindow.StyleProperty, typeof(DecoratableWindow));
-            }
-            else
-                window = new Window();
+		static bool exceptionShown = false;
+		static void ShowExceptionNoExit(Exception exception)
+		{
+			if (!exceptionShown)
+			{
+				exceptionShown = true;
+				Exception current = exception;
+				int count = 0;
+				string errorText = "\n\nPlease send the contents this MessageBox and all which follow it to rob55rod\\Splitwirez, along with a description of what you were doing at the time.\n\nThe Spore Mod Manager will exit after the last Inner exception has been reported.";
+				string errorTitle = "Something is very wrong here. Layer ";
+				while (current != null)
+				{
+					MessageBox.Show(current.GetType() + ": " + current.Message + "\n" + current.Source + "\n" + current.StackTrace + errorText, errorTitle + count);
+					count++;
+					current = current.InnerException;
+					if (count > 4)
+						break;
+				}
+				if (current != null)
+				{
+					MessageBox.Show(current.GetType() + ": " + current.Message + "\n" + current.Source + "\n" + current.StackTrace + errorText, errorTitle + count);
+				}
+			}
+		}
 
-            window.Content = dialog;
-            window.SizeToContent = SizeToContent.WidthAndHeight;
-            window.Resources = dialog.Resources;//.MergedDictionaries.Add() //Application.Current.Resources.MergedDictionaries[0].MergedDictionaries[1] = ShaleAccents.Sky.Dictionary;
+		public static ProgressDialog GetProgressDialog(string text, DoWorkEventHandler action)
+		{
+			return GetProgressDialog(text, action, false);
+		}
 
-            if (testUI)
-            {
-                dialog.SetProgress(50);
-                window.Show();
-            }
+		public static ProgressDialog GetProgressDialog(string text, DoWorkEventHandler action, bool testUI)
+		{
+			ProgressDialog dialog = new ProgressDialog(text, action);
 
-            return dialog;
-        }
-    }
+			Window window;
+			if (false) //Settings.UseCustomWindowDecorations)
+			{
+				window = new DecoratableWindow();
+				window.SetResourceReference(DecoratableWindow.StyleProperty, typeof(DecoratableWindow));
+			}
+			else
+				window = new Window();
+
+			window.Content = dialog;
+			window.SizeToContent = SizeToContent.WidthAndHeight;
+			window.Resources = dialog.Resources;//.MergedDictionaries.Add() //Application.Current.Resources.MergedDictionaries[0].MergedDictionaries[1] = ShaleAccents.Sky.Dictionary;
+
+			if (testUI)
+			{
+				dialog.SetProgress(50);
+				window.Show();
+			}
+
+			return dialog;
+		}
+	}
 }

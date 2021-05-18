@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+  <name>Guides creator</name>
+  <id>org.inkscape.effect.guides_creator</id>
+  <param name="tab" type="notebook">
+    <page name="regular_guides" gui-text="Regular guides">
+      <param name="guides_preset" type="optiongroup" appearance="combo" gui-text="Guides preset:">
+        <option value="custom">Custom...</option>
+        <option value="golden">Golden ratio</option>
+        <option value="3;3">Rule-of-third</option>
+      </param>
+      <param name="vertical_guides"    type="int"   min="1" max="1000" gui-text="Columns:">2</param>
+      <param name="horizontal_guides"  type="int"   min="1" max="1000" gui-text="Rows:">3</param>
+    </page>
+    <page name="diagonal_guides" gui-text="Diagonal guides">
+      <param name="ul" type="bool" gui-text="Upper left corner">false</param>
+      <param name="ur" type="bool" gui-text="Upper right corner">false</param>
+      <param name="ll" type="bool" gui-text="Lower left corner">false</param>
+      <param name="lr" type="bool" gui-text="Lower right corner">false</param>
+    </page>
+    <page name="margins" gui-text="Margins">
+      <param name="margins_preset" type="optiongroup" appearance="combo" gui-text="Margins preset:">
+        <option value="custom">Custom...</option>
+        <option value="book_left">Left book page</option>
+        <option value="book_right">Right book page</option>
+      </param>
+      <param name="header_margin" type="optiongroup" appearance="combo" gui-text="Header margin:">
+        <option translatable="no" value="10">1/10</option>
+        <option translatable="no" value="9">1/9</option>
+        <option translatable="no" value="8">1/8</option>
+        <option translatable="no" value="7">1/7</option>
+        <option translatable="no" value="6">1/6</option>
+        <option translatable="no" value="5">1/5</option>
+        <option translatable="no" value="4">1/4</option>
+        <option translatable="no" value="3">1/3</option>
+        <option translatable="no" value="2">1/2</option>
+        <option context="Margin" value="0">None</option>
+      </param>
+      <param name="footer_margin" type="optiongroup" appearance="combo" gui-text="Footer margin:">
+        <option translatable="no" value="10">1/10</option>
+        <option translatable="no" value="9">1/9</option>
+        <option translatable="no" value="8">1/8</option>
+        <option translatable="no" value="7">1/7</option>
+        <option translatable="no" value="6">1/6</option>
+        <option translatable="no" value="5">1/5</option>
+        <option translatable="no" value="4">1/4</option>
+        <option translatable="no" value="3">1/3</option>
+        <option translatable="no" value="2">1/2</option>
+        <option context="Margin" value="0">None</option>
+      </param>
+      <param name="left_margin" type="optiongroup" appearance="combo" gui-text="Left margin:">
+        <option translatable="no" value="10">1/10</option>
+        <option translatable="no" value="9">1/9</option>
+        <option translatable="no" value="8">1/8</option>
+        <option translatable="no" value="7">1/7</option>
+        <option translatable="no" value="6">1/6</option>
+        <option translatable="no" value="5">1/5</option>
+        <option translatable="no" value="4">1/4</option>
+        <option translatable="no" value="3">1/3</option>
+        <option translatable="no" value="2">1/2</option>
+        <option context="Margin" value="0">None</option>
+      </param>
+      <param name="right_margin" type="optiongroup" appearance="combo" gui-text="Right margin:">
+        <option translatable="no" value="10">1/10</option>
+        <option translatable="no" value="9">1/9</option>
+        <option translatable="no" value="8">1/8</option>
+        <option translatable="no" value="7">1/7</option>
+        <option translatable="no" value="6">1/6</option>
+        <option translatable="no" value="5">1/5</option>
+        <option translatable="no" value="4">1/4</option>
+        <option translatable="no" value="3">1/3</option>
+        <option translatable="no" value="2">1/2</option>
+        <option context="Margin" value="0">None</option>
+      </param>
+      <param name="vert"    type="int"   min="1" max="1000" gui-text="Columns:">2</param>
+      <param name="horz"  type="int"   min="1" max="1000" gui-text="Rows:">3</param>
+    </page>
+  </param>
+  <param name="start_from_edges" type="bool" gui-text="Start from edges">false</param>
+  <param name="delete" type="bool" gui-text="Delete existing guides">false</param>
+  <effect>
+    <object-type>all</object-type>
+    <effects-menu>
+      <submenu name="Render"/>
+    </effects-menu>
+  </effect>
+  <script>
+    <command location="inx" interpreter="python">guides_creator.py</command>
+  </script>
+</inkscape-extension>
+

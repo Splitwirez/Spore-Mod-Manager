@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.0beta0 (1d85f8e, 2019-09-11)"
+   sodipodi:docname="node-type-cusp-symbolic.svg"
+   viewBox="0 0 16 16"
+   height="16"
+   width="16"
+   id="svg1"
+   version="1.1">
+<style id="s0">
+   .success { fill: #009909; }
+   .warning { fill: #FF1990; }
+   .error   { fill: #00AAFF; }
+  </style>
+  <style id="s2"> 
+     @import '../../highlights.css'; 
+  </style>
+   
+  <metadata
+     id="metadata1064">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1062" />
+  <sodipodi:namedview
+     inkscape:document-rotation="0"
+     inkscape:current-layer="node-type-cusp"
+     inkscape:window-maximized="1"
+     inkscape:window-y="-8"
+     inkscape:window-x="54"
+     inkscape:window-height="1177"
+     inkscape:window-width="1858"
+     inkscape:cy="8.0965097"
+     inkscape:cx="9.1756767"
+     inkscape:zoom="54.332374"
+     showgrid="true"
+     id="namedview"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10">
+    <inkscape:grid
+       id="grid"
+       type="xygrid" />
+  </sodipodi:namedview>
+  <g
+     id="node-type-cusp"
+     inkscape:label="00201"
+     transform="matrix(0.996795,0,0,0.999864,-557.15964,-558.28378)">
+    <path
+       style="opacity:0;fill:none"
+       d="m 559,558.36218 h 16 v 16 h -16 z"
+       id="rect3216"
+       inkscape:connector-curvature="0" />
+    <path
+       sodipodi:nodetypes="ccccccccccccccccc"
+       inkscape:connector-curvature="0"
+       transform="matrix(1.0032153,0,0,1.000136,558.95108,558.35972)"
+       d="m 0.48828125,0 c -0.011738,2.3553232e-4 -0.0234641,8.8698199e-4 -0.0351563,0.00195313 -0.66452253,0.06277336 -0.57077253,1.06277337 0.09375,0.99999997 1.6326505,0 2.7825533,0.5330603 3.6757812,1.34375 0.8931284,0.8107897 1.5165752,1.9115651 1.9316407,3.125 C 6.44225,6.3127301 6.6078814,7.1702766 6.7324219,8 H 7.75 C 7.6233292,7.1135561 7.4280044,6.1527401 7.0878906,5.1582031 6.6363425,3.8379827 5.9707866,2.5601719 4.9082031,1.5957031 3.84552,0.63113432 2.3967272,0.00195313 0.546875,0.00195313 0.52739887,1.495088e-4 0.50783379,-5.0266229e-4 0.48828125,0 Z M 15.501953,0.01367188 C 15.241609,0.01190248 15.023375,0.21060596 15,0.47070312 14.614228,4.563178 12.808696,6.592109 10,8.7246585 V 10.017627 C 13.324283,7.6573248 15.558605,5.2266594 15.998047,0.56445312 16.026615,0.27015154 15.796736,0.01493168 15.501953,0.01367188 Z"
+       style="opacity:1;stroke-width:0.998328"
+       id="path3226" />
+    <path
+       class="warning"
+       style="opacity:1;stroke-width:1.1071"
+       d="m 563.61633,569.80593 2.84413,-2.79136 2.87359,2.82029 -2.84412,2.79138 z"
+       id="rect3224"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

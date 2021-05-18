@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>DXF Input</name>
+    <id>org.inkscape.input.dxf_input</id>
+    <param name="tab" type="notebook">
+        <page name="options" gui-text="Options">
+            <param name="scalemethod" type="optiongroup" appearance="radio" gui-text="Method of Scaling:">
+                <option value="manual">Manual scale</option>
+                <option value="auto">Automatic scaling to size A4</option>
+                <option value="file">Read from file</option>
+            </param>
+            <param name="scale" type="string" gui-text="Manual scale factor:">1.0</param>
+            <param name="xmin" type="string" gui-text="Manual x-axis origin (mm):">0.0</param>
+            <param name="ymin" type="string" gui-text="Manual y-axis origin (mm):">0.0</param>
+            <param name="gcodetoolspoints" type="bool" gui-text="Gcodetools compatible point import">false</param>
+            <spacer/><separator/><spacer/>
+            <param name="encoding" type="optiongroup" appearance="combo" gui-text="Character encoding:">
+                <option translatable="no" value="latin_1">Latin 1</option>
+                <option translatable="no" value="cp1250">CP 1250</option>
+                <option translatable="no" value="cp1252">CP 1252</option>
+                <option translatable="no" value="cp932">Shift JIS</option>
+                <option translatable="no" value="utf_8">UTF-8</option>
+            </param>
+            <param name="font" type="string" gui-text="Text Font:">Arial</param>
+        </page>
+        <page name="help" gui-text="Help">
+            <label xml:space="preserve">- AutoCAD Release 13 and newer.
+- for manual scaling, assume dxf drawing is in mm.
+- assume svg drawing is in pixels, at 96 dpi.
+- scale factor and origin apply only to manual scaling.
+- 'Automatic scaling' will fit the width of an A4 page.
+- 'Read from file' uses the variable $MEASUREMENT.
+- layers are preserved only on File->Open, not Import.
+- limited support for BLOCKS, use AutoCAD Explode Blocks instead, if needed.</label>
+        </page>
+    </param>
+    <input>
+        <extension>.dxf</extension>
+        <mimetype>image/x-svgz</mimetype>
+        <filetypename>AutoCAD DXF R13 (*.dxf)</filetypename>
+        <filetypetooltip>Import AutoCAD's Document Exchange Format</filetypetooltip>
+    </input>
+    <script>
+        <command location="inx" interpreter="python">dxf_input.py</command>
+    </script>
+</inkscape-extension>

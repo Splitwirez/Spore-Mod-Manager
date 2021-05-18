@@ -1,0 +1,13 @@
+
+Icons follow the freedesktop.org icon scheme. Icons must be placed in
+either the "root" level icon directory (share/icons, not recommended)
+or a subdirectory which matches one the system installed theme,
+i.e. share/icons/hicolor/scalable/actions. Note that 'hicolor' is the
+default/backup theme. For the moment, putting all Inkscape icons in
+'actions' subdirectory.
+
+Providing an 'index.theme' file or generating an icon cache via
+gtk-update-icon-cache does not appear useful.
+
+ticotico.jpg is (C)2008 Dario Sanches licensed under Creative Commons by-sa 3.0
+

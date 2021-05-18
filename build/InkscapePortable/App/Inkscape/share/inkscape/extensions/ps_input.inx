@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>PostScript Input</name>
+    <id>org.inkscape.input.postscript_input</id>
+    <dependency type="extension">org.inkscape.input.pdf</dependency>
+    <dependency type="executable" location="path">ps2pdf</dependency>
+    <input>
+        <extension>.ps</extension>
+        <mimetype>image/x-postscript</mimetype>
+        <filetypename>PostScript (*.ps)</filetypename>
+        <filetypetooltip>PostScript</filetypetooltip>
+        <output_extension>org.inkscape.output.ps</output_extension>
+    </input>
+    <script>
+        <command location="inx" interpreter="python">ps_input.py</command>
+        <helper_extension>org.inkscape.input.pdf</helper_extension>
+    </script>
+</inkscape-extension>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1"
+   width="16"
+   height="16"
+  >
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingy="1pt"
+     gridspacingx="1pt"
+     gridoriginy="0pt"
+     gridoriginx="0pt"
+  />
+  <defs id="defs3">
+
+  </defs>
+<g id="path-inset" inkscape:label="#inset_path" transform="translate(-290,-155)">
+  <path d="M 290.5,155.5 290.5,162.5 C 294.5,162.5 298.5,166.5 298.5,170.5 L 305.5,170.5 C 305.5,162.5 298.5,155.5 290.5,155.5 Z" id="use5684" inkscape:connector-curvature="0" sodipodi:nodetypes="ccccc" style="fill:#99b7d4;fill-rule:evenodd" transform="matrix(1,0,0,1,-0.04087,-0.039)"/>
+  <path d="M 290.5,170.5 290.5,162.5 C 294.5,162.5 298.5,166.5 298.5,170.5 L 290.5,170.5 Z" id="use5692" inkscape:connector-curvature="0" sodipodi:nodetypes="cccc" style="color:#000000;fill:#99b6d4;fill-opacity:0.59;fill-rule:evenodd;stroke-width:1px" transform="matrix(1,0,0,1,-0.04087,-0.039)"/>
+  <path d="M 290.5,155.5 C 298.5,155.5 305.5,162.5 305.5,170.5" id="path10769" inkscape:connector-curvature="0" sodipodi:nodetypes="cc" style="color:#000000;fill:none;stroke:#000000;stroke-linecap:round;stroke-dasharray:1, 2"/>
+  <path d="M 290.5,162.5 C 294.5,162.5 298.5,166.5 298.5,170.5" id="path10771" inkscape:connector-curvature="0" sodipodi:nodetypes="cc" style="fill:none;stroke:#000000;stroke-linecap:round"/>
+  <path d="M 297.5,163.5 301.5,163.5 297.5,159.5 297.5,163.5 Z" id="path10773" inkscape:connector-curvature="0" style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1px"/>
+</g>
+
+</svg>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1"
+   width="16.006231"
+   height="16.026028"
+  >
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingy="1pt"
+     gridspacingx="1pt"
+     gridoriginy="0pt"
+     gridoriginx="0pt"
+  />
+  <defs id="defs3">
+
+  </defs>
+<g id="text-put-on-path" inkscape:label="#put_on_path" transform="translate(-279.99377,-64.973972)">
+  <rect height="16" id="use13618" style="color:#000000;fill:none;stroke-width:0.531496;stroke-linejoin:round" transform="matrix(1,0,0,1,0,21)" width="16" x="280" y="44"/>
+  <g id="use13621" transform="matrix(1,0,0,1,0,21)">
+    <path d="M 283.5,49.5 285.2679,47.69344 C 285.7679,47.19344 286.7679,47.19344 287.2679,47.69344 L 288.2679,48.69344 C 288.7679,49.19344 288.7679,50.19344 288.2679,50.69344 L 286.5,52.5 280.5,46.5 M 293.7061,45 C 293.4888,44.63989 292.8847,44.39585 292.4353,44.5 L 290.4382,44.92262 C 289.9234,45.09695 289.6406,45.77423 289.7835,46.21937 L 290.0427,48.13168 C 290.1303,48.60198 290.8589,49.05562 291.4264,48.96131 L 293.0135,48.67809 C 293.6776,48.52897 294.0322,47.99297 294,47.53434 M 285.5,53.5 C 285.3601,53.98808 284.9107,54.39879 284.5,54.5 L 282.5,53.69344 C 281.8066,53.52383 281.1905,53.85716 281,54.5 L 280.5387,56.34525 C 280.3958,57.03869 280.6012,57.8095 281.1934,58 L 283.1905,58.38394 C 283.7946,58.55355 284.4636,57.87095 284.5,57.30656 284.5677,56.25505 284.7321,55.39683 284.5,54.5" id="path9935" inkscape:connector-curvature="0" style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round"/>
+  </g>
+  <path d="M 286.5,80.5 C 286.5,75.5 290.5,71.5 295.5,71.5" id="path13655" inkscape:connector-curvature="0" sodipodi:nodetypes="cc" style="fill:none;stroke:#646464;stroke-width:1.0000002;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0"/>
+</g>
+
+</svg>

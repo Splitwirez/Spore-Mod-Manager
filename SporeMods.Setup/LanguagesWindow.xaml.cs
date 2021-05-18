@@ -13,35 +13,53 @@ using System.Windows.Shapes;
 
 namespace SporeMods.Setup
 {
-    /// <summary>
-    /// Interaction logic for LanguagesWindow.xaml
-    /// </summary>
-    public partial class LanguagesWindow : Window
-    {
-        public LanguagesWindow()
-        {
-            InitializeComponent();
-        }
+	/// <summary>
+	/// Interaction logic for LanguagesWindow.xaml
+	/// </summary>
+	public partial class LanguagesWindow : Window
+	{
+		public LanguagesWindow()
+		{
+			InitializeComponent();
+		}
 
-        private void LanguagesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if ((LanguagesComboBox.SelectedItem is ComboBoxItem item) && (item.Tag is ResourceDictionary language))
-            {
-                Application.Current.Resources.MergedDictionaries[0] = language;
-            }
-        }
+		private void LanguagesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if ((LanguagesComboBox.SelectedIndex > -1) && (LanguagesComboBox.SelectedIndex < LanguagesComboBox.Items.Count) && (LanguagesComboBox.SelectedItem != null) && (LanguagesComboBox.SelectedItem is ComboBoxItem item) && (item.Tag is string)/* && (item.Tag is ResourceDictionary language)*/)
+			{
+				/*var lang = new ResourceDictionary()
+				{
+					Source = new Uri(item.Tag.ToString().Replace("%EXENAME%", SetupInformation.SetupAssemblyNameForPackURIs), UriKind.RelativeOrAbsolute)
+				};
+				Application.Current.Resources.MergedDictionaries.Clear();
+				/*if (Application.Current.Resources.MergedDictionaries.Count > 0)
+				else*
+					Application.Current.Resources.MergedDictionaries.Add(lang);*/
 
-        bool _allowClose = false;
-        private void LanguagesWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (!_allowClose)
-                e.Cancel = true;
-        }
+				string langName = "en-ca";
+				if (item.Tag != null)
+                {
+					string lName = item.Tag.ToString();
+					
+					if (SetupInformation.Languages.ContainsKey(lName))
+						langName = lName;
+                }
 
-        private void OkButton_Click(object sender, RoutedEventArgs e)
-        {
-            _allowClose = true;
-            Close();
-        }
-    }
+				App.Current.Resources.MergedDictionaries[0] = SetupInformation.Languages[langName];
+			}
+		}
+
+		bool _allowClose = false;
+		private void LanguagesWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			if (!_allowClose)
+				e.Cancel = true;
+		}
+
+		private void OkButton_Click(object sender, RoutedEventArgs e)
+		{
+			_allowClose = true;
+			Close();
+		}
+	}
 }

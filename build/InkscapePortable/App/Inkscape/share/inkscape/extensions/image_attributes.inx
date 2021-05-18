@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+
+    <name>Set Image Attributes</name>
+    <id>org.inkscape.effect.image_attributes</id>
+
+    <param name="tab_main" type="notebook">
+
+        <!-- render images like in 0.48 -->
+        <page name="tab_basic" gui-text="Basic">
+            <label>Render all bitmap images like in older Inskcape versions.
+
+Available options:</label>
+            <param name="fix_scaling" type="bool" gui-text="Support non-uniform scaling">true</param>
+            <param name="fix_rendering" type="bool" gui-text="Render images blocky">false</param>
+        </page>
+
+        <!-- image aspect ratio -->
+        <page name="tab_aspect_ratio" gui-text="Image Aspect Ratio">
+            <param name="aspect_ratio" type="optiongroup" appearance="combo" gui-text="preserveAspectRatio attribute:">
+                <option translatable="no" value="none">none</option>
+                <option value="unset">Unset</option>
+                <option translatable="no" value="xMinYMin">xMinYMin</option>
+                <option translatable="no" value="xMidYMin">xMidYMin</option>
+                <option translatable="no" value="xMaxYMin">xMaxYMin</option>
+                <option translatable="no" value="xMinYMid">xMinYMid</option>
+                <option translatable="no" value="xMidYMid">xMidYMid</option>
+                <option translatable="no" value="xMaxYMid">xMaxYMid</option>
+                <option translatable="no" value="xMinYMax">xMinYMax</option>
+                <option translatable="no" value="xMidYMax">xMidYMax</option>
+                <option translatable="no" value="xMaxYMax">xMaxYMax</option>
+            </param>
+            <param name="aspect_clip" type="optiongroup" appearance="combo" gui-text="meetOrSlice:">
+                <option translatable="no" value="unset">-</option>
+                <option translatable="no" value="meet">meet</option>
+                <option translatable="no" value="slice">slice</option>
+            </param>
+            <param name="aspect_ratio_scope" type="optiongroup" appearance="combo" gui-text="Scope:">
+                <option value="selected_only">Change only selected image(s)</option>
+                <option value="in_selection">Change all images in selection</option>
+                <option value="in_document">Change all images in document</option>
+            </param>
+        </page>
+
+        <!-- image-rendering -->
+        <page name="tab_image_rendering" gui-text="Image Rendering Quality">
+            <param name="image_rendering" type="optiongroup" appearance="combo" gui-text="Image rendering attribute:">
+                <option value="unset">Unset</option>
+                <option translatable="no" value="auto">auto</option>
+                <option translatable="no" value="optimizeQuality">optimizeQuality</option>
+                <option translatable="no" value="optimizeSpeed">optimizeSpeed</option>
+                <option translatable="no" value="inherit">inherit</option>
+            </param>
+            <param name="image_rendering_scope" type="optiongroup" appearance="combo" gui-text="Scope:">
+                <option value="selected_only">Change only selected image(s)</option>
+                <option value="in_selection">Change all images in selection</option>
+                <option value="in_document">Change all images in document</option>
+                <option value="on_parent_group">Apply attribute to parent group of selection</option>
+                <option value="on_root_only" >Apply attribute to SVG root</option>
+            </param>
+        </page>
+
+    </param>
+
+    <effect needs-document="true" needs-live-preview="true">
+        <object-type>all</object-type>
+        <effects-menu>
+            <submenu name="Images"/>
+        </effects-menu>
+    </effect>
+
+    <script>
+        <command location="inx" interpreter="python">image_attributes.py</command>
+    </script>
+
+</inkscape-extension>

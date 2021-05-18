@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="16"
+   height="16"
+  >
+
+  <g id="draw-geometry-mirror" inkscape:label="#mirror_symmetry">
+    <g style="fill:none;stroke-linecap:round">
+      <path d="m 2,7 c 7,0 -4,6.5 7,6.5" style="stroke:#da0000;stroke-opacity:0.7"/>
+      <path d="m 2,2 12,12"              style="stroke:#5a5a5a"/>
+      <path d="m 7,2 c 0,7 6.5,-4 6.5,7" style="stroke:#da0000;stroke-opacity:0.7"/>
+    </g>
+  </g>
+
+</svg>

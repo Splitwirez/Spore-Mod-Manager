@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+  <name>2 - Add Glyph Layer</name>
+  <id>org.inkscape.typography.new_glyph_layer</id>
+  <param name="text" type="string" gui-text="Unicode character:"></param>
+  <effect>
+    <object-type>all</object-type>
+    <effects-menu>
+      <submenu name="Typography"/>
+    </effects-menu>
+  </effect>
+  <script>
+    <command location="inx" interpreter="python">new_glyph_layer.py</command>
+  </script>
+</inkscape-extension>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>DHW file input</name>
+    <id>org.inkscape.input.dhw_input</id>
+    <input>
+        <extension>.dhw</extension>
+        <mimetype>application/x-extension-DHW</mimetype>
+        <filetypename>ACECAD Digimemo File (*.dhw)</filetypename>
+        <filetypetooltip>Open files from ACECAD Digimemo</filetypetooltip>
+    </input>
+    <script>
+        <command location="inx" interpreter="python">dhw_input.py</command>
+    </script>
+</inkscape-extension>

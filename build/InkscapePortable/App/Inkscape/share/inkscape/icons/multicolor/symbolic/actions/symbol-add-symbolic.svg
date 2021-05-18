@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.1-dev (1fceb22, 2019-12-30)"
+   sodipodi:docname="symbol-add-symbolic.svg"
+   viewBox="0 0 16 16"
+   height="16"
+   width="16"
+   id="svg1"
+   version="1.1">
+  <metadata
+     id="metadata3612">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs3610" />
+  <style
+     id="s0">
+.success { fill:#009909; }
+.warning { fill:#FF1990; }
+.error { fill:#00AAFF; }
+</style>
+  <style
+     id="s2">
+@import '../../highlights.css';
+</style>
+  <sodipodi:namedview
+     inkscape:document-rotation="0"
+     inkscape:current-layer="symbol-add"
+     inkscape:window-maximized="1"
+     inkscape:window-y="-8"
+     inkscape:window-x="54"
+     inkscape:window-height="1177"
+     inkscape:window-width="1858"
+     inkscape:cy="7.5830077"
+     inkscape:cx="7.7022742"
+     inkscape:zoom="42.558989"
+     showgrid="true"
+     id="namedview"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10">
+    <inkscape:grid
+       id="grid"
+       type="xygrid" />
+  </sodipodi:namedview>
+  <g
+     class="error"
+     inkscape:label="00340"
+     id="symbol-add">
+    <title
+       id="title48587">object-symbol</title>
+    <g
+       id="symbol-remove"
+       inkscape:label="00341"
+       transform="matrix(1.2857144,0,0,1.5,-5.0000005,-10.5)"
+       style="stroke-width:0.720082">
+      <title
+         id="title48573">object-unsymbol</title>
+      <rect
+         style="opacity:1;stroke-width:0.272157;stroke-linecap:round;paint-order:markers fill stroke"
+         id="rect3500"
+         width="7"
+         height="2"
+         x="7"
+         y="11" />
+    </g>
+    <g
+       style="stroke-width:0.720082"
+       transform="matrix(0,1.2857143,-1.5,0,26.5,-6.0000002)"
+       inkscape:label="00341"
+       id="symbol-remove-2">
+      <title
+         id="title48573-8">object-unsymbol</title>
+      <rect
+         y="11"
+         x="7"
+         height="2"
+         width="7"
+         id="rect3500-8"
+         style="opacity:1;stroke-width:0.272157;stroke-linecap:round;paint-order:markers fill stroke" />
+    </g>
+  </g>
+</svg>

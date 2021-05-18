@@ -1,208 +1,78 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop" TreatAsLocalProperty="SelfContained">
+  <Import Project="..\SporeMods.SharedAssemblyInfo.props" />
+  <Import Project="..\SporeMods.NetCoreSharedAssemblyInfo.props" />
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D594F7E6-87BB-47C2-8701-1D976E38183B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>SporeMods.Setup</RootNamespace>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <AssemblyTitle>SporeMods.Setup</AssemblyTitle>
+    <Product>SporeMods.Setup</Product>
+    <AssemblyName>updater-$(TargetFramework)--3.1.12</AssemblyName>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <!--RuntimeIdentifier>win-x86</RuntimeIdentifier>
+    <-SelfContained>True</SelfContained>
+    <PublishSingleFile>True</PublishSingleFile>
+    <PublishReadyToRun>true</PublishReadyToRun-->
+    <ApplicationIcon>..\AppIcons\ModManagerSetupIcon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(SelfContained)' == 'true'">
+    <DefineConstants>OFFLINE_INSTALLER</DefineConstants>
     <AssemblyName>SporeModManagerSetup</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
-    <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
+  <!--PropertyGroup Condition="'$(PublishSingleFile)' != 'true'">
+  </PropertyGroup-->
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
+    <Content Include="..\AppIcons\ModManagerSetupIcon.ico">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <LogicalName>ModManagerSetupIcon.ico</LogicalName>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="LanguagesWindow.xaml.cs">
-      <DependentUpon>LanguagesWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Shortcut.cs" />
-    <Page Include="LanguagesWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Locale\ca-ca.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Locale\en-ca.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Locale\es-es.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    <!--EmbeddedResource Include="DotnetRuntime\dotnet-desktopruntime-installer.exe" LogicalName="dotnet-desktopruntime-installer.exe"/-->
+    <!--EmbeddedResource Include="..\unpackagedBin\$(Configuration)\$(TargetFramework)\**" /-->
+    <EmbeddedResource Include="..\unpackagedBin\$(Configuration)\Internal\**">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <LogicalName>smm-bin?%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\Spore Mod Launcher.exe.config">
-      <Link>Spore Mod Launcher.exe.config</Link>
+    <EmbeddedResource Include="..\unpackagedBin\$(Configuration)\Spore Mod Manager.exe">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <LogicalName>Spore Mod Manager.exe</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\Spore Mod Manager.exe.config">
-      <Link>Spore Mod Manager.exe.config</Link>
+    <EmbeddedResource Include="..\unpackagedBin\$(Configuration)\Launch Spore.exe">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <LogicalName>Launch Spore.exe</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\SporeMods.CommonUI.dll.config">
-      <Link>SporeMods.CommonUI.dll.config</Link>
+    <EmbeddedResource Include="..\unpackagedBin\$(Configuration)\xLauncherKitImport.exe">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <LogicalName>xLauncherKitImport.exe</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\SporeMods.Core.dll.config">
-      <Link>SporeMods.Core.dll.config</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\SporeMods.DragServant.exe.config">
-      <Link>SporeMods.DragServant.exe.config</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\SporeMods.KitImporter.exe.config">
-      <Link>SporeMods.KitImporter.exe.config</Link>
-    </EmbeddedResource>
-    <None Include="app.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\Output\ColorMine.dll">
-      <Link>ColorMine.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\Ionic.Zip.dll">
-      <Link>Ionic.Zip.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\Mechanism.Wpf.Core.dll">
-      <Link>Mechanism.Wpf.Core.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\Mechanism.Wpf.Core.pdb">
-      <Link>Mechanism.Wpf.Core.pdb</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\Mechanism.Wpf.Styles.Shale.dll">
-      <Link>Mechanism.Wpf.Styles.Shale.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\Mechanism.Wpf.Styles.Shale.pdb">
-      <Link>Mechanism.Wpf.Styles.Shale.pdb</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\Newtonsoft.Json.dll">
-      <Link>Newtonsoft.Json.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\Newtonsoft.Json.xml">
-      <Link>Newtonsoft.Json.xml</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\Spore Mod Launcher.exe">
-      <Link>Spore Mod Launcher.exe</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\Spore Mod Launcher.pdb">
-      <Link>Spore Mod Launcher.pdb</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\Spore Mod Manager.exe">
-      <Link>Spore Mod Manager.exe</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\Spore Mod Manager.pdb">
-      <Link>Spore Mod Manager.pdb</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\SporeMods.CommonUI.dll">
-      <Link>SporeMods.CommonUI.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\SporeMods.CommonUI.pdb">
-      <Link>SporeMods.CommonUI.pdb</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\SporeMods.Core.dll">
-      <Link>SporeMods.Core.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\SporeMods.Core.pdb">
-      <Link>SporeMods.Core.pdb</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\SporeMods.DragServant.exe">
-      <Link>SporeMods.DragServant.exe</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\SporeMods.DragServant.pdb">
-      <Link>SporeMods.DragServant.pdb</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\System.Windows.Interactivity.dll">
-      <Link>System.Windows.Interactivity.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\WPFTextBoxAutoComplete.dll">
-      <Link>WPFTextBoxAutoComplete.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\WPFTextBoxAutoComplete.pdb">
-      <Link>WPFTextBoxAutoComplete.pdb</Link>
+    <EmbeddedResource Include="..\build\api-ms-win-core-path-l1-1-0.dll">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <LogicalName>api-ms-win-core-path-l1-1-0.dll</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\Output\SporeMods.KitImporter.exe">
-      <Link>SporeMods.KitImporter.exe</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\Output\SporeMods.KitImporter.pdb">
-      <Link>SporeMods.KitImporter.pdb</Link>
+    <Resource Include="Fonts\Ubuntu-Regular.ttf" /> 
+    <Resource Include="Fonts\UFL.txt" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(SelfContained)' == 'true'">
+    <!--EmbeddedResource Include="..\dotnetRuntime\**">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <LogicalName>dotnet-runtime?%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+    </EmbeddedResource-->
+    <EmbeddedResource Include="..\build\dotnetRuntime.zip">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <LogicalName>dotnetRuntime.zip</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <PackageReference Include="System.IO.FileSystem.AccessControl" Version="5.0.0" />
+  </ItemGroup>
 </Project>

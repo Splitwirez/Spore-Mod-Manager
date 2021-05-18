@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.1-dev (1fceb22, 2019-12-30)"
+   sodipodi:docname="searching-symbolic.svg"
+   viewBox="0 0 16 16"
+   height="16"
+   width="16"
+   id="svg1"
+   version="1.1">
+  <metadata
+     id="metadata4251">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs4249" />
+  <style
+     id="s0">
+.success { fill:#009909; }
+.warning { fill:#FF1990; }
+.error { fill:#00AAFF; }
+</style>
+  <style
+     id="s2">
+@import '../../highlights.css';
+</style>
+  <sodipodi:namedview
+     inkscape:document-rotation="0"
+     inkscape:current-layer="svg1"
+     inkscape:window-maximized="1"
+     inkscape:window-y="-8"
+     inkscape:window-x="54"
+     inkscape:window-height="1177"
+     inkscape:window-width="1858"
+     inkscape:cy="8"
+     inkscape:cx="8"
+     inkscape:zoom="60.1875"
+     showgrid="true"
+     id="namedview"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10">
+    <inkscape:grid
+       id="grid"
+       type="xygrid" />
+  </sodipodi:namedview>
+  <g
+     id="searching">
+    <path
+       style="opacity:1"
+       id="path10677"
+       d="m 6.914463,1.41365 c -3.005658,0 -5.451776,2.43867 -5.451776,5.43532 0,2.99666 2.446078,5.43538 5.451776,5.43538 1.310212,0 2.513927,-0.46362 3.45522,-1.23458 l 3.547304,3.53658 0.620326,-0.61845 -3.536404,-3.52572 c 0.849092,-0.95867 1.365268,-2.21699 1.365268,-3.59321 0,-2.99665 -2.44605,-5.43532 -5.451714,-5.43532 z m 0,0.87467 c 2.531574,0 4.574468,2.03669 4.574468,4.56065 0,2.52399 -2.042905,4.56073 -4.574468,4.56073 -2.531597,0 -4.574466,-2.03674 -4.574466,-4.56073 0,-2.52396 2.042869,-4.56071 4.574466,-4.56071 z" />
+    <rect
+       y="0"
+       x="0"
+       width="16"
+       style="opacity:0;fill:none"
+       id="rect9056-0"
+       height="16" />
+  </g>
+</svg>

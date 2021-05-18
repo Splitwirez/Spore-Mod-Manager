@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.0beta2 (7cf281c, 2019-12-21)"
+   sodipodi:docname="paint-pattern-symbolic.svg"
+   viewBox="0 0 16 16"
+   height="16"
+   width="16"
+   id="svg1"
+   version="1.1">
+  <metadata
+     id="metadata10972">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs10970" />
+  <style
+     id="s0">
+.success { fill:#009909; }
+.warning { fill:#FF1990; }
+.error { fill:#00AAFF; }
+</style>
+  <style
+     id="s2">
+@import '../../highlights.css';
+</style>
+  <sodipodi:namedview
+     inkscape:document-rotation="0"
+     inkscape:current-layer="svg1"
+     inkscape:window-maximized="1"
+     inkscape:window-y="-6"
+     inkscape:window-x="65"
+     inkscape:window-height="890"
+     inkscape:window-width="1296"
+     inkscape:cy="8"
+     inkscape:cx="8"
+     inkscape:zoom="41.125"
+     showgrid="true"
+     id="namedview"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10">
+    <inkscape:grid
+       id="grid"
+       type="xygrid" />
+  </sodipodi:namedview>
+  <g
+     id="paint-pattern"
+     inkscape:label="00305"
+     transform="matrix(0.8,0,0,0.8,-944,-743.48976)">
+    <path
+       id="rect4541"
+       transform="translate(0,512.3622)"
+       d="m 1180,417 v 1.0312 l 2.719,3.1563 3.656,-4.1875 z m 2.719,4.1875 -2.719,3.125 v 4.2187 l 2.719,3.1563 4.562,-5.2813 z m 4.562,5.2187 4.532,5.2813 4.562,-5.2813 -4.562,-5.2187 z m 4.532,-5.2187 3.656,-4.1875 h -7.281 z m 4.562,5.2187 3.625,4.2188 v -8.4063 z m -4.562,5.2813 -4.532,5.2187 0.094,0.0938 h 8.906 l 0.094,-0.0938 z m 4.562,5.2187 0.094,0.0938 H 1200 v -4.2813 z m -9.094,0 -4.562,-5.2187 -2.719,3.125 V 437 h 7.188 l 0.094,-0.0937 z m 10,-19.9062 2.719,3.125 V 417 Z"
+       style="opacity:1"
+       inkscape:connector-curvature="0" />
+    <path
+       id="rect4381"
+       transform="translate(0,512.3622)"
+       d="m 1180,417 v 20 h 20 v -20 z"
+       style="opacity:0;fill:none"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

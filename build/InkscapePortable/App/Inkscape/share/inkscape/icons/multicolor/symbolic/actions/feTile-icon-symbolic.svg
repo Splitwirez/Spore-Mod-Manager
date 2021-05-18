@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.1-dev (1fceb22ce1, 2019-12-30, custom)"
+   sodipodi:docname="feTile-icon-symbolic.svg"
+   viewBox="0 0 16 16"
+   height="16"
+   width="16"
+   id="svg1"
+   version="1.1">
+  <defs
+     id="defs262" />
+  <style
+     id="s0">
+.success { fill:#009909; }
+.warning { fill:#FF1990; }
+.error { fill:#00AAFF; }
+</style>
+  <style
+     id="s2">
+@import '../../highlights.css';
+</style>
+  <sodipodi:namedview
+     inkscape:current-layer="layercompo"
+     inkscape:window-maximized="1"
+     inkscape:window-height="1376"
+     inkscape:window-width="2560"
+     inkscape:document-rotation="0"
+     inkscape:window-y="27"
+     inkscape:window-x="0"
+     inkscape:cy="8.9170542"
+     inkscape:cx="7.4837792"
+     inkscape:zoom="27.166187"
+     showgrid="true"
+     id="namedview"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10">
+    <inkscape:grid
+       id="grid"
+       type="xygrid" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata1906">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
+        <dc:title></dc:title>
+        <dc:date>13 Nov 2018</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Ramón Miranda</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:rights>
+          <cc:Agent>
+            <dc:title>see the license tab</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>icon ui</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:description>This is a little contribution with Inkscape Project
+Ramon Miranda  www.ramonmiranda.com (design and SVG file)
+Jabiertxo (SVG stuff to integrate them in UI)</dc:description>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title />
+          </cc:Agent>
+        </dc:publisher>
+        <dc:identifier />
+        <dc:source />
+        <dc:relation />
+        <dc:language>-</dc:language>
+        <dc:coverage />
+        <dc:contributor>
+          <cc:Agent>
+            <dc:title>Ramon Miranda
+Jabier Arraiza</dc:title>
+          </cc:Agent>
+        </dc:contributor>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="feTile"
+     id="layercompo"
+     inkscape:groupmode="layer">
+    <path
+       style="opacity:0;fill:none"
+       d="M 0,0 H 16 V 16 H 0 Z"
+       id="rect22048" />
+    <path
+       class="error"
+       id="path282"
+       d="M 0.95470358,1.0110803 H 4.1186302 V 4.1668312 H 0.95470358 Z"
+       style="opacity:1" />
+    <path
+       id="path280"
+       d="m 11.406946,1.5767926 h 3.163926 v 3.1557509 h -3.163926 z"
+       style="opacity:1;fill:#000000" />
+    <path
+       id="path278"
+       d="M 7.8418276,1.5767926 H 11.005754 V 4.7325435 H 7.8418276 Z"
+       style="opacity:1;fill:#000000" />
+    <path
+       id="path276"
+       d="m 11.406946,5.0831866 h 3.163926 v 3.1557513 h -3.163926 z"
+       style="opacity:1;fill:#000000" />
+    <path
+       id="path274"
+       d="M 7.8418276,5.0831866 H 11.005754 V 8.2389379 H 7.8418276 Z"
+       style="opacity:1;fill:#000000" />
+    <path
+       id="path272"
+       d="m 11.406946,8.5895728 h 3.163926 v 3.1557512 h -3.163926 z"
+       style="opacity:1;fill:#000000" />
+    <path
+       id="path270"
+       d="M 7.8418276,8.5895728 H 11.005754 V 11.745324 H 7.8418276 Z"
+       style="opacity:1;fill:#000000" />
+    <path
+       class="error"
+       id="path268"
+       d="M 4.6208391,4.8611034 6.1123078,6.3487387 5.7394339,6.7206455 H 6.733782 V 5.7288895 L 6.3609082,6.100799 4.8694128,4.6131637 Z"
+       style="opacity:1" />
+    <path
+       id="path266"
+       d="m 11.406946,12.095964 h 3.163926 v 3.15575 h -3.163926 z"
+       style="opacity:1;fill:#000000" />
+    <path
+       id="path9351"
+       d="m 7.8418276,12.095964 h 3.1639264 v 3.15575 H 7.8418276 Z"
+       style="opacity:1;fill:#000000" />
+  </g>
+</svg>

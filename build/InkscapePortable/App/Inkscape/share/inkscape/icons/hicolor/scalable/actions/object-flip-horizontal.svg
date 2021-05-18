@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1"
+   width="16"
+   height="16"
+  >
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingy="1pt"
+     gridspacingx="1pt"
+     gridoriginy="0pt"
+     gridoriginx="0pt"
+  />
+  <defs id="defs3">
+
+    <linearGradient gradientTransform="matrix(0,1.686539,-1.016949,0,148.1771,249.4699)" gradientUnits="userSpaceOnUse" id="linearGradient6665" inkscape:collect="always" x1="-43.56253" x2="-35.44985" xlink:href="#linearGradient5704" y1="186.1107" y2="186.1308"/>
+    <linearGradient id="linearGradient5704">
+      <stop id="stop5706" offset="0" style="stop-color:#5a5a5a;stop-opacity:1"/>
+      <stop id="stop5708" offset="1" style="stop-color:#000000;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" id="linearGradient6737" inkscape:collect="always" x1="-36.94574" x2="-32.04113" xlink:href="#linearGradient6684" y1="186.8153" y2="184.4165"/>
+    <linearGradient gradientTransform="matrix(0,1.007194,-1.016949,0,148.1771,220.2629)" gradientUnits="userSpaceOnUse" id="linearGradient6667" inkscape:collect="always" x1="-43.95" x2="-30.05" xlink:href="#linearGradient5704" y1="187" y2="187"/>
+    <linearGradient gradientTransform="rotate(90,-37.4946,182.5022)" gradientUnits="userSpaceOnUse" id="linearGradient6739" inkscape:collect="always" x1="-37.33073" x2="-33.69472" xlink:href="#linearGradient5704" y1="187.863" y2="178.6575"/>
+    <linearGradient id="linearGradient6684">
+      <stop id="stop6686" offset="0" style="stop-color:#ffbf00;stop-opacity:1"/>
+      <stop id="stop6688" offset="1" style="stop-color:#ffffff;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+<g id="object-flip-horizontal" inkscape:label="#object_flip_hor" transform="translate(45,-175)">
+  <rect height="16" id="rect6649" style="color:#000000;fill:none" width="16" x="-45" y="175"/>
+  <path d="M -37.49238,176.4968 -37.49238,177.4968" id="path6651" inkscape:connector-curvature="0" sodipodi:nodetypes="cc" style="fill:none;stroke:#000000;stroke-width:0.9999998;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:0"/>
+  <path d="M -39.45,176.45 -39.45,189.5435 -44.53475,189.5435 -39.45,176.45 Z" id="path6653" inkscape:connector-curvature="0" sodipodi:nodetypes="cccc" style="color:#000000;fill:url(#linearGradient6665);fill-rule:evenodd;stroke:url(#linearGradient6667);stroke-width:0.8999999;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0"/>
+  <path d="M -35.49238,176.4968 -35.49238,189.4968 -30.49238,189.4968 -35.49238,176.4968 Z" id="path6655" inkscape:connector-curvature="0" sodipodi:nodetypes="cccc" style="color:#000000;fill:url(#linearGradient6737);fill-rule:evenodd;stroke:url(#linearGradient6739);stroke-width:1.0000006;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0"/>
+  <path d="M -37.49238,176.4968 -37.49238,177.4968" id="use7618" inkscape:connector-curvature="0" sodipodi:nodetypes="cc" style="fill:none;stroke:#000000;stroke-width:0.9999998;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:0" transform="matrix(1,0,0,1,-0.0486211,2.96407)"/>
+  <path d="M -37.49238,176.4968 -37.49238,177.4968" id="use7620" inkscape:connector-curvature="0" sodipodi:nodetypes="cc" style="fill:none;stroke:#000000;stroke-width:0.9999998;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:0" transform="matrix(1,0,0,1,-0.0486211,5.96407)"/>
+  <path d="M -37.49238,176.4968 -37.49238,177.4968" id="use7622" inkscape:connector-curvature="0" sodipodi:nodetypes="cc" style="fill:none;stroke:#000000;stroke-width:0.9999998;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:0" transform="matrix(1,0,0,1,-0.0486211,8.96407)"/>
+  <path d="M -37.49238,176.4968 -37.49238,177.4968" id="use7624" inkscape:connector-curvature="0" sodipodi:nodetypes="cc" style="fill:none;stroke:#000000;stroke-width:0.9999998;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:0" transform="matrix(1,0,0,1,-0.0486211,11.96407)"/>
+</g>
+
+</svg>

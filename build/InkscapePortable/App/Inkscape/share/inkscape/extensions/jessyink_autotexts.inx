@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+  <name>Auto-texts</name>
+  <id>org.inkscape.jessyink.auto_texts</id>
+  <param name="tab" type="notebook">
+    <page name="settings" gui-text="Settings">
+            <param name="autoText" type="optiongroup" appearance="radio" gui-text="Auto-Text:">
+        <option value="none">None (remove)</option>
+        <option value="slideTitle">Slide title</option>
+        <option value="slideNumber">Slide number</option>
+        <option value="numberOfSlides">Number of slides</option>
+            </param>
+        </page>
+    <page name="help" gui-text="Help">
+      <label>This extension allows you to install, update and remove auto-texts for a JessyInk presentation. Please see code.google.com/p/jessyink for more details.</label>
+    </page>
+  </param>
+  <effect>
+    <object-type>all</object-type>
+      <effects-menu>
+        <submenu name="JessyInk"/>
+      </effects-menu>
+  </effect>
+  <script>
+    <command location="inx" interpreter="python">jessyink_autotexts.py</command>
+  </script>
+</inkscape-extension>
+

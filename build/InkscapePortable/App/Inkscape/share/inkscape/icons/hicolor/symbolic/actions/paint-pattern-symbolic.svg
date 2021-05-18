@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Inkscape (http://www.inkscape.org/) and export_objects.py -->
+<svg xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" version="1.1" id="svg1" width="16" height="16" viewBox="0 0 16 16" sodipodi:docname="paint-pattern-symbolic.svg">
+<sodipodi:namedview objecttolerance="10" gridtolerance="10" guidetolerance="10" id="namedview" showgrid="true" inkscape:zoom="0.6002936" inkscape:cx="732.67439" inkscape:cy="-567.94603" inkscape:window-width="1920" inkscape:window-height="1016" inkscape:window-x="0" inkscape:window-y="27" inkscape:window-maximized="1" inkscape:current-layer="layer1">
+    <inkscape:grid type="xygrid" id="grid"/>
+  </sodipodi:namedview>
+  <g transform="matrix(0.8,0,0,0.8,-944,-743.48976)" inkscape:label="00305" id="paint-pattern">
+      <path inkscape:connector-curvature="0" style="opacity:1" d="m 1180,417 v 1.0312 l 2.719,3.1563 3.656,-4.1875 z m 2.719,4.1875 -2.719,3.125 v 4.2187 l 2.719,3.1563 4.562,-5.2813 z m 4.562,5.2187 4.532,5.2813 4.562,-5.2813 -4.562,-5.2187 z m 4.532,-5.2187 3.656,-4.1875 h -7.281 z m 4.562,5.2187 3.625,4.2188 v -8.4063 z m -4.562,5.2813 -4.532,5.2187 0.094,0.0938 h 8.906 l 0.094,-0.0938 z m 4.562,5.2187 0.094,0.0938 H 1200 v -4.2813 z m -9.094,0 -4.562,-5.2187 -2.719,3.125 V 437 h 7.188 l 0.094,-0.0937 z m 10,-19.9062 2.719,3.125 V 417 Z" transform="translate(0,512.3622)" id="rect4541"/>
+      <path inkscape:connector-curvature="0" style="opacity:0;fill:none" d="m 1180,417 v 20 h 20 v -20 z" transform="translate(0,512.3622)" id="rect4381"/>
+    </g>
+    </svg>

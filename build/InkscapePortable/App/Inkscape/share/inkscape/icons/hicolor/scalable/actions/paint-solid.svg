@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1"
+   width="20"
+   height="20"
+  >
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingy="1pt"
+     gridspacingx="1pt"
+     gridoriginy="0pt"
+     gridoriginx="0pt"
+  />
+  <defs id="defs3">
+
+  </defs>
+<g id="paint-solid" inkscape:label="#fill_solid" transform="translate(-670.04448,-65.02022)">
+  <rect height="17.9991" id="ccc" inkscape:label="#ccc" style="color:#000000;fill:#99b6d4;fill-rule:evenodd;stroke-width:1.0000004" width="18.0244" x="671" y="66"/>
+  <rect height="19" id="use5847" style="color:#000000;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round" transform="matrix(1,0,0,1,0.045091,0.0202183)" width="19" x="670.4994" y="65.5"/>
+</g>
+
+</svg>

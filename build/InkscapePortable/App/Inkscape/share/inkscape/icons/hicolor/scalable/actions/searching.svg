@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1"
+   width="16"
+   height="16"
+  >
+  <metadata>
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>Taiga</dc:title>
+        <dc:date>24-10-2016</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Taiga</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:rights>
+          <cc:Agent>
+            <dc:title>CC</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>Taiga</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:description>http://taiga.io</dc:description>
+        <dc:source>http://taiga.io</dc:source>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by/3.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/by/3.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Notice" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Attribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs id="defs3">
+  </defs>
+  <g
+     id="searching">
+    <path
+       d="m 6.914463,1.41365 c -3.005658,0 -5.451776,2.43867 -5.451776,5.43532 0,2.99666 2.446078,5.43538 5.451776,5.43538 1.310212,0 2.513927,-0.46362 3.45522,-1.23458 l 3.547304,3.53658 0.620326,-0.61845 -3.536404,-3.52572 c 0.849092,-0.95867 1.365268,-2.21699 1.365268,-3.59321 0,-2.99665 -2.44605,-5.43532 -5.451714,-5.43532 z m 0,0.87467 c 2.531574,0 4.574468,2.03669 4.574468,4.56065 0,2.52399 -2.042905,4.56073 -4.574468,4.56073 -2.531597,0 -4.574466,-2.03674 -4.574466,-4.56073 0,-2.52396 2.042869,-4.56071 4.574466,-4.56071 z"
+       id="path10677"
+       style="color:#000000;fill:#333333;stroke:none;"
+     />
+    <rect
+       height="16"
+       id="rect9056-0"
+       style="color:#000000;fill:none;stroke-width:0"
+       width="16"
+       x="0"
+       y="0" />
+  </g>
+</svg>

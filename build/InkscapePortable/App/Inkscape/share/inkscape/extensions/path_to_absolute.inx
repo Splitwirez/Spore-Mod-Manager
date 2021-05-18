@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>To Absolute</name>
+    <id>org.inkscape.path.to_absolute</id>
+    <effect>
+        <object-type>all</object-type>
+        <effects-menu>
+           <submenu name="Modify Path"/>
+        </effects-menu>
+    </effect>
+    <script>
+        <command location="inx" interpreter="python">path_to_absolute.py</command>
+    </script>
+</inkscape-extension>

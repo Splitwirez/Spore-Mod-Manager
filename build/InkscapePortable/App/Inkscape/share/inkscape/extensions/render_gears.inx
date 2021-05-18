@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>Gear</name>
+    <id>org.ekips.filter.gears</id>
+    <param name="teeth"    type="int"   min="6"    max="360"    gui-text="Number of teeth:">24</param>
+    <param name="pitch"    type="float" min="0.0"  max="1000.0" gui-text="Circular pitch (tooth size):">20.0</param>
+    <param name="angle"    type="float" min="10.0" max="30.0"   gui-text="Pressure angle (degrees):">20.0</param>
+    <param name="centerdiameter"    type="float" min="0.0" max="1000.0"   gui-text="Diameter of center hole (0 for none):">20.0</param>
+    <param name="unit" gui-text="Units:" type="optiongroup" appearance="combo">
+        <option value="px">px</option>
+        <option value="in">in</option>
+        <option value="mm">mm</option>
+    </param>
+    <label>Unit of measurement for both circular pitch and center diameter.</label>
+    <effect>
+    <object-type>all</object-type>
+        <effects-menu>
+            <submenu name="Render">
+                <submenu name="Gear"/>
+            </submenu>
+        </effects-menu>                                 
+    </effect>
+    <script>
+        <command location="inx" interpreter="python">render_gears.py</command>
+    </script>
+</inkscape-extension>
