@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Xml.Linq;
 
 namespace SporeMods.Core.Mods
 {
@@ -13,17 +14,22 @@ namespace SporeMods.Core.Mods
 	public class ModIdentity
 		: BaseModComponent 
 	{
-		public static readonly Version XmlModIdentityVersion1_0_0_0 = new Version(1, 0, 0, 0);
-		public static readonly Version XmlModIdentityVersion1_0_1_0 = new Version(1, 0, 1, 0);
-		public static readonly Version XmlModIdentityVersion1_0_1_1 = new Version(1, 0, 1, 1);
-		public static readonly Version XmlModIdentityVersion1_1_0_0 = new Version(1, 1, 0, 0);
+		public static readonly Version ModIdentityVersion1_0_0_0 = new Version(1, 0, 0, 0);
+		static readonly Version ModIdentityVersion1_0_1_0 = new Version(1, 0, 1, 0);
+		static readonly Version ModIdentityVersion1_0_1_1 = new Version(1, 0, 1, 1);
+		public static readonly Version GrandfatheredModIdentityVersion = new Version(1, 1, 0, 0);
 		public static readonly Version UNKNOWN_MOD_VERSION = new Version(0, 0, 0, 0);
 
 		public static bool IsLauncherKitCompatibleXmlModIdentityVersion(Version identityVersion)
 		{
-			return (identityVersion == ModIdentity.XmlModIdentityVersion1_0_0_0) ||
-					(identityVersion == ModIdentity.XmlModIdentityVersion1_0_1_0) ||
-					(identityVersion == ModIdentity.XmlModIdentityVersion1_0_1_1);
+			return (identityVersion == ModIdentity.ModIdentityVersion1_0_0_0) ||
+					(identityVersion == ModIdentity.ModIdentityVersion1_0_1_0) ||
+					(identityVersion == ModIdentity.ModIdentityVersion1_0_1_1);
+		}
+
+		public static bool IsSmmCompatibleModIdentityVersion(Version identityVersion, bool includeGrandfathered = false)
+		{
+			return IsLauncherKitCompatibleXmlModIdentityVersion(identityVersion) || (includeGrandfathered && (identityVersion == GrandfatheredModIdentityVersion));
 		}
 
 		/*public static bool IsValidUnique(string inputUnique)
@@ -190,5 +196,124 @@ namespace SporeMods.Core.Mods
 
 			return list;
 		}
+
+
+		public static bool IsValidModIdentity(XDocument modInfo, IEnumerable<string> modFileNames, out string invalidReason, bool allowSmmExclusiveIdentities = true, bool allowGrandfatheredIdentities = false)
+        {
+			Version modIdentitySysVersion;
+			if (modInfo == null)
+            {
+				invalidReason = "Mod identity was null.";
+				return false;
+            }
+
+			if (modInfo.Root.Name.LocalName != "mod")
+            {
+				invalidReason = "Root element has wrong tag name.";
+				return false;
+            }
+
+			XAttribute attr = modInfo.Root.Attribute("installerSystemVersion");
+			if (attr == null)
+            {
+				invalidReason = "Mod 'installerSystemVersion' was not specified.";
+				return false;
+			}
+			else if (Version.TryParse(attr.Value, out modIdentitySysVersion))
+            {
+				if (allowSmmExclusiveIdentities)
+				{
+					if (!IsSmmCompatibleModIdentityVersion(modIdentitySysVersion, allowGrandfatheredIdentities))
+					{
+						invalidReason = "This mod requires a newer version of the Spore Mod Manager.";
+						return false;
+					}
+				}
+				else
+				{
+					if (!IsLauncherKitCompatibleXmlModIdentityVersion(modIdentitySysVersion))
+                    {
+						invalidReason = "This mod requires the Spore Mod Manager.";
+						return false;
+					}
+				}
+			}
+			else
+            {
+				invalidReason = "This mod might require a newer version of the Spore Mod Manager, or it might just be broken.";
+				return false;
+            }
+
+			attr = modInfo.Root.Attribute("unique");
+			if (attr == null)
+			{
+				invalidReason = "Mod 'unique' was not specified.";
+				return false;
+			}
+
+			if (modIdentitySysVersion > ModIdentityVersion1_0_0_0)
+			{
+				attr = modInfo.Root.Attribute("dllsBuild");
+				if (attr == null)
+				{
+					invalidReason = "Mod 'dllsBuild' was not specified.";
+					return false;
+				}
+			}
+
+			string hasConfiguratorAttrName = "hasCustomInstaller";
+			if (modIdentitySysVersion == ModIdentityVersion1_0_0_0)
+				hasConfiguratorAttrName = "compatOnly";
+			attr = modInfo.Root.Attribute(hasConfiguratorAttrName);
+			if (attr != null)
+            {
+				if (!bool.TryParse(attr.Value, out bool lmao))
+                {
+					invalidReason = "Mod '" + hasConfiguratorAttrName + "' was invalid.";
+					return false;
+                }
+            }
+
+
+			attr = modInfo.Root.Attribute("isExperimental");
+			if (attr != null)
+			{
+				if (!bool.TryParse(attr.Value, out bool lmao))
+				{
+					invalidReason = "Mod 'isExperimental' was invalid.";
+					return false;
+				}
+			}
+
+			attr = modInfo.Root.Attribute("requiresGalaxyReset");
+			if (attr != null)
+			{
+				if (!bool.TryParse(attr.Value, out bool lmao))
+				{
+					invalidReason = "Mod 'requiresGalaxyReset' was invalid.";
+					return false;
+				}
+			}
+
+
+			attr = modInfo.Root.Attribute("causesSaveDataDependency");
+			if (attr != null)
+			{
+				if (!bool.TryParse(attr.Value, out bool lmao))
+				{
+					invalidReason = "Mod 'causesSaveDataDependency' was invalid.";
+					return false;
+				}
+			}
+
+			if (IsLauncherKitCompatibleXmlModIdentityVersion(modIdentitySysVersion))
+            {
+				return XmlModIdentityV1.IsValidModIdentity(modInfo, modFileNames, out invalidReason);
+            }
+
+
+			invalidReason = null;
+			return true;
+        }
 	}
 }

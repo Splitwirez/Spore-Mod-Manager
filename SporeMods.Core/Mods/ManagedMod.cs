@@ -29,7 +29,7 @@ namespace SporeMods.Core.Mods
 			var document = XDocument.Load(_xmlPath);
 			Version xmlVersion = ParseXmlVersion(document);
 
-			if (xmlVersion.Major == 1)
+			if (ModIdentity.IsLauncherKitCompatibleXmlModIdentityVersion(xmlVersion))
 			{
 				Identity = XmlModIdentityV1.ParseModIdentity(this, document.Root);
 			}
@@ -37,7 +37,7 @@ namespace SporeMods.Core.Mods
 			PrepareConfiguration(isEnabledByDefault);
 
 			string isLegacyPath = Path.Combine(StoragePath, "UseLegacyDLLs");
-			if (xmlVersion == ModIdentity.XmlModIdentityVersion1_0_0_0)
+			if (xmlVersion == ModIdentity.ModIdentityVersion1_0_0_0)
 			{
 				File.WriteAllText(isLegacyPath, string.Empty);
 				Permissions.GrantAccessFile(isLegacyPath);
@@ -45,11 +45,14 @@ namespace SporeMods.Core.Mods
 
 			_isLegacy = File.Exists(isLegacyPath);
 
-			var attr = document.Root.Attribute("copyAllFiles");
-			if (attr != null && (bool.TryParse(attr.Value, out bool value)))
-				_copyAllFiles = value;
-			else
-				_copyAllFiles = false;
+			if (xmlVersion == ModIdentity.GrandfatheredModIdentityVersion)
+			{
+				var attr = document.Root.Attribute("copyAllFiles");
+				if (attr != null && (bool.TryParse(attr.Value, out bool value)))
+					_copyAllFiles = value;
+				else
+					_copyAllFiles = false;
+			}
 
 			if (IsProgressing)
 			{
@@ -297,7 +300,7 @@ namespace SporeMods.Core.Mods
 		{
 			if (HasConfigurator)
 			{
-				bool isLegacyPath = Identity.InstallerSystemVersion == ModIdentity.XmlModIdentityVersion1_0_0_0;
+				bool isLegacyPath = Identity.InstallerSystemVersion == ModIdentity.ModIdentityVersion1_0_0_0;
 				var files = Identity.GetAllFilesToAdd();
 				
 				foreach (var file in files)

@@ -172,7 +172,7 @@ namespace SporeMods.Core.Mods
 				else
 					throw new FormatException(Settings.GetLanguageString(3, "ModIdentityCantParseValue").Replace("%ATTRIBUTE%", "hasCustomInstaller").Replace("%VALUE%", hasCustomInstallerAttr.Value).Replace("%TYPE%", "bool")); //throw new FormatException("Mod identity 'hasCustomInstaller': '" + hasCustomInstallerAttr.Value + "' is not a boolean");
 			}
-			else if (identity.InstallerSystemVersion == ModIdentity.XmlModIdentityVersion1_0_0_0)
+			else if (identity.InstallerSystemVersion == ModIdentity.ModIdentityVersion1_0_0_0)
 			{
 				identity.HasCustomInstaller = true;
 				var compatOnlyAttr = node.Attribute("compatOnly");
@@ -278,5 +278,68 @@ namespace SporeMods.Core.Mods
 
 			return identity;
 		}
+
+
+		public static bool IsValidModIdentity(XDocument modInfo, IEnumerable<string> modFileNames, out string invalidReason)
+        {
+			foreach (XElement node in modInfo.Root.Elements())
+            {
+				bool isComponent = node.Name.LocalName.Equals("component", StringComparison.OrdinalIgnoreCase);
+				bool isPrerequisite = node.Name.LocalName.Equals("prerequisite", StringComparison.OrdinalIgnoreCase);
+				bool isCompatFile = node.Name.LocalName.Equals("compatFile", StringComparison.OrdinalIgnoreCase);
+				bool remove = node.Name.LocalName.Equals("compatFile", StringComparison.OrdinalIgnoreCase);
+				
+				if (isComponent || isPrerequisite || isCompatFile)
+                {
+					string[] fileNames = node.Value.Split('?');
+					foreach (string fileName in fileNames)
+					{
+						if (!modFileNames.Contains(fileName))
+						{
+							invalidReason = "The file '" + fileName + "' was not present.";
+							return false;
+						}
+					}
+
+					//TODO: Remember what happens if this attribute isn't specified at all
+					var attr = node.Attribute("game");
+					if (attr != null)
+					{
+						string[] fileGames = attr.Value.Split('?');
+						foreach (string fileGame in fileGames)
+						{
+							if ((!Enum.TryParse<ComponentGameDir>(fileGame, out ComponentGameDir val)) || (val == ComponentGameDir.Tweak))
+							{
+								invalidReason = "'game' was specified with an invalid value of '" + fileGame + "'.";
+								return false;
+							}
+						}
+					}
+				}
+				
+				if (isComponent)
+                {
+					var attr = node.Attribute("imagePlacement");
+					if (attr != null)
+                    {
+						if (!Enum.TryParse<ImagePlacementType>(attr.Value, out ImagePlacementType val))
+                        {
+							invalidReason = "'imagePlacement' was specified with an invalid value of '" + attr.Value + "'.";
+							return false;
+                        }
+                    }
+                }
+
+				if (isCompatFile)
+                {
+					//TODO: this
+				}
+			}
+
+			//TODO: everything else
+
+			invalidReason = null;
+			return true;
+        }
 	}
 }

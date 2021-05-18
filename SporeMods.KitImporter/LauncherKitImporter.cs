@@ -245,14 +245,14 @@ namespace SporeMods.KitImporter
 					}
 
 
-					string modConfigPath = Path.Combine(kitModConfigsPath, mod.Unique);
-					if (!Directory.Exists(modConfigPath) && (!mod.Name.IsNullOrEmptyOrWhiteSpace()))
+					string kitModConfigPath = Path.Combine(kitModConfigsPath, mod.Unique);
+					if (!Directory.Exists(kitModConfigPath) && (!mod.Name.IsNullOrEmptyOrWhiteSpace()))
 					{
-						modConfigPath = Path.Combine(kitModConfigsPath, mod.Name);
+						kitModConfigPath = Path.Combine(kitModConfigsPath, mod.Name);
 					}
 
 					bool hasValidModIdentity = false;
-					if (!Directory.Exists(modConfigPath))
+					if (!Directory.Exists(kitModConfigPath))
 					{
 						foreach (string dir in Directory.EnumerateDirectories(kitModConfigsPath))
 						{
@@ -267,7 +267,7 @@ namespace SporeMods.KitImporter
 									{
 										if (uniqueAttr.Value == mod.Unique)
 										{
-											modConfigPath = dir;
+											kitModConfigPath = dir;
 											hasValidModIdentity = true;
 											break;
 										}
@@ -280,9 +280,9 @@ namespace SporeMods.KitImporter
 					}
 
 
-					if (Directory.Exists(modConfigPath))
+					if (Directory.Exists(kitModConfigPath))
 					{
-						DirectoryCopy(modConfigPath, managerModConfigPath);
+						DirectoryCopy(kitModConfigPath, managerModConfigPath);
 
 						bool usesLegacyDlls = true;
 
@@ -320,7 +320,7 @@ namespace SporeMods.KitImporter
 
 							var xmlVersionAttr = document.Root.Attribute("installerSystemVersion");
 							if (xmlVersionAttr != null && Version.TryParse(xmlVersionAttr.Value, out Version version)
-								&& version != ModIdentity.XmlModIdentityVersion1_0_0_0)
+								&& version != ModIdentity.ModIdentityVersion1_0_0_0)
 							{
 								usesLegacyDlls = false;
 							}
@@ -468,7 +468,7 @@ namespace SporeMods.KitImporter
 						var document = XDocument.Load(Path.Combine(managerModConfigPath, "ModInfo.xml"));
 						var xmlVersionAttr = document.Root.Attribute("installerSystemVersion");
 						if (xmlVersionAttr != null && Version.TryParse(xmlVersionAttr.Value, out Version version)
-							&& (version == ModIdentity.XmlModIdentityVersion1_0_0_0))
+							&& (version == ModIdentity.ModIdentityVersion1_0_0_0))
 						{
 							usesLegacyDlls = true;
 						}

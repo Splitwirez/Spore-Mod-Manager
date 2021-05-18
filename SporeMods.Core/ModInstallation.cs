@@ -365,7 +365,7 @@ namespace SporeMods.Core
 							else
 								throw new MissingXmlModIdentityAttributeException(null);
 
-							if (identityVersion > ModIdentity.XmlModIdentityVersion1_0_0_0)
+							if (identityVersion > ModIdentity.ModIdentityVersion1_0_0_0)
 							{
 								var dllsBuildAttr = compareDocument.Root.Attribute("dllsBuild");
 								if (dllsBuildAttr != null)
@@ -710,7 +710,7 @@ namespace SporeMods.Core
 </mod>");
 			document.Root.SetAttributeValue("unique", unique);
 			document.Root.SetAttributeValue("displayName", displayName);
-			document.Root.SetAttributeValue("installerSystemVersion", ModIdentity.XmlModIdentityVersion1_1_0_0.ToString());
+			document.Root.SetAttributeValue("installerSystemVersion", ModIdentity.GrandfatheredModIdentityVersion.ToString());
 			document.Root.SetAttributeValue("copyAllFiles", true.ToString());
 			document.Root.SetAttributeValue("canDisable", false.ToString());
 
