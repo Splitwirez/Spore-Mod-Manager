@@ -1,0 +1,1 @@
+%ProgramFiles%\Inkscape\bin\inkscape.exe

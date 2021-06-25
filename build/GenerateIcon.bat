@@ -1,9 +1,10 @@
 @echo off
 
 echo Generating icon: %1
+for /f "delims=" %%x in (.\build\InkScapePath.txt) do call set InkScapePath=%%x
 
 :: $inkExportInPathStart, $exportSize, $inkExportOutPath
-set "InkScapeExport=Write-Output $exportSize'-pixel render in progress...'; Start-Process -FilePath '.\build\InkscapePortable\InkscapePortable.exe' -ArgumentList $inkExportInPathStart'.svg','--export-area-page','--export-type=png','-w',$exportSize,'-h',$exportSize -Wait; $tempFileNames.Add($inkExportOutPath)"
+set "InkScapeExport=Write-Output $exportSize'-pixel render in progress...'; Start-Process -FilePath '%InkScapePath%' -ArgumentList $inkExportInPathStart'.svg','--export-area-page','--export-type=png','-w',$exportSize,'-h',$exportSize -Wait; $tempFileNames.Add($inkExportOutPath)"
 
 
 set "InkScapeRenameOutput=if (Test-Path $inkExportOutPath) {; Remove-Item $inkExportOutPath; }; Move-Item -Path $inkExportInPathStart'.png' -Destination $inkExportOutPath"

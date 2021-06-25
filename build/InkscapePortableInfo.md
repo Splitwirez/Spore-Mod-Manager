@@ -1,1 +1,0 @@
-InkscapePortable_1.0.2_Rev_2.paf
