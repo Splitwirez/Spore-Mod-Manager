@@ -1302,14 +1302,14 @@ namespace SporeMods.Manager
 
 			if (e.Failures.Keys.Count > 0)
 			{
-				string logFileName = "InstallError___";
+				/*string logFileName = "InstallError___";
 				string dateNow = DateTime.Now.ToString();
-				foreach (char c in Path.GetInvalidPathChars())
+				foreach (char c in Path.GetInvalidFileNameChars().Concat(Path.GetInvalidPathChars()))
 				{
 					dateNow = dateNow.Replace(c, '-');
 				}
 				logFileName += dateNow + ".txt";
-				string logPath = Path.Combine(Settings.LogsPath, logFileName);
+				string logPath = Path.Combine(Settings.LogsPath, logFileName);*/
 
 
 				output += "\n\n" + Settings.GetLanguageString(0, "ModsFailedToInstall");
@@ -1322,17 +1322,17 @@ namespace SporeMods.Manager
 				if (e.Failures.Count > 5)
 					output += Settings.GetLanguageString(0, "ModsFailedToInstall2");
 
-				foreach (string s in e.Failures.Keys)
+				/*foreach (string s in e.Failures.Keys)
 				{
 					logOutput += e.Failures + ": " + e.Failures[s].ToString() + "\n\n\n\n\n";
-				}
+				}*/
 
-				output += "\n\n" + Settings.GetLanguageString(0, "ModsFailedToInstall3").Replace("%LOGFILEPATH%", logPath);
+				////////output += "\n\n" + Settings.GetLanguageString(0, "ModsFailedToInstall3").Replace("%LOGFILEPATH%", logPath);
 
-				if ((!string.IsNullOrEmpty(logOutput)) && (!string.IsNullOrWhiteSpace(logOutput)))
+				/*if ((!string.IsNullOrEmpty(logOutput)) && (!string.IsNullOrWhiteSpace(logOutput)))
 				{
 					File.WriteAllText(logPath, logOutput);
-				}
+				}*/
 			}
 
 			Window.GetWindow(this).Activate();
