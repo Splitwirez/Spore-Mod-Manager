@@ -94,7 +94,7 @@ namespace SporeMods.Core.Injection
 							bool isOriginExe = (_executableType == GameExecutableType.Origin__1_5_1) ||
 								(_executableType == GameExecutableType.Origin__March2017);
 							bool exeExists = File.Exists(_executablePath);
-							MessageDisplay.ShowMessageBox($"NOT LOCALIZED:\nIs Origin EXE: {isOriginExe}\nEXE exists: {exeExists}");
+							//MessageDisplay.ShowMessageBox($"NOT LOCALIZED:\nIs Origin EXE: {isOriginExe}\nEXE exists: {exeExists}");
 							if (isOriginExe && (!exeExists))
 							{
 								try
