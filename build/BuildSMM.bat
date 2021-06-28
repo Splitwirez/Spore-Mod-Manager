@@ -32,22 +32,21 @@ IF NOT EXIST .\AppIcons\%MMSIco%.ico (start /b /wait "" cmd.exe /c ".\build\Gene
 
 
 ::Build .NET binaries
-dotnet build .\SporeMods.Launcher -c Release -p:PublishReadyToRun=true
+set RELEASE=-c Release
+set PUBLISHPARAMS= -o .\testBin
+set R2R= -p:PublishReadyToRun=true
+
+dotnet publish .\SporeMods.Launcher %PUBLISHPARAMS%
 if errorlevel 1 GOTO FAIL
-dotnet build .\SporeMods.DragServant -c Release -p:PublishReadyToRun=true
+dotnet publish .\SporeMods.DragServant %PUBLISHPARAMS%
 if errorlevel 1 GOTO FAIL
-dotnet build .\SporeMods.Manager -c Release -p:PublishReadyToRun=true
+dotnet publish .\SporeMods.Manager %PUBLISHPARAMS%
 if errorlevel 1 GOTO FAIL
-dotnet build .\SporeMods.KitImporter -c Release -p:PublishReadyToRun=true
+dotnet publish .\SporeMods.KitImporter %PUBLISHPARAMS%
 if errorlevel 1 GOTO FAIL
 
-::Build C++ binaries
-"%MSBuildPath%" .\SporeMods.ManagerRedir\SporeMods.ManagerRedir.vcxproj /property:Configuration=Release
-if errorlevel 1 GOTO FAIL
-"%MSBuildPath%" .\SporeMods.ManagerRedir\SporeMods.ManagerRedir.vcxproj /property:Configuration=Release /p:RedirType=LAUNCHER
-if errorlevel 1 GOTO FAIL
-"%MSBuildPath%" .\SporeMods.ManagerRedir\SporeMods.ManagerRedir.vcxproj /property:Configuration=Release /p:RedirType=LKIMPORT
-if errorlevel 1 GOTO FAIL
+
+GOTO SUCCESS
 
 ::Build setup and such
 dotnet publish .\SporeMods.Setup -c Release --self-contained false -p:PublishSingleFile=true -p:PublishReadyToRun=true -r win-x86 -o .\bin\Updater

@@ -11,7 +11,7 @@
   <Import Project="..\SporeMods.SharedOutputDirs.props" />
   <PropertyGroup>
     <ApplicationIcon>..\AppIcons\ModLauncherIcon.ico</ApplicationIcon>
-    <AssemblyName>SporeMods.Launcher</AssemblyName>
+    <AssemblyName>Launch Spore</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\SporeMods.CommonUI\SporeMods.CommonUI.csproj">

@@ -399,9 +399,13 @@ namespace SporeMods.Core
 					Permissions.GrantAccessFile(_pathInfo);
 
 				if (!Permissions.IsFileLocked(_pathInfo, FileAccess.Read))
-					return File.ReadAllText(_pathInfo);
-				else
-					return Directory.GetParent(Assembly.GetEntryAssembly().Location).ToString();
+				{
+					string outDirPath = File.ReadAllText(_pathInfo);
+					if (File.Exists(Path.Combine(outDirPath, Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName))))
+						return outDirPath;
+				}
+
+				return Directory.GetParent(Assembly.GetEntryAssembly().Location).ToString();
 			}
 			set
 			{
@@ -429,7 +433,7 @@ namespace SporeMods.Core
 			}
 		}
 
-		public static string ManagerInstallLocationRootPath
+		/*public static string ManagerInstallLocationRootPath
 		{
 			get
 			{
@@ -439,7 +443,7 @@ namespace SporeMods.Core
 					dir = dir.Parent;
 				return dir.FullName;
 			}
-		}
+		}*/
 
 
 		static string _forcedGameExeType = "ForcedGameExeType";

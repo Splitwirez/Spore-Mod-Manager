@@ -155,7 +155,7 @@ namespace SporeMods.Manager
 							base.OnStartup(e);
 
 							//ModInstallation.DoFirstRunVerification();
-							CommonUI.VersionValidation.WarnIfMissingOriginPrerequisites(Path.Combine(new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).Directory.FullName, "SporeMods.Launcher.dll"));
+							CommonUI.VersionValidation.WarnIfMissingOriginPrerequisites(Path.Combine(new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).Directory.FullName, "Launch Spore.dll"));
 							Window window;
 							ManagerContent content = new ManagerContent();
 							if (Settings.UseCustomWindowDecorations)
