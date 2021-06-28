@@ -18,6 +18,7 @@ namespace SporeMods.Launcher
 {
 	class Program
 	{
+
 		public static void ExtractModAPIFix()
 		{
 			using (var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream("SporeMods.Launcher.ModAPIFix.SporeApp_ModAPIFix.exe"))
@@ -76,8 +77,7 @@ namespace SporeMods.Launcher
 			{
 				if (ServantCommands.RunLkImporter() == null)
 				{
-
-					if (programArgs.Length > 1 && programArgs[0] == "--modapifix")
+					if (programArgs.Any(x => x == SporeLauncher.EXTRACT_ORIGIN_PREREQ))
 					{
 						ExtractModAPIFix();
 						return;

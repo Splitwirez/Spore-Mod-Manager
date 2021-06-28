@@ -1,10 +1,6 @@
 @echo off
 SETLOCAL ENABLEDELAYEDEXPANSION
 
-::Get info for MSBuild
-for /f "delims=" %%x in (.\build\VCTargetsPath.txt) do call set VCTargetsPath=%%x
-for /f "delims=" %%x in (.\build\MSBuildPath.txt) do call set MSBuildPath=%%x
-
 ::Clear output folders
 IF exist ".\bin" (rd /S /Q ".\bin")
 IF exist ".\unpackagedBin\Release" (rd /S /Q ".\unpackagedBin\Release")
@@ -33,7 +29,7 @@ IF NOT EXIST .\AppIcons\%MMSIco%.ico (start /b /wait "" cmd.exe /c ".\build\Gene
 
 ::Build .NET binaries
 set RELEASE=-c Release
-set PUBLISHPARAMS= -o .\testBin
+set PUBLISHPARAMS= -o .\unpackagedBin
 set R2R= -p:PublishReadyToRun=true
 
 dotnet publish .\SporeMods.Launcher %PUBLISHPARAMS%
@@ -46,6 +42,7 @@ dotnet publish .\SporeMods.KitImporter %PUBLISHPARAMS%
 if errorlevel 1 GOTO FAIL
 
 
+::Temp skip setup
 GOTO SUCCESS
 
 ::Build setup and such

@@ -2,7 +2,7 @@
 <Project>
   <PropertyGroup>
     <AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath>
-    <OutputPath>..\unpackagedBin\$(Configuration)\Internal\</OutputPath>
+    <OutputPath>$(userprofile)\Spore Mod Manager\bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>full</DebugType>

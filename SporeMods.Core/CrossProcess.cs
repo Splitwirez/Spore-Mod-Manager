@@ -6,9 +6,9 @@ namespace SporeMods.Core
 {
 	public static class CrossProcess
 	{
-		static readonly string SmmBinPath = Settings.ManagerInstallLocationPath;
-		public static Process StartLauncher(string args = null) =>
-			RunExecutable("Launch Spore", args, false);
+		static string SmmBinPath => Settings.ManagerInstallLocationPath;
+		public static Process StartLauncher(string args = null, bool runAsAdmin = false) =>
+			RunExecutable("Launch Spore", args, runAsAdmin);
 
 
 		public static void RestartModManagerAsAdministrator(string args = null)
