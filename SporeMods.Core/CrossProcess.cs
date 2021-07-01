@@ -1,29 +1,35 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace SporeMods.Core
 {
 	public static class CrossProcess
 	{
+		public const string LAUNCHER_EXE = "Launch Spore";
+		public const string MGR_EXE = "Spore Mod Manager";
+		public const string DRAG_EXE = "SporeMods.DragServant";
+		public const string IMPORTER_EXE = "xLauncherKitImport";
+
 		static string SmmBinPath => Settings.ManagerInstallLocationPath;
 		public static Process StartLauncher(string args = null, bool runAsAdmin = false) =>
-			RunExecutable("Launch Spore", args, runAsAdmin);
+			RunExecutable(LAUNCHER_EXE, args, runAsAdmin);
 
 
 		public static void RestartModManagerAsAdministrator(string args = null)
 		{
-			RunExecutable("Spore Mod Manager", args, true);
+			RunExecutable(MGR_EXE, args, true);
 			Process.GetCurrentProcess().Kill();
 		}
 
 
 		public static Process StartDragServant(string args = null) =>
-			RunExecutable("SporeMods.DragServant", args, false);
+			RunExecutable(DRAG_EXE, args, false);
 		
 
 		public static Process StartLauncherKitImporter(string args = null, bool runAsAdmin = false) =>
-			RunExecutable("xLauncherKitImport", args, runAsAdmin);
+			RunExecutable(IMPORTER_EXE, args, runAsAdmin);
 		public static Process StartLauncherKitImporterAsAdministrator(string args = null) =>
 			StartLauncherKitImporter(args, true);
 
@@ -45,5 +51,21 @@ namespace SporeMods.Core
 
 			return Process.Start(info);
 		}
+
+
+		public static bool AreAnyOtherSmmProcessesRunning
+        {
+			get
+			{
+				Process[] launcher = Process.GetProcessesByName(LAUNCHER_EXE);
+				Process[] mgr = Process.GetProcessesByName(MGR_EXE);
+				Process[] drag = Process.GetProcessesByName(DRAG_EXE);
+				Process[] import = Process.GetProcessesByName(IMPORTER_EXE);
+				return (launcher.Length + mgr.Length + drag.Length + import.Length) > 1;
+			}
+        }
+
+		public static bool AreAnyOtherModManagersRunning =>
+			Process.GetProcessesByName(MGR_EXE).Length > 1;
 	}
 }

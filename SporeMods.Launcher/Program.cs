@@ -96,8 +96,10 @@ namespace SporeMods.Launcher
 						}
 
 
-						if (!Permissions.AreAnyOtherModManagersRunning())
+						if (!CrossProcess.AreAnyOtherSmmProcessesRunning)
+						{
 							CommonUI.Updater.CheckForUpdates();
+						}
 
 						Settings.ManagerInstallLocationPath = Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).ToString();
 

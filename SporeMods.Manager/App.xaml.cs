@@ -62,7 +62,7 @@ namespace SporeMods.Manager
 				{
 					if (Permissions.IsAtleastWindowsVista() && (!Permissions.IsAdministrator()))
 					{
-						if (Permissions.AreAnyOtherModManagersRunning())
+						if (CrossProcess.AreAnyOtherModManagersRunning)
 						{
 							if (Environment.GetCommandLineArgs().Length > 1)
 							{
