@@ -37,7 +37,7 @@
   <ItemGroup>
     <!--EmbeddedResource Include="DotnetRuntime\dotnet-desktopruntime-installer.exe" LogicalName="dotnet-desktopruntime-installer.exe"/-->
     <!--EmbeddedResource Include="..\unpackagedBin\$(Configuration)\$(TargetFramework)\**" /-->
-    <EmbeddedResource Include="..\unpackagedBin\$(Configuration)\**">
+    <EmbeddedResource Include="..\unpackagedBin\SelfContained\**">
       <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
       <LogicalName>smm-bin?%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
     </EmbeddedResource>

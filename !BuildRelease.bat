@@ -1,5 +1,4 @@
 @echo off
-SETLOCAL ENABLEDELAYEDEXPANSION
 
 powershell "cmd /c .\build\BuildSMM.bat | tee buildLog.txt"
 

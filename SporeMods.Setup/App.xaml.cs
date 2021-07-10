@@ -94,8 +94,8 @@ namespace SporeMods.Setup
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
-			MessageBox.Show(Environment.Version + "\n" + AppContext.BaseDirectory);
-			
+			//MessageBox.Show(Environment.Version + "\n" + AppContext.BaseDirectory);
+
 			SetupInformation.EnsureAll();
 			RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
 
