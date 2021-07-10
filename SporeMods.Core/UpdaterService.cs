@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.ComponentModel;
-using Ionic.Zip;
+//using Ionic.Zip;
 using Newtonsoft.Json;
 
 namespace SporeMods.Core
@@ -147,18 +148,19 @@ namespace SporeMods.Core
 				string zipName = Path.GetTempFileName();
 				client.DownloadFile(asset.browser_download_url, zipName);
 
-				using (var zip = new ZipFile(zipName))
+				using (var zip = ZipFile.Open(zipName, ZipArchiveMode.Read))
 				{
 					int filesExtracted = 0;
 					foreach (string name in DLL_NAMES)
 					{
-						var entry = zip[name];
+						var entry = zip.Entries.FirstOrDefault(x => x.Name == name);
 						if (entry == null)
 						{
 							throw new InvalidOperationException("Invalid update: missing " + name + " in zip file");
 						}
-						entry.Extract(Settings.CoreLibsPath, ExtractExistingFileAction.OverwriteSilently);
-						Permissions.GrantAccessFile(Path.Combine(Settings.CoreLibsPath, entry.FileName));
+						string outPath = Path.Combine(Settings.CoreLibsPath, name);
+						entry.ExtractToFile(outPath, true);
+						Permissions.GrantAccessFile(outPath);
 						++filesExtracted;
 
 						double progress = DOWNLOAD_PROGRESS + filesExtracted * (1.0f - DOWNLOAD_PROGRESS) / (float)(DLL_NAMES.Length);

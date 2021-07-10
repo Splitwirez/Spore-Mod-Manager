@@ -1,4 +1,4 @@
-﻿using Ionic.Zip;
+﻿//using Ionic.Zip;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -99,7 +99,7 @@ namespace SporeMods.Core.Injection
 
 		public static void InstallOverrideDlls(string path)
 		{
-			using (ZipFile zip = new ZipFile(path))
+			/*using (ZipFile zip = new ZipFile(path))
 			{
 				for (int i = 0; i < zip.Entries.Count; i++)
 				{
@@ -119,7 +119,7 @@ namespace SporeMods.Core.Injection
 					e.Extract(Settings.OverrideLibsPath, ExtractExistingFileAction.OverwriteSilently);
 					Permissions.GrantAccessFile(Path.Combine(Settings.OverrideLibsPath, e.FileName));
 				}
-			}
+			}*/
 		}
 
 		public static void PurgeOverrideDlls()

@@ -29,7 +29,7 @@ IF NOT EXIST .\AppIcons\%MMSIco%.ico (start /b /wait "" cmd.exe /c ".\build\Gene
 
 ::Build .NET binaries
 set RELEASE=-c Release
-set PUBLISHPARAMS= -o .\unpackagedBin
+set PUBLISHPARAMS= -o .\unpackagedBin\Release
 set R2R= -p:PublishReadyToRun=true
 
 dotnet publish .\SporeMods.Launcher %PUBLISHPARAMS%
@@ -42,14 +42,16 @@ dotnet publish .\SporeMods.KitImporter %PUBLISHPARAMS%
 if errorlevel 1 GOTO FAIL
 
 
+::Build setup and such
+::dotnet publish .\SporeMods.Setup -c Release --self-contained false -p:PublishSingleFile=true -p:PublishReadyToRun=true -r win-x86 -o .\bin\Updater
+::if errorlevel 1 GOTO FAIL
+dotnet publish .\SporeMods.Setup -c Release --self-contained true -p:PublishSingleFile=true -p:PublishReadyToRun=true -r win-x86 -o .\bin\OfflineInstaller
+if errorlevel 1 GOTO FAIL
+
+
 ::Temp skip setup
 GOTO SUCCESS
 
-::Build setup and such
-dotnet publish .\SporeMods.Setup -c Release --self-contained false -p:PublishSingleFile=true -p:PublishReadyToRun=true -r win-x86 -o .\bin\Updater
-if errorlevel 1 GOTO FAIL
-dotnet publish .\SporeMods.Setup -c Release --self-contained true -p:PublishSingleFile=true -p:PublishReadyToRun=true -r win-x86 -o .\bin\OfflineInstaller
-if errorlevel 1 GOTO FAIL
 dotnet build .\SporeMods.KitUpgradeDownloader -c Release -p:PublishReadyToRun=true -o .\bin\LauncherKitUpgradeDownloader
 if errorlevel 1 GOTO FAIL
 

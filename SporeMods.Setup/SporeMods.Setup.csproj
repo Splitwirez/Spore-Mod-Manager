@@ -37,11 +37,11 @@
   <ItemGroup>
     <!--EmbeddedResource Include="DotnetRuntime\dotnet-desktopruntime-installer.exe" LogicalName="dotnet-desktopruntime-installer.exe"/-->
     <!--EmbeddedResource Include="..\unpackagedBin\$(Configuration)\$(TargetFramework)\**" /-->
-    <EmbeddedResource Include="..\unpackagedBin\$(Configuration)\Internal\**">
+    <EmbeddedResource Include="..\unpackagedBin\$(Configuration)\**">
       <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
       <LogicalName>smm-bin?%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\unpackagedBin\$(Configuration)\Spore Mod Manager.exe">
+    <!--EmbeddedResource Include="..\unpackagedBin\$(Configuration)\Spore Mod Manager.exe">
       <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
       <LogicalName>Spore Mod Manager.exe</LogicalName>
     </EmbeddedResource>
@@ -52,7 +52,7 @@
     <EmbeddedResource Include="..\unpackagedBin\$(Configuration)\xLauncherKitImport.exe">
       <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
       <LogicalName>xLauncherKitImport.exe</LogicalName>
-    </EmbeddedResource>
+    </EmbeddedResource-->
     <EmbeddedResource Include="..\build\api-ms-win-core-path-l1-1-0.dll">
       <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
       <LogicalName>api-ms-win-core-path-l1-1-0.dll</LogicalName>
@@ -67,12 +67,20 @@
       <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
       <LogicalName>dotnet-runtime?%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
     </EmbeddedResource-->
-    <EmbeddedResource Include="..\build\dotnetRuntime.zip">
+    <!--EmbeddedResource Include="..\build\dotnetRuntime.zip">
       <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
       <LogicalName>dotnetRuntime.zip</LogicalName>
-    </EmbeddedResource>
+    </EmbeddedResource-->
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="System.IO.FileSystem.AccessControl" Version="5.0.0" />
+	  <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
+	  <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+	  <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
+	  <PackageReference Include="System.IO.FileSystem.AccessControl" Version="5.0.0" />
+	  <PackageReference Include="System.Security.Principal.Windows" Version="5.0.0" />
+	  
+    <PackageReference Include="System.Windows.Interactivity.WPF" Version="2.0.20525" />
+	
+	<PackageReference Include="WPFTextBoxAutoComplete" Version="1.0.5" />
   </ItemGroup>
 </Project>

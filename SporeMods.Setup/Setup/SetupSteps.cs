@@ -88,13 +88,13 @@ namespace SporeMods.Setup
 						installPathAccess = Permissions.GrantAccessDirectory(SetupInformation.InstallPath);
 						Directory.CreateDirectory(bkpPath);
 						foreach (string dir in Directory.EnumerateDirectories(SetupInformation.InstallPath))
-                        {
+						{
 							string dirName = Path.GetFileName(dir);
 							if (!dirName.Equals("Runtime", StringComparison.OrdinalIgnoreCase))
-                            {
+							{
 								Directory.Move(dir, Path.Combine(bkpPath, dirName));
-                            }
-                        }
+							}
+						}
 
 						foreach (string fil in Directory.EnumerateFiles(SetupInformation.InstallPath))
 							File.Move(fil, Path.Combine(bkpPath, Path.GetFileName(fil)));
@@ -108,15 +108,18 @@ namespace SporeMods.Setup
 					//IEnumerable<string> dotnetRuntimeResources = SetupResources.DotnetRuntimeFiles;
 
 					int progressOffset = 3;
-#if OFFLINE_INSTALLER
+//#if OFFLINE_INSTALLER
+					string runtimeDir = AppContext.BaseDirectory;
 					progressOffset += 2;
-#endif
+
+					progressOffset += Directory.EnumerateFiles(runtimeDir).Count() + Directory.EnumerateDirectories(runtimeDir).Count();
+//#endif
 					if (SetupInformation.CreateShortcuts)
 						progressOffset += 4;
 
 					window.SetProgressBarMax(smmBinResources.Count() + progressOffset); //dotnetRuntimeResources.Count() + 4);
 
-					string installPath = Path.Combine(SetupInformation.InstallPath, "Internal");
+					string installPath = Path.Combine(SetupInformation.InstallPath/*, "Internal"*/);
 					if (!Directory.Exists(installPath))
 						Directory.CreateDirectory(installPath);
 
@@ -125,10 +128,28 @@ namespace SporeMods.Setup
 						ExtractResource(s, Path.Combine(installPath, s.Substring(SetupResources.SMM_BIN_PREFIX_LENGTH)));
 						window.IncrementProgress();
 					}
+
+//#if OFFLINE_INSTALLER
+					
+					/*foreach (string s in SetupResources.RuntimeFileNames)
+					{
+						string inPath = Path.Combine(runtimeDir, s);
+						if (File.Exists(inPath))
+						{
+							string outPath = Path.Combine(installPath, s);
+
+							string outDir = outPath.Substring(0, outPath.LastIndexOf(Path.DirectorySeparatorChar));
+							Directory.CreateDirectory(outDir);
+							File.Copy(inPath, outPath, true);
+						}
+						window.IncrementProgress();
+					}*/
+					DirectoryCopy(runtimeDir, installPath, (() => window.IncrementProgress()));
+//#endif
 					Permissions.GrantAccessDirectory(installPath);
 
 #if OFFLINE_INSTALLER
-					installPath = Path.Combine(SetupInformation.InstallPath, "Runtime");
+					/*installPath = Path.Combine(SetupInformation.InstallPath, "Runtime");
 
 					if (Directory.Exists(installPath))
 						Directory.Delete(installPath, true);
@@ -143,10 +164,10 @@ namespace SporeMods.Setup
 
 					window.IncrementProgress();
 					window.IncrementProgress();
-					Permissions.GrantAccessDirectory(installPath);
+					Permissions.GrantAccessDirectory(installPath);*/
 #endif
 
-					string smmRedirName = "Spore Mod Manager.exe";
+					/*string smmRedirName = "Spore Mod Manager.exe";
 					ExtractResource(smmRedirName, Path.Combine(SetupInformation.InstallPath, smmRedirName));
 					window.IncrementProgress();
 
@@ -160,7 +181,7 @@ namespace SporeMods.Setup
 
 					smmRedirName = "api-ms-win-core-path-l1-1-0.dll";
 					ExtractResource(smmRedirName, Path.Combine(SetupInformation.InstallPath, smmRedirName));
-					window.IncrementProgress();
+					window.IncrementProgress();*/
 
 					Permissions.GrantAccessDirectory(SetupInformation.InstallPath);
 
@@ -252,6 +273,34 @@ namespace SporeMods.Setup
 				}
 			});
 			thread.Start();
+		}
+
+
+		static void DirectoryCopy(string sourceDirName, string destDirName, Action onCopied)
+		{
+			if (!Directory.Exists(destDirName))
+				Directory.CreateDirectory(destDirName);
+
+			IEnumerable<string> files = Directory.GetFiles(sourceDirName);
+			foreach (string file in files)
+			{
+				string tempPath = Path.Combine(destDirName, Path.GetFileName(file));
+				File.Copy(file, tempPath, true);
+				
+				if (onCopied != null)
+					onCopied();
+			}
+
+
+			IEnumerable<string> dirs = Directory.EnumerateDirectories(sourceDirName);
+			foreach (string subdir in dirs)
+			{
+				string destPath = Path.Combine(destDirName, Path.GetFileName(subdir));
+				DirectoryCopy(destPath, destPath, null);
+				
+				if (onCopied != null)
+					onCopied();
+			}
 		}
 
 
