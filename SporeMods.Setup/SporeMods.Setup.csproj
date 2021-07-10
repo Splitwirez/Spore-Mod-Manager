@@ -53,10 +53,10 @@
       <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
       <LogicalName>xLauncherKitImport.exe</LogicalName>
     </EmbeddedResource-->
-    <EmbeddedResource Include="..\build\api-ms-win-core-path-l1-1-0.dll">
+    <!--EmbeddedResource Include="..\build\api-ms-win-core-path-l1-1-0.dll">
       <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
       <LogicalName>api-ms-win-core-path-l1-1-0.dll</LogicalName>
-    </EmbeddedResource>
+    </EmbeddedResource-->
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Fonts\Ubuntu-Regular.ttf" /> 
