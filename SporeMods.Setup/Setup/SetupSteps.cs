@@ -108,14 +108,13 @@ namespace SporeMods.Setup
 					//IEnumerable<string> dotnetRuntimeResources = SetupResources.DotnetRuntimeFiles;
 
 					int progressOffset = 3;
-//#if OFFLINE_INSTALLER
+#if OFFLINE_INSTALLER
 					string runtimeDir = AppContext.BaseDirectory;
-					progressOffset += 2;
 
 					progressOffset += Directory.EnumerateFiles(runtimeDir).Count() + Directory.EnumerateDirectories(runtimeDir).Count();
-//#endif
 					if (SetupInformation.CreateShortcuts)
 						progressOffset += 4;
+#endif
 
 					window.SetProgressBarMax(smmBinResources.Count() + progressOffset); //dotnetRuntimeResources.Count() + 4);
 
@@ -129,43 +128,10 @@ namespace SporeMods.Setup
 						window.IncrementProgress();
 					}
 
-//#if OFFLINE_INSTALLER
-					
-					/*foreach (string s in SetupResources.RuntimeFileNames)
-					{
-						string inPath = Path.Combine(runtimeDir, s);
-						if (File.Exists(inPath))
-						{
-							string outPath = Path.Combine(installPath, s);
-
-							string outDir = outPath.Substring(0, outPath.LastIndexOf(Path.DirectorySeparatorChar));
-							Directory.CreateDirectory(outDir);
-							File.Copy(inPath, outPath, true);
-						}
-						window.IncrementProgress();
-					}*/
-					DirectoryCopy(runtimeDir, installPath, (() => window.IncrementProgress()));
-//#endif
-					Permissions.GrantAccessDirectory(installPath);
-
 #if OFFLINE_INSTALLER
-					/*installPath = Path.Combine(SetupInformation.InstallPath, "Runtime");
-
-					if (Directory.Exists(installPath))
-						Directory.Delete(installPath, true);
-					Directory.CreateDirectory(installPath);
-
-					using (var runtime = Application.ResourceAssembly.GetManifestResourceStream("dotnetRuntime.zip"))
-					{
-						ZipArchive archive = new ZipArchive(runtime);
-						archive.ExtractToDirectory(installPath, true);
-					}
-
-
-					window.IncrementProgress();
-					window.IncrementProgress();
-					Permissions.GrantAccessDirectory(installPath);*/
+					DirectoryCopy(runtimeDir, installPath, (() => window.IncrementProgress()));
 #endif
+					Permissions.GrantAccessDirectory(installPath);
 
 					/*string smmRedirName = "Spore Mod Manager.exe";
 					ExtractResource(smmRedirName, Path.Combine(SetupInformation.InstallPath, smmRedirName));

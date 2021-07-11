@@ -186,15 +186,16 @@ namespace SporeMods.Core
 		public static bool UpdateProgram(GithubRelease release, ProgressChangedEventHandler progressHandler)
 		{
 			string targetFramework = Settings.TargetFramework.ToLowerInvariant();
-			string fileName = Path.Combine(Settings.TempFolderPath, "smmUpdater.exe");
+			string fileName = Path.Combine(Settings.TempFolderPath, "smmUpdater.zip");
 
-			var asset = Array.Find(release.assets, a => a.name.ToLowerInvariant() == "updater-" + targetFramework + ".exe");
+			/*var asset = Array.Find(release.assets, a => a.name.ToLowerInvariant() == "updater-" + targetFramework + ".zip");
 			if (asset == null)
-			{
-				asset = Array.Find(release.assets, a => a.name.ToLowerInvariant() == "sporemodmanagersetup.exe");
+			{*/
+				fileName = Path.Combine(Settings.TempFolderPath, "smmUpdater.exe");
+				var asset = Array.Find(release.assets, a => a.name.ToLowerInvariant() == "sporemodmanagersetup.exe");
 				if (asset == null)
-					throw new InvalidOperationException("Invalid update: no 'SporeModManagerSetup.exe' or 'updater-" + targetFramework + ".exe' asset");
-			}
+					throw new InvalidOperationException("Invalid update: no 'SporeModManagerSetup.exe' or 'updater-" + targetFramework + ".zip' asset");
+			//}
 			using (var client = new WebClient())
 			{
 				client.DownloadProgressChanged += (s, e) =>
@@ -203,7 +204,26 @@ namespace SporeMods.Core
 				};
 				
 				client.DownloadFile(asset.browser_download_url, fileName);
-				client.DownloadFileCompleted += (sneder, args) => UpdateDownloadCompleted?.Invoke(fileName, null);
+				client.DownloadFileCompleted += (sneder, args) =>
+				{
+					/*if (fileName.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
+                    {
+						using (ZipArchive archive = ZipFile.Open(fileName, ZipArchiveMode.Read))
+                        {
+							archive.ExtractToDirectory(Settings.ManagerInstallLocationPath);
+                        }
+
+						foreach (string s in Directory.EnumerateFiles(Settings.ManagerInstallLocationPath))
+                        {
+							string updaterExe = Path.GetFileName(s);
+							if (updaterExe.StartsWith("updater-", StringComparison.OrdinalIgnoreCase) && updaterExe.StartsWith(".exe", StringComparison.OrdinalIgnoreCase))
+							{
+								fileName = s;
+                            }
+                        }
+                    }*/
+					UpdateDownloadCompleted?.Invoke(fileName, null);
+				};
 			}
 			return true;
 		}

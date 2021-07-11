@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop" TreatAsLocalProperty="SelfContained">
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop" TreatAsLocalProperty="PublishSingleFile">
   <Import Project="..\SporeMods.SharedAssemblyInfo.props" />
   <Import Project="..\SporeMods.NetCoreSharedAssemblyInfo.props" />
   <PropertyGroup>
@@ -8,7 +8,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <AssemblyTitle>SporeMods.Setup</AssemblyTitle>
     <Product>SporeMods.Setup</Product>
-    <AssemblyName>updater-$(TargetFramework)--3.1.12</AssemblyName>
+    <AssemblyName>updater--dotnet-core--3.1.12</AssemblyName>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <!--RuntimeIdentifier>win-x86</RuntimeIdentifier>
     <-SelfContained>True</SelfContained>
@@ -16,7 +16,7 @@
     <PublishReadyToRun>true</PublishReadyToRun-->
     <ApplicationIcon>..\AppIcons\ModManagerSetupIcon.ico</ApplicationIcon>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(SelfContained)' == 'true'">
+  <PropertyGroup Condition="'$(PublishSingleFile)' == 'true'">
     <DefineConstants>OFFLINE_INSTALLER</DefineConstants>
     <AssemblyName>SporeModManagerSetup</AssemblyName>
   </PropertyGroup>
@@ -61,16 +61,6 @@
   <ItemGroup>
     <Resource Include="Fonts\Ubuntu-Regular.ttf" /> 
     <Resource Include="Fonts\UFL.txt" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(SelfContained)' == 'true'">
-    <!--EmbeddedResource Include="..\dotnetRuntime\**">
-      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
-      <LogicalName>dotnet-runtime?%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
-    </EmbeddedResource-->
-    <!--EmbeddedResource Include="..\build\dotnetRuntime.zip">
-      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
-      <LogicalName>dotnetRuntime.zip</LogicalName>
-    </EmbeddedResource-->
   </ItemGroup>
   <ItemGroup>
 	  <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />

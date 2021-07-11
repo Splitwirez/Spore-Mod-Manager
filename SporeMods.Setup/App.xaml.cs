@@ -244,7 +244,6 @@ namespace SporeMods.Setup
 			ProcessStartInfo startInfo;
 			Process process = null;
 			string exeName;
-#if OFFLINE_INSTALLER
 			//https://stackoverflow.com/questions/133379/elevating-process-privilege-programmatically/10905713
 			exeName = Process.GetCurrentProcess().MainModule.FileName;
 			startInfo = new ProcessStartInfo(exeName, args)
@@ -266,33 +265,6 @@ namespace SporeMods.Setup
 			
 			if (disableAutoRelaunch)
 				Process.GetCurrentProcess().Kill();
-#else
-			string extraArgs = "--elevateUpdater";
-			exeName = Path.Combine(SetupInformation.InstallPath, "Spore Mod Manager.exe");
-			startInfo = new ProcessStartInfo(exeName)
-			{
-				//Arguments = args + " ,
-				UseShellExecute = true,
-				Verb = "runas"
-			};
-			if ((!string.IsNullOrEmpty(args)) && (!string.IsNullOrWhiteSpace(args)))
-				startInfo.Arguments = args + " " + extraArgs;
-			else
-				startInfo.Arguments = extraArgs;
-			//MessageBox.Show("exeName: " + exeName + "\n\n\n\n\nArgs: " + startInfo.Arguments);
-
-			var proc = Process.Start(startInfo);
-			proc.WaitForExit();
-			if (proc.ExitCode == -1)
-				process = null;
-			else
-				process = Process.GetProcessById(proc.ExitCode);
-#endif
-			/*}
-			catch (Exception ex)
-			{
-				Debug.WriteLine(ex);
-			}*/
 
 			if (closeCurrent && (process != null))
 				Process.GetCurrentProcess().Kill();

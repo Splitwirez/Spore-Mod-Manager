@@ -16,6 +16,9 @@
     </Content>
   </ItemGroup>
   <Import Project="..\SporeMods.SharedOutputDirs.props" />
+  <PropertyGroup>
+    <AssemblyName>xLauncherKitImport</AssemblyName>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mechanism-for-WPF\Mechanism.Wpf.Core\Mechanism.Wpf.Core.csproj">
       <Project>{727669ac-3f83-41e1-aefd-13a8f0c1fdad}</Project>

@@ -66,13 +66,13 @@ namespace SporeMods.Core
 		{
 			get
 			{
-				string targetFramework = string.Empty;
+				/*string targetFramework = string.Empty;
 				using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("RuntimeVersion.txt"))
 				{
 					StreamReader reader = new StreamReader(stream);
 					targetFramework = reader.ReadToEnd();
-				}
-				return targetFramework + "--" + Environment.Version;
+				}*/
+				return "-dotnet-core--" + Environment.Version;
 			}
 		}
 

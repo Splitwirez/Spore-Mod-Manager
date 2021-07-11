@@ -68,20 +68,18 @@ For /R "%UNPACKAGEDOUT%" %%x In (*.*) Do (
 
 
 ::Build setup and such
-::dotnet publish .\SporeMods.Setup -c Release --self-contained false -p:PublishSingleFile=true -p:PublishReadyToRun=true -r win-x86 -o .\bin\Updater
+::dotnet publish .\SporeMods.Setup -c Release --self-contained true -p:PublishSingleFile=false -p:PublishReadyToRun=true -r win-x86 -o .\bin\Updater
 ::if errorlevel 1 GOTO FAIL
 dotnet publish .\SporeMods.Setup -c Release --self-contained true -p:PublishSingleFile=true -p:PublishReadyToRun=true -r win-x86 -o .\bin\OfflineInstaller
 if errorlevel 1 GOTO FAIL
 
 
-::Temp skip setup
-GOTO SUCCESS
-
 dotnet build .\SporeMods.KitUpgradeDownloader -c Release -p:PublishReadyToRun=true -o .\bin\LauncherKitUpgradeDownloader
 if errorlevel 1 GOTO FAIL
 
 ::Drop everything into final folders because Splitwirez absolutely cannot be trusted to remember all the files otherwise
-robocopy ".\bin\Updater" ".\bin\SMM" *.exe
+::robocopy ".\bin\Updater" ".\bin\SMM" *.exe
+::robocopy ".\bin\Updater" ".\bin\SMM" updater*.json
 robocopy ".\bin\OfflineInstaller" ".\bin\SMM" *.exe
 robocopy ".\bin\LauncherKitUpgradeDownloader" ".\bin\SMLK" *.exe
 
