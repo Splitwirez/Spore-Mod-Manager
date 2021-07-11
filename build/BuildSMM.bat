@@ -1,20 +1,22 @@
 @echo off
-SETLOCAL ENABLEDELAYEDEXPANSION
+SetLocal EnableDelayedExpansion
 
-::Get info for MSBuild
-for /f "delims=" %%x in (.\build\VCTargetsPath.txt) do call set VCTargetsPath=%%x
-for /f "delims=" %%x in (.\build\MSBuildPath.txt) do call set MSBuildPath=%%x
+CALL :EXPANDPATH .\unpackagedBin\SelfContained\
+Set UNPACKAGEDOUT=%RETVAL%
+CALL :EXPANDPATH .\unpackagedBin\FrameworkDependent\
+Set UNPACKAGEDFDOUT=%RETVAL%
+
 
 ::Clear output folders
 IF exist ".\bin" (rd /S /Q ".\bin")
-IF exist ".\unpackagedBin\Release" (rd /S /Q ".\unpackagedBin\Release")
+IF exist ".\unpackagedBin" (rd /S /Q ".\unpackagedBin")
 
 ::Ensure output folders still exist
-md ".\unpackagedBin"
-md ".\unpackagedBin\Release"
-md ".\bin"
-md ".\bin\SMM"
-md ".\bin\SMLK"
+::md ".\unpackagedBin"
+::md ".\unpackagedBin\Release"
+::md ".\bin"
+::md ".\bin\SMM"
+::md ".\bin\SMLK"
 
 
 ::Render app icons if needed (this step does not occur if they already exist, as the icons are unlikely to change often enough to justify waiting for rendering when building every release)
@@ -32,33 +34,52 @@ IF NOT EXIST .\AppIcons\%MMSIco%.ico (start /b /wait "" cmd.exe /c ".\build\Gene
 
 
 ::Build .NET binaries
-dotnet build .\SporeMods.Launcher -c Release -p:PublishReadyToRun=true
+set R2R= -p:PublishReadyToRun=true
+set RELEASE=-c Release
+set PUBLISHPARAMS=%RELEASE% -o "%UNPACKAGEDOUT%"
+CALL :BUILDMAINPROJECTS
+
+set PUBLISHPARAMS=%RELEASE% --self-contained false -o "%UNPACKAGEDFDOUT%"
+CALL :BUILDMAINPROJECTS
+
+dotnet publish .\SporeMods.Launcher %PUBLISHPARAMSFD%
 if errorlevel 1 GOTO FAIL
-dotnet build .\SporeMods.DragServant -c Release -p:PublishReadyToRun=true
+dotnet publish .\SporeMods.DragServant %PUBLISHPARAMSFD%
 if errorlevel 1 GOTO FAIL
-dotnet build .\SporeMods.Manager -c Release -p:PublishReadyToRun=true
+dotnet publish .\SporeMods.Manager %PUBLISHPARAMSFD%
 if errorlevel 1 GOTO FAIL
-dotnet build .\SporeMods.KitImporter -c Release -p:PublishReadyToRun=true
+dotnet publish .\SporeMods.KitImporter %PUBLISHPARAMSFD%
 if errorlevel 1 GOTO FAIL
 
-::Build C++ binaries
-"%MSBuildPath%" .\SporeMods.ManagerRedir\SporeMods.ManagerRedir.vcxproj /property:Configuration=Release
-if errorlevel 1 GOTO FAIL
-"%MSBuildPath%" .\SporeMods.ManagerRedir\SporeMods.ManagerRedir.vcxproj /property:Configuration=Release /p:RedirType=LAUNCHER
-if errorlevel 1 GOTO FAIL
-"%MSBuildPath%" .\SporeMods.ManagerRedir\SporeMods.ManagerRedir.vcxproj /property:Configuration=Release /p:RedirType=LKIMPORT
-if errorlevel 1 GOTO FAIL
+
+For /R "%UNPACKAGEDOUT%" %%x In (*.*) Do (
+	
+	Set "OriginalPath=%%x"
+	CALL :GETFILENAME "!OriginalPath!"
+	Set "FileName=!RETVAL!"
+	Set "FdPath=%UNPACKAGEDFDOUT%!FileName!"
+	
+	
+	If Not Exist "!FdPath!" (
+		echo DELET !FileName!
+		del "!OriginalPath!"
+    )
+)
+
 
 ::Build setup and such
-dotnet publish .\SporeMods.Setup -c Release --self-contained false -p:PublishSingleFile=true -p:PublishReadyToRun=true -r win-x86 -o .\bin\Updater
-if errorlevel 1 GOTO FAIL
+::dotnet publish .\SporeMods.Setup -c Release --self-contained true -p:PublishSingleFile=false -p:PublishReadyToRun=true -r win-x86 -o .\bin\Updater
+::if errorlevel 1 GOTO FAIL
 dotnet publish .\SporeMods.Setup -c Release --self-contained true -p:PublishSingleFile=true -p:PublishReadyToRun=true -r win-x86 -o .\bin\OfflineInstaller
 if errorlevel 1 GOTO FAIL
+
+
 dotnet build .\SporeMods.KitUpgradeDownloader -c Release -p:PublishReadyToRun=true -o .\bin\LauncherKitUpgradeDownloader
 if errorlevel 1 GOTO FAIL
 
 ::Drop everything into final folders because Splitwirez absolutely cannot be trusted to remember all the files otherwise
-robocopy ".\bin\Updater" ".\bin\SMM" *.exe
+::robocopy ".\bin\Updater" ".\bin\SMM" *.exe
+::robocopy ".\bin\Updater" ".\bin\SMM" updater*.json
 robocopy ".\bin\OfflineInstaller" ".\bin\SMM" *.exe
 robocopy ".\bin\LauncherKitUpgradeDownloader" ".\bin\SMLK" *.exe
 
@@ -85,3 +106,25 @@ exit 0
 
 :FAIL
 exit errorlevel
+
+
+
+:BUILDMAINPROJECTS
+	dotnet publish .\SporeMods.Launcher %PUBLISHPARAMS%
+	if errorlevel 1 GOTO FAIL
+	dotnet publish .\SporeMods.DragServant %PUBLISHPARAMS%
+	if errorlevel 1 GOTO FAIL
+	dotnet publish .\SporeMods.Manager %PUBLISHPARAMS%
+	if errorlevel 1 GOTO FAIL
+	dotnet publish .\SporeMods.KitImporter %PUBLISHPARAMS%
+	if errorlevel 1 GOTO FAIL
+	EXIT /B
+
+::https://stackoverflow.com/questions/1645843/resolve-absolute-path-from-relative-path-and-or-file-name/33404867#33404867
+:GETFILENAME
+	SET RETVAL=%~nx1
+	EXIT /B
+
+:EXPANDPATH
+	SET RETVAL=%~f1
+	EXIT /B

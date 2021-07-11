@@ -11,6 +11,8 @@ namespace SporeMods.Core.Injection
 {
 	public static class SporeLauncher
 	{
+		public const string EXTRACT_ORIGIN_PREREQ = "--originFirstRun";
+
 		public static int CaptionHeight = -1;
 		public static IntPtr _processHandle = IntPtr.Zero;
 		private static bool _debugMode = File.Exists(Path.Combine(Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).ToString(), "debug.txt"));
@@ -89,19 +91,20 @@ namespace SporeMods.Core.Injection
 							// get the correct executable path
 							_executablePath = Path.Combine(SporebinEP1, ExecutableFileNames[_executableType]);
 
-							if ((_executableType == GameExecutableType.Origin__1_5_1 ||
-								_executableType == GameExecutableType.Origin__March2017) &&
-								!File.Exists(_executablePath))
+							bool isOriginExe = (_executableType == GameExecutableType.Origin__1_5_1) ||
+								(_executableType == GameExecutableType.Origin__March2017);
+							bool exeExists = File.Exists(_executablePath);
+							//MessageDisplay.ShowMessageBox($"NOT LOCALIZED:\nIs Origin EXE: {isOriginExe}\nEXE exists: {exeExists}");
+							if (isOriginExe && (!exeExists))
 							{
-								var startInfo = new ProcessStartInfo(
-									Path.Combine(Settings.ManagerInstallLocationPath, "Spore Mod Launcher.exe"),
-									"--modapifix " + Directory.GetParent(_executablePath).FullName)
+								try
 								{
-									UseShellExecute = true,
-									Verb = "runas"
-								};
-								var p = Process.Start(startInfo);
-								p.WaitForExit();
+									CrossProcess.StartLauncher(EXTRACT_ORIGIN_PREREQ, true).WaitForExit();
+								}
+								catch (Exception ex)
+								{
+									MessageDisplay.ShowMessageBox($"NOT LOCALIZED: couldn't start laucher:\n\n{ex}");
+								}
 							}
 
 							string dllEnding = GetExecutableDllSuffix(_executableType);

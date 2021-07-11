@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.ComponentModel;
-using Ionic.Zip;
+//using Ionic.Zip;
 using Newtonsoft.Json;
 
 namespace SporeMods.Core
@@ -147,18 +148,19 @@ namespace SporeMods.Core
 				string zipName = Path.GetTempFileName();
 				client.DownloadFile(asset.browser_download_url, zipName);
 
-				using (var zip = new ZipFile(zipName))
+				using (var zip = ZipFile.Open(zipName, ZipArchiveMode.Read))
 				{
 					int filesExtracted = 0;
 					foreach (string name in DLL_NAMES)
 					{
-						var entry = zip[name];
+						var entry = zip.Entries.FirstOrDefault(x => x.Name == name);
 						if (entry == null)
 						{
 							throw new InvalidOperationException("Invalid update: missing " + name + " in zip file");
 						}
-						entry.Extract(Settings.CoreLibsPath, ExtractExistingFileAction.OverwriteSilently);
-						Permissions.GrantAccessFile(Path.Combine(Settings.CoreLibsPath, entry.FileName));
+						string outPath = Path.Combine(Settings.CoreLibsPath, name);
+						entry.ExtractToFile(outPath, true);
+						Permissions.GrantAccessFile(outPath);
 						++filesExtracted;
 
 						double progress = DOWNLOAD_PROGRESS + filesExtracted * (1.0f - DOWNLOAD_PROGRESS) / (float)(DLL_NAMES.Length);
@@ -184,15 +186,16 @@ namespace SporeMods.Core
 		public static bool UpdateProgram(GithubRelease release, ProgressChangedEventHandler progressHandler)
 		{
 			string targetFramework = Settings.TargetFramework.ToLowerInvariant();
-			string fileName = Path.Combine(Settings.TempFolderPath, "smmUpdater.exe");
+			string fileName = Path.Combine(Settings.TempFolderPath, "smmUpdater.zip");
 
-			var asset = Array.Find(release.assets, a => a.name.ToLowerInvariant() == "updater-" + targetFramework + ".exe");
+			/*var asset = Array.Find(release.assets, a => a.name.ToLowerInvariant() == "updater-" + targetFramework + ".zip");
 			if (asset == null)
-			{
-				asset = Array.Find(release.assets, a => a.name.ToLowerInvariant() == "sporemodmanagersetup.exe");
+			{*/
+				fileName = Path.Combine(Settings.TempFolderPath, "smmUpdater.exe");
+				var asset = Array.Find(release.assets, a => a.name.ToLowerInvariant() == "sporemodmanagersetup.exe");
 				if (asset == null)
-					throw new InvalidOperationException("Invalid update: no 'SporeModManagerSetup.exe' or 'updater-" + targetFramework + ".exe' asset");
-			}
+					throw new InvalidOperationException("Invalid update: no 'SporeModManagerSetup.exe' or 'updater-" + targetFramework + ".zip' asset");
+			//}
 			using (var client = new WebClient())
 			{
 				client.DownloadProgressChanged += (s, e) =>
@@ -201,7 +204,26 @@ namespace SporeMods.Core
 				};
 				
 				client.DownloadFile(asset.browser_download_url, fileName);
-				client.DownloadFileCompleted += (sneder, args) => UpdateDownloadCompleted?.Invoke(fileName, null);
+				client.DownloadFileCompleted += (sneder, args) =>
+				{
+					/*if (fileName.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
+                    {
+						using (ZipArchive archive = ZipFile.Open(fileName, ZipArchiveMode.Read))
+                        {
+							archive.ExtractToDirectory(Settings.ManagerInstallLocationPath);
+                        }
+
+						foreach (string s in Directory.EnumerateFiles(Settings.ManagerInstallLocationPath))
+                        {
+							string updaterExe = Path.GetFileName(s);
+							if (updaterExe.StartsWith("updater-", StringComparison.OrdinalIgnoreCase) && updaterExe.StartsWith(".exe", StringComparison.OrdinalIgnoreCase))
+							{
+								fileName = s;
+                            }
+                        }
+                    }*/
+					UpdateDownloadCompleted?.Invoke(fileName, null);
+				};
 			}
 			return true;
 		}

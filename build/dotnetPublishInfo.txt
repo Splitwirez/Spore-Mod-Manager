@@ -1,0 +1,8 @@
+dotnet publish PROJECTDIR -o .\PUBLISHOUTDIR -r:win-x86
+
+PROJECTDIR = directory containing .csproj file
+PUBLISHOUTDIR = directory to publish to (relative to current working directory)
+
+
+
+Append '--self-contained false' to ????

@@ -20,13 +20,7 @@ namespace SporeMods.Core
 			info.EnvironmentVariables["DOTNET_MULTILEVEL_LOOKUP"] = Environment.ExpandEnvironmentVariables("0");
 		}*/
 
-		static string[] mgrExecutables = new string[]
-		{
-			"Spore Mod Manager",
-			"Spore Mod Launcher",
-			"SporeMods.KitImporter"
-		};
-		public static bool AreAnyOtherModManagersRunning()
+		/*public static bool AreAnyOtherModManagersRunning()
 		{
 			//string dir = Directory.GetParent(Process.GetCurrentProcess().MainModule.FileName).ToString();
 			string exe = Path.GetFileNameWithoutExtension(Process.GetCurrentProcess().MainModule.FileName);
@@ -45,9 +39,9 @@ namespace SporeMods.Core
 					Debug.WriteLine("DIFFERENT EXE");
 					return true;
 				}
-			}*/
+			}*
 			return false;
-		}
+		}*/
 
 		public static bool IsAtleastWindowsVista()
 		{
