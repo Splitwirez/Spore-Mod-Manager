@@ -1,4 +1,5 @@
 ﻿using SporeMods.Core;
+using SporeMods.CommonUI.Localization;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -19,7 +20,7 @@ namespace SporeMods.CommonUI
 			}
 			catch (Exception ex)
 			{
-				MessageDisplay.ShowClipboardFallback(Settings.GetLanguageString("CopypasteToTechSupport"), newContent);
+				MessageDisplay.ShowClipboardFallback(LanguageManager.Instance.GetLocalizedText("CopypasteToTechSupport"), newContent);
 			}
 		}
 
@@ -61,7 +62,7 @@ namespace SporeMods.CommonUI
 				//}
 
 				if (showFallback)
-					MessageDisplay.ShowClipboardFallback(Settings.GetLanguageString("CopyUrlIntoBrowser"), url);
+					MessageDisplay.ShowClipboardFallback(LanguageManager.Instance.GetLocalizedText("CopyUrlIntoBrowser"), url);
 			}
 			/*bool processCreationFailed = false;
 			try

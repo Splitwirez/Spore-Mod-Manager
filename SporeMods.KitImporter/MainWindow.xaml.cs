@@ -24,6 +24,8 @@ namespace SporeMods.KitImporter
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		static Func<string, string> GetLocalizedString = SporeMods.CommonUI.Localization.LanguageManager.Instance.GetLocalizedText;
+
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -49,7 +51,7 @@ namespace SporeMods.KitImporter
 			if ((!string.IsNullOrEmpty(_kitPath)) && (!string.IsNullOrWhiteSpace(_kitPath)))
 			{
 				_kitAutoImport = true;
-				AutoLauncherKitPathTextBlock.Text = GetLanguageString("AutoLauncherKitPath").Replace("%KITPATH%", _kitPath);
+				AutoLauncherKitPathTextBlock.Text = GetLocalizedString("KitImporter!AutoLauncherKitPath").Replace("%KITPATH%", _kitPath);
 				VerifyAutoLauncherKitPathPage.Visibility = Visibility.Visible;
 			}
 			else
@@ -63,20 +65,20 @@ namespace SporeMods.KitImporter
 					if ((!string.IsNullOrEmpty(lkPath2)) && (!string.IsNullOrWhiteSpace(lkPath2)) && IsPathValid(lkPath2))
 					{
 						_kitPath = lkPath2;
-						AutoLauncherKitPathTextBlock.Text = GetLanguageString("AutoLauncherKitPath").Replace("%KITPATH%", _kitPath);
+						AutoLauncherKitPathTextBlock.Text = GetLocalizedString("KitImporter!AutoLauncherKitPath").Replace("%KITPATH%", _kitPath);
 						VerifyAutoLauncherKitPathPage.Visibility = Visibility.Visible;
 					}
 					else
 					{
 						Debug.WriteLine("1: " + lkPath2);
-						SpecifyLauncherKitPathInstructionTextBlock.Text = Settings.GetLanguageString("SpecifyLauncherKitPathInstruction"); //"Please specify the location of the Spore ModAPI Launcher Kit below.";
+						SpecifyLauncherKitPathInstructionTextBlock.Text = GetLocalizedString("KitImporter!SpecifyLauncherKitPathInstruction"); //"Please specify the location of the Spore ModAPI Launcher Kit below.";
 						SpecifyLauncherKitPathPage.Visibility = Visibility.Visible;
 					}
 				}
 				catch (Exception ex)
 				{
 					Debug.WriteLine("2 " + ex.ToString());
-					SpecifyLauncherKitPathInstructionTextBlock.Text = Settings.GetLanguageString("SpecifyLauncherKitPathInstruction"); //"Please specify the location of the Spore ModAPI Launcher Kit below.";
+					SpecifyLauncherKitPathInstructionTextBlock.Text = GetLocalizedString("SpecifyLauncherKitPathInstruction"); //"Please specify the location of the Spore ModAPI Launcher Kit below.";
 					SpecifyLauncherKitPathPage.Visibility = Visibility.Visible;
 				}
 			}
@@ -102,7 +104,7 @@ namespace SporeMods.KitImporter
 						success = true;
 
 					if (!success)
-						ImportCompleteTextBlock.Text = GetLanguageString("ImportFailed");
+						ImportCompleteTextBlock.Text = GetLocalizedString("KitImporter!ImportFailed");
 
 					if (result.FailedMods.Count > 0)
 					{
@@ -186,26 +188,26 @@ namespace SporeMods.KitImporter
 
 		void SetLanguage()
 		{
-			ProceedWithAutoPathButton.Content = GetLanguageString("ProceedWithAutoPath");
-			DiscardAutoPathButton.Content = GetLanguageString("DiscardAutoPath");
+			ProceedWithAutoPathButton.Content = GetLocalizedString("KitImporter!ProceedWithAutoPath");
+			DiscardAutoPathButton.Content = GetLocalizedString("KitImporter!DiscardAutoPath");
 
-			SpecifyLauncherKitPathInstructionTextBlock.Text = GetLanguageString("LauncherKitNotFoundSpecifyLauncherKitPathInstruction");
-			LauncherKitPathBrowseButton.Content = Settings.GetLanguageString(1, "Browse");
+			SpecifyLauncherKitPathInstructionTextBlock.Text = GetLocalizedString("KitImporter!LauncherKitNotFoundSpecifyLauncherKitPathInstruction");
+			LauncherKitPathBrowseButton.Content = GetLocalizedString("Browse");
 
-			ImportInProgressTextBlock.Text = GetLanguageString("ImportInProgress");
+			ImportInProgressTextBlock.Text = GetLocalizedString("KitImporter!ImportInProgress");
 
-			ImportCompleteTextBlock.Text = GetLanguageString("ImportComplete");
-			ImportCompleteOkButton.Content = Settings.GetLanguageString(1, "OK");
-			SettingsImportFailedTextBlock.Text = GetLanguageString("SettingsImportFailed");
-			NoModsRecordTextBlock.Text = GetLanguageString("NoModsRecord");
-			SkippedModsGroupBox.Header = GetLanguageString("SkippedMods");
-			FailedModsGroupBox.Header = GetLanguageString("FailedMods");
+			ImportCompleteTextBlock.Text = GetLocalizedString("KitImporter!ImportComplete");
+			ImportCompleteOkButton.Content = GetLocalizedString("OK");
+			SettingsImportFailedTextBlock.Text = GetLocalizedString("KitImporter!SettingsImportFailed");
+			NoModsRecordTextBlock.Text = GetLocalizedString("KitImporter!NoModsRecord");
+			SkippedModsGroupBox.Header = GetLocalizedString("KitImporter!SkippedMods");
+			FailedModsGroupBox.Header = GetLocalizedString("KitImporter!FailedMods");
 		}
 
-		string GetLanguageString(string identifier)
+		/*string GetLanguageString(string identifier)
 		{
 			return Settings.GetLanguageString(4, identifier);
-		}
+		}*/
 
 		private void ImportCompleteOkButton_Click(object sender, RoutedEventArgs e)
 		{

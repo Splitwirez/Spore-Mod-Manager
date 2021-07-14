@@ -55,5 +55,11 @@ namespace SporeMods.DragServant
 					File.Delete(args.FullPath);
 			};
 		}
-	}
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+			var _ = CommonUI.Localization.LanguageManager.Instance.GetLocalizedText("OK");
+		}
+    }
 }

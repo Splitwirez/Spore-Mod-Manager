@@ -18,6 +18,7 @@ namespace SporeMods.Launcher
 {
 	class Program
 	{
+		static Func<string, string> GetLocalizedString = CommonUI.Localization.LanguageManager.Instance.GetLocalizedText;
 
 		public static void ExtractModAPIFix()
 		{
@@ -47,7 +48,7 @@ namespace SporeMods.Launcher
 				{
 					if (SporeLauncher.IsSporeSuspended(true, out bool killed) && killed)
 					{
-						MessageBox.Show(Settings.GetLanguageString(3, "StartupAborted"));
+						MessageBox.Show(GetLocalizedString("LauncherError!StartupAborted"));
 					}
 				}
 				catch { }
@@ -91,7 +92,7 @@ namespace SporeMods.Launcher
 						Application.Run();*/
 						if (File.Exists(Path.Combine(Settings.TempFolderPath, "InstallingSomething")))
 						{
-							MessageBox.Show(Settings.GetLanguageString(3, "CantRunSporeWhileInstallingMods"));
+							MessageBox.Show(GetLocalizedString("LauncherError!ModsInstalling"));
 							Process.GetCurrentProcess().Kill();
 						}
 
@@ -109,7 +110,7 @@ namespace SporeMods.Launcher
 							proceed = false;
 							if (Settings.NonEssentialIsRunningUnderWine)
 								proceed = true;
-							else if (MessageBox.Show(Settings.GetLanguageString(1, "DontRunAsAdmin").Replace("%APPNAME%", "Spore Mod Launcher"), String.Empty, MessageBoxButtons.YesNo) == DialogResult.Yes)
+							else if (MessageBox.Show(GetLocalizedString("DontRunAsAdmin").Replace("%APPNAME%", "Launch Spore"), String.Empty, MessageBoxButtons.YesNo) == DialogResult.Yes)
 								proceed = true;
 						}
 
@@ -117,13 +118,13 @@ namespace SporeMods.Launcher
 						{
 							if (!Settings.AreDllsPresent())
 							{
-								MessageBox.Show(Settings.GetLanguageString(3, "ModApiDllsNotPresent"));
+								MessageBox.Show(GetLocalizedString("LauncherError!RunMgr"));
 								proceed = false;
 							}
 						}
 						catch (Exception ex)
 						{
-							MessageBox.Show(Settings.GetLanguageString(3, "ModApiDllsNotPresent"));
+							MessageBox.Show(GetLocalizedString("LauncherError!RunMgr"));
 							proceed = false;
 						}
 
@@ -132,7 +133,7 @@ namespace SporeMods.Launcher
 							//GameInfo..badBadGameInstallPath += (sneder, args) =>
 							if (GameInfo.BadGameInstallPaths.Any())
 							{
-								MessageBox.Show(Settings.GetLanguageString(3, "RunModManagerFirst")); //Please run the Spore Mod Manager at least once before running the Spore Mod Launcher.
+								MessageBox.Show(GetLocalizedString("LauncherError!RunMgr")); //Please run the Spore Mod Manager at least once before running the Spore Mod Launcher.
 								Process.GetCurrentProcess().Kill();
 							}//;
 

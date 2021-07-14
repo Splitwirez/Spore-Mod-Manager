@@ -37,7 +37,7 @@ namespace SporeMods.DragServant
 				{
 					if (val)
 					{
-						DropModsHereTextBlock.Text = Settings.GetLanguageString("DropModsHereInstruction");
+						DropModsHereTextBlock.Text = CommonUI.Localization.LanguageManager.Instance.GetLocalizedText("Mods!DropHere!Header");
 						RootGrid.Visibility = Visibility.Visible;
 					}
 					else
@@ -51,6 +51,7 @@ namespace SporeMods.DragServant
 		protected override void OnSourceInitialized(EventArgs e)
 		{
 			base.OnSourceInitialized(e);
+			var _ = CommonUI.Localization.LanguageManager.Instance.Selected;
 			_winHandle = new WindowInteropHelper(this).EnsureHandle();
 			SetStyles();
 			//SetWindowLong(_winHandle, GwlExstyle, (Int32)(GetWindowLong(_winHandle, GwlExstyle)) | WsExToolwindow | WsExNoActivate);
@@ -74,6 +75,17 @@ namespace SporeMods.DragServant
 
 		private void Window_PreviewDrop(object sender, DragEventArgs e)
 		{
+			/*foreach (ResourceDictionary dict in App.Current.Resources.MergedDictionaries)
+			{
+				string outp = string.Empty;
+				foreach (object h in dict.Keys)
+				{
+					outp += h.ToString() + ",          " + dict[h] + "\n";
+				}
+				MessageBox.Show(outp, dict.ToString());
+			}*/
+
+
 			if (e.Data.GetDataPresent(DataFormats.FileDrop))
 			{
 				string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);

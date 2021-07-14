@@ -7,11 +7,15 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Windows;
+using SporeMods.CommonUI.Localization;
 
 namespace SporeMods.CommonUI
 {
 	public static class Updater
 	{
+		private static string GetLocalizedString(string key) =>
+			LanguageManager.Instance.GetLocalizedText(key);
+
 		public static void CheckForUpdates()
 		{
 			CheckForUpdates(false);
@@ -57,8 +61,8 @@ namespace SporeMods.CommonUI
 						bool update = true;
 						if ((!forceInstallUpdate) && (Settings.UpdatingMode == Settings.UpdatingModeType.AutoCheck))
 						{
-							update = MessageBox.Show(Settings.GetLanguageString("UpdateAvailableText"),
-								Settings.GetLanguageString("UpdateAvailableTitle"), MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+							update = MessageBox.Show(GetLocalizedString("Update!Notify!App!Content"),
+								GetLocalizedString("Update!Notify!App!Header"), MessageBoxButton.YesNo) == MessageBoxResult.Yes;
 						}
 
 						if (update)
@@ -69,7 +73,7 @@ namespace SporeMods.CommonUI
 							/*while ((!File.Exists(UpdaterService.UpdaterPath)) || Permissions.IsFileLocked(UpdaterService.UpdaterPath) || (!updateDownloadFinished))
 							{ }*/
 
-							var progressDialog = GetProgressDialog(Settings.GetLanguageString("UpdatingProgressText"), (s, e) =>
+							var progressDialog = GetProgressDialog(GetLocalizedString("Update!Notify!App!ProgressContent"), (s, e) =>
 							{
 							/*Thread prgThread = new Thread(() =>
 							{*/
@@ -128,7 +132,7 @@ namespace SporeMods.CommonUI
 
 					if (webException != null)
 					{
-						MessageBox.Show(Settings.GetLanguageString("Error_CannotCheckForUpdates") + "\n" + webException.ToString(), Settings.GetLanguageString("Error_CannotCheckForUpdatesTitle"));
+						MessageBox.Show(GetLocalizedString("Update!Error!Other!Content") + "\n" + webException.ToString(), GetLocalizedString("Update!Error!Other!Header"));
 						return;
 					}
 
@@ -138,21 +142,21 @@ namespace SporeMods.CommonUI
 						// (as the update restarts the program), so we cannot continue
 						if (hasProgramUpdate)
 						{
-							MessageBox.Show(Settings.GetLanguageString("Error_UpdateAvailableDlls"),
-								Settings.GetLanguageString("Error_UpdateAvailableDllsTitle"));
+							MessageBox.Show(GetLocalizedString("Update!Error!CantUpdateDllsYet!Content"),
+								GetLocalizedString("Update!Error!CantUpdateDllsYet!Header"));
 						}
 						else
 						{
 							bool update = true;
 							if (Settings.UpdatingMode == Settings.UpdatingModeType.AutoCheck)
 							{
-								update = MessageBox.Show(Settings.GetLanguageString("UpdateAvailableDllsText"),
-									Settings.GetLanguageString("UpdateAvailableDllsTitle"), MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+								update = MessageBox.Show(GetLocalizedString("Update!Notify!ModApiDlls!Content"),
+									GetLocalizedString("Update!Notify!ModApiDlls!Content"), MessageBoxButton.YesNo) == MessageBoxResult.Yes;
 							}
 
 							if (update)
 							{
-								var progressDialog = GetProgressDialog(Settings.GetLanguageString("UpdatingProgressDllsText"), (s, e) =>
+								var progressDialog = GetProgressDialog(GetLocalizedString("Update!Notify!ModApiDlls!ProgressContent"), (s, e) =>
 								{
 									UpdaterService.UpdateDlls(release, (s_, e_) =>
 									{
@@ -221,6 +225,7 @@ namespace SporeMods.CommonUI
 
 			window.Content = dialog;
 			window.SizeToContent = SizeToContent.WidthAndHeight;
+			window.ResizeMode = ResizeMode.CanMinimize;
 			window.Resources = dialog.Resources;//.MergedDictionaries.Add() //Application.Current.Resources.MergedDictionaries[0].MergedDictionaries[1] = ShaleAccents.Sky.Dictionary;
 
 			if (testUI)

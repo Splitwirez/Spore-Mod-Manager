@@ -83,7 +83,7 @@ if errorlevel 1 GOTO FAIL
 robocopy ".\bin\OfflineInstaller" ".\bin\SMM" *.exe
 robocopy ".\bin\LauncherKitUpgradeDownloader" ".\bin\SMLK" *.exe
 
-".\build\7za.exe" a ".\bin\SMLK\SporeModManagerSetup.zip" ".\bin\OfflineInstaller\*.exe"
+".\build\7za.exe" a ".\bin\SMLK\SporeModManagerSetup.zip" ".\bin\OfflineInstaller\SporeModManagerSetup.exe"
 
 ::Take out the trash
 echo Taking out the trash...

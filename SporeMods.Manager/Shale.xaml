@@ -113,7 +113,7 @@
 								<!--ui:ToggleSwitch x:Name="IsEnabledToggleSwitch" TrueText="{DynamicResource ModSwitchOnText}" FalseText="{DynamicResource ModSwitchOffText}" Content="{x:Null}" IsChecked="{Binding IsEnabled, FallbackValue=True}" Visibility="{Binding Source={x:Static core:Settings.DeveloperMode}, Converter={StaticResource BooleanToVisibilityConverter}}" VerticalAlignment="Center" Width="110" MinWidth="110" HorizontalAlignment="Right"/-->
 								<!--{Binding CanDisable, Converter={StaticResource BooleanToVisibilityConverter}}-->
 								<StackPanel Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding IsProgressing, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
-									<TextBlock x:Name="InstallingNowTextBlock" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left" Text="{DynamicResource ModInstallingNowText}" Margin="0,0,5,0"/>
+                                    <TextBlock x:Name="InstallingNowTextBlock" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left" Text="{DynamicResource Mods!ListEntry!InstallInProgress}" Margin="0,0,5,0"/>
 									<ProgressBar x:Name="ModProgressBar" Width="100" Height="23" Value="{Binding Progress, Mode=OneWay}" Minimum="0" Maximum="100" VerticalAlignment="Stretch"/>
 								</StackPanel>
 							</StackPanel>
@@ -146,7 +146,7 @@
 								</Path.RenderTransform>
 							</Path>
 						</ToggleButton>
-						<Grid Visibility="{Binding Identity.CausesSaveDataDependency, Converter={StaticResource BooleanToVisibilityConverter}}" Width="32" Height="32" Background="#01000000" ToolTip="{DynamicResource CausesSaveDataDependencyWarning}" DockPanel.Dock="Right">
+                        <Grid Visibility="{Binding Identity.CausesSaveDataDependency, Converter={StaticResource BooleanToVisibilityConverter}}" Width="32" Height="32" Background="#01000000" ToolTip="{DynamicResource Mods!ListEntry!CausesSaveDataDependency}" DockPanel.Dock="Right">
 							<Control Template="{DynamicResource AlertIconBackgroundTemplate}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 							<Grid Width="12" Height="12" HorizontalAlignment="Center" VerticalAlignment="Center" Effect="{DynamicResource DropShadow}" Margin="0,6,0,-6">
 								<Path Data="M 0 6 L 6 0" StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,2,0,-2">
@@ -260,7 +260,7 @@
 						<Path Data="M 0 0 L 0 6 L 6 6 Z" HorizontalAlignment="Right" VerticalAlignment="Top" StrokeThickness="0" Fill="{DynamicResource IconSecondaryFillBrush}" Effect="{DynamicResource IconInnerShadow}"/>
 						<TextBlock Text="!" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Foreground="{DynamicResource SelectedHighlightBrush}" Effect="{DynamicResource IconOuterShadow}" FontSize="15" FontWeight="Black"/>
 					</Grid-->
-					<TextBlock Text="{DynamicResource ModInstalledManuallyText}" TextAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,0,0,0" Foreground="{DynamicResource ErrorTextBrush}" DockPanel.Dock="Right"/>
+                    <TextBlock Text="{DynamicResource Mods!ListEntry!ManuallyInstalled}" TextAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,0,0,0" Foreground="{DynamicResource ErrorTextBrush}" DockPanel.Dock="Right"/>
 					<!--TextBlock.Foreground>
 						<LinearGradientBrush StartPoint="0,0" EndPoint="0,0" GradientStops="{DynamicResource RedIconGradientStops}"/>
 					</TextBlock.Foreground-->
@@ -418,7 +418,7 @@
 							  Opacity="0" />
 											<Path x:Name="IndeterminateBox" Data="M 0.5 0.5 L 0.5 6 L 6 6 L 6 0.5 Z" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="{DynamicResource CheckBoxTickBrush}" Stroke="{DynamicResource CheckBoxTickBrush}" StrokeThickness="1.25" Opacity="0" />
 										</Grid>
-										<TextBlock Text="{DynamicResource AutoDetectPathText}" Margin="0,0,5,0"/>
+										<TextBlock Text="{DynamicResource Settings!Folders!AutoDetectPath}" Margin="0,0,5,0"/>
 									</DockPanel>
 								</Grid>
 							</Grid>
@@ -1388,16 +1388,16 @@
 					</StackPanel>
 					<DataTemplate.Triggers>
 						<DataTrigger Binding="{Binding GuessType}" Value="Disk">
-							<Setter TargetName="PathTypeTextBlock" Property="Text" Value="{DynamicResource ProbablyDisksGuessText}"/>
+                            <Setter TargetName="PathTypeTextBlock" Property="Text" Value="{DynamicResource Error!GamePathNotFound!Guess!Disk}"/>
 						</DataTrigger>
 						<DataTrigger Binding="{Binding GuessType}" Value="Origin">
-							<Setter TargetName="PathTypeTextBlock" Property="Text" Value="{DynamicResource ProbablyOriginGuessText}"/>
+                            <Setter TargetName="PathTypeTextBlock" Property="Text" Value="{DynamicResource Error!GamePathNotFound!Guess!Origin}"/>
 						</DataTrigger>
 						<DataTrigger Binding="{Binding GuessType}" Value="OriginPatched">
-							<Setter TargetName="PathTypeTextBlock" Property="Text" Value="{DynamicResource ProbablyOriginGuessText}"/>
+                            <Setter TargetName="PathTypeTextBlock" Property="Text" Value="{DynamicResource Error!GamePathNotFound!Guess!Gog}"/>
 						</DataTrigger>
 						<DataTrigger Binding="{Binding GuessType}" Value="Steam">
-							<Setter TargetName="PathTypeTextBlock" Property="Text" Value="{DynamicResource ProbablyGOGGuessText}"/>
+                            <Setter TargetName="PathTypeTextBlock" Property="Text" Value="{DynamicResource Error!GamePathNotFound!Guess!Unknown}"/>
 						</DataTrigger>
 						<DataTrigger Binding="{Binding GuessType}" Value="SteamPatched">
 							<Setter TargetName="PathTypeTextBlock" Property="Text" Value="{DynamicResource ProbablyGOGGuessText}"/>

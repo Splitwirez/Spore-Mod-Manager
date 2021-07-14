@@ -11,6 +11,8 @@ namespace SporeMods.Core.Injection
 {
 	public static class SporeLauncher
 	{
+		public static Func<string, string> GetLocalizedString = null;
+
 		public const string EXTRACT_ORIGIN_PREREQ = "--originFirstRun";
 
 		public static int CaptionHeight = -1;
@@ -113,7 +115,7 @@ namespace SporeMods.Core.Injection
 
 							if (dllEnding == null)
 							{
-								MessageDisplay.DebugShowMessageBox(Settings.GetLanguageString(3, "NullDllSuffix")); //MessageBox.Show(Strings.VersionNotDetected, CommonStrings.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+								MessageDisplay.DebugShowMessageBox(GetLocalizedString("LauncherError!GameVersion!NullDllSuffix")); //MessageBox.Show(Strings.VersionNotDetected, CommonStrings.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
 								return;
 							}
 
@@ -619,7 +621,7 @@ namespace SporeMods.Core.Injection
 			{
 				//throw new InjectException(Strings.ProcessNotStarted);
 				int lastError = System.Runtime.InteropServices.Marshal.GetLastWin32Error();
-				MessageDisplay.ShowMessageBox(Settings.GetLanguageString(3, "SporeProcessCreationFailed") + lastError.ToString()); //Strings.ProcessNotStarted);
+				MessageDisplay.ShowMessageBox(GetLocalizedString("LauncherError!Process!Create") + lastError.ToString()); //Strings.ProcessNotStarted);
 				throw new System.ComponentModel.Win32Exception(lastError);
 			}
 		}
@@ -629,7 +631,7 @@ namespace SporeMods.Core.Injection
 			if (NativeMethods.ResumeThread(_processInfo.hThread) != 1)
 			{
 				/*throw new InjectException(Strings.ProcessNotResumed);*/
-				ThrowWin32Exception(Settings.GetLanguageString(3, "SporeProcessResumeFailed")); //ThrowWin32Exception(Strings.ProcessNotResumed);
+				ThrowWin32Exception(GetLocalizedString("LauncherError!Process!Resume")); //ThrowWin32Exception(Strings.ProcessNotResumed);
 			}
 		}
 
@@ -775,19 +777,19 @@ namespace SporeMods.Core.Injection
 
 		public static bool IsValidExe()
 		{
-			string errorBase = Settings.GetLanguageString(3, "ExeVersionNotRecognized");
+			string errorBase = GetLocalizedString("LauncherError!GameVersion!NotRecognized");
 			if (!(Settings.ForcedGameExeType.IsNullOrEmptyOrWhiteSpace()))
 				return true;
 			else if (TryGetExeVersion(_executablePath, out Version exeVersion))
 			{
 				if ((exeVersion < Spore__March2017) && (exeVersion != Spore__1_5_1))
 				{
-					MessageDisplay.RaiseError(new ErrorEventArgs(new InvalidOperationException(errorBase + "\n" + Settings.GetLanguageString(3, "SporeVersionTooOld"))));
+					MessageDisplay.RaiseError(new ErrorEventArgs(new InvalidOperationException(errorBase + "\n" + GetLocalizedString("LauncherError!GameVersion!TooOld"))));
 					return false;
 				}
 				else if (exeVersion > Spore__March2017)
 				{
-					MessageDisplay.RaiseError(new ErrorEventArgs(new InvalidOperationException(errorBase + "\n" + Settings.GetLanguageString(3, "DidTheyUpdateSpore"))));
+					MessageDisplay.RaiseError(new ErrorEventArgs(new InvalidOperationException(errorBase + "\n" + GetLocalizedString("LauncherError!GameVersion!WaitDidTheyActuallyUpdateSpore"))));
 					return false;
 				}
 				else
@@ -795,7 +797,7 @@ namespace SporeMods.Core.Injection
 			}
 			else
 			{
-				MessageDisplay.RaiseError(new ErrorEventArgs(new InvalidOperationException(Settings.GetLanguageString(3, "CouldNotGetExeVersion"))));
+				MessageDisplay.RaiseError(new ErrorEventArgs(new InvalidOperationException(GetLocalizedString("LauncherError!GameVersion!ReadFailed"))));
 				return false;
 			}
 		}
@@ -829,8 +831,8 @@ namespace SporeMods.Core.Injection
 			}
 			catch (Exception ex)
 			{
-				MessageDisplay.ShowMessageBox(Settings.GetLanguageString(3, "KillSporeFailed") + "\n\n" + ex.GetType() + ": " + ex.Message + "\n" + ex.Source + "\n" + ex.StackTrace);
+				MessageDisplay.ShowMessageBox(GetLocalizedString("KillSporeError") + "\n\n" + ex.GetType() + ": " + ex.Message + "\n" + ex.Source + "\n" + ex.StackTrace);
 			}
-		}
+		}	
 	}
 }

@@ -72,7 +72,7 @@ namespace SporeMods.Core
 					StreamReader reader = new StreamReader(stream);
 					targetFramework = reader.ReadToEnd();
 				}*/
-				return "-dotnet-core--" + Environment.Version;
+				return "dotnet-core--" + Environment.Version;
 			}
 		}
 
@@ -868,7 +868,7 @@ namespace SporeMods.Core
 			_languageInitialized = true;
 		}
 
-		public static string GetLanguageString(string identifier)
+		static string GetLanguageString(string identifier)
 		{
 			return GetLanguageString(0, identifier);
 		}
@@ -879,7 +879,7 @@ namespace SporeMods.Core
 		/// <param name="prefix"></param>
 		/// <param name="identifier"></param>
 		/// <returns></returns>
-		public static string GetLanguageString(int prefix, string identifier)
+		static string GetLanguageString(int prefix, string identifier)
 		{
 			string prefixText = "";
 

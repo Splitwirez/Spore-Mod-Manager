@@ -1,0 +1,327 @@
+﻿English (Canada)
+
+
+OK OK  #Globals_OK
+DontRunAsAdmin For security and practicality reasons, please don't run the %APPNAME% as Administrator. Doing so is unnecessary, unhelpful, potentially dangerous, and will only break things further. Are you ABSOLUTELY CERTAIN that you wish to proceed? (If unsure, click No) #Globals_DontRunAsAdmin
+Browse Browse... #Globals_Browse
+
+
+
+Switch {
+	On On #SwitchOn
+	Off Off #SwitchOff
+	Yes Yes #SwitchYes
+	No No #SwitchNo
+}
+
+
+
+Update {
+	Notify {
+		App {
+			Header Update Available #UpdateAvailableTitle
+			Content An update to the Mod Manager is available. It includes new features and bugfixes. Do you want to download it? #UpdateAvailableText
+			
+			ProgressContent Updating program, please wait... #UpdatingProgressText
+		}
+
+		ModApiDlls {
+			Header ModAPI DLLs Update Available #UpdateAvailableDllsTitle
+			Content An update to the ModAPI DLLs is available. It includes new features and bugfixes, and is required to run modern mods. Do you want to download it? #UpdateAvailableDllsText
+			
+			ProgressContent Updating ModAPI DLLs, please wait... #UpdatingProgressDllsText
+		}
+	}
+	
+	Error {
+		CantUpdateDllsYet {
+			Header ModAPI DLLs cannot update #Error_UpdateAvailableDllsTitle
+			Content An update to the ModAPI DLLs, needed to run modern mods, is available. However, it cannot be installed until you update the program. Please restart the program and allow it to update. #Error_UpdateAvailableDlls
+		}
+		
+		Other {
+			Header Cannot check for updates #Error_CannotCheckForUpdatesTitle
+			Content Update check failed, please check your internet connection. #Error_CannotCheckForUpdates
+		}
+	}
+}
+
+KillSporeFailed Something went wrong when trying to force-close Spore. #Error_KillSporeFailed
+
+
+CopypasteToTechSupport Copy the text below, and send it to whoever asked you for it. #CopypasteToTechSupport
+CopyUrlIntoBrowser Copy the following URL into your internet browser. #CopyUrlIntoBrowser
+
+
+
+# Manager
+Header Spore Mod Manager BETA v%VERSION% [DLLs Build %DLLSBUILD%] #WindowTitle
+
+Mods {
+	Header Mods #ModsTabItem
+	
+	FilterBar {
+		Search {
+			Watermark Search installed mods... #SearchWatermark
+			InNames Search mod names #SearchNames
+			InDescriptions Search mod descriptions #SearchDescriptions
+		}
+		
+		CopyModsList {
+			Label Copy Mods List #CopyModsListToClipboard
+		}
+	}
+	
+	
+	CallToAction {
+		Prompt Click the Install mods button to get started installing Spore mods! #DropModsHerePrompt
+	}
+	
+	DropHere {
+		Header Drag-and-drop mods here to install them #DropModsHereInstruction
+	}
+	
+	
+	Browse {
+		Header Select one or more mods to install #SelectMod
+		Filter Spore mods (%EXTENSIONS%) #AllSporeModsFilter
+	}
+	
+	
+	ListEntry {
+		InstallInProgress Installing... #ModInstallingNow
+		UninstallInProgress Uninstalling... #ModUninstallingNow
+		
+		ManuallyInstalled Manually installed #ModInstalledManually
+		
+		CausesSaveDataDependency This mod causes save data dependency. Uninstalling it could damage or corrupt your save planets. #CausesSaveDataDependencyWarning
+	}
+	
+	Configurator {
+		10xx {
+			Header %MODNAME% Installer #CustomInstaller_ModInstallerHeader
+			Proceed Proceed #CustomInstaller_Proceed
+			Apply Apply #CustomInstaller_Apply
+		}
+	}
+	
+	Warning {
+		Install {
+			IsExperimental %MODNAME% is presently in an experimental state. It may contain unexpected bugs, and using it may have unexpected, potentially undesirable consequences. Are you sure you wish to install it? #ModIsExperimental
+			RequiresGalaxyReset %MODNAME% requires a Galaxy reset to take effect. Performing a Galaxy reset will erase all of your save game planets. The necessary Galaxy Reset will NOT be performed automatically, you'll have to do it by hand. Are you sure you wish to install this mod? #ModRequiresGalaxyReset
+			CausesSaveDataDependency %MODNAME% will cause save data dependency if installed. This means that if you ever uninstall it, your save planets may become corrupted or otherwise inaccessible, or be adversely affected in some other way. Are you sure you wish to install this mod? #ModCausesSaveDataDependency
+		}
+		
+		Uninstall {
+			CausesSaveDataDependency The following mods cause save data dependency. Uninstalling them could damage or corrupt your save planets.<br><br>%MODNAMES%<br><br>Are you ABSOLUTELY CERTAIN that you wish to uninstall them? #CausesSaveDataDependencyUninstallWarning
+		}
+	}
+	
+	
+	FinishNotify {
+		Header Tasks completed #TasksCompleted
+		
+		Success {
+			Installed Mods were installed successfully #ModsInstalledSuccessfully
+			Uninstalled Mods were uninstalled successfully #ModsUninstalledSuccessfully
+			Reconfigured Mods were reconfigured successfully #ModsReconfiguredSuccessfully
+		}
+		
+		Failure {
+			Content Something went wrong when processing these mods: #ModsFailedToInstall
+			AndMore and several more #ModsFailedToInstall2
+			LogSavedHere More information has been saved to "%LOGFILEPATH%" #ModsFailedToInstall3
+		}
+	}
+	
+	
+	Error {
+		GamePathNotFound {
+			Header {
+				HasGuesses The %FOLDERNAME% folder could not be automatically uniquely identified. Please select from the list below, or specify manually if needed. (This can be changed later under Settings if needed.) #Error_FolderNotFound
+				NoGuesses The %FOLDERNAME% folder could not be automatically detected. Please specify manually if needed. (This can be changed later under Settings if needed. #Error_FolderNotFoundNoGuesses
+			
+				Folder {
+					CoreSpore Core Spore %DIRNAME% #Error_SporeCoreFolder
+					GalacticAdventures Galactic Adventures %DIRNAME% #Error_SporeGAFolder
+				}
+			}
+
+			Guess {
+				Disk Probably installed from Disks #Error_ProbablyDiskGuess
+				Origin Probably installed from Origin #Error_ProbablyOriginGuess
+				Gog Probably installed from GOG or Amazon (or Steam, if you're really unlucky) #Error_ProbablyGOGGuess
+				Unknown Unknown #Error_NotAClue
+			}
+		}
+		
+		
+		Identity {
+			Invalid Could not parse XML Mod Identity version. If you did not create this mod, please inform the mod's creator of this problem immediately. #Error_CantParseIdentityVersion
+			UnsupportedSysVersion Unsupported XML Mod Identity version %VERSION%. This mod requires a newer version of the Spore Mod Manager than the version you're currently using. If you have automatic updates disabled or haven't updated recently, re-enable them or do so. #Error_UnsupportedIdentityVersion
+			InvalidDllsBuild Could not parse DLLs Build. If you did not create this mod, please inform the mod's creator of this problem immediately. #Error_CantParseDllsBuild
+			UnsupportedDllsBuild Unsupported DLLs Build %VERSION%. This mod requires a newer version of the Spore ModAPI DLLs than the version you're currently using. If you have automatic updates disabled or haven't updated recently, re-enable them or do so. #Error_UnsupportedDllsBuild
+			MissingSysVersion XML Mod Identity version not specified. If you did not create this mod, please inform the mod's creator of this problem immediately. #Error_NoIdentityVersion
+			MissingAttribute XML Mod Identity is missing the %ATTRIBUTE% attribute. If you did not create this mod, please inform the mod's creator of this problem immediately. #Error_IdentityMissingAttribute
+			InvalidAttributeValue Mod identity '%ATTRIBUTE%': '%VALUE%' is not a valid %TYPE%. If you did not create this mod, please inform the mod's creator of this problem immediately. #Error_ModIdentityCantParseValue
+			UnrecognizedTag Unknown element tag '%TAGNAME%'. If you did not create this mod, please inform the mod's creator of this problem immediately. #Error_ModIdentityUnrecognizedTag
+		}
+	}
+}
+
+Settings {
+	Header Settings #SettingsTabItem
+
+	Folders {
+		Header Folders #FoldersHeader
+		
+		AutoGaData Galactic Adventures Data Path #AutoGaDataPath
+		AutoSporebinEp1 SporebinEP1 Path #AutoSporebinEp1Path
+		AutoCoreData Core Spore Data Path #AutoCoreDataPath
+	
+		AutoDetectPath Auto-detect #AutoDetectPath
+		IgnoreSteamInfo Ignore Steam install info #IgnoreSteamInstallInfo
+	}
+	
+	Window {
+		Header Window #WindowHeader
+		
+		OverrideWindowMode {
+			Header Override Window Mode #OverrideWindowMode
+			
+			Fullscreen Fullscreen #WindowModeFullscreen
+			BorderlessWindowed Borderless Windowed #WindowModeBorderlessWindowed
+			Windowed Windowed #WindowModeWindowed
+		}
+		
+		OverrideGameResolution {
+			Header Override Game Resolution #OverrideGameResolution
+			
+			Auto Automatic Resolution #ResolutionAuto
+			Custom Custom Resolution #ResolutionCustom
+		}
+	}
+	
+	GameEntry {
+		Header Game entry #GameEntryHeader
+		
+		CommandLineState {
+			Header Launch game with a startup State #CommandLineState
+			Content State name #CommandLineStateName
+		}
+		
+		GameLanguage {
+			Header Launch game with a non-default language #CommandLineLanguage
+			Content Locale name #CommandLineLocaleName
+		}
+		
+		CommandLineOther Additional Command Line options #CommandLineOptions
+	}
+	
+	
+	Appearance {
+		Header Appearance #AppearanceHeader
+	
+		Language {
+			Header Language #LanguageHeader
+		}
+		
+		LightSwitch {
+			Header Lights#LightSwitchHeader
+		}
+		
+		WindowDecorations {
+			Header Use Standard Window Decorations #UseStandardWindowDecorations
+		}
+	}
+	
+	Update {
+		Header Update #UpdateHeader
+		When {
+			Header When should the Spore Mod Manager update? #UpdateQuestion
+			Auto Automatically (recommended) #UpdateAutomatically
+			AskFirst Check automatically, ask before installing #UpdateAutoCheck
+			Never Don't update (not recommended) #UpdateNever
+		}
+	}
+	
+	RequiresAppRestart %CONTEXT% (requires app restart) #RequiresAppRestart
+}
+
+Help {
+	Header Help #HelpTabItem
+
+	NeedHelp {
+		Header Need help? #HelpHeader
+		AskQuestion Ask a question #AskQuestion
+		SuggestFeature Suggest a feature #SuggestFeature
+		ReportBug Report a bug #ReportBug
+	}
+
+	Credits {
+		Header Credits #CreditsHeader
+	}
+}
+
+SporeIsOpen {
+	Header Please close Spore to continue #CloseSporeFirst
+	AndCantClose If Spore is not responding, has crashed, or has already been closed, click here: #SporeCantClose
+	
+	ForceClose {
+		Button Close Spore #ForceKillSporeButton
+		Header Force-close Spore? #ForceKillConfirmTitle
+		Content ANY UNSAVED PROGRESS WILL BE LOST. Are you sure you wish to force-close Spore? #ForceKillConfirmDesc
+	}
+}
+
+Footer {
+	InstallMods Install mods #InstallModFromDiskButton
+	UninstallMods Uninstall selected mods #UninstallModButton
+	ConfigureMod Change mod's settings #ConfigureModButton
+	LaunchGame Launch Spore #LaunchGameButton
+}
+
+OneInstanceOnly Only one instance of the Spore Mod Manager can be used at any given time. #CloseSporeModManagerFirst
+
+
+
+# KitImporter
+KitImporter {
+	ProceedWithAutoPath Yes, this path is correct. #Importer_ProceedWithAutoPath
+	DiscardAutoPath No, I'll specify the path myself. #Importer_DiscardAutoPath
+	AutoLauncherKitPath The Spore ModAPI Launcher Kit was located here:<br><br>%KITPATH%<br><br>Is this path correct? #Importer_AutoLauncherKitPath
+	SpecifyLauncherKitPathInstruction Please specify the location of the Spore ModAPI Launcher Kit below. #Importer_SpecifyLauncherKitPathInstruction
+	LauncherKitNotFoundSpecifyLauncherKitPathInstruction The Spore ModAPI Launcher Kit could not be automatically located. Please specify its location below. #Importer_LauncherKitNotFoundSpecifyLauncherKitPathInstruction
+	ImportInProgress Import in progress... #Importer_ImportInProgress
+	ImportComplete Import complete #Importer_ImportComplete
+	ImportFailed Import failed #Importer_ImportFailed
+	SettingsImportFailed Some settings may not have been imported correctly (if at all). #Importer_ImportFailed
+	NoModsRecord There was no installed mods record to import. As such, no mods were imported, because apparently there aren't any. #Importer_NoModsRecord
+	FailedMods These mods could not be imported #Importer_FailedMods
+	SkippedMods These mods were already installed via the Spore Mod Manager, and thus were not imported #Importer_SkippedMods
+}
+
+
+# Launcher
+LauncherError {
+	RunMgr Please run the Spore Mod Manager at least once before running the Spore Mod Launcher. #Error_RunModManagerFirst
+
+	GameVersion {
+		NotRecognized Game executable version not recognized. #Error_ExeVersionNotRecognized
+		ReadFailed SporeApp.exe version could not be read. This should never happen, so if you see this message, please report the problem immediately. #Error_CouldNotGetExeVersion
+	
+		TooOld This version of Spore is too old. Please update to a supported patch. #Error_SporeVersionTooOld
+		WaitDidTheyActuallyUpdateSpore This version of Spore is too new, and is not yet supported. To protect your save data, please refraing from playing Spore, modded or otherwise, until an update to the Spore Mod Manager is released to address this. #Error_DidTheyUpdateSpore
+		NullDllSuffix Somehow, the Spore Mod Launcher has determined that there is no DLL suffix corresponding to your version of Spore. This should never happen, so if you see this message, please report the problem immediately. #Error_NullDllSuffix
+	}
+	
+	Process {
+		Create The Spore process could not be created. This should never happen, so if you see this message, please report the problem immediately. #Error_SporeProcessCreationFailed
+		Resume The Spore process could not be resumed. This should never happen, so if you see this message, please report the problem immediately. #Error_SporeProcessResumeFailed
+	}
+
+	ModsInstalling Cannot run Spore while mods are being installed or uninstalled. #Error_CantRunSporeWhileInstallingMods
+	
+	
+	StartupAborted To protect your save data, Spore startup was aborted. #Error_StartupAborted
+}

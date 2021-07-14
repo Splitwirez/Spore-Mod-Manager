@@ -32,7 +32,7 @@ namespace SporeMods.Manager.Configurators
 				Text = arg.Description
 			});
 
-			ModNameTextBlock.Text = SporeMods.Core.Settings.GetLanguageString(2, "ModInstallerHeader").Replace("%MODNAME%", arg.DisplayName);
+			ModNameTextBlock.Text = SporeMods.CommonUI.Localization.LanguageManager.Instance.GetLocalizedText("Mods!Configurator!10xx!Header").Replace("%MODNAME%", arg.DisplayName);
 		}
 
 		public void SetBody(params UIElement[] elements)
