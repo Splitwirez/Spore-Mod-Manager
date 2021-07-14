@@ -991,16 +991,16 @@ namespace SporeMods.Manager
 			}
 		}
 
-		private void LanguageCheckBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			if (e.AddedItems.Count == 1)
+			/*if (e.AddedItems.Count == 1)
 			{
 				Settings.CurrentLanguageName = (string)e.AddedItems[0];
 				if (IsLoaded)
-				{
+				{*/
 					SetLanguage();
-				}
-			}
+				/*}
+			}*/
 		}
 
 		void SetLanguage()

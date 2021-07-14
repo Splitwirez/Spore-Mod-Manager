@@ -779,7 +779,7 @@ namespace SporeMods.Core
 		static Dictionary<string, string> ReadLanguage(Stream stream)
 		{
 			var dictionary = new Dictionary<string, string>();
-			using (var reader = new StreamReader(stream))
+			/*using (var reader = new StreamReader(stream))
 			{
 				string s;
 				while ((s = reader.ReadLine()) != null)
@@ -791,13 +791,13 @@ namespace SporeMods.Core
 						dictionary.Add(splits[0], splits[1].TrimStart(' '));
 					}
 				}
-			}
+			}*/
 			return dictionary;
 		}
 
 		static Dictionary<string, string> ReadLanguage(string langCode)
 		{
-			if (_availableLanguages[langCode])
+			/*if (_availableLanguages[langCode])
 			{
 				using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SporeMods.Core.Locale." + langCode + ".txt"))
 				{
@@ -810,7 +810,8 @@ namespace SporeMods.Core
 				{
 					return ReadLanguage(stream);
 				}
-			}
+			}*/
+			return new Dictionary<string, string>();
 		}
 
 		/// <summary>

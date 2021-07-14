@@ -6,6 +6,7 @@
 			 xmlns:local="clr-namespace:SporeMods.Manager"
 			 xmlns:core="clr-namespace:SporeMods.Core;assembly=SporeMods.Core"
 			 xmlns:ui="clr-namespace:Mechanism.Wpf.Core;assembly=Mechanism.Wpf.Core"
+             xmlns:loc="clr-namespace:SporeMods.CommonUI.Localization;assembly=SporeMods.CommonUI"
 			 xmlns:win="clr-namespace:Mechanism.Wpf.Core.Windows;assembly=Mechanism.Wpf.Core"
 			 xmlns:mods="clr-namespace:SporeMods.Core.Mods;assembly=SporeMods.Core"
 			 DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
@@ -238,12 +239,40 @@
 											<RowDefinition Height="5"/>
 											<RowDefinition Height="*"/>
 										</Grid.RowDefinitions>
-										<DockPanel VerticalAlignment="Bottom" Grid.Row="0">
+										<DockPanel VerticalAlignment="Bottom" Grid.Row="0" DataContext="{x:Static loc:LanguageManager.Instance}">
 											<TextBlock x:Name="LanguageTextBlock" Text="{DynamicResource Settings!Appearance!Language!Header}" VerticalAlignment="Center" Margin="0,0,10,0" DockPanel.Dock="Left"/>
-											<ComboBox IsEnabled="True" 
-													  ItemsSource="{Binding Source={x:Static core:Settings.SortedLanguageNames}}"
-													  SelectedItem="{Binding Source={x:Static core:Settings.CurrentLanguageName}, Path=., Mode=TwoWay}"
-													  SelectionChanged="LanguageCheckBox_SelectionChanged"/>
+                                            <ComboBox IsEnabled="True" 
+													  ItemsSource="{Binding Languages}"
+													  SelectedItem="{Binding Selected, Mode=TwoWay}"
+													  SelectionChanged="LanguageComboBox_SelectionChanged">
+                                                <ComboBox.ItemContainerStyle>
+                                                    <Style TargetType="{x:Type ComboBoxItem}" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
+                                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                                    </Style>
+                                                </ComboBox.ItemContainerStyle>
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate DataType="{x:Type loc:Language}">
+                                                        <Grid HorizontalAlignment="Stretch">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="200"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock x:Name="DisplayNameTextBlock" Text="{Binding DisplayName, Mode=OneTime}" VerticalAlignment="Center" Grid.Column="0"/>
+                                                            <ProgressBar x:Name="Completeness" Value="{Binding Completeness, Mode=OneTime}" Minimum="0" Maximum="100" IsIndeterminate="False" Grid.Column="1" Margin="-4,-2,-7,-2"/>
+                                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Column="1" VerticalAlignment="Center" Visibility="{Binding Visibility, ElementName=Completeness}">
+                                                                <TextBlock Text="{Binding Completeness, Mode=OneTime}" VerticalAlignment="Center"/>
+                                                                <TextBlock Text="% Complete" VerticalAlignment="Center"/>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                        <DataTemplate.Triggers>
+                                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ComboBoxItem}}, Path=IsSelected}" Value="{x:Null}">
+                                                                <Setter TargetName="Completeness" Property="Visibility" Value="Collapsed" />
+                                                                <Setter TargetName="DisplayNameTextBlock" Property="Grid.ColumnSpan" Value="2" />
+                                                            </DataTrigger>
+                                                        </DataTemplate.Triggers>
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
 										</DockPanel>
                                         <ui:ToggleSwitch x:Name="DarkShaleToggleSwitch" Content="{DynamicResource Settings!Appearance!LightSwitch!Header}" TrueText="{DynamicResource Switch!On}" FalseText="{DynamicResource Switch!Off}" IsChecked="True" Grid.Row="2"/>
                                         <ui:ToggleSwitch x:Name="StandardWindowDecorationsToggleSwitch" Content="{DynamicResource Settings!Appearance!WindowDecorations!Header}" TrueText="{DynamicResource Switch!On}" FalseText="{DynamicResource Switch!Off}"  IsChecked="True" Grid.Row="4"/>
