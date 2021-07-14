@@ -12,6 +12,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Automation;
 using static SporeMods.Core.GameInfo;
 
 namespace SporeMods.Launcher
@@ -35,14 +36,69 @@ namespace SporeMods.Launcher
 			}
 		}
 
+		static IntPtr GetSporeMainWindow(int processId)
+		{
+			IntPtr spore = IntPtr.Zero;
+			List<IntPtr> hwnds = new List<IntPtr>();
+			foreach (ProcessThread thread in Process.GetProcessById(processId).Threads)
+				NativeMethods.EnumThreadWindows(thread.Id,
+					(hWnd, lParam) =>
+					{
+						/*StringBuilder bld = new StringBuilder();
+						
+						if (NativeMethods.IsWindow(hWnd))
+							NativeMethods.GetClassName(hWnd, bld, 7);
+						
+						string clss = bld.ToString();
+						Debug.WriteLine($"WINDOW CLASS: {clss}");
+
+						if ((clss == "Canvas") && NativeMethods.IsWindow(hWnd))
+						{
+							spore = hWnd;
+							return false;
+						}*/
+						var autoEl = AutomationElement.FromHandle(hWnd);
+						if (autoEl.Current.ClassName == "Canvas")
+                        {
+							//hwnds.Add(hWnd);
+							spore = hWnd;
+							return false;
+                        }
+						//hwnds.Add(hWnd);
+						return true;
+					}, IntPtr.Zero);
+			//Debug.WriteLine($"THERE ARE {hwnds.Count} HWNDS");
+			
+			/*AutomationElementCollection windows = AutomationElement.RootElement.FindAll(TreeScope.Children, Condition.TrueCondition);
+			foreach (AutomationElement el in windows)
+            {
+				if (el.Current.ClassName == "Canvas")
+					return new IntPtr(el.Current.NativeWindowHandle);
+            }*/
+			
+			return spore;
+		}
+
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
 		static void Main(string[] programArgs)
 		{
+			var _ = CommonUI.Localization.LanguageManager.Instance;
+
 			MessageDisplay.ErrorOccurred += (sender, args) =>
 			{
+				var exc = args.Exception;
+				while (exc != null)
+				{
+					CommonUI.MessageDisplay.ShowMessageBox(exc.ToString(), "oh no (TEMP) (NOT LOCALIZED)");
+					if (exc.InnerException == exc)
+						break;
+					else
+						exc = exc.InnerException;
+				}
+
 				CommonUI.MessageDisplay.ShowException(args.Exception, false);
 				try
 				{
@@ -138,6 +194,7 @@ namespace SporeMods.Launcher
 							}//;
 
 							SporeLauncher.CaptionHeight = SystemInformation.CaptionHeight;
+							SporeLauncher.GetSporeMainWindow = GetSporeMainWindow;
 
 							if (SporeLauncher.IsInstalledDarkInjectionCompatible())
 								SporeLauncher.LaunchGame();

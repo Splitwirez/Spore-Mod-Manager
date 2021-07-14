@@ -1005,7 +1005,7 @@ namespace SporeMods.Manager
 
 		void SetLanguage()
 		{
-			var h = LanguageManager.Instance.Selected;
+			var h = LanguageManager.Instance.CurrentLanguage;
 			if (IsLoaded && (Window.GetWindow(this) != null) && (Window.GetWindow(this).IsLoaded))
 			{
 				/*if (Permissions.IsAdministrator())

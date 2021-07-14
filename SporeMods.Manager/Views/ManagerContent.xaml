@@ -243,7 +243,7 @@
 											<TextBlock x:Name="LanguageTextBlock" Text="{DynamicResource Settings!Appearance!Language!Header}" VerticalAlignment="Center" Margin="0,0,10,0" DockPanel.Dock="Left"/>
                                             <ComboBox IsEnabled="True" 
 													  ItemsSource="{Binding Languages}"
-													  SelectedItem="{Binding Selected, Mode=TwoWay}"
+													  SelectedItem="{Binding CurrentLanguage, Mode=TwoWay}"
 													  SelectionChanged="LanguageComboBox_SelectionChanged">
                                                 <ComboBox.ItemContainerStyle>
                                                     <Style TargetType="{x:Type ComboBoxItem}" BasedOn="{StaticResource {x:Type ComboBoxItem}}">

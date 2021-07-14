@@ -100,7 +100,7 @@ namespace SporeMods.CommonUI
 							File.WriteAllText(argsPath, Permissions.GetProcessCommandLineArgs());
 							Permissions.GrantAccessFile(argsPath);
 
-							var updaterInfo = new ProcessStartInfo(UpdaterService.UpdaterPath, "--update \"" + Path.GetDirectoryName(Process.GetCurrentProcess().GetExecutablePath()) + "\" \"" + Process.GetCurrentProcess().GetExecutablePath() + "\" --lang:" + Settings.CurrentLanguageCode + " " + Permissions.GetProcessCommandLineArgs())
+							var updaterInfo = new ProcessStartInfo(UpdaterService.UpdaterPath, "--update \"" + Path.GetDirectoryName(Process.GetCurrentProcess().GetExecutablePath()) + "\" \"" + Process.GetCurrentProcess().GetExecutablePath() + "\" --lang:" + LanguageManager.Instance.CurrentLanguage.LanguageCode + " " + Permissions.GetProcessCommandLineArgs())
 							{
 								UseShellExecute = true,
 								WorkingDirectory = Settings.TempFolderPath

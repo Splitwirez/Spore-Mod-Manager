@@ -37,17 +37,33 @@ namespace SporeMods.CommonUI.Localization
 
         bool _isEnCa = false;
         public Language(string langRes)
+            : this(langRes, null)
+        { }
+
+        public Language(string langRes, string langCode)
         {
             string path = langRes;
             IEnumerable<string> lines = null;
+
+
+            try
+            {
+                IsExternalLanguage = File.Exists(langRes);
+            }
+            catch (Exception ex)
+            { }
+
+
             if (path.StartsWith(LANG_RESOURCE_START))
             {
-                List<string> allLines = new List<string>();
                 path = path.Substring(LANG_RESOURCE_START.Length);
 
                 if (path.Contains('.'))
                     path = path.Substring(0, path.IndexOf('.'));
 
+                
+                List<string> allLines = new List<string>();
+                
                 using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(langRes))
                 using (var reader = new StreamReader(stream))
                 {
@@ -59,17 +75,25 @@ namespace SporeMods.CommonUI.Localization
                 }
 
                 lines = allLines;
+
+                
+                if (langCode == null)
+                    LanguageCode = path;
+                else
+                    LanguageCode = langCode;
             }
-            else if (File.Exists(langRes))
+            else if (IsExternalLanguage)
             {
                 lines = File.ReadAllLines(langRes);
+                
+                
+                string languageCode = Path.GetFileNameWithoutExtension(langRes);
+                if (!languageCode.Contains('-'))
+                    languageCode = $"test={languageCode}";
+                LanguageCode = languageCode;
             }
 
-
-            LanguageCode = path;
-            //string output = $"LanguageCode: {LanguageCode}\n";
-
-            _isEnCa = path == "en-ca";
+            _isEnCa = LanguageCode == "en-ca";
             ResourceDictionary lang = new ResourceDictionary();
 
 
@@ -202,6 +226,17 @@ namespace SporeMods.CommonUI.Localization
             private set
             {
                 _completeness = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        bool _isExternalLanguage = false;
+        public bool IsExternalLanguage
+        {
+            get => _isExternalLanguage;
+            private set
+            {
+                _isExternalLanguage = value;
                 NotifyPropertyChanged();
             }
         }

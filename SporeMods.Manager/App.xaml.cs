@@ -164,7 +164,9 @@ namespace SporeMods.Manager
 								window = new Mechanism.Wpf.Core.Windows.DecoratableWindow()
 								{
 									Content = content,
-									TitlebarHeight = 61
+									TitlebarHeight = 61,
+									ShowFullscreenButton = true,
+									AutohideTitlebarWhenFullscreen = false
 								};
 							}
 							else

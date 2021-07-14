@@ -640,9 +640,18 @@ namespace SporeMods.Core.Injection
 			if (Settings.ForceWindowedMode == 2)
 			{
 				Process process = Process.GetProcessById(pid);
-				while ((!process.HasExited) && ((process.MainWindowHandle == IntPtr.Zero) || (!NativeMethods.IsWindow(process.MainWindowHandle))))
-				{ }
-				if ((!process.HasExited) && (process.MainWindowHandle != IntPtr.Zero) && NativeMethods.IsWindow(process.MainWindowHandle))
+				Debug.WriteLine("Before loop");
+
+				IntPtr spore = IntPtr.Zero;
+				while (!NativeMethods.IsWindow(spore)) //(spore == IntPtr.Zero) ||  //(!process.HasExited) && ((process.MainWindowHandle == IntPtr.Zero) || (!NativeMethods.IsWindow(process.MainWindowHandle))))
+				{
+					if (process.HasExited)
+						break;
+
+					spore = GetSporeMainWindow(pid);
+				}
+				Debug.WriteLine("After loop");
+				if (NativeMethods.IsWindow(spore)) //(!process.HasExited) && (process.MainWindowHandle != IntPtr.Zero) && NativeMethods.IsWindow(process.MainWindowHandle))
 				{
 					Debug.WriteLine("process.MainWindowTitle: " + process.MainWindowTitle);
 					var monitor = NativeMethods.AllMonitors[0];
@@ -655,6 +664,8 @@ namespace SporeMods.Core.Injection
 				}
 			}
 		}
+
+		public static Func<int, IntPtr> GetSporeMainWindow = null;
 
 		/*string ProcessSporebinPath()
 		{

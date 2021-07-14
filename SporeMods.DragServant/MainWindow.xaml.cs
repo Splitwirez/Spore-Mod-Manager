@@ -51,7 +51,7 @@ namespace SporeMods.DragServant
 		protected override void OnSourceInitialized(EventArgs e)
 		{
 			base.OnSourceInitialized(e);
-			var _ = CommonUI.Localization.LanguageManager.Instance.Selected;
+			var _ = CommonUI.Localization.LanguageManager.Instance.CurrentLanguage;
 			_winHandle = new WindowInteropHelper(this).EnsureHandle();
 			SetStyles();
 			//SetWindowLong(_winHandle, GwlExstyle, (Int32)(GetWindowLong(_winHandle, GwlExstyle)) | WsExToolwindow | WsExNoActivate);
