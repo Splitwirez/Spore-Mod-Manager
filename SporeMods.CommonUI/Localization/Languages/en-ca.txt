@@ -95,6 +95,14 @@ Mods {
 		ManuallyInstalled Manually installed #ModInstalledManually
 		
 		CausesSaveDataDependency This mod causes save data dependency. Uninstalling it could damage or corrupt your save planets. #CausesSaveDataDependencyWarning
+		
+		#ADDED
+		MoreInfo {
+			#ADDED
+			Expand Show more information
+			#ADDED
+			Collapse Hide more information
+		}
 	}
 	
 	Configurator {
@@ -184,38 +192,84 @@ Settings {
 	}
 	
 	Window {
-		Header Window #WindowHeader
+		#REVISED - Talk about how Spore is displayed - after all, Spore is fullscreen by default, and nobody thinks of a fullscreen program as being a window, even if it technically is (formerly "Window")
+		Header Spore display options #WindowHeader
 		
 		OverrideWindowMode {
-			Header Override Window Mode #OverrideWindowMode
+			#REVISED - fixed capitalization on "window" and "mode"
+			Header Override window mode #OverrideWindowMode
 			
 			Fullscreen Fullscreen #WindowModeFullscreen
-			BorderlessWindowed Borderless Windowed #WindowModeBorderlessWindowed
+			#REVISED - fixed capitalization on "windowed"
+			BorderlessWindowed Borderless windowed #WindowModeBorderlessWindowed
 			Windowed Windowed #WindowModeWindowed
 		}
 		
 		OverrideGameResolution {
-			Header Override Game Resolution #OverrideGameResolution
+			#REVISED - Refer to Spore by name, fixed capitalization on entire string (formerly "Override Game Resolution")
+			Header Override window resolution #OverrideGameResolution
 			
-			Auto Automatic Resolution #ResolutionAuto
-			Custom Custom Resolution #ResolutionCustom
+			#REVISED - fixed capitalization on "windowed"
+			Auto Automatic resolution #ResolutionAuto
+			#REVISED - fixed capitalization on "windowed"
+			Custom Custom resolution #ResolutionCustom
 		}
 	}
 	
 	GameEntry {
-		Header Game entry #GameEntryHeader
+		#REVISED - More descriptive in non-technical terms (formerly "Game entry")
+		Header Spore startup behaviour #GameEntryHeader
 		
-		CommandLineState {
-			Header Launch game with a startup State #CommandLineState
-			Content State name #CommandLineStateName
+		#ADDED
+		StartupEditor {
+			Header Go directly into a creator
+			Content Creator name #CommandLineStateName
+			
+			ToolTip {
+				Content When launched, Spore will enter a creator right away. You'll be brought to the Galaxy menu after leaving that creator.
+				Warning PRIVACY WARNING: when this option is enabled, auto-login is deferred until you're brought to the Galaxy menu. Spore saves any creations you make while not logged in with your OS user name as their author. Sending these creations to other players will allow them to see this name.
+			}
+			
+			Editors {
+				CellToCreatureEditor Early creature creator
+				CreatureEditor Creature creator
+				VehicleLandEditor Military land vehicle creator
+				VehicleAirEditor Military air vehicle creator
+				VehicleWaterEditor Military sea vehicle creator
+				UFOEditor Spaceship creator
+				CellEditor Maxis dev cell creator
+				BuildingEditor Building creator (all building types)
+				VehicleEditor Vehicle creator (all vehicle types)
+			}
 		}
+		
+		#REMOVED CommandLineState group
+		#CommandLineState {
+			#Header Launch game with a startup State #CommandLineState
+			#Content State name #CommandLineStateName
+		#}
 		
 		GameLanguage {
-			Header Launch game with a non-default language #CommandLineLanguage
+			#REVISED - "game" --> "Spore"
+			Header Launch Spore with a non-default language #CommandLineLanguage
 			Content Locale name #CommandLineLocaleName
+			
+			#ADDED
+			ToolTip {
+				Content Start Spore in a different language.
+				Warning Using this option may result in stray folders with names in the selected language in your 'My Spore Creations' folder, which won't go away on their own even once this option is disabled.
+			}
 		}
 		
-		CommandLineOther Additional Command Line options #CommandLineOptions
+		CommandLineExtras {
+			Header Additional command-line options
+			ToolTip {
+				Content Spore supports a few more command-line options, and some mods may introduce their own. For convenience's sake, you can specify them here.
+			}
+		}
+		
+		#REMOVED CommandLineOther (refer to CommandLineExtras above)
+		#CommandLineOther Additional Command Line options #CommandLineOptions
 	}
 	
 	
@@ -224,15 +278,27 @@ Settings {
 	
 		Language {
 			Header Language #LanguageHeader
+			
+			#ADDED
+			Completeness {0}% Complete
 		}
 		
 		LightSwitch {
 			Header Lights#LightSwitchHeader
 		}
 		
-		WindowDecorations {
-			Header Use Standard Window Decorations #UseStandardWindowDecorations
+		#ADDED
+		SmmWindowFrame {
+			Header Window frame
+			
+			StandardFrame Standard
+			BuiltInFrame Built-in
 		}
+		
+		#REMOVED WindowDecorations group (refer to SmmWindowFrame above)
+		#WindowDecorations {
+			#Header Use Standard Window Decorations #UseStandardWindowDecorations
+		#}
 	}
 	
 	Update {
@@ -245,7 +311,7 @@ Settings {
 		}
 	}
 	
-	RequiresAppRestart %CONTEXT% (requires app restart) #RequiresAppRestart
+	#REMOVED RequiresAppRestart (formerly "%CONTEXT% (requires app restart)") RequiresAppRestart
 }
 
 Help {
@@ -254,7 +320,8 @@ Help {
 	NeedHelp {
 		Header Need help? #HelpHeader
 		AskQuestion Ask a question #AskQuestion
-		SuggestFeature Suggest a feature #SuggestFeature
+		#REVISED - Let's not makes this specifically about features (formerly "Suggest a feature")
+		SuggestFeature Make a suggestion #SuggestFeature
 		ReportBug Report a bug #ReportBug
 	}
 
@@ -307,17 +374,23 @@ LauncherError {
 	RunMgr Please run the Spore Mod Manager at least once before running the Spore Mod Launcher. #Error_RunModManagerFirst
 
 	GameVersion {
-		NotRecognized Game executable version not recognized. #Error_ExeVersionNotRecognized
-		ReadFailed SporeApp.exe version could not be read. This should never happen, so if you see this message, please report the problem immediately. #Error_CouldNotGetExeVersion
+		#REMOVED NotRecognized (formerly "Version information for your Spore executable could not recognized.") Error_ExeVersionNotRecognized
+		
+		#REVISED - "game" --> "Spore", also less robotic wording (formerly "executable version not recognized")
+		ReadFailed SporeApp.exe version could not be read. This should never happen, so if you see this message, please report the problem immediately.
 	
-		TooOld This version of Spore is too old. Please update to a supported patch. #Error_SporeVersionTooOld
-		WaitDidTheyActuallyUpdateSpore This version of Spore is too new, and is not yet supported. To protect your save data, please refraing from playing Spore, modded or otherwise, until an update to the Spore Mod Manager is released to address this. #Error_DidTheyUpdateSpore
+		#REVISED - More helpful (formerly "This version of Spore is too old. Please update to a supported patch.")
+		TooOld You're using version %GAMEVER% of Spore, which is not supported by the Spore Mod Manager. Please update to a supported patch.<br>For disk installs, this means Patch 1.5.1 .<br>Installs from any other source will need the March 2017 patch.
+		#REVISED - Phrasing tweaked to make room for %GAMEVER% field (formerly "This version of Spore is too new, and is not yet supported. To protect your save data, please refraing from playing Spore, modded or otherwise, until an update to the Spore Mod Manager is released to address this.")
+		WaitDidTheyActuallyUpdateSpore You're using version %GAMEVER% of Spore. Support for this version of Spore has not yet been added to the Spore Mod Manager. To protect your save data, please refraing from playing Spore, modded or otherwise, until an update to the Spore Mod Manager is released to address this.
 		NullDllSuffix Somehow, the Spore Mod Launcher has determined that there is no DLL suffix corresponding to your version of Spore. This should never happen, so if you see this message, please report the problem immediately. #Error_NullDllSuffix
 	}
 	
 	Process {
-		Create The Spore process could not be created. This should never happen, so if you see this message, please report the problem immediately. #Error_SporeProcessCreationFailed
-		Resume The Spore process could not be resumed. This should never happen, so if you see this message, please report the problem immediately. #Error_SporeProcessResumeFailed
+		#REVISED - removed "impossible case" instruction text, as this isn't actually an impossible case. (formerly "The Spore process could not be created. This should never happen, so if you see this message, please report the problem immediately.")
+		Create The Spore process could not be created.
+		#REVISED - removed "impossible case" instruction text, as this isn't actually an impossible case. (formerly "The Spore process could not be resumed. This should never happen, so if you see this message, please report the problem immediately.")
+		Resume The Spore process could not be resumed.
 	}
 
 	ModsInstalling Cannot run Spore while mods are being installed or uninstalled. #Error_CantRunSporeWhileInstallingMods

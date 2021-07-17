@@ -193,6 +193,12 @@
 					<DataTrigger Binding="{Binding HasDescription}" Value="True">
 						<Setter TargetName="ExpandCollapseToggleButton" Property="Visibility" Value="Visible"/>
 					</DataTrigger>
+                    <Trigger SourceName="ExpandCollapseToggleButton" Property="IsChecked" Value="True">
+                        <Setter Property="ToolTip" Value="{DynamicResource Mods!ListEntry!MoreInfo!Collapse}"/>
+                    </Trigger>
+                    <Trigger SourceName="ExpandCollapseToggleButton" Property="IsChecked" Value="False">
+                        <Setter Property="ToolTip" Value="{DynamicResource Mods!ListEntry!MoreInfo!Expand}"/>
+                    </Trigger>
 					<DataTrigger Binding="{Binding IsChecked, ElementName=ExpandCollapseToggleButton}" Value="True">
 						<DataTrigger.EnterActions>
 							<BeginStoryboard>

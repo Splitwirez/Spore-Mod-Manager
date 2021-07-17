@@ -15,11 +15,11 @@
 	  <PackageReference Include="System.IO.FileSystem.AccessControl" Version="5.0.0" />
 	  <PackageReference Include="System.Security.Principal.Windows" Version="5.0.0" />
   </ItemGroup>
-  <ItemGroup>
+  <!--ItemGroup>
     <EmbeddedResource Include="Locale\en-ca.txt" />
     <EmbeddedResource Include="Locale\es-es.txt" />
     <EmbeddedResource Include="Locale\ca-ca.txt" />
-  </ItemGroup>
+  </ItemGroup-->
   <ItemGroup>
     <EmbeddedResource Include="ModAPIDLLs\SporeModAPI.lib" />
     <EmbeddedResource Include="ModAPIDLLs\SporeModAPI-disk.dll" />

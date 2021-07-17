@@ -788,19 +788,19 @@ namespace SporeMods.Core.Injection
 
 		public static bool IsValidExe()
 		{
-			string errorBase = GetLocalizedString("LauncherError!GameVersion!NotRecognized");
+			//string errorBase = GetLocalizedString("LauncherError!GameVersion!NotRecognized");
 			if (!(Settings.ForcedGameExeType.IsNullOrEmptyOrWhiteSpace()))
 				return true;
 			else if (TryGetExeVersion(_executablePath, out Version exeVersion))
 			{
 				if ((exeVersion < Spore__March2017) && (exeVersion != Spore__1_5_1))
 				{
-					MessageDisplay.RaiseError(new ErrorEventArgs(new InvalidOperationException(errorBase + "\n" + GetLocalizedString("LauncherError!GameVersion!TooOld"))));
+					MessageDisplay.RaiseError(new ErrorEventArgs(new InvalidOperationException(GetLocalizedString("LauncherError!GameVersion!TooOld"))));
 					return false;
 				}
 				else if (exeVersion > Spore__March2017)
 				{
-					MessageDisplay.RaiseError(new ErrorEventArgs(new InvalidOperationException(errorBase + "\n" + GetLocalizedString("LauncherError!GameVersion!WaitDidTheyActuallyUpdateSpore"))));
+					MessageDisplay.RaiseError(new ErrorEventArgs(new InvalidOperationException(GetLocalizedString("LauncherError!GameVersion!WaitDidTheyActuallyUpdateSpore"))));
 					return false;
 				}
 				else

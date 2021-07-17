@@ -52,36 +52,6 @@ namespace SporeMods.Manager
 		public static readonly DependencyProperty HasCustomWindowDecorationsProperty =
 		DependencyProperty.Register(nameof(HasCustomWindowDecorations), typeof(bool), typeof(ManagerContent), new PropertyMetadata(false));
 
-		public ObservableCollection<CreditsItem> Credits
-		{
-			get => (ObservableCollection<CreditsItem>)GetValue(CreditsProperty);
-			set => SetValue(CreditsProperty, value);
-		}
-
-		public static readonly DependencyProperty CreditsProperty =
-		DependencyProperty.Register(nameof(Credits), typeof(ObservableCollection<CreditsItem>), typeof(ManagerContent), new PropertyMetadata(new ObservableCollection<CreditsItem>()
-		{
-			new CreditsItem("Splitwirez (formerly rob55rod)", "Designed and (mostly) built the Spore Mod Manager.", @"https://github.com/Splitwirez/"),
-			new CreditsItem("emd4600", "Started the Spore ModAPI Project, created the original Spore ModAPI Launcher Kit from which the Spore Mod Manager was derived, and helped build the Spore Mod Manager to be as robust as possible.", @"https://github.com/emd4600/"),
-			new CreditsItem("reflectronic", "Provided significant guidance and assistance with internal structure and asynchronous behaviour.", @"https://github.com/reflectronic/"),
-			new CreditsItem("DotNetZip (formerly Ionic.Zip)", "Zip archive library used throughout the Spore Mod Manager.", @"https://www.nuget.org/packages/DotNetZip/"),
-			new CreditsItem("Newtonsoft", "Made the library to read JSON data.", @"https://www.newtonsoft.com/json"),
-			new CreditsItem("cederenescio", "Provided substantial creative influence."),
-			new CreditsItem("PricklySaguaro/ThePixelMouse", "Found a way to run the Spore ModAPI Launcher Kit under WINE, assisted with figuring out how to make WINE cooperate.", @"https://github.com/PricklySaguaro"),
-			new CreditsItem("Huskky", "Assisted substantially with figuring out how to make WINE cooperate."),
-			new CreditsItem("Darhagonable", "Provided creative input, helped confirm the feasibility of supporting WINE setups on Linux.", @"https://www.youtube.com/user/darhagonable"),
-			new CreditsItem("KloxEdge", "Testing"),
-			new CreditsItem("Liskomato", "Testing"),
-			new CreditsItem("ChocIce75", "Testing"),
-			new CreditsItem("TheRublixCube", "Testing"),
-			new CreditsItem("Deoxys_0", "Testing"),
-			new CreditsItem("Psi", "Testing"),
-			new CreditsItem("Ivy", "Testing"),
-			new CreditsItem("bandithedoge", "WINE regression testing", @"http://bandithedoge.com/"),
-			new CreditsItem("Masaochism", "Testing"),
-			new CreditsItem("Magic Gonads", "Testing", @"https://github.com/MagicGonads")
-		}));
-
 		FileSystemWatcher _dragWatcher = new FileSystemWatcher(Settings.TempFolderPath)
 		{
 			EnableRaisingEvents = false,
@@ -115,15 +85,17 @@ namespace SporeMods.Manager
 				DarkShaleToggleSwitch.IsChecked = false;
 
 			DarkShaleToggleSwitch_Checked(DarkShaleToggleSwitch, null);
-			if (Settings.UseCustomWindowDecorations)
-				StandardWindowDecorationsToggleSwitch.IsChecked = false;
 
-			if (!Settings.AllowVanillaIncompatibleMods)
-				BlockVanillaIncompatibleModsToggleSwitch.IsChecked = true;
+			bool useStandardDec = !Settings.UseCustomWindowDecorations;
+			if (useStandardDec != StandardWindowDecorationsToggleSwitch.IsChecked)
+				StandardWindowDecorationsToggleSwitch.IsChecked = useStandardDec;
 
-			DeveloperModeToggleSwitch.IsChecked = Settings.DeveloperMode;
+			/*if (!Settings.AllowVanillaIncompatibleMods)
+				BlockVanillaIncompatibleModsToggleSwitch.IsChecked = true;*/
+
+			/*DeveloperModeToggleSwitch.IsChecked = Settings.DeveloperMode;
 			DeveloperModeToggleSwitch.Checked += (sneder, args) => Settings.DeveloperMode = true;
-			DeveloperModeToggleSwitch.Unchecked += (sneder, args) => Settings.DeveloperMode = false;
+			DeveloperModeToggleSwitch.Unchecked += (sneder, args) => Settings.DeveloperMode = false;*/
 
 			/*if (Settings.DeveloperMode)
 				DeveloperTabItem.Visibility = Visibility.Visible;*/
@@ -323,8 +295,8 @@ namespace SporeMods.Manager
 				StandardWindowDecorationsToggleSwitch.Checked += StandardWindowDecorationsToggleSwitch_Checked;
 				StandardWindowDecorationsToggleSwitch.Unchecked += StandardWindowDecorationsToggleSwitch_Checked;
 
-				BlockVanillaIncompatibleModsToggleSwitch.Checked += BlockVanillaIncompatibleModsToggleSwitch_Checked;
-				BlockVanillaIncompatibleModsToggleSwitch.Unchecked += BlockVanillaIncompatibleModsToggleSwitch_Checked;
+				/*BlockVanillaIncompatibleModsToggleSwitch.Checked += BlockVanillaIncompatibleModsToggleSwitch_Checked;
+				BlockVanillaIncompatibleModsToggleSwitch.Unchecked += BlockVanillaIncompatibleModsToggleSwitch_Checked;*/
 
 				//Setup game folder Settings and Controls
 				AutoGaDataPathCheckBox.Checked += AutoGaDataPathCheckBox_Checked;
@@ -562,13 +534,13 @@ namespace SporeMods.Manager
 		}
 
 
-		private void BlockVanillaIncompatibleModsToggleSwitch_Checked(object sender, RoutedEventArgs e)
+		/*private void BlockVanillaIncompatibleModsToggleSwitch_Checked(object sender, RoutedEventArgs e)
 		{
 			if (BlockVanillaIncompatibleModsToggleSwitch.IsChecked.Value)
 				Settings.AllowVanillaIncompatibleMods = false;
 			else
 				Settings.AllowVanillaIncompatibleMods = true;
-		}
+		}*/
 
 		void SetupPathControlStates()
 		{
@@ -1624,10 +1596,10 @@ namespace SporeMods.Manager
 			}*/
 		}
 
-		private void HelpThreadButton_Click(object sender, RoutedEventArgs e)
+		/*private void HelpThreadButton_Click(object sender, RoutedEventArgs e)
 		{
 			OpenUrl(@"https://github.com/Splitwirez/Spore-Mod-Manager/issues/new?assignees=&labels=bug&template=bug_report.md&title="); //@"http://davoonline.com/phpBB3/viewtopic.php?f=108&t=6300");
-		}
+		}*/
 
 		public void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
@@ -2033,67 +2005,7 @@ namespace SporeMods.Manager
 				SporeLauncher.KillSporeProcesses();
 		}
 
-		private void SendFeedbackButton_Click(object sender, RoutedEventArgs e)
-		{
-			
-		}
-
-		private void AskQuestionButton_Click(object sender, RoutedEventArgs e)
-		{
-			OpenUrl(@"https://github.com/Splitwirez/Spore-Mod-Manager/issues/new?assignees=&labels=question&template=question.md&title=");
-		}
-
-		private void SuggestFeatureButton_Click(object sender, RoutedEventArgs e)
-		{
-			OpenUrl(@"https://github.com/Splitwirez/Spore-Mod-Manager/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=");
-		}
-
-		private void ReportBugButton_Click(object sender, RoutedEventArgs e)
-		{
-			OpenUrl(@"https://github.com/Splitwirez/Spore-Mod-Manager/issues/new?assignees=&labels=bug&template=bug_report.md&title=");
-		}
-
-		void OpenUrl(string url)
-		{
-			WineHelper.OpenUrl(url, App.DragServantProcess);
-			/*if ((App.DragServantProcess != null) && (!App.DragServantProcess.HasExited))
-				File.WriteAllText(Path.Combine(Settings.TempFolderPath, "OpenUrl"), url);
-			else if (Settings.NonEssentialIsRunningUnderWine)
-			{
-				DockPanel panel = new DockPanel();
-				TextBox content = new TextBox()
-				{
-					Text = url,
-					IsReadOnly = true
-				};
-				TextBlock instruction = new TextBlock()
-				{
-					Text = Settings.GetLanguageString("CopyUrlIntoBrowser")
-				};
-				DockPanel.SetDock(instruction, Dock.Top);
-
-				panel.Children.Add(instruction);
-				panel.Children.Add(content);
-
-				new Window()
-				{
-					Content = panel
-				}.ShowDialog();
-
-				/*Process.Start(new ProcessStartInfo(url)
-				{
-					UseShellExecute = true
-				});*/
-			/*string outPath = Path.Combine(Settings.ProgramDataPath, "url.txt");
-			File.WriteAllText(outPath, url);
-			Permissions.GrantAccessFile(outPath);
-			Process.Start(new ProcessStartInfo(outPath)
-			{
-				UseShellExecute = true
-			});*/
-		}
-
-		/*public class ForcecloseCancelButtons : IMessageBoxActionSet
+        /*public class ForcecloseCancelButtons : IMessageBoxActionSet
 		{
 			public IEnumerable<object> Actions => new List<object>
 			{
@@ -2109,5 +2021,5 @@ namespace SporeMods.Manager
 			else
 				return Settings.GetLanguageString("DontForceKillSpore");
 		}*/
-	}
+    }
 }
