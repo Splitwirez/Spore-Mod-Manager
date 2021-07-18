@@ -68,7 +68,7 @@ namespace SporeMods.Setup
 		}
 
 
-		bool AllowInstallOnUnsupportedOS => Environment.GetCommandLineArgs().Any(x => x == "--allow-unsupported-platforms");
+		bool AllowInstallOnUnsupportedOS = true; //> Environment.GetCommandLineArgs().Any(x => x == "--allow-unsupported-platforms");
 
 		string _areYouSureAboutThat = " Installing the Spore Mod Manager on an unsupported platform could damage your install of Spore or your save data, or leave you stranded on an outdated version of the Spore Mod Manager (and thus locked out of mods which require newer versions). Are you ABSOLUTELY 100% CERTAIN you wish to proceed with installation? (NOT LOCALIZED)";
 
