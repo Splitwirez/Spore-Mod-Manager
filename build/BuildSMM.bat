@@ -1,15 +1,24 @@
 @echo off
 SetLocal EnableDelayedExpansion
 
-CALL :EXPANDPATH .\unpackagedBin\SelfContained\
+
+Set "BinDir=.\bin"
+Set "UnpackagedBinDir=.\unpackagedBin"
+
+CALL :EXPANDPATH %UnpackagedBinDir%\SelfContained\
 Set UNPACKAGEDOUT=%RETVAL%
-CALL :EXPANDPATH .\unpackagedBin\FrameworkDependent\
+CALL :EXPANDPATH %UnpackagedBinDir%\FrameworkDependent\
 Set UNPACKAGEDFDOUT=%RETVAL%
 
 
 ::Clear output folders
-IF exist ".\bin" (rd /S /Q ".\bin")
-IF exist ".\unpackagedBin" (rd /S /Q ".\unpackagedBin")
+Set BinParam="%BinDir%"
+IF exist %BinParam% (rd /S /Q %BinParam%)
+IF exist %BinParam% GOTO CLEARFAIL
+
+Set UnpackagedBinParam="%UnpackagedBinDir%"
+IF exist %UnpackagedBinParam% (rd /S /Q %UnpackagedBinParam%)
+IF exist %UnpackagedBinParam% GOTO CLEARFAIL
 
 ::Ensure output folders still exist
 ::md ".\unpackagedBin"
@@ -103,6 +112,10 @@ GOTO SUCCESS
 exit 0
 
 
+
+:CLEARFAIL
+echo Could not clear bin folders
+exit -1
 
 :FAIL
 exit errorlevel

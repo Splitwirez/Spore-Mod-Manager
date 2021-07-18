@@ -455,10 +455,9 @@
 		<ui:AnimatableContentControl x:Name="CloseSporeFirstContentControl" Style="{DynamicResource ModalDialogContentControlStyle}">
 			<StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                 <TextBlock x:Name="CloseSporeFirstTextBlock" Text="{DynamicResource SporeIsOpen!Header}" Style="{DynamicResource DropModsHereTextBlockStyle}"/>
-                <TextBlock Text="{DynamicResource SporeIsOpen!Content}" HorizontalAlignment="Center" TextAlignment="Center" Margin="50,20"/>
                 <DockPanel HorizontalAlignment="Center" Margin="50,0">
 					<Button x:Name="ForceKillSporeButton" Content="{DynamicResource SporeIsOpen!ForceClose!Button}" Margin="5,0,0,0" Click="ForceKillSporeButton_Click" DockPanel.Dock="Right"/>
-					<TextBlock x:Name="SporeCantCloseTextBlock" Text="{DynamicResource SporeIsOpen!AndCantClose}" VerticalAlignment="Center"/>
+                    <TextBlock Text="{DynamicResource SporeIsOpen!Content}" VerticalAlignment="Center"/>
 				</DockPanel>
 			</StackPanel>
 		</ui:AnimatableContentControl>

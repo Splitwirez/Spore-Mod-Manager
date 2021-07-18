@@ -710,7 +710,7 @@ namespace SporeMods.Core.Injection
 			if (Settings.ForceWindowedMode == 2)
 			{
 				var monBounds = _monitor.rcMonitor;
-				MessageDisplay.ShowMessageBox("_monitorSelected: " + _monitorSelected.ToString() + "\n_monitor.rcMonitor: " + $"{monBounds.Left},{monBounds.Top},{monBounds.Right},{monBounds.Bottom},,,{monBounds.Right - monBounds.Left},{monBounds.Bottom - monBounds.Top}");
+				//MessageDisplay.ShowMessageBox("_monitorSelected: " + _monitorSelected.ToString() + "\n_monitor.rcMonitor: " + $"{monBounds.Left},{monBounds.Top},{monBounds.Right},{monBounds.Bottom},,,{monBounds.Right - monBounds.Left},{monBounds.Bottom - monBounds.Top}");
 				Process process = Process.GetProcessById(pid);
 				Debug.WriteLine("Before loop");
 

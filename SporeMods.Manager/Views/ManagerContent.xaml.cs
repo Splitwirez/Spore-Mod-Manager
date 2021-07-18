@@ -58,6 +58,8 @@ namespace SporeMods.Manager
 			IncludeSubdirectories = false
 		};
 
+
+		WindowState _prevState = WindowState.Normal;
 		public ManagerContent()
 		{
 			InitializeComponent();
@@ -112,7 +114,27 @@ namespace SporeMods.Manager
 					else if ((Process.GetProcessesByName("SporeApp").Count() == 0) || (Process.GetProcessesByName("SporeApp_ModAPIFix").Count() == 0))
 						Dispatcher.BeginInvoke(new Action(() => CloseSporeFirstContentControl.IsOpen = false));*/
 					bool isSporeRunning = SporeLauncher.IsSporeRunning();
-					Dispatcher.BeginInvoke(new Action(() => CloseSporeFirstContentControl.IsOpen = isSporeRunning));
+					Dispatcher.BeginInvoke(new Action(() =>
+					{
+						bool isOpen = CloseSporeFirstContentControl.IsOpen;
+						
+						CloseSporeFirstContentControl.IsOpen = isSporeRunning;
+
+						if (_minimizeOnGameStart) 
+						{
+							if (isSporeRunning && (!isOpen))
+							{
+								_prevState = Window.GetWindow(this).WindowState;
+								Window.GetWindow(this).WindowState = WindowState.Minimized;
+							}
+							else if (isOpen && (!isSporeRunning))
+							{
+								Window.GetWindow(this).WindowState = _prevState;
+								_minimizeOnGameStart = false;
+							}
+						}
+
+					}));
 				};
 				sporeOpenTimer.Start();
 			};
@@ -1039,6 +1061,7 @@ namespace SporeMods.Manager
 			Resources["FolderNotFoundUnknown"] = Settings.GetLanguageString("Error_NotAClue");*/
 		}
 
+		bool _minimizeOnGameStart = false;
 		private void LaunchGameButton_Click(object sender, RoutedEventArgs e)
 		{
 			//MessageBox.Show("Launching Spore from within the Spore Mod Manager is temporarily disabled. For the time being, please use the external Spore ModAPI Launcher (SporeMods.Launcher.exe) instead.");
@@ -1046,6 +1069,8 @@ namespace SporeMods.Manager
 				ServantCommands.RunLauncher();
 			else// if (!Permissions.IsAdministrator())
 				CrossProcess.StartLauncher();
+
+			_minimizeOnGameStart = true;
 		}
 
 		private void InstallModsButton_Click(object sender, RoutedEventArgs e)

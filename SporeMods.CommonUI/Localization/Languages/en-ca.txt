@@ -345,10 +345,9 @@ SporeIsOpen {
 	Header Hmmm...is Spore still open?
 	
 	#ADDED
-	Content Mod management is not possible while Spore is open.
+	Content Mod management is not possible while Spore is open. If you were looking to do so, and Spore does not appear to be open, you can try to
 	
-	#REVISED (formerly "If Spore is not responding, has crashed, or has already been closed, click here:") #SporeCantClose
-	AndCantClose If Spore does not appear to be open or has crashed, you can try to
+	#REMOVED AndCantClose (formerly "If Spore is not responding, has crashed, or has already been closed, click here:") #SporeCantClose 
 	
 	ForceClose {
 		#REVISED - actually say "Force" now (formerly "Close Spore")
