@@ -706,11 +706,12 @@
 	</Style>
 
 	<Style x:Key="ModalDialogContentControlStyle" TargetType="{x:Type ui:AnimatableContentControl}" BasedOn="{StaticResource {x:Type ui:AnimatableContentControl}}">
-		<Setter Property="Margin" Value="0,-31,0,0"/>
-		<Style.Triggers>
+        <Setter Property="ui:AttachedProperties.CornerCurves" Value="False,False,True,True"/>
+        <Style.Triggers>
 			<DataTrigger Binding="{Binding FallbackValue=True, Path=HasCustomWindowDecorations, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ManagerContent}}}" Value="False">
-				<Setter Property="ui:AttachedProperties.CornerCurves" Value="False"/>
-				<!--Setter TargetName="RootBorder" Property="CornerRadius" Value="0"/>
+                <Setter Property="ui:AttachedProperties.CornerCurves" Value="False"/>
+                <Setter Property="Margin" Value="0,-31,0,0"/>
+                <!--Setter TargetName="RootBorder" Property="CornerRadius" Value="0"/>
 				<Setter TargetName="RootBorder" Property="BorderThickness" Value="0"/>
 				<Setter Property="Margin" Value="0"/-->
 			</DataTrigger>

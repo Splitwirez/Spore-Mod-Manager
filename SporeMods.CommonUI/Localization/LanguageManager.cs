@@ -23,8 +23,6 @@ namespace SporeMods.CommonUI.Localization
             Instance.FinishInit();
         }
 
-        string _langCodes = string.Empty;
-
         static Language _canadianEnglish = null;
         public static Language CanadianEnglish
         {
@@ -33,45 +31,38 @@ namespace SporeMods.CommonUI.Localization
         }
 
 
+        const string CANADIAN_ENG_ID = "en-ca";
+        const string CANADIAN_ENG_RES_NAME = Language.LANG_RESOURCE_START + CANADIAN_ENG_ID + ".txt";
         List<string> _resNames;
+        List<string> _availableLanguageCodes = new List<string>()
+        {
+            CANADIAN_ENG_ID
+        };
+
         private LanguageManager()
         {
             var allResNames = Assembly.GetExecutingAssembly().GetManifestResourceNames();
 
             _resNames = allResNames.Where(x => x.StartsWith(Language.LANG_RESOURCE_START)).ToList();
-            string canadianEngRes = Language.LANG_RESOURCE_START + "en-ca.txt";
-            _resNames.Remove(canadianEngRes);
-            _langCodes += "\'en-ca\'";
+            //string canadianEngRes = Language.LANG_RESOURCE_START + $"{CANADIAN_ENGLISH}.txt";
+            _resNames.Remove(CANADIAN_ENG_RES_NAME);
 
-            CanadianEnglish = new Language(canadianEngRes);
+            CanadianEnglish = new Language(CANADIAN_ENG_RES_NAME);
             Languages.Add(CanadianEnglish);
 
-            /*string output = string.Empty;
-            foreach (string resName in allResNames)
-            {
-                if (resNames.Contains(resName))
-                    output += $"\nMATCHED: {resName}";
-                else
-                    output += $"\n{resName}";
-            }
 
-            MessageBox.Show(output, "RES NAMES");*/
-        }
-
-        void FinishInit()
-        {
             foreach (string resName in _resNames)
             {
                 var lang = new Language(resName);
                 Languages.Add(lang);
-                _langCodes += $"\n\'{lang.LanguageCode}\'";
+                _availableLanguageCodes.Add(lang.LanguageCode);
             }
+
+            //_resNames.Add(CANADIAN_ENGLISH_RES);
 
 
             if (Path.GetFileNameWithoutExtension(Process.GetCurrentProcess().MainModule.FileName).Equals(CrossProcess.MGR_EXE, StringComparison.OrdinalIgnoreCase))
             {
-
-
                 string hotReloadFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SMM");
                 string hotReloadPath = Path.Combine(hotReloadFolderPath, "te-st.txt");
 
@@ -83,34 +74,47 @@ namespace SporeMods.CommonUI.Localization
 
                     FileSystemWatcher hotReloadWatcher = new FileSystemWatcher(hotReloadFolderPath, "*.txt");
                     hotReloadWatcher.Changed += (s, e) => Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        if (e.FullPath.Equals(hotReloadPath, StringComparison.OrdinalIgnoreCase))
                         {
-                            if (e.FullPath.Equals(hotReloadPath, StringComparison.OrdinalIgnoreCase))
+                            Languages.Remove(hotReload);
+                            if (File.Exists(hotReloadPath))
                             {
-                                Languages.Remove(hotReload);
-                                if (File.Exists(hotReloadPath))
-                                {
-                                    hotReload = new Language(hotReloadPath);
-                                    Languages.Add(hotReload);
-                                    CurrentLanguage = hotReload;
-                                }
+                                hotReload = new Language(hotReloadPath);
+                                Languages.Add(hotReload);
+                                CurrentLanguage = hotReload;
                             }
-                        });
+                        }
+                    });
                     hotReloadWatcher.EnableRaisingEvents = true;
                 }
                 else
-                    CurrentLanguage = CurrentLanguage;
+                {
+                    string ident = GetRoundedSystemLanguageIdentifier();
+                    var lang = Languages.FirstOrDefault(x => x.LanguageCode.Equals(ident, StringComparison.OrdinalIgnoreCase));
+                    if (lang == default(Language))
+                        lang = CanadianEnglish;
+
+                    CurrentLanguage = lang;
+                }
             }
+
+            _writeCurrentLanguage = true;
 
             /*if (Process.GetCurrentProcess().MainModule.FileName.Contains("servant", StringComparison.OrdinalIgnoreCase))
             {
                 MessageBox.Show(Settings.CurrentLanguageCode);
             }*/
-            
+
 
             //string currentCode = Settings.CurrentLanguageCode;
-            
+
             SporeLauncher.GetLocalizedString = GetLocalizedText;
             Core.Mods.XmlModIdentityV1.GetLocalizedString = GetLocalizedText;
+        }
+
+        void FinishInit()
+        {
         }
 
 
@@ -121,8 +125,29 @@ namespace SporeMods.CommonUI.Localization
             "ca"
         };
 
-        string _osLangIdentifier = null;
-        string GetCurrentLanguageIdentifier()
+        string GetRoundedSystemLanguageIdentifier()
+        {
+            string langCode = CultureInfo.CurrentUICulture.Name.ToLowerInvariant();
+
+            var target = _availableLanguageCodes.FirstOrDefault(x => x.Equals(langCode, StringComparison.OrdinalIgnoreCase));
+            
+            if (target != default(string))
+            {
+                string langGroup = langCode.Split('-')[0];
+                if (LANGUAGE_ROUNDING_ALLOWED_GROUPS.Any(x => x.Equals(langGroup, StringComparison.OrdinalIgnoreCase)))
+                {
+                    langCode = _availableLanguageCodes.FirstOrDefault(x => x.Split('-')[0].Equals(langCode, StringComparison.OrdinalIgnoreCase));
+                }
+            }
+
+            if (target == default(string))
+                target = CANADIAN_ENG_ID;
+            return target;
+        }
+        
+        
+        /*string _osLangIdentifier = null;
+        string zGetCurrentLanguageIdentifier()
         {
             if (_osLangIdentifier == null)
             {
@@ -140,7 +165,7 @@ namespace SporeMods.CommonUI.Localization
                     }
                 }
                 
-                if (langCode == null)
+                if (langCode.IsNullOrEmptyOrWhiteSpace())
                     langCode = "en-ca";
 
                 _osLangIdentifier = langCode;
@@ -149,7 +174,7 @@ namespace SporeMods.CommonUI.Localization
             string ret = Settings.GetElementValue(_currentLanguageCode, _osLangIdentifier);
 
             return Languages.Any(x => x.LanguageCode.Equals(ret, StringComparison.OrdinalIgnoreCase)) ? ret : "en-ca";
-        }
+        }*/
         
         
         /*bool zTryGetPreferredLanguageForOS(out Language language)
@@ -190,7 +215,6 @@ namespace SporeMods.CommonUI.Localization
             return language != null;
         }*/
 
-        ResourceDictionary _prevLangDictionary = null;
         ObservableCollection<Language> _languages = new ObservableCollection<Language>();
         public ObservableCollection<Language> Languages
         {
@@ -204,41 +228,39 @@ namespace SporeMods.CommonUI.Localization
 
         static readonly string _currentLanguageCode = "CurrentLanguageCode";
         Language _currentLanguage = null;
+        bool _writeCurrentLanguage = false;
         public Language CurrentLanguage
         {
-            get
-            {
-                if (_currentLanguage != null)
-                    return _currentLanguage;
-
-                string ident = GetCurrentLanguageIdentifier();
-                return Languages.FirstOrDefault(x => x.LanguageCode.Equals(ident, StringComparison.OrdinalIgnoreCase));
-            }
+            get => _currentLanguage;
             set
             {
                 _currentLanguage = value;
 
-                if (!value.IsExternalLanguage)
+                if ((value != null) && (!value.IsExternalLanguage) && _writeCurrentLanguage)
                     Settings.SetElementValue(_currentLanguageCode, value.LanguageCode);
 
+                TryRefreshWpfResources();
                 NotifyPropertyChanged();
-                Console.Write("a");
+            }
+        }
 
-                var currentApp = Application.Current;
-                if (currentApp != null)
+        ResourceDictionary _prevLangDictionary = null;
+        public void TryRefreshWpfResources()
+        {
+            var currentApp = Application.Current;
+            if (currentApp != null)
+            {
+                var langContents = CurrentLanguage.Dictionary;
+                if (currentApp.Resources.MergedDictionaries.Contains(_prevLangDictionary))
                 {
-                    var langContents = value.Dictionary;
-                    if (currentApp.Resources.MergedDictionaries.Contains(_prevLangDictionary))
-                    {
-                        int prevIndex = currentApp.Resources.MergedDictionaries.IndexOf(_prevLangDictionary);
-                        currentApp.Resources.MergedDictionaries.RemoveAt(prevIndex);
-                        //currentApp.Resources.MergedDictionaries.Insert(prevIndex, langContents);
-                    }
-                    //else
-                    currentApp.Resources.MergedDictionaries.Add(langContents);
-
-                    _prevLangDictionary = langContents;
+                    int prevIndex = currentApp.Resources.MergedDictionaries.IndexOf(_prevLangDictionary);
+                    currentApp.Resources.MergedDictionaries.RemoveAt(prevIndex);
+                    //currentApp.Resources.MergedDictionaries.Insert(prevIndex, langContents);
                 }
+                //else
+                currentApp.Resources.MergedDictionaries.Add(langContents);
+
+                _prevLangDictionary = langContents;
             }
         }
 
@@ -252,7 +274,7 @@ namespace SporeMods.CommonUI.Localization
                     value = res.ToString();
             }
             else */
-            if (_currentLanguage == null)
+            if (CurrentLanguage == null)
                 return "(NO LANGUAGE SELECTED) (NOT LOCALIZED)";
             var dict = _currentLanguage.Dictionary;
             if (dict.Contains(key))

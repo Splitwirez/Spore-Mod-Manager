@@ -311,6 +311,11 @@ namespace SporeMods.Core
 
 		static Settings()
 		{
+			ReparseSettingsDoc();
+		}
+
+		public static void ReparseSettingsDoc()
+        {
 			_settingsFilePath = Path.Combine(ProgramDataPath, "ModManagerSettings.xml");
 			if (!File.Exists(_settingsFilePath))
 			{
@@ -771,6 +776,14 @@ namespace SporeMods.Core
 					return !NonEssentialIsRunningUnderWine;
 			}
 			set => SetElementValue(_useCustomWindowDecorations, value.ToString());
+		}
+
+
+		static string _preferredBorderlessMonitor = "PreferredBorderlessMonitor";
+		public static string PreferredBorderlessMonitor
+		{
+			get => GetElementValue(_preferredBorderlessMonitor);
+			set => SetElementValue(_preferredBorderlessMonitor, value);
 		}
 
 		/// <summary>

@@ -203,6 +203,16 @@ Settings {
 			#REVISED - fixed capitalization on "windowed"
 			BorderlessWindowed Borderless windowed #WindowModeBorderlessWindowed
 			Windowed Windowed #WindowModeWindowed
+			
+			#ADDED
+			ChooseMonitor {
+				#ADDED
+				Header Choose a monitor to use when launching Spore
+				#ADDED
+				Button Choose preferred monitor
+				#ADDED
+				SelectButton Click here to use this monitor
+			}
 		}
 		
 		OverrideGameResolution {
@@ -331,12 +341,20 @@ Help {
 }
 
 SporeIsOpen {
-	Header Please close Spore to continue #CloseSporeFirst
-	AndCantClose If Spore is not responding, has crashed, or has already been closed, click here: #SporeCantClose
+	#REVISED (formerly "Please close Spore to continue") #CloseSporeFirst
+	Header Hmmm...is Spore still open?
+	
+	#ADDED
+	Content Mod management is not possible while Spore is open.
+	
+	#REVISED (formerly "If Spore is not responding, has crashed, or has already been closed, click here:") #SporeCantClose
+	AndCantClose If Spore does not appear to be open or has crashed, you can try to
 	
 	ForceClose {
-		Button Close Spore #ForceKillSporeButton
-		Header Force-close Spore? #ForceKillConfirmTitle
+		#REVISED - actually say "Force" now (formerly "Close Spore")
+		Button Force-close Spore #ForceKillSporeButton
+		#REVISED - formerly "Force-close Spore?") #ForceKillConfirmTitle
+		Header Are you sure?
 		Content ANY UNSAVED PROGRESS WILL BE LOST. Are you sure you wish to force-close Spore? #ForceKillConfirmDesc
 	}
 }

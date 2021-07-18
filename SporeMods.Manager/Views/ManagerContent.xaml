@@ -129,6 +129,10 @@
                                                 <!--RadioButton x:Name="BorderlessWindowModeRadioButton" IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}}" GroupName="WindowModeRadioGroup"/-->
                                                 <RadioButton x:Name="WindowedWindowModeRadioButton" Content="{DynamicResource Settings!Window!OverrideWindowMode!Windowed}" IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}}" GroupName="WindowModeRadioGroup"/>
                                                 <RadioButton x:Name="BorderlessWindowModeRadioButton" Content="{DynamicResource Settings!Window!OverrideWindowMode!BorderlessWindowed}" IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}}" GroupName="WindowModeRadioGroup"/>
+                                                <Button x:Name="ChoosePreferredMonitorButton"
+                                                        Content="{DynamicResource Settings!Window!OverrideWindowMode!ChooseMonitor!Button}"
+                                                        IsEnabled="{Binding IsChecked, ElementName=BorderlessWindowModeRadioButton}"
+                                                        Click="ChoosePreferredMonitorButton_Click"/>
                                             </StackPanel>
                                             <CheckBox x:Name="OverrideGameResolutionCheckBox" Content="{DynamicResource Settings!Window!OverrideGameResolution!Header}" Margin="0,25,0,0"/>
                                             <StackPanel Orientation="Vertical" Margin="15,0,0,0" IsEnabled="{Binding IsChecked, Source={x:Reference OverrideGameResolutionCheckBox}}">
@@ -368,7 +372,10 @@
                 </TabItem>
 			</TabControl>
 		</DockPanel>
-		<ui:AnimatableContentControl x:Name="DropModsDialogContentControl" Style="{DynamicResource ModalDialogContentControlStyle}" HasCloseButton="True" AllowDrop="True" PreviewDrop="DropModsDialogContentControl_PreviewDrop" IsVisibleChanged="DropModsDialogContentControl_IsVisibleChanged">
+        <ui:AnimatableContentControl x:Name="ChooseMonitorContentControl" Style="{DynamicResource ModalDialogContentControlStyle}" HasCloseButton="True">
+            <TextBlock Text="{DynamicResource Settings!Window!OverrideWindowMode!ChooseMonitor!Header}" Style="{DynamicResource DropModsHereTextBlockStyle}" VerticalAlignment="Center"/>
+        </ui:AnimatableContentControl>
+        <ui:AnimatableContentControl x:Name="DropModsDialogContentControl" Style="{DynamicResource ModalDialogContentControlStyle}" HasCloseButton="True" AllowDrop="True" PreviewDrop="DropModsDialogContentControl_PreviewDrop" IsVisibleChanged="DropModsDialogContentControl_IsVisibleChanged">
 			<DockPanel>
 				<Button x:Name="BrowseForModsButton" Content="{DynamicResource Browse}" Click="BrowseForModsButton_Click" DockPanel.Dock="Bottom">
 					<ui:AttachedProperties.CornerCurves>
@@ -445,22 +452,14 @@
 				<ListView x:Name="FolderNotFoundListView" Style="{DynamicResource FolderNotFoundListViewStyle}"/>
 			</DockPanel>
 		</ui:AnimatableContentControl>
-		<!--ui:AnimatableContentControl x:Name="InstallDLLWhereContentControl" Style="{DynamicResource ModalDialogContentControlStyle}">
-			<DockPanel>
-				<UniformGrid DockPanel.Dock="Bottom" Rows="1">
-					<Button x:Name="InstallModAPIDllForMarch2017Button" Click="InstallModAPIDllForMarch2017Button_Click" Content="PLACEHOLDER: March 2017 Patch" ui:AttachedProperties.CornerCurves="False,False,False,True"/>
-					<Button x:Name="InstallModAPIDllForDisk1_5_1Button" Click="InstallModAPIDllForDisk1_5_1Button_Click" Content="PLACEHOLDER: Disk, Patch 1.5.1" ui:AttachedProperties.CornerCurves="False,False,True,False"/>
-				</UniformGrid>
-				<TextBlock Text="PLACEHOLDER: Install this ModAPI Core DLL for use with which version of Spore?"/>
-			</DockPanel>
-		</ui:AnimatableContentControl-->
 		<ui:AnimatableContentControl x:Name="CloseSporeFirstContentControl" Style="{DynamicResource ModalDialogContentControlStyle}">
 			<StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-				<TextBlock x:Name="CloseSporeFirstTextBlock" Text="{DynamicResource SporeIsOpen!Header}" Style="{DynamicResource DropModsHereTextBlockStyle}"/>
-				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock x:Name="CloseSporeFirstTextBlock" Text="{DynamicResource SporeIsOpen!Header}" Style="{DynamicResource DropModsHereTextBlockStyle}"/>
+                <TextBlock Text="{DynamicResource SporeIsOpen!Content}" HorizontalAlignment="Center" TextAlignment="Center" Margin="50,20"/>
+                <DockPanel HorizontalAlignment="Center" Margin="50,0">
+					<Button x:Name="ForceKillSporeButton" Content="{DynamicResource SporeIsOpen!ForceClose!Button}" Margin="5,0,0,0" Click="ForceKillSporeButton_Click" DockPanel.Dock="Right"/>
 					<TextBlock x:Name="SporeCantCloseTextBlock" Text="{DynamicResource SporeIsOpen!AndCantClose}" VerticalAlignment="Center"/>
-					<Button x:Name="ForceKillSporeButton" Content="{DynamicResource SporeIsOpen!ForceClose!Button}" Margin="5,0,0,0" Click="ForceKillSporeButton_Click"/>
-				</StackPanel>
+				</DockPanel>
 			</StackPanel>
 		</ui:AnimatableContentControl>
 	</Grid>

@@ -1101,6 +1101,7 @@ namespace SporeMods.Manager
 			UpdateDragWindow();
 		}
 
+		bool _prevIsWindowVisible = false;
 		private void UpdateDragWindow()
 		{
 			if ((App.DragServantProcess != null) && (App.DragServantProcess.MainWindowHandle != IntPtr.Zero))
@@ -1116,6 +1117,13 @@ namespace SporeMods.Manager
 					{
 						win.Activate();
 					}
+
+					/*bool visible = Core.Injection.NativeMethods.IsWindowVisible(App.DragServantProcess.MainWindowHandle);
+					if (visible && (!_prevIsWindowVisible))
+					{
+					}
+					_prevIsWindowVisible = visible;*/
+
 					/*else if (win.IsActive)
 					{
 						SetWindowLong(App.DragServantProcess.MainWindowHandle, GwlExstyle, GetWindowLong(App.DragServantProcess.MainWindowHandle, GwlExstyle).ToInt32() | 0x00000008);
@@ -1132,9 +1140,17 @@ namespace SporeMods.Manager
 						SetWindowPos(App.DragServantProcess.MainWindowHandle, winHwnd, (int)basePoint.X, (int)basePoint.Y, (int)SystemScaling.WpfUnitsToRealPixels(DropModsHereTextBlockGrid.ActualWidth), (int)SystemScaling.WpfUnitsToRealPixels(DropModsHereTextBlockGrid.ActualHeight), SwpNoActivate | 0x0040 | 0x0004);
 						SetWindowPos(App.DragServantProcess.MainWindowHandle, GetWindow(winHwnd, 3), 1, 1, 5, 5, SwpNoActivate | SwpNoSize | SwpNoMove | 0x0040/* | 0x0004*/);
 						ShowWindow(App.DragServantProcess.MainWindowHandle, 4);
+
+						if (!_prevIsWindowVisible)
+							File.WriteAllText(Path.Combine(Settings.TempFolderPath, "ChangeText"), GetLocalizedString("Mods!DropHere!Header"));
+
+						_prevIsWindowVisible = true;
 					}
 					else
+					{
 						ShowWindow(App.DragServantProcess.MainWindowHandle, 0);
+						_prevIsWindowVisible = false;
+					}
 				}
 				else
 					ShowWindow(App.DragServantProcess.MainWindowHandle, 0);
@@ -2003,6 +2019,75 @@ namespace SporeMods.Manager
 		{
 			if (MessageBox.Show(GetLocalizedString("SporeIsOpen!ForceClose!Content"), GetLocalizedString("SporeIsOpen!ForceClose!Header"), MessageBoxButton.YesNo) == MessageBoxResult.Yes)//(bool)(MessageBox<ForcecloseCancelButtons>.Show(Settings.GetLanguageString("ForceKillConfirmDesc"), Settings.GetLanguageString("ForceKillConfirmTitle"))))
 				SporeLauncher.KillSporeProcesses();
+		}
+
+        private void ChoosePreferredMonitorButton_Click(object sender, RoutedEventArgs e)
+        {
+			ChooseMonitorContentControl.IsOpen = true;
+
+
+			var win = Window.GetWindow(this);
+			double left = (int)SystemScaling.WpfUnitsToRealPixels(win.Left);
+			double top = (int)SystemScaling.WpfUnitsToRealPixels(win.Top);
+			var monitors = Core.Injection.NativeMethods.AllMonitors;
+
+			List<Window> monitorWindows = new List<Window>();
+
+			for (int i = 0; i < monitors.Count; i++)
+			{
+				var monitor = monitors[i];
+				var bounds = monitor.rcMonitor;
+				var workArea = monitor.rcWork;
+				/*if (
+						(left >= bounds.Left) &&
+						(top >= bounds.Top) &&
+						(left < bounds.Right) &&
+						(top < bounds.Bottom)
+					)
+                {*/
+
+				Button monButton = new Button()
+				{
+					Content = GetLocalizedString("Settings!Window!OverrideWindowMode!ChooseMonitor!SelectButton"),
+					Margin = new Thickness(4)
+				};
+				TextBlock.SetTextAlignment(monButton, TextAlignment.Center);
+
+				monButton.Click += (s, e) =>
+				{
+					Settings.PreferredBorderlessMonitor = $"{bounds.Left},{bounds.Top},{bounds.Right},{bounds.Bottom}";
+					ChooseMonitorContentControl.IsOpen = false;
+				};
+				
+				ShadowedWindow monWin = new ShadowedWindow()
+				{
+					Width = 128,
+					Height = 128,
+					Left = SystemScaling.RealPixelsToWpfUnits(workArea.Left + 32),
+					Top = SystemScaling.RealPixelsToWpfUnits(workArea.Bottom - 160),
+					Topmost = true,
+					ShowInAltTab = false,
+					ShowInTaskbar = false,
+					ShowActivated = false,
+					Content = monButton
+				};
+				monWin.Show();
+
+				monitorWindows.Add(monWin);
+				//MessageBox.Show(monitorOut, monitors.IndexOf(monitor).ToString());
+				//Settings.PreferredBorderlessMonitor = monitorOut;
+				//}
+			}
+
+			void ChooseMonitorContentControl_IsVisibleChanged(object sneder, DependencyPropertyChangedEventArgs args)
+			{
+				foreach (Window win in monitorWindows)
+					win.Close();
+
+				ChooseMonitorContentControl.IsVisibleChanged -= ChooseMonitorContentControl_IsVisibleChanged;
+			}
+
+			ChooseMonitorContentControl.IsVisibleChanged += ChooseMonitorContentControl_IsVisibleChanged;
 		}
 
         /*public class ForcecloseCancelButtons : IMessageBoxActionSet

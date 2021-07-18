@@ -255,7 +255,8 @@ namespace SporeMods.Core.Injection
 			InjectDLLs(dllEnding);
 
 			ResumeSporeProcess();
-			EnableBorderless(Convert.ToInt32(_processInfo.dwProcessId));
+			//MessageDisplay.ShowMessageBox("EnableBorderless", "_monitorSelected: " + _monitorSelected);
+			EnableBorderless(Convert.ToInt32(_processInfo.dwProcessId), _monitor);
 		}
 
 		private const int WAIT_ABANDONED = 0x00000080;
@@ -368,7 +369,8 @@ namespace SporeMods.Core.Injection
 			//};   
 		}
 
-
+		static NativeMethods.MonitorInfoEx _monitor = new NativeMethods.MonitorInfoEx();
+		static bool _monitorSelected = false;
 		static string GetGameCommandLineOptions()
 		{
 			var sb = new StringBuilder();
@@ -398,9 +400,71 @@ namespace SporeMods.Core.Injection
 
 					string size = "-r:";
 
-					var monitor = NativeMethods.AllMonitors[0];
+					var monitors = NativeMethods.AllMonitors;
+					_monitor = NativeMethods.AllMonitors[0];
 					if (Settings.ForceWindowedMode == 2)
-						size += (monitor.rcMonitor.Right - monitor.rcMonitor.Left).ToString() + "x" + (monitor.rcMonitor.Bottom - monitor.rcMonitor.Top).ToString();
+					{
+						string prM = Settings.PreferredBorderlessMonitor;
+						if (!prM.IsNullOrEmptyOrWhiteSpace())
+						{
+							string[] prefMon = prM.Replace(" ", string.Empty).Split(',');
+							if (prefMon.Length == 4)
+							{
+								if (
+										int.TryParse(prefMon[0], out int left) &&
+										int.TryParse(prefMon[1], out int top) &&
+										int.TryParse(prefMon[2], out int right) &&
+										int.TryParse(prefMon[3], out int bottom)
+									)
+								{
+
+									foreach (var monInfo in monitors)
+									{
+										var bounds = monInfo.rcMonitor;
+										if (
+												(bounds.Left == left) &&
+												(bounds.Top == top) &&
+												(bounds.Right == right) &&
+												(bounds.Bottom == bottom)
+											)
+										{
+											_monitor = monInfo;
+											_monitorSelected = true;
+											//MessageDisplay.ShowMessageBox(prM, monitors.IndexOf(_monitor).ToString());
+											break;
+										}
+									}
+
+									if (!_monitorSelected)
+                                    {
+										int width = right - left;
+										int height = bottom - top;
+										foreach (var monInfo in monitors)
+										{
+											var bounds = monInfo.rcMonitor;
+											if (
+												((bounds.Right - bounds.Left) == width) &&
+												((bounds.Bottom - bounds.Top) == height)
+												)
+											{
+												_monitor = monInfo;
+												_monitorSelected = true;
+
+												break;
+											}
+										}
+
+									}
+								}
+							}
+						}
+					}
+
+					if (Settings.ForceWindowedMode == 2)
+					{
+						size += (_monitor.rcMonitor.Right - _monitor.rcMonitor.Left).ToString() + "x" + (_monitor.rcMonitor.Bottom - _monitor.rcMonitor.Top).ToString();
+						//MessageDisplay.ShowMessageBox("_monitorSelected: " + _monitorSelected.ToString() + ", size: " + size);
+					}
 					else if (Settings.ForceGameWindowBounds)
 					{
 						//MessageDisplay.DebugShowMessageBox("MONITOR: " + monitor.rcMonitor.Left + ", " + monitor.rcMonitor.Top + ", " + monitor.rcMonitor.Right + ", " + monitor.rcMonitor.Bottom + "\n" + +monitor.rcWork.Left + ", " + monitor.rcWork.Top + ", " + monitor.rcWork.Right + ", " + monitor.rcWork.Bottom);
@@ -413,10 +477,10 @@ namespace SporeMods.Core.Injection
 								MessageDisplay.DebugShowMessageBox("Settings.ForceGameWindowingMode is true, Settings.ForceWindowedMode is " + Settings.ForceWindowedMode);
 								if (Settings.ForceWindowedMode == 0)
 								{
-									size += (monitor.rcWork.Right - monitor.rcWork.Left);
+									size += (_monitor.rcWork.Right - _monitor.rcWork.Left);
 								}
 								else// if (Settings.ForceWindowedMode == 1)
-									size += (monitor.rcMonitor.Right - monitor.rcMonitor.Left);
+									size += (_monitor.rcMonitor.Right - _monitor.rcMonitor.Left);
 								/*else
 									size += Settings.ForcedGameWindowWidth;*/
 							}
@@ -434,9 +498,9 @@ namespace SporeMods.Core.Injection
 							{
 								int maximizedTitlebarHeight = CaptionHeight;
 								if (Settings.ForceWindowedMode == 0)
-									size += ((monitor.rcWork.Bottom - monitor.rcWork.Top) - maximizedTitlebarHeight);
+									size += ((_monitor.rcWork.Bottom - _monitor.rcWork.Top) - maximizedTitlebarHeight);
 								else if (Settings.ForceWindowedMode == 1)
-									size += ((monitor.rcMonitor.Bottom - monitor.rcMonitor.Top) - maximizedTitlebarHeight);
+									size += ((_monitor.rcMonitor.Bottom - _monitor.rcMonitor.Top) - maximizedTitlebarHeight);
 								else
 									size += Settings.ForcedGameWindowHeight;
 							}
@@ -508,7 +572,14 @@ namespace SporeMods.Core.Injection
 				}
 			}
 			else
+            {
+				sb.Append(GetGameCommandLineOptions());
+			}
+
+			/*if (false)
 			{
+				MessageDisplay.ShowMessageBox("ARGS", GetGameCommandLineOptions());
+				//2
 				if (Settings.ForceGameWindowingMode)
 				{
 					if (Settings.ForceWindowedMode == 1)
@@ -520,9 +591,8 @@ namespace SporeMods.Core.Injection
 
 					string size = "-r:";
 
-					var monitor = NativeMethods.AllMonitors[0];
 					if (Settings.ForceWindowedMode == 2)
-						size += (monitor.rcMonitor.Right - monitor.rcMonitor.Left).ToString() + "x" + (monitor.rcMonitor.Bottom - monitor.rcMonitor.Top).ToString();
+						size += (_monitor.rcMonitor.Right - _monitor.rcMonitor.Left).ToString() + "x" + (_monitor.rcMonitor.Bottom - _monitor.rcMonitor.Top).ToString();
 					else if (Settings.ForceGameWindowBounds)
 					{
 						//MessageDisplay.DebugShowMessageBox("MONITOR: " + monitor.rcMonitor.Left + ", " + monitor.rcMonitor.Top + ", " + monitor.rcMonitor.Right + ", " + monitor.rcMonitor.Bottom + "\n" + +monitor.rcWork.Left + ", " + monitor.rcWork.Top + ", " + monitor.rcWork.Right + ", " + monitor.rcWork.Bottom);
@@ -535,12 +605,12 @@ namespace SporeMods.Core.Injection
 								MessageDisplay.DebugShowMessageBox("Settings.ForceGameWindowingMode is true, Settings.ForceWindowedMode is " + Settings.ForceWindowedMode);
 								if (Settings.ForceWindowedMode == 0)
 								{
-									size += (monitor.rcWork.Right - monitor.rcWork.Left);
+									size += (_monitor.rcWork.Right - _monitor.rcWork.Left);
 								}
 								else// if (Settings.ForceWindowedMode == 1)
-									size += (monitor.rcMonitor.Right - monitor.rcMonitor.Left);
+									size += (_monitor.rcMonitor.Right - _monitor.rcMonitor.Left);
 								/*else
-									size += Settings.ForcedGameWindowWidth;*/
+									size += Settings.ForcedGameWindowWidth;*
 							}
 							else
 								size += Settings.ForcedGameWindowWidth;
@@ -556,9 +626,9 @@ namespace SporeMods.Core.Injection
 							{
 								int maximizedTitlebarHeight = CaptionHeight;
 								if (Settings.ForceWindowedMode == 0)
-									size += ((monitor.rcWork.Bottom - monitor.rcWork.Top) - maximizedTitlebarHeight);
+									size += ((_monitor.rcWork.Bottom - _monitor.rcWork.Top) - maximizedTitlebarHeight);
 								else if (Settings.ForceWindowedMode == 1)
-									size += ((monitor.rcMonitor.Bottom - monitor.rcMonitor.Top) - maximizedTitlebarHeight);
+									size += ((_monitor.rcMonitor.Bottom - _monitor.rcMonitor.Top) - maximizedTitlebarHeight);
 								else
 									size += Settings.ForcedGameWindowHeight;
 							}
@@ -608,7 +678,7 @@ namespace SporeMods.Core.Injection
 						sb.Append(" ");
 					}
 				}
-			}
+			}*/
 			/*string currentSporebinPath = string.Empty;
 			if (LauncherSettings.ForcedSporebinEP1Path != null)
 				currentSporebinPath = LauncherSettings.ForcedSporebinEP1Path;
@@ -635,10 +705,12 @@ namespace SporeMods.Core.Injection
 			}
 		}
 
-		static void EnableBorderless(int pid)
+		static void EnableBorderless(int pid, NativeMethods.MonitorInfoEx monitor)
 		{
 			if (Settings.ForceWindowedMode == 2)
 			{
+				var monBounds = _monitor.rcMonitor;
+				MessageDisplay.ShowMessageBox("_monitorSelected: " + _monitorSelected.ToString() + "\n_monitor.rcMonitor: " + $"{monBounds.Left},{monBounds.Top},{monBounds.Right},{monBounds.Bottom},,,{monBounds.Right - monBounds.Left},{monBounds.Bottom - monBounds.Top}");
 				Process process = Process.GetProcessById(pid);
 				Debug.WriteLine("Before loop");
 
@@ -654,13 +726,61 @@ namespace SporeMods.Core.Injection
 				if (NativeMethods.IsWindow(spore)) //(!process.HasExited) && (process.MainWindowHandle != IntPtr.Zero) && NativeMethods.IsWindow(process.MainWindowHandle))
 				{
 					Debug.WriteLine("process.MainWindowTitle: " + process.MainWindowTitle);
-					var monitor = NativeMethods.AllMonitors[0];
+					//var monitor = NativeMethods.AllMonitors[0];
 					//NativeMethods.SetWindowLong(win.Handle, NativeMethods.GwlExstyle, NativeMethods.GetWindowLong(win.Handle, NativeMethods.GwlExstyle).ToInt32() & ~NativeMethods.WsExNoActivate);
-					int winStyle = (Int32)NativeMethods.GetWindowLong(process.MainWindowHandle, NativeMethods.GwlStyle);
+					int winStyle = (Int32)NativeMethods.GetWindowLong(spore, NativeMethods.GwlStyle);
 					winStyle &= ~NativeMethods.WsBorder;
 					winStyle &= ~NativeMethods.WsCaption;
-					NativeMethods.SetWindowLong(process.MainWindowHandle, NativeMethods.GwlStyle, winStyle);
-					NativeMethods.SetWindowPos(process.MainWindowHandle, IntPtr.Zero, monitor.rcMonitor.Left, monitor.rcMonitor.Top, monitor.rcMonitor.Right - monitor.rcMonitor.Left, monitor.rcMonitor.Bottom - monitor.rcMonitor.Top, 0x0010 | 0x0004 | 0x0020);
+					NativeMethods.SetWindowLong(spore, NativeMethods.GwlStyle, winStyle);
+
+					int x = monBounds.Left;
+					int y = monBounds.Top;
+					int cx = monBounds.Right - monBounds.Left;
+					int cy = monBounds.Bottom - monBounds.Top;
+					uint uFlags = 0x0010 | 0x0004 | 0x0020;
+
+					/*KWin or something on Kubuntu decides that having Spore fill one monitor means it was 
+					 * actually supposed to fill the other, and unhelpfully "fixes" it for us, so now we
+					 * have to "break" this "feature" in order to prevent that "fix" from "fixing" our
+					 * "mistake" that was actually the intended behaviour by intentionally being a pixel
+					 * or two off. Fun. Note to self: Figure out how */
+					if (false && Settings.NonEssentialIsRunningUnderWine)
+					{
+						cx--;
+						/*var furthestRight = monitor;
+						foreach (var mon in NativeMethods.AllMonitors)
+						{
+							if (mon.rcMonitor.Right > furthestRight.rcMonitor.Right)
+								furthestRight = mon;
+						}
+
+						if (furthestRight.Equals(monitor))
+						{
+							x++;
+							cx--;
+						}
+						else
+						{
+							var furthestLeft = monitor;
+							foreach (var mon in NativeMethods.AllMonitors)
+							{
+								if (mon.rcMonitor.Left > furthestLeft.rcMonitor.Left)
+									furthestLeft = mon;
+							}
+
+							if (furthestLeft.Equals(monitor))
+							{
+								cx--;
+							}
+							else
+							{
+								x++;
+								cx -= 2;
+							}
+						}*/
+					}
+
+					NativeMethods.SetWindowPos(spore, IntPtr.Zero, x, y, cx, cy, uFlags);
 				}
 			}
 		}
