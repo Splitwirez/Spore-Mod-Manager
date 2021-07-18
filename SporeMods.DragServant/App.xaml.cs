@@ -25,35 +25,55 @@ namespace SporeMods.DragServant
 
 		public App()
 		{
-			var win = new MainWindow();
-			win.Show();
-			MainWindow = win;
+			//var win = new MainWindow();
+			//win.Show();
+			//MainWindow = win;
 			_launcherWatcher.Created += (sneder, args) =>
 			{
 				string fileName = Path.GetFileName(args.FullPath);
-				bool processed = true;
-				switch (fileName)
-				{
-					case "LaunchGame":
-						if (!Environment.GetCommandLineArgs().Contains(UpdaterService.IgnoreUpdatesArg))
-							CrossProcess.StartLauncher();
-						break;
-					case "OpenUrl":
-						string path = File.ReadAllText(args.FullPath);
-						if (path.StartsWith("http"))
-							Process.Start(new ProcessStartInfo(path)
-							{
-								UseShellExecute = true
-							});
-						break;
-					default:
-						processed = false;
-						break;
-				}
+				while (Permissions.IsFileLocked(args.FullPath))
+				{ }
 
-				if (processed)
-					File.Delete(args.FullPath);
+				if (File.Exists(args.FullPath))
+				{
+					bool processed = true;
+					switch (fileName)
+					{
+						case "LaunchGame":
+							if (!Environment.GetCommandLineArgs().Contains(UpdaterService.IgnoreUpdatesArg))
+								CrossProcess.StartLauncher();
+							break;
+						case "OpenUrl":
+							string path = File.ReadAllText(args.FullPath);
+							if (path.StartsWith("http"))
+								Process.Start(new ProcessStartInfo(path)
+								{
+									UseShellExecute = true
+								});
+							break;
+						case "ChangeText":
+							string newText = File.ReadAllText(args.FullPath);
+							Dispatcher.BeginInvoke(new Action(() =>
+							{
+								if (MainWindow is MainWindow mainWin)
+									mainWin.RefreshText(newText);
+							}));
+							break;
+						default:
+							processed = false;
+							break;
+					}
+
+					if (processed)
+						File.Delete(args.FullPath);
+				}
 			};
 		}
-	}
+
+        /*protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+			Console.WriteLine(CommonUI.Localization.LanguageManager.Instance.GetLocalizedText("OK"));
+		}*/
+    }
 }

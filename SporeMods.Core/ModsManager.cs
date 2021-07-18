@@ -15,7 +15,7 @@ using TTimer = System.Timers.Timer;
 
 namespace SporeMods.Core
 {
-	public class ModsManager : INotifyPropertyChanged
+	public class ModsManager : NotifyPropertyChangedBase
 	{
 		private static SynchronizationContext SyncContext = null;
 
@@ -54,25 +54,37 @@ namespace SporeMods.Core
 		// We don't use NotifyPropertyChanged here because the list instance itself should never change, only its contents
 		public static ObservableCollection<IInstalledMod> InstalledMods { get; } = new ObservableCollection<IInstalledMod>();
 
-		ObservableCollection<string> _commandLineStates = new ObservableCollection<string>()
+		ObservableCollection<CommandLineState> _commandLineStates = new ObservableCollection<CommandLineState>()
 		{
-			"CellEditor",
-			"CellToCreatureEditor",
-			"CreatureEditor",
-			"BuildingEditor",
-			"VehicleEditor",
-			"VehicleLandEditor",
-			"VehicleAirEditor",
-			"VehicleWaterEditor",
-			"UFOEditor"
+			new CommandLineState("CellEditor"),
+			new CommandLineState("CellToCreatureEditor"),
+			new CommandLineState("CreatureEditor"),
+			new CommandLineState("VehicleLandEditor"),
+			new CommandLineState("VehicleAirEditor"),
+			new CommandLineState("VehicleWaterEditor"),
+			new CommandLineState("UFOEditor"),
+			new CommandLineState("BuildingEditor"),
+			new CommandLineState("VehicleEditor"),
 		};
-		public static ObservableCollection<string> CommandLineStates
+		
+		public ObservableCollection<CommandLineState> CommandLineStates
 		{
-			get => Instance._commandLineStates;
+			get => _commandLineStates;
 			set
 			{
-				Instance._commandLineStates = value;
-				Instance.NotifyPropertyChanged(nameof(CommandLineStates));
+				_commandLineStates = value;
+				NotifyPropertyChanged();
+			}
+		}
+
+		string _currentCommandLineStateIdentifier = string.Empty;
+		public string CurrentCommandLineSStateIdentifier
+		{
+			get => _currentCommandLineStateIdentifier;
+			set
+			{
+				_currentCommandLineStateIdentifier = value;
+				NotifyPropertyChanged();
 			}
 		}
 
@@ -144,7 +156,7 @@ namespace SporeMods.Core
 				if ((args.NewItems != null) && (args.NewItems.Count > 0))
 					OrderInstalledMods();
 			};
-			NotifyPropertyChanged(nameof(InstalledMods));
+			NotifyPropertyChanged();
 		}
 
 		public static void RemoveMatchingManuallyInstalledFile(string fileName, ComponentGameDir targetLocation)
@@ -204,11 +216,6 @@ namespace SporeMods.Core
 			}, null);
 		}*/
 
-		private void NotifyPropertyChanged(string propertyName)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
-
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		public async Task<bool> ShowModConfigurator(ManagedMod mod)
@@ -231,7 +238,7 @@ namespace SporeMods.Core
 			set
 			{
 				_anyTasksRunning = value;
-				NotifyPropertyChanged(nameof(AnyTasksRunning));
+				NotifyPropertyChanged();
 			}
 		}
 
@@ -243,7 +250,7 @@ namespace SporeMods.Core
 			set
 			{
 				_overallProgress = value;
-				NotifyPropertyChanged(nameof(OverallProgress));
+				NotifyPropertyChanged();
 			}
 		}
 
@@ -259,7 +266,7 @@ namespace SporeMods.Core
 					)
 				{
 					_overallProgressTotal = value;
-					NotifyPropertyChanged(nameof(OverallProgressTotal));
+					NotifyPropertyChanged();
 				}
 			}
 		}
@@ -398,4 +405,40 @@ namespace SporeMods.Core
 		public bool ReconfiguredAnyMods { get; internal set; } = false;
 		public Dictionary<string, Exception> Failures { get; internal set; } = new Dictionary<string, Exception>();
 	}
+
+	public class CommandLineState : NotifyPropertyChangedBase
+    {
+		string _displayName = string.Empty;
+		public string DisplayNameKey
+        {
+			get => _displayName;
+			set
+            {
+				_displayName = value;
+				NotifyPropertyChanged();
+			}
+		}
+
+		string _stateIdentifier = string.Empty;
+		public string StateIdentifier
+		{
+			get => _stateIdentifier;
+			set
+			{
+				_stateIdentifier = value;
+				NotifyPropertyChanged();
+			}
+		}
+
+		internal CommandLineState(string stateIdentifier)
+        {
+			StateIdentifier = stateIdentifier;
+			DisplayNameKey = "Settings!GameEntry!StartupEditor!Editors!" + stateIdentifier;
+		}
+
+        public override string ToString()
+        {
+            return _stateIdentifier;
+        }
+    }
 }

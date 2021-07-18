@@ -1,4 +1,5 @@
 ﻿using SporeMods.Core;
+using SporeMods.CommonUI.Localization;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -78,7 +79,7 @@ namespace SporeMods.Manager
 								Permissions.GrantAccessFile(draggedFilesPath);
 							}
 							else
-								MessageBox.Show(Settings.GetLanguageString("CloseSporeModManagerFirst"));
+								MessageBox.Show(LanguageManager.Instance.GetLocalizedText("OneInstanceOnly"));
 							Process.GetCurrentProcess().Kill();
 						}
 
@@ -136,7 +137,7 @@ namespace SporeMods.Manager
 							proceed = false;
 							if (Settings.NonEssentialIsRunningUnderWine)
 								proceed = true;
-							else if (MessageBox.Show(Settings.GetLanguageString(1, "DontRunAsAdmin").Replace("%APPNAME%", "Spore Mod Manager"), String.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+							else if (MessageBox.Show(LanguageManager.Instance.GetLocalizedText("DontRunAsAdmin").Replace("%APPNAME%", "Spore Mod Manager"), String.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
 								proceed = true;
 						}
 						else if ((!Permissions.IsAtleastWindowsVista()) && (DragServantProcess == null))
@@ -163,7 +164,9 @@ namespace SporeMods.Manager
 								window = new Mechanism.Wpf.Core.Windows.DecoratableWindow()
 								{
 									Content = content,
-									TitlebarHeight = 61
+									TitlebarHeight = 61,
+									ShowFullscreenButton = true,
+									AutohideTitlebarWhenFullscreen = false
 								};
 							}
 							else

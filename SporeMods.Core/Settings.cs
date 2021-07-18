@@ -72,7 +72,7 @@ namespace SporeMods.Core
 					StreamReader reader = new StreamReader(stream);
 					targetFramework = reader.ReadToEnd();
 				}*/
-				return "-dotnet-core--" + Environment.Version;
+				return "dotnet-core--" + Environment.Version;
 			}
 		}
 
@@ -311,6 +311,11 @@ namespace SporeMods.Core
 
 		static Settings()
 		{
+			ReparseSettingsDoc();
+		}
+
+		public static void ReparseSettingsDoc()
+        {
 			_settingsFilePath = Path.Combine(ProgramDataPath, "ModManagerSettings.xml");
 			if (!File.Exists(_settingsFilePath))
 			{
@@ -671,262 +676,23 @@ namespace SporeMods.Core
 		public static string LaunchSporeWithoutManagerOptions = "-NoManagerArgs";
 
 
-		static string _osLangCode;
-		static string GetBetterLanguageForOS()
-		{
-			if (_osLangCode != null) return _osLangCode;
-
-			string langCode = CultureInfo.CurrentUICulture.Name.ToLowerInvariant();
-			if (!_availableLanguages.ContainsKey(langCode))
-			{
-				// Try to get one from the same group. If user has en-us, try to set en-ca, etc
-				string langGroup = langCode.Split('-')[0];
-				langCode = null;
-				foreach (var lang in _availableLanguages.Keys)
-				{
-					if (langGroup == lang.Split('-')[0])
-					{
-						langCode = lang;
-						break;
-					}
-				}
-				if (langCode == null) langCode = "en-ca";
-			}
-
-			_osLangCode = langCode;
-			return langCode;
-		}
-
-		static string _currentLanguageCode = "CurrentLanguageCode";
+		/*static string _currentLanguageCode = "CurrentLanguageCode";
 		/// <summary>
 		/// User-selected Mod Manager language code (en-ca, es-es,...). Lowercase.
 		/// </summary>
 		public static string CurrentLanguageCode
 		{
-			get
-			{
-				var value = GetElementValue(_currentLanguageCode);
-
-				if (string.IsNullOrWhiteSpace(value))
-					return GetBetterLanguageForOS();
-				else return value;
-			}
+			get => GetElementValue(_currentLanguageCode);
 			set
 			{
 				if (value != CurrentLanguageCode)
 				{
-					_currentLanguage = ReadLanguage(value);
 					SetElementValue(_currentLanguageCode, value);
 				}
 			}
-		}
+		}*/
 
-		/// <summary>
-		/// User-selected Mod Manager language name
-		/// </summary>
-		public static string CurrentLanguageName
-		{
-			get
-			{
-				InitializeLanguages();
-				return _availableLanguageNames[CurrentLanguageCode];
-			}
-			set
-			{
-				CurrentLanguageCode = _availableLanguageNames.FirstOrDefault(x => x.Value == value).Key;
-			}
-		}
-
-		private static Dictionary<string, string> _availableLanguageNames = new Dictionary<string, string>();
-		/// <summary>
-		/// The names (English, Español,...) of the available languages for each lang code.
-		/// Pairs of { langCode, langName }
-		/// </summary>
-		public static Dictionary<string, string> AvailableLanguageNames
-		{
-			get
-			{
-				InitializeLanguages();
-				return _availableLanguageNames;
-			}
-		}
-
-		/// <summary>
-		/// The names (English, Español,...) of the available languages, sorted alphabetically.
-		/// </summary>
-		public static List<string> SortedLanguageNames
-		{
-			get
-			{
-				var list = new List<string>(AvailableLanguageNames.Values);
-				list.Sort();
-				return list;
-			}
-		}
-
-		/// <summary>
-		/// Dictionary for current Mod Manager language.
-		/// </summary>
-		// We don't want this to be public, GetLanguageString must be used
-		private static Dictionary<string, string> _currentLanguage;
-
-		// { langCode, isInternal }
-		static Dictionary<string, bool> _availableLanguages = new Dictionary<string, bool>();
-
-		static bool _languageInitialized = false;
-		static string _languagesDir = Path.Combine(ProgramDataPath, "Languages");
-
-		static Dictionary<string, string> ReadLanguage(Stream stream)
-		{
-			var dictionary = new Dictionary<string, string>();
-			using (var reader = new StreamReader(stream))
-			{
-				string s;
-				while ((s = reader.ReadLine()) != null)
-				{
-					s = s.Trim();
-					if (!s.StartsWith("#") && !s.IsNullOrEmptyOrWhiteSpace())
-					{
-						var splits = s.Split(new char[] { ' ' }, 2);
-						dictionary.Add(splits[0], splits[1].TrimStart(' '));
-					}
-				}
-			}
-			return dictionary;
-		}
-
-		static Dictionary<string, string> ReadLanguage(string langCode)
-		{
-			if (_availableLanguages[langCode])
-			{
-				using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SporeMods.Core.Locale." + langCode + ".txt"))
-				{
-					return ReadLanguage(stream);
-				}
-			}
-			else
-			{
-				using (var stream = new FileStream(Path.Combine(_languagesDir, langCode + ".txt"), FileMode.Open))
-				{
-					return ReadLanguage(stream);
-				}
-			}
-		}
-
-		/// <summary>
-		/// Creates the Languages folder, loads the language names and loads the current language.
-		/// </summary>
-		static void InitializeLanguages()
-		{
-			if (_languageInitialized) return;
-
-			if (!Directory.Exists(_languagesDir))
-				Directory.CreateDirectory(_languagesDir);
-
-			// Internal languages
-			_availableLanguages["en-ca"] = true;
-			_availableLanguages["es-es"] = true;
-			_availableLanguages["ca-ca"] = true;
-
-			// User-provided languages
-			foreach (var file in Directory.GetFiles(_languagesDir, "*.txt"))
-			{
-				var langCode = Path.GetFileNameWithoutExtension(file).ToLowerInvariant();
-				if (!_availableLanguages.ContainsKey(langCode))
-				{
-					_availableLanguages[langCode] = false;
-				}
-			}
-
-			var assembly = Assembly.GetExecutingAssembly();
-			foreach (var langCode in _availableLanguages.Keys)
-			{
-				var language = ReadLanguage(langCode);
-
-				if (language.ContainsKey("LanguageName"))
-				{
-					_availableLanguageNames[langCode] = language["LanguageName"];
-				}
-				else
-				{
-					_availableLanguageNames[langCode] = langCode;
-				}
-
-				if (langCode == CurrentLanguageCode)
-				{
-					_currentLanguage = language;
-				}
-			}
-
-			if (_currentLanguage == null)
-			{
-				// For some reason, the current language file is not available
-				// Try to default to computer language, or en-ca 
-				_currentLanguage = ReadLanguage(GetBetterLanguageForOS());
-			}
-
-			_languageInitialized = true;
-		}
-
-		public static string GetLanguageString(string identifier)
-		{
-			return GetLanguageString(0, identifier);
-		}
-
-		/// <summary>
-		/// 1 = Globals, 2 = CustomInstaller, 3 = Error, 4 = Importer
-		/// </summary>
-		/// <param name="prefix"></param>
-		/// <param name="identifier"></param>
-		/// <returns></returns>
-		public static string GetLanguageString(int prefix, string identifier)
-		{
-			string prefixText = "";
-
-			if (prefix == 0)
-				prefixText = string.Empty; //"MainWindow_";
-			else if (prefix == 1)
-				prefixText = "Globals_";
-			else if (prefix == 2)
-				prefixText = "CustomInstaller_";
-			else if (prefix == 3)
-				prefixText = "Error_";
-			else if (prefix == 4)
-				prefixText = "Importer_";
-			else
-				throw new Exception("Unrecognized localization prefix");
-
-			string key = prefixText + identifier;
-			try
-			{
-				InitializeLanguages();
-				string outStr = _currentLanguage[key];
-				/*if (outStr.Contains(@"\\"))
-				{
-					outStr.Replace(@"\\", "[SLASH]");
-				}
-				if (outStr.Contains(@"\n"))
-				{
-					outStr.Replace(@"\n", "\n");
-				}
-				if (outStr.Contains("[SLASH]"))
-				{
-					outStr.Replace("[SLASH]", @"\\");
-				}*/
-				if (outStr.Contains("<br>"))
-				{
-					outStr = outStr.Replace("<br>", "\r\n");
-				}
-				return outStr;
-			}
-			catch (Exception ex)
-			{
-				//MessageDisplay.DebugShowMessageBox(ex.ToString() + "\n\nkey: " + key);
-				return ex.ToString() + "NOT FOUND: " + key; //"***";
-			}
-		}
-
-
+		
 		static string _shaleDarkTheme = "ShaleDarkTheme";
 		public static bool ShaleDarkTheme
 		{
@@ -937,7 +703,7 @@ namespace SporeMods.Core
 				else
 					return false;
 			}
-			set => SetElementValue(_shaleDarkTheme, value.ToString(), true);
+			set => SetElementValue(_shaleDarkTheme, value.ToString());
 		}
 
 
@@ -1009,7 +775,15 @@ namespace SporeMods.Core
 				else
 					return !NonEssentialIsRunningUnderWine;
 			}
-			set => SetElementValue(_useCustomWindowDecorations, value.ToString(), true);
+			set => SetElementValue(_useCustomWindowDecorations, value.ToString());
+		}
+
+
+		static string _preferredBorderlessMonitor = "PreferredBorderlessMonitor";
+		public static string PreferredBorderlessMonitor
+		{
+			get => GetElementValue(_preferredBorderlessMonitor);
+			set => SetElementValue(_preferredBorderlessMonitor, value);
 		}
 
 		/// <summary>
@@ -1038,7 +812,7 @@ namespace SporeMods.Core
 				else
 					return NonEssentialIsRunningUnderWine;
 			}
-			set => SetElementValue(_useSoftwareRendering, value.ToString(), true);
+			set => SetElementValue(_useSoftwareRendering, value.ToString());
 		}
 		/*public static bool ForceSoftwareRendering
 		{
@@ -1178,61 +952,24 @@ namespace SporeMods.Core
 		}
 
 		*/
-		static string GetElementValue(string elementName)
+
+		public static string GetElementValue(string elementName, string defaultValue = null)
 		{
-			string returnValue = null;
-			var element = rootElement.Element(elementName);
+			XElement element = rootElement.Element(elementName);
+			
 			if (element != null)
-				returnValue = element.Value;
-			return returnValue;
+				return element.Value;
+			else
+				return defaultValue;
 		}
 
-		static void SetElementValue(string elementName, string value)
+		public static void SetElementValue(string elementName, string value)
 		{
-			SetElementValue(elementName, value, false);
-		}
-
-		static void SetElementValue(string elementName, string value, bool restrictToModManager)
-		{
-			bool canWrite = false;
-			if (!restrictToModManager)
-				canWrite = true;
+			if (value.IsNullOrEmptyOrWhiteSpace())
+				rootElement.SetElementValue(elementName, null);
 			else
-			{
-				string exeName = Path.GetFileNameWithoutExtension(Process.GetCurrentProcess().MainModule.FileName).ToLowerInvariant();
-				if (restrictToModManager && ((exeName == "spore mod launcher") || (exeName == "spore mod manager")))//(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName.ToLowerInvariant().Contains("modapi") && (System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName.EndsWith("Manager.exe") | System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName.EndsWith("Launcher.exe"))))
-					canWrite = true;
-			}
-
-			if (canWrite)
-			{
-				if (value.IsNullOrEmptyOrWhiteSpace())
-					rootElement.SetElementValue(elementName, null);
-				else
-					rootElement.SetElementValue(elementName, value);
-				_document.Save(_settingsFilePath);
-			}
-			/*if (value == null)
-			{
-				var element = rootElement.Element(elementName);
-
-				if (element != null)
-					element.Remove();
-			}
-			else
-			{
-				bool canWrite = false;
-
-				if (restrictToModApi)
-					canWrite = (System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName.ToLowerInvariant().Contains("modapi") && (System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName.EndsWith("Manager.exe") | System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName.EndsWith("Launcher.exe")));
-				else
-					canWrite = true;
-
-
 				rootElement.SetElementValue(elementName, value);
-				//GetElement(elementName).Value = value;
-			}
-			_document.Save(_settingsFilePath);*/
+			_document.Save(_settingsFilePath);
 		}
 	}
 

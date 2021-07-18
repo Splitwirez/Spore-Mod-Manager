@@ -286,12 +286,21 @@ namespace SporeMods.Core.Injection
 		public const Int32
 			WsCaption = 0x00C00000,
 			WsBorder = 0x00800000,
-			WsSizeBox = 0x00040000;
+			WsSizeBox = 0x00040000,
+			WsMaximize = 0x01000000;
 
 		public const Int32
 			WsExToolwindow = 0x00000080,
 			WsExTransparent = 0x00000020,
 			WsExNoActivate = 0x08000000;
+
+		public delegate bool EnumThreadDelegate(IntPtr hWnd, IntPtr lParam);
+
+		[DllImport("user32.dll")]
+		public static extern bool EnumThreadWindows(int dwThreadId, EnumThreadDelegate lpfn, IntPtr lParam);
+
+		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		public static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
 
 
 		public static IntPtr GetWindowLong(IntPtr hWnd, Int32 nIndex)/* => IntPtr.Size == 8
@@ -313,5 +322,9 @@ namespace SporeMods.Core.Injection
 		[DllImport("user32.dll")]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool IsWindow(IntPtr hWnd);
+
+		[DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool IsWindowVisible(IntPtr hWnd);
 	}
 }

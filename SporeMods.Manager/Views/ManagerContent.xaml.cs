@@ -34,6 +34,7 @@ using FolderBrowserDialog = System.Windows.Forms.FolderBrowserDialog;
 using DialogResult = System.Windows.Forms.DialogResult;
 using Mechanism.Wpf.Core;
 using SporeMods.CommonUI;
+using SporeMods.CommonUI.Localization;
 
 namespace SporeMods.Manager
 {
@@ -50,36 +51,6 @@ namespace SporeMods.Manager
 
 		public static readonly DependencyProperty HasCustomWindowDecorationsProperty =
 		DependencyProperty.Register(nameof(HasCustomWindowDecorations), typeof(bool), typeof(ManagerContent), new PropertyMetadata(false));
-
-		public ObservableCollection<CreditsItem> Credits
-		{
-			get => (ObservableCollection<CreditsItem>)GetValue(CreditsProperty);
-			set => SetValue(CreditsProperty, value);
-		}
-
-		public static readonly DependencyProperty CreditsProperty =
-		DependencyProperty.Register(nameof(Credits), typeof(ObservableCollection<CreditsItem>), typeof(ManagerContent), new PropertyMetadata(new ObservableCollection<CreditsItem>()
-		{
-			new CreditsItem("Splitwirez (formerly rob55rod)", "Designed and (mostly) built the Spore Mod Manager.", @"https://github.com/Splitwirez/"),
-			new CreditsItem("emd4600", "Started the Spore ModAPI Project, created the original Spore ModAPI Launcher Kit from which the Spore Mod Manager was derived, and helped build the Spore Mod Manager to be as robust as possible.", @"https://github.com/emd4600/"),
-			new CreditsItem("reflectronic", "Provided significant guidance and assistance with internal structure and asynchronous behaviour.", @"https://github.com/reflectronic/"),
-			new CreditsItem("DotNetZip (formerly Ionic.Zip)", "Zip archive library used throughout the Spore Mod Manager.", @"https://www.nuget.org/packages/DotNetZip/"),
-			new CreditsItem("Newtonsoft", "Made the library to read JSON data.", @"https://www.newtonsoft.com/json"),
-			new CreditsItem("cederenescio", "Provided substantial creative influence."),
-			new CreditsItem("PricklySaguaro/ThePixelMouse", "Found a way to run the Spore ModAPI Launcher Kit under WINE, assisted with figuring out how to make WINE cooperate.", @"https://github.com/PricklySaguaro"),
-			new CreditsItem("Huskky", "Assisted substantially with figuring out how to make WINE cooperate."),
-			new CreditsItem("Darhagonable", "Provided creative input, helped confirm the feasibility of supporting WINE setups on Linux.", @"https://www.youtube.com/user/darhagonable"),
-			new CreditsItem("KloxEdge", "Testing"),
-			new CreditsItem("Liskomato", "Testing"),
-			new CreditsItem("ChocIce75", "Testing"),
-			new CreditsItem("TheRublixCube", "Testing"),
-			new CreditsItem("Deoxys_0", "Testing"),
-			new CreditsItem("Psi", "Testing"),
-			new CreditsItem("Ivy", "Testing"),
-			new CreditsItem("bandithedoge", "WINE regression testing", @"http://bandithedoge.com/"),
-			new CreditsItem("Masaochism", "Testing"),
-			new CreditsItem("Magic Gonads", "Testing", @"https://github.com/MagicGonads")
-		}));
 
 		FileSystemWatcher _dragWatcher = new FileSystemWatcher(Settings.TempFolderPath)
 		{
@@ -114,18 +85,20 @@ namespace SporeMods.Manager
 				DarkShaleToggleSwitch.IsChecked = false;
 
 			DarkShaleToggleSwitch_Checked(DarkShaleToggleSwitch, null);
-			if (Settings.UseCustomWindowDecorations)
-				StandardWindowDecorationsToggleSwitch.IsChecked = false;
 
-			if (!Settings.AllowVanillaIncompatibleMods)
-				BlockVanillaIncompatibleModsToggleSwitch.IsChecked = true;
+			bool useStandardDec = !Settings.UseCustomWindowDecorations;
+			if (useStandardDec != StandardWindowDecorationsToggleSwitch.IsChecked)
+				StandardWindowDecorationsToggleSwitch.IsChecked = useStandardDec;
 
-			DeveloperModeToggleSwitch.IsChecked = Settings.DeveloperMode;
+			/*if (!Settings.AllowVanillaIncompatibleMods)
+				BlockVanillaIncompatibleModsToggleSwitch.IsChecked = true;*/
+
+			/*DeveloperModeToggleSwitch.IsChecked = Settings.DeveloperMode;
 			DeveloperModeToggleSwitch.Checked += (sneder, args) => Settings.DeveloperMode = true;
-			DeveloperModeToggleSwitch.Unchecked += (sneder, args) => Settings.DeveloperMode = false;
+			DeveloperModeToggleSwitch.Unchecked += (sneder, args) => Settings.DeveloperMode = false;*/
 
-			if (Settings.DeveloperMode)
-				DeveloperTabItem.Visibility = Visibility.Visible;
+			/*if (Settings.DeveloperMode)
+				DeveloperTabItem.Visibility = Visibility.Visible;*/
 
 			Loaded += (sneder, args) =>
 			{
@@ -311,7 +284,7 @@ namespace SporeMods.Manager
 						{
 							ModConfiguratorDialogContentControl.HasCloseButton = false;
 							ModConfiguratorContentControl.SetResourceReference(ContentControl.StyleProperty, "InitialModConfiguratorContentControlStyle");
-							CustomInstallerInstallButton.Content = Settings.GetLanguageString(2, "Proceed");
+							CustomInstallerInstallButton.SetResourceReference(Button.ContentProperty, "Mods!Configurator!10xx!Proceed");
 						}
 					}
 				};
@@ -322,8 +295,8 @@ namespace SporeMods.Manager
 				StandardWindowDecorationsToggleSwitch.Checked += StandardWindowDecorationsToggleSwitch_Checked;
 				StandardWindowDecorationsToggleSwitch.Unchecked += StandardWindowDecorationsToggleSwitch_Checked;
 
-				BlockVanillaIncompatibleModsToggleSwitch.Checked += BlockVanillaIncompatibleModsToggleSwitch_Checked;
-				BlockVanillaIncompatibleModsToggleSwitch.Unchecked += BlockVanillaIncompatibleModsToggleSwitch_Checked;
+				/*BlockVanillaIncompatibleModsToggleSwitch.Checked += BlockVanillaIncompatibleModsToggleSwitch_Checked;
+				BlockVanillaIncompatibleModsToggleSwitch.Unchecked += BlockVanillaIncompatibleModsToggleSwitch_Checked;*/
 
 				//Setup game folder Settings and Controls
 				AutoGaDataPathCheckBox.Checked += AutoGaDataPathCheckBox_Checked;
@@ -530,19 +503,22 @@ namespace SporeMods.Manager
 				Settings.IgnoreSteamInstallInfo = false;
 		}
 
+		static Func<string, string> GetLocalizedString = LanguageManager.Instance.GetLocalizedText;
+
+
 		private bool ModInstallation_InstallingExperimentalMod(string arg)
 		{
-			return MessageBox.Show(Settings.GetLanguageString("ModIsExperimental").Replace("%MODNAME%", arg), string.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+			return MessageBox.Show(GetLocalizedString("Mods!Warning!Install!IsExperimental").Replace("%MODNAME%", arg), string.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes;
 		}
 
 		private bool ModInstallation_InstallingRequiresGalaxyResetMod(string arg)
 		{
-			return MessageBox.Show(Settings.GetLanguageString("ModRequiresGalaxyReset").Replace("%MODNAME%", arg), string.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+			return MessageBox.Show(GetLocalizedString("Mods!Warning!Install!RequiresGalaxyReset").Replace("%MODNAME%", arg), string.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes;
 		}
 
 		private bool ModInstallation_InstallingSaveDataDependencyMod(string arg)
 		{
-			return MessageBox.Show(Settings.GetLanguageString("ModCausesSaveDataDependency").Replace("%MODNAME%", arg), string.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+			return MessageBox.Show(GetLocalizedString("Mods!Warning!Install!CausesSaveDataDependency").Replace("%MODNAME%", arg), string.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes;
 		}
 
 		private bool ModInstallation_UninstallingSaveDataDependencyMod(IEnumerable<string> arg)
@@ -554,17 +530,17 @@ namespace SporeMods.Manager
 			
 			modNames.TrimEnd('\n', '\r');
 
-			return MessageBox.Show(Settings.GetLanguageString("CausesSaveDataDependencyUninstallWarning").Replace("%MODNAMES%", modNames), string.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+			return MessageBox.Show(GetLocalizedString("CausesSaveDataDependencyUninstallWarning").Replace("%MODNAMES%", modNames), string.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes;
 		}
 
 
-		private void BlockVanillaIncompatibleModsToggleSwitch_Checked(object sender, RoutedEventArgs e)
+		/*private void BlockVanillaIncompatibleModsToggleSwitch_Checked(object sender, RoutedEventArgs e)
 		{
 			if (BlockVanillaIncompatibleModsToggleSwitch.IsChecked.Value)
 				Settings.AllowVanillaIncompatibleMods = false;
 			else
 				Settings.AllowVanillaIncompatibleMods = true;
-		}
+		}*/
 
 		void SetupPathControlStates()
 		{
@@ -858,7 +834,7 @@ namespace SporeMods.Manager
 			string folderName = string.Empty;
 			if (args.DlcLevel == GameInfo.GameDlc.GalacticAdventures)
 			{
-				folderName = Settings.GetLanguageString(3, "SporeGAFolder"); //"Galactic Adventures ";
+				folderName = GetLocalizedString("Mods!Error!GamePathNotFound!Header!Folder!GalacticAdventures"); //"Galactic Adventures ";
 
 				if (args.IsSporebin)
 				{
@@ -877,7 +853,7 @@ namespace SporeMods.Manager
 			}
 			else if (args.DlcLevel == GameInfo.GameDlc.CoreSpore)
 			{
-				folderName += Settings.GetLanguageString(3, "SporeCoreFolder"); //"Core Spore ";
+				folderName += GetLocalizedString("Mods!Error!GamePathNotFound!Header!Folder!CoreSpore"); //"Core Spore ";
 
 				if (args.IsSporebin)
 				{
@@ -917,14 +893,14 @@ namespace SporeMods.Manager
 			//Thread.Sleep(125);
 			if (folders.Count > 1)
 			{
-				FolderNotFoundErrorTextBlock.Text = Settings.GetLanguageString(3, "FolderNotFound").Replace("%FOLDERNAME%", folderName);
+				FolderNotFoundErrorTextBlock.Text = GetLocalizedString("Mods!Error!GamePathNotFound!Header!HasGuesses").Replace("%FOLDERNAME%", folderName);
 				FolderNotFoundListView.SelectedItem = null;
 				FolderNotFoundListView.ItemsSource = folders;
 				FolderNotFoundListView.SelectionChanged += FolderNotFoundListView_SelectionChanged;
 			}
 			else
 			{
-				FolderNotFoundErrorTextBlock.Text = Settings.GetLanguageString(3, "FolderNotFoundNoGuesses").Replace("%FOLDERNAME%", folderName);
+				FolderNotFoundErrorTextBlock.Text = GetLocalizedString("Mods!Error!GamePathNotFound!Header!NoGuesses").Replace("%FOLDERNAME%", folderName);
 			}
 
 			//FolderNotFoundBrowseByHandActionBox.ActionSubmitted += (sneder, e) => FolderNotFoundBrowseByHandActionBox_ActionSubmitted(args.DlcLevel, !args.IsSporebin);
@@ -987,98 +963,46 @@ namespace SporeMods.Manager
 			}
 		}
 
-		private void LanguageCheckBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			if (e.AddedItems.Count == 1)
+			/*if (e.AddedItems.Count == 1)
 			{
 				Settings.CurrentLanguageName = (string)e.AddedItems[0];
 				if (IsLoaded)
-				{
+				{*/
 					SetLanguage();
-				}
-			}
+				/*}
+			}*/
 		}
 
 		void SetLanguage()
 		{
+			var h = LanguageManager.Instance.CurrentLanguage;
 			if (IsLoaded && (Window.GetWindow(this) != null) && (Window.GetWindow(this).IsLoaded))
 			{
 				/*if (Permissions.IsAdministrator())
 					Window.GetWindow(this).Title = GetLanguageString("WindowTitle") + Settings.ModApiManagementKitVersion.ToString() + GetLanguageString("VersionIdentifierSuffix");
 					Title += GetLanguageString("IsAdministrator");*/
-				Window.GetWindow(this).Title = Settings.GetLanguageString("WindowTitle").Replace("%VERSION%", Settings.ModManagerVersion.ToString()).Replace("%DLLSBUILD%", Settings.CurrentDllsBuildString) + " (" + Settings.TargetFramework + ")";
+				Window.GetWindow(this).Title = GetLocalizedString("Header").Replace("%VERSION%", Settings.ModManagerVersion.ToString()).Replace("%DLLSBUILD%", Settings.CurrentDllsBuildString) + " (" + Settings.TargetFramework + ")";
 			}
 
-			LaunchGameButton.Content = Settings.GetLanguageString("LaunchGameButton");
-			ModsTabItem.Header = Settings.GetLanguageString("ModsTabItem");
-			SettingsTabItem.Header = Settings.GetLanguageString("SettingsTabItem");
-			HelpTabItem.Header = Settings.GetLanguageString("HelpTabItem");
+			////////
+			/*Resources["ModSwitchOnText"] = Settings.GetLanguageString("ModSwitchOn");
+			Resources["ModSwitchOffText"] = Settings.GetLanguageString("ModSwitchOff");*/
+			////////
+			/*Resources["ModInstallingNowText"] = Settings.GetLanguageString("ModInstallingNow");
+			Resources["ModInstalledManuallyText"] = Settings.GetLanguageString("ModInstalledManually");*/
 
-			InstallModsButton.Content = Settings.GetLanguageString("InstallModFromDiskButton");
-			UninstallModsButton.Content = Settings.GetLanguageString("UninstallModButton");
-			ConfigureModButton.Content = Settings.GetLanguageString("ConfigureModButton");
-
-			CopyModsToClipboardButton.Content = Settings.GetLanguageString("CopyModsListToClipboard");
-
-			InstallModsPromptContentControl.Content = Settings.GetLanguageString("DropModsHerePrompt");
-			DropModsHereTextBlock.Text = Settings.GetLanguageString("DropModsHereInstruction");
-
-			SearchBox.WatermarkText = Settings.GetLanguageString("SearchWatermark");
-			SearchNamesMenuItem.Header = Settings.GetLanguageString("SearchNames");
-			SearchDescriptionsMenuItem.Header = Settings.GetLanguageString("SearchDescriptions");
-			SearchTagsMenuItem.Header = Settings.GetLanguageString("SearchTags");
-
-			BrowseForModsButton.Content = Settings.GetLanguageString(1, "Browse");
-
-			GaDataPathBrowseButton.Content = Settings.GetLanguageString(1, "Browse");
-			SporebinEp1PathBrowseButton.Content = Settings.GetLanguageString(1, "Browse");
-			CoreDataPathBrowseButton.Content = Settings.GetLanguageString(1, "Browse");
-			//SporebinPathBrowseButton.Content = Settings.GetLanguageString(1, "Browse");
-
-			Resources["ModSwitchOnText"] = Settings.GetLanguageString("ModSwitchOn");
-			Resources["ModSwitchOffText"] = Settings.GetLanguageString("ModSwitchOff");
-			Resources["ModInstallingNowText"] = Settings.GetLanguageString("ModInstallingNow");
-			Resources["ModInstalledManuallyText"] = Settings.GetLanguageString("ModInstalledManually");
-
-			//ExitSporeToManageModsTextBlock.Text = Settings.GetLanguageString("ExitSporeToManageMods");
-
-			FoldersGroupBox.Header = Settings.GetLanguageString("FoldersHeader");
-			AutoGaDataPathCheckBox.Content = Settings.GetLanguageString("AutoGaDataPath");
-			AutoSporebinEp1PathCheckBox.Content = Settings.GetLanguageString("AutoSporebinEp1Path");
-			AutoCoreDataPathCheckBox.Content = Settings.GetLanguageString("AutoCoreDataPath");
-			//AutoSporebinPathCheckBox.Content = Settings.GetLanguageString("AutoSporebinPath");
-			Resources["AutoDetectPathText"] = Settings.GetLanguageString("AutoDetectPath");
-			IgnoreSteamInstallInfoCheckBox.Content = Settings.GetLanguageString("IgnoreSteamInstallInfo");
-
-			WindowGroupBox.Header = Settings.GetLanguageString("WindowHeader");
-			OverrideWindowModeCheckBox.Content = Settings.GetLanguageString("OverrideWindowMode");
-			FullscreenWindowModeRadioButton.Content = Settings.GetLanguageString("WindowModeFullscreen");
-			BorderlessWindowModeRadioButton.Content = Settings.GetLanguageString("WindowModeBorderlessWindowed");
-			WindowedWindowModeRadioButton.Content = Settings.GetLanguageString("WindowModeWindowed");
-
-			OverrideGameResolutionCheckBox.Content = Settings.GetLanguageString("OverrideGameResolution");
-			AutoResolutionRadioButton.Content = Settings.GetLanguageString("ResolutionAuto");
-			CustomResolutionRadioButton.Content = Settings.GetLanguageString("ResolutionCustom");
-
-			CommandLineGroupBox.Header = Settings.GetLanguageString("GameEntryHeader");
-			LaunchWithStateCheckBox.Content = Settings.GetLanguageString("CommandLineState");
-			LaunchWithStateNameTextBlock.Text = Settings.GetLanguageString("CommandLineStateName");
-			LaunchWithLanguageCheckBox.Content = Settings.GetLanguageString("CommandLineLanguage");
-			LocaleNameTextBlock.Text = Settings.GetLanguageString("CommandLineLocaleName");
-			AdditionalCommandLineOptionsTextBlock.Text = Settings.GetLanguageString("CommandLineOptions");
-
-			//AppearanceGroupBox.Header = Settings.GetLanguageString("Appearance");
-			SkinOptionsGroupBox.Header = Settings.GetLanguageString("AppearanceHeader"); //Settings.GetLanguageString("SkinOptions");
-			DarkShaleToggleSwitch.Content = Settings.GetLanguageString("LightSwitchHeader");
-			DarkShaleToggleSwitch.TrueText = Settings.GetLanguageString("SwitchOn");
-			DarkShaleToggleSwitch.FalseText = Settings.GetLanguageString("SwitchOff");
-
-			ModInstallationGroupBox.Header = Settings.GetLanguageString("ModInstallationHeader");
+			
+			////////
+			/*ModInstallationGroupBox.Header = Settings.GetLanguageString("ModInstallationHeader");
 			BlockVanillaIncompatibleModsToggleSwitch.Content = Settings.GetLanguageString("BlockVanillaIncompatibleMods");
 			BlockVanillaIncompatibleModsToggleSwitch.TrueText = Settings.GetLanguageString("SwitchYes");
-			BlockVanillaIncompatibleModsToggleSwitch.FalseText = Settings.GetLanguageString("SwitchNo");
+			BlockVanillaIncompatibleModsToggleSwitch.FalseText = Settings.GetLanguageString("SwitchNo");*/
+			////////
 
-			DeveloperModeToggleSwitch.Content = Settings.GetLanguageString("RequiresAppRestart").Replace("%CONTEXT%", Settings.GetLanguageString("UseDeveloperMode"));
+			////////
+			/*DeveloperModeToggleSwitch.Content = Settings.GetLanguageString("RequiresAppRestart").Replace("%CONTEXT%", Settings.GetLanguageString("UseDeveloperMode"));
 			DeveloperModeToggleSwitch.TrueText = Settings.GetLanguageString("SwitchOn");
 			DeveloperModeToggleSwitch.FalseText = Settings.GetLanguageString("SwitchOff");
 
@@ -1086,42 +1010,33 @@ namespace SporeMods.Manager
 			SideloadCoreDllsGroupBox.Header = Settings.GetLanguageString("SideloadCoreDlls");
 			AddSideloadCoreDllsButton.Content = Settings.GetLanguageString("AddSideloadCoreDlls");
 			RemoveSideloadCoreDllsButton.Content = Settings.GetLanguageString("RemoveSideloadCoreDlls");
-			BuildSideloadCoreDllsTextBlock.Text = Settings.GetLanguageString("BuildSideloadCoreDlls").Replace("%OVERRIDELIBSPATH%", Settings.OverrideLibsPath);
+			BuildSideloadCoreDllsTextBlock.Text = GetLocalizedResource("BuildSideloadCoreDlls").Replace("%OVERRIDELIBSPATH%", Settings.OverrideLibsPath);*/
+			////////
 
-			LanguageTextBlock.Text = Settings.GetLanguageString("LanguageHeader");
+			//LanguageTextBlock.Text = Settings.GetLanguageString("LanguageHeader");
 
-			StandardWindowDecorationsToggleSwitch.Content = Settings.GetLanguageString("RequiresAppRestart").Replace("%CONTEXT%", Settings.GetLanguageString("UseStandardWindowDecorations"));
-			StandardWindowDecorationsToggleSwitch.TrueText = Settings.GetLanguageString("SwitchOn");
-			StandardWindowDecorationsToggleSwitch.FalseText = Settings.GetLanguageString("SwitchOff");
-
-			UpdateGroupBox.Header = Settings.GetLanguageString("UpdateHeader");
-			UpdateTextBlock.Text = Settings.GetLanguageString("UpdateQuestion");
-			UpdateAutomaticallyRadioButton.Content = Settings.GetLanguageString("UpdateAutomatically");
-			UpdateAutoCheckRadioButton.Content = Settings.GetLanguageString("UpdateAutoCheck");
-			UpdateNeverRadioButton.Content = Settings.GetLanguageString("UpdateNever");
-
-			HelpGroupBox.Header = Settings.GetLanguageString("HelpHeader");
+			/*HelpGroupBox.Header = Settings.GetLanguageString("HelpHeader");
 			//HelpThreadButton.Content = Settings.GetLanguageString("GoToForumThread");
 			//SendFeedbackButton.Content = Settings.GetLanguageString("SendFeedback");
 			//ShowConfigurationFileButton.Content = Settings.GetLanguageString("ShowConfig");
 			AskQuestionButton.Content = Settings.GetLanguageString("AskQuestion");
 			SuggestFeatureButton.Content = Settings.GetLanguageString("SuggestFeature");
-			ReportBugButton.Content = Settings.GetLanguageString("ReportBug");
+			ReportBugButton.Content = Settings.GetLanguageString("ReportBug");*/
 
-			CloseSporeFirstTextBlock.Text = Settings.GetLanguageString("CloseSporeFirst");
+			/*CloseSporeFirstTextBlock.Text = Settings.GetLanguageString("CloseSporeFirst");
 			SporeCantCloseTextBlock.Text = Settings.GetLanguageString("SporeCantClose");
-			ForceKillSporeButton.Content = Settings.GetLanguageString("ForceKillSporeButton");
+			ForceKillSporeButton.Content = Settings.GetLanguageString("ForceKillSporeButton");*/	
 
-			CreditsGroupBox.Header = Settings.GetLanguageString("CreditsHeader");
+			//CreditsGroupBox.Header = Settings.GetLanguageString("CreditsHeader");
 
-			CustomInstallerInstallButton.Content = Settings.GetLanguageString(2, "Proceed");
-			Resources["CausesSaveDataDependencyWarning"] = Settings.GetLanguageString("CausesSaveDataDependencyWarning");
+			//CustomInstallerInstallButton.Content = Settings.GetLanguageString("CustomInstaller_Proceed");
+			//Resources["CausesSaveDataDependencyWarning"] = Settings.GetLanguageString("CausesSaveDataDependencyWarning");
 
-			Resources["ProbablyDisksGuessText"] = Settings.GetLanguageString(3, "ProbablyDiskGuess");
-			Resources["ProbablyOriginGuessText"] = Settings.GetLanguageString(3, "ProbablyOriginGuess");
-			Resources["ProbablyGOGGuessText"] = Settings.GetLanguageString(3, "ProbablyGOGGuess");
+			/*Resources["ProbablyDisksGuessText"] = Settings.GetLanguageString("Error_ProbablyDiskGuess");
+			Resources["ProbablyOriginGuessText"] = Settings.GetLanguageString("Error_ProbablyOriginGuess");
+			Resources["ProbablyGOGGuessText"] = Settings.GetLanguageString("Error_ProbablyGOGGuess");
 
-			Resources["FolderNotFoundUnknown"] = Settings.GetLanguageString(3, "NotAClue");
+			Resources["FolderNotFoundUnknown"] = Settings.GetLanguageString("Error_NotAClue");*/
 		}
 
 		private void LaunchGameButton_Click(object sender, RoutedEventArgs e)
@@ -1186,6 +1101,7 @@ namespace SporeMods.Manager
 			UpdateDragWindow();
 		}
 
+		bool _prevIsWindowVisible = false;
 		private void UpdateDragWindow()
 		{
 			if ((App.DragServantProcess != null) && (App.DragServantProcess.MainWindowHandle != IntPtr.Zero))
@@ -1201,6 +1117,13 @@ namespace SporeMods.Manager
 					{
 						win.Activate();
 					}
+
+					/*bool visible = Core.Injection.NativeMethods.IsWindowVisible(App.DragServantProcess.MainWindowHandle);
+					if (visible && (!_prevIsWindowVisible))
+					{
+					}
+					_prevIsWindowVisible = visible;*/
+
 					/*else if (win.IsActive)
 					{
 						SetWindowLong(App.DragServantProcess.MainWindowHandle, GwlExstyle, GetWindowLong(App.DragServantProcess.MainWindowHandle, GwlExstyle).ToInt32() | 0x00000008);
@@ -1217,9 +1140,17 @@ namespace SporeMods.Manager
 						SetWindowPos(App.DragServantProcess.MainWindowHandle, winHwnd, (int)basePoint.X, (int)basePoint.Y, (int)SystemScaling.WpfUnitsToRealPixels(DropModsHereTextBlockGrid.ActualWidth), (int)SystemScaling.WpfUnitsToRealPixels(DropModsHereTextBlockGrid.ActualHeight), SwpNoActivate | 0x0040 | 0x0004);
 						SetWindowPos(App.DragServantProcess.MainWindowHandle, GetWindow(winHwnd, 3), 1, 1, 5, 5, SwpNoActivate | SwpNoSize | SwpNoMove | 0x0040/* | 0x0004*/);
 						ShowWindow(App.DragServantProcess.MainWindowHandle, 4);
+
+						if (!_prevIsWindowVisible)
+							File.WriteAllText(Path.Combine(Settings.TempFolderPath, "ChangeText"), GetLocalizedString("Mods!DropHere!Header"));
+
+						_prevIsWindowVisible = true;
 					}
 					else
+					{
 						ShowWindow(App.DragServantProcess.MainWindowHandle, 0);
+						_prevIsWindowVisible = false;
+					}
 				}
 				else
 					ShowWindow(App.DragServantProcess.MainWindowHandle, 0);
@@ -1244,7 +1175,7 @@ namespace SporeMods.Manager
 			{
 				ModConfiguratorDialogContentControl.HasCloseButton = true;
 				ModConfiguratorContentControl.SetResourceReference(ContentControl.StyleProperty, "ModConfiguratorContentControlStyle");
-				CustomInstallerInstallButton.Content = Settings.GetLanguageString(2, "Apply");
+				CustomInstallerInstallButton.SetResourceReference(Button.ContentProperty, "Mods!Configurator!10xx!Apply");
 				mod.ConfigureMod();
 				//CustomInstallerInstallButton.Content
 			}
@@ -1255,8 +1186,8 @@ namespace SporeMods.Manager
 			OpenFileDialog dialog = new OpenFileDialog()
 			{
 				Multiselect = true,
-				Title = Settings.GetLanguageString("SelectMod"),
-				Filter = Settings.GetLanguageString("AllSporeModsFilter").Replace("%EXTENSIONS%", "*.sporemod, *.package") + "|*.sporemod;*.package"
+				Title = GetLocalizedString("Mods!Browse!Header"),
+				Filter = GetLocalizedString("Mods!Browse!Filter").Replace("%EXTENSIONS%", "*.sporemod, *.package") + "|*.sporemod;*.package"
 				///"Spore mod (*.sporemod, *.package)|*.sporemod;*.package|Bundled Spore mod (*.sporemod)|*.sporemod|Legacy Spore Mod (*.package)|*.package"
 			};
 
@@ -1268,8 +1199,8 @@ namespace SporeMods.Manager
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message + ex.StackTrace, "OpenFileDialog error");
-				ModsManager.InstalledMods.Add(new InstallError(ex));
+				MessageBox.Show(ex.Message + ex.StackTrace, "OpenFileDialog error (NOT LOCALIZED)");
+				//ModsManager.InstalledMods.Add(new InstallError(ex));
 			}
 
 			if (dialog.ShowDialog() == true)
@@ -1292,13 +1223,13 @@ namespace SporeMods.Manager
 			string logOutput = string.Empty;
 			string output = string.Empty;
 			if (e.InstalledAnyMods)
-				output += Settings.GetLanguageString(0, "ModsInstalledSuccessfully") + "\n\n";
+				output += GetLocalizedString("Mods!FinishNotify!Success!Installed") + "\n\n";
 			
 			if (e.UninstalledAnyMods)
-				output += Settings.GetLanguageString(0, "ModsUninstalledSuccessfully") + "\n\n";
+				output += GetLocalizedString("Mods!FinishNotify!Success!Uninstalled") + "\n\n";
 
 			if (e.ReconfiguredAnyMods)
-				output += Settings.GetLanguageString(0, "ModsReconfiguredSuccessfully") + "\n\n";
+				output += GetLocalizedString("Mods!FinishNotify!Success!Reconfigured") + "\n\n";
 
 			if (e.Failures.Keys.Count > 0)
 			{
@@ -1312,7 +1243,7 @@ namespace SporeMods.Manager
 				string logPath = Path.Combine(Settings.LogsPath, logFileName);*/
 
 
-				output += "\n\n" + Settings.GetLanguageString(0, "ModsFailedToInstall");
+				output += "\n\n" + GetLocalizedString("Mods!FinishNotify!Failure!Content");
 
 				for (int i = 0; (i < e.Failures.Count) && (i < 5); i++)
 				{
@@ -1320,14 +1251,14 @@ namespace SporeMods.Manager
 				}
 
 				if (e.Failures.Count > 5)
-					output += Settings.GetLanguageString(0, "ModsFailedToInstall2");
+					output += GetLocalizedString("Mods!FinishNotify!Failure!AndMore");
 
 				/*foreach (string s in e.Failures.Keys)
 				{
 					logOutput += e.Failures + ": " + e.Failures[s].ToString() + "\n\n\n\n\n";
 				}*/
 
-				////////output += "\n\n" + Settings.GetLanguageString(0, "ModsFailedToInstall3").Replace("%LOGFILEPATH%", logPath);
+				////////output += "\n\n" + Settings.GetLanguageString("ModsFailedToInstall3").Replace("%LOGFILEPATH%", logPath);
 
 				/*if ((!string.IsNullOrEmpty(logOutput)) && (!string.IsNullOrWhiteSpace(logOutput)))
 				{
@@ -1336,7 +1267,7 @@ namespace SporeMods.Manager
 			}
 
 			Window.GetWindow(this).Activate();
-			MessageBox.Show(output, Settings.GetLanguageString("TasksCompleted"));
+			MessageBox.Show(output, GetLocalizedString("Mods!FinishNotify!Header"));
 		}
 
 		void zShowCompletionMessage(ModInstallationStatus status)
@@ -1347,7 +1278,7 @@ namespace SporeMods.Manager
 				foreach (string s in status.Successes)
 					output += s + "\n\n";
 
-				CommonUI.MessageDisplay.ShowMessageBox(output, Settings.GetLanguageString(0, "ModsInstalledSuccessfully"));
+				CommonUI.MessageDisplay.ShowMessageBox(output, GetLocalizedString("ModsInstalledSuccessfully"));
 			}
 			if (status.AnyFailed)
 			{
@@ -1362,23 +1293,23 @@ namespace SporeMods.Manager
 					if (status.Failures[s] is UnsupportedXmlModIdentityVersionException exc)
 					{
 						if (exc.BadVersion == ModIdentity.UNKNOWN_MOD_VERSION)
-							output += Settings.GetLanguageString(3, "CantParseIdentityVersion") + "\n\n\n\n";
+							output += GetLocalizedString("Mods!Error!Identity!CantParseIdentityVersion") + "\n\n\n\n";
 						else
-							output += Settings.GetLanguageString(3, "UnsupportedIdentityVersion").Replace("%VERSION%", exc.BadVersion.ToString()) + "\n\n\n\n";
+							output += GetLocalizedString("Mods!Error!Identity!UnsupportedIdentityVersion").Replace("%VERSION%", exc.BadVersion.ToString()) + "\n\n\n\n";
 					}
 					else if (status.Failures[s] is UnsupportedDllsBuildException ex)
 					{
 						if (ex.BadVersion == ModIdentity.UNKNOWN_MOD_VERSION)
-							output += Settings.GetLanguageString(3, "CantParseDllsBuild") + "\n\n\n\n";
+							output += GetLocalizedString("Mods!Error!Identity!CantParseDllsBuild") + "\n\n\n\n";
 						else
-							output += Settings.GetLanguageString(3, "UnsupportedDllsBuild").Replace("%VERSION%", ex.BadVersion.Major + "." + ex.BadVersion.Minor + "." + ex.BadVersion.Build) + "\n\n\n\n";
+							output += GetLocalizedString("Mods!Error!Identity!UnsupportedDllsBuild").Replace("%VERSION%", ex.BadVersion.Major + "." + ex.BadVersion.Minor + "." + ex.BadVersion.Build) + "\n\n\n\n";
 					}
 					else if (status.Failures[s] is MissingXmlModIdentityAttributeException exce)
 					{
 						if (exce.Attribute == null)
-							output += Settings.GetLanguageString(3, "NoIdentityVersion");
+							output += GetLocalizedString("Mods!Error!Identity!NoIdentityVersion");
 						else
-							output += Settings.GetLanguageString(3, "IdentityMissingAttribute").Replace("%ATTRIBUTE%", exce.Attribute);
+							output += GetLocalizedString("Mods!Error!Identity!IdentityMissingAttribute").Replace("%ATTRIBUTE%", exce.Attribute);
 					}
 					else if (status.Failures[s] is FormatException fEx)
 					{
@@ -1391,7 +1322,7 @@ namespace SporeMods.Manager
 				}
 
 				if (!output.IsNullOrEmptyOrWhiteSpace())
-					SporeMods.CommonUI.MessageDisplay.ShowMessageBox(output, Settings.GetLanguageString(0, "ModsFailedToInstall"));
+					SporeMods.CommonUI.MessageDisplay.ShowMessageBox(output, GetLocalizedString("Mods!FinishNotify!Failure!Content"));
 			}
 		}
 
@@ -1681,10 +1612,10 @@ namespace SporeMods.Manager
 			}*/
 		}
 
-		private void HelpThreadButton_Click(object sender, RoutedEventArgs e)
+		/*private void HelpThreadButton_Click(object sender, RoutedEventArgs e)
 		{
 			OpenUrl(@"https://github.com/Splitwirez/Spore-Mod-Manager/issues/new?assignees=&labels=bug&template=bug_report.md&title="); //@"http://davoonline.com/phpBB3/viewtopic.php?f=108&t=6300");
-		}
+		}*/
 
 		public void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
@@ -2030,7 +1961,7 @@ namespace SporeMods.Manager
 			}
 		}
 
-		string _lastDLL = string.Empty;
+		/*string _lastDLL = string.Empty;
 		private void AddSideloadCoreDllsButton_Click(object sender, RoutedEventArgs e)
 		{
 			OpenFileDialog dialog = new OpenFileDialog()
@@ -2082,75 +2013,84 @@ namespace SporeMods.Manager
 		{
 			InstallDLLWhereContentControl.IsOpen = false;
 			Core.Injection.CoreDllRetriever.InstallOverrideDll(_lastDLL, GameInfo.GameExecutableType.Disk__1_5_1);
-		}
+		}*/
 
 		private void ForceKillSporeButton_Click(object sender, RoutedEventArgs e)
 		{
-			if (MessageBox.Show(Settings.GetLanguageString("ForceKillConfirmDesc"), Settings.GetLanguageString("ForceKillConfirmTitle"), MessageBoxButton.YesNo) == MessageBoxResult.Yes)//(bool)(MessageBox<ForcecloseCancelButtons>.Show(Settings.GetLanguageString("ForceKillConfirmDesc"), Settings.GetLanguageString("ForceKillConfirmTitle"))))
+			if (MessageBox.Show(GetLocalizedString("SporeIsOpen!ForceClose!Content"), GetLocalizedString("SporeIsOpen!ForceClose!Header"), MessageBoxButton.YesNo) == MessageBoxResult.Yes)//(bool)(MessageBox<ForcecloseCancelButtons>.Show(Settings.GetLanguageString("ForceKillConfirmDesc"), Settings.GetLanguageString("ForceKillConfirmTitle"))))
 				SporeLauncher.KillSporeProcesses();
 		}
 
-		private void SendFeedbackButton_Click(object sender, RoutedEventArgs e)
-		{
-			
-		}
+        private void ChoosePreferredMonitorButton_Click(object sender, RoutedEventArgs e)
+        {
+			ChooseMonitorContentControl.IsOpen = true;
 
-		private void AskQuestionButton_Click(object sender, RoutedEventArgs e)
-		{
-			OpenUrl(@"https://github.com/Splitwirez/Spore-Mod-Manager/issues/new?assignees=&labels=question&template=question.md&title=");
-		}
 
-		private void SuggestFeatureButton_Click(object sender, RoutedEventArgs e)
-		{
-			OpenUrl(@"https://github.com/Splitwirez/Spore-Mod-Manager/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=");
-		}
+			var win = Window.GetWindow(this);
+			double left = (int)SystemScaling.WpfUnitsToRealPixels(win.Left);
+			double top = (int)SystemScaling.WpfUnitsToRealPixels(win.Top);
+			var monitors = Core.Injection.NativeMethods.AllMonitors;
 
-		private void ReportBugButton_Click(object sender, RoutedEventArgs e)
-		{
-			OpenUrl(@"https://github.com/Splitwirez/Spore-Mod-Manager/issues/new?assignees=&labels=bug&template=bug_report.md&title=");
-		}
+			List<Window> monitorWindows = new List<Window>();
 
-		void OpenUrl(string url)
-		{
-			WineHelper.OpenUrl(url, App.DragServantProcess);
-			/*if ((App.DragServantProcess != null) && (!App.DragServantProcess.HasExited))
-				File.WriteAllText(Path.Combine(Settings.TempFolderPath, "OpenUrl"), url);
-			else if (Settings.NonEssentialIsRunningUnderWine)
+			for (int i = 0; i < monitors.Count; i++)
 			{
-				DockPanel panel = new DockPanel();
-				TextBox content = new TextBox()
+				var monitor = monitors[i];
+				var bounds = monitor.rcMonitor;
+				var workArea = monitor.rcWork;
+				/*if (
+						(left >= bounds.Left) &&
+						(top >= bounds.Top) &&
+						(left < bounds.Right) &&
+						(top < bounds.Bottom)
+					)
+                {*/
+
+				Button monButton = new Button()
 				{
-					Text = url,
-					IsReadOnly = true
+					Content = GetLocalizedString("Settings!Window!OverrideWindowMode!ChooseMonitor!SelectButton"),
+					Margin = new Thickness(4)
 				};
-				TextBlock instruction = new TextBlock()
+				TextBlock.SetTextAlignment(monButton, TextAlignment.Center);
+
+				monButton.Click += (s, e) =>
 				{
-					Text = Settings.GetLanguageString("CopyUrlIntoBrowser")
+					Settings.PreferredBorderlessMonitor = $"{bounds.Left},{bounds.Top},{bounds.Right},{bounds.Bottom}";
+					ChooseMonitorContentControl.IsOpen = false;
 				};
-				DockPanel.SetDock(instruction, Dock.Top);
-
-				panel.Children.Add(instruction);
-				panel.Children.Add(content);
-
-				new Window()
+				
+				ShadowedWindow monWin = new ShadowedWindow()
 				{
-					Content = panel
-				}.ShowDialog();
+					Width = 128,
+					Height = 128,
+					Left = SystemScaling.RealPixelsToWpfUnits(workArea.Left + 32),
+					Top = SystemScaling.RealPixelsToWpfUnits(workArea.Bottom - 160),
+					Topmost = true,
+					ShowInAltTab = false,
+					ShowInTaskbar = false,
+					ShowActivated = false,
+					Content = monButton
+				};
+				monWin.Show();
 
-				/*Process.Start(new ProcessStartInfo(url)
-				{
-					UseShellExecute = true
-				});*/
-			/*string outPath = Path.Combine(Settings.ProgramDataPath, "url.txt");
-			File.WriteAllText(outPath, url);
-			Permissions.GrantAccessFile(outPath);
-			Process.Start(new ProcessStartInfo(outPath)
+				monitorWindows.Add(monWin);
+				//MessageBox.Show(monitorOut, monitors.IndexOf(monitor).ToString());
+				//Settings.PreferredBorderlessMonitor = monitorOut;
+				//}
+			}
+
+			void ChooseMonitorContentControl_IsVisibleChanged(object sneder, DependencyPropertyChangedEventArgs args)
 			{
-				UseShellExecute = true
-			});*/
+				foreach (Window win in monitorWindows)
+					win.Close();
+
+				ChooseMonitorContentControl.IsVisibleChanged -= ChooseMonitorContentControl_IsVisibleChanged;
+			}
+
+			ChooseMonitorContentControl.IsVisibleChanged += ChooseMonitorContentControl_IsVisibleChanged;
 		}
 
-		/*public class ForcecloseCancelButtons : IMessageBoxActionSet
+        /*public class ForcecloseCancelButtons : IMessageBoxActionSet
 		{
 			public IEnumerable<object> Actions => new List<object>
 			{
@@ -2166,5 +2106,5 @@ namespace SporeMods.Manager
 			else
 				return Settings.GetLanguageString("DontForceKillSpore");
 		}*/
-	}
+    }
 }

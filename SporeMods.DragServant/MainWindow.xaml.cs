@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using static Mechanism.Wpf.Core.NativeMethods;
 //using CompositingWindow = Mechanism.Wpf.Core.Windows.CompositingWindow;
 using SporeMods.Core;
+using SporeMods.CommonUI.Localization;
 using System.Diagnostics;
 
 namespace SporeMods.DragServant
@@ -31,33 +32,67 @@ namespace SporeMods.DragServant
 			//Hide();
 			/*ShowInTaskbar = false;
 			ShowActivated = false;*/
-			IsVisibleChanged += (sneder, args) =>
+			//this.SizeChanged  += (sneder, args) => RefreshText();
+
+			/*RootGrid.IsVisibleChanged += (sneder, args) =>
 			{
-				if (args.NewValue is bool val) 
-				{
-					if (val)
-					{
-						DropModsHereTextBlock.Text = Settings.GetLanguageString("DropModsHereInstruction");
-						RootGrid.Visibility = Visibility.Visible;
-					}
-					else
-						RootGrid.Visibility = Visibility.Collapsed;
-				}
-			};
+				if (args.NewValue is bool val)
+					RefreshText(val);
+			};*/
 
 			Activated += (sneder, args) => SetStyles();
 		}
 
+		/*int count = 0;
+		public static void RefreshText()
+        {
+			/*
+			//Settings.ReparseSettingsDoc();
+			Language lang = LanguageManager.Instance.CurrentLanguage;
+			lang = LanguageManager.Instance.CurrentLanguage;
+			//DropModsHereTextBlock.Text = LanguageManager.Instance.GetLocalizedText("DontRunAsAdmin") + " " + count + "\n" + (lang != null ? lang.DisplayName : "NO IT REALLY IS NULL") + "\n" + LanguageManager.Instance.Languages.Count + " LANGUAGES" + "\n" + LanguageManager.Instance.Languages.First().DisplayName + "\n" + Settings.GetElementValue("CurrentLanguageCode");
+			count++;
+			//MessageBox.Show(lang != null ? lang.DisplayName : "NO IT REALLY IS NULL");
+			*
+			//LanguageManager.Instance.TryRefreshWpfResources();
+			//DropModsHereTextBlock.Text = LanguageManager.Instance.GetLocalizedText("DontRunAsAdmin");
+		}*/
+
+		public void RefreshText(string text)
+		{
+			DropModsHereTextBlock.Text = text;
+		}
+
+		/*protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
+        {
+            base.OnRenderSizeChanged(sizeInfo);
+			RefreshText();
+        }*/
+
 		protected override void OnSourceInitialized(EventArgs e)
 		{
 			base.OnSourceInitialized(e);
+			//var _ = LanguageManager.Instance.CurrentLanguage;
 			_winHandle = new WindowInteropHelper(this).EnsureHandle();
 			SetStyles();
+
+			//NativeMethods.SetWindowLong(Handle, NativeMethods.GwlStyle, NativeMethods.GetWindowLong(Handle, NativeMethods.GwlStyle).ToInt32() & ~(0x00000000 | 0x00C00000 | 0x00800000 | 0x00080000 | 0x00040000));
+			////////HwndSource.FromHwnd(_winHandle).AddHook(new HwndSourceHook(WndProc));
 			//SetWindowLong(_winHandle, GwlExstyle, (Int32)(GetWindowLong(_winHandle, GwlExstyle)) | WsExToolwindow | WsExNoActivate);
 			//Hide();
 			//Path.Combine(Settings.TempFolderPath, "LaunchGame")
 		}
 
+		/*IntPtr WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, ref Boolean handled)
+		{
+			if (msg == 0x0018)
+            {
+				RefreshText();
+            }
+			handled = false;
+			return IntPtr.Zero;
+		}*/
+			
 		void SetStyles()
 		{
 			//SetWindowLong(_winHandle, GwlExstyle, (Int32)(GetWindowLong(_winHandle, GwlExstyle)) | ~WsExToolwindow);
@@ -74,6 +109,17 @@ namespace SporeMods.DragServant
 
 		private void Window_PreviewDrop(object sender, DragEventArgs e)
 		{
+			/*foreach (ResourceDictionary dict in App.Current.Resources.MergedDictionaries)
+			{
+				string outp = string.Empty;
+				foreach (object h in dict.Keys)
+				{
+					outp += h.ToString() + ",          " + dict[h] + "\n";
+				}
+				MessageBox.Show(outp, dict.ToString());
+			}*/
+
+
 			if (e.Data.GetDataPresent(DataFormats.FileDrop))
 			{
 				string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
