@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
+	<PropertyGroup>
+		<AssemblyTitle>Launch Spore</AssemblyTitle>
+		<AssemblyName>Launch Spore</AssemblyName>
+	</PropertyGroup>
+	<PropertyGroup>
+		<ApplicationIcon>..\..\build\AppIcons\ModLauncherIcon.ico</ApplicationIcon>
+	</PropertyGroup>
+	<ItemGroup>
+		<Content Include="..\..\build\AppIcons\ModLauncherIcon.ico">
+			<Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+			<LogicalName>ModLauncherIcon.ico</LogicalName>
+		</Content>
+	</ItemGroup>
+	<Import Project="..\..\build\Shared.props" />
+	<Import Project="..\..\build\OutputDirs.props" />
+	<ItemGroup>
+		<ProjectReference Include="..\SporeMods.Core\SporeMods.Core.csproj"/>
+		<ProjectReference Include="..\SporeMods.CommonUI\SporeMods.CommonUI.csproj"/>
+	</ItemGroup>
+</Project>

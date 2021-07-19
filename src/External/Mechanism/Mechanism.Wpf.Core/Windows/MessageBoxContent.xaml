@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="Mechanism.Wpf.Core.Windows.MessageBoxContent"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ui="clr-namespace:Mechanism.Wpf.Core"
+             xmlns:local="clr-namespace:Mechanism.Wpf.Core.Windows"
+             mc:Ignorable="d"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}" HorizontalAlignment="Center" VerticalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True">
+    <DockPanel>
+        <ListView x:Name="ButtonsListView" Style="{DynamicResource MessageBoxButtonsListViewStyle}" ItemsSource="{Binding Actions}" DockPanel.Dock="Bottom" SelectionMode="Single">
+            <ui:AttachedProperties.CornerCurves>
+                <ui:CornerCurves TopLeft="False" TopRight="False"/>
+            </ui:AttachedProperties.CornerCurves>
+        </ListView>
+        <ContentControl x:Name="IconContentControl" Style="{DynamicResource MessageBoxIconContentControlStyle}"/>
+        <!-- Style="{DynamicResource MessageBoxIconContentControlStyle}"-->
+        <TextBlock x:Name="BodyTextBlock" TextWrapping="Wrap" Style="{DynamicResource MessageBoxBodyTextBlockStyle}"/>
+        <!--Margin="100,50"-->
+    </DockPanel>
+</UserControl>

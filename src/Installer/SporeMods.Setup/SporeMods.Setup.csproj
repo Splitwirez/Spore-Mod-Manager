@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop" TreatAsLocalProperty="PublishSingleFile">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
+	<PropertyGroup>
+		<AssemblyTitle>SporeMods.Setup</AssemblyTitle>
+	</PropertyGroup>
+	
+	<PropertyGroup Condition="'$(PublishSingleFile)' != 'true'">
+		<AssemblyName>updater--dotnet-core--3.1.12</AssemblyName>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(PublishSingleFile)' == 'true'">
+		<DefineConstants>OFFLINE_INSTALLER</DefineConstants>
+		<AssemblyName>SporeModManagerSetup</AssemblyName>
+	</PropertyGroup>
+	
+	<PropertyGroup>
+		<ApplicationIcon>..\..\..\build\AppIcons\ModManagerSetupIcon.ico</ApplicationIcon>
+	</PropertyGroup>
+	<ItemGroup>
+		<Content Include="..\..\..\build\AppIcons\ModManagerSetupIcon.ico">
+			<Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+			<LogicalName>ModManagerSetupIcon.ico</LogicalName>
+		</Content>
+	</ItemGroup>
+	<Import Project="..\..\..\build\Shared.props" />
+	<ItemGroup>
+		<ProjectReference Include="..\..\SporeMods.Core\SporeMods.Core.csproj"/>
+		<ProjectReference Include="..\..\SporeMods.CommonUI\SporeMods.CommonUI.csproj"/>
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="..\..\..\build\UnpackagedBin\SelfContained\**">
+			<Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+			<LogicalName>smm-bin?%(RecursiveDir)%(Filename)%(Extension)</LogicalName>
+		</EmbeddedResource>
+	</ItemGroup>
+</Project>

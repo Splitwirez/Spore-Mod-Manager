@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+	<PropertyGroup>
+		<TargetFramework>net45</TargetFramework>
+		<OutputType>WinExe</OutputType>
+		<OutputPath>bin\$(Configuration)\</OutputPath>
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
+	<PropertyGroup>
+		<AssemblyTitle>SporeMods.KitUpgradeDownloader</AssemblyTitle>
+		<AssemblyName>ModAPIUpdateSetup</AssemblyName>
+	</PropertyGroup>
+	<PropertyGroup>
+		<ApplicationIcon>..\..\..\build\AppIcons\ModManagerSetupIcon.ico</ApplicationIcon>
+	</PropertyGroup>
+	<ItemGroup>
+		<Content Include="..\..\..\build\AppIcons\ModManagerSetupIcon.ico">
+			<Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+			<LogicalName>ModManagerSetupIcon.ico</LogicalName>
+		</Content>
+	</ItemGroup>
+	<Import Project="..\..\..\build\Version.props" />
+	<Import Project="..\..\..\build\ArchitectureTargets.props" />
+	<ItemGroup>
+		<None Include="app.config" />
+	</ItemGroup>
+	<ItemGroup>
+		<Resource Include="Fonts\Ubuntu-Regular.ttf" /> 
+		<Resource Include="Fonts\UFL.txt" />
+	</ItemGroup>
+</Project>
+<!--Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <Import Project="..\SporeMods.SharedAssemblyInfo.props" />
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+	  <UseWPF>true</UseWPF>
+	  <AssemblyTitle>SporeMods.KitUpgradeDownloader</AssemblyTitle>
+    <Product>SporeMods.KitUpgradeDownloader</Product>
+	  <TargetFramework>net45</TargetFramework>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <AssemblyName>ModAPIUpdateSetup</AssemblyName>
+    <ApplicationIcon>..\AppIcons\ModManagerSetupIcon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="..\AppIcons\ModManagerSetupIcon.ico">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <LogicalName>ModManagerSetupIcon.ico</LogicalName>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Fonts\Ubuntu-Regular.ttf" /> 
+    <Resource Include="Fonts\UFL.txt" />
+  </ItemGroup>
+</Project-->

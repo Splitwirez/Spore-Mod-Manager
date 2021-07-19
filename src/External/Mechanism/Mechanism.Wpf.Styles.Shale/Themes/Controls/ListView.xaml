@@ -1,0 +1,196 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:ui="clr-namespace:Mechanism.Wpf.Core;assembly=Mechanism.Wpf.Core"
+            xmlns:conv="clr-namespace:Mechanism.Wpf.Core.Converters;assembly=Mechanism.Wpf.Core"
+            xmlns:win="clr-namespace:Mechanism.Wpf.Core.Windows;assembly=Mechanism.Wpf.Core"
+            xmlns:uib="clr-namespace:Mechanism.Wpf.Core.Behaviors;assembly=Mechanism.Wpf.Core"
+            xmlns:beh="http://schemas.microsoft.com/xaml/behaviors">
+    <conv:CornerCurvesToCornerRadiusConverter x:Key="CornerCurvesToCornerRadiusConverter"/>
+
+    <Style x:Key="{x:Type ListView}" TargetType="ListView">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource {x:Type ListViewItem}}"/>
+        <!--Setter Property="uib:ScrollAnimationBehavior.IsEnabled" Value="True"/>
+        <Setter Property="uib:ScrollAnimationBehavior.TimeDuration" Value="00:00:00.20"/>
+        <Setter Property="uib:ScrollAnimationBehavior.EasingFunction">
+            <Setter.Value>
+                <CubicEase EasingMode="EaseOut"/>
+            </Setter.Value>
+        </Setter-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListView">
+                    <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}">
+                        <ScrollViewer x:Name="PART_ScrollViewer" uib:ScrollAnimationBehavior.IsEnabled="{TemplateBinding uib:ScrollAnimationBehavior.IsEnabled}" uib:ScrollAnimationBehavior.TimeDuration="{TemplateBinding uib:ScrollAnimationBehavior.TimeDuration}" uib:ScrollAnimationBehavior.EasingFunction="{TemplateBinding uib:ScrollAnimationBehavior.EasingFunction}">
+                            <!--Style="{DynamicResource {x:Static GridView.GridViewScrollViewerStyleKey}}"-->
+                            <ItemsPresenter />
+                        </ScrollViewer>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsGrouping" Value="True">
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{x:Type ListViewItem}" TargetType="ListViewItem">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Padding" Value="5"/>
+        <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
+        <Setter Property="ui:AttachedProperties.CornerCurves">
+            <Setter.Value>
+                <ui:CornerCurves TopLeft="False" TopRight="False" BottomRight="False" BottomLeft="False"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListViewItem">
+                    <Grid Background="#01000000">
+                        <Border x:Name="HoverBackground" CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonHoverBorderBrush}" BorderThickness="1" Opacity="0">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonHoverBackgroundGradientStops}"/>
+                            </Border.Background>
+                            <Border x:Name="HoverInnerBackground" CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,2,2,2;0,0,0,0'}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonHoverSecondaryBackgroundGradientStops}"/>
+                                </Border.Background>
+                            </Border>
+                        </Border>
+                        <Border x:Name="SelectedBackground" CornerRadius="{Binding CornerRadius, ElementName=HoverBackground}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonPressedBorderBrush}" BorderThickness="1" Opacity="0">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedBackgroundGradientStops}"/>
+                            </Border.Background>
+                            <Border CornerRadius="{Binding CornerRadius, ElementName=HoverInnerBackground}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedSecondaryBackgroundGradientStops}"/>
+                                </Border.Background>
+                            </Border>
+                        </Border>
+                        <Grid HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}">
+                            <ContentPresenter x:Name="PART_ContentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Visibility="Collapsed"/>
+                            <GridViewRowPresenter x:Name="PART_GridViewRowPesenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Visibility="Visible" />
+                        </Grid>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="GridView.ColumnCollection" Value="{x:Null}">
+                            <Setter TargetName="PART_ContentPresenter" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="PART_GridViewRowPesenter" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="HoverBackground" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.0625" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="HoverBackground" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.5" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="SelectedBackground" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.125" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="SelectedBackground" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.5" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ListViewItemStyle" TargetType="ListViewItem" BasedOn="{StaticResource {x:Type ListViewItem}}"/>
+
+    <Style x:Key="CardListViewItemStyle" TargetType="ListViewItem" BasedOn="{StaticResource {x:Type ListViewItem}}">
+        <Setter Property="Padding" Value="10"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListViewItem">
+                    <ControlTemplate.Resources>
+                        <CubicEase x:Key="ScalingEase" EasingMode="EaseOut"/>
+                    </ControlTemplate.Resources>
+                    <Grid x:Name="RootGrid" Background="#01000000">
+                        <Grid x:Name="BackgroundGrid" Margin="10" RenderTransformOrigin="0.5,0.5" Effect="{DynamicResource TertiaryDropShadow}" UseLayoutRounding="True">
+                            <Border x:Name="SizingAid" Background="#01000000"/>
+                            <Border x:Name="BackgroundBorder" BorderBrush="Transparent" BorderThickness="0" CornerRadius="3" ClipToBounds="True" UseLayoutRounding="True">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.75" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
+                                </Border.Background>
+                                <Grid>
+                                    <Border x:Name="SelectedBorder" BorderBrush="Transparent" BorderThickness="0" CornerRadius="3" ClipToBounds="True" UseLayoutRounding="True" Opacity="0">
+                                        <Border.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.75" GradientStops="{DynamicResource CardListViewSelectedBackgroundGradientStops}"/>
+                                        </Border.Background>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}" Focusable="False" UseLayoutRounding="True"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ThicknessAnimation Storyboard.TargetName="BackgroundGrid" Storyboard.TargetProperty="Margin" To="5" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ThicknessAnimation Storyboard.TargetName="BackgroundGrid" Storyboard.TargetProperty="Margin" To="10" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="SelectedBorder" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="SelectedBorder" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

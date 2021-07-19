@@ -1,0 +1,203 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:conv="clr-namespace:Mechanism.Wpf.Core.Converters;assembly=Mechanism.Wpf.Core">
+    <conv:SolidColorBrushToColorConverter x:Key="SolidColorBrushToColorConverter"/>
+
+    <!--DropShadowEffect x:Key="DropShadow" Color="Black" Direction="270" ShadowDepth="3" BlurRadius="7.5" Opacity="0.5" />
+    <DropShadowEffect x:Key="SecondaryDropShadow" Color="Black" Direction="270" ShadowDepth="10" BlurRadius="20" Opacity="0.5"/>
+    <DropShadowEffect x:Key="TertiaryDropShadow" Color="Black" Direction="270" ShadowDepth="4" BlurRadius="8.5" Opacity="0.5"/>
+    <GradientStopCollection x:Key="ShadowGradientStops">
+        <GradientStop Offset="0" Color="#40000000"/>
+        <GradientStop Offset="1" Color="#00000000"/>
+    </GradientStopCollection>
+    <SolidColorBrush x:Key="ShadowCornerBorderBrush">#40000000</SolidColorBrush>
+    <SolidColorBrush x:Key="ModalPanelBackdropBrush">#C0000000</SolidColorBrush-->
+
+    <RadialGradientBrush x:Key="DialogFadeGradientBrush" GradientOrigin="0.5,0.5" Center="0.5,0.5">
+        <RadialGradientBrush.GradientStops>
+            <GradientStop Offset="0.25" Color="#60000000"/>
+            <GradientStop Offset="1.25" Color="#C0000000"/>
+        </RadialGradientBrush.GradientStops>
+    </RadialGradientBrush>
+    <!--SolidColorBrush x:Key="WindowBackgroundBrush">#FFCCCCCC</SolidColorBrush-->
+    <GradientStopCollection x:Key="WindowBackgroundGradientStops">
+        <GradientStop Offset="0" Color="#FFCCCCCC"/>
+        <GradientStop Offset="1" Color="#FFBEBEBE"/>
+    </GradientStopCollection>
+    <SolidColorBrush x:Key="WindowBorderBrush">#FF555555</SolidColorBrush>
+    <SolidColorBrush x:Key="WindowForegroundBrush">Black</SolidColorBrush>
+
+    <SolidColorBrush x:Key="TitlebarBorderBrush">#FF9B9B9B</SolidColorBrush>
+    <SolidColorBrush x:Key="TitlebarIdleForegroundBrush">#FFCBCBCB</SolidColorBrush>
+    <SolidColorBrush x:Key="TitlebarHoverForegroundBrush">White</SolidColorBrush>
+    <SolidColorBrush x:Key="TitlebarPressedForegroundBrush">#FF606060</SolidColorBrush>
+    <SolidColorBrush x:Key="TitlebarInactiveIdleForegroundBrush">#7FCBCBCB</SolidColorBrush>
+    <GradientStopCollection x:Key="TitlebarActiveGradientStops">
+        <GradientStop Offset="0" Color="#FF575757"/>
+        <GradientStop Offset="1" Color="#FF454545"/>
+    </GradientStopCollection>
+    <GradientStopCollection x:Key="TitlebarInactiveGradientStops">
+        <GradientStop Offset="0" Color="#FF7B7B7B"/>
+        <GradientStop Offset="1" Color="#FF6B6B6B"/>
+    </GradientStopCollection>
+
+    <SolidColorBrush x:Key="ButtonForegroundBrush">#FF333333</SolidColorBrush>
+    <GradientStopCollection x:Key="ButtonBackgroundGradientStops">
+        <GradientStop Offset="0" Color="#FFE0E0E0"/>
+        <GradientStop Offset="1" Color="#FFCCCCCC"/>
+        <!--GradientStop Offset="0" Color="#FFEEEEEE"/>
+        <GradientStop Offset="1" Color="#FFDADADA"/-->
+    </GradientStopCollection>
+    <SolidColorBrush x:Key="ButtonIdleBorderBrush">#FFB5B5B5</SolidColorBrush>
+    <GradientStopCollection x:Key="ButtonIdleBackgroundGradientStops">
+        <GradientStop Offset="0" Color="#FFEEEEEE"/>
+        <GradientStop Offset="1" Color="#FFDADADA"/>
+        <!--GradientStop Offset="0" Color="#FFFCFCFC"/>
+        <GradientStop Offset="1" Color="#FFE2E2E2"/-->
+    </GradientStopCollection>
+    <SolidColorBrush x:Key="ButtonHoverBorderBrush">#FFCECECE</SolidColorBrush>
+    <GradientStopCollection x:Key="ButtonHoverBackgroundGradientStops">
+        <GradientStop Offset="0" Color="#FFFFFFFF"/>
+        <GradientStop Offset="1" Color="#FFFBFBFB"/>
+    </GradientStopCollection>
+    <GradientStopCollection x:Key="ButtonHoverSecondaryBackgroundGradientStops">
+        <GradientStop Offset="0" Color="#FFF2F2F2"/>
+        <GradientStop Offset="1" Color="#FFE9E9E9"/>
+    </GradientStopCollection>
+    <SolidColorBrush x:Key="ButtonDisabledBorderBrush">#FF9D9D9D</SolidColorBrush>
+    <SolidColorBrush x:Key="ButtonDisabledBackgroundBrush">#FFE6E6E6</SolidColorBrush>
+    <SolidColorBrush x:Key="ButtonDisabledSecondaryBackgroundBrush">#FFC6C6C6</SolidColorBrush>
+    <SolidColorBrush x:Key="ButtonDisabledForegroundBrush">#7F000000</SolidColorBrush>
+
+    <GradientStopCollection x:Key="HorizontalPanelBackgroundGradientStops">
+        <GradientStop Offset="0" Color="#FFFDFDFD"/>
+        <GradientStop Offset="1" Color="#FFE7E7E7"/>
+    </GradientStopCollection>
+    <SolidColorBrush x:Key="HorizontalPanelBorderBrush">#FFB5B5B5</SolidColorBrush>
+
+    <GradientStopCollection x:Key="VerticalPanelBackgroundGradientStops">
+        <GradientStop Offset="0" Color="#FFF1F1F1"/>
+        <GradientStop Offset="1" Color="#FFDEDEDE"/>
+    </GradientStopCollection>
+    <SolidColorBrush x:Key="VerticalPanelBorderBrush">#FFB5B5B5</SolidColorBrush>
+
+    <SolidColorBrush x:Key="TabItemIdleBorderBrush">#FF909090</SolidColorBrush>
+    <GradientStopCollection x:Key="TabItemIdleBackgroundGradientStops">
+        <GradientStop Offset="0" Color="#FFDCDCDC"/>
+        <GradientStop Offset="1" Color="#FFC2C2C2"/>
+    </GradientStopCollection>
+    <SolidColorBrush x:Key="TabItemHoverBorderBrush">#FFCECECE</SolidColorBrush>
+    <GradientStopCollection x:Key="TabItemHoverBackgroundGradientStops">
+        <GradientStop Offset="0" Color="#FFDCDCDC"/>
+        <GradientStop Offset="1" Color="#FFC2C2C2"/>
+    </GradientStopCollection>
+    <SolidColorBrush x:Key="TabItemPressedBorderBrush">#FFB0B0B0</SolidColorBrush>
+    <GradientStopCollection x:Key="TabItemPressedBackgroundGradientStops">
+        <GradientStop Offset="0" Color="#FFF7F7F7"/>
+        <GradientStop Offset="1" Color="#FFDDDDDD"/>
+    </GradientStopCollection>
+    <GradientStopCollection x:Key="TabItemPressedSecondaryBackgroundGradientStops">
+        <GradientStop Offset="0" Color="#FFE9E9E9"/>
+        <GradientStop Offset="1" Color="{Binding Background, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TabControl}}, Converter={StaticResource SolidColorBrushToColorConverter}}"/>
+    </GradientStopCollection>
+
+    <SolidColorBrush x:Key="TabControlBorderBrush">#FFB0B0B0</SolidColorBrush>
+    <GradientStopCollection x:Key="TabControlSecondaryBackgroundGradientStops">
+        <GradientStop Offset="0" Color="#FFDDDDDD"/>
+        <GradientStop Offset="1" Color="#FFC2C2C2"/>
+    </GradientStopCollection>
+
+    <SolidColorBrush x:Key="StatusBarForegroundBrush">Black</SolidColorBrush>
+
+    <GradientStopCollection x:Key="TabItemIdleSecondaryBackgroundGradientStops">
+        <GradientStop Offset="0" Color="#FFEEEEEE"/>
+        <GradientStop Offset="1" Color="#FFFFFFFF"/>
+    </GradientStopCollection>
+
+    <GradientStopCollection x:Key="TextBoxIdleBackgroundGradientStops">
+        <GradientStop Offset="0" Color="#FFF9F9F9"/>
+        <GradientStop Offset="1" Color="#FFFFFFFF"/>
+    </GradientStopCollection>
+    <SolidColorBrush x:Key="TextBoxForegroundBrush">Black</SolidColorBrush>
+
+    <GradientStopCollection x:Key="ProgressBarTrackBackgroundGradientStops">
+        <GradientStop Offset="0" Color="#FFD3D3D3"/>
+        <GradientStop Offset="1" Color="#FFF0F0F0"/>
+    </GradientStopCollection>
+
+    <SolidColorBrush x:Key="ComboBoxForegroundBrush">Black</SolidColorBrush>
+
+    <SolidColorBrush x:Key="ScrollBarLineUpButtonBackgroundBrush">#FFEEEEEE</SolidColorBrush>
+    <SolidColorBrush x:Key="ScrollBarLineDownButtonBackgroundBrush">#FFDADADA</SolidColorBrush>
+
+    <SolidColorBrush x:Key="ToggleSwitchForegroundBrush">Black</SolidColorBrush>
+
+    <GradientStopCollection x:Key="DarkIconGradientStops">
+        <GradientStop Offset="0" Color="#FF333333"/>
+        <GradientStop Offset="1" Color="Black"/>
+    </GradientStopCollection>
+
+    <GradientStopCollection x:Key="DarkIconGradientStops2">
+        <GradientStop Offset="0" Color="#FF666666"/>
+        <GradientStop Offset="1" Color="#FF333333"/>
+    </GradientStopCollection>
+
+    <GradientStopCollection x:Key="DarkIconGradientStops3">
+        <GradientStop Offset="0" Color="#FF999999"/>
+        <GradientStop Offset="1" Color="#FF666666"/>
+    </GradientStopCollection>
+
+    <GradientStopCollection x:Key="LightIconGradientStops">
+        <GradientStop Offset="0" Color="White"/>
+        <GradientStop Offset="1" Color="#FFCCCCCC"/>
+    </GradientStopCollection>
+
+    <GradientStopCollection x:Key="RedIconGradientStops">
+        <GradientStop Offset="0" Color="#FFAA0000"/>
+        <GradientStop Offset="1" Color="#FF770000"/>
+        <!--GradientStop Offset="0" Color="#FF990000"/>
+        <GradientStop Offset="1" Color="#FF660000"/-->
+    </GradientStopCollection>
+
+    <GradientStopCollection x:Key="GreenIconGradientStops">
+        <GradientStop Offset="0" Color="#FF00AA00"/>
+        <GradientStop Offset="1" Color="#FF007700"/>
+        <!--GradientStop Offset="0" Color="#FF006600"/>
+        <GradientStop Offset="1" Color="#FF003300"/-->
+    </GradientStopCollection>
+
+    <SolidColorBrush x:Key="ErrorTextBrush">#FFAA0000</SolidColorBrush>
+
+    <SolidColorBrush x:Key="RedButtonBorderBrush">#FFB58888</SolidColorBrush>
+    <GradientStopCollection x:Key="RedButtonBackgroundGradientStops">
+        <GradientStop Offset="0" Color="#FFEEB3B3"/>
+        <GradientStop Offset="1" Color="#FFDAA4A4"/>
+    </GradientStopCollection>
+    <GradientStopCollection x:Key="RedButtonSecondaryBackgroundGradientStops">
+        <GradientStop Offset="0" Color="#FFE0A8A8"/>
+        <GradientStop Offset="1" Color="#FFCC9999"/>
+    </GradientStopCollection>
+
+    <!--coloures filters begin here-->
+    <SolidColorBrush x:Key="ButtonPressedBorderBrush" Color="{DynamicResource ButtonPressedBorderLightColor}"/>
+    <GradientStopCollection x:Key="ButtonPressedBackgroundGradientStops">
+        <GradientStop Offset="0" Color="{DynamicResource ButtonPressedBackgroundLightColor0}"/>
+        <GradientStop Offset="1" Color="{DynamicResource ButtonPressedBackgroundLightColor1}"/>
+    </GradientStopCollection>
+    <GradientStopCollection x:Key="ButtonPressedSecondaryBackgroundGradientStops">
+        <GradientStop Offset="0" Color="{DynamicResource ButtonPressedSecondaryBackgroundLightColor0}"/>
+        <GradientStop Offset="1" Color="{DynamicResource ButtonPressedSecondaryBackgroundLightColor1}"/>
+    </GradientStopCollection>
+
+    <GradientStopCollection x:Key="CardListViewSelectedBackgroundGradientStops">
+        <GradientStop Offset="0" Color="{DynamicResource CardListViewSelectedBackgroundLightColor0}"/>
+        <GradientStop Offset="1" Color="{DynamicResource CardListViewSelectedBackgroundLightColor1}"/>
+    </GradientStopCollection>
+
+    <SolidColorBrush x:Key="HoverHighlightBrush" Color="{DynamicResource HoverHighlightLightColor}"/>
+    <SolidColorBrush x:Key="SelectedHighlightBrush" Color="{DynamicResource SelectedHighlightLightColor}"/>
+    <SolidColorBrush x:Key="TabItemPressedFlashBackground" Color="{DynamicResource TabItemPressedFlashBackgroundLightColor}"/>
+    <SolidColorBrush x:Key="TabItemPressedFlashBorderBrush" Color="{DynamicResource TabItemPressedFlashBorderLightColor}"/>
+
+    <SolidColorBrush x:Key="CheckBoxTickBrush" Color="{DynamicResource CheckBoxTickLightColor}"/>
+</ResourceDictionary>

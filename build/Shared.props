@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+	<Import Project="RuntimeTargets.props" />
+	<Import Project="Version.props" />
+	<Import Project="ArchitectureTargets.props" />
+</Project>

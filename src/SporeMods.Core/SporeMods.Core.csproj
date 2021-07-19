@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+	</PropertyGroup>
+	<PropertyGroup>
+		<AssemblyTitle>SporeMods.Core</AssemblyTitle>
+	</PropertyGroup>
+	<Import Project="..\..\build\Shared.props" />
+	<Import Project="Packages.props" />
+	<ItemGroup>
+		<EmbeddedResource Include="Assets\CoreDLLs\SporeModAPI.lib" />
+		<EmbeddedResource Include="Assets\CoreDLLs\SporeModAPI.*.dll" />
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="Assets\LegacyCoreDLLs\*.dll" />
+	</ItemGroup>
+	
+	<PropertyGroup Condition="Exists('..\BuildType.txt')">
+		<DefineConstants>EXPLICIT_BUILD_TYPE</DefineConstants>
+	</PropertyGroup>
+	<ItemGroup Condition="Exists('..\BuildType.txt')">
+		<EmbeddedResource Include="..\BuildType.txt">
+			<LogicalName>BUILD_TYPE</LogicalName>
+		</EmbeddedResource>
+	</ItemGroup>
+	
+	<!--Don't worry if you don't have these files. You'll still be able to build and run the Spore Mod Manager without them.-->
+	<ItemGroup Condition="Exists('Assets\ModAPIFix\SporeApp_ModAPIFix.exe') And Exists('Assets\ModAPIFix\steam_api.dll')">
+		<EmbeddedResource Include="Assets\ModAPIFix\**">
+			<LogicalName>MODAPIFix\%(Filename)%(Extension)</LogicalName>
+		</EmbeddedResource>
+	</ItemGroup>
+</Project>

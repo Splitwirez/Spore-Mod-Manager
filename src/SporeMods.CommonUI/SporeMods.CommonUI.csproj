@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
+	<PropertyGroup>
+		<AssemblyTitle>SporeMods.CommonUI</AssemblyTitle>
+	</PropertyGroup>
+	<Import Project="..\..\build\Shared.props" />
+	<Import Project="..\..\build\OutputDirs.props" />
+	<Import Project="Packages.props" />
+	<ItemGroup>
+		<ProjectReference Include="..\SporeMods.Core\SporeMods.Core.csproj"/>
+		<ProjectReference Include="..\External\Mechanism\Mechanism.Wpf.Core\Mechanism.Wpf.Core.csproj"/>
+		<ProjectReference Include="..\External\Mechanism\Mechanism.Wpf.Styles.Shale\Mechanism.Wpf.Styles.Shale.csproj"/>
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="Localization\Languages\**" />
+	</ItemGroup>
+</Project>

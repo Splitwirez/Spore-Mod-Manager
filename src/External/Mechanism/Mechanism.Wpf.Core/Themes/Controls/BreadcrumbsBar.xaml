@@ -1,0 +1,65 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ui="clr-namespace:Mechanism.Wpf.Core"
+                    xmlns:bread="clr-namespace:Mechanism.Wpf.Core.Breadcrumbs">
+    <Style x:Key="{x:Type bread:BreadcrumbsBar}" TargetType="{x:Type bread:BreadcrumbsBar}">
+        <Setter Property="MinHeight" Value="24"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type bread:BreadcrumbsBar}">
+                    <Grid>
+                        <Button x:Name="PART_BackgroundButton" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Content="{Binding Path=(ui:AttachedProperties.Icon), RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                        <TextBox x:Name="PART_TextBox" Padding="{TemplateBinding Padding}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed" IsHitTestVisible="False"/>
+                        <StackPanel x:Name="PART_BreadcrumbsStackPanel" Margin="24,0,0,0" IsItemsHost="True" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="ui:AttachedProperties.Icon" Value="{x:Null}">
+                            <Setter TargetName="PART_BreadcrumbsStackPanel" Property="Margin" Value="0"/>
+                        </Trigger>
+                        <Trigger Property="ShowsPath" Value="True">
+                            <Setter TargetName="PART_BackgroundButton" Property="IsHitTestVisible" Value="False"/>
+                            <Setter TargetName="PART_BreadcrumbsStackPanel" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="PART_TextBox" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="PART_TextBox" Property="IsHitTestVisible" Value="True"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{x:Type bread:Breadcrumb}" TargetType="{x:Type bread:Breadcrumb}">
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type bread:Breadcrumb}">
+                    <Grid x:Name="Root" Background="LightGray">
+                        <Grid x:Name="ContentGrid">
+                            <DockPanel DockPanel.Dock="Top" Margin="{TemplateBinding Padding}">
+                                <ToggleButton x:Name="PART_ShowSubItemsToggleButton" DockPanel.Dock="Right" Margin="4,0,0,0" Content="\/" Foreground="{Binding Foreground,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type bread:Breadcrumb}}}"/>
+                                <ContentPresenter ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </DockPanel>
+                        </Grid>
+                        <Popup x:Name="ItemsPopup" IsOpen="{Binding IsChecked, Source={x:Reference PART_ShowSubItemsToggleButton}, FallbackValue=False}" StaysOpen="False" AllowsTransparency="True">
+                            <Grid Background="#01000000" MinWidth="{TemplateBinding ActualWidth}">
+                                <Border x:Name="DropDownBorder" Background="White" BorderBrush="Black" BorderThickness="1">
+                                    <ScrollViewer x:Name="PART_ScrollViewer" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                                        <StackPanel x:Name="PART_ItemsHost" IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Grid>
+                        </Popup>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger SourceName="ContentGrid" Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Root" Property="Background" Value="Red"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

@@ -1,0 +1,13 @@
+﻿<Window x:Class="SporeMods.Manager.ProgressDialog"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:local="clr-namespace:SporeMods.Manager"
+		mc:Ignorable="d"
+		Title="ProgressDialog" Height="450" Width="400" SizeToContent="Height" Loaded="OnLoad">
+	<StackPanel Orientation="Vertical" Margin="6">
+		<TextBlock x:Name="Status" IsEnabled="True"/>
+		<ProgressBar x:Name="DownloadProgress" Height="23" Minimum="0" Maximum="100" />
+	</StackPanel>
+</Window>

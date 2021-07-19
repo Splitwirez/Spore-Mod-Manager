@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+	<PropertyGroup>
+		<AssemblyVersion>1.7.7.2</AssemblyVersion>
+		<FileVersion>1.7.7.2</FileVersion>
+		
+		<Product>Spore Mod Manager</Product>
+	</PropertyGroup>
+</Project>

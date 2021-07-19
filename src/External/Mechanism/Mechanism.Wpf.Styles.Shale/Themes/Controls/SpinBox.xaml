@@ -1,0 +1,160 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:ui="clr-namespace:Mechanism.Wpf.Core;assembly=Mechanism.Wpf.Core"
+            xmlns:conv="clr-namespace:Mechanism.Wpf.Core.Converters;assembly=Mechanism.Wpf.Core"
+            xmlns:win="clr-namespace:Mechanism.Wpf.Core.Windows;assembly=Mechanism.Wpf.Core"
+            xmlns:uib="clr-namespace:Mechanism.Wpf.Core.Behaviors;assembly=Mechanism.Wpf.Core"
+            xmlns:beh="http://schemas.microsoft.com/xaml/behaviors">
+    <conv:CornerCurvesToCornerRadiusConverter x:Key="CornerCurvesToCornerRadiusConverter"/>
+
+    <Style x:Key="{x:Type ui:SpinBox}" TargetType="{x:Type ui:SpinBox}">
+        <Setter Property="Padding" Value="5"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextBoxForegroundBrush}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ui:SpinBox}">
+                    <ControlTemplate.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.MergedDictionaries>
+                                <ResourceDictionary Source="pack://application:,,,/Mechanism.Wpf.Styles.Shale;component/Themes/Controls/Button.xaml"/>
+                            </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+                    </ControlTemplate.Resources>
+                    <DockPanel>
+                        <UniformGrid MinWidth="20" Columns="1" DockPanel.Dock="Right">
+                            <RepeatButton x:Name="PART_IncrementButton">
+                                <ui:AttachedProperties.CornerCurves>
+                                    <ui:CornerCurves TopLeft="False" TopRight="{Binding Path=(ui:AttachedProperties.CornerCurves).TopRight, RelativeSource={RelativeSource Mode=TemplatedParent}}" BottomLeft="False" BottomRight="False"/>
+                                </ui:AttachedProperties.CornerCurves>
+                                <RepeatButton.Content>
+                                    <Path Data="M 0 4 L 8 4 L 4 0 Z" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=RepeatButton}}"/>
+                                </RepeatButton.Content>
+                            </RepeatButton>
+                            <RepeatButton x:Name="PART_DecrementButton">
+                                <ui:AttachedProperties.CornerCurves>
+                                    <ui:CornerCurves TopLeft="False" TopRight="False" BottomLeft="False" BottomRight="{Binding Path=(ui:AttachedProperties.CornerCurves).BottomRight, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                </ui:AttachedProperties.CornerCurves>
+                                <RepeatButton.Content>
+                                    <Path Data="M 0 0 L 8 0 L 4 4 Z" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=RepeatButton}}"/>
+                                </RepeatButton.Content>
+                            </RepeatButton>
+                        </UniformGrid>
+                        <TextBox x:Name="PART_ContentBox" Padding="{TemplateBinding Padding}" ui:AttachedProperties.CornerCurves="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                            <TextBox.Style>
+                                <Style TargetType="TextBox">
+                                    <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                                                <Grid>
+                                                    <Border x:Name="IdleBackground" CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,0,0,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1,1,0,1">
+                                                        <Border.Background>
+                                                            <LinearGradientBrush StartPoint="0,1" EndPoint="0,0" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
+                                                        </Border.Background>
+                                                        <Border x:Name="IdleInnerBackground" CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,0,0,2;0,0,0,0'}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
+                                                            <Border.Background>
+                                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource TextBoxIdleBackgroundGradientStops}"/>
+                                                            </Border.Background>
+                                                        </Border>
+                                                    </Border>
+                                                    <Border x:Name="HoverBackground" CornerRadius="{Binding CornerRadius, ElementName=IdleBackground}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonHoverBorderBrush}" BorderThickness="1,1,0,1" Opacity="0">
+                                                        <Border.Background>
+                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1"  GradientStops="{DynamicResource ButtonHoverBackgroundGradientStops}"/>
+                                                        </Border.Background>
+                                                        <Border CornerRadius="{Binding CornerRadius, ElementName=IdleInnerBackground}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
+                                                            <Border.Background>
+                                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource TextBoxIdleBackgroundGradientStops}"/>
+                                                            </Border.Background>
+                                                        </Border>
+                                                    </Border>
+                                                    <Border x:Name="PressedBackground" CornerRadius="{Binding CornerRadius, ElementName=IdleBackground}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonPressedBorderBrush}" BorderThickness="1,1,0,1" Opacity="0">
+                                                        <Border CornerRadius="{Binding CornerRadius, ElementName=IdleInnerBackground}" Margin="0" Padding="0" Background="Transparent" BorderThickness="1">
+                                                            <Border.BorderBrush>
+                                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedBackgroundGradientStops}"/>
+                                                            </Border.BorderBrush>
+                                                        </Border>
+                                                    </Border>
+                                                    <Border x:Name="DisabledBackground" CornerRadius="{Binding CornerRadius, ElementName=IdleBackground}" Margin="0" Padding="0" Background="{DynamicResource ButtonDisabledBackgroundBrush}" BorderBrush="{DynamicResource ButtonDisabledBorderBrush}" BorderThickness="1,1,0,1" Opacity="0">
+                                                        <Border CornerRadius="{Binding CornerRadius, ElementName=IdleInnerBackground}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0" Background="{DynamicResource ButtonDisabledSecondaryBackgroundBrush}"/>
+                                                    </Border>
+                                                    <ScrollViewer Margin="0" Padding="{TemplateBinding Padding}" x:Name="PART_ContentHost" VerticalAlignment="Center"/>
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ui:SpinBox}}}" Value="True">
+                                                        <DataTrigger.EnterActions>
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <DoubleAnimation Storyboard.TargetName="HoverBackground" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.125" />
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </DataTrigger.EnterActions>
+                                                        <DataTrigger.ExitActions>
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <DoubleAnimation Storyboard.TargetName="HoverBackground" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.5" />
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </DataTrigger.ExitActions>
+                                                    </DataTrigger>
+                                                    <Trigger Property="IsFocused" Value="True">
+                                                        <Trigger.EnterActions>
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <DoubleAnimation Storyboard.TargetName="PressedBackground"
+                                                         Storyboard.TargetProperty="Opacity" To="1"
+                                                         Duration="0:0:0.125" />
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </Trigger.EnterActions>
+                                                        <Trigger.ExitActions>
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <DoubleAnimation Storyboard.TargetName="PressedBackground"
+                                                         Storyboard.TargetProperty="Opacity" To="0"
+                                                         Duration="0:0:0.125" />
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </Trigger.ExitActions>
+                                                    </Trigger>
+                                                    <Trigger Property="IsEnabled" Value="False">
+                                                        <Trigger.EnterActions>
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <DoubleAnimation Storyboard.TargetName="DisabledBackground"
+                                                         Storyboard.TargetProperty="Opacity" To="0.5"
+                                                         Duration="0:0:0.125" />
+                                                                    <DoubleAnimation Storyboard.TargetName="PART_ContentHost"
+                                                         Storyboard.TargetProperty="Opacity" To="0.5"
+                                                         Duration="0:0:0.125" />
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </Trigger.EnterActions>
+                                                        <Trigger.ExitActions>
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <DoubleAnimation Storyboard.TargetName="DisabledBackground"
+                                                         Storyboard.TargetProperty="Opacity" To="0"
+                                                         Duration="0:0:0.125" />
+                                                                    <DoubleAnimation Storyboard.TargetName="PART_ContentHost"
+                                                         Storyboard.TargetProperty="Opacity" To="1"
+                                                         Duration="0:0:0.125" />
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </Trigger.ExitActions>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                        <!--ui:AttachedProperties.CornerCurves>
+                            <ui:CornerCurves TopLeft="True" TopRight="False" BottomRight="False" BottomLeft="True"/>
+                        </ui:AttachedProperties.CornerCurves-->
+                    </DockPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

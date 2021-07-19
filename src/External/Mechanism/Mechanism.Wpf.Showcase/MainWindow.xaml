@@ -1,0 +1,504 @@
+﻿<win:DecoratableWindow
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:local="clr-namespace:Mechanism.Wpf.Showcase"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="clr-namespace:Mechanism.Wpf.Core;assembly=Mechanism.Wpf.Core"
+        xmlns:uib="clr-namespace:Mechanism.Wpf.Core.Behaviors;assembly=Mechanism.Wpf.Core"
+        xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+        xmlns:win="clr-namespace:Mechanism.Wpf.Core.Windows;assembly=Mechanism.Wpf.Core"
+        xmlns:bread="clr-namespace:Mechanism.Wpf.Core.Breadcrumbs;assembly=Mechanism.Wpf.Core"
+        x:Class="Mechanism.Wpf.Showcase.MainWindow"
+        mc:Ignorable="d"
+        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
+        Title="MainWindow" Loaded="MainWindow_Loaded" TitlebarHeight="61" ShowFullscreenButton="True" AutohideTitlebarWhenFullscreen="True">
+    <win:DecoratableWindow.Resources>
+        <ResourceDictionary>
+            <Rectangle x:Key="SampleIcon" x:Shared="False" Width="56" Height="46">
+                <Rectangle.Fill>
+                    <VisualBrush>
+                        <VisualBrush.Visual>
+                            <Canvas>
+                                <Path Fill="#FFFDCB4D" StrokeThickness="0.09501125">
+                                    <Path.Data>
+                                        <PathGeometry Figures="m 1.2811266 294.57625 c -0.78620377 -1.00184 -1.18960333 -1.58697 -1.25670303 -1.83139 -0.14707392 -0.53575 0.39220596 -1.97512 1.02360683 -2.73207 0.1888273 -0.22638 0.4235478 -0.35816 0.8755619 -0.49157 0.3396652 -0.10021 0.8199704 -0.2545 1.067345 -0.34279 0.443516 -0.15829 0.4560706 -0.15726 0.9026068 0.0738 0.249059 0.12893 0.6879876 0.25848 0.9753965 0.28788 0.7124817 0.0728 2.5096081 0.66992 2.9636555 0.98458 0.4087456 0.28325 1.1747492 1.13193 1.4892911 1.65001 0.1856957 0.30586 0.2019217 0.46757 0.2022486 2.01565 3.799e-4 1.8963 0.056616 1.75937 -0.8072402 1.96613 -0.2612809 0.0626 -0.8812292 0.26781 -1.3776629 0.4562 -0.8233721 0.31242 -1.0068406 0.34658 -2.0902471 0.38127 -1.5634922 0.05 -2.8078586 -0.93957 -3.967859 -2.41774 z" FillRule="NonZero"/>
+                                    </Path.Data>
+                                </Path>
+                                <Path Fill="#FFEF9819" StrokeThickness="0.09501125">
+                                    <Path.Data>
+                                        <PathGeometry Figures="m 1.9493275 296.14268 c -0.2357845 -0.22584 -0.208393 -0.34098 -0.1590279 -0.77795 0.029956 -0.26516 0.013298 -0.66078 -0.037018 -0.87915 -0.1228 -0.53294 0.022802 -0.82794 0.4281565 -0.86747 0.3918784 -0.0382 0.6547106 0.22361 0.7987665 0.79571 0.060586 0.24061 0.1649281 0.45849 0.2318714 0.48418 0.066943 0.0257 0.817157 9.9e-4 1.6671413 -0.0549 1.333958 -0.0877 1.5752917 -0.082 1.763685 0.0414 0.3326318 0.21794 0.383683 0.57917 0.1213215 0.85845 -0.1978123 0.21056 -0.2927134 0.23226 -1.0154844 0.23226 -0.8966185 0 -1.2044979 0.10535 -1.1166292 0.38224 0.075528 0.23797 -0.1070248 0.64253 -0.3142339 0.64253 -0.090383 0 -0.3298157 -0.0887 -0.5320729 -0.19714 -0.2269568 -0.12167 -0.5000995 -0.20361 -0.6382679 -0.16894 -0.2817148 0.0707 -0.8582517 -0.16569 -1.1982078 -0.49132 z" FillRule="NonZero"/>
+                                    </Path.Data>
+                                </Path>
+                                <Path Fill="#FF684602" StrokeThickness="0.09501125">
+                                    <Path.Data>
+                                        <PathGeometry Figures="m 5.4865137 294.42224 c -0.6439019 -0.21437 -1.5277829 -0.70238 -1.8887892 -1.04286 -0.3848224 -0.36293 -0.4456241 -0.70309 -0.1702239 -0.95233 0.2543779 -0.23021 0.4717287 -0.19413 0.8543293 0.1418 0.4393997 0.3858 1.4414685 0.85366 1.9515308 0.91115 0.2469567 0.0278 0.5381288 -0.0132 0.7640488 -0.10759 0.7122899 -0.29761 1.146055 -0.14297 1.0850255 0.38682 -0.068034 0.5906 -1.6215531 0.98735 -2.5959213 0.66297 z m 0.3664835 -1.73223 c -0.3447037 -0.52609 0.2402038 -1.11099 0.7662881 -0.7663 0.2845981 0.18649 0.3331566 0.62431 0.095588 0.86188 -0.2375686 0.23758 -0.6754002 0.18901 -0.8618759 -0.0956 z m -3.169315 -1.27529 c -0.2282753 -0.22828 -0.2411833 -0.45475 -0.042118 -0.73896 0.3020285 -0.4312 0.9922305 -0.18707 0.9922305 0.35097 0 0.51833 -0.5820705 0.75603 -0.9501125 0.38799 z" FillRule="NonZero"/>
+                                    </Path.Data>
+                                </Path>
+                            </Canvas>
+                        </VisualBrush.Visual>
+                    </VisualBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+        </ResourceDictionary>
+    </win:DecoratableWindow.Resources>
+    <Grid Background="#01000000">
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal" Height="31" Margin="0,-30,0,0" Visibility="Collapsed">
+            <ToggleButton Style="{DynamicResource CaptionToggleButtonStyle}">CaptionToggleButtonStyle</ToggleButton>
+            <RepeatButton Style="{DynamicResource CaptionRepeatButtonStyle}">CaptionRepeatButtonStyle</RepeatButton>
+        </StackPanel>
+        <DockPanel>
+            <StatusBar DockPanel.Dock="Bottom">
+                <StatusBarItem>Enabled StatusBarItem</StatusBarItem>
+                <StatusBarItem IsEnabled="False">Disabled StatusBarItem</StatusBarItem>
+            </StatusBar>
+            <TabControl x:Name="MainTabControl" Style="{DynamicResource PrimaryTabControlStyle}">
+                <TabItem Header="Buttons">
+                    <DockPanel>
+                        <Menu DockPanel.Dock="Top">
+                            <MenuItem Header="File">
+                                <MenuItem Header="MenuItem 1"/>
+                                <MenuItem Header="MenuItem 2"/>
+                                <Separator/>
+                                <MenuItem Header="MenuItem 3"/>
+                            </MenuItem>
+                            <MenuItem Header="Edit">
+                                <MenuItem Header="MenuItem 4"/>
+                                <Separator/>
+                                <MenuItem Header="MenuItem 5"/>
+                                <MenuItem Header="MenuItem 6"/>
+                            </MenuItem>
+                        </Menu>
+                        <ScrollViewer>
+                            <ui:AttachedProperties.CornerCurves>
+                                <ui:CornerCurves TopLeft="False" TopRight="False" BottomRight="False" BottomLeft="False"/>
+                            </ui:AttachedProperties.CornerCurves>
+                            <UniformGrid Rows="1">
+                                <GroupBox Header="Enabled Controls">
+                                    <StackPanel Orientation="Vertical">
+                                        <UniformGrid Columns="2">
+                                            <Button Content="Normal Button" ui:AttachedProperties.CornerCurves="True,False,False,False">
+                                                <Button.ContextMenu>
+                                                    <ContextMenu>
+                                                        <MenuItem Header="AAAA"/>
+                                                        <MenuItem Header="BBBB" IsCheckable="True" IsChecked="True"/>
+                                                        <MenuItem Header="CCCC">
+                                                            <MenuItem Header="CAAA"/>
+                                                            <MenuItem Header="CBBB"/>
+                                                        </MenuItem>
+                                                    </ContextMenu>
+                                                </Button.ContextMenu>
+                                            </Button>
+                                            <Button x:Name="MessageBoxTestButton" Content="Click for MessageBox" Click="MessageBoxTestButton_Click" ui:AttachedProperties.CornerCurves="False,True,False,False" ui:AttachedProperties.BorderPresence="False,True,True,True"/>
+                                            <RepeatButton Content="RepeatButton" ui:AttachedProperties.CornerCurves="False" ui:AttachedProperties.BorderPresence="True,False,True,True"/>
+                                            <RepeatButton Content="RepeatButton" ui:AttachedProperties.CornerCurves="False" ui:AttachedProperties.BorderPresence="False,False,True,True"/>
+                                            <Button IsDefault="True" Content="Default Button" ui:AttachedProperties.CornerCurves="False" ui:AttachedProperties.BorderPresence="True,False,True,True"/>
+                                            <Button Content="Another Button" ui:AttachedProperties.CornerCurves="False" ui:AttachedProperties.BorderPresence="False,False,True,True"/>
+                                            <ToggleButton Content="ToggleButton" ui:AttachedProperties.CornerCurves="False,False,False,True" ui:AttachedProperties.BorderPresence="True,False,True,True"/>
+                                            <ToggleButton IsChecked="True" Content="Checked ToggleButton" ui:AttachedProperties.CornerCurves="False,False,True,False" ui:AttachedProperties.BorderPresence="False,False,True,True"/>
+                                            <ui:SpinBox>
+                                                <ui:AttachedProperties.CornerCurves>
+                                                    <ui:CornerCurves TopRight="False" BottomRight="False"/>
+                                                </ui:AttachedProperties.CornerCurves>
+                                            </ui:SpinBox>
+                                            <ui:SpinBox>
+                                                <ui:AttachedProperties.CornerCurves>
+                                                    <ui:CornerCurves TopLeft="False" BottomLeft="False"/>
+                                                </ui:AttachedProperties.CornerCurves>
+                                            </ui:SpinBox>
+                                        </UniformGrid>
+                                        <Rectangle Width="1" Height="40"/>
+                                        <ui:SplitButton Content="SplitButton">
+                                            <ui:SplitButton.FlyoutMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Header="A"/>
+                                                    <MenuItem Header="B"/>
+                                                    <MenuItem Header="C"/>
+                                                </ContextMenu>
+                                            </ui:SplitButton.FlyoutMenu>
+                                            <ui:SplitButton.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Header="D"/>
+                                                    <MenuItem Header="E"/>
+                                                    <MenuItem Header="F"/>
+                                                </ContextMenu>
+                                            </ui:SplitButton.ContextMenu>
+                                        </ui:SplitButton>
+                                        <Rectangle Width="1" Height="40"/>
+                                        <CheckBox Content="Normal CheckBox"/>
+                                        <CheckBox IsChecked="True" Content="Checked CheckBox"/>
+                                        <CheckBox IsThreeState="True" IsChecked="{x:Null}" Content="Null CheckBox"/>
+                                        <Rectangle Width="1" Height="40"/>
+                                        <RadioButton GroupName="NormalRadio" Content="Normal RadioButton"/>
+                                        <RadioButton GroupName="NormalRadio" IsChecked="True" Content="Checked RadioButton"/>
+                                        <ui:ActionBox WatermarkText="Normal" ButtonContent="ActionBox"/>
+                                    </StackPanel>
+                                </GroupBox>
+                                <GroupBox Header="Disabled Controls" IsEnabled="False">
+                                    <StackPanel>
+                                        <Button Content="Disabled Button"/>
+                                        <RepeatButton Content="Disabled RepeatButton"/>
+                                        <!--Button Style="{DynamicResource RoundButtonStyle}" Width="30" Height="30" Content="Disabled Round Button"/-->
+                                        <Button Visibility="Hidden" Content="Hidden Button"/>
+                                        <ToggleButton Content="Disabled ToggleButton"/>
+                                        <ToggleButton IsChecked="True" Content="Disabled Checked ToggleButton"/>
+                                        <ui:SpinBox/>
+
+                                        <Rectangle Width="1" Height="40"/>
+                                        <ui:SplitButton Content="Disabled SplitButton">
+                                            <ui:SplitButton.FlyoutMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Header="A"/>
+                                                    <MenuItem Header="B"/>
+                                                    <MenuItem Header="C"/>
+                                                </ContextMenu>
+                                            </ui:SplitButton.FlyoutMenu>
+                                            <ui:SplitButton.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Header="D"/>
+                                                    <MenuItem Header="E"/>
+                                                    <MenuItem Header="F"/>
+                                                </ContextMenu>
+                                            </ui:SplitButton.ContextMenu>
+                                        </ui:SplitButton>
+                                        <Rectangle Width="1" Height="40"/>
+                                        <CheckBox Content="Disabled CheckBox"/>
+                                        <CheckBox IsChecked="True" Content="Disabled Checked CheckBox"/>
+                                        <CheckBox IsThreeState="True" IsChecked="{x:Null}" Content="Disabled Null CheckBox"/>
+                                        <Rectangle Width="1" Height="40"/>
+                                        <RadioButton GroupName="DisabledRadio" Content="Disabled RadioButton"/>
+                                        <RadioButton GroupName="DisabledRadio" IsChecked="True" Content="Disabled Checked RadioButton"/>
+                                        <ui:SpinBox IsEnabled="False"/>
+                                        <ui:ActionBox WatermarkText="Disabled" ButtonContent="ActionBox" IsEnabled="False"/>
+                                    </StackPanel>
+                                </GroupBox>
+                            </UniformGrid>
+                        </ScrollViewer>
+                    </DockPanel>
+                </TabItem>
+                <TabItem Header="Boxes">
+                    <ScrollViewer>
+                        <ui:AttachedProperties.CornerCurves>
+                            <ui:CornerCurves TopLeft="False" TopRight="False" BottomRight="False" BottomLeft="False"/>
+                        </ui:AttachedProperties.CornerCurves>
+                        <UniformGrid Rows="1">
+                            <Expander Header="Enabled Boxes" IsExpanded="True">
+                                <StackPanel>
+                                    <bread:BreadcrumbsBar ItemsSource="{Binding SampleCrumbs}" PathUpdated="BreadcrumbsBar_PathUpdated" PathItemAdded="BreadcrumbsBar_PathItemAdded">
+                                        <bread:BreadcrumbsBar.ItemTemplate>
+                                            <HierarchicalDataTemplate DataType="{x:Type local:BreadcrumbDemo}" ItemsSource="{Binding SubItems}">
+                                                <TextBlock Text="{Binding Name}"/>
+                                                <!--HierarchicalDataTemplate.ItemTemplate>
+                                                    <DataTemplate DataType="{x:Type local:BreadcrumbDemo}">
+                                                        <TextBlock Text="{Binding Name}"/>
+                                                    </DataTemplate>
+                                                </HierarchicalDataTemplate.ItemTemplate-->
+                                            </HierarchicalDataTemplate>
+                                        </bread:BreadcrumbsBar.ItemTemplate>
+                                    </bread:BreadcrumbsBar>
+                                    <TextBlock x:Name="BreadcrumbsPathTextBlock"/>
+                                    <ComboBox IsEditable="True" SelectedIndex="0">
+                                        <ComboBoxItem Content="Editable ComboBox"/>
+                                        <ComboBoxItem Content="Editable ComboBox"/>
+                                        <ComboBoxItem Content="Editable ComboBox"/>
+                                    </ComboBox>
+                                    <ComboBox IsEditable="False" SelectedIndex="0">
+                                        <ComboBoxItem Content="Read-Only ComboBox"/>
+                                        <ComboBoxItem Content="Read-Only ComboBox"/>
+                                        <ComboBoxItem Content="Read-Only ComboBox"/>
+                                    </ComboBox>
+                                    <TextBox Text="TextBox"/>
+                                    <TextBox Height="50" Text="TextBox with non-standard height"/>
+                                    <ListBox>
+                                        <ListBoxItem Content="ListBox"/>
+                                        <ListBoxItem Content="ListBox"/>
+                                        <ListBoxItem Content="ListBox"/>
+                                    </ListBox>
+                                </StackPanel>
+                            </Expander>
+                            <Expander Header="Disabled Boxes" IsExpanded="True" IsEnabled="False">
+                                <StackPanel>
+                                    <ComboBox IsEditable="True" SelectedIndex="0">
+                                        <ComboBoxItem Content="Disabled Editable ComboBox"/>
+                                        <ComboBoxItem Content="Disabled Editable ComboBox"/>
+                                        <ComboBoxItem Content="Disabled Editable ComboBox"/>
+                                    </ComboBox>
+                                    <ComboBox IsEditable="False" SelectedIndex="0">
+                                        <ComboBoxItem Content="Disabled Read-Only ComboBox"/>
+                                        <ComboBoxItem Content="Disabled Read-Only ComboBox"/>
+                                        <ComboBoxItem Content="Disabled Read-Only ComboBox"/>
+                                    </ComboBox>
+                                    <TextBox Text="Disabled TextBox"/>
+                                    <TextBox Height="50" Text="Disabled TextBox with non-standard height"/>
+                                    <ListBox>
+                                        <ListBoxItem Content="Disabled ListBox"/>
+                                        <ListBoxItem Content="Disabled ListBox"/>
+                                        <ListBoxItem Content="Disabled ListBox"/>
+                                    </ListBox>
+                                </StackPanel>
+                            </Expander>
+                        </UniformGrid>
+                    </ScrollViewer>
+                </TabItem>
+                <TabItem Header="Smooth Scrolling">
+                    <UniformGrid Rows="1">
+                        <GroupBox Header="ScrollViewer Smoothing Options" Visibility="Collapsed">
+                            <StackPanel Orientation="Vertical">
+                                <CheckBox x:Name="EnableSmoothScrollingCheckBox" IsChecked="True">Enable Scroll Smoothing</CheckBox>
+                                <DockPanel>
+                                    <TextBlock Text="Animation type " DockPanel.Dock="Left"/>
+                                    <ComboBox x:Name="AnimationTypeComboBox" SelectedIndex="3">
+                                        <ComboBoxItem>None</ComboBoxItem>
+                                        <BackEase/>
+                                        <BounceEase/>
+                                        <CircleEase/>
+                                        <CubicEase/>
+                                        <ElasticEase/>
+                                        <ExponentialEase/>
+                                        <PowerEase/>
+                                        <QuadraticEase/>
+                                        <QuarticEase/>
+                                        <QuinticEase/>
+                                        <SineEase/>
+                                    </ComboBox>
+                                </DockPanel>
+                                <DockPanel>
+                                    <TextBlock Text="Easing mode " DockPanel.Dock="Left"/>
+                                    <ComboBox x:Name="EasingModeComboBox" SelectedIndex="1">
+                                        <ComboBoxItem>EaseIn</ComboBoxItem>
+                                        <ComboBoxItem>EaseOut</ComboBoxItem>
+                                        <ComboBoxItem>EaseInOut</ComboBoxItem>
+                                    </ComboBox>
+                                </DockPanel>
+                                <Border x:Name="TimeDurationBorder" BorderThickness="1,0,0,0" BorderBrush="Transparent">
+                                    <DockPanel>
+                                        <TextBlock Text="Time duration " DockPanel.Dock="Left"/>
+                                        <TextBox x:Name="TimeDurationTextBox"/>
+                                    </DockPanel>
+                                </Border>
+                            </StackPanel>
+                        </GroupBox>
+                        <ListView x:Name="SmoothScrollTestListView" Visibility="Collapsed">
+                            <ListViewItem>Item 1</ListViewItem>
+                            <ListViewItem>Item 2</ListViewItem>
+                            <ListViewItem>Item 3</ListViewItem>
+                            <ListViewItem>Item 4</ListViewItem>
+                            <ListViewItem>Item 5</ListViewItem>
+                            <ListViewItem>Item 6</ListViewItem>
+                            <ListViewItem>Item 7</ListViewItem>
+                            <ListViewItem>Item 8</ListViewItem>
+                            <ListViewItem>Item 9</ListViewItem>
+                            <ListViewItem>Item 10</ListViewItem>
+                            <ListViewItem>Item 11</ListViewItem>
+                            <ListViewItem>Item 12</ListViewItem>
+                            <ListViewItem>Item 13</ListViewItem>
+                            <ListViewItem>Item 14</ListViewItem>
+                            <ListViewItem>Item 15</ListViewItem>
+                            <ListViewItem>Item 16</ListViewItem>
+                            <ListViewItem>Item 17</ListViewItem>
+                            <ListViewItem>Item 18</ListViewItem>
+                            <ListViewItem>Item 19</ListViewItem>
+                            <ListViewItem>Item 20</ListViewItem>
+                            <ListViewItem>Item 21</ListViewItem>
+                            <ListViewItem>Item 22</ListViewItem>
+                            <ListViewItem>Item 23</ListViewItem>
+                            <ListViewItem>Item 24</ListViewItem>
+                            <ListViewItem>Item 25</ListViewItem>
+                            <ListViewItem>Item 26</ListViewItem>
+                            <ListViewItem>Item 27</ListViewItem>
+                            <ListViewItem>Item 28</ListViewItem>
+                            <ListViewItem>Item 29</ListViewItem>
+                            <ListViewItem>Item 30</ListViewItem>
+                            <ListViewItem>Item 31</ListViewItem>
+                            <ListViewItem>Item 32</ListViewItem>
+                            <ListViewItem>Item 33</ListViewItem>
+                            <ListViewItem>Item 34</ListViewItem>
+                            <ListViewItem>Item 35</ListViewItem>
+                            <ListViewItem>Item 36</ListViewItem>
+                            <ListViewItem>Item 37</ListViewItem>
+                            <ListViewItem>Item 38</ListViewItem>
+                            <ListViewItem>Item 39</ListViewItem>
+                            <ListViewItem>Item 40</ListViewItem>
+                        </ListView>
+                        <ListView>
+                            <ListViewItem>Item 0</ListViewItem>
+                            <ListViewItem>Item 1</ListViewItem>
+                            <ListViewItem>Item 2</ListViewItem>
+                            <ListViewItem>Item 3</ListViewItem>
+                            <ListViewItem>Item 4</ListViewItem>
+                            <ListViewItem>Item 5</ListViewItem>
+                            <ListViewItem>Item 6</ListViewItem>
+                            <ListViewItem>Item 7</ListViewItem>
+                            <ListViewItem>Item 8</ListViewItem>
+                            <ListViewItem>Item 9</ListViewItem>
+                            <ListViewItem>Item 10</ListViewItem>
+                            <ListViewItem>Item 11</ListViewItem>
+                            <ListViewItem>Item 12</ListViewItem>
+                            <ListViewItem>Item 13</ListViewItem>
+                            <ListViewItem>Item 14</ListViewItem>
+                            <ListViewItem>Item 15</ListViewItem>
+                            <ListViewItem>Item 16</ListViewItem>
+                            <ListViewItem>Item 17</ListViewItem>
+                            <ListViewItem>Item 18</ListViewItem>
+                            <ListViewItem>Item 19</ListViewItem>
+                            <ListViewItem>Item 20</ListViewItem>
+                            <ListViewItem>Item 21</ListViewItem>
+                            <ListViewItem>Item 22</ListViewItem>
+                            <ListViewItem>Item 23</ListViewItem>
+                            <ListViewItem>Item 24</ListViewItem>
+                            <ListViewItem>Item 25</ListViewItem>
+                            <ListViewItem>Item 26</ListViewItem>
+                            <ListViewItem>Item 27</ListViewItem>
+                            <ListViewItem>Item 28</ListViewItem>
+                            <ListViewItem>Item 29</ListViewItem>
+                            <ListViewItem>Item 30</ListViewItem>
+                            <ListViewItem>Item 31</ListViewItem>
+                            <ListViewItem>Item 32</ListViewItem>
+                            <ListViewItem>Item 33</ListViewItem>
+                            <ListViewItem>Item 34</ListViewItem>
+                            <ListViewItem>Item 35</ListViewItem>
+                            <ListViewItem>Item 36</ListViewItem>
+                            <ListViewItem>Item 37</ListViewItem>
+                            <ListViewItem>Item 38</ListViewItem>
+                            <ListViewItem>Item 39</ListViewItem>
+                        </ListView>
+                    </UniformGrid>
+                </TabItem>
+                <TabItem Header="Skin Settings" Visibility="Collapsed">
+                    <StackPanel Orientation="Vertical">
+                        <GroupBox Header="Current Skin">
+                            <StackPanel Orientation="Vertical">
+                                <ComboBox x:Name="SkinsComboBox" SelectedIndex="0">
+                                    <ComboBoxItem Content="Shale"/>
+                                    <ComboBoxItem Content="Plex"/>
+                                    <ComboBoxItem Content="E-DNA"/>
+                                    <Separator/>
+                                    <ComboBoxItem Content="Classic"/>
+                                    <ComboBoxItem Content="Luna Blue"/>
+                                    <ComboBoxItem Content="Luna Olive (NYI)" IsEnabled="False"/>
+                                    <ComboBoxItem Content="Luna Silver (NYI)" IsEnabled="False"/>
+                                    <ComboBoxItem Content="Royale (NYI)" IsEnabled="False"/>
+                                    <ComboBoxItem Content="Aero"/>
+                                    <ComboBoxItem Content="Aero2"/>
+                                    <ComboBoxItem Content="AeroLite"/>
+                                    <Separator/>
+                                </ComboBox>
+                                <DockPanel>
+                                    <TextBlock Text="Dictionary URI within assembly: " DockPanel.Dock="Left"/>
+                                    <TextBox x:Name="ExternalThemeUriTextBox" Text="PATH WITHIN ASSEMBLY TO XAML FILE HERE"/>
+                                </DockPanel>
+                                <Button x:Name="LoadExternalThemeButton" Content="Load External Resource Assembly" Click="LoadExternalThemeButton_Click"/>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="NOTE" Visibility="Collapsed">
+                            <TextBlock Text="These options aren't actually skin-defined (yet)."/>
+                        </GroupBox>
+                        <GroupBox Header="Colours" Visibility="Collapsed">
+                            <StackPanel Orientation="Vertical">
+                                <DockPanel>
+                                    <TextBlock Text="Hue" DockPanel.Dock="Left"/>
+                                    <Slider x:Name="ShaleHueSlider" Minimum="0" Maximum="360"/>
+                                </DockPanel>
+                                <DockPanel>
+                                    <TextBlock Text="Saturation" DockPanel.Dock="Left"/>
+                                    <Slider x:Name="ShaleSaturationSlider" Minimum="0" Maximum="100"/>
+                                </DockPanel>
+                                <DockPanel>
+                                    <TextBlock Text="Presets" DockPanel.Dock="Top"/>
+                                    <UniformGrid x:Name="ColouresPresetsGrid" Columns="16"/>
+                                </DockPanel>
+                                <ui:ToggleSwitch x:Name="LightsToggleSwitch" Content="Lights" IsChecked="True"/>
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                </TabItem>
+                <TabItem x:Name="RevealTestTabItem" Header="Reveal Test (Plex only)" Visibility="Collapsed" IsEnabled="False">
+                    <UniformGrid Background="{DynamicResource ToolbarBackgroundBrush}">
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">0</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">1</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">2</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">3</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">4</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">5</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">6</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">7</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">8</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">9</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">A</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">B</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">C</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">D</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">E</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">F</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">G</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">H</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">I</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">J</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">K</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">L</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">M</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">N</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">O</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">P</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">Q</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">R</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">S</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">T</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">U</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">V</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">W</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">X</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">Y</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">Z</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">!</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">@</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">#</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">$</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">%</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">^</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">&amp;</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">*</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">(</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">)</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">+</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">-</Button>
+                        <Button Style="{DynamicResource ToolbarButtonStyle}">=</Button>
+                    </UniformGrid>
+                </TabItem>
+            </TabControl>
+            <!--Grid Visibility="Collapsed">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+                <Button x:Name="CycleCompositionStateButton" Click="CycleCompositionStateButton_Click" Content="Cycle Composition State"/>
+                <TextBlock Background="White" Foreground="Red" x:Name="CurrentCompositionStateTextBlock"><Run Text="Alpha"/></TextBlock>
+            </StackPanel>
+            <DockPanel>
+                <StatusBar DockPanel.Dock="Bottom">
+                    <StatusBarItem Content="StatusBar"/>
+                </StatusBar>
+                <Grid DockPanel.Dock="Bottom">
+                    <Control Style="{DynamicResource ToolbarBackgroundControlStyle}"/>
+                    <ToolBarTray Style="{DynamicResource TransparentToolBarTray}">
+                        <ToolBar>
+                            <Button Content="Button"/>
+
+                            <ToggleButton Content="ToggleButton"/>
+                            <TextBox Text="TextBox"/>
+                            <TextBlock><Run Text="TextBlock"/></TextBlock>
+                            <ui:ToggleSwitch Content="ToggleSwitch"/>
+                            <Button Width="200" Content="Excessively wide Button"/>
+                        </ToolBar>
+                        <ToolBar>
+                            <Button Width="200" Content="Excessively wide Button"/>
+                            <Button Width="200" Content="Excessively wide Button"/>
+                        </ToolBar>
+                    </ToolBarTray>
+                </Grid>
+                <Grid DockPanel.Dock="Bottom" Background="White">
+                    <ui:ToggleSwitch x:Name="ThemeToggleSwitch" TrueText="Light" FalseText="Dark" HorizontalAlignment="Left" IsThreeState="False" Checked="ThemeToggleSwitch_Checked" Unchecked="ThemeToggleSwitch_Unchecked" IsChecked="True" Visibility="Collapsed" Content="Current Theme"/>
+                    <ui:ToggleSwitch TrueText="True" FalseText="False" HorizontalAlignment="Left" IsThreeState="False" Checked="ThemeToggleSwitch_Checked" Unchecked="ThemeToggleSwitch_Unchecked" IsChecked="True" Content="Title"/>
+                </Grid>
+            </DockPanel>
+        </Grid-->
+        </DockPanel>
+    </Grid>
+</win:DecoratableWindow>

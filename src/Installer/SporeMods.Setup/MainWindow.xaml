@@ -1,0 +1,137 @@
+﻿<Window x:Class="SporeMods.Setup.MainWindow"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:local="clr-namespace:SporeMods.Setup"
+		mc:Ignorable="d"
+		Title="{DynamicResource MainWindowTitle}" Width="600" Height="500" ResizeMode="CanMinimize" Closing="MainWindow_Closing" Style="{DynamicResource {x:Type Window}}">
+	<Grid x:Name="PagesGrid">
+		<DockPanel x:Name="WelcomeToUpgradePathPage" Visibility="Collapsed">
+			<Button x:Name="UpgradeOkButton" DockPanel.Dock="Bottom" Click="UpgradeOkButton_Click" Content="{DynamicResource Ok}"/>
+			<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+				<TextBlock Text="{DynamicResource TimeToUpgradeHeader}" FontSize="18" FontWeight="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+				<TextBlock Text="{DynamicResource TimeToUpgrade}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+			</StackPanel>
+		</DockPanel>
+		<DockPanel x:Name="LicensePage" Visibility="Collapsed">
+			<Button x:Name="LicenseNextButton" DockPanel.Dock="Bottom" IsEnabled="{Binding IsChecked, ElementName=PleaseReadTheTermsBeforeCheckingThis}" Click="LicenseNextButton_Click" Content="{DynamicResource Next}"/>
+			<CheckBox x:Name="PleaseReadTheTermsBeforeCheckingThis" Margin="10" DockPanel.Dock="Bottom" Content="{DynamicResource IAgreeToTheTerms}"/>
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="*"/>
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<TextBlock HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" Margin="10" FontWeight="Black" Grid.Row="0" Grid.Column="0" Text="{DynamicResource LegaleseAgreementHeader}"/>
+				<TextBlock HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" Margin="10" FontWeight="Black" Grid.Row="0" Grid.Column="1" Text="{DynamicResource HumanLanguageSummaryHeader}"/>
+				<ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+					<UniformGrid Rows="1">
+						<StackPanel Orientation="Vertical" Margin="10,0,5,0">
+							<TextBlock TextWrapping="Wrap">Copyright 2020 Splitwirez</TextBlock>
+							<TextBlock TextWrapping="Wrap" Margin="0,20,0,0">Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</TextBlock>
+							<TextBlock TextWrapping="Wrap" Margin="0,20,0,0">The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</TextBlock>
+							<TextBlock TextWrapping="Wrap" Margin="0,20,0,0">THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</TextBlock>
+						</StackPanel>
+						<StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1" Margin="5,0,10,0">
+							<GroupBox BorderBrush="#00C000">
+								<GroupBox.Header>
+									<TextBlock FontWeight="Bold" Text="{DynamicResource TermsYoureAllowedTo}"/>
+								</GroupBox.Header>
+								<StackPanel Orientation="Vertical">
+									<TextBlock Text="{DynamicResource TermsYoureAllowedTo1}" TextWrapping="Wrap" Margin="0,2"/>
+									<TextBlock Text="{DynamicResource TermsYoureAllowedTo2}" TextWrapping="Wrap" Margin="0,2"/>
+									<TextBlock Text="{DynamicResource TermsYoureAllowedTo3}" TextWrapping="Wrap" Margin="0,2"/>
+									<TextBlock Text="{DynamicResource TermsYoureAllowedTo4}" TextWrapping="Wrap" Margin="0,2"/>
+								</StackPanel>
+							</GroupBox>
+							<GroupBox Margin="0,10,0,0" BorderBrush="#C00000">
+								<GroupBox.Header>
+									<TextBlock FontWeight="Bold" Text="{DynamicResource TermsBeware}"/>
+								</GroupBox.Header>
+								<StackPanel Orientation="Vertical">
+									<TextBlock Text="{DynamicResource TermsBeware1}" TextWrapping="Wrap" Margin="0,2"/>
+									<TextBlock Text="{DynamicResource TermsBeware2}" TextWrapping="Wrap" Margin="0,2"/>
+								</StackPanel>
+							</GroupBox>
+							<GroupBox Margin="0,10,0,0" BorderBrush="#0000C0">
+								<GroupBox.Header>
+									<TextBlock FontWeight="Bold" Text="{DynamicResource TermsYouMust}"/>
+								</GroupBox.Header>
+								<StackPanel Orientation="Vertical">
+									<TextBlock Text="{DynamicResource TermsYouMust1}" TextWrapping="Wrap" Margin="0,2"/>
+								</StackPanel>
+							</GroupBox>
+							<GroupBox Margin="0,10,0,0" BorderBrush="#7F7F7F">
+								<GroupBox.Header>
+									<TextBlock FontWeight="Bold" Text="{DynamicResource TermsPleaseDo}"/>
+								</GroupBox.Header>
+								<StackPanel Orientation="Vertical">
+									<TextBlock Text="{DynamicResource TermsPleaseDo1}" TextWrapping="Wrap" Margin="0,2"/>
+									<TextBlock Text="{DynamicResource TermsPleaseDo2}" TextWrapping="Wrap" Margin="0,2"/>
+								</StackPanel>
+							</GroupBox>
+						</StackPanel>
+					</UniformGrid>
+				</ScrollViewer>
+			</Grid>
+		</DockPanel>
+		<DockPanel x:Name="InstallModePage" Visibility="Collapsed" Background="#01000000">
+			<TextBlock Margin="10" DockPanel.Dock="Bottom" Text="{DynamicResource InstallModeIdk}"/>
+			<UniformGrid Margin="25" Columns="1">
+				<Button x:Name="SimpleInstallButton" HorizontalContentAlignment="Left" Padding="20" Click="SimpleInstallButton_Click">
+					<StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+						<TextBlock TextAlignment="Left" FontWeight="Bold" Text="{DynamicResource InstallModeSimpleHeader}"/>
+						<TextBlock TextAlignment="Left" TextWrapping="Wrap" Opacity="0.5" Text="{DynamicResource InstallModeSimpleDesc}"/>
+					</StackPanel>
+				</Button>
+				<Button x:Name="AdvancedInstallButton" HorizontalContentAlignment="Left" Padding="20" Click="AdvancedInstallButton_Click">
+					<StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+						<!--TextBlock TextAlignment="Left" FontWeight="Bold">Coming soon!</TextBlock-->
+						<TextBlock TextAlignment="Left" FontWeight="Bold" Text="{DynamicResource InstallModeAdvancedHeader}"/>
+						<TextBlock TextAlignment="Left" TextWrapping="Wrap" Opacity="0.5" Text="{DynamicResource InstallModeAdvancedDesc}"/>
+					</StackPanel>
+				</Button>
+			</UniformGrid>
+		</DockPanel>
+		<DockPanel x:Name="SelectInstallPathPage" Visibility="Collapsed">
+			<Button x:Name="SelectInstallPathNextButton" DockPanel.Dock="Bottom" Click="SelectInstallPathNextButton_Click" Content="{DynamicResource Next}"/>
+			<StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="20">
+				<TextBlock VerticalAlignment="Center" Text="{DynamicResource InstallToWhere}" TextWrapping="Wrap"/>
+				<Border x:Name="SelectInstallPathBadPathBorder" BorderBrush="Red" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+					<DockPanel HorizontalAlignment="Stretch">
+						<TextBlock DockPanel.Dock="Bottom" x:Name="SelectInstallPathError" Foreground="Red" TextWrapping="Wrap"/>
+						<Button x:Name="SelectInstallPathBrowseButton" Click="SelectInstallPathBrowseButton_Click" DockPanel.Dock="Right" Content="{DynamicResource Browse}"/>
+						<Button x:Name="SelectInstallPathDefaultButton" Click="SelectInstallPathDefaultButton_Click" DockPanel.Dock="Left" Content="{DynamicResource Reset}"/>
+						<TextBox x:Name="SelectInstallPathTextBox" TextChanged="SelectInstallPathTextBox_TextChanged"/>
+					</DockPanel>
+				</Border>
+				<CheckBox x:Name="CreateDesktopShortcutsCheckBox" Content="{DynamicResource CreateDesktopShortcuts}" IsChecked="True" Checked="CreateDesktopShortcutsCheckBox_IsCheckedChanged" Unchecked="CreateDesktopShortcutsCheckBox_IsCheckedChanged"/>
+			</StackPanel>
+		</DockPanel>
+		<DockPanel x:Name="SelectStoragePathPage" Visibility="Collapsed">
+			<Button x:Name="SelectStoragePathNextButton" DockPanel.Dock="Bottom" Click="SelectStoragePathNextButton_Click" Content="{DynamicResource Next}"/>
+			<StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="20">
+				<TextBlock VerticalAlignment="Center" Text="{DynamicResource StoreConfigWhere}" TextWrapping="Wrap"/>
+				<Border x:Name="SelectStoragePathBadPathBorder" BorderBrush="Red" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+					<DockPanel HorizontalAlignment="Stretch">
+						<TextBlock DockPanel.Dock="Bottom" x:Name="SelectStoragePathError" Foreground="Red" TextWrapping="Wrap"/>
+						<Button x:Name="SelectStoragePathBrowseButton" Click="SelectStoragePathBrowseButton_Click" DockPanel.Dock="Right" Content="{DynamicResource Browse}"/>
+						<Button x:Name="SelectStoragePathDefaultButton" Click="SelectStoragePathDefaultButton_Click" DockPanel.Dock="Left" Content="{DynamicResource Reset}"/>
+						<TextBox x:Name="SelectStoragePathTextBox" TextChanged="SelectStoragePathTextBox_TextChanged"/>
+					</DockPanel>
+				</Border>
+			</StackPanel>
+		</DockPanel>
+		<Grid x:Name="InstallProgressPage" Visibility="Collapsed">
+			<ProgressBar x:Name="InstallProgressBar" VerticalAlignment="Center" Margin="20" Height="24"/>
+		</Grid>
+		<DockPanel x:Name="InstallCompletedPage" Visibility="Collapsed">
+			<Button x:Name="SuccessCloseButton" DockPanel.Dock="Bottom" Click="SuccessCloseButton_Click" Content="{DynamicResource Close}"/>
+			<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{DynamicResource InstallationComplete}"/>
+		</DockPanel>
+	</Grid>
+</Window>

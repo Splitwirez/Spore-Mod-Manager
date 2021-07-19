@@ -1,0 +1,13 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Mechanism.Wpf.Core;component/Themes/Controls/ActionBox.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Mechanism.Wpf.Core;component/Themes/Controls/BreadcrumbsBar.xaml"/>
+        <!--ResourceDictionary Source="pack://application:,,,/Mechanism.Wpf.Core;component/Themes/Controls/CommandBar.xaml"/-->
+        <ResourceDictionary Source="pack://application:,,,/Mechanism.Wpf.Core;component/Themes/Controls/Window.xaml"/>
+        <!--ResourceDictionary Source="pack://application:,,,/Mechanism.Wpf.Core;component/Themes/Controls/Menu.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Mechanism.Wpf.Core;component/Themes/Controls/Rearranger.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Mechanism.Wpf.Core;component/Themes/Controls/SpinBox.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Mechanism.Wpf.Core;component/Themes/Controls/ToggleSwitch.xaml"/-->
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

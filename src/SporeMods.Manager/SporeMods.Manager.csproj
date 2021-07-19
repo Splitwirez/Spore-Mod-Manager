@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
+	<PropertyGroup>
+		<AssemblyTitle>Spore Mod Manager</AssemblyTitle>
+		<AssemblyName>Spore Mod Manager</AssemblyName>
+	</PropertyGroup>
+	<PropertyGroup>
+		<ApplicationIcon>..\..\build\AppIcons\ModManagerIcon.ico</ApplicationIcon>
+	</PropertyGroup>
+	<ItemGroup>
+		<Content Include="..\..\build\AppIcons\ModManagerIcon.ico">
+			<Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+			<LogicalName>ModManagerIcon.ico</LogicalName>
+		</Content>
+	</ItemGroup>
+	<Import Project="..\..\build\Shared.props" />
+	<Import Project="..\..\build\OutputDirs.props" />
+	<Import Project="Packages.props" />
+	<ItemGroup>
+		<ProjectReference Include="..\SporeMods.Core\SporeMods.Core.csproj"/>
+		<ProjectReference Include="..\SporeMods.CommonUI\SporeMods.CommonUI.csproj"/>
+	</ItemGroup>
+</Project>

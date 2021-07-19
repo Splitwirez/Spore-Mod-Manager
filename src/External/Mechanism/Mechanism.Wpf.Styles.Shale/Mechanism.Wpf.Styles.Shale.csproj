@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<OutputPath>bin\$(Configuration)\</OutputPath>
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
+	<PropertyGroup>
+		<AssemblyTitle>Mechanism.Wpf.Styles.Shale</AssemblyTitle>
+	</PropertyGroup>
+	<Import Project="..\..\..\..\build\RuntimeTargets.props" />
+	<Import Project="..\..\..\..\build\ArchitectureTargets.props" />
+	<ItemGroup>
+		<Resource Include="Fonts\Ubuntu-*.ttf" />
+		<Resource Include="Fonts\UFL.txt" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Mechanism.Wpf.Core\Mechanism.Wpf.Core.csproj"/>
+	</ItemGroup>
+	<!--ItemGroup>
+		<!-TEMP->
+		<PackageReference Include="ColorMine" Version="1.1.3" />
+	</ItemGroup-->
+</Project>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+	<PropertyGroup>
+		<RuntimeIdentifier>win-x86</RuntimeIdentifier>
+		
+		<PlatformTarget>x86</PlatformTarget>
+		<ForceManagedImplementation>true</ForceManagedImplementation>
+	</PropertyGroup>
+	<Import Project="DebugTypes.props" />
+</Project>
