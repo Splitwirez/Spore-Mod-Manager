@@ -340,6 +340,10 @@ ASALocalRun/
 healthchecksdb
 Output
 [Uu]npackaged[Bb]in/
+
+# Spore Mod Manager-specific excludes
 /SporeMods.Launcher/ModAPIFix/SporeApp_ModAPIFix.exe
 /SporeMods.Launcher/ModAPIFix/steam_api.dll
-SporeModManagerSetup.e*
+SporeModManagerSetup.*
+ModAPIUpdateSetup.*
+BUILD_TO_USER_DIR
