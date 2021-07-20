@@ -9,6 +9,9 @@
 	<Import Project="..\..\build\Shared.props" />
 	<Import Project="Packages.props" />
 	<ItemGroup>
+		<ProjectReference Include="..\SporeMods.BaseTypes\SporeMods.BaseTypes.csproj" />
+	</ItemGroup>
+	<ItemGroup>
 		<EmbeddedResource Include="Assets\CoreDLLs\SporeModAPI.lib" />
 		<EmbeddedResource Include="Assets\CoreDLLs\SporeModAPI.*.dll" />
 	</ItemGroup>

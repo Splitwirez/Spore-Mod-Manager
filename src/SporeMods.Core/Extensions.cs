@@ -9,7 +9,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.ComponentModel;
 using Newtonsoft.Json;
-using SporeMods.Context;
 
 namespace SporeMods
 {

@@ -66,7 +66,7 @@ namespace SporeMods.Manager
 				{
 					if (Permissions.IsAtleastWindowsVista() && (!Permissions.IsAdministrator()))
 					{
-						if (CrossProcess.AreAnyOtherModManagersRunning)
+						if (MgrProcesses.AreAnyOtherModManagersRunning)
 						{
 							if (Environment.GetCommandLineArgs().Length > 1)
 							{
@@ -95,7 +95,7 @@ namespace SporeMods.Manager
 						};
 						//Permissions.ForwardDotnetEnvironmentVariables(ref UacMessengerStartInfo);
 						Process p = Process.Start(UacMessengerStartInfo);*/
-						Process p = CrossProcess.StartUacMessenger(/*Process.GetCurrentProcess().Id.ToString()*/);
+						Process p = MgrProcesses.StartUacMessenger(/*Process.GetCurrentProcess().Id.ToString()*/);
 						string args = Permissions.GetProcessCommandLineArgs();
 						args += " " + UacMessengerIdArg + p.Id;
 						if (!Environment.GetCommandLineArgs().Contains(UpdaterService.IgnoreUpdatesArg)) args += " " + UpdaterService.IgnoreUpdatesArg;
@@ -104,7 +104,7 @@ namespace SporeMods.Manager
 							//while (p.MainWindowHandle == IntPtr.Zero) { }
 
 							//Permissions.RerunAsAdministrator(args);
-							CrossProcess.RestartModManagerAsAdministrator(args);
+							MgrProcesses.RestartModManagerAsAdministrator(args);
 						}
 						catch (Exception ex)
 						{
@@ -151,7 +151,7 @@ namespace SporeMods.Manager
 							};
 							//Permissions.ForwardDotnetEnvironmentVariables(ref UacMessengerStartInfo);
 							UacMessengerProcess = Process.Start(UacMessengerStartInfo);*/
-							UacMessengerProcess = CrossProcess.StartUacMessenger();
+							UacMessengerProcess = MgrProcesses.StartUacMessenger();
 						}
 
 						if (proceed)

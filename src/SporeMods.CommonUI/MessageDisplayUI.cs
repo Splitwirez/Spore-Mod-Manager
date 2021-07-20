@@ -57,7 +57,7 @@ namespace SporeMods.CommonUI
 			ClipboardFallback fallback = new ClipboardFallback(instruction, content);
 			Window window = null;
 
-			if (Settings.UseCustomWindowDecorations)
+			if (false) //Settings.UseCustomWindowDecorations)
 			{
 				window = new DecoratableWindow();
 			}

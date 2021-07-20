@@ -1,5 +1,5 @@
-﻿using SporeMods.Injection;
-using SporeMods.Mods.Identity.V1;
+﻿using SporeMods.BaseTypes;
+using SporeMods.Core;
 using SporeMods.Utils;
 using System;
 using System.Collections.Generic;
@@ -14,16 +14,8 @@ using System.Windows;
 
 namespace SporeMods.CommonUI.Localization
 {
-    public class LanguageManager : NotifyPropertyChangedBase
+    public class LanguageManager : NOCSingleInstanceBase<LanguageManager>
     {
-        public static LanguageManager Instance { get; private set; }
-
-        static LanguageManager()
-        {
-            Instance = new LanguageManager();
-            Instance.FinishInit();
-        }
-
         static Language _canadianEnglish = null;
         public static Language CanadianEnglish
         {
@@ -40,8 +32,11 @@ namespace SporeMods.CommonUI.Localization
             CANADIAN_ENG_ID
         };
 
-        private LanguageManager()
+        public LanguageManager()
         {
+            _languages = AddProperty(nameof(Languages), new ObservableCollection<Language>());
+
+
             var allResNames = Assembly.GetExecutingAssembly().GetManifestResourceNames();
 
             _resNames = allResNames.Where(x => x.StartsWith(Language.LANG_RESOURCE_START)).ToList();
@@ -62,13 +57,16 @@ namespace SporeMods.CommonUI.Localization
             //_resNames.Add(CANADIAN_ENGLISH_RES);
 
 
-            if (Path.GetFileNameWithoutExtension(Process.GetCurrentProcess().MainModule.FileName).Equals(CrossProcess.MGR_EXE, StringComparison.OrdinalIgnoreCase))
+            bool doNormalStuff = true;
+            if (SmmProcesses.EnsureInstance().IsMgr)
             {
                 string hotReloadFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SMM");
                 string hotReloadPath = Path.Combine(hotReloadFolderPath, "te-st.txt");
 
                 if (File.Exists(hotReloadPath))
                 {
+                    doNormalStuff = false;
+
                     Language hotReload = new Language(hotReloadPath);
                     Languages.Add(hotReload);
                     CurrentLanguage = hotReload;
@@ -89,15 +87,17 @@ namespace SporeMods.CommonUI.Localization
                     });
                     hotReloadWatcher.EnableRaisingEvents = true;
                 }
-                else
-                {
-                    string ident = GetRoundedSystemLanguageIdentifier();
-                    var lang = Languages.FirstOrDefault(x => x.LanguageCode.Equals(ident, StringComparison.OrdinalIgnoreCase));
-                    if (lang == default(Language))
-                        lang = CanadianEnglish;
+            }
 
-                    CurrentLanguage = lang;
-                }
+
+            if (doNormalStuff)
+            {
+                string ident = GetRoundedSystemLanguageIdentifier();
+                var lang = Languages.FirstOrDefault(x => x.LanguageCode.Equals(ident, StringComparison.OrdinalIgnoreCase));
+                if (lang == default(Language))
+                    lang = CanadianEnglish;
+
+                CurrentLanguage = lang;
             }
 
             _writeCurrentLanguage = true;
@@ -109,13 +109,6 @@ namespace SporeMods.CommonUI.Localization
 
 
             //string currentCode = Settings.CurrentLanguageCode;
-
-            SporeLauncher.GetLocalizedString = GetLocalizedText;
-            XmlModIdentityV1.GetLocalizedString = GetLocalizedText;
-        }
-
-        void FinishInit()
-        {
         }
 
 
@@ -145,8 +138,8 @@ namespace SporeMods.CommonUI.Localization
                 target = CANADIAN_ENG_ID;
             return target;
         }
-        
-        
+
+
         /*string _osLangIdentifier = null;
         string zGetCurrentLanguageIdentifier()
         {
@@ -176,8 +169,8 @@ namespace SporeMods.CommonUI.Localization
 
             return Languages.Any(x => x.LanguageCode.Equals(ret, StringComparison.OrdinalIgnoreCase)) ? ret : "en-ca";
         }*/
-        
-        
+
+
         /*bool zTryGetPreferredLanguageForOS(out Language language)
         {
             Language lang = null;
@@ -216,33 +209,31 @@ namespace SporeMods.CommonUI.Localization
             return language != null;
         }*/
 
-        ObservableCollection<Language> _languages = new ObservableCollection<Language>();
+        NOCProperty<ObservableCollection<Language>> _languages;
         public ObservableCollection<Language> Languages
         {
-            get => _languages;
-            set
-            {
-                _languages = value;
-                NotifyPropertyChanged();
-            }
+            get => _languages.Value;
+            set => _languages.Value = value;
         }
 
         static readonly string _currentLanguageCode = "CurrentLanguageCode";
         Language _currentLanguage = null;
         bool _writeCurrentLanguage = false;
+
+        //NYI
         public Language CurrentLanguage
         {
-            get => _currentLanguage;
+            get => CanadianEnglish; //_currentLanguage;
             set
-            {
-                _currentLanguage = value;
+            { }
+                /*_currentLanguage = value;
 
                 if ((value != null) && (!value.IsExternalLanguage) && _writeCurrentLanguage)
                     Settings.SetElementValue(_currentLanguageCode, value.LanguageCode);
 
                 TryRefreshWpfResources();
                 NotifyPropertyChanged();
-            }
+            }*/
         }
 
         ResourceDictionary _prevLangDictionary = null;

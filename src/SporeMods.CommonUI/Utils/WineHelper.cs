@@ -1,5 +1,6 @@
 ﻿using SporeMods.CommonUI.Localization;
 using SporeMods.Context;
+using SporeMods.Core;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -26,7 +27,7 @@ namespace SporeMods.CommonUI.Utils
 
 		public static void OpenUrl(string url, Process UacMessenger)
 		{
-			string servantNoticePath = Path.Combine(Settings.TempFolderPath, "OpenUrl");
+			string servantNoticePath = Path.Combine(SmmStorage.Instance.TempPath, "OpenUrl");
 			if (Permissions.IsAdministrator() && (UacMessenger != null) && (!UacMessenger.HasExited))
 			{
 				try

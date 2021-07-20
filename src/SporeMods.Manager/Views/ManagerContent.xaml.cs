@@ -1080,7 +1080,7 @@ namespace SporeMods.Manager
 			if (Permissions.IsAtleastWindowsVista() && Permissions.IsAdministrator() && ((App.UacMessengerProcess != null) && (!App.UacMessengerProcess.HasExited)))
 				ServantCommands.RunLauncher();
 			else// if (!Permissions.IsAdministrator())
-				CrossProcess.StartLauncher();
+				MgrProcesses.StartLauncher();
 
 			_minimizeOnGameStart = true;
 		}

@@ -1,10 +1,9 @@
-﻿using System;
+﻿using SporeMods.Context;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using SporeMods.Context;
-using SporeMods.Mods.Identity;
 
 namespace SporeMods.Utils
 {
@@ -93,7 +92,7 @@ namespace SporeMods.Utils
 				File.Delete(targetPath);
 		}
 
-		public static string GetGameDirectory(ComponentGameDir dir, bool isLegacy)
+		/*public static string GetGameDirectory(ComponentGameDir dir, bool isLegacy)
 		{
 			if (dir == ComponentGameDir.GalacticAdventures)
 				return GameInfo.GalacticAdventuresData;
@@ -123,6 +122,6 @@ namespace SporeMods.Utils
 				return null;
 		}
 
-		
+		*/
 	}
 }

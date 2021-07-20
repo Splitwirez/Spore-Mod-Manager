@@ -31,7 +31,7 @@ namespace SporeMods.KitImporter
 				Updater.CheckForUpdates();
 				//Process process = Permissions.RerunAsAdministrator(false);
 
-				Process process = CrossProcess.StartLauncherKitImporterAsAdministrator();
+				Process process = MgrProcesses.StartLauncherKitImporterAsAdministrator();
 
 
 				process.WaitForExit();

@@ -147,7 +147,7 @@ namespace SporeMods.Launcher
 						}
 
 
-						if (!CrossProcess.AreAnyOtherSmmProcessesRunning)
+						if (!MgrProcesses.AreAnyOtherSmmProcessesRunning)
 						{
 							Updater.CheckForUpdates();
 						}

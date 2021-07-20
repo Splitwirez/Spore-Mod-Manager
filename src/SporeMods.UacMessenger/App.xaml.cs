@@ -42,7 +42,7 @@ namespace SporeMods.UacMessenger
 					{
 						case "LaunchGame":
 							if (!Environment.GetCommandLineArgs().Contains(UpdaterService.IgnoreUpdatesArg))
-								CrossProcess.StartLauncher();
+								MgrProcesses.StartLauncher();
 							break;
 						case "OpenUrl":
 							string path = File.ReadAllText(args.FullPath);
