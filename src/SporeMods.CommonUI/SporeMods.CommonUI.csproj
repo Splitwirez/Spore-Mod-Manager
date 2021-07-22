@@ -11,6 +11,7 @@
 	<Import Project="..\..\build\OutputDirs.props" />
 	<Import Project="Packages.props" />
 	<ItemGroup>
+    <ProjectReference Include="..\SporeMods.BaseTypes\SporeMods.BaseTypes.csproj"/>
 		<ProjectReference Include="..\SporeMods.Core\SporeMods.Core.csproj"/>
 		<ProjectReference Include="..\External\Mechanism\Mechanism.Wpf.Core\Mechanism.Wpf.Core.csproj"/>
 		<ProjectReference Include="..\External\Mechanism\Mechanism.Wpf.Styles.Shale\Mechanism.Wpf.Styles.Shale.csproj"/>

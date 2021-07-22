@@ -4,10 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:core="clr-namespace:SporeMods.Core;assembly=SporeMods.Core"
+        xmlns:cctx="clr-namespace:SporeMods.Core.Context;assembly=SporeMods.Core"
         xmlns:local="clr-namespace:SporeMods.TestingGrounds"
+        xmlns:v="clr-namespace:SporeMods.TestingGrounds.Views"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <TextBlock Text="{Binding MgrLastVersion, Source={x:Static core:SmmInfo.Instance}}"/>
-    </Grid>
+    <StackPanel Orientation="Vertical" DataContext="{x:Static cctx:AppPaths.Instance}">
+        <v:AppPathView Content="{Binding CoreSporeData}"/>
+        <v:AppPathView Content="{Binding GalacticAdventuresData}"/>
+        <v:AppPathView Content="{Binding SporebinEP1}"/>
+    </StackPanel>
 </Window>

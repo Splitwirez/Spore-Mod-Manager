@@ -8,7 +8,7 @@ using SporeMods.BaseTypes;
 
 namespace SporeMods.Core
 {
-    public class SmmStorage : NOCSingleInstanceBase<SmmStorage>
+    public class SmmStorage : NOCSingleInstanceObject<SmmStorage>
     {
         const string STORAGE_FOLDER_NAME = "SporeModManagerStorage";
         const string STORAGE_REDIR_NAME = "redirectStorage.txt";

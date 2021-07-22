@@ -26,7 +26,7 @@ namespace SporeMods.TestingGrounds
         {
             InitializeComponent();
             
-            SettingsTest();
+            //SettingsTest();
         }
 
 

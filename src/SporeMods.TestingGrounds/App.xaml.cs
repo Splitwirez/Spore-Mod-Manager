@@ -1,4 +1,5 @@
 ﻿using SporeMods.CommonUI;
+using SporeMods.CommonUI.Localization;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -16,10 +17,7 @@ namespace SporeMods.TestingGrounds
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            if (OnStartUp.Do())
-            {
-                base.OnStartup(e);
-            }
+            OnStartUp.EnsureAllGood(true, () => base.OnStartup(e));
         }
     }
 }

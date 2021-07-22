@@ -6,50 +6,32 @@ using System.Text;
 
 namespace SporeMods.BaseTypes
 {
-    public class NOCProperty<TVal> : INOCProperty
+    public class NOCProperty<TVal> : NOCPropertyBase
     {
-        internal NOCObjectBase Owner = null;
+        //internal NOCObject Owner = null;
 
-        TVal _value = default(TVal);
-
-        string _name;
-        public string Name
+        internal string _name;
+        public override string Name
         {
             get => _name;
-            internal set => _name = value;
         }
 
 
-        internal NOCProperty()
-        { }
-
-        public TVal Value
+        public NOCProperty(string name, TVal defaultValue = default(TVal))
         {
-            get => GetValue();
+            _name = name;
+            Value = defaultValue;
+        }
+
+        protected TVal _value = default(TVal);
+        public virtual TVal Value
+        {
+            get => _value;
             set
             {
-                if (SetValue(value))
-                    Refresh();
+                _value = value;
+                Notify();
             }
         }
-
-        protected virtual TVal GetValue() =>
-            _value;
-
-        protected virtual bool SetValue(TVal value)
-        {
-            _value = value;
-            return true;
-        }
-
-        public void Refresh()
-        {
-            Owner.NotifyPropertyChanged(_name);
-        }
-
-        /*CreateInstance<TValue, TOwner>(params object[] parameters) where TOwner : NotifyPropertyChangedBase
-        {
-            return new NCProperty<TValue, TOwner>(parameters[0].ToString(), (TValue)parameters[1]);
-        }*/
     }
 }

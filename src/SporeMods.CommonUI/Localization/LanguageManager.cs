@@ -14,7 +14,7 @@ using System.Windows;
 
 namespace SporeMods.CommonUI.Localization
 {
-    public class LanguageManager : NOCSingleInstanceBase<LanguageManager>
+    public class LanguageManager : NOCSingleInstanceObject<LanguageManager>
     {
         static Language _canadianEnglish = null;
         public static Language CanadianEnglish
@@ -33,6 +33,7 @@ namespace SporeMods.CommonUI.Localization
         };
 
         public LanguageManager()
+            : base()
         {
             _languages = AddProperty(nameof(Languages), new ObservableCollection<Language>());
 

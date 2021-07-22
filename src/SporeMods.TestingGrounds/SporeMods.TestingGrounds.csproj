@@ -7,7 +7,7 @@
 	<Import Project="..\..\build\Shared.props" />
 	<Import Project="..\..\build\OutputDirs.props" />
 	<ItemGroup>
-    <ProjectReference Include="..\SporeMods.Core\SporeMods.Core.csproj"/>
-    <ProjectReference Include="..\SporeMods.CommonUI\SporeMods.CommonUI.csproj"/>
+    <ProjectReference Include="..\SporeMods.Core\SporeMods.Core.csproj" />
+    <ProjectReference Include="..\SporeMods.CommonUI\SporeMods.CommonUI.csproj" />
 	</ItemGroup>
 </Project>

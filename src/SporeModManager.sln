@@ -38,6 +38,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SporeMods.BaseTypes", "SporeMods.BaseTypes\SporeMods.BaseTypes.csproj", "{C49C8BF0-6D3F-4D3E-ADC0-F7D978AF788F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SporeMods.TestingGrounds", "SporeMods.TestingGrounds\SporeMods.TestingGrounds.csproj", "{38892148-2746-4EA3-BA3C-1317A5ACCC58}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C49C8BF0-6D3F-4D3E-ADC0-F7D978AF788F} = {C49C8BF0-6D3F-4D3E-ADC0-F7D978AF788F}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

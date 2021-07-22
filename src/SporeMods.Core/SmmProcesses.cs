@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace SporeMods.Core
 {
-	public class SmmProcesses : NOCSingleInstanceBase<SmmProcesses>
+	public class SmmProcesses : NOCSingleInstanceObject<SmmProcesses>
 	{
 		const string LAUNCHER_EXE = "Launch Spore";
 		const string MGR_EXE = "Spore Mod Manager";

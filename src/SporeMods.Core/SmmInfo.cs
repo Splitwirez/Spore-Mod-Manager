@@ -2,12 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 
 namespace SporeMods.Core
 {
-    public class SmmInfo : NOCSingleInstanceBase<SmmInfo>
+    public class SmmInfo : NOCSingleInstanceObject<SmmInfo>
     {
         [DllImport("ntdll.dll", EntryPoint = "wine_get_version", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         private static extern string GetWineVersion();
@@ -29,13 +30,14 @@ namespace SporeMods.Core
             }
         }
 
+
         public SmmInfo()
             : base()
         {
-            _mgrLastVersion = AddProperty(nameof(MgrLastVersion), SmmStorage.EnsureInstance().ReadSetting("LastMgrVersion", new Version()));
+            _mgrLastVersion = AddProperty(nameof(MgrLastVersion), SmmStorage.EnsureInstance().ReadSetting(_mgrLastVersionName, new Version()));
 
             var isWine = IsRunningUnderWine(out Version wineVersion);
-            _nonVitalIsInWine = AddProperty(nameof(NonVitalIsInWine), SmmStorage.EnsureInstance().ReadSetting("WineMode", isWine.HasValue ? isWine.Value : false));
+            _nonVitalIsInWine = AddProperty(nameof(NonVitalIsInWine), SmmStorage.EnsureInstance().ReadSetting(_nonVitalIsInWineName, isWine.HasValue ? isWine.Value : false));
         }
 
 
@@ -53,6 +55,7 @@ namespace SporeMods.Core
         }
 
 
+        string _mgrLastVersionName = "LastMgrVersion";
         NOCProperty<Version> _mgrLastVersion;
         public Version MgrLastVersion
         {
@@ -61,6 +64,7 @@ namespace SporeMods.Core
         }
 
 
+        string _nonVitalIsInWineName = "WineMode";
         NOCProperty<bool> _nonVitalIsInWine;
         public bool NonVitalIsInWine
         {

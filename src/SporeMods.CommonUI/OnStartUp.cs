@@ -2,30 +2,39 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
-using SporeMods.Core;
-using SporeMods.CommonUI.Localization;
 using System.Diagnostics;
 using System.IO;
+using SporeMods.BaseTypes;
+using SporeMods.Core;
+//using SporeMods.CommonUI.Localization;
+//using SporeMods.Core.Context;
+using System.Linq;
 
 namespace SporeMods.CommonUI
 {
 	public static class OnStartUp
 	{
-		static bool EnsureEverythingIsOk()
+		/*static bool EnsureEverythingIsOk()
 		{
 			return (SmmStorage.EnsureInstance() != null) &&
 				(LanguageManager.EnsureInstance() != null) &&
-				(SmmInfo.EnsureInstance() != null);
-		}
+				(SmmInfo.EnsureInstance() != null) &&
+				(AppPaths.EnsureInstance() != null);
+		}*/
 
-		public static bool Do()
+		public static bool EnsureAllGood(bool mergeCurrentDisplayLanguage, Action ifSuccessful = null, Action ifFailed = null)
 		{
-			if (!EnsureEverythingIsOk())
-				return false;
+			bool allGood = NOCSingleInstances.All.All(x => x.Ensure());
 
+			if (allGood)
+				allGood = IsConfigVersionCompatible(out Version _);
 
-			if (!IsConfigVersionCompatible(out Version _))
-				return false;
+			Action after = allGood ? ifSuccessful : ifFailed;
+			if (after != null)
+				after();
+
+			if (allGood && mergeCurrentDisplayLanguage)
+                Localization.LanguageManager.Instance.TryRefreshWpfResources();
 
 			return true;
 		}

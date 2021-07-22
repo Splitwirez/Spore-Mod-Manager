@@ -12,7 +12,7 @@ using System.Windows;
 
 namespace SporeMods.CommonUI.Localization
 {
-    public class Language : NOCObjectBase
+    public class Language : NOCObject
     {
         internal const string LANG_RESOURCE_START = "SporeMods.CommonUI.Localization.Languages.";
 
