@@ -236,7 +236,7 @@ Settings {
 			Content Nom del creador #CommandLineStateName
 			
 			ToolTip {
-				Content Quan s'executa Spore, entrarà directament a un creador. Quan sortis del creador el portarà al menú de la Galàxia.
+				Content Quan s'executa Spore, entrarà directament a un creador. Quan sortis del creador et portarà al menú de la Galàxia.
 				Warning ADVERTÈNCIA DE PRIVACITAT: quan s'habilita aquesta opció, Spore no es conectarà automàticament al teu usuari fins que vagis al menú de la Galàxia. Les creacions que guardis mentres no estiguis conectat al teu usuari es guardaran amb el nom del teu ordinador com a autor. Si envies aquestes creacions a altres jugadors, podrán veure aquest nom.
 			}
 			
@@ -261,7 +261,7 @@ Settings {
 		
 		GameLanguage {
 			#REVISED - "game" --> "Spore"
-			Header Executar joc amb un altre idioma #CommandLineLanguage
+			Header Executar Spore amb un altre idioma #CommandLineLanguage
 			Content Nom de l'idioma #CommandLineLocaleName
 			
 			#ADDED
@@ -413,5 +413,5 @@ LauncherError {
 	ModsInstalling No es pot executar Spore mentres s'estan instal·lant o desinstal·lant mods. #Error_CantRunSporeWhileInstallingMods
 	
 	
-	StartupAborted Per protegir les teves partides guardades, s'ha abortat l'intent d'obrir Spore. #Error_StartupAborted
+	StartupAborted Per protegir les teves partides guardades, s'ha avortat l'intent d'obrir Spore. #Error_StartupAborted
 }
