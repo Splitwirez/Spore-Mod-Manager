@@ -33,7 +33,7 @@ namespace SporeMods.Core.Injection
 			}
 		}
 
-		public static string GetOverrideDllPath(GameExecutableType exeType) => GetOverrideDllPath(exeType, false);
+		/*public static string GetOverrideDllPath(GameExecutableType exeType) => GetOverrideDllPath(exeType, false);
 		public static string GetOverrideDllPath(GameExecutableType exeType, bool isLib)
 		{
 			string fileName;
@@ -43,11 +43,11 @@ namespace SporeMods.Core.Injection
 				fileName = GetNewDLLName(exeType);
 
 			return Path.Combine(Settings.OverrideLibsPath, fileName);
-		}
+		}*/
 
 
-		public static string GetStoredCoreDllPath(GameExecutableType exeType) => GetStoredCoreDllPath(exeType, false);
-		public static string GetStoredCoreDllPath(GameExecutableType exeType, bool isLib)
+		public static string GetStoredCoreDllPath(GameExecutableType exeType, string dirPath) => GetStoredCoreDllPath(exeType, dirPath, false);
+		public static string GetStoredCoreDllPath(GameExecutableType exeType, string dirPath, bool isLib)
 		{
 			string fileName;
 			if (isLib)
@@ -55,22 +55,22 @@ namespace SporeMods.Core.Injection
 			else
 				fileName = GetNewDLLName(exeType);
 
-			if (Settings.DeveloperMode || Settings.DebugMode)
+			/*if (Settings.DeveloperMode || Settings.Instance.DebugMode)
 			{
 				string devOutPath = GetOverrideDllPath(exeType, isLib);
 				if (File.Exists(devOutPath))
 					return devOutPath;
-			}
+			}*/
 
-			string outPath = Path.Combine(Settings.CoreLibsPath, fileName);
+			string outPath = Path.Combine(SmmInfo.CoreLibsPath, fileName);
 			if (File.Exists(outPath))
 				return outPath;
 			else
 				return null;
 		}
 
-		public static string GetInjectableCoreDllPath(GameExecutableType exeType) => GetInjectableCoreDllPath(exeType, false);
-		public static string GetInjectableCoreDllPath(GameExecutableType exeType, bool isLib)
+		public static string GetInjectableCoreDllPath(GameExecutableType exeType, string dirPath) => GetInjectableCoreDllPath(exeType, dirPath, false);
+		public static string GetInjectableCoreDllPath(GameExecutableType exeType, string dirPath, bool isLib)
 		{
 			string fileName;
 			if (isLib)
@@ -78,10 +78,10 @@ namespace SporeMods.Core.Injection
 			else
 				fileName = "SporeModAPI.dll";
 
-			return Path.Combine(Settings.ModLibsPath, fileName);
+			return Path.Combine(SmmInfo.ModLibsPath, fileName);
 		}
 
-		public static void InstallOverrideDll(string path, GameExecutableType type)
+		/*public static void InstallOverrideDll(string path, GameExecutableType type)
 		{
 			if (type == GameExecutableType.None)
 			{
@@ -119,7 +119,7 @@ namespace SporeMods.Core.Injection
 					e.Extract(Settings.OverrideLibsPath, ExtractExistingFileAction.OverwriteSilently);
 					Permissions.GrantAccessFile(Path.Combine(Settings.OverrideLibsPath, e.FileName));
 				}
-			}*/
+			}* /
 		}
 
 		public static void PurgeOverrideDlls()
@@ -128,6 +128,6 @@ namespace SporeMods.Core.Injection
 			foreach (string s in paths)
 				File.Delete(s);
 
-		}
+		}*/
 	}
 }

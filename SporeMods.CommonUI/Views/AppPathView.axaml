@@ -1,0 +1,39 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:SporeMods.CommonUI"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:core="clr-namespace:SporeMods.Core;assembly=SporeMods.Core"
+        xmlns:cui="splitwirez://Spore-Mod-Manager/CommonUI"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="SporeMods.CommonUI.Views.AppPathView">
+    <UserControl.Styles>
+        <Style Selector="TextBox#PathTextBox[IsEnabled=True]">
+            <Setter Property="Text" Value="{Binding ExplicitPath, Mode=TwoWay}"/>
+        </Style>
+        <Style Selector="TextBox#PathTextBox[IsEnabled=False]">
+            <Setter Property="Text" Value="{Binding AutoPath, Mode=OneWay}"/>
+        </Style>
+    </UserControl.Styles>
+    <Grid
+            ColumnDefinitions="Auto,*"
+            RowDefinitions="Auto,Auto,Auto">
+        <ListBox Items="{Binding AutoPaths}" Grid.Column="1" Grid.Row="2"/>
+        <TextBlock Text="{cui:BindToKeyExtension ResourceKey={Binding DisplayNameKey}}"
+                        Grid.Column="0"
+                        Grid.Row="0"
+                        Grid.ColumnSpan="2"/>
+                        <!--Text="{cui:LocalizedResource {Binding DisplayNameKey}}"-->
+        <TextBlock Text="{Binding AutoPaths.Count}" Grid.Column="1" HorizontalAlignment="Right"/>
+        <CheckBox
+                    Content="{DynamicResource Settings!Folders!AutoDetectPath}"
+                    IsChecked="{Binding UseAutoPath, Mode=TwoWay}"
+                    IsEnabled="{Binding !NeedsExplicitPath, Mode=OneWay}"
+                    Grid.Column="0"
+                    Grid.Row="1"/>
+        <TextBox x:Name="PathTextBox"
+                Grid.Column="1"
+                Grid.Row="1"
+                IsEnabled="{Binding !UseAutoPath}"/>
+    </Grid>
+</UserControl>

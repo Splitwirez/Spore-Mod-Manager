@@ -1,4 +1,5 @@
-﻿using SporeMods.Core;
+﻿using SporeMods.NotifyOnChange;
+using SporeMods.Core;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,34 +7,35 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Windows;
+using Avalonia;
+using Avalonia.Controls;
 
 namespace SporeMods.CommonUI.Localization
 {
-    public class Language : NotifyPropertyChangedBase
+    public class Language : NOCObject
     {
         internal const string LANG_RESOURCE_START = "SporeMods.CommonUI.Localization.Languages.";
 
 
-        static readonly Dictionary<string, string> EXE_SPECIFIC_TEXT = new Dictionary<string, string>()
+        /*static readonly Dictionary<string, string> EXE_SPECIFIC_TEXT = new Dictionary<string, string>()
         {
             {
-                CrossProcess.MGR_EXE,
+                MgrProcesses.MGR_EXE,
                 "Manager"
             },
             {
-                CrossProcess.LAUNCHER_EXE,
+                MgrProcesses.LAUNCHER_EXE,
                 "Launcher"
             },
             {
-                CrossProcess.IMPORTER_EXE,
+                MgrProcesses.IMPORTER_EXE,
                 "KitImporter"
             },
             {
-                CrossProcess.DRAG_EXE,
-                "DragServant"
+                MgrProcesses.DRAG_EXE,
+                "UacMessenger"
             },
-        };
+        };*/
 
         bool _isEnCa = false;
         public Language(string langRes)
@@ -42,6 +44,12 @@ namespace SporeMods.CommonUI.Localization
 
         public Language(string langRes, string langCode)
         {
+            _displayName = AddProperty(nameof(DisplayName), string.Empty);
+            _languageCode = AddProperty(nameof(LanguageCode), string.Empty);
+            _completeness = AddProperty(nameof(Completeness), 0.0);
+            _isExternalLanguage = AddProperty(nameof(IsExternalLanguage), false);
+            _dictionary = AddProperty<ResourceDictionary>(nameof(Dictionary), null);
+
             string path = langRes;
             IEnumerable<string> lines = null;
 
@@ -172,13 +180,13 @@ namespace SporeMods.CommonUI.Localization
                     pref += $"{s}!";
                 }
                 pref = pref.TrimEnd('!');
-                MessageBox.Show($"LANGUAGE PARSE FAIL:\nThe language files contains {startCount} \'{{\' and {endCount} \'}}\'. These should be equal, but they are not.\nThe problem may lie somewhere near \'{pref}\'. (NOT LOCALIZED)");
+                Console.WriteLine($"LANGUAGE PARSE FAIL:\nThe language files contains {startCount} \'{{\' and {endCount} \'}}\'. These should be equal, but they are not.\nThe problem may lie somewhere near \'{pref}\'. (NOT LOCALIZED)");
             }
 
             if (!_isEnCa)
             {
                 //Debug.WriteLine("a");
-                ResourceDictionary enCaD = LanguageManager.CanadianEnglish.Dictionary;
+                ResourceDictionary enCaD = LanguageManager.CANADIAN_ENGLISH.Dictionary;
                 lang.MergedDictionaries.Add(enCaD);
 
                 Completeness = (lang.Keys.Count / enCaD.Keys.Count) * 100;
@@ -197,59 +205,39 @@ namespace SporeMods.CommonUI.Localization
         }
 
 
-        string _displayName = string.Empty;
+        NOCProperty<string> _displayName;
         public string DisplayName
         {
-            get => _displayName;
-            private set
-            {
-                _displayName = value;
-                NotifyPropertyChanged();
-            }
+            get => _displayName.Value;
+            private set => _displayName.Value = value;
         }
 
-        string _resPath = string.Empty;
+        NOCProperty<string> _languageCode;
         public string LanguageCode
         {
-            get => _resPath;
-            private set
-            {
-                _resPath = value;
-                NotifyPropertyChanged();
-            }
+            get => _languageCode.Value;
+            private set => _languageCode.Value = value;
         }
 
-        double _completeness = 0;
+        NOCProperty<double> _completeness;
         public double Completeness
         {
-            get => _completeness;
-            private set
-            {
-                _completeness = value;
-                NotifyPropertyChanged();
-            }
+            get => _completeness.Value;
+            private set => _completeness.Value = value;
         }
 
-        bool _isExternalLanguage = false;
+        NOCProperty<bool> _isExternalLanguage;
         public bool IsExternalLanguage
         {
-            get => _isExternalLanguage;
-            private set
-            {
-                _isExternalLanguage = value;
-                NotifyPropertyChanged();
-            }
+            get => _isExternalLanguage.Value;
+            private set => _isExternalLanguage.Value = value;
         }
 
-        ResourceDictionary _contents = null;
+        NOCProperty<ResourceDictionary> _dictionary = null;
         public ResourceDictionary Dictionary
         {
-            get => _contents;
-            private set
-            {
-                _contents = value;
-                NotifyPropertyChanged();
-            }
+            get => _dictionary.Value;
+            private set => _dictionary.Value = value;
         }
 
         public override string ToString()

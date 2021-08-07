@@ -22,7 +22,7 @@ namespace SporeMods.Core.Mods
 
 		public ManagedMod(string name, bool isEnabledByDefault)
 		{
-			StoragePath = Path.Combine(Settings.ModConfigsPath, Path.GetFileName(name));
+			StoragePath = Path.Combine(SmmInfo.ModsPath, Path.GetFileName(name));
 			_xmlPath = Path.Combine(StoragePath, "ModInfo.xml");
 			_configPath = Path.Combine(StoragePath, "Config.xml");
 
@@ -231,8 +231,7 @@ namespace SporeMods.Core.Mods
 			}
 			catch (Exception ex)
 			{
-				MessageDisplay.RaiseError(new ErrorEventArgs(ex));
-				ModsManager.InstalledMods.Add(new InstallError(ex));
+				MessageDisplay.Error(ex);
 			}
 		}
 
@@ -345,8 +344,7 @@ namespace SporeMods.Core.Mods
 				}
 				catch (Exception ex)
 				{
-					MessageDisplay.RaiseError(new ErrorEventArgs(ex));
-					ModsManager.InstalledMods.Add(new InstallError(ex));
+					MessageDisplay.Error(ex);
 
 					return false;
 				}
@@ -411,8 +409,7 @@ namespace SporeMods.Core.Mods
 				}
 				catch (Exception ex)
 				{
-					MessageDisplay.RaiseError(new ErrorEventArgs(ex));
-					ModsManager.InstalledMods.Add(new InstallError(ex));
+					MessageDisplay.Error(ex);
 					return false;
 				}
 			});
@@ -464,9 +461,9 @@ namespace SporeMods.Core.Mods
 
 				if (file.GameDir == ComponentGameDir.ModAPI && (!_isLegacy))
 				{
-					foreach (FileInfo f2 in new DirectoryInfo(Settings.LegacyLibsPath).EnumerateFiles(file.Name))
+					foreach (FileInfo f2 in new DirectoryInfo(SmmInfo.LegacyLibsPath).EnumerateFiles(file.Name))
 					{
-						string path = Path.Combine(Settings.LegacyLibsPath, f2.Name);
+						string path = Path.Combine(SmmInfo.LegacyLibsPath, f2.Name);
 						if (File.Exists(path))
 							FileWrite.SafeDeleteFile(path);
 					}
@@ -548,9 +545,9 @@ namespace SporeMods.Core.Mods
 
 							if ((!_isLegacy) && (file.GameDir == ComponentGameDir.ModAPI))
 							{
-								foreach (FileInfo f in new DirectoryInfo(Settings.LegacyLibsPath).EnumerateFiles(file.Name))
+								foreach (FileInfo f in new DirectoryInfo(SmmInfo.LegacyLibsPath).EnumerateFiles(file.Name))
 								{
-									string path = Path.Combine(Settings.LegacyLibsPath, file.Name);
+									string path = Path.Combine(SmmInfo.LegacyLibsPath, file.Name);
 									if (File.Exists(path))
 										FileWrite.SafeDeleteFile(path);
 								}
@@ -590,7 +587,7 @@ namespace SporeMods.Core.Mods
 				}
 				catch (Exception ex)
 				{
-					ModsManager.InstalledMods.Add(new InstallError(ex));
+					MessageDisplay.Error(ex);
 					return false;
 				}
 			});

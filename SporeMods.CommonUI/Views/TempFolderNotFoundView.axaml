@@ -1,0 +1,12 @@
+﻿<UserControl x:Class="SporeMods.CommonUI.Views.TempFolderNotFoundView"
+			 xmlns="https://github.com/avaloniaui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:local="clr-namespace:SporeMods.Manager"
+			 xmlns:v="clr-namespace:SporeMods.Manager.Views"
+             xmlns:vm="clr-namespace:SporeMods.Manager.ViewModels"
+			 xmlns:core="clr-namespace:SporeMods.Core;assembly=SporeMods.Core"
+             xmlns:cui="clr-namespace:SporeMods.CommonUI;assembly=SporeMods.CommonUI"
+             xmlns:loc="clr-namespace:SporeMods.CommonUI.Localization;assembly=SporeMods.CommonUI"
+			 xmlns:mods="clr-namespace:SporeMods.Core.Mods;assembly=SporeMods.Core">
+	<Button Click="BrowseButton_Click">Browse (PLACEHOLDER) (NOT LOCALIZED)</Button>
+</UserControl>

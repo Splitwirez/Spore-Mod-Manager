@@ -1,5 +1,4 @@
-﻿using DecoratableWindow = Mechanism.Wpf.Core.Windows.DecoratableWindow;
-using SporeMods.Core;
+﻿using SporeMods.Core;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -23,6 +22,7 @@ namespace SporeMods.CommonUI
 
 		public static void CheckForUpdates(bool forceInstallUpdate)
 		{
+#if RESTORE_LATER
 			try
 			{
 				if (File.Exists(UpdaterService.UpdaterPath))
@@ -178,6 +178,7 @@ namespace SporeMods.CommonUI
 			{
 				ShowExceptionNoExit(ex);
 			}
+			#endif
 		}
 
 		static bool exceptionShown = false;
@@ -192,7 +193,7 @@ namespace SporeMods.CommonUI
 				string errorTitle = "Something is very wrong here. Layer ";
 				while (current != null)
 				{
-					MessageBox.Show(current.GetType() + ": " + current.Message + "\n" + current.Source + "\n" + current.StackTrace + errorText, errorTitle + count);
+					Console.WriteLine(current.GetType() + ": " + current.Message + "\n" + current.Source + "\n" + current.StackTrace + errorText, errorTitle + count);
 					count++;
 					current = current.InnerException;
 					if (count > 4)
@@ -200,7 +201,7 @@ namespace SporeMods.CommonUI
 				}
 				if (current != null)
 				{
-					MessageBox.Show(current.GetType() + ": " + current.Message + "\n" + current.Source + "\n" + current.StackTrace + errorText, errorTitle + count);
+					Console.WriteLine(current.GetType() + ": " + current.Message + "\n" + current.Source + "\n" + current.StackTrace + errorText, errorTitle + count);
 				}
 			}
 		}
@@ -212,7 +213,8 @@ namespace SporeMods.CommonUI
 
 		public static ProgressDialog GetProgressDialog(string text, DoWorkEventHandler action, bool testUI)
 		{
-			ProgressDialog dialog = new ProgressDialog(text, action);
+			ProgressDialog dialog = new ProgressDialog().Setup(text, action);
+#if RESTORE_LATER
 
 			Window window;
 			if (false) //Settings.UseCustomWindowDecorations)
@@ -233,7 +235,7 @@ namespace SporeMods.CommonUI
 				dialog.SetProgress(50);
 				window.Show();
 			}
-
+#endif
 			return dialog;
 		}
 	}

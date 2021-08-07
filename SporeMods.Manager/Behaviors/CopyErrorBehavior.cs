@@ -1,11 +1,11 @@
-﻿using SporeMods.Core.Mods;
+﻿/*using SporeMods.Core.Mods;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Interactivity;
+using Avalonia.Controls;
+using Avalonia.Xaml.Interactivity;
 
 namespace SporeMods.Manager
 {
@@ -22,3 +22,4 @@ namespace SporeMods.Manager
 		}
 	}
 }
+*/

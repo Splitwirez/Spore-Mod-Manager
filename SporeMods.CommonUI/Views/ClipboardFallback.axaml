@@ -1,0 +1,9 @@
+﻿<UserControl x:Class="SporeMods.CommonUI.ClipboardFallback"
+			 xmlns="https://github.com/avaloniaui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:local="clr-namespace:SporeMods.CommonUI">
+	<DockPanel>
+		<TextBlock x:Name="InstructionTextBlock" Margin="25,25,25,12" DockPanel.Dock="Top"/>
+		<TextBox x:Name="ContentTextBox" Padding="25,12,25,25" IsReadOnly="True"/>
+	</DockPanel>
+</UserControl>

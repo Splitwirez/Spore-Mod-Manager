@@ -1,0 +1,8 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:cui="clr-namespace:SporeMods.CommonUI;assembly=SporeMods.CommonUI"
+		xmlns:core="clr-namespace:SporeMods.Core;assembly=SporeMods.Core">
+	<StyleInclude Source="avares://SporeMods.CommonUI/Styles/Shale/FluentTemp/BaseDark.axaml"/>
+	<StyleInclude Source="avares://SporeMods.CommonUI/Styles/Shale/FluentTemp/FluentBaseDark.axaml"/>
+	<StyleInclude Source="avares://SporeMods.CommonUI/Styles/Shale/FluentTemp/FluentControlResourcesDark.axaml"/>
+</Styles>

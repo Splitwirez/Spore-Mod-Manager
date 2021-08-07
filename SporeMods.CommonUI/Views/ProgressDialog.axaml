@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="SporeMods.CommonUI.ProgressDialog"
+			 xmlns="https://github.com/avaloniaui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:local="clr-namespace:SporeMods.CommonUI"
+			 Width="400">
+	<!--UserControl.Resources>
+		<ResourceDictionary>	
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="pack://application:,,,/Mechanism.Wpf.Styles.Shale;component/Themes/Shale.xaml"/>
+				<ResourceDictionary Source="pack://application:,,,/Mechanism.Wpf.Styles.Shale;component/Themes/Colors/Accent.xaml"/>
+				<ResourceDictionary Source="pack://application:,,,/Mechanism.Wpf.Styles.Shale;component/Themes/Colors/BaseLight.xaml"/>
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</UserControl.Resources-->
+	<StackPanel Orientation="Vertical" Margin="6">
+		<TextBlock x:Name="Status" IsEnabled="True"/>
+		<ProgressBar x:Name="DownloadProgress" Height="23" Minimum="0" Maximum="100" />
+	</StackPanel>
+</UserControl>

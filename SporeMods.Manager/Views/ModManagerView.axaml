@@ -1,0 +1,186 @@
+﻿<Window x:Class="SporeMods.Manager.Views.ModManagerView"
+			 xmlns="https://github.com/avaloniaui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:local="clr-namespace:SporeMods.Manager"
+			 xmlns:v="clr-namespace:SporeMods.Manager.Views"
+             xmlns:vm="clr-namespace:SporeMods.Manager.ViewModels"
+			 xmlns:core="clr-namespace:SporeMods.Core;assembly=SporeMods.Core"
+             xmlns:cui="splitwirez://Spore-Mod-Manager/CommonUI"
+             xmlns:loc="clr-namespace:SporeMods.CommonUI.Localization;assembly=SporeMods.CommonUI"
+			 xmlns:mods="clr-namespace:SporeMods.Core.Mods;assembly=SporeMods.Core"
+			 xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+			 xmlns:data="clr-namespace:Avalonia.Data;assembly=Avalonia.Markup">
+    <Window.DataContext>
+        <vm:ModManagerViewModel/>
+    </Window.DataContext>
+	<Window.Styles>
+		
+	</Window.Styles>
+	<Panel>
+		<Control x:Name="WindowBackdropControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsVisible="False"/>
+		<!--ExperimentalAcrylicBorder IsHitTestVisible="False">
+			<ExperimentalAcrylicBorder.Material>
+				<ExperimentalAcrylicMaterial
+					BackgroundSource="Digger"
+					TintColor="Black"
+					TintOpacity="1"
+					MaterialOpacity="0.65" />
+			</ExperimentalAcrylicBorder.Material>
+		</ExperimentalAcrylicBorder-->
+		<Panel IsEnabled="{Binding !HasModal}">
+			<!--Style="{DynamicResource WindowBackdropControlStyle}" -->
+			<DockPanel>
+				<ContentControl DockPanel.Dock="Bottom">
+				<!--Style="{DynamicResource MainWindowFooterContentControlStyle}"-->
+					<UniformGrid Rows="1" UseLayoutRounding="True">
+						<Button x:Name="InstallModsButton"
+								Content="{DynamicResource Footer!InstallMods}"
+								Command="{Binding InstallModsCommand}"
+								CommandParameter="{Binding $parent[Window]}"/>
+						<!--Style="{DynamicResource InstallModsButtonStyle}" Click="InstallModsButton_Click"/-->
+						<Button x:Name="ConfigureModButton"
+								Content="{DynamicResource Footer!ConfigureMod}"
+								IsEnabled="{Binding CanChangeModSettings}"
+								Command="{x:Null}"/>
+						<!--Style="{DynamicResource ConfigureModButtonStyle}" IsEnabled="False" Click="ConfigureModButton_Click"/-->
+						<Button x:Name="UninstallModsButton"
+								Content="{DynamicResource Footer!UninstallMods}"
+								IsEnabled="{Binding CanUninstallMods}"
+								Command="{Binding UninstallSelectedModsCommand}"/>
+						<!--Style="{DynamicResource UninstallModsButtonStyle}" IsEnabled="False" Click="UninstallModsButton_Click"/-->
+						<Panel>
+							<Button x:Name="LaunchGameButton"
+									Content="{DynamicResource Footer!LaunchGame}"
+									Command="{Binding LaunchGameCommand}"/>
+							<!--Style="{DynamicResource LaunchGameButtonStyle}" Click="LaunchGameButton_Click"/-->
+							<ProgressBar x:Name="OverallProgressProgressBar"
+										Minimum="0"
+										Maximum="{Binding OverallProgressTotal, Source={x:Static core:ModsManager.Instance}, Mode=OneWay}" Value="{Binding OverallProgress, Source={x:Static core:ModsManager.Instance}, Mode=OneWay}"
+										IsVisible="{Binding AnyTasksRunning, Source={x:Static core:ModsManager.Instance}}"/>
+										<!-- Visibility="{Binding AnyTasksRunning, Source={x:Static core:ModsManager.Instance}, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"-->
+										<!--Margin="5,5,10,5"/-->
+						</Panel>
+					</UniformGrid>
+				</ContentControl>
+				<!--TextBlock Text="{cui:PopulateString
+								FieldNames='ATTRIBUTE;VALUE;TYPE'
+								FieldValues={cui:Bindings
+												{DynamicResource Mods!Header}
+												{DynamicResource Settings!Header}
+												{DynamicResource Help!Header}
+											},
+								Format={DynamicResource Mods!Error!Identity!InvalidAttributeValue}
+								}"
+						DockPanel.Dock="Bottom"/-->
+				<TabControl x:Name="PrimaryTabControl">
+					<!--SelectionChanged="PrimaryTabControl_SelectionChanged"-->
+					<!--Style="{DynamicResource PrimaryTabControlStyle}"-->
+					<TabItem x:Name="ModsTabItem" Header="{DynamicResource Mods!Header}">
+						<v:InstalledModsPageView/>
+						<!--SelectedMods="{Binding $parent[v:ManagerContentView].DataContext.SelectedMods, Mode=OneWayToSource}"/-->
+					</TabItem>
+					<TabItem x:Name="SettingsTabItem" Header="{DynamicResource Settings!Header}">
+						<!--TabItem.Resources>
+							<Style x:Key="{x:Type ToolTip}" BasedOn="{StaticResource {x:Type ToolTip}}" TargetType="{x:Type ToolTip}">
+								<Setter Property="MaxWidth" Value="300"/>
+							</Style>
+						</TabItem.Resources-->
+						<v:SettingsPageView/>
+					</TabItem>
+					<TabItem x:Name="HelpTabItem" Header="{DynamicResource Help!Header}">
+						<v:HelpPageView/>
+					</TabItem>
+				</TabControl>
+			</DockPanel>
+			<!--ui:AnimatableContentControl x:Name="ChooseMonitorContentControl" Style="{DynamicResource ModalDialogContentControlStyle}" HasCloseButton="True">
+				<TextBlock Text="{DynamicResource Settings!Window!OverrideWindowMode!ChooseMonitor!Header}" Style="{DynamicResource DropModsHereTextBlockStyle}" VerticalAlignment="Center"/>
+			</ui:AnimatableContentControl>
+			<ui:AnimatableContentControl x:Name="DropModsDialogContentControl" Style="{DynamicResource ModalDialogContentControlStyle}" HasCloseButton="True" AllowDrop="True" PreviewDrop="DropModsDialogContentControl_PreviewDrop" IsVisibleChanged="DropModsDialogContentControl_IsVisibleChanged">
+				<DockPanel>
+					<Button x:Name="BrowseForModsButton" Content="{DynamicResource Browse}" Click="BrowseForModsButton_Click" DockPanel.Dock="Bottom">
+						<ui:AttachedProperties.CornerCurves>
+							<ui:CornerCurves TopLeft="False" TopRight="False"/>
+						</ui:AttachedProperties.CornerCurves>
+					</Button>
+					<Grid x:Name="DropModsHereTextBlockGrid">
+						<Grid x:Name="DropModsHereContentGrid" Visibility="Collapsed" IsHitTestVisible="False" Margin="4,0,4,4">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="64"/>
+								<ColumnDefinition Width="*"/>
+								<ColumnDefinition Width="64"/>
+							</Grid.ColumnDefinitions>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="64"/>
+								<RowDefinition Height="*"/>
+								<RowDefinition Height="64"/>
+							</Grid.RowDefinitions>
+
+							<Border Opacity="0.25" Background="{DynamicResource TopDownMaskBrush}" CornerRadius="6,0,0,0" Grid.Column="0" Grid.Row="0" OpacityMask="{DynamicResource FromLeftMaskBrush}" Width="12" HorizontalAlignment="Left"/>
+							<Border Opacity="0.25" Background="{DynamicResource FromLeftMaskBrush}" CornerRadius="6,0,0,0" Grid.Column="0" Grid.Row="0" OpacityMask="{DynamicResource TopDownMaskBrush}" Height="16" VerticalAlignment="Top"/>
+
+							<Border Opacity="0.25" Background="{DynamicResource FromRightMaskBrush}" CornerRadius="0,6,0,0" Grid.Column="2" Grid.Row="0" OpacityMask="{DynamicResource TopDownMaskBrush}" Height="16" VerticalAlignment="Top"/>
+							<Border Opacity="0.25" Background="{DynamicResource TopDownMaskBrush}" CornerRadius="0,6,0,0" Grid.Column="2" Grid.Row="0" OpacityMask="{DynamicResource FromRightMaskBrush}" Width="12" HorizontalAlignment="Right"/>
+
+							<Border Opacity="0.25" Background="{DynamicResource BottomUpMaskBrush}" CornerRadius="0,0,6,0" Grid.Column="2" Grid.Row="2" OpacityMask="{DynamicResource FromRightMaskBrush}" Width="12" HorizontalAlignment="Right"/>
+							<Border Opacity="0.25" Background="{DynamicResource FromRightMaskBrush}" CornerRadius="0,0,6,0" Grid.Column="2" Grid.Row="2" OpacityMask="{DynamicResource BottomUpMaskBrush}" Height="8" VerticalAlignment="Bottom"/>
+
+							<Border Opacity="0.25" Background="{DynamicResource FromLeftMaskBrush}" CornerRadius="0,0,0,6" Grid.Column="0" Grid.Row="2" OpacityMask="{DynamicResource BottomUpMaskBrush}" Height="8" VerticalAlignment="Bottom"/>
+							<Border Opacity="0.25" Background="{DynamicResource BottomUpMaskBrush}" CornerRadius="0,0,0,6" Grid.Column="0" Grid.Row="2" OpacityMask="{DynamicResource FromLeftMaskBrush}" Width="12" HorizontalAlignment="Left"/>
+							<TextBlock x:Name="DropModsHereTextBlock" Text="{DynamicResource Mods!DropHere!Header}" FontSize="24" FontWeight="Bold" Foreground="#FF7F7F7F" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="3" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center"/>
+						</Grid>
+					</Grid>
+				</DockPanel>
+			</ui:AnimatableContentControl>
+			<ui:AnimatableContentControl x:Name="ModConfiguratorDialogContentControl" Style="{DynamicResource ModalDialogContentControlStyle}" HasCloseButton="True">
+				<ContentControl x:Name="ModConfiguratorContentControl" Style="{DynamicResource InitialModConfiguratorContentControlStyle}">
+					<DockPanel x:Name="ModConfiguratorDialogDockPanel">
+						<ContentControl Style="{DynamicResource CustomInstallerFooterContentControlStyle}" DockPanel.Dock="Bottom">
+							<Grid>
+								<Button x:Name="CustomInstallerInstallButton"/>
+							</Grid>
+						</ContentControl>
+						<ContentControl x:Name="ConfiguratorBodyContentControl"/>
+					</DockPanel>
+				</ContentControl>
+			</ui:AnimatableContentControl>
+			<ui:AnimatableContentControl x:Name="FoldersNotFoundContentControl" Style="{DynamicResource ModalDialogContentControlStyle}">
+				<DockPanel>
+					<TextBlock x:Name="FolderNotFoundErrorTextBlock" TextWrapping="Wrap" DockPanel.Dock="Top"/>
+					<Button x:Name="FolderNotFoundConfirmButton" Content="Confirm" DockPanel.Dock="Bottom" Click="FolderNotFoundConfirmButton_Click">
+						<ui:AttachedProperties.CornerCurves>
+							<ui:CornerCurves TopLeft="False" TopRight="False" BottomLeft="True" BottomRight="True"/>
+						</ui:AttachedProperties.CornerCurves>
+					</Button>
+					<ui:ActionBox x:Name="FolderNotFoundBrowseByHandActionBox" Grid.Column="1" Grid.Row="0" IsTogglable="False" ButtonContent="Browse" TextChanged="FolderNotFoundBrowseByHandActionBox_TextChanged" ActionSubmitted="FolderNotFoundBrowseByHandActionBox_ActionSubmitted" DockPanel.Dock="Bottom">
+						<ui:AttachedProperties.CornerCurves>
+							<ui:CornerCurves TopLeft="False" TopRight="False" BottomLeft="False" BottomRight="False"/>
+						</ui:AttachedProperties.CornerCurves>
+					</ui:ActionBox>
+					<ListView x:Name="FolderNotFoundListView" Style="{DynamicResource FolderNotFoundListViewStyle}"/>
+				</DockPanel>
+			</ui:AnimatableContentControl>
+			<ui:AnimatableContentControl x:Name="CloseSporeFirstContentControl" Style="{DynamicResource ModalDialogContentControlStyle}">
+				<StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+					<TextBlock x:Name="CloseSporeFirstTextBlock" Text="{DynamicResource SporeIsOpen!Header}" Style="{DynamicResource DropModsHereTextBlockStyle}"/>
+					<DockPanel HorizontalAlignment="Center" Margin="50,0">
+						<Button x:Name="ForceKillSporeButton" Content="{DynamicResource SporeIsOpen!ForceClose!Button}" Margin="5,0,0,0" Click="ForceKillSporeButton_Click" DockPanel.Dock="Right"/>
+						<TextBlock Text="{DynamicResource SporeIsOpen!Content}" VerticalAlignment="Center"/>
+					</DockPanel>
+				</StackPanel>
+			</ui:AnimatableContentControl-->
+		</Panel>
+		<Border Background="#7F000000"
+				IsVisible="{Binding HasModal}"
+				Padding="100"
+				Classes="modalTest">
+			<Border Background="#FFFFC0FF">
+				<ContentControl Margin="75"
+							Content="{Binding CurrentModal}">
+					<ContentControl.ContentTemplate>
+						<cui:ViewLocator ManualOverrideViewProvider="{Binding GetView, Mode=OneWay}"/>
+					</ContentControl.ContentTemplate>
+				</ContentControl>
+			</Border>
+		</Border>
+	</Panel>
+</Window>

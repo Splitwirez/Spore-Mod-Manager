@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="SporeMods.Manager.Views.ChooseMonitorView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:local="clr-namespace:SporeMods.Manager"
+			 xmlns:v="clr-namespace:SporeMods.Manager.Views"
+             xmlns:vm="clr-namespace:SporeMods.Manager.ViewModels"
+             xmlns:cui="clr-namespace:SporeMods.CommonUI;assembly=SporeMods.CommonUI">
+    <StackPanel Orientation="Vertical">
+        <TextBlock Text="{DynamicResource Settings!Window!OverrideWindowMode!ChooseMonitor!Header}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"/>
+            <!--Style="{DynamicResource DropModsHereTextBlockStyle}"-->
+        <Button Content="Cancel (NOT LOCALIZED)"
+                Command="{Binding CancelCommand}"/>
+                <!--{DynamicResource Cancel}-->
+    </StackPanel>
+</UserControl>

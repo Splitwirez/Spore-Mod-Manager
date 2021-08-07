@@ -1,0 +1,106 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:cui="splitwirez://Spore-Mod-Manager/CommonUI"
+		xmlns:core="clr-namespace:SporeMods.Core;assembly=SporeMods.Core"
+		xmlns:local="clr-namespace:SporeMods.Manager"
+		xmlns:v="clr-namespace:SporeMods.Manager.Views">
+	<!--Style Selector="ComboBox#LaunchWithStateComboBox /template/ :is(Control):not(Popup :is(Control)):not(:is(Control)[IsVisible=False])"-->
+	<!--ComboBox#LaunchWithStateComboBox /template/ ContentControl#ContentPresenter,
+					ComboBox#LaunchWithStateComboBox /template/ TextBlock#PlaceholderTextBlock,
+					ComboBox#LaunchWithStateComboBox /template/ ContentPresenter#HeaderContentPresenter"-->
+	<!--Style Selector="ComboBox#LaunchWithStateComboBox /template/ :is(Control):not(Grid, Border#HighlightBackground, Popup :is(Control), Popup /template/ :is(Control))">
+		<Setter Property="IsVisible" Value="{Binding !CmdStateManualEntry, Mode=OneWay}"/>
+	</Style-->
+	<!--Style Selector="ComboBox#LaunchWithStateComboBox /template/ Border#Background,
+					ComboBox#LaunchWithStateComboBox /template/ ContentControl#ContentPresenter,
+					ComboBox#LaunchWithStateComboBox /template/ ContentPresenter#HeaderContentPresenter">
+					<!-ComboBox#LaunchWithStateComboBox /template/ TextBlock#PlaceholderTextBlock->
+		<Setter Property="IsVisible" Value="{Binding !CmdStateManualEntry, Mode=OneWay}"/>
+	</Style-->
+	<!--Style Selector="ComboBox#LaunchWithStateComboBox /template/ Border#HighlightBackground">
+		<Setter Property="IsVisible" Value="{Binding CmdStateManualEntry, Mode=OneWay}"/>
+	</Style-->
+	<!--Style Selector="AutoCompleteBox#LaunchWithStateAutoCompleteBox">
+		<Setter Property="Margin" Value="0,0,20,0"/>
+	</Style-->
+	<Style Selector="ComboBox#LaunchWithStateComboBox[IsHitTestVisible=False]">
+		<Setter Property="Opacity" Value="0"/>
+		
+		<Setter Property="MinWidth" Value="1"/>
+		<Setter Property="MinHeight" Value="1"/>
+		
+		<Setter Property="Width" Value="1"/>
+		<Setter Property="Height" Value="1"/>
+	</Style>
+
+	<Style Selector="AutoCompleteBox#LanguageManualEntryAutoCompleteBox[IsDropDownOpen=False]">
+		<Setter Property="SelectedItem" Value="{Binding CurrentGameLanguage, Mode=TwoWay}"/>
+	</Style>
+	<!--Style Selector="AutoCompleteBox#LaunchWithStateAutoCompleteBox[IsVisible=False]">
+		<Setter Property="Text" Value="{Binding Instance.GameState, Mode=OneWay}"/>
+	</Style>
+	<Style Selector="AutoCompleteBox#LaunchWithStateAutoCompleteBox[IsVisible=True]">
+		<Setter Property="Text" Value="{Binding Instance.GameState, Mode=TwoWay}"/>
+	</Style-->
+
+	
+	<Style Selector="ToggleButton.manualEdit">
+		<!-- /template/ ContentPresenter#PART_ContentPresenter-->
+		<!--Setter Property="MaxWidth" Value="{Binding Bounds.Height, RelativeSource={RelativeSource Mode=Self}}"/-->
+		<Setter Property="ContentTemplate">
+			<DataTemplate>
+				<Panel Width="16"
+					Height="16">
+					<Line Stroke="Orange"
+						StrokeThickness="4"
+						StartPoint="14.586,1.414"
+						EndPoint="3.414,12.586"/>
+					<Path Data="M 0 16 L 2 11.173 L 4.827 14 Z"
+						Fill="Beige"/>
+					<!--Fill="#FFDEAA87"-->
+				</Panel>
+			</DataTemplate>
+		</Setter>
+	</Style>
+
+	<Style Selector="ToggleButton.chooseFromPresets">
+		<Setter Property="ContentTemplate">
+			<DataTemplate>
+				<!--Path Data="M 0 0 L 8 8 L 16 0"
+					Width="16"
+					Height="16"
+					Stroke="Black"
+					StrokeThickness="1"
+					Stretch="None"/-->
+				<Viewbox UseLayoutRounding="False"
+						IsHitTestVisible="False"
+						Height="12"
+						Width="12"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center">
+						<!--Grid.Row="1"
+						Grid.Column="1"-->
+						<!--MinHeight="{DynamicResource ComboBoxMinHeight}"
+						Margin="10,0"-->
+					<Panel>
+						<Panel Height="12"
+							Width="12" />
+						<Path x:Name="DropDownGlyph"
+							VerticalAlignment="Center"
+							Fill="{DynamicResource ComboBoxDropDownGlyphForeground}"
+							Data="M1939 486L2029 576L1024 1581L19 576L109 486L1024 1401L1939 486Z"
+							Stretch="Uniform" />
+					</Panel>
+				</Viewbox>
+			</DataTemplate>
+		</Setter>
+	</Style>
+
+	
+	<!--Style Selector="ComboBox#LaunchWithStateComboBox[Tag=True] ComboBoxItem">
+		<!-Setter Property="Content" Value="{cui:BoundKeyResource ResourceKey={Binding DataContext.DisplayNameKey, RelativeSource={RelativeSource Mode=Self}}}"/->
+		<Setter Property="ContentTemplate">
+			
+		</Setter>
+	</Style-->
+</Styles>

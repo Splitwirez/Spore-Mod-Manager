@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Windows.Data;
+using Avalonia.Data.Converters;
 
 namespace SporeMods.Manager
 {

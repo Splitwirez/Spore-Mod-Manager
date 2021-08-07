@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="SporeMods.Manager.Views.InstalledModsPageView"
+			 xmlns="https://github.com/avaloniaui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:local="clr-namespace:SporeMods.Manager"
+			 xmlns:v="clr-namespace:SporeMods.Manager.Views"
+             xmlns:vm="clr-namespace:SporeMods.Manager.ViewModels"
+			 xmlns:core="clr-namespace:SporeMods.Core;assembly=SporeMods.Core"
+             xmlns:loc="clr-namespace:SporeMods.CommonUI.Localization;assembly=SporeMods.CommonUI"
+			 xmlns:mods="clr-namespace:SporeMods.Core.Mods;assembly=SporeMods.Core">
+    <UserControl.DataContext>
+        <vm:InstalledModsPageViewModel/>
+    </UserControl.DataContext>
+    <!--UserControl.Styles>
+        <Style Selector="ListBox.mods[IsVisible=True]">
+            <Setter Property="SelectedItems" Value="{Binding SelectedMods, Mode=TwoWay}"/>
+        </Style>
+        <Style Selector="ListBox.mods">
+            <Setter Property="SelectionMode" Value="Multiple"/>
+        </Style>
+    </UserControl.Styles-->
+    <DockPanel>
+        <ContentControl DockPanel.Dock="Top">
+            <!--Style="{DynamicResource MainWindowHeaderContentControlStyle}" -->
+            <DockPanel LastChildFill="False">
+                <StackPanel x:Name="SearchStackPanel" Orientation="Horizontal" DockPanel.Dock="Right">
+                    <TextBox x:Name="SarchBox"
+                            Text="{Binding SearchQuery, Mode=TwoWay}"
+                            Width="200"
+                            Watermark="{DynamicResource Mods!FilterBar!Search!Watermark}"/>
+                    <ToggleButton IsChecked="{Binding IsSearching, Mode=TwoWay}">GO</ToggleButton>
+                    <!--ui:ActionBox x:Name="SearchBox" WatermarkText="" Style="{DynamicResource SearchBoxStyle}" Width="200" VerticalAlignment="Center" ActionSubmitted="SearchBox_ActionSubmitted" ActionCanceled="SearchBox_ActionCanceled" ActionType="Instant" ui:AttachedProperties.CornerCurves="True,False,False,True"/-->
+                    <ToggleButton x:Name="SearchTargetsToggleButton" Tag="{Binding ElementName=SearchStackPanel}">
+                    <!--Style="{DynamicResource SearchTargetsToggleButtonStyle}" ui:AttachedProperties.CornerCurves="False,True,True,False" ui:AttachedProperties.BorderPresence="False,True,True,True" Click="MenuToggleButton_Click" PreviewMouseRightButtonUp="MenuToggleButton_PreviewMouseRightButtonUp" -->
+                        <ToggleButton.ContextMenu>
+                            <ContextMenu x:Name="SearchTargetsContextMenu" Width="{Binding ActualWidth, ElementName=SearchStackPanel}">
+                             <!--PlacementTarget="{Binding ElementName=SearchStackPanel}" Placement="AbsolutePoint"  Closed="SearchTargetsContextMenu_Closed"-->
+                                <!--MenuItem x:Name="SearchNamesMenuItem" Header="{DynamicResource Mods!FilterBar!Search!InNames}" IsChecked="True" IsCheckable="True"/-->
+                                <!-- Checked="SearchOptionMenuItem_Checked" Unchecked="SearchOptionMenuItem_Checked"-->
+                                <!--MenuItem x:Name="SearchDescriptionsMenuItem" Header="{DynamicResource Mods!FilterBar!Search!InDescriptions}" IsCheckable="True"/-->
+                                <!-- Checked="SearchOptionMenuItem_Checked" Unchecked="SearchOptionMenuItem_Checked"-->
+                                <!--MenuItem x:Name="SearchTagsMenuItem" Visibility="Collapsed" IsCheckable="True" IsEnabled="False" Checked="SearchOptionMenuItem_Checked" Unchecked="SearchOptionMenuItem_Checked"/-->
+                            </ContextMenu>
+                        </ToggleButton.ContextMenu>
+                    </ToggleButton>
+                </StackPanel>
+                <Button x:Name="CopyModsToClipboardButton" DockPanel.Dock="Left" Content="{DynamicResource Mods!FilterBar!CopyModsList!Label}"/>
+                <!-- Click="CopyModsToClipboardButton_Click"-->
+            </DockPanel>
+        </ContentControl>
+        <Panel>
+            <ListBox x:Name="InstalledModsListView"
+                    Classes="mods"
+                    Items="{Binding Source={x:Static core:ModsManager.InstalledMods}}"
+                    SelectionChanged="ModsListBox_SelectionChanged"
+                    SelectionMode="Multiple">
+            <!-- Style="{DynamicResource InstalledModsListViewStyle}" SelectionChanged="InstalledModsListView_SelectionChanged" IsVisibleChanged="ModsListView_IsVisibleChanged" PreviewKeyDown="ModsListView_PreviewKeyDown">
+                <ui:AttachedProperties.CornerCurves>
+                    <ui:CornerCurves TopLeft="False" TopRight="False" BottomRight="False" BottomLeft="False"/>
+                </ui:AttachedProperties.CornerCurves-->
+            </ListBox>
+            <ListBox x:Name="ModSearchListView"
+                    Classes="mods"
+                    Items="{Binding SearchResults, Source={x:Static core:ModSearch.Instance}}"
+                    IsVisible="{Binding !#InstalledModsListView.IsVisible}"
+                    SelectedItems="{Binding SelectedMods, Mode=TwoWay}"
+                    SelectionMode="Multiple">
+                    <!--SelectionMode="Multiple"
+                    SelectedItems="{Binding SelectedMods, Mode=TwoWay}"-->
+            <!--Style="{DynamicResource InstalledModsListViewStyle}" Visibility="Collapsed" IsVisibleChanged="ModsListView_IsVisibleChanged" PreviewKeyDown="ModsListView_PreviewKeyDown"
+                <ui:AttachedProperties.CornerCurves>
+                    <ui:CornerCurves TopLeft="False" TopRight="False" BottomRight="False" BottomLeft="False"/>
+                </ui:AttachedProperties.CornerCurves-->
+            </ListBox>
+            <ContentControl x:Name="InstallModsPromptContentControl" Content="{DynamicResource Mods!CallToAction!Prompt}" IsVisible="False"/>
+            <!--Style="{DynamicResource InstallModsPromptContentControlStyle}" Visibility="Collapsed"-->
+        </Panel>
+    </DockPanel>
+</UserControl>

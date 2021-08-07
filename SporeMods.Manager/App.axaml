@@ -1,0 +1,59 @@
+﻿<Application x:Class="SporeMods.Manager.App"
+			 xmlns="https://github.com/avaloniaui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:cui="clr-namespace:SporeMods.CommonUI;assembly=SporeMods.CommonUI"
+			 xmlns:local="clr-namespace:SporeMods.Manager">
+	<Application.Styles>
+		<!--StyleInclude Source="avares://SporeMods.CommonUI/Styles/Shale/Shale.axaml"/-->
+		<StyleInclude Source="avares://Spore Mod Manager/Styles/Temp.axaml"/>
+        <!--FluentTheme Mode="Light"/>
+		
+		
+		
+		
+		<Style Selector="TextBlock">
+			<Setter Property="TextWrapping" Value="Wrap"/>
+		</Style>
+		
+		<Style Selector="local|FakeRadioButtonsControl">
+			<Setter Property="Template">
+      			<ControlTemplate>
+					<ItemsPresenter Name="PART_ItemsPresenter"
+									Items="{TemplateBinding Items}"
+									ItemTemplate="{TemplateBinding ItemTemplate}"
+									VirtualizationMode="{TemplateBinding VirtualizationMode}">
+						<ItemsPresenter.ItemsPanel>
+							<ItemsPanelTemplate>
+								<StackPanel Orientation="Vertical"/>
+							</ItemsPanelTemplate>
+						</ItemsPresenter.ItemsPanel>
+					</ItemsPresenter>
+      			</ControlTemplate>
+			</Setter>
+		</Style>
+
+		<Style Selector="HeaderedContentControl">
+			<Setter Property="Template">
+				<ControlTemplate>
+					<Border BorderBrush="Red"
+							BorderThickness="1"
+							Padding="4">
+						<DockPanel>
+							<ContentPresenter x:Name="PART_HeaderPresenter"
+											Content="{TemplateBinding Header}"
+											ContentTemplate="{TemplateBinding HeaderTemplate}"
+											DockPanel.Dock="Top"/>
+							<Rectangle DockPanel.Dock="Top"
+									Margin="4,2"
+									Height="1"
+									Fill="Red"/>
+							<ContentPresenter x:Name="PART_ContentPresenter"
+											Content="{TemplateBinding Content}"
+											ContentTemplate="{TemplateBinding ContentTemplate}"/>
+						</DockPanel>
+					</Border>
+				</ControlTemplate>
+			</Setter>
+		</Style-->
+	</Application.Styles>
+</Application>

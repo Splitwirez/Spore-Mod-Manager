@@ -48,7 +48,7 @@ namespace SporeMods.Core.Mods
 				}
 				catch (Exception ex)
 				{
-					MessageDisplay.RaiseError(new ErrorEventArgs(ex));
+					MessageDisplay.Error(ex);
 					return false;
 				}
 			});

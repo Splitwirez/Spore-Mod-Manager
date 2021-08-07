@@ -1,0 +1,16 @@
+﻿<Window x:Class="SporeMods.Manager.Views.ChooseMonitorPopupView"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:SporeMods.Manager"
+        xmlns:v="clr-namespace:SporeMods.Manager.Views"
+        xmlns:vm="clr-namespace:SporeMods.Manager.ViewModels"
+        xmlns:cui="clr-namespace:SporeMods.CommonUI;assembly=SporeMods.CommonUI"
+        Width="128" Height="128"
+        Topmost="True"
+        ShowInTaskbar="False"
+        ShowActivated="False"
+        CanResize="False">
+    <Button Command="{Binding ChooseMonitorCommand}"
+            CommandParameter="{Binding $parent[Window].Tag}"
+            Content="{DynamicResource Settings!Window!OverrideWindowMode!ChooseMonitor!SelectButton}"/>
+</Window>

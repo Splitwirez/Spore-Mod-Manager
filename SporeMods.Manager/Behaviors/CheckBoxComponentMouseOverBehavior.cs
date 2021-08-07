@@ -1,17 +1,5 @@
-﻿using SporeMods.Core;
-using SporeMods.Core.Mods;
-using SporeMods.Manager.Configurators;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Windows.Media;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Interactivity;
-using System.Windows.Media.Imaging;
+﻿using Avalonia.Controls.Primitives;
+using Avalonia.Xaml.Interactivity;
 
 namespace SporeMods.Manager
 {
@@ -20,9 +8,10 @@ namespace SporeMods.Manager
 		protected override void OnAttached()
 		{
 			base.OnAttached();
-			AssociatedObject.MouseEnter += (sneder, args) =>
+			AssociatedObject.PointerEnter += (sneder, args) =>
 			{
 				//(Window.GetWindow(AssociatedObject).Content as ManagerContent).CustomInstallerContentPaneScrollViewer.Content = (AssociatedObject.DataContext as ModComponent).Description;
+#if RESTORE_LATER
 				var content = (Window.GetWindow(AssociatedObject).Content as ManagerContent);
 
 				if (content.ConfiguratorBodyContentControl.Content is ModConfiguratorV1_0_0_0 configurator)
@@ -76,6 +65,7 @@ namespace SporeMods.Manager
 					}
 					configurator.SetBody(elements.ToArray());
 				}
+#endif
 			};
 		}
 	}

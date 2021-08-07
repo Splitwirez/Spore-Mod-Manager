@@ -3,7 +3,9 @@
   <PropertyGroup>
     <AssemblyVersion>1.7.7.2</AssemblyVersion>
 	<FileVersion>1.7.7.2</FileVersion>
-    <PlatformTarget>x86</PlatformTarget>
 	<ForceManagedImplementation>true</ForceManagedImplementation>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(OS)' == 'Windows_NT' and '$(RuntimeIdentifier)' == 'win-x86'">
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
 </Project>

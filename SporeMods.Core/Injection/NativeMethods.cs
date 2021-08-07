@@ -292,7 +292,9 @@ namespace SporeMods.Core.Injection
 		public const Int32
 			WsExToolwindow = 0x00000080,
 			WsExTransparent = 0x00000020,
-			WsExNoActivate = 0x08000000;
+			WsExNoActivate = 0x08000000,
+			WsExLayered = 0x00080000,
+			WsExNoRedirectionBitmap = 0x00200000;
 
 		public delegate bool EnumThreadDelegate(IntPtr hWnd, IntPtr lParam);
 

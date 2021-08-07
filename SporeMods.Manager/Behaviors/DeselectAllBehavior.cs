@@ -1,39 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Interactivity;
-using System.Windows.Media;
+﻿/*using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.Presenters;
+using Avalonia.Input;
+using Avalonia.Xaml.Interactivity;
 
 namespace SporeMods.Manager
 {
-	public class DeselectAllBehavior : Behavior<FrameworkElement>
+	public class DeselectAllBehavior : Behavior<Control>
 	{
-		public ItemsPresenter ItemsPresenterElement
+        public static readonly StyledProperty<ItemsPresenter> ItemsPresenterElementProperty =
+            AvaloniaProperty.Register<DeselectAllBehavior, ItemsPresenter>(nameof(ItemsPresenterElement), null);
+
+        public ItemsPresenter ItemsPresenterElement
 		{
-			get => (ItemsPresenter)GetValue(ItemsPresenterElementProperty);
+			get => GetValue(ItemsPresenterElementProperty);
 			set => SetValue(ItemsPresenterElementProperty, value);
 		}
-
-		public static readonly DependencyProperty ItemsPresenterElementProperty =
-			DependencyProperty.Register(nameof(ItemsPresenterElement), typeof(ItemsPresenter), typeof(DeselectAllBehavior), new PropertyMetadata(null));
 
 		protected override void OnAttached()
 		{
 			base.OnAttached();
 
-			AssociatedObject.PreviewMouseLeftButtonDown += AssociatedObject_MouseLeftButtonDown;
+			AssociatedObject.PointerPressed += AssociatedObject_MouseLeftButtonDown;
 		}
 
-		private void AssociatedObject_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		private void AssociatedObject_MouseLeftButtonDown(object sender, PointerPressedEventArgs e)
 		{
-			if ((AssociatedObject!= null) && (AssociatedObject.IsMouseOver))
+			if ((AssociatedObject!= null) && (AssociatedObject.IsPointerOver))
 			{
 				bool areChildrenMousedOver = false;
-				Panel panel = (Panel)VisualTreeHelper.GetChild(ItemsPresenterElement, 0);
+				Panel panel = Avalonia.VisualTree.VisualExtensions.FindDescendantOfType<Panel>(ItemsPresenterElement, false);
+#if RESTORE_LATER
 				ListViewItem[] items = new ListViewItem[panel.Children.Count];
 
 				panel.Children.CopyTo(items, 0);
@@ -51,7 +48,9 @@ namespace SporeMods.Manager
 					((Window.GetWindow(AssociatedObject) as Window).Content as ManagerContent).InstalledModsListView.SelectedItem = null;
 					e.Handled = true;
 				}
+#endif
 			}
 		}
 	}
 }
+*/

@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="SporeMods.Manager.Views.HelpPageView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:local="clr-namespace:SporeMods.Manager"
+			 xmlns:v="clr-namespace:SporeMods.Manager.Views"
+             xmlns:vm="clr-namespace:SporeMods.Manager.ViewModels"
+             xmlns:cui="clr-namespace:SporeMods.CommonUI;assembly=SporeMods.CommonUI">
+             <!--
+             xmlns:ui="clr-namespace:Mechanism.Wpf.Core;assembly=Mechanism.Wpf.Core"-->
+    <UserControl.DataContext>
+        <vm:HelpPageViewModel/>
+    </UserControl.DataContext>
+    <Panel>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <!--ui:AttachedProperties.CornerCurves>
+                <ui:CornerCurves TopLeft="False" TopRight="False" BottomRight="False" BottomLeft="False"/>
+            </ui:AttachedProperties.CornerCurves-->
+            <StackPanel Orientation="Vertical" Spacing="4">
+                <HeaderedContentControl x:Name="HelpGroupBox" Header="{DynamicResource Help!NeedHelp!Header}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="AskQuestionButton"
+                                Content="{DynamicResource Help!NeedHelp!AskQuestion}"
+                                Grid.Column="0"
+                                Command="{Binding OnWhatever}"/>
+                        <!--Click="AskQuestionButton_Click" -->
+                        <Button x:Name="SuggestFeatureButton" Content="{DynamicResource Help!NeedHelp!SuggestFeature}" Grid.Column="2"/>
+                        <!--Click="SuggestFeatureButton_Click" -->
+                        <!--Button x:Name="ShowConfigurationFileButton" Click="ShowConfigurationFileButton_Click" Grid.Column="2" Grid.ColumnSpan="3" Visibility="Collapsed"/-->
+                        <Button x:Name="ReportBugButton" Content="{DynamicResource Help!NeedHelp!ReportBug}" Grid.Column="4"/>
+                        <!--Click="ReportBugButton_Click" -->
+                    </Grid>
+                </HeaderedContentControl>
+                <HeaderedContentControl x:Name="CreditsGroupBox" Header="{DynamicResource Help!Credits!Header}">
+                    <ItemsControl x:Name="CreditsItemsControl" Items="{Binding Credits}"/>
+                    <!--Style="{DynamicResource CreditsItemsControlStyle}"-->
+                </HeaderedContentControl>
+            </StackPanel>
+        </ScrollViewer>
+    </Panel>
+</UserControl>

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Interactivity;
-using System.Windows.Controls;
+﻿using Avalonia.Xaml.Interactivity;
+using Avalonia.Controls;
 
 namespace SporeMods.Manager
 {
@@ -14,8 +10,8 @@ namespace SporeMods.Manager
 			base.OnAttached();
 			AssociatedObject.Click += (sneder, args) =>
 			{
-				if (AssociatedObject.TemplatedParent is ContentControl control)
-					control.IsManipulationEnabled = false;
+				/*if (AssociatedObject.TemplatedParent is ContentControl control)
+					control.IsManipulationEnabled = false;*/
 			};
 		}
 	}

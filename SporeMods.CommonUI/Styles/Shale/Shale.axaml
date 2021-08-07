@@ -1,0 +1,79 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:cui="clr-namespace:SporeMods.CommonUI;assembly=SporeMods.CommonUI"
+		xmlns:core="clr-namespace:SporeMods.Core;assembly=SporeMods.Core">
+	<Styles.Resources>
+		<cui:UseCSDsBoolToSystemDecorationsConverter x:Key="UseCSDsBoolToSystemDecorationsConverter"/>
+		<!--cui:ClientRectHeightHackConverter x:Key="ClientRectHeightHackConverter"/-->
+	</Styles.Resources>
+	
+	<StyleInclude Source="avares://SporeMods.CommonUI/Styles/Shale/FluentTemp/BaseLight.axaml"/>
+	<StyleInclude Source="avares://SporeMods.CommonUI/Styles/Shale/FluentTemp/FluentBaseLight.axaml"/>
+	<StyleInclude Source="avares://SporeMods.CommonUI/Styles/Shale/FluentTemp/FluentControlResourcesLight.axaml"/>
+	
+	<StyleInclude Source="avares://Avalonia.Themes.Fluent/Controls/FluentControls.xaml"/>
+	
+
+		
+	<Style Selector=":is(Window)">
+		<Setter Property="SystemDecorations" Value="{Binding UseCustomWindowDecorations, Source={x:Static core:Settings.Instance}, Mode=OneWay, Converter={StaticResource UseCSDsBoolToSystemDecorationsConverter}}"/>
+		<!--Setter Property="cui:WindowFix.Borderless" Value="True"/-->
+	</Style>
+	<Style Selector=":is(Window)[SystemDecorations=BorderOnly]">
+		<Setter Property="TransparencyLevelHint" Value="Transparent"/>
+		<Setter Property="ExtendClientAreaToDecorationsHint" Value="False"/>
+	</Style>
+		<!--Setter Property="cui:CSDsHelper.UserSetsCSDs" Value="{Binding UseCustomWindowDecorations, Source={x:Static core:Settings.Instance}, Mode=OneWay}"/-->
+	
+	<!--Style Selector=":is(Window):not(:is(Window)[WindowState=Normal], :is(Window)[WindowState=Minimized]) /template/ ContentPresenter">
+		<Setter Property="Height" Value="{Binding (cui:WindowFix.MaxHackHeight), RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+	</Style-->
+		<!--Setter Property="Height" Value="{Binding Converter={StaticResource ClientRectHeightHackConverter}, RelativeSource={RelativeSource Mode=TemplatedParent}}"/-->
+		<!--Setter Property="cui:WindowFix.Borderless" Value="{Binding UseCustomWindowDecorations, Source={x:Static core:Settings.Instance}, Mode=OneWay}"/-->
+		
+		
+	<Style Selector="TextBlock">
+		<Setter Property="TextWrapping" Value="Wrap"/>
+	</Style>
+	
+	<Style Selector="cui|FakeRadioButtonsControl">
+		<Setter Property="Template">
+			<ControlTemplate>
+				<ItemsPresenter Name="PART_ItemsPresenter"
+								Items="{TemplateBinding Items}"
+								ItemTemplate="{TemplateBinding ItemTemplate}"
+								VirtualizationMode="{TemplateBinding VirtualizationMode}">
+					<ItemsPresenter.ItemsPanel>
+						<ItemsPanelTemplate>
+							<StackPanel Orientation="Vertical"/>
+						</ItemsPanelTemplate>
+					</ItemsPresenter.ItemsPanel>
+				</ItemsPresenter>
+			</ControlTemplate>
+		</Setter>
+	</Style>
+
+	<Style Selector="HeaderedContentControl">
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Border BorderBrush="Red"
+						BorderThickness="1"
+						Padding="4">
+					<DockPanel>
+						<ContentPresenter x:Name="PART_HeaderPresenter"
+										Content="{TemplateBinding Header}"
+										ContentTemplate="{TemplateBinding HeaderTemplate}"
+										DockPanel.Dock="Top"/>
+						<Rectangle DockPanel.Dock="Top"
+								Margin="4,2"
+								Height="1"
+								Fill="Red"/>
+						<ContentPresenter x:Name="PART_ContentPresenter"
+										Content="{TemplateBinding Content}"
+										ContentTemplate="{TemplateBinding ContentTemplate}"/>
+					</DockPanel>
+				</Border>
+			</ControlTemplate>
+		</Setter>
+	</Style>
+</Styles>

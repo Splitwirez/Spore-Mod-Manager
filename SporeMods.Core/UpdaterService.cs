@@ -19,7 +19,7 @@ namespace SporeMods.Core
 	/// </summary>
 	public static class UpdaterService
 	{
-		public static string UpdaterPath => Path.Combine(Settings.TempFolderPath, "smmUpdater.exe"); //"SporeModManagerSetup.exe");
+		public static string UpdaterPath => Path.Combine(SmmInfo.TempFolderPath, "smmUpdater.exe"); //"SporeModManagerSetup.exe");
 
 		public static readonly string IgnoreUpdatesArg = "-ignoreUpdates";
 
@@ -95,7 +95,7 @@ namespace SporeMods.Core
 			release = GetLatestGithubRelease("emd4600", "Spore-ModAPI");
 			var updateVersion = ParseGithubVersion(release.tag_name);
 
-			return updateVersion > Settings.CurrentDllsBuild;
+			return updateVersion > SmmInfo.CurrentDllsBuild;
 		}
 
 		/// <summary>
@@ -108,7 +108,7 @@ namespace SporeMods.Core
 			//release = GetLatestGithubRelease("emd4600", "sporemodder-fx");
 			var updateVersion = ParseGithubVersion(release.tag_name);
 
-			return updateVersion > Settings.ModManagerVersion;
+			return updateVersion > SmmInfo.CurrentVersion;
 		}
 
 		static readonly string[] DLL_NAMES = { "SporeModAPI.disk.dll", "SporeModAPI.march2017.dll", "SporeModAPI.lib" };
@@ -158,7 +158,7 @@ namespace SporeMods.Core
 						{
 							throw new InvalidOperationException("Invalid update: missing " + name + " in zip file");
 						}
-						string outPath = Path.Combine(Settings.CoreLibsPath, name);
+						string outPath = Path.Combine(SmmInfo.CoreLibsPath, name);
 						entry.ExtractToFile(outPath, true);
 						Permissions.GrantAccessFile(outPath);
 						++filesExtracted;
@@ -185,13 +185,13 @@ namespace SporeMods.Core
 		/// <returns></returns>
 		public static bool UpdateProgram(GithubRelease release, ProgressChangedEventHandler progressHandler)
 		{
-			string targetFramework = Settings.TargetFramework.ToLowerInvariant();
-			string fileName = Path.Combine(Settings.TempFolderPath, "smmUpdater.zip");
+			string targetFramework = SmmInfo.TargetFrameworkLabel.ToLowerInvariant();
+			string fileName = Path.Combine(SmmInfo.TempFolderPath, "smmUpdater.zip");
 
 			/*var asset = Array.Find(release.assets, a => a.name.ToLowerInvariant() == "updater--" + targetFramework + ".zip");
 			if (asset == null)
 			{*/
-				fileName = Path.Combine(Settings.TempFolderPath, "smmUpdater.exe");
+				fileName = Path.Combine(SmmInfo.TempFolderPath, "smmUpdater.exe");
 				var asset = Array.Find(release.assets, a => a.name.ToLowerInvariant() == "sporemodmanagersetup.exe");
 				if (asset == null)
 					throw new InvalidOperationException("Invalid update: no 'SporeModManagerSetup.exe' or 'updater--" + targetFramework + ".zip' asset");

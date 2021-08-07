@@ -1,42 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\SporeMods.SharedAssemblyInfo.props" />
   <Import Project="..\SporeMods.NetCoreSharedAssemblyInfo.props" />
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <UseWPF>true</UseWPF>
     <AssemblyTitle>SporeMods.Manager</AssemblyTitle>
     <Product>SporeMods.Manager</Product>
   </PropertyGroup>
   <Import Project="..\SporeMods.SharedOutputDirs.props" />
   <PropertyGroup>
-    <StartupObject></StartupObject>
-  </PropertyGroup>
-  <PropertyGroup>
     <ApplicationIcon>..\AppIcons\ModManagerIcon.ico</ApplicationIcon>
     <AssemblyName>Spore Mod Manager</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Mechanism-for-WPF\Mechanism.Wpf.Core\Mechanism.Wpf.Core.csproj">
-      <Project>{727669ac-3f83-41e1-aefd-13a8f0c1fdad}</Project>
-      <Name>Mechanism.Wpf.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mechanism-for-WPF\Themes\Shale\Mechanism.Wpf.Styles.Shale.csproj">
-      <Project>{1648a481-d3d4-49ac-b415-40ad57fea938}</Project>
-      <Name>Mechanism.Wpf.Styles.Shale</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SporeMods.CommonUI\SporeMods.CommonUI.csproj">
-      <Project>{21a4b753-80b6-426e-b09f-0e6bb307b139}</Project>
-      <Name>SporeMods.CommonUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SporeMods.Core\SporeMods.Core.csproj">
-      <Project>{5d0e076f-9c1c-4990-9242-4f7e7c66a045}</Project>
-      <Name>SporeMods.Core</Name>
-    </ProjectReference>
+    <AvaloniaResource Include="Styles\*.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="WPFTextBoxAutoComplete" Version="1.0.5" />
+    <ProjectReference Include="..\SporeMods.Core\SporeMods.Core.csproj"/>
+    <ProjectReference Include="..\SporeMods.CommonUI\SporeMods.CommonUI.csproj"/>
   </ItemGroup>
+  <!--ItemGroup>
+    <PackageReference Include="WPFTextBoxAutoComplete" Version="1.0.5" />
+  </ItemGroup-->
   <ItemGroup>
     <Content Include="..\AppIcons\ModManagerIcon.ico">
       <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
