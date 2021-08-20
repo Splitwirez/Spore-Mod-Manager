@@ -164,24 +164,24 @@ namespace SporeMods.Core
 		[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
 		internal static extern bool QueryFullProcessImageName(IntPtr hProcess, int dwFlags, StringBuilder lpExeName, out int lpdwSize);
 
-		public static string GetExecutablePath(this Process process)
-		{
-			string returnValue = string.Empty;
-			StringBuilder stringBuilder = new StringBuilder(1024);
-			IntPtr hprocess = OpenProcess(0x1000, false, process.Id);
+        public static string GetExecutablePath(this Process process)
+        {
+            string returnValue = string.Empty;
+            StringBuilder stringBuilder = new StringBuilder(1024);
+            IntPtr hprocess = OpenProcess(0x1000, false, process.Id);
 
-			if (hprocess != IntPtr.Zero)
-			{
-				int size = stringBuilder.Capacity;
+            if (hprocess != IntPtr.Zero)
+            {
+                int size = stringBuilder.Capacity;
 
-				if (QueryFullProcessImageName(hprocess, 0, stringBuilder, out size))
-					returnValue = stringBuilder.ToString();
-			}
+                if (QueryFullProcessImageName(hprocess, 0, stringBuilder, out size))
+                    returnValue = stringBuilder.ToString();
+            }
 
-			return returnValue;
-		}
+            return returnValue;
+        }
 
-		/*public static void VerifyServantIsRunning()
+        /*public static void VerifyServantIsRunning()
 		{
 			try
 			{
@@ -206,7 +206,7 @@ namespace SporeMods.Core
 			}
 		}*/
 
-		/*public static void DoFirstRunVerification()
+        /*public static void DoFirstRunVerification()
 		{
 			Debug.WriteLine("FIRST RUN VERIFICATION");
 			if (Settings.IsFirstRun)
@@ -217,7 +217,7 @@ namespace SporeMods.Core
 			}
 		}*/
 
-		public static event EventHandler<ModRegistrationEventArgs> AddModProgress;
+        public static event EventHandler<ModRegistrationEventArgs> AddModProgress;
 
 		static void InvokeAddModProgress(ManagedMod mod)
 		{

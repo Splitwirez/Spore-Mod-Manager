@@ -15,10 +15,25 @@ namespace SporeMods.Core.Mods
 	/// </summary>
 	public class ManagedMod : IInstalledMod, INotifyPropertyChanged
 	{
+		public static readonly string MOD_INFO = "ModInfo.xml";
+
+		// True if the mod has its files in the SMM storage, false if not (for example just before it is installed)
+		// When it is false, _xmlPath, _configPath, StoragePath must be ignored
+		bool _hasStoredFiles;
 		string _xmlPath;
 		string _configPath;
 		bool _isLegacy;
 		bool _copyAllFiles;
+
+		public ManagedMod(string name, bool isEnabledByDefault, ModIdentity identity)
+        {
+			_hasStoredFiles = false;
+			Identity = identity;
+			Configuration = new ModConfiguration(this);
+			Configuration.IsEnabled = isEnabledByDefault;
+			Configuration.Tags.AddRange(Identity.Tags);
+			PopulateEnabledUniques(Identity);
+		}
 
 		public ManagedMod(string name, bool isEnabledByDefault)
 		{
@@ -27,7 +42,7 @@ namespace SporeMods.Core.Mods
 			_configPath = Path.Combine(StoragePath, "Config.xml");
 
 			var document = XDocument.Load(_xmlPath);
-			Version xmlVersion = ParseXmlVersion(document);
+			Version xmlVersion = XmlModIdentity.ParseXmlVersion(document);
 
 			if (xmlVersion.Major == 1)
 			{
@@ -57,24 +72,8 @@ namespace SporeMods.Core.Mods
 				IsProgressingChanged?.Invoke(this, null);
 				RaiseAnyModIsProgressingChanged(this, false, true);
 			}
-		}
 
-		private Version ParseXmlVersion(XDocument document)
-		{
-			var xmlVersionAttr = document.Root.Attribute("installerSystemVersion");
-			if (xmlVersionAttr != null)
-			{
-				if (Version.TryParse(xmlVersionAttr.Value, out Version version))
-				{
-					return version;
-				}
-				else
-					throw new FormatException("Mod identity 'installerSystemVersion': '" + xmlVersionAttr.Value + "' is not a valid version");
-			}
-			else
-			{
-				throw new FormatException("Mod identity 'installerSystemVersion': '" + xmlVersionAttr.Value + "' is not a valid version");
-			}
+			_hasStoredFiles = true;
 		}
 
 		private void PopulateEnabledUniques(BaseModComponent component)
@@ -138,7 +137,7 @@ namespace SporeMods.Core.Mods
 			get => ModVersion != ModIdentity.UNKNOWN_MOD_VERSION;
 		}
 
-		public bool IsEnabled 
+		private bool IsEnabled 
 		{
 			get { return Configuration.IsEnabled; }
 			set
@@ -358,66 +357,66 @@ namespace SporeMods.Core.Mods
 		/// <summary>
 		/// Queues all of this mod's enabled files for installation
 		/// </summary>
-		public async Task<bool> EnableMod()
+		public bool EnableMod()
 		{
-			var task = new Task<bool>(() =>
+			if (!_hasStoredFiles)
+            {
+				throw new InvalidOperationException("Cannot enable mod, _hasStoredFiles=false");
+            }
+
+			try
 			{
-				try
+				// It is possible that this is called RegisterSporemodModAsync, and some progress has already happened
+				double totalProgress = 100.0;
+
+				bool startsHere = !IsProgressing;
+				if (startsHere)
 				{
-					// It is possible that this is called RegisterSporemodModAsync, and some progress has already happened
-					double totalProgress = 100.0;
-
-					bool startsHere = !IsProgressing;
-					if (startsHere)
-					{
-						Progress = 0;
-						IsProgressing = true;
-					}
-					else
-					{
-						totalProgress = 100.0 - Progress;
-					}
-
-					RemoveModFiles(totalProgress * 0.1);
-
-					if (_copyAllFiles)
-					{
-						var files = Directory.EnumerateFiles(StoragePath).Where(x => ModsManager.IsModFile(x));
-						var progressInc = totalProgress * 0.9 / files.Count();
-
-						foreach (string s in files)
-						{
-							if (Path.GetExtension(s).ToLowerInvariant() == ".package")
-								FileWrite.SafeCopyFile(s, FileWrite.GetFileOutputPath(ComponentGameDir.GalacticAdventures, Path.GetFileName(s), _isLegacy));
-							else if (Path.GetExtension(s).ToLowerInvariant() == ".dll")
-								FileWrite.SafeCopyFile(s, FileWrite.GetFileOutputPath(ComponentGameDir.ModAPI, Path.GetFileName(s), _isLegacy));
-
-							Progress += progressInc;
-						}
-					}
-					else
-					{
-						EnableModAdvanced(totalProgress * 0.9);
-					}
-
 					Progress = 0;
-					IsProgressing = false;
-
-					Configuration.IsEnabled = true;
-
-					Configuration.Save(_configPath);
-
-					return true;
+					IsProgressing = true;
 				}
-				catch (Exception ex)
+				else
 				{
-					MessageDisplay.RaiseError(new ErrorEventArgs(ex));
-					ModsManager.InstalledMods.Add(new InstallError(ex));
-					return false;
+					totalProgress = 100.0 - Progress;
 				}
-			});
-			task.Start();
-			return await task;
+
+				RemoveModFiles(totalProgress * 0.1);
+
+				if (_copyAllFiles)
+				{
+					var files = Directory.EnumerateFiles(StoragePath).Where(x => ModsManager.IsModFile(x));
+					var progressInc = totalProgress * 0.9 / files.Count();
+
+					foreach (string s in files)
+					{
+						if (Path.GetExtension(s).ToLowerInvariant() == ".package")
+							FileWrite.SafeCopyFile(s, FileWrite.GetFileOutputPath(ComponentGameDir.GalacticAdventures, Path.GetFileName(s), _isLegacy));
+						else if (Path.GetExtension(s).ToLowerInvariant() == ".dll")
+							FileWrite.SafeCopyFile(s, FileWrite.GetFileOutputPath(ComponentGameDir.ModAPI, Path.GetFileName(s), _isLegacy));
+
+						Progress += progressInc;
+					}
+				}
+				else
+				{
+					EnableModAdvanced(totalProgress * 0.9);
+				}
+
+				Progress = 0;
+				IsProgressing = false;
+
+				Configuration.IsEnabled = true;
+
+				Configuration.Save(_configPath);
+
+				return true;
+			}
+			catch (Exception ex)
+			{
+				MessageDisplay.RaiseError(new ErrorEventArgs(ex));
+				ModsManager.InstalledMods.Add(new InstallError(ex));
+				return false;
+			}
 		}
 
 		private int GetEnabledComponentFileCount(BaseModComponent component)
@@ -571,39 +570,39 @@ namespace SporeMods.Core.Mods
 		/// <summary>
 		/// [PARTIAL NYI]Queues all of this mod's enabled files for removal, and all disabled files for installation
 		/// </summary>
-		public async Task<bool> DisableMod()
+		public bool DisableMod()
 		{
-			var task = new Task<bool>(() =>
+			if (!_hasStoredFiles)
 			{
-				try
-				{
-					Progress = 0;
-					IsProgressing = true;
-					RemoveModFiles(100.0);
+				throw new InvalidOperationException("Cannot enable mod, _hasStoredFiles=false");
+			}
 
-					Progress = 0;
-					IsProgressing = false;
+			try
+			{
+				Progress = 0;
+				IsProgressing = true;
+				RemoveModFiles(100.0);
 
-					Configuration.IsEnabled = true;
+				Progress = 0;
+				IsProgressing = false;
 
-					return true;
-				}
-				catch (Exception ex)
-				{
-					ModsManager.InstalledMods.Add(new InstallError(ex));
-					return false;
-				}
-			});
-			task.Start();
-			return await task;
+				Configuration.IsEnabled = true;
+
+				return true;
+			}
+			catch (Exception ex)
+			{
+				ModsManager.InstalledMods.Add(new InstallError(ex));
+				return false;
+			}
 		}
 
-		public async Task EnableOrDisable(bool isEnabling)
+		private void EnableOrDisable(bool isEnabling)
 		{
 			if (isEnabling)
-				await EnableMod();
+				EnableMod();
 			else
-				await DisableMod();
+				DisableMod();
 
 			NotifyPropertyChanged(nameof(IsEnabled));
 		}
