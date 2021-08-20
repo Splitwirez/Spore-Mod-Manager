@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
 
@@ -8,37 +9,57 @@ namespace SporeMods.Core.ModInstallationaa
 {
     public abstract class ModTransaction
     {
-        private ConcurrentStack<IModOperation> steps;
+        // The operations that have executed, in order. This will be used to undo them.
+        private ConcurrentStack<IModOperation> operations;
+
+        // Number of operations that are currently running. We must wait for them to finish before we can undo them.
+        private CountdownEvent numRunningOperations;
 
         /// <summary>
-        /// Adds a step to be executed synchronously, immediately executing it.
+        /// Adds an operation to be executed synchronously, immediately executing it.
         /// </summary>
-        /// <param name="step"></param>
-        protected T operation<T>(T step) where T : IModOperation
+        /// <param name="operation"></param>
+        protected T operation<T>(T operation) where T : IModOperation
         {
-            steps.Push(step);
-            step.Do();
-            return step;
+            operations.Push(operation);
+            numRunningOperations.AddCount();
+            operation.Do();
+            numRunningOperations.Signal();
+            return operation;
         }
 
         /// <summary>
-        /// Adds a step to be executed asynchronously, and begins executing it.
+        /// Adds an operation to be executed asynchronously, and begins executing it.
         /// </summary>
-        /// <param name="step"></param>
+        /// <param name="operation"></param>
         /// <returns></returns>
-        protected Task<T> operationAsync<T>(T step) where T : IModOperation
+        protected Task<T> operationAsync<T>(T operation) where T : IModOperation
         {
-            steps.Push(step);
+            operations.Push(operation);
             var task = new Task<T>(() =>
             {
-                steps.Push(step);
-                step.Do();
-                return step;
+                operations.Push(operation);
+                numRunningOperations.AddCount();
+                operation.Do();
+                numRunningOperations.Signal();
+                return operation;
             });
             task.Start();
             return task;
         }
 
         public abstract Task<bool> DoAsync();
+
+        public virtual void Undo()
+        {
+            // Wait until all currently running operations have finished running
+            numRunningOperations.Wait();
+
+            while (!operations.IsEmpty)
+            {
+                operations.TryPop(out IModOperation op);
+                op.Undo();
+            }
+        }
     }
 }
