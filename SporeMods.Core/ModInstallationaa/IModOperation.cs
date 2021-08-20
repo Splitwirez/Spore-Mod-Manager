@@ -7,14 +7,14 @@ namespace SporeMods.Core.ModInstallationaa
 {
     public interface IModOperation
     {
-        public bool Do()
-        {
-            throw new NotSupportedException("This step can only be called asynchronously.");
-        }
-        public Task<bool> DoAsync() 
-        {
-            throw new NotSupportedException("This step can only be called synchronously.");
-        }
         public void Undo();
+    }
+    public interface IModSyncOperation : IModOperation
+    {
+        public bool Do();
+    }
+    public interface IModAsyncOperation : IModOperation
+    {
+        public Task<bool> DoAsync();
     }
 }

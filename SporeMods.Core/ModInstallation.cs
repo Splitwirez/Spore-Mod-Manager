@@ -274,7 +274,8 @@ namespace SporeMods.Core
 					ModsManager.RemoveMatchingManuallyInstalledFile(name, ComponentGameDir.GalacticAdventures);
 					mod.Progress++;
 
-					await mod.EnableMod();
+					//await mod.EnableMod();
+					mod.EnableMod();
 
 					_installableMods.Add(noExtensionName);
 					/*}
@@ -617,7 +618,8 @@ namespace SporeMods.Core
 							if (mod.HasConfigurator)
 								await RegisterSporemodModWithInstallerAsync(name);
 							else
-								await mod.EnableMod();
+								//await mod.EnableMod();
+								mod.EnableMod();
 							/*}
 							else
 							{
@@ -736,7 +738,8 @@ namespace SporeMods.Core
 				{
 					if (!isProgressing)
 						IS_RECONFIGURING_MODS = true;
-					await mod.EnableMod();
+					//await mod.EnableMod();
+					mod.EnableMod();
 				}
 				else if (!isProgressing)
 					mod.Configuration.Reload();

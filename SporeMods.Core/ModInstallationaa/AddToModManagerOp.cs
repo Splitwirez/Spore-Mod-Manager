@@ -2,30 +2,30 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SporeMods.Core.ModInstallationaa
 {
     /// <summary>
-    /// Enables a mod; this is a blocking operation. Undoing this operation disables the mod.
+    /// Adds the mod to the mod manager. Undoing this removes the mod from the manager.
     /// </summary>
-    public class EnableModOp : IModSyncOperation
+    public class AddToModManagerOp : IModSyncOperation
     {
         private readonly ManagedMod mod;
 
-        public EnableModOp(ManagedMod mod)
+        public AddToModManagerOp(ManagedMod mod)
         {
             this.mod = mod;
         }
 
         public bool Do()
         {
-            return mod.EnableMod();
+            ModsManager.AddMod(mod);
+            return true;
         }
 
         public void Undo()
         {
-            mod.DisableMod();
+            ModsManager.RemoveMod(mod);
         }
     }
 }

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace SporeMods.Core.ModInstallationaa
 {
-    public class ShowInstallerOp : IModOperation
+    public class ShowInstallerAsyncOp : IModAsyncOperation
 	{
 		private ManagedMod mod;
 		
-		public ShowInstallerOp(ManagedMod mod)
+		public ShowInstallerAsyncOp(ManagedMod mod)
         {
 			this.mod = mod;
         }

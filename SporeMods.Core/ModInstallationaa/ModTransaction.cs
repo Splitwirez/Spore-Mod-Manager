@@ -7,6 +7,26 @@ using System.Collections.Concurrent;
 
 namespace SporeMods.Core.ModInstallationaa
 {
+    /// <summary>
+    /// Exception thrown when the transaction commit fails, and must be rolled back.
+    /// </summary>
+    public class ModTransactionCommitException : Exception
+    {
+        public ModTransactionCommitException()
+        {
+        }
+
+        public ModTransactionCommitException(string message)
+            : base(message)
+        {
+        }
+
+        public ModTransactionCommitException(string message, Exception inner)
+            : base(message, inner)
+        {
+        }
+    }
+
     public abstract class ModTransaction
     {
         // The operations that have executed, in order. This will be used to undo them.
@@ -19,12 +39,37 @@ namespace SporeMods.Core.ModInstallationaa
         /// Adds an operation to be executed synchronously, immediately executing it.
         /// </summary>
         /// <param name="operation"></param>
-        protected T operation<T>(T operation) where T : IModOperation
+        protected T Operation<T>(T operation) where T : IModSyncOperation
         {
             operations.Push(operation);
             numRunningOperations.AddCount();
-            operation.Do();
+            if (!operation.Do())
+            {
+                throw new ModTransactionCommitException();
+            }
             numRunningOperations.Signal();
+            return operation;
+        }
+
+        /// <summary>
+        /// Adds an operation to be executed on another thread, immediately starting it but without blocking.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="operation"></param>
+        /// <returns></returns>
+        protected T OperationNonBlocking<T>(T operation) where T : IModSyncOperation
+        {
+            operations.Push(operation);
+            var task = new Task(() =>
+            {
+                numRunningOperations.AddCount();
+                if (!operation.Do())
+                {
+                    throw new ModTransactionCommitException();
+                }
+                numRunningOperations.Signal();
+            });
+            task.Start();
             return operation;
         }
 
@@ -33,24 +78,21 @@ namespace SporeMods.Core.ModInstallationaa
         /// </summary>
         /// <param name="operation"></param>
         /// <returns></returns>
-        protected Task<T> operationAsync<T>(T operation) where T : IModOperation
+        protected async Task<T> OperationAsync<T>(T operation) where T : IModAsyncOperation
         {
             operations.Push(operation);
-            var task = new Task<T>(() =>
+            numRunningOperations.AddCount();
+            if (!await operation.DoAsync())
             {
-                operations.Push(operation);
-                numRunningOperations.AddCount();
-                operation.Do();
-                numRunningOperations.Signal();
-                return operation;
-            });
-            task.Start();
-            return task;
+                throw new ModTransactionCommitException();
+            }
+            numRunningOperations.Signal();
+            return operation;
         }
 
-        public abstract Task<bool> DoAsync();
+        public abstract Task<bool> CommitAsync();
 
-        public virtual void Undo()
+        public virtual void Rollback()
         {
             // Wait until all currently running operations have finished running
             numRunningOperations.Wait();
