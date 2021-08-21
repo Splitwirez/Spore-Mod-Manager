@@ -12,6 +12,7 @@ namespace SporeMods.Core.ModInstallationaa
 {
 	/// <summary>
 	/// Extracts the ModInfo.xml file from the mod zip archive, generating one if the zip doesn't have one.
+	/// If the zip is null, it also generates the file.
 	/// Undoing this action removes the extracted file.
 	/// You can optionally specify a CountdownEvent; if you do, it will send one signal when the file is extracted.
 	/// </summary>
@@ -46,7 +47,7 @@ namespace SporeMods.Core.ModInstallationaa
 
 		public bool Do()
         {
-			if (zip.TryGetEntry(ManagedMod.MOD_INFO, out ZipArchiveEntry entry))
+			if (zip != null && zip.TryGetEntry(ManagedMod.MOD_INFO, out ZipArchiveEntry entry))
 			{
 				string xmlOutPath = Path.Combine(outputDirPath, ManagedMod.MOD_INFO);
 				entry.ExtractToFile(xmlOutPath, true);

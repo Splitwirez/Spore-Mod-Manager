@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -16,30 +17,53 @@ namespace SporeMods.Core.Mods
 	public class ManagedMod : IInstalledMod, INotifyPropertyChanged
 	{
 		public static readonly string MOD_INFO = "ModInfo.xml";
+		public static readonly string MOD_CONFIG = "Config.xml";
 
 		// True if the mod has its files in the SMM storage, false if not (for example just before it is installed)
 		// When it is false, _xmlPath, _configPath, StoragePath must be ignored
 		bool _hasStoredFiles;
+		// Only valid when we are installing
+		ZipArchive _zipArchive;
+
 		string _xmlPath;
 		string _configPath;
 		bool _isLegacy;
 		bool _copyAllFiles;
 
-		public ManagedMod(string name, bool isEnabledByDefault, ModIdentity identity)
+		/// <summary>
+		/// Creates a non-stored managed mod, which is only temporary. This mod is linked to a mod identity,
+		/// but it has no extracted files inside SMM and many features cannot be used.
+		/// Optionally, the original zip archive of the mod can be provided: this will be used to extract resources for the configurator.
+		/// </summary>
+		/// <param name="isEnabledByDefault"></param>
+		/// <param name="identity"></param>
+		/// <param name="zip"></param>
+		public ManagedMod(bool isEnabledByDefault, ModIdentity identity, ZipArchive zip = null)
         {
+			_zipArchive = zip;
 			_hasStoredFiles = false;
 			Identity = identity;
+			Identity.ParentMod = this;
+
 			Configuration = new ModConfiguration(this);
 			Configuration.IsEnabled = isEnabledByDefault;
 			Configuration.Tags.AddRange(Identity.Tags);
 			PopulateEnabledUniques(Identity);
 		}
 
-		public ManagedMod(string name, bool isEnabledByDefault)
+		/// <summary>
+		/// Creates a managed mod instance for a mod whose files are present in SMM.
+		/// Optionally, a predefined configuration can be specified; if not, it will use the configuration
+		/// existing in the folder, or create a new one.
+		/// </summary>
+		/// <param name="unique">The unique tag, used as folder name</param>
+		/// <param name="isEnabledByDefault"></param>
+		/// <param name="configuration"></param>
+		public ManagedMod(string unique, bool isEnabledByDefault, ModConfiguration configuration = null)
 		{
-			StoragePath = Path.Combine(Settings.ModConfigsPath, Path.GetFileName(name));
-			_xmlPath = Path.Combine(StoragePath, "ModInfo.xml");
-			_configPath = Path.Combine(StoragePath, "Config.xml");
+			StoragePath = Path.Combine(Settings.ModConfigsPath, unique);
+			_xmlPath = Path.Combine(StoragePath, MOD_INFO);
+			_configPath = Path.Combine(StoragePath, MOD_CONFIG);
 
 			var document = XDocument.Load(_xmlPath);
 			Version xmlVersion = XmlModIdentity.ParseXmlVersion(document);
@@ -49,7 +73,16 @@ namespace SporeMods.Core.Mods
 				Identity = XmlModIdentityV1.ParseModIdentity(this, document.Root);
 			}
 
-			PrepareConfiguration(isEnabledByDefault);
+			if (configuration == null)
+			{
+				PrepareConfiguration(isEnabledByDefault);
+			}
+			else
+            {
+				Configuration = configuration;
+				Configuration.IsEnabled = isEnabledByDefault;
+				Configuration.Save(_configPath);
+			}
 
 			string isLegacyPath = Path.Combine(StoragePath, "UseLegacyDLLs");
 			if (xmlVersion == ModIdentity.XmlModIdentityVersion1_0_0_0)
@@ -165,11 +198,24 @@ namespace SporeMods.Core.Mods
 		}
 
 
-		string LogoPath => Path.Combine(StoragePath, "Branding.png"); 
+		string LogoPath => _hasStoredFiles ? Path.Combine(StoragePath, "Branding.png") : null; 
 		
 		public bool HasLogo
 		{
-			get => File.Exists(LogoPath) && TryGetLogo(LogoPath, out System.Drawing.Image img);
+			get {
+				if (_hasStoredFiles)
+				{
+					return File.Exists(LogoPath) && TryGetLogo(LogoPath, out System.Drawing.Image img);
+				}
+				else if (_zipArchive != null)
+                {
+					return _zipArchive.GetEntry("Branding.png") != null;
+                }
+				else
+                {
+					return false;
+                }
+			}
 		}
 
 		/// <summary>
@@ -192,10 +238,21 @@ namespace SporeMods.Core.Mods
 			try
 			{
 				System.Drawing.Image logo = null;
-				using (FileStream stream = new FileStream(LogoPath, FileMode.Open, FileAccess.Read))
-				{
-					stream.Seek(0, SeekOrigin.Begin);
-					logo = System.Drawing.Image.FromStream(stream);
+				if (path != null)
+                {
+					using (FileStream stream = new FileStream(LogoPath, FileMode.Open, FileAccess.Read))
+					{
+						stream.Seek(0, SeekOrigin.Begin);
+						logo = System.Drawing.Image.FromStream(stream);
+					}
+				}
+				else if (_zipArchive != null)
+                {
+					using (Stream stream = _zipArchive.GetEntry("Branding.png").Open())
+					{
+						stream.Seek(0, SeekOrigin.Begin);
+						logo = System.Drawing.Image.FromStream(stream);
+					}
 				}
 				img = logo;
 				return true;

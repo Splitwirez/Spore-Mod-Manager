@@ -67,7 +67,7 @@ namespace SporeMods.Core.Mods
 			ParentMod = mod;
 		}
 
-		public ManagedMod ParentMod { get; }
+		public ManagedMod ParentMod { get; set; }
 
 		/// <summary>
 		/// The version of XML Mod Identity used by this mod.

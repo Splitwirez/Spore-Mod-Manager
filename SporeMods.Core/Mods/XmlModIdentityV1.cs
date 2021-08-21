@@ -115,9 +115,6 @@ namespace SporeMods.Core.Mods
 
 		public static ModIdentity ParseModIdentity(ManagedMod mod, XElement node)
 		{
-			Stopwatch stopwatch = new Stopwatch();
-			stopwatch.Start();
-
 			var uniqueAttr = node.Attribute("unique");
 			if (uniqueAttr == null)
 				throw new FormatException("A mod must have a 'unique' attribute");
@@ -278,10 +275,6 @@ namespace SporeMods.Core.Mods
 					throw new FormatException(GetLocalizedString("Mods!Error!Identity!UnrecognizedTag").Replace("%TAGNAME%", subNode.Name.LocalName));//"Unknown element '" + subNode.Name.LocalName + "'");
 				}
 			}
-
-			stopwatch.Stop();
-			Console.WriteLine("Elapsed Time is {0} ms", stopwatch.ElapsedMilliseconds);
-			MessageDisplay.ShowMessageBox("Elapsed Time is " + stopwatch.ElapsedMilliseconds + " ms");
 
 			return identity;
 		}

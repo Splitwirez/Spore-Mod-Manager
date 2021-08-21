@@ -34,7 +34,7 @@ namespace SporeMods.Core.ModInstallationaa
 
             // 2. Show the configurator, if any
             // Needed to show the configurator
-            var managedMod = new ManagedMod(modName, true, identity);
+            var managedMod = new ManagedMod(true, identity);
             
             if (managedMod.HasConfigurator)
             {
@@ -44,20 +44,26 @@ namespace SporeMods.Core.ModInstallationaa
             // 3. Create the directory
             Operation(new CreateDirectoryOp(modDirectory));
 
-            var fileEntries = zip.Entries.Where(x => !x.IsDirectory());
-            // We use this latch to wait until all files are extracted. + 1 to account for the ModInfo.xml
-            var fileLatch = new CountdownEvent(fileEntries.Count() + 1);
-
-            // 4. Extract the XML file
-            OperationNonBlocking(new ExtractXmlIdentityOp(zip, modDirectory, unique, modName, fileLatch));
-
-            // 5. Extract all mod files
-            foreach (ZipArchiveEntry e in fileEntries)
+            // I wanted to extract each file on a separate thread, but it seems the zip library doesn't like that
+            await Task.Run(() =>
             {
-                OperationNonBlocking(new ExtractFileOp(e, modDirectory, fileLatch));
-            }
+                // 4. Extract the XML file
+                Operation(new ExtractXmlIdentityOp(zip, modDirectory, unique, modName));
+
+                // 5. Extract all mod files
+                var fileEntries = zip.Entries.Where(x => !x.IsDirectory());
+                foreach (ZipArchiveEntry e in fileEntries)
+                {
+                    Operation(new ExtractFileOp(e, modDirectory));
+                }
+            });
+
             // We cannot enable the mod until all files are extracted
-            fileLatch.Wait();
+
+            // The instance we have of ManagedMod was temporary, only to show the configurator;
+            // recreate it now that we have all the files extracted
+            managedMod = Operation(new InitManagedModConfigOp(unique, managedMod.Configuration)).mod;
+            identity = managedMod.Identity;
 
             // 6. Enable the mod and add it to the mod list
             Operation(new AddToModManagerOp(managedMod));

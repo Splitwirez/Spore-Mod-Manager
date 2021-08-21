@@ -35,6 +35,7 @@ using DialogResult = System.Windows.Forms.DialogResult;
 using Mechanism.Wpf.Core;
 using SporeMods.CommonUI;
 using SporeMods.CommonUI.Localization;
+using SporeMods.Core.ModInstallationaa;
 
 namespace SporeMods.Manager
 {
@@ -1240,7 +1241,7 @@ namespace SporeMods.Manager
 
 		async Task InstallModsFromFilesAsync(string[] modPaths)
 		{
-			/*ModInstallationStatus status = */await ModInstallation.InstallModsAsync(modPaths);
+			await ModTransactionManager.InstallModsAsync(modPaths);
 		}
 
 		void ModsManager_TasksCompleted(object sender, ModTasksCompletedEventArgs e)

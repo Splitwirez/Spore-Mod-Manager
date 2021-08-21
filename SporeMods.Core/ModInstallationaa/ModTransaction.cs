@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 
 namespace SporeMods.Core.ModInstallationaa
 {
@@ -30,10 +31,10 @@ namespace SporeMods.Core.ModInstallationaa
     public abstract class ModTransaction
     {
         // The operations that have executed, in order. This will be used to undo them.
-        private ConcurrentStack<IModOperation> operations;
+        private ConcurrentStack<IModOperation> operations = new ConcurrentStack<IModOperation>();
 
-        // Number of operations that are currently running. We must wait for them to finish before we can undo them.
-        private CountdownEvent numRunningOperations;
+        // All tasks that have run, we must wait for them to finish before we can undo them.
+        private ConcurrentBag<Task<bool>> executedTasks = new ConcurrentBag<Task<bool>>();
 
         /// <summary>
         /// Adds an operation to be executed synchronously, immediately executing it.
@@ -42,12 +43,10 @@ namespace SporeMods.Core.ModInstallationaa
         protected T Operation<T>(T operation) where T : IModSyncOperation
         {
             operations.Push(operation);
-            numRunningOperations.AddCount();
             if (!operation.Do())
             {
                 throw new ModTransactionCommitException();
             }
-            numRunningOperations.Signal();
             return operation;
         }
 
@@ -60,15 +59,16 @@ namespace SporeMods.Core.ModInstallationaa
         protected T OperationNonBlocking<T>(T operation) where T : IModSyncOperation
         {
             operations.Push(operation);
-            var task = new Task(() =>
+            var task = new Task<bool>(() =>
             {
-                numRunningOperations.AddCount();
                 if (!operation.Do())
                 {
                     throw new ModTransactionCommitException();
                 }
-                numRunningOperations.Signal();
+                // we need a return value to add the task to executedTasks
+                return true;
             });
+            executedTasks.Add(task);
             task.Start();
             return operation;
         }
@@ -81,12 +81,12 @@ namespace SporeMods.Core.ModInstallationaa
         protected async Task<T> OperationAsync<T>(T operation) where T : IModAsyncOperation
         {
             operations.Push(operation);
-            numRunningOperations.AddCount();
-            if (!await operation.DoAsync())
+            var task = operation.DoAsync();
+            executedTasks.Add(task);
+            if (!await task)
             {
                 throw new ModTransactionCommitException();
             }
-            numRunningOperations.Signal();
             return operation;
         }
 
@@ -94,12 +94,14 @@ namespace SporeMods.Core.ModInstallationaa
 
         public virtual void Rollback()
         {
+            Debug.WriteLine("Rollback on transaction " + ToString());
             // Wait until all currently running operations have finished running
-            numRunningOperations.Wait();
+            Task.WhenAll(executedTasks).Wait();
 
             while (!operations.IsEmpty)
             {
                 operations.TryPop(out IModOperation op);
+                Debug.WriteLine(" - undoing " + op.ToString());
                 op.Undo();
             }
         }
