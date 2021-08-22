@@ -159,21 +159,21 @@ namespace SporeMods.Core
 			NotifyPropertyChanged();
 		}
 
-		public static void RemoveMatchingManuallyInstalledFile(string fileName, ComponentGameDir targetLocation)
-		{
-			SyncContext.Send(state =>
-			{
-				foreach (ManualInstalledFile file in ModsManager.InstalledMods.Where(
-					x => x is ManualInstalledFile && ((ManualInstalledFile)x).Location == targetLocation))
-				{
-					if (file.RealName.Equals(fileName, StringComparison.OrdinalIgnoreCase))
-					{
-						ModsManager.InstalledMods.Remove(file);
-						break;
-					}
-				}
-			}, null);
-		}
+		public static ManualInstalledFile GetManuallyInstalledFile(string fileName, ComponentGameDir targetLocation)
+        {
+			foreach (var mod in InstalledMods)
+            {
+				if (mod is ManualInstalledFile)
+                {
+					var file = (ManualInstalledFile)mod;
+					if (file.Location == targetLocation && file.RealName.Equals(fileName, StringComparison.OrdinalIgnoreCase))
+                    {
+						return file;
+                    }
+                }
+            }
+			return null;
+        }
 
 		public static string GetModsListForClipboard()
 		{

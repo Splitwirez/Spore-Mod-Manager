@@ -14,9 +14,13 @@ namespace SporeMods.Core.ModInstallationaa
     /// </summary>
     public class ExtractFileOp : IModSyncOperation
     {
-        private readonly ZipArchiveEntry entry;
-        private readonly string outputDir;
-        private readonly CountdownEvent countdownLatch;
+        public readonly ZipArchiveEntry entry;
+        public readonly string outputDir;
+        public readonly CountdownEvent countdownLatch;
+        private bool isModInfo;
+        // It is possible that this file replaces a mod that was detected as a manually installed file
+        private int manuallyInstalledFileIndex;
+        private ManualInstalledFile manuallyInstalledFile;
 
         public ExtractFileOp(ZipArchiveEntry entry, string outputDir, CountdownEvent countdownLatch = null)
         {
@@ -27,8 +31,9 @@ namespace SporeMods.Core.ModInstallationaa
 
         public bool Do()
         {
+            Thread.Sleep(1000);
             string name = entry.Name.ToLowerInvariant();
-            bool isModInfo = name.Contains(ManagedMod.MOD_INFO.ToLowerInvariant());
+            isModInfo = name.Contains(ManagedMod.MOD_INFO.ToLowerInvariant());
 
             if (!isModInfo)
             {
@@ -36,7 +41,12 @@ namespace SporeMods.Core.ModInstallationaa
                 entry.ExtractToFile(outPath, true);
                 Permissions.GrantAccessFile(outPath);
 
-                ModsManager.RemoveMatchingManuallyInstalledFile(entry.Name, ComponentGameDir.GalacticAdventures);
+                manuallyInstalledFile = ModsManager.GetManuallyInstalledFile(entry.Name, ComponentGameDir.GalacticAdventures);
+                if (manuallyInstalledFile != null)
+                {
+                    manuallyInstalledFileIndex = ModsManager.InstalledMods.IndexOf(manuallyInstalledFile);
+                    ModsManager.RemoveMod(manuallyInstalledFile);
+                }
             }
             if (countdownLatch != null) countdownLatch.Signal();
             return true;
@@ -44,8 +54,16 @@ namespace SporeMods.Core.ModInstallationaa
 
         public void Undo()
         {
-            string outPath = Path.Combine(outputDir, entry.Name);
-            File.Delete(outPath);
+            if (!isModInfo)
+            {
+                string outPath = Path.Combine(outputDir, entry.Name);
+                File.Delete(outPath);
+
+                if (manuallyInstalledFile != null)
+                {
+                    ModsManager.InsertMod(manuallyInstalledFileIndex, manuallyInstalledFile);
+                }
+            }
         }
     }
 }

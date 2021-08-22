@@ -271,7 +271,7 @@ namespace SporeMods.Core
 					task.Start();
 					await task;
 
-					ModsManager.RemoveMatchingManuallyInstalledFile(name, ComponentGameDir.GalacticAdventures);
+					//ModsManager.RemoveMatchingManuallyInstalledFile(name, ComponentGameDir.GalacticAdventures);
 					mod.Progress++;
 
 					//await mod.EnableMod();
@@ -592,7 +592,7 @@ namespace SporeMods.Core
 
 
 
-										ModsManager.RemoveMatchingManuallyInstalledFile(e.Name, ComponentGameDir.GalacticAdventures);
+										//ModsManager.RemoveMatchingManuallyInstalledFile(e.Name, ComponentGameDir.GalacticAdventures);
 										mod.Progress += totalProgress / fileCount;
 									}
 								}

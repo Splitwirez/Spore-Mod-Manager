@@ -14,17 +14,21 @@ namespace SporeMods.Core.ModInstallationaa
     {
         public ManagedMod mod;
         private readonly string unique;
-        private readonly ModConfiguration configuration;
+        private readonly ManagedMod configMod;
 
-        public InitManagedModConfigOp(string unique, ModConfiguration configuration)
+        public InitManagedModConfigOp(string unique, ManagedMod configMod)
         {
             this.unique = unique;
-            this.configuration = configuration;
+            this.configMod = configMod;
         }
 
         public bool Do()
         {
-            mod = new ManagedMod(unique, true, configuration);
+            mod = new ManagedMod(unique, true, configMod.Configuration)
+            {
+                Progress = configMod.Progress,
+                IsProgressing = configMod.IsProgressing
+            };
             return true;
         }
 

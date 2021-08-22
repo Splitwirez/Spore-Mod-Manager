@@ -34,8 +34,12 @@ namespace SporeMods.Core.ModInstallationaa
 
             // 2. Show the configurator, if any
             // Needed to show the configurator
-            var managedMod = new ManagedMod(true, identity);
-            
+            var managedMod = new ManagedMod(true, identity)
+            {
+                Progress = 0,
+                IsProgressing = true
+            };
+
             if (managedMod.HasConfigurator)
             {
                 await OperationAsync(new ShowInstallerAsyncOp(managedMod));
@@ -47,14 +51,20 @@ namespace SporeMods.Core.ModInstallationaa
             // I wanted to extract each file on a separate thread, but it seems the zip library doesn't like that
             await Task.Run(() =>
             {
+                // We don't increase all the progress, because EnableMod() will be called
+                double totalProgress = 50.0;
+                var fileEntries = zip.Entries.Where(x => !x.IsDirectory());
+                var numFiles = fileEntries.Count() + 1;
+
                 // 4. Extract the XML file
                 Operation(new ExtractXmlIdentityOp(zip, modDirectory, unique, modName));
+                managedMod.Progress += totalProgress / numFiles;
 
                 // 5. Extract all mod files
-                var fileEntries = zip.Entries.Where(x => !x.IsDirectory());
                 foreach (ZipArchiveEntry e in fileEntries)
                 {
                     Operation(new ExtractFileOp(e, modDirectory));
+                    managedMod.Progress += totalProgress / numFiles;
                 }
             });
 
@@ -62,7 +72,7 @@ namespace SporeMods.Core.ModInstallationaa
 
             // The instance we have of ManagedMod was temporary, only to show the configurator;
             // recreate it now that we have all the files extracted
-            managedMod = Operation(new InitManagedModConfigOp(unique, managedMod.Configuration)).mod;
+            managedMod = Operation(new InitManagedModConfigOp(unique, managedMod)).mod;
             identity = managedMod.Identity;
 
             // 6. Enable the mod and add it to the mod list

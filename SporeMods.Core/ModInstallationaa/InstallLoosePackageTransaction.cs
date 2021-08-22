@@ -41,7 +41,8 @@ namespace SporeMods.Core.ModInstallationaa
                 Operation(new AddToModManagerOp(mod, false));
                 Operation(new SafeCopyFileOp(modPath, Path.Combine(dir, name)));
 
-                //TODO ModsManager.RemoveMatchingManuallyInstalledFile(name, ComponentGameDir.GalacticAdventures);
+                Operation(new RemoveManuallyInstalledFileOp(name, ComponentGameDir.GalacticAdventures));
+
 				mod.Progress++;
 
                 Operation(new EnableModOp(mod));
