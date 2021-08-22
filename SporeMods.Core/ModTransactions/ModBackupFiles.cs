@@ -78,12 +78,38 @@ namespace SporeMods.Core.ModTransactions
             }
         }
 
+        // No actual backup file, restoring this just deletes the file. This class exists to simplify code.
+        class MissingModBackupFile : ModBackupFile
+        {
+            private readonly string originalPath;
+
+            public MissingModBackupFile(string originalPath)
+            {
+                this.originalPath = originalPath;
+            }
+
+            public override void Dispose()
+            {
+                _isValid = false;
+            }
+
+            public override void Restore()
+            {
+                if (!_isValid)
+                {
+                    throw new InvalidOperationException("Cannot restore backup file '" + originalPath + "', backup not valid anymore.");
+                }
+                File.Delete(originalPath);
+            }
+        }
+
         // Allow a maximum of 300 MB of memory to be used for backups
         private static long MAX_BUFFER_USAGE = 200 * 1024 * 1024;
         private static long CURRENT_BUFFER_USAGE = 0;
 
+        // Concurrent dictionary is the only collection that lets us remove, we assign it to some random number
         // A list of all backups, used for disposing them at the end of the program; some might not be valid anymore
-        private static ConcurrentBag<ModBackupFile> backups = new ConcurrentBag<ModBackupFile>();
+        private static ConcurrentDictionary<ModBackupFile, int> backups = new ConcurrentDictionary<ModBackupFile, int>();
 
         public static ModBackupFile CreateBackup(string path)
         {
@@ -98,18 +124,19 @@ namespace SporeMods.Core.ModTransactions
             {
                 backup = new TempModBackupFile(path);
             }
-            backups.Add(backup);
+            backups[backup] = 0;
             return backup;
         }
 
         public static void DisposeBackup(ModBackupFile backup)
         {
             backup.Dispose();
+            backups.Remove(backup, out _);
         }
 
         public static void DisposeAll()
         {
-            foreach (var backup in backups)
+            foreach (var backup in backups.Keys)
             {
                 if (backup.IsValid) backup.Dispose();
             }

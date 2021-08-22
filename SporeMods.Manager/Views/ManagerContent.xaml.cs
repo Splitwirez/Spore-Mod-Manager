@@ -1651,6 +1651,12 @@ namespace SporeMods.Manager
 			win.Activated -= MainWindow_IsActiveChanged;
 			win.Deactivated -= MainWindow_IsActiveChanged;
 
+			if (ModTransactionManager.IsExecutingTransactions)
+            {
+				e.Cancel = true;
+				return;
+            }
+
 			foreach (var mod in ModsManager.InstalledMods.OfType<ManagedMod>())
 			{
 				if (mod.IsProgressing)

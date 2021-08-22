@@ -1,6 +1,7 @@
 ﻿using SporeMods.Core.Mods;
 using SporeMods.Core.ModTransactions.Transactions;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -22,7 +23,10 @@ namespace SporeMods.Core.ModTransactions
         [DllImport("shlwapi.dll")]
         static extern bool PathIsNetworkPath(string pszPath);
 
-        private static List<ModTransaction> currentTransactions = new List<ModTransaction>();
+        // Concurrent dictionary is the only collection that lets us remove, we assign it to some random number
+        private static readonly ConcurrentDictionary<ModTransaction, int> currentTransactions = new ConcurrentDictionary<ModTransaction, int>();
+
+        public static bool IsExecutingTransactions { get => !currentTransactions.IsEmpty; }
 
         /// <summary>
         /// Executes a transaction, reversing its actions if something fails.
@@ -33,13 +37,13 @@ namespace SporeMods.Core.ModTransactions
         /// <returns></returns>
         public static async Task<Exception> ExecuteAsync(ModTransaction transaction)
         {
-            currentTransactions.Add(transaction);
+            currentTransactions[transaction] = 0;
             try
             {
                 if (!await transaction.CommitAsync())
                 {
                     transaction.Rollback();
-                    currentTransactions.Remove(transaction);
+                    currentTransactions.Remove(transaction, out _);
                     return new ModTransactionCommitException(TransactionFailureCause.CommitRejected, null, null);
                 }
                 return null;
@@ -51,7 +55,7 @@ namespace SporeMods.Core.ModTransactions
             {
                 Debug.WriteLine(e.ToString());
                 transaction.Rollback();
-                currentTransactions.Remove(transaction);
+                currentTransactions.Remove(transaction, out _);
                 return new ModTransactionCommitException(TransactionFailureCause.Exception, null, e);
             }
         }
