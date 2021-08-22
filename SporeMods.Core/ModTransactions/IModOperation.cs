@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SporeMods.Core.ModInstallationaa
+namespace SporeMods.Core.ModTransactions
 {
     public interface IModOperation
     {

@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using SporeMods.Core.ModTransactions.Operations;
 
-namespace SporeMods.Core.ModInstallationaa
+namespace SporeMods.Core.ModTransactions.Transactions
 {
     public class InstallLoosePackageTransaction : ModTransaction
     {
@@ -45,7 +46,7 @@ namespace SporeMods.Core.ModInstallationaa
 
 				mod.Progress++;
 
-                Operation(new EnableModOp(mod));
+                await OperationAsync(new ExecuteTransactionOp(new EnableModTransaction(mod)));
 
                 return true;
             }

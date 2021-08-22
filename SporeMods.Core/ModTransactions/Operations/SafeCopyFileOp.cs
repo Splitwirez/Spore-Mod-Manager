@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 
-namespace SporeMods.Core.ModInstallationaa
+namespace SporeMods.Core.ModTransactions.Operations
 {
     public class SafeCopyFileOp : IModSyncOperation
     {

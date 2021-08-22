@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace SporeMods.Core.ModInstallationaa
+namespace SporeMods.Core.ModTransactions.Operations
 {
     /// <summary>
     /// Creates a managed mod instance with stored files in the SMM, applying an existing configuration.
-    /// Undoing this action deletes the config file.
+    /// Undoing this action deletes the config file and additional config files (like UseLegacyDlls)
     /// </summary>
     public class InitManagedModConfigOp : IModSyncOperation
     {
@@ -36,8 +36,8 @@ namespace SporeMods.Core.ModInstallationaa
         {
             if (mod != null)
             {
-                string path = Path.Combine(mod.StoragePath, ManagedMod.MOD_CONFIG);
-                File.Delete(path);
+                File.Delete(Path.Combine(mod.StoragePath, ManagedMod.MOD_CONFIG));
+                File.Delete(Path.Combine(mod.StoragePath, ManagedMod.PATH_USELEGACYDLLS));
             }
         }
     }

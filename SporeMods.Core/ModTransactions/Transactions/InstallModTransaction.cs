@@ -7,8 +7,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using SporeMods.Core.Mods;
 using System.Linq;
+using SporeMods.Core.ModTransactions.Operations;
 
-namespace SporeMods.Core.ModInstallationaa
+namespace SporeMods.Core.ModTransactions.Transactions
 {
     public class InstallModTransaction : ModTransaction
     {
@@ -82,7 +83,7 @@ namespace SporeMods.Core.ModInstallationaa
 
             // 6. Enable the mod and add it to the mod list
             Operation(new AddToModManagerOp(managedMod));
-            Operation(new EnableModOp(managedMod));
+            await OperationAsync(new ExecuteTransactionOp(new EnableModTransaction(managedMod)));
 
             // Finally, close the zip file
             zip.Dispose();

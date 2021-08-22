@@ -6,7 +6,7 @@ using System.IO.Compression;
 using System.Text;
 using System.Xml.Linq;
 
-namespace SporeMods.Core.ModInstallationaa
+namespace SporeMods.Core.ModTransactions.Operations
 {
     /// <summary>
     /// Parses the ModInfo.xml identity from the mod zip, or creates a simple identity if it is not present.

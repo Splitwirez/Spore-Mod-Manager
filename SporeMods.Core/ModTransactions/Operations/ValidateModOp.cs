@@ -3,47 +3,35 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SporeMods.Core.ModInstallationaa
+namespace SporeMods.Core.ModTransactions.Operations
 {
     public class UnsupportedXmlModIdentityVersionException : Exception
     {
-        Version _badVersion = null;
-        public Version BadVersion
-        {
-            get => _badVersion;
-        }
+        public Version BadVersion { get; } = null;
 
         public UnsupportedXmlModIdentityVersionException(Version badVersion)
         {
-            _badVersion = badVersion;
+            BadVersion = badVersion;
         }
     }
 
     public class UnsupportedDllsBuildException : Exception
     {
-        Version _badVersion = null;
-        public Version BadVersion
-        {
-            get => _badVersion;
-        }
+        public Version BadVersion { get; } = null;
 
         public UnsupportedDllsBuildException(Version badVersion)
         {
-            _badVersion = badVersion;
+            BadVersion = badVersion;
         }
     }
 
     public class MissingXmlModIdentityAttributeException : Exception
     {
-        string _attribute = null;
-        public string Attribute
-        {
-            get => _attribute;
-        }
+        public string Attribute { get; } = null;
 
         public MissingXmlModIdentityAttributeException(string attribute)
         {
-            _attribute = attribute;
+            Attribute = attribute;
         }
     }
 

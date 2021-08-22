@@ -5,7 +5,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 
-namespace SporeMods.Core.ModInstallationaa
+namespace SporeMods.Core.ModTransactions
 {
     public abstract class ModBackupFile
     {

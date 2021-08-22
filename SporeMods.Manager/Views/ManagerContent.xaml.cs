@@ -35,7 +35,8 @@ using DialogResult = System.Windows.Forms.DialogResult;
 using Mechanism.Wpf.Core;
 using SporeMods.CommonUI;
 using SporeMods.CommonUI.Localization;
-using SporeMods.Core.ModInstallationaa;
+using SporeMods.Core.ModTransactions;
+using SporeMods.Core.ModTransactions.Operations;
 
 namespace SporeMods.Manager
 {

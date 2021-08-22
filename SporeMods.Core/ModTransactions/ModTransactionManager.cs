@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SporeMods.Core.Mods;
+using SporeMods.Core.ModTransactions.Transactions;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -6,7 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SporeMods.Core.ModInstallationaa
+namespace SporeMods.Core.ModTransactions
 {
     public static class ModTransactionManager
     {
@@ -22,6 +24,13 @@ namespace SporeMods.Core.ModInstallationaa
 
         private static List<ModTransaction> currentTransactions = new List<ModTransaction>();
 
+        /// <summary>
+        /// Executes a transaction, reversing its actions if something fails.
+        /// The method returns null if the transaction was committed correctly.
+        /// If it fails, it returns the exception that caused the failure.
+        /// </summary>
+        /// <param name="transaction"></param>
+        /// <returns></returns>
         public static async Task<Exception> ExecuteAsync(ModTransaction transaction)
         {
             currentTransactions.Add(transaction);
@@ -52,9 +61,6 @@ namespace SporeMods.Core.ModInstallationaa
             var taskLists = new Dictionary<String, Task<Exception>>();
             foreach (string path in modPaths)
             {
-                bool validExtension = true;
-                Exception result = null;
-
                 if (PathIsNetworkPath(path))
                 {
                     INSTALL_FAILURES.Add(Path.GetFileName(path), new Exception("Cannot install mods from network locations. Please move the mod(s) to local storage and try again from there."));
@@ -69,7 +75,7 @@ namespace SporeMods.Core.ModInstallationaa
                 }
                 else
                 {
-                    validExtension = false;
+                    INSTALL_FAILURES.Add(Path.GetFileName(path), new Exception("'" + Path.GetExtension(path) + "' is not a valid mod extension."));
                 }
             }
 
@@ -82,5 +88,15 @@ namespace SporeMods.Core.ModInstallationaa
                 }
             }
         }
+
+        /// <summary>
+        /// Enables a managed mod, returning to the original state if something fails.
+        /// </summary>
+        /// <param name="mod"></param>
+        /// <returns></returns>
+        public static async Task EnableModAsync(ManagedMod mod)
+        {
+            await ExecuteAsync(new EnableModTransaction(mod));
+        } 
     }
 }

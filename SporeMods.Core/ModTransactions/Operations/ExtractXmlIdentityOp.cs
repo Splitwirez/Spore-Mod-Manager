@@ -8,7 +8,7 @@ using System.Xml.Linq;
 using SporeMods.Core.Mods;
 using System.Threading;
 
-namespace SporeMods.Core.ModInstallationaa
+namespace SporeMods.Core.ModTransactions.Operations
 {
 	/// <summary>
 	/// Extracts the ModInfo.xml file from the mod zip archive, generating one if the zip doesn't have one.
@@ -44,7 +44,7 @@ namespace SporeMods.Core.ModInstallationaa
 			}
 			else
 			{
-				string legacyPath = Path.Combine(outputDirPath, "UseLegacyDLLs");
+				string legacyPath = Path.Combine(outputDirPath, ManagedMod.PATH_USELEGACYDLLS);
 				string modInfoPath = Path.Combine(outputDirPath, ManagedMod.MOD_INFO);
 				File.WriteAllText(legacyPath, string.Empty);
 				XmlModIdentity.CreateModInfoXml(unique, displayName, outputDirPath, out XDocument document);

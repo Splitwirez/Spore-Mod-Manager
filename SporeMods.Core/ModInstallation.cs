@@ -168,10 +168,6 @@ namespace SporeMods.Core
 
         public static event EventHandler<ModRegistrationEventArgs> AddModProgress;
 
-		static void InvokeAddModProgress(ManagedMod mod)
-		{
-			AddModProgress?.Invoke(null, new ModRegistrationEventArgs(mod));
-		}
 
 		public static async Task RegisterSporemodModWithInstallerAsync(string modName)
 		{
@@ -193,7 +189,8 @@ namespace SporeMods.Core
 					if (!isProgressing)
 						IS_RECONFIGURING_MODS = true;
 					//await mod.EnableMod();
-					mod.EnableMod();
+					//mod.EnableMod();
+					//TODO
 				}
 				else if (!isProgressing)
 					mod.Configuration.Reload();

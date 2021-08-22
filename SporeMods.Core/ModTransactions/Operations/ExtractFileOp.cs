@@ -6,7 +6,7 @@ using System.IO.Compression;
 using System.Threading;
 using System.Text;
 
-namespace SporeMods.Core.ModInstallationaa
+namespace SporeMods.Core.ModTransactions.Operations
 {
     /// <summary>
     /// Extracts a file from the mod zip. Undoing this operations deletes the file.

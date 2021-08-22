@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 
-namespace SporeMods.Core.ModInstallationaa
+namespace SporeMods.Core.ModTransactions
 {
     /// <summary>
     /// Exception thrown when the transaction commit fails, and must be rolled back.
