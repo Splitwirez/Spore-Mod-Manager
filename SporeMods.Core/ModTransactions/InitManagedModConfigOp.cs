@@ -13,8 +13,8 @@ namespace SporeMods.Core.ModInstallationaa
     public class InitManagedModConfigOp : IModSyncOperation
     {
         public ManagedMod mod;
-        private readonly string unique;
-        private readonly ManagedMod configMod;
+        public readonly string unique;
+        public readonly ManagedMod configMod;
 
         public InitManagedModConfigOp(string unique, ManagedMod configMod)
         {

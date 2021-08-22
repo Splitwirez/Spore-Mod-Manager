@@ -63,5 +63,16 @@ namespace SporeMods.Core.Mods
         {
             return Parse(XDocument.Load(path), mod);
         }
+
+        public static void CreateModInfoXml(string unique, string displayName, string dir, out XDocument document)
+        {
+            document = XDocument.Parse(@"<mod>
+</mod>");
+            document.Root.SetAttributeValue("unique", unique);
+            document.Root.SetAttributeValue("displayName", displayName);
+            document.Root.SetAttributeValue("installerSystemVersion", ModIdentity.XmlModIdentityVersion1_1_0_0.ToString());
+            document.Root.SetAttributeValue("copyAllFiles", true.ToString());
+            document.Root.SetAttributeValue("canDisable", false.ToString());
+        }
     }
 }

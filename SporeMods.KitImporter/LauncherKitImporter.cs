@@ -285,7 +285,7 @@ namespace SporeMods.KitImporter
 							string displayName = mod.DisplayName;
 							if (displayName == null) displayName = mod.Name;
 							if (displayName == null) displayName = mod.Unique;
-							ModInstallation.CreateModInfoXml(mod.Unique, mod.Name, managerModConfigPath, out XDocument document);
+							XmlModIdentity.CreateModInfoXml(mod.Unique, mod.Name, managerModConfigPath, out XDocument document);
 
 							foreach (ModFile file in mod.Files)
 							{
@@ -449,7 +449,7 @@ namespace SporeMods.KitImporter
 						string displayName = mod.DisplayName;
 						if (displayName == null) displayName = mod.Name;
 						if (displayName == null) displayName = mod.Unique;
-						ModInstallation.CreateModInfoXml(mod.Unique, mod.Name, managerModConfigPath, out XDocument document);
+						XmlModIdentity.CreateModInfoXml(mod.Unique, mod.Name, managerModConfigPath, out XDocument document);
 					}
 					else
 					{
@@ -508,7 +508,7 @@ namespace SporeMods.KitImporter
 						if (prepUniqueAttr.Value != mod.Unique)
 						{
 							File.Delete(prepXmlPath);
-							ModInstallation.CreateModInfoXml(mod.Unique, mod.Name, managerModConfigPath, out XDocument document);
+							XmlModIdentity.CreateModInfoXml(mod.Unique, mod.Name, managerModConfigPath, out XDocument document);
 						}
 					}
 				}

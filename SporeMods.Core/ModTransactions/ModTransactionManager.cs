@@ -35,8 +35,8 @@ namespace SporeMods.Core.ModInstallationaa
                 }
                 return null;
             }
-            // There is a specific exception for when a transaction fails
-            // but we also want to rollback if there was an unexpected exception while executing the code
+            // There is a specific exception for when a transaction fails, so theoretically we should only need to catch ModTransactionCommitException
+            // However, we also want to rollback if there was an unexpected exception while executing the code
             // (although that is the developers fault!)
             catch (Exception e)
             {
@@ -49,7 +49,7 @@ namespace SporeMods.Core.ModInstallationaa
 
         public static async Task InstallModsAsync(string[] modPaths)
         {
-            var taskLists = new List<Task<Exception>>();
+            var taskLists = new Dictionary<String, Task<Exception>>();
             foreach (string path in modPaths)
             {
                 bool validExtension = true;
@@ -61,11 +61,11 @@ namespace SporeMods.Core.ModInstallationaa
                 }
                 else if (Path.GetExtension(path).ToLowerInvariant() == ".package")
                 {
-                    taskLists.Add(ExecuteAsync(new InstallLoosePackageTransaction(path)));
+                    taskLists[path] = ExecuteAsync(new InstallLoosePackageTransaction(path));
                 }
                 else if (Path.GetExtension(path).ToLowerInvariant() == ".sporemod")
                 {
-                    taskLists.Add(ExecuteAsync(new InstallModTransaction(path)));
+                    taskLists[path] = ExecuteAsync(new InstallModTransaction(path));
                 }
                 else
                 {
@@ -75,8 +75,11 @@ namespace SporeMods.Core.ModInstallationaa
 
             foreach (var task in taskLists)
             {
-                var exception = await task;
-                //TODO add to INSTALL_FAILURES?
+                var exception = await task.Value;
+                if (exception != null)
+                {
+                    INSTALL_FAILURES[task.Key] = exception;
+                }
             }
         }
     }

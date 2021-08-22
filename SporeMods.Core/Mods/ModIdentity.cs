@@ -85,6 +85,9 @@ namespace SporeMods.Core.Mods
 		/// </summary>
 		public bool HasCustomInstaller { get; set; }
 
+		//TODO
+		public bool VerifiedVanillaCompatible { get; set; }
+
 		/// <summary>
 		/// If explicitly set to true, the user will receive a warning, telling them that the mod is still 
 		/// experimental and may have undesirable side effects, along with the option to abort installation 

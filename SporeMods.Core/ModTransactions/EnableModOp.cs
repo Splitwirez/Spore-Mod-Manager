@@ -11,7 +11,7 @@ namespace SporeMods.Core.ModInstallationaa
     /// </summary>
     public class EnableModOp : IModSyncOperation
     {
-        private readonly ManagedMod mod;
+        public readonly ManagedMod mod;
 
         public EnableModOp(ManagedMod mod)
         {

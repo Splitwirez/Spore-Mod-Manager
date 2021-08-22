@@ -27,8 +27,13 @@ namespace SporeMods.Core.ModInstallationaa
 
             var modName = Path.GetFileNameWithoutExtension(sporemodPath).Replace(".", "-");
 
-            // 1. Read the mod identity
-            var identity = Operation(new ParseIdentityOp(zip, modName)).Identity;
+            // 1. Read the mod identity and validate it
+            var identityOp = Operation(new ParseIdentityOp(zip, modName));
+            var identity = identityOp.Identity;
+            if (!identityOp.IsGeneratedIdentity)
+            {
+                Operation(new ValidateModOp(identity));
+            }
             var unique = identity.Unique;
             string modDirectory = Path.Combine(Settings.ModConfigsPath, unique);
 

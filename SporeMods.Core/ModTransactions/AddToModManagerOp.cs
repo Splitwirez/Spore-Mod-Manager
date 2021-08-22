@@ -10,8 +10,8 @@ namespace SporeMods.Core.ModInstallationaa
     /// </summary>
     public class AddToModManagerOp : IModSyncOperation
     {
-        private readonly ManagedMod mod;
-        private readonly bool failIfExists;
+        public readonly ManagedMod mod;
+        public readonly bool failIfExists;
         // If we allowed replacing an existing mod, this is the old one
         private ManagedMod previousMod = null;
         private int previousModIndex = -1;

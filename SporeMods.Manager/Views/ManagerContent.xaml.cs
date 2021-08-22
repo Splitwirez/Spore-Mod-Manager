@@ -467,9 +467,9 @@ namespace SporeMods.Manager
 
 				ModsManager.Instance.ModConfiguratorShown += Instance_ModConfiguratorShown;
 
-				ModInstallation.InstallingExperimentalMod += ModInstallation_InstallingExperimentalMod;
-				ModInstallation.InstallingRequiresGalaxyResetMod += ModInstallation_InstallingRequiresGalaxyResetMod;
-				ModInstallation.InstallingSaveDataDependencyMod += ModInstallation_InstallingSaveDataDependencyMod;
+				ValidateModOp.InstallingExperimentalMod += ModInstallation_InstallingExperimentalMod;
+				ValidateModOp.InstallingRequiresGalaxyResetMod += ModInstallation_InstallingRequiresGalaxyResetMod;
+				ValidateModOp.InstallingSaveDataDependencyMod += ModInstallation_InstallingSaveDataDependencyMod;
 
 				ModInstallation.UninstallingSaveDataDependencyMod += ModInstallation_UninstallingSaveDataDependencyMod;
 

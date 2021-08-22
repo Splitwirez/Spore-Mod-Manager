@@ -11,7 +11,7 @@ namespace SporeMods.Core.ModInstallationaa
     /// </summary>
     public class CreateDirectoryOp : IModSyncOperation
     {
-        private readonly string path;
+        public readonly string path;
         private bool directoryExisted;
 
         public CreateDirectoryOp(string path)

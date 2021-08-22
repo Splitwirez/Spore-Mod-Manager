@@ -18,12 +18,12 @@ namespace SporeMods.Core.ModInstallationaa
 	/// </summary>
 	public class ExtractXmlIdentityOp : IModSyncOperation
     {
-        private readonly ZipArchive zip;
+        public readonly ZipArchive zip;
 		// Output folder
-        private readonly string outputDirPath;
-		private readonly string unique;
-		private readonly string displayName;
-		private readonly CountdownEvent countdownLatch;
+		public readonly string outputDirPath;
+		public readonly string unique;
+		public readonly string displayName;
+		public readonly CountdownEvent countdownLatch;
 
 		public ExtractXmlIdentityOp(ZipArchive zip, string outputDirPath, string unique, string displayName, CountdownEvent countdownLatch = null)
         {
@@ -32,17 +32,6 @@ namespace SporeMods.Core.ModInstallationaa
 			this.unique = unique;
 			this.displayName = displayName;
 			this.countdownLatch = countdownLatch;
-		}
-
-		private static void CreateModInfoXml(string unique, string displayName, string dir, out XDocument document)
-		{
-			document = XDocument.Parse(@"<mod>
-</mod>");
-			document.Root.SetAttributeValue("unique", unique);
-			document.Root.SetAttributeValue("displayName", displayName);
-			document.Root.SetAttributeValue("installerSystemVersion", ModIdentity.XmlModIdentityVersion1_1_0_0.ToString());
-			document.Root.SetAttributeValue("copyAllFiles", true.ToString());
-			document.Root.SetAttributeValue("canDisable", false.ToString());
 		}
 
 		public bool Do()
@@ -58,7 +47,7 @@ namespace SporeMods.Core.ModInstallationaa
 				string legacyPath = Path.Combine(outputDirPath, "UseLegacyDLLs");
 				string modInfoPath = Path.Combine(outputDirPath, ManagedMod.MOD_INFO);
 				File.WriteAllText(legacyPath, string.Empty);
-				CreateModInfoXml(unique, displayName, outputDirPath, out XDocument document);
+				XmlModIdentity.CreateModInfoXml(unique, displayName, outputDirPath, out XDocument document);
 				document.Save(modInfoPath);
 				Permissions.GrantAccessFile(legacyPath);
 				Permissions.GrantAccessFile(modInfoPath);

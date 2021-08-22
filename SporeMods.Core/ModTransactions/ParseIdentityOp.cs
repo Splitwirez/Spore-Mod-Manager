@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Text;
+using System.Xml.Linq;
 
 namespace SporeMods.Core.ModInstallationaa
 {
@@ -13,8 +14,10 @@ namespace SporeMods.Core.ModInstallationaa
     public class ParseIdentityOp : IModSyncOperation
     {
         public ModIdentity Identity;
-        private readonly ZipArchive zip;
-        private readonly string name;
+        // True if there was no identity file in the mod and it had to be generated
+        public bool IsGeneratedIdentity;
+        public readonly ZipArchive zip;
+        public readonly string name;
 
         public ParseIdentityOp(ZipArchive zip, string name)
         {
@@ -29,12 +32,14 @@ namespace SporeMods.Core.ModInstallationaa
                 using (Stream stream = entry.Open())
                 {
                     Identity = XmlModIdentity.Parse(stream, null);
+                    IsGeneratedIdentity = false;
                 }
             }
             else
             {
                 Identity = new ModIdentity(null, name);
                 Identity.DisplayName = name;
+                IsGeneratedIdentity = true;
             }
             return true;
         }

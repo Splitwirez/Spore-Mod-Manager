@@ -9,7 +9,7 @@ namespace SporeMods.Core.ModInstallationaa
 {
     public class InstallLoosePackageTransaction : ModTransaction
     {
-        private readonly string modPath;
+        public readonly string modPath;
 
         public InstallLoosePackageTransaction(string modPath)
         {
