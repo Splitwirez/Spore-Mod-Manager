@@ -25,7 +25,7 @@ namespace SporeMods.Core.ModTransactions.Operations
             {
                 if (!await transaction.CommitAsync())
                 {
-                    failureException = new ModTransactionCommitException();
+                    failureException = new ModTransactionCommitException(TransactionFailureCause.CommitRejected, null, null);
                     return false;
                 }
                 return true;

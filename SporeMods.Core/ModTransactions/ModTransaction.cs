@@ -8,23 +8,42 @@ using System.Diagnostics;
 
 namespace SporeMods.Core.ModTransactions
 {
+    public enum TransactionFailureCause
+    {
+        /// <summary>
+        /// An unhandled exception was raised during the execution
+        /// </summary>
+        Exception,
+        /// <summary>
+        /// An operation returned false
+        /// </summary>
+        OperationRejected,
+        /// <summary>
+        /// The transaction Commit method returned false
+        /// </summary>
+        CommitRejected
+    }
+
     /// <summary>
     /// Exception thrown when the transaction commit fails, and must be rolled back.
     /// </summary>
     public class ModTransactionCommitException : Exception
     {
-        public ModTransactionCommitException()
-        {
-        }
+        public TransactionFailureCause Cause { get; }
+        /// <summary>
+        /// The operation that returned false or threw an exception, can be null.
+        /// </summary>
+        public IModOperation Operation { get; }
+        /// <summary>
+        /// The exception that was raised, if any.
+        /// </summary>
+        public Exception CauseException { get; }
 
-        public ModTransactionCommitException(string message)
-            : base(message)
+        public ModTransactionCommitException(TransactionFailureCause cause, IModOperation operation, Exception exception)
         {
-        }
-
-        public ModTransactionCommitException(string message, Exception inner)
-            : base(message, inner)
-        {
+            Cause = cause;
+            Operation = operation;
+            CauseException = exception;
         }
     }
 
@@ -45,7 +64,7 @@ namespace SporeMods.Core.ModTransactions
             operations.Push(operation);
             if (!operation.Do())
             {
-                throw new ModTransactionCommitException();
+                throw new ModTransactionCommitException(TransactionFailureCause.OperationRejected, operation, null);
             }
             return operation;
         }
@@ -63,7 +82,7 @@ namespace SporeMods.Core.ModTransactions
             {
                 if (!operation.Do())
                 {
-                    throw new ModTransactionCommitException();
+                    throw new ModTransactionCommitException(TransactionFailureCause.OperationRejected, operation, null);
                 }
                 // we need a return value to add the task to executedTasks
                 return true;
@@ -85,7 +104,7 @@ namespace SporeMods.Core.ModTransactions
             executedTasks.Add(task);
             if (!await task)
             {
-                throw new ModTransactionCommitException();
+                throw new ModTransactionCommitException(TransactionFailureCause.OperationRejected, operation, null);
             }
             return operation;
         }

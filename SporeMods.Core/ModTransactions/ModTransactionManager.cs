@@ -40,7 +40,7 @@ namespace SporeMods.Core.ModTransactions
                 {
                     transaction.Rollback();
                     currentTransactions.Remove(transaction);
-                    return new ModTransactionCommitException();
+                    return new ModTransactionCommitException(TransactionFailureCause.CommitRejected, null, null);
                 }
                 return null;
             }
@@ -52,7 +52,7 @@ namespace SporeMods.Core.ModTransactions
                 Debug.WriteLine(e.ToString());
                 transaction.Rollback();
                 currentTransactions.Remove(transaction);
-                return e;
+                return new ModTransactionCommitException(TransactionFailureCause.Exception, null, e);
             }
         }
 
