@@ -8,13 +8,13 @@ namespace SporeMods.Core.ModTransactions.Operations
     /// <summary>
     /// Executes a transaction, returning false if the transaction fails. Undoing this rolls back the transaction.
     /// </summary>
-    public class ExecuteTransactionOp : IModAsyncOperation
+    public class ExecuteTransactionAsyncOp : IModAsyncOperation
     {
         public readonly ModTransaction transaction;
         // If the transaction failed, the exception that caused it
         public Exception failureException;
 
-        public ExecuteTransactionOp(ModTransaction transaction)
+        public ExecuteTransactionAsyncOp(ModTransaction transaction)
         {
             this.transaction = transaction;
         }

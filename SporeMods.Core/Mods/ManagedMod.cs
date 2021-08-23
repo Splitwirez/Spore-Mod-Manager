@@ -269,31 +269,6 @@ namespace SporeMods.Core.Mods
 		public bool HasConfigurator { get { return Identity.HasCustomInstaller; } }
 
 		/// <summary>
-		/// Shows the configurator for this mod, if it has one.
-		/// </summary>
-		public async Task ConfigureMod()
-		{
-			try
-			{
-				if (HasConfigurator)
-				{
-					//ModsManager.Instance.AddToTaskCount(1);
-					await ModInstallation.RegisterSporemodModWithInstallerAsync(this.RealName);
-					//await EnableMod();
-				}
-				else
-				{
-					throw new InvalidOperationException("Cannot configure a mod which does not have a configurator");
-				}
-			}
-			catch (Exception ex)
-			{
-				MessageDisplay.RaiseError(new ErrorEventArgs(ex));
-				ModsManager.InstalledMods.Add(new InstallError(ex));
-			}
-		}
-
-		/// <summary>
 		/// Gets a list of all of the files in the mod
 		/// </summary>
 		/// <returns></returns>

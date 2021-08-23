@@ -48,7 +48,7 @@ namespace SporeMods.Core.ModTransactions.Transactions
 
             if (managedMod.HasConfigurator)
             {
-                await OperationAsync(new ShowInstallerAsyncOp(managedMod));
+                await OperationAsync(new ShowConfiguratorAsyncOp(managedMod));
             }
 
             // 3. Create the directory
@@ -79,7 +79,7 @@ namespace SporeMods.Core.ModTransactions.Transactions
 
             // 6. Enable the mod and add it to the mod list
             Operation(new AddToModManagerOp(managedMod));
-            await OperationAsync(new ExecuteTransactionOp(new EnableModTransaction(managedMod)));
+            await OperationAsync(new ExecuteTransactionAsyncOp(new EnableModTransaction(managedMod)));
 
             // Finally, close the zip file
             zip.Dispose();

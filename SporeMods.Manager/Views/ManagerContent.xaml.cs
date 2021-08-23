@@ -77,10 +77,6 @@ namespace SporeMods.Manager
 			{
 				Dispatcher.BeginInvoke(new Action(() => ModConfigurations_CollectionChanged(sneder, args)));
 			};
-			ModInstallation.AddModProgress += (sneder, args) =>
-			{
-				Dispatcher.BeginInvoke(new Action(() => ModInstallation_AddModProgress(sneder, args)));
-			};
 			ModsManager.TasksCompleted += ModsManager_TasksCompleted;
 			ManagedMod.AnyModIsProgressingChanged += (sneder, args) => EvaluateCanLaunch();
 
@@ -261,24 +257,6 @@ namespace SporeMods.Manager
 			else
 				return false;
 		});
-
-		private void ModInstallation_AddModProgress(object sender, ModRegistrationEventArgs e)
-		{
-			foreach (var m in ModsManager.InstalledMods)
-			{
-				if (m == e.Mod)
-				{
-					e.Mod.Progress++;
-					break;
-					/*if (!e.HasCustomInstaller)
-						ModInstallationProgressBar.Value++;
-					else
-					{
-						//do custom installer things here
-					}*/
-				}
-			}
-		}
 
 		//private void MainWindow_Loaded(object sender, RoutedEventArgs e)
 		//public override void EndInit()
@@ -1203,7 +1181,7 @@ namespace SporeMods.Manager
 				ModConfiguratorDialogContentControl.HasCloseButton = true;
 				ModConfiguratorContentControl.SetResourceReference(ContentControl.StyleProperty, "ModConfiguratorContentControlStyle");
 				CustomInstallerInstallButton.SetResourceReference(Button.ContentProperty, "Mods!Configurator!10xx!Apply");
-				mod.ConfigureMod();
+				Task.Run(() => ModTransactionManager.ConfigureModAsync(mod));
 				//CustomInstallerInstallButton.Content
 			}
 		}

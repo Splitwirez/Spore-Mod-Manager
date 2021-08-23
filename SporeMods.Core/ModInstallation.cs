@@ -119,41 +119,6 @@ namespace SporeMods.Core
 			}
 		}*/
 
-        public static event EventHandler<ModRegistrationEventArgs> AddModProgress;
-
-
-		public static async Task RegisterSporemodModWithInstallerAsync(string modName)
-		{
-			//DebugMessageBoxShow("Registering mod with installer");
-			ManagedMod mod = ModsManager.GetManagedMod(modName);
-			Debug.Assert(mod != null);
-			if (mod.HasConfigurator)
-			{
-				bool isProgressing = mod.IsProgressing;
-				/*foreach (ModComponent m in mod.Configurator.Components)
-				{
-					DebugMessageBoxShow("DisplayName: " + m.DisplayName + "\nUnique: " + m.Unique + "\nIsEnabled: " + m.IsEnabled);
-				}*/
-
-				//DebugMessageBoxShow("Component count: " + mod.Configurator.Components.Count + "\nXML Mod Identity Version: " + mod.XmlVersion);
-
-				if (await ModsManager.Instance.ShowModConfigurator(mod))
-				{
-					//if (!isProgressing)
-						//TODO IS_RECONFIGURING_MODS = true;
-					//await mod.EnableMod();
-					//mod.EnableMod();
-					//TODO
-				}
-				else if (!isProgressing)
-					mod.Configuration.Reload();
-			}
-			else
-			{
-				MessageDisplay.RaiseError(new ErrorEventArgs(new Exception("This mod does not have a configurator!")));
-			}
-		}
-
 		public static bool TryGetEntry(this ZipArchive archive, string entryName, out ZipArchiveEntry entry)
 		{
 			entry = archive.Entries.FirstOrDefault(x => x.FullName == entryName);

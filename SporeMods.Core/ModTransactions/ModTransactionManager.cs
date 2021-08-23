@@ -146,9 +146,9 @@ namespace SporeMods.Core.ModTransactions
         /// </summary>
         /// <param name="mod"></param>
         /// <returns></returns>
-        public static async Task EnableModAsync(ManagedMod mod)
+        public static async Task<ModTransactionCommitException> EnableModAsync(ManagedMod mod)
         {
-            await ExecuteAsync(new EnableModTransaction(mod));
+            return await ExecuteAsync(new EnableModTransaction(mod));
         }
 
         /// <summary>
@@ -156,9 +156,19 @@ namespace SporeMods.Core.ModTransactions
         /// </summary>
         /// <param name="mod"></param>
         /// <returns></returns>
-        public static async Task DisableModAsync(ManagedMod mod)
+        public static async Task<ModTransactionCommitException> DisableModAsync(ManagedMod mod)
         {
-            await ExecuteAsync(new DisableModTransaction(mod));
+            return await ExecuteAsync(new DisableModTransaction(mod));
+        }
+
+        /// <summary>
+        /// Configures a managed mod, returning to the original state if something fails.
+        /// </summary>
+        /// <param name="mod"></param>
+        /// <returns></returns>
+        public static async Task<ModTransactionCommitException> ConfigureModAsync(ManagedMod mod)
+        {
+            return await ExecuteAsync(new ConfigureModTransaction(mod));
         }
     }
 }
