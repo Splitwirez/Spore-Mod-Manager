@@ -10,13 +10,13 @@ namespace SporeMods.Core.ModTransactions.Operations
     /// </summary>
     public class AddToModManagerOp : IModSyncOperation
     {
-        public readonly ManagedMod mod;
+        public readonly IInstalledMod mod;
         public readonly bool failIfExists;
         // If we allowed replacing an existing mod, this is the old one
         private ManagedMod previousMod = null;
         private int previousModIndex = -1;
 
-        public AddToModManagerOp(ManagedMod mod, bool failIfExists = true)
+        public AddToModManagerOp(IInstalledMod mod, bool failIfExists = true)
         {
             this.mod = mod;
             this.failIfExists = failIfExists;

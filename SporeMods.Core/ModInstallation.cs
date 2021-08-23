@@ -18,9 +18,6 @@ namespace SporeMods.Core
 	public static class ModInstallation
 	{
 
-		public static event Func<IEnumerable<string>, bool> UninstallingSaveDataDependencyMod;
-
-
 		static List<string> _installableMods = new List<string>();
 		/*public static ErrorInfo[]*/
 
@@ -61,41 +58,6 @@ namespace SporeMods.Core
 				else if ((_installActivitiesCounter <= 0) && File.Exists(AnyInstallActivitiesPath))
 					File.Delete(AnyInstallActivitiesPath);
 			}
-		}
-
-		public static void UninstallModsAsync(IInstalledMod[] modConfigurations)
-		{
-			//TODO IS_UNINSTALLING_MODS = true;
-			//ModsManager.Instance.AddToTaskCount(modConfigurations.Length);
-			//InstallActivitiesCounter++;
-
-			List<IInstalledMod> modsToUninstall = modConfigurations.ToList();
-			List<IInstalledMod> modsToThinkTwiceBeforeUninstalling = new List<IInstalledMod>();
-
-			foreach (IInstalledMod mod in modsToUninstall.Where(x => (x is ManagedMod xm) && xm.Identity.CausesSaveDataDependency))
-				modsToThinkTwiceBeforeUninstalling.Add(mod);
-
-			if (modsToThinkTwiceBeforeUninstalling.Count() > 0)
-			{
-				List<string> modNames = new List<string>();
-				foreach (IInstalledMod mod in modsToThinkTwiceBeforeUninstalling)
-					modNames.Add(mod.DisplayName);
-
-				if (!UninstallingSaveDataDependencyMod(modNames))
-				{
-					foreach (IInstalledMod mod in modsToThinkTwiceBeforeUninstalling)
-						modsToUninstall.Remove(mod);
-				}
-			}
-
-
-			foreach (IInstalledMod mod in modsToUninstall)
-			{
-				// This function doesn't throw exceptions, the code inside must handle it
-				mod.UninstallModAsync();
-			}
-
-			//InstallActivitiesCounter--;
 		}
 
 		[DllImport("kernel32.dll", SetLastError = true)]

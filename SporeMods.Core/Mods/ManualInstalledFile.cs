@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SporeMods.Core.ModTransactions;
+using SporeMods.Core.ModTransactions.Transactions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -26,6 +28,8 @@ namespace SporeMods.Core.Mods
 
 		public string RealName { get; }
 
+		public bool IsLegacy { get => _legacy; }
+
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		public bool HasConfigsDirectory => false;
@@ -36,24 +40,9 @@ namespace SporeMods.Core.Mods
 
 		public List<string> Tags { get; } = new List<string>();
 
-		public async Task<bool> UninstallModAsync()
+		public async Task<ModTransactionCommitException> UninstallModAsync()
 		{
-			var task = new Task<bool>(() =>
-			{
-				try
-				{
-					FileWrite.SafeDeleteFile(FileWrite.GetFileOutputPath(Location, RealName, _legacy));
-					ModsManager.RunOnMainSyncContext(state => ModsManager.InstalledMods.Remove(this));
-					return true;
-				}
-				catch (Exception ex)
-				{
-					MessageDisplay.RaiseError(new ErrorEventArgs(ex));
-					return false;
-				}
-			});
-			task.Start();
-			return await task;
+			return await ModTransactionManager.ExecuteAsync(new UninstallManualModTransaction(this));
 		}
 
 		private void NotifyPropertyChanged(string propertyName)

@@ -138,6 +138,62 @@ namespace SporeMods.Core.ModTransactions
             }
         }
 
+        // For a folder, keeps many backup files within, can be recursive. The folder must exist.
+        // When restoring, the folder will be cleared and restored exactly as it was.
+        // If the original path is now a file, it will be deleted and the folder will be restored.
+        class DirectoryModBackupFile : ModBackupFile
+        {
+            private readonly string originalPath;
+            private readonly List<ModBackupFile> entries = new List<ModBackupFile>();
+
+            public DirectoryModBackupFile(string originalPath, bool safeWrite)
+            {
+                this.originalPath = originalPath;
+                foreach (var name in Directory.GetFiles(originalPath))
+                {
+                    entries.Add(CreateBackup(name, safeWrite));
+                }
+                foreach (var name in Directory.GetDirectories(originalPath))
+                {
+                    entries.Add(CreateBackup(name, safeWrite));
+                }
+                _isValid = true;
+                _safeWrite = safeWrite;
+            }
+
+            public override void Restore()
+            {
+                if (!_isValid)
+                {
+                    throw new InvalidOperationException("Cannot restore backup file '" + originalPath + "', backup not valid anymore.");
+                }
+                if (File.Exists(originalPath))
+                {
+                    if (_safeWrite) FileWrite.SafeDeleteFile(originalPath);
+                    else File.Delete(originalPath);
+                }
+                else if (Directory.Exists(originalPath))
+                {
+                    Directory.Delete(originalPath, true);
+                }
+
+                Directory.CreateDirectory(originalPath);
+                foreach (var entry in entries)
+                {
+                    entry.Restore();
+                }
+            }
+
+            public override void Dispose()
+            {
+                foreach (var entry in entries)
+                {
+                    DisposeBackup(entry);
+                }
+                _isValid = false;
+            }
+        }
+
         // Allow a maximum of 300 MB of memory to be used for backups
         private static long MAX_BUFFER_USAGE = 200 * 1024 * 1024;
         private static long CURRENT_BUFFER_USAGE = 0;
@@ -168,6 +224,10 @@ namespace SporeMods.Core.ModTransactions
                 {
                     backup = new TempModBackupFile(path, safe);
                 }
+            }
+            else if (Directory.Exists(path))
+            {
+                backup = new DirectoryModBackupFile(path, safe);
             }
             else
             {

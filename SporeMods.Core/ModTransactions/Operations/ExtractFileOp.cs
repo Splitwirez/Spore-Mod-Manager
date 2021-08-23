@@ -32,7 +32,6 @@ namespace SporeMods.Core.ModTransactions.Operations
 
         public bool Do()
         {
-            Thread.Sleep(1000);
             string name = entry.Name.ToLowerInvariant();
             isModInfo = name.Contains(ManagedMod.MOD_INFO.ToLowerInvariant());
 

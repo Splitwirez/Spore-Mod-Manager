@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
-using System.Threading;
 
 namespace SporeMods.Core.ModTransactions.Operations
 {
     /// <summary>
-    /// Safely deletes a file. Safe deletion means it will only be done if it has the permissions and 
-    /// it's not a protected Spore file. Undoing this restores the original file.
+    /// Recursively deletes a directory and all the contents within.
+    /// Undoing this will delete any file/directory in the original path and restore the original directory and its contents.
     /// </summary>
-    public class SafeDeleteFileOp : IModSyncOperation
+    public class DeleteDirectoryOp : IModSyncOperation
     {
         public readonly string path;
         private ModBackupFile backup;
 
-        public SafeDeleteFileOp(string path)
+        public DeleteDirectoryOp(string path)
         {
             this.path = path;
         }
@@ -22,7 +22,7 @@ namespace SporeMods.Core.ModTransactions.Operations
         public bool Do()
         {
             backup = ModBackupFiles.CreateBackup(path);
-            FileWrite.SafeDeleteFile(path);
+            Directory.Delete(path, true);
             return true;
         }
 

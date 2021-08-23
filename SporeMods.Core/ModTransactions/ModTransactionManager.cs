@@ -5,6 +5,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,6 +28,9 @@ namespace SporeMods.Core.ModTransactions
         private static readonly ConcurrentDictionary<ModTransaction, int> currentTransactions = new ConcurrentDictionary<ModTransaction, int>();
 
         public static bool IsExecutingTransactions { get => !currentTransactions.IsEmpty; }
+
+        // Events to show confirmation dialog to user
+        public static event Func<IEnumerable<string>, bool> UninstallingSaveDataDependencyMod;
 
         /// <summary>
         /// Executes a transaction, reversing its actions if something fails.
@@ -64,8 +68,19 @@ namespace SporeMods.Core.ModTransactions
             }
         }
 
+        /// <summary>
+        /// Installs a list of mods. Each mod installation will be reverted if it fails, but it won't affect
+        /// the other mods being installed (unless there is a dependency).
+        /// </summary>
+        /// <param name="modPaths"></param>
+        /// <returns></returns>
         public static async Task InstallModsAsync(string[] modPaths)
         {
+            //TODO implement dependencies
+            // To do so, you will have to move reading the identity outside of the transaction (it's not a problem,
+            // since there is nothing to be reverted there). So, first step, get all the identities. Then, resolve the
+            // dependencies, possibly reordering the mods, then do the loop below, which executes the transactions.
+
             IS_INSTALLING_MODS = true;
             var taskLists = new Dictionary<string, Task<ModTransactionCommitException>>();
             foreach (string path in modPaths)
@@ -98,6 +113,34 @@ namespace SporeMods.Core.ModTransactions
             }
         }
 
+        public static async Task UninstallModsAsync(IInstalledMod[] mods)
+        {
+            List<IInstalledMod> modsToUninstall = mods.ToList();
+            List<IInstalledMod> modsToThinkTwiceBeforeUninstalling = new List<IInstalledMod>();
+
+            foreach (IInstalledMod mod in modsToUninstall.Where(x => (x is ManagedMod xm) && xm.Identity.CausesSaveDataDependency))
+                modsToThinkTwiceBeforeUninstalling.Add(mod);
+
+            if (modsToThinkTwiceBeforeUninstalling.Count() > 0)
+            {
+                List<string> modNames = new List<string>();
+                foreach (IInstalledMod mod in modsToThinkTwiceBeforeUninstalling)
+                    modNames.Add(mod.DisplayName);
+
+                if (!UninstallingSaveDataDependencyMod(modNames))
+                {
+                    foreach (IInstalledMod mod in modsToThinkTwiceBeforeUninstalling)
+                        modsToUninstall.Remove(mod);
+                }
+            }
+
+            foreach (IInstalledMod mod in modsToUninstall)
+            {
+                // This function doesn't throw exceptions, the code inside must handle it
+                await mod.UninstallModAsync();
+            }
+        }
+
         /// <summary>
         /// Enables a managed mod, returning to the original state if something fails.
         /// </summary>
@@ -106,6 +149,16 @@ namespace SporeMods.Core.ModTransactions
         public static async Task EnableModAsync(ManagedMod mod)
         {
             await ExecuteAsync(new EnableModTransaction(mod));
-        } 
+        }
+
+        /// <summary>
+        /// Disables a managed mod, returning to the original state if something fails.
+        /// </summary>
+        /// <param name="mod"></param>
+        /// <returns></returns>
+        public static async Task DisableModAsync(ManagedMod mod)
+        {
+            await ExecuteAsync(new DisableModTransaction(mod));
+        }
     }
 }

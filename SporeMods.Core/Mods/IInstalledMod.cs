@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SporeMods.Core.ModTransactions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,11 +13,11 @@ namespace SporeMods.Core.Mods
 	public interface IInstalledMod
 	{
 		/// <summary>
-		/// Queues this mod to be uninstalled, returning true if it was successful or false if there was any error.
+		/// Queues this mod to be uninstalled using a transaction, returning the transaction exception if something failed.
 		/// This method should not throw any exception.
 		/// </summary>
 		/// <returns></returns>
-		Task<bool> UninstallModAsync();
+		Task<ModTransactionCommitException> UninstallModAsync();
 
 		bool HasConfigsDirectory { get; }
 

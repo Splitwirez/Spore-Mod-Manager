@@ -472,7 +472,7 @@ namespace SporeMods.Manager
 				ValidateModOp.InstallingRequiresGalaxyResetMod += ModInstallation_InstallingRequiresGalaxyResetMod;
 				ValidateModOp.InstallingSaveDataDependencyMod += ModInstallation_InstallingSaveDataDependencyMod;
 
-				ModInstallation.UninstallingSaveDataDependencyMod += ModInstallation_UninstallingSaveDataDependencyMod;
+				ModTransactionManager.UninstallingSaveDataDependencyMod += ModInstallation_UninstallingSaveDataDependencyMod;
 
 
 
@@ -1193,7 +1193,7 @@ namespace SporeMods.Manager
 			var list = GetActiveModsListView();
 			IInstalledMod[] mods = new IInstalledMod[list.SelectedItems.Count];
 			list.SelectedItems.CopyTo(mods, 0);
-			ModInstallation.UninstallModsAsync(mods);
+			Task.Run(() => ModTransactionManager.UninstallModsAsync(mods));
 		}
 
 		private void ConfigureModButton_Click(object sender, RoutedEventArgs e)

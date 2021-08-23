@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SporeMods.Core.ModTransactions;
+using SporeMods.Core.ModTransactions.Transactions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -345,69 +347,11 @@ namespace SporeMods.Core.Mods
 		}
 
 		/// <summary>
-		/// Removes all the files in the mod, increasing the 'Progress' property.
-		/// </summary>
-		/// <param name="progressRange">How much Progress increases after removing all files</param>
-		private void RemoveModFiles(double progressRange)
-		{
-			if (HasConfigurator)
-			{
-				bool isLegacyPath = Identity.InstallerSystemVersion == ModIdentity.XmlModIdentityVersion1_0_0_0;
-				var files = Identity.GetAllFilesToAdd();
-				
-				foreach (var file in files)
-				{
-					FileWrite.SafeDeleteFile(FileWrite.GetFileOutputPath(file.GameDir, file.Name, isLegacyPath));
-					Progress += progressRange / files.Count;
-				}
-			}
-			else
-			{
-				var files = GetModFileNames();
-				foreach (string s in files)
-				{
-					if (Path.GetExtension(s).ToLowerInvariant() == ".package")
-						FileWrite.SafeDeleteFile(FileWrite.GetFileOutputPath(ComponentGameDir.GalacticAdventures, s, _isLegacy));
-					else if (Path.GetExtension(s).ToLowerInvariant() == ".dll")
-						FileWrite.SafeDeleteFile(FileWrite.GetFileOutputPath(ComponentGameDir.ModAPI, s, _isLegacy));
-
-					Progress += progressRange / files.Count;
-				}
-			}
-		}
-
-		/// <summary>
 		/// [PARTIAL NYI]Queues all of this mod's files for removal, then deletes its configuration
 		/// </summary>
-		public async Task<bool> UninstallModAsync()
+		public async Task<ModTransactionCommitException> UninstallModAsync()
 		{
-			var task = new Task<bool>(() =>
-			{
-				try
-				{
-					Progress = 0;
-					IsProgressing = true;
-
-					RemoveModFiles(80.0);
-
-					Directory.Delete(StoragePath, true);
-
-					ModsManager.RunOnMainSyncContext(state => ModsManager.InstalledMods.Remove(this));
-
-					Progress = 0;
-					IsProgressing = false;
-					return true;
-				}
-				catch (Exception ex)
-				{
-					MessageDisplay.RaiseError(new ErrorEventArgs(ex));
-					ModsManager.InstalledMods.Add(new InstallError(ex));
-
-					return false;
-				}
-			});
-			task.Start();
-			return await task;
+			return await ModTransactionManager.ExecuteAsync(new UninstallManagedModTransaction(this));
 		}
 
 		/// <summary>
@@ -441,36 +385,6 @@ namespace SporeMods.Core.Mods
 			}
 
 			return result;
-		}
-
-		/// <summary>
-		/// [PARTIAL NYI]Queues all of this mod's enabled files for removal, and all disabled files for installation
-		/// </summary>
-		public bool DisableMod()
-		{
-			if (!_hasStoredFiles)
-			{
-				throw new InvalidOperationException("Cannot enable mod, _hasStoredFiles=false");
-			}
-
-			try
-			{
-				Progress = 0;
-				IsProgressing = true;
-				RemoveModFiles(100.0);
-
-				Progress = 0;
-				IsProgressing = false;
-
-				Configuration.IsEnabled = true;
-
-				return true;
-			}
-			catch (Exception ex)
-			{
-				ModsManager.InstalledMods.Add(new InstallError(ex));
-				return false;
-			}
 		}
 
 		private void NotifyPropertyChanged(string propertyName)
