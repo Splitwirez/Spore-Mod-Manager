@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using SporeMods.Core.ModTransactions;
 using TTimer = System.Timers.Timer;
 
 namespace SporeMods.Core
@@ -339,15 +340,15 @@ namespace SporeMods.Core
 							ModInstallation.InstallActivitiesCounter = 0;
 							TasksCompleted?.Invoke(this, new ModTasksCompletedEventArgs()
 							{
-								InstalledAnyMods = ModInstallation.IS_INSTALLING_MODS,
-								UninstalledAnyMods = ModInstallation.IS_UNINSTALLING_MODS,
-								ReconfiguredAnyMods = ModInstallation.IS_RECONFIGURING_MODS,
-								Failures = ModInstallation.INSTALL_FAILURES
+								InstalledAnyMods = ModTransactionManager.IS_INSTALLING_MODS,
+								UninstalledAnyMods = ModTransactionManager.IS_UNINSTALLING_MODS,
+								ReconfiguredAnyMods = ModTransactionManager.IS_RECONFIGURING_MODS,
+								Failures = ModTransactionManager.INSTALL_FAILURES
 							});
-							ModInstallation.IS_INSTALLING_MODS = false;
-							ModInstallation.IS_UNINSTALLING_MODS = false;
-							ModInstallation.IS_RECONFIGURING_MODS = false;
-							ModInstallation.INSTALL_FAILURES.Clear();
+							ModTransactionManager.IS_INSTALLING_MODS = false;
+							ModTransactionManager.IS_UNINSTALLING_MODS = false;
+							ModTransactionManager.IS_RECONFIGURING_MODS = false;
+							ModTransactionManager.INSTALL_FAILURES.Clear();
 						}
 					}
 					/*else if (!InstalledMods.OfType<ManagedMod>().Any(x => x.IsProgressing))

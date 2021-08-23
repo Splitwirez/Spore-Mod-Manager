@@ -15,6 +15,8 @@ namespace SporeMods.Core.ModTransactions.Operations
         public ManagedMod mod;
         public readonly string unique;
         public readonly ManagedMod configMod;
+        private ModBackupFile configBackup;
+        private ModBackupFile legacyBackup;
 
         public InitManagedModConfigOp(string unique, ManagedMod configMod)
         {
@@ -24,6 +26,10 @@ namespace SporeMods.Core.ModTransactions.Operations
 
         public bool Do()
         {
+            var storagePath = Path.Combine(Settings.ModConfigsPath, unique);
+            configBackup = ModBackupFiles.CreateBackup(Path.Combine(storagePath, ManagedMod.MOD_CONFIG));
+            legacyBackup = ModBackupFiles.CreateBackup(Path.Combine(storagePath, ManagedMod.PATH_USELEGACYDLLS));
+
             mod = new ManagedMod(unique, true, configMod.Configuration)
             {
                 Progress = configMod.Progress,
@@ -34,11 +40,10 @@ namespace SporeMods.Core.ModTransactions.Operations
 
         public void Undo()
         {
-            if (mod != null)
-            {
-                File.Delete(Path.Combine(mod.StoragePath, ManagedMod.MOD_CONFIG));
-                File.Delete(Path.Combine(mod.StoragePath, ManagedMod.PATH_USELEGACYDLLS));
-            }
+            configBackup.Restore();
+            legacyBackup.Restore();
+            ModBackupFiles.DisposeBackup(configBackup);
+            ModBackupFiles.DisposeBackup(legacyBackup);
         }
     }
 }

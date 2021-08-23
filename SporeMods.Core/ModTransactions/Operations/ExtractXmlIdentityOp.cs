@@ -24,6 +24,7 @@ namespace SporeMods.Core.ModTransactions.Operations
 		public readonly string unique;
 		public readonly string displayName;
 		public readonly CountdownEvent countdownLatch;
+		private ModBackupFile backup;
 
 		public ExtractXmlIdentityOp(ZipArchive zip, string outputDirPath, string unique, string displayName, CountdownEvent countdownLatch = null)
         {
@@ -36,21 +37,21 @@ namespace SporeMods.Core.ModTransactions.Operations
 
 		public bool Do()
         {
+			string xmlOutPath = Path.Combine(outputDirPath, ManagedMod.MOD_INFO);
+			backup = ModBackupFiles.CreateBackup(xmlOutPath);
 			if (zip != null && zip.TryGetEntry(ManagedMod.MOD_INFO, out ZipArchiveEntry entry))
 			{
-				string xmlOutPath = Path.Combine(outputDirPath, ManagedMod.MOD_INFO);
 				entry.ExtractToFile(xmlOutPath, true);
 				Permissions.GrantAccessFile(xmlOutPath);
 			}
 			else
 			{
 				string legacyPath = Path.Combine(outputDirPath, ManagedMod.PATH_USELEGACYDLLS);
-				string modInfoPath = Path.Combine(outputDirPath, ManagedMod.MOD_INFO);
 				File.WriteAllText(legacyPath, string.Empty);
 				XmlModIdentity.CreateModInfoXml(unique, displayName, outputDirPath, out XDocument document);
-				document.Save(modInfoPath);
+				document.Save(xmlOutPath);
 				Permissions.GrantAccessFile(legacyPath);
-				Permissions.GrantAccessFile(modInfoPath);
+				Permissions.GrantAccessFile(xmlOutPath);
 			}
 			if (countdownLatch != null) countdownLatch.Signal();
 			return true;
@@ -58,11 +59,8 @@ namespace SporeMods.Core.ModTransactions.Operations
 
 		public void Undo()
         {
-			string xmlOutPath = Path.Combine(outputDirPath, ManagedMod.MOD_INFO);
-			if (File.Exists(xmlOutPath))
-            {
-				File.Delete(xmlOutPath);
-            }
+			backup.Restore();
+			ModBackupFiles.DisposeBackup(backup);
 		}
     }
 }

@@ -12,6 +12,9 @@ namespace SporeMods.Core.ModTransactions
         protected bool _isValid;
         public bool IsValid { get => _isValid; }
 
+        protected bool _safeWrite;
+        public bool SafeWrite { get => _safeWrite; }
+
         public abstract void Restore();
 
         public abstract void Dispose();
@@ -24,12 +27,13 @@ namespace SporeMods.Core.ModTransactions
             private readonly string originalPath;
             private byte[] backupData;
 
-            public MemoryModBackupFile(string originalPath)
+            public MemoryModBackupFile(string originalPath, bool safeWrite)
             {
                 this.originalPath = originalPath;
                 backupData = File.ReadAllBytes(originalPath);
                 Interlocked.Add(ref CURRENT_BUFFER_USAGE, +backupData.Length);
                 _isValid = true;
+                _safeWrite = safeWrite;
             }
 
             public override void Restore()
@@ -38,7 +42,21 @@ namespace SporeMods.Core.ModTransactions
                 {
                     throw new InvalidOperationException("Cannot restore backup file '" + originalPath + "', backup not valid anymore.");
                 }
-                File.WriteAllBytes(originalPath, backupData);
+                if (_safeWrite)
+                {
+                    if (FileWrite.IsUnprotectedFile(originalPath))
+                    {
+                        if (File.Exists(originalPath))
+                            File.Delete(originalPath);
+
+                        File.WriteAllBytes(originalPath, backupData);
+                        Permissions.GrantAccessFile(originalPath);
+                    }
+                }
+                else
+                {
+                    File.WriteAllBytes(originalPath, backupData);
+                }
             }
 
             public override void Dispose()
@@ -54,12 +72,13 @@ namespace SporeMods.Core.ModTransactions
             private readonly string originalPath;
             private readonly string tmpBackupPath;
 
-            public TempModBackupFile(string originalPath)
+            public TempModBackupFile(string originalPath, bool safeWrite)
             {
                 this.originalPath = originalPath;
                 tmpBackupPath = Path.GetTempFileName();
                 File.Copy(originalPath, tmpBackupPath, true);
                 _isValid = true;
+                _safeWrite = safeWrite;
             }
 
             public override void Restore()
@@ -68,7 +87,14 @@ namespace SporeMods.Core.ModTransactions
                 {
                     throw new InvalidOperationException("Cannot restore backup file '" + originalPath + "', backup not valid anymore.");
                 }
-                File.Copy(tmpBackupPath, originalPath, true);
+                if (_safeWrite)
+                {
+                    FileWrite.SafeCopyFile(tmpBackupPath, originalPath);
+                }
+                else
+                {
+                    File.Copy(tmpBackupPath, originalPath, true);
+                }
             }
 
             public override void Dispose()
@@ -83,9 +109,11 @@ namespace SporeMods.Core.ModTransactions
         {
             private readonly string originalPath;
 
-            public MissingModBackupFile(string originalPath)
+            public MissingModBackupFile(string originalPath, bool safeWrite)
             {
                 this.originalPath = originalPath;
+                _isValid = true;
+                _safeWrite = safeWrite;
             }
 
             public override void Dispose()
@@ -99,7 +127,14 @@ namespace SporeMods.Core.ModTransactions
                 {
                     throw new InvalidOperationException("Cannot restore backup file '" + originalPath + "', backup not valid anymore.");
                 }
-                File.Delete(originalPath);
+                if (_safeWrite)
+                {
+                    FileWrite.SafeDeleteFile(originalPath);
+                }
+                else
+                {
+                    File.Delete(originalPath);
+                }
             }
         }
 
@@ -111,18 +146,32 @@ namespace SporeMods.Core.ModTransactions
         // A list of all backups, used for disposing them at the end of the program; some might not be valid anymore
         private static ConcurrentDictionary<ModBackupFile, int> backups = new ConcurrentDictionary<ModBackupFile, int>();
 
-        public static ModBackupFile CreateBackup(string path)
+        /// <summary>
+        /// Creates a backup file that can be restored later. It always returns a valid file, even
+        /// if the path does not exist; in that case, restoring the backup will remove any file at the path.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="safe"></param>
+        /// <returns></returns>
+        public static ModBackupFile CreateBackup(string path, bool safe = true)
         {
             ModBackupFile backup = null;
-            long length = new FileInfo(path).Length;
-            long currentUsage = 0;
-            if (Interlocked.Read(ref currentUsage) + length <= MAX_BUFFER_USAGE)
+            if (File.Exists(path))
             {
-                backup = new MemoryModBackupFile(path);
+                long length = new FileInfo(path).Length;
+                long currentUsage = 0;
+                if (Interlocked.Read(ref currentUsage) + length <= MAX_BUFFER_USAGE)
+                {
+                    backup = new MemoryModBackupFile(path, safe);
+                }
+                else
+                {
+                    backup = new TempModBackupFile(path, safe);
+                }
             }
             else
             {
-                backup = new TempModBackupFile(path);
+                backup = new MissingModBackupFile(path, safe);
             }
             backups[backup] = 0;
             return backup;

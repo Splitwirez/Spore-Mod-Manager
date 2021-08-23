@@ -35,7 +35,7 @@ namespace SporeMods.Core.ModTransactions
         /// </summary>
         /// <param name="transaction"></param>
         /// <returns></returns>
-        public static async Task<Exception> ExecuteAsync(ModTransaction transaction)
+        public static async Task<ModTransactionCommitException> ExecuteAsync(ModTransaction transaction)
         {
             currentTransactions[transaction] = 0;
             try
@@ -46,7 +46,11 @@ namespace SporeMods.Core.ModTransactions
                     currentTransactions.Remove(transaction, out _);
                     return new ModTransactionCommitException(TransactionFailureCause.CommitRejected, null, null);
                 }
-                return null;
+                else
+                {
+                    currentTransactions.Remove(transaction, out _);
+                    return null;
+                }
             }
             // There is a specific exception for when a transaction fails, so theoretically we should only need to catch ModTransactionCommitException
             // However, we also want to rollback if there was an unexpected exception while executing the code
@@ -62,7 +66,8 @@ namespace SporeMods.Core.ModTransactions
 
         public static async Task InstallModsAsync(string[] modPaths)
         {
-            var taskLists = new Dictionary<String, Task<Exception>>();
+            IS_INSTALLING_MODS = true;
+            var taskLists = new Dictionary<string, Task<ModTransactionCommitException>>();
             foreach (string path in modPaths)
             {
                 if (PathIsNetworkPath(path))

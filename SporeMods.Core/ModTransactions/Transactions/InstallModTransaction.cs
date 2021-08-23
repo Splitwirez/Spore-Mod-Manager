@@ -54,25 +54,21 @@ namespace SporeMods.Core.ModTransactions.Transactions
             // 3. Create the directory
             Operation(new CreateDirectoryOp(modDirectory));
 
-            // I wanted to extract each file on a separate thread, but it seems the zip library doesn't like that
-            await Task.Run(() =>
+            // We don't increase all the progress, because EnableMod() will be called
+            double totalProgress = 50.0;
+            var fileEntries = zip.Entries.Where(x => !x.IsDirectory());
+            var numFiles = fileEntries.Count() + 1;
+
+            // 4. Extract the XML file
+            Operation(new ExtractXmlIdentityOp(zip, modDirectory, unique, modName));
+            managedMod.Progress += totalProgress / numFiles;
+
+            // 5. Extract all mod files
+            foreach (ZipArchiveEntry e in fileEntries)
             {
-                // We don't increase all the progress, because EnableMod() will be called
-                double totalProgress = 50.0;
-                var fileEntries = zip.Entries.Where(x => !x.IsDirectory());
-                var numFiles = fileEntries.Count() + 1;
-
-                // 4. Extract the XML file
-                Operation(new ExtractXmlIdentityOp(zip, modDirectory, unique, modName));
+                Operation(new ExtractFileOp(e, modDirectory));
                 managedMod.Progress += totalProgress / numFiles;
-
-                // 5. Extract all mod files
-                foreach (ZipArchiveEntry e in fileEntries)
-                {
-                    Operation(new ExtractFileOp(e, modDirectory));
-                    managedMod.Progress += totalProgress / numFiles;
-                }
-            });
+            }
 
             // We cannot enable the mod until all files are extracted
 

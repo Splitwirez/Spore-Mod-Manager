@@ -1242,7 +1242,7 @@ namespace SporeMods.Manager
 
 		async Task InstallModsFromFilesAsync(string[] modPaths)
 		{
-			await ModTransactionManager.InstallModsAsync(modPaths);
+			await Task.Run(() => ModTransactionManager.InstallModsAsync(modPaths));
 		}
 
 		void ModsManager_TasksCompleted(object sender, ModTasksCompletedEventArgs e)

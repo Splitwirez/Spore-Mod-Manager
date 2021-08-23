@@ -18,6 +18,7 @@ namespace SporeMods.Core.ModTransactions.Operations
         public readonly string outputDir;
         public readonly CountdownEvent countdownLatch;
         private bool isModInfo;
+        private ModBackupFile backup;
         // It is possible that this file replaces a mod that was detected as a manually installed file
         private int manuallyInstalledFileIndex;
         private ManualInstalledFile manuallyInstalledFile;
@@ -38,6 +39,7 @@ namespace SporeMods.Core.ModTransactions.Operations
             if (!isModInfo)
             {
                 string outPath = Path.Combine(outputDir, entry.Name);
+                backup = ModBackupFiles.CreateBackup(outPath);
                 entry.ExtractToFile(outPath, true);
                 Permissions.GrantAccessFile(outPath);
 
@@ -56,8 +58,8 @@ namespace SporeMods.Core.ModTransactions.Operations
         {
             if (!isModInfo)
             {
-                string outPath = Path.Combine(outputDir, entry.Name);
-                File.Delete(outPath);
+                backup.Restore();
+                ModBackupFiles.DisposeBackup(backup);
 
                 if (manuallyInstalledFile != null)
                 {

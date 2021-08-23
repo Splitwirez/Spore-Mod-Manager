@@ -17,15 +17,6 @@ namespace SporeMods.Core
 {
 	public static class ModInstallation
 	{
-		internal static bool IS_INSTALLING_MODS = false;
-		internal static Dictionary<string, Exception> INSTALL_FAILURES = new Dictionary<string, Exception>();
-
-		internal static bool IS_UNINSTALLING_MODS = false;
-
-		internal static bool IS_RECONFIGURING_MODS = false;
-
-		static readonly string MOD_INFO = "ModInfo.xml";
-
 
 		public static event Func<IEnumerable<string>, bool> UninstallingSaveDataDependencyMod;
 
@@ -74,7 +65,7 @@ namespace SporeMods.Core
 
 		public static void UninstallModsAsync(IInstalledMod[] modConfigurations)
 		{
-			IS_UNINSTALLING_MODS = true;
+			//TODO IS_UNINSTALLING_MODS = true;
 			//ModsManager.Instance.AddToTaskCount(modConfigurations.Length);
 			//InstallActivitiesCounter++;
 
@@ -186,8 +177,8 @@ namespace SporeMods.Core
 
 				if (await ModsManager.Instance.ShowModConfigurator(mod))
 				{
-					if (!isProgressing)
-						IS_RECONFIGURING_MODS = true;
+					//if (!isProgressing)
+						//TODO IS_RECONFIGURING_MODS = true;
 					//await mod.EnableMod();
 					//mod.EnableMod();
 					//TODO
