@@ -24,7 +24,7 @@ namespace SporeMods.Core.ModTransactions.Operations
 
         public bool Do()
         {
-            var previousMod = ModsManager.GetManagedMod(mod.RealName);
+            var previousMod = ModsManager.GetManagedMod(mod.Unique);
             if (previousMod != null)
             {
                 if (failIfExists) return false;

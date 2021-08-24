@@ -82,7 +82,12 @@ namespace SporeMods.Core.ModTransactions
             // dependencies, possibly reordering the mods, then do the loop below, which executes the transactions.
 
             IS_INSTALLING_MODS = true;
+
+            var packageTransactions = new List<InstallLoosePackageTransaction>();
+            var modTransactions = new List<InstallModTransaction>();
             var taskLists = new Dictionary<string, Task<ModTransactionCommitException>>();
+
+            // First, collect all the mod identities.
             foreach (string path in modPaths)
             {
                 if (PathIsNetworkPath(path))
@@ -91,11 +96,21 @@ namespace SporeMods.Core.ModTransactions
                 }
                 else if (Path.GetExtension(path).ToLowerInvariant() == ".package")
                 {
-                    taskLists[path] = ExecuteAsync(new InstallLoosePackageTransaction(path));
+                    packageTransactions.Add(new InstallLoosePackageTransaction(path));
                 }
                 else if (Path.GetExtension(path).ToLowerInvariant() == ".sporemod")
                 {
-                    taskLists[path] = ExecuteAsync(new InstallModTransaction(path));
+                    try
+                    {
+                        var transaction = new InstallModTransaction(path);
+                        transaction.ParseModIdentity();
+                        modTransactions.Add(transaction);
+                    }
+                    catch (ModTransactionCommitException e)
+                    {
+                        // This can happen if the mod provides an invalid DLL
+                        INSTALL_FAILURES[path] = e;
+                    }
                 }
                 else
                 {
@@ -103,6 +118,32 @@ namespace SporeMods.Core.ModTransactions
                 }
             }
 
+            //TODO handle mod versions here
+            // For now, just accept the new mod
+
+            // We iterate in reverse order to remove 
+            for (int i = modTransactions.Count - 1; i >= 0; --i)
+            {
+                var otherMod = ModsManager.GetManagedMod(modTransactions[i].identity.Unique);
+                if (otherMod != null)
+                {
+                    //TODO usually, here you check versions. We'll just accept the incoming mod
+                    modTransactions[i].upgradedMod = otherMod;
+                }
+            }
+
+            //TODO if you want dependencies, you will have to define an order here
+
+            foreach (var transaction in packageTransactions)
+            {
+                taskLists[transaction.modPath] = ExecuteAsync(transaction);
+            }
+            foreach (var transaction in modTransactions)
+            {
+                taskLists[transaction.modPath] = ExecuteAsync(transaction);
+            }
+
+            // Await all tasks to see if there were exceptions
             foreach (var task in taskLists)
             {
                 var exception = await task.Value;

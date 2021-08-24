@@ -90,14 +90,14 @@ namespace SporeMods.Core
 		}
 
 		/// <summary>
-		/// Retrieves an existing ManagedMod matching the name provided if one exists. If not, returns null.
+		/// Retrieves an existing ManagedMod matching the unique provided if one exists. If not, returns null.
 		/// </summary>
-		public static ManagedMod GetManagedMod(string name)
+		public static ManagedMod GetManagedMod(string unique)
 		{
-			name = name.ToLowerInvariant();
+			unique = unique.ToLowerInvariant();
 			foreach (ManagedMod m in InstalledMods.Where(x => x is ManagedMod))
 			{
-				if (m is ManagedMod && m.RealName.ToLowerInvariant() == name)
+				if (m is ManagedMod && m.Unique.ToLowerInvariant() == unique)
 				{
 					return m;
 				}
