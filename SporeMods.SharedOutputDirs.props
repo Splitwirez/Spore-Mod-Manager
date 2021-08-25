@@ -3,6 +3,11 @@
   <PropertyGroup>
     <AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath>
 	<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OutputPath>..\devBin\$(Configuration)\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(OS)' == 'Windows_NT' and Exists('BUILD_TO_USER_DIR')">
     <OutputPath>$(userprofile)\Spore Mod Manager\bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
