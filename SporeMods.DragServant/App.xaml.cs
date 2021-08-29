@@ -25,9 +25,6 @@ namespace SporeMods.DragServant
 
 		public App()
 		{
-			//var win = new MainWindow();
-			//win.Show();
-			//MainWindow = win;
 			_launcherWatcher.Created += (sneder, args) =>
 			{
 				string fileName = Path.GetFileName(args.FullPath);
@@ -70,10 +67,13 @@ namespace SporeMods.DragServant
 			};
 		}
 
-        /*protected override void OnStartup(StartupEventArgs e)
+        protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+			var _ = CommonUI.Localization.LanguageManager.Instance;
+			var __ = CommonUI.Localization.LanguageManager.Instance.CurrentLanguage;
+
 			Console.WriteLine(CommonUI.Localization.LanguageManager.Instance.GetLocalizedText("OK"));
-		}*/
+		}
     }
 }

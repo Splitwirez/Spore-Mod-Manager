@@ -343,3 +343,4 @@ Output
 /SporeMods.Launcher/ModAPIFix/SporeApp_ModAPIFix.exe
 /SporeMods.Launcher/ModAPIFix/steam_api.dll
 SporeModManagerSetup.e*
+BUILD_TO_USER_DIR

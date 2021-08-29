@@ -61,42 +61,41 @@ namespace SporeMods.CommonUI.Localization
             //_resNames.Add(CANADIAN_ENGLISH_RES);
 
 
-            if (Path.GetFileNameWithoutExtension(Process.GetCurrentProcess().MainModule.FileName).Equals(CrossProcess.MGR_EXE, StringComparison.OrdinalIgnoreCase))
+            string hotReloadFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SMM");
+            string hotReloadPath = Path.Combine(hotReloadFolderPath, "te-st.txt");
+
+            bool hasHotReload = Path.GetFileNameWithoutExtension(Process.GetCurrentProcess().MainModule.FileName).Equals(CrossProcess.MGR_EXE, StringComparison.OrdinalIgnoreCase) && File.Exists(hotReloadPath);
+
+            if (hasHotReload)
             {
-                string hotReloadFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SMM");
-                string hotReloadPath = Path.Combine(hotReloadFolderPath, "te-st.txt");
+                Language hotReload = new Language(hotReloadPath);
+                Languages.Add(hotReload);
+                CurrentLanguage = hotReload;
 
-                if (File.Exists(hotReloadPath))
+                FileSystemWatcher hotReloadWatcher = new FileSystemWatcher(hotReloadFolderPath, "*.txt");
+                hotReloadWatcher.Changed += (s, e) => Application.Current.Dispatcher.Invoke(() =>
                 {
-                    Language hotReload = new Language(hotReloadPath);
-                    Languages.Add(hotReload);
-                    CurrentLanguage = hotReload;
-
-                    FileSystemWatcher hotReloadWatcher = new FileSystemWatcher(hotReloadFolderPath, "*.txt");
-                    hotReloadWatcher.Changed += (s, e) => Application.Current.Dispatcher.Invoke(() =>
+                    if (e.FullPath.Equals(hotReloadPath, StringComparison.OrdinalIgnoreCase))
                     {
-                        if (e.FullPath.Equals(hotReloadPath, StringComparison.OrdinalIgnoreCase))
+                        Languages.Remove(hotReload);
+                        if (File.Exists(hotReloadPath))
                         {
-                            Languages.Remove(hotReload);
-                            if (File.Exists(hotReloadPath))
-                            {
-                                hotReload = new Language(hotReloadPath);
-                                Languages.Add(hotReload);
-                                CurrentLanguage = hotReload;
-                            }
+                            hotReload = new Language(hotReloadPath);
+                            Languages.Add(hotReload);
+                            CurrentLanguage = hotReload;
                         }
-                    });
-                    hotReloadWatcher.EnableRaisingEvents = true;
-                }
-                else
-                {
-                    string ident = GetRoundedSystemLanguageIdentifier();
-                    var lang = Languages.FirstOrDefault(x => x.LanguageCode.Equals(ident, StringComparison.OrdinalIgnoreCase));
-                    if (lang == default(Language))
-                        lang = CanadianEnglish;
+                    }
+                });
+                hotReloadWatcher.EnableRaisingEvents = true;
+            }
+            else
+            {
+                string ident = GetRoundedSystemLanguageIdentifier();
+                var lang = Languages.FirstOrDefault(x => x.LanguageCode.Equals(ident, StringComparison.OrdinalIgnoreCase));
+                if (lang == default(Language))
+                    lang = CanadianEnglish;
 
-                    CurrentLanguage = lang;
-                }
+                CurrentLanguage = lang;
             }
 
             _writeCurrentLanguage = true;
