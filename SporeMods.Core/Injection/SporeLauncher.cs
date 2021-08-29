@@ -369,25 +369,16 @@ namespace SporeMods.Core.Injection
 			//};   
 		}
 
+		static bool ShouldGenerateCommandLineOptions
+			=> !Environment.GetCommandLineArgs().Any(x => x.Trim('"').Equals(Settings.LaunchSporeWithoutManagerOptions, StringComparison.OrdinalIgnoreCase));
+			//!((Environment.GetCommandLineArgs().Length > 1) && (Environment.GetCommandLineArgs()[1] == Settings.LaunchSporeWithoutManagerOptions)); //(!Environment.GetCommandLineArgs().Contains(UpdaterService.IgnoreUpdatesArg)) && (Environment.GetCommandLineArgs().Length > 1) && (Environment.GetCommandLineArgs()[1] == Settings.LaunchSporeWithoutManagerOptions))
+
 		static NativeMethods.MonitorInfoEx _monitor = new NativeMethods.MonitorInfoEx();
 		static bool _monitorSelected = false;
 		static string GetGameCommandLineOptions()
 		{
 			var sb = new StringBuilder();
-			if ((!Environment.GetCommandLineArgs().Contains(UpdaterService.IgnoreUpdatesArg)) && (Environment.GetCommandLineArgs().Length > 1) && (Environment.GetCommandLineArgs()[1] == Settings.LaunchSporeWithoutManagerOptions))
-			{
-				int i = 0;
-				foreach (string arg in Environment.GetCommandLineArgs())
-				{
-					if ((i != 0) && (arg.ToLowerInvariant() != Settings.LaunchSporeWithoutManagerOptions.ToLowerInvariant()))
-					{
-						sb.Append(arg);
-						sb.Append(" ");
-					}
-					i++;
-				}
-			}
-			else
+			if (ShouldGenerateCommandLineOptions)
 			{
 				if (Settings.ForceGameWindowingMode)
 				{
@@ -551,6 +542,21 @@ namespace SporeMods.Core.Injection
 					}
 				}
 			}
+			else
+			{
+				int i = 0;
+				foreach (string arg in Environment.GetCommandLineArgs())
+				{
+					if ((i != 0) && (arg.ToLowerInvariant() != Settings.LaunchSporeWithoutManagerOptions.ToLowerInvariant()))
+					{
+						string arg2 = $"\"{arg}\"";
+						sb.Append(arg2);
+						sb.Append(" ");
+					}
+					i++;
+				}
+			}
+
 			return sb.ToString();
 		}
 
@@ -558,7 +564,7 @@ namespace SporeMods.Core.Injection
 		static void CreateSporeProcess()
 		{
 			var sb = new StringBuilder();
-			if ((!Environment.GetCommandLineArgs().Contains(UpdaterService.IgnoreUpdatesArg)) && (Environment.GetCommandLineArgs().Length > 1) && (Environment.GetCommandLineArgs()[1] == Settings.LaunchSporeWithoutManagerOptions))
+			/*if (ShouldGenerateCommandLineOptions) //(!Environment.GetCommandLineArgs().Contains(UpdaterService.IgnoreUpdatesArg)) && (Environment.GetCommandLineArgs().Length > 1) && (Environment.GetCommandLineArgs()[1] == Settings.LaunchSporeWithoutManagerOptions))
 			{
 				int i = 0;
 				foreach (string arg in Environment.GetCommandLineArgs())
@@ -572,9 +578,9 @@ namespace SporeMods.Core.Injection
 				}
 			}
 			else
-            {
+            {*/
 				sb.Append(GetGameCommandLineOptions());
-			}
+			//}
 
 			/*if (false)
 			{
@@ -707,7 +713,7 @@ namespace SporeMods.Core.Injection
 
 		static void EnableBorderless(int pid, NativeMethods.MonitorInfoEx monitor)
 		{
-			if (Settings.ForceWindowedMode == 2)
+			if (ShouldGenerateCommandLineOptions && Settings.ForceGameWindowingMode && (Settings.ForceWindowedMode == 2))
 			{
 				var monBounds = _monitor.rcMonitor;
 				//MessageDisplay.ShowMessageBox("_monitorSelected: " + _monitorSelected.ToString() + "\n_monitor.rcMonitor: " + $"{monBounds.Left},{monBounds.Top},{monBounds.Right},{monBounds.Bottom},,,{monBounds.Right - monBounds.Left},{monBounds.Bottom - monBounds.Top}");

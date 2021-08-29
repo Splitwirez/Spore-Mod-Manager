@@ -403,14 +403,14 @@ namespace SporeMods.Core
 				if (File.Exists(_pathInfo) && Permissions.IsAdministrator())
 					Permissions.GrantAccessFile(_pathInfo);
 
-				if (!Permissions.IsFileLocked(_pathInfo, FileAccess.Read))
+				/*if (!Permissions.IsFileLocked(_pathInfo, FileAccess.Read))
 				{
 					string outDirPath = File.ReadAllText(_pathInfo);
 					if (File.Exists(Path.Combine(outDirPath, Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName))))
 						return outDirPath;
-				}
+				}*/
 
-				return Directory.GetParent(Assembly.GetEntryAssembly().Location).ToString();
+				return Directory.GetParent(Assembly.GetExecutingAssembly().Location).ToString();
 			}
 			set
 			{
@@ -424,7 +424,7 @@ namespace SporeMods.Core
 
 				/*if (Path.GetFileNameWithoutExtension(Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).ToString()).ToLowerInvariant().StartsWith("SporeMods."))
 				{*/
-				File.WriteAllText(_pathInfo, value);
+				File.WriteAllText(_pathInfo, Directory.GetParent(Assembly.GetExecutingAssembly().Location).ToString());
 				if (Permissions.IsAdministrator())
 					Permissions.GrantAccessFile(_pathInfo);
 				//}
