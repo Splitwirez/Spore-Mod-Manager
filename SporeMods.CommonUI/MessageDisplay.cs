@@ -15,6 +15,14 @@ namespace SporeMods.CommonUI
 		static bool EXCEPTION_SHOWN = false;
 		public static void ShowException(Exception exception) => ShowException(exception, true);
 
+		
+
+		private const string ERROR_TITLE = "Something is very wrong here. Layer ";
+		
+		private const string ERROR_TEXT = "\n\nPlease send the contents this MessageBox and all which follow it to rob55rod\\Splitwirez, along with a description of what you were doing at the time.\n\n";
+		private static readonly string FATAL_ERROR_TEXT = ERROR_TEXT + "The Spore Mod Manager will exit after the last Inner exception has been reported.";
+		
+		
 		public static void ShowException(Exception exception, bool killAfter)
 		{
 			if (!EXCEPTION_SHOWN)
@@ -22,11 +30,12 @@ namespace SporeMods.CommonUI
 				EXCEPTION_SHOWN = true;
 				Exception current = exception;
 				int count = 0;
-				string errorText = "\n\nPlease send the contents this MessageBox and all which follow it to rob55rod\\Splitwirez, along with a description of what you were doing at the time.\n\nThe Spore Mod Manager will exit after the last Inner exception has been reported.";
-				string errorTitle = "Something is very wrong here. Layer ";
+				string errorText = killAfter ? FATAL_ERROR_TEXT : ERROR_TEXT;
+
+				
 				while (current != null)
 				{
-					MessageBox.Show(current.GetType() + ": " + current.Message + "\n" + current.Source + "\n" + current.StackTrace + errorText, errorTitle + count);
+					ShowExceptionLayer(exception, errorText, count);
 					count++;
 					current = current.InnerException;
 					if (count > 4)
@@ -34,13 +43,19 @@ namespace SporeMods.CommonUI
 				}
 				if (current != null)
 				{
-					MessageBox.Show(current.GetType() + ": " + current.Message + "\n" + current.Source + "\n" + current.StackTrace + errorText, errorTitle + count);
+					ShowExceptionLayer(exception, errorText, count);
 				}
 
 				if (killAfter)
 					Process.GetCurrentProcess().Close();
 			}
 		}
+
+		private static void ShowExceptionLayer(Exception current, string errorText, int count)
+        {
+			MessageBox.Show(current.GetType() + ": " + current.Message + "\n" + current.Source + "\n" + current.StackTrace + errorText, ERROR_TITLE + count);
+		}
+
 
 		public static void ShowMessageBox(string messageBoxText, string caption)
 		{

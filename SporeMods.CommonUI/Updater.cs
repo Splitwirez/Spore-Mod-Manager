@@ -21,154 +21,163 @@ namespace SporeMods.CommonUI
 			CheckForUpdates(false);
 		}
 
-		public static void CheckForUpdates(bool forceInstallUpdate)
+		/// <summary>
+		/// Check for updates, as per the user's settings. (Nothing happens if the user has disabled updates entirely)
+		/// </summary>
+		/// <param name="forceInstallUpdate">If <see langword="true"/>, checks for updates regardless of user settings. This parameter is NOT to be used to go behind the user's back. It must ONLY be set to <see langword="true"/> when the user has KNOWINGLY authorized updating by some alternate means. If unsure, leave it unspecified or set it to <see langword="false"/>.</param>
+		public static void CheckForUpdates(bool forceInstallUpdate = false)
 		{
+			bool honourUserUpdateSetting = !forceInstallUpdate;
+
+			if (honourUserUpdateSetting &&
+					(
+						(Settings.UpdatingMode == Settings.UpdatingModeType.Disabled) ||
+						Environment.GetCommandLineArgs().Any(x => x.Equals(UpdaterService.IgnoreUpdatesArg, StringComparison.OrdinalIgnoreCase))
+					)
+				)
+			{
+				return;
+			}
+
 			try
 			{
 				if (File.Exists(UpdaterService.UpdaterPath))
 					File.Delete(UpdaterService.UpdaterPath);
 
-				bool ignoreUpdates = Environment.GetCommandLineArgs().Contains(UpdaterService.IgnoreUpdatesArg);
-				if (!ignoreUpdates)
+				// Necessary to stablish SSL connection with Github API
+				ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+
+				// We will only show one error even if it cannot check the two updates
+				WebException webException = null;
+
+				UpdaterService.GithubRelease release = null;
+				bool hasProgramUpdate = false;
+				try
 				{
-					if ((!forceInstallUpdate) && (Settings.UpdatingMode == Settings.UpdatingModeType.Disabled))
-						return;
+					hasProgramUpdate = UpdaterService.HasProgramUpdate(out release);
+				}
+				catch (WebException ex)
+				{
+					webException = ex;
+				}
+				catch (Exception ex)
+				{
+					MessageDisplay.ShowException(ex, false);
+					return;
+				}
 
-					// Necessary to stablish SSL connection with Github API
-					ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
-
-					// We will only show one error even if it cannot check the two updates
-					WebException webException = null;
-
-					UpdaterService.GithubRelease release = null;
-					bool hasProgramUpdate = false;
-					try
+				if (hasProgramUpdate)
+				{
+					bool update = true;
+					if (honourUserUpdateSetting && (Settings.UpdatingMode == Settings.UpdatingModeType.AutoCheck))
 					{
-						hasProgramUpdate = UpdaterService.HasProgramUpdate(out release);
-					}
-					catch (WebException ex)
-					{
-						webException = ex;
-					}
-					catch (Exception ex)
-					{
-						MessageDisplay.ShowException(ex);
-						return;
+						update = MessageBox.Show(GetLocalizedString("Update!Notify!App!Content"),
+							GetLocalizedString("Update!Notify!App!Header"), MessageBoxButton.YesNo) == MessageBoxResult.Yes;
 					}
 
+					if (update)
+					{
+
+						bool updateDownloadFinished = false;
+
+						/*while ((!File.Exists(UpdaterService.UpdaterPath)) || Permissions.IsFileLocked(UpdaterService.UpdaterPath) || (!updateDownloadFinished))
+						{ }*/
+
+						var progressDialog = GetProgressDialog(GetLocalizedString("Update!Notify!App!ProgressContent"), (s, e) =>
+						{
+								/*Thread prgThread = new Thread(() =>
+								{*/
+							updateDownloadFinished = UpdaterService.UpdateProgram(release, (s_, e_) =>
+						{
+							(s as BackgroundWorker).ReportProgress(e_.ProgressPercentage);
+						});
+
+								/*});
+								prgThread.Start();*/
+						});
+						progressDialog.ShowDialog();
+
+						if (progressDialog.Error != null)
+						{
+							MessageDisplay.ShowException(progressDialog.Error, false);
+							return;
+						}
+
+						while (Permissions.IsFileLocked(UpdaterService.UpdaterPath))
+						{ }
+
+						string argsPath = Path.Combine(Settings.TempFolderPath, "postUpdateCmdArgs.info");
+						File.WriteAllText(argsPath, Permissions.GetProcessCommandLineArgs());
+						Permissions.GrantAccessFile(argsPath);
+
+						var updaterInfo = new ProcessStartInfo(UpdaterService.UpdaterPath, "--update \"" + Path.GetDirectoryName(Process.GetCurrentProcess().GetExecutablePath()) + "\" \"" + Process.GetCurrentProcess().GetExecutablePath() + "\" --lang:" + LanguageManager.Instance.CurrentLanguage.LanguageCode + " " + Permissions.GetProcessCommandLineArgs())
+						{
+							UseShellExecute = true,
+							WorkingDirectory = Settings.TempFolderPath
+						};
+						//CrossProcess.PropagateDotnetEnvironmentVariables(ref updaterInfo);
+						Process.Start(updaterInfo);
+
+						Process.GetCurrentProcess().Kill();
+					}
+				}
+
+				//TODO remember to restore this
+				webException = null;
+
+				bool hasDllsUpdate = false;
+				try
+				{
+					hasDllsUpdate = UpdaterService.HasDllsUpdate(out release);
+				}
+				catch (WebException ex)
+				{
+					webException = ex;
+				}
+				catch (Exception ex)
+				{
+					MessageDisplay.ShowException(ex, false);
+					return;
+				}
+
+				if (webException != null)
+				{
+					MessageBox.Show(GetLocalizedString("Update!Error!Other!Content") + "\n" + webException.ToString(), GetLocalizedString("Update!Error!Other!Header"));
+					return;
+				}
+
+				if (hasDllsUpdate)
+				{
+					// If we reach this point with a program update available, it means it didn't update
+					// (as the update restarts the program), so we cannot continue
 					if (hasProgramUpdate)
 					{
+						MessageBox.Show(GetLocalizedString("Update!Error!CantUpdateDllsYet!Content"),
+							GetLocalizedString("Update!Error!CantUpdateDllsYet!Header"));
+					}
+					else
+					{
 						bool update = true;
-						if ((!forceInstallUpdate) && (Settings.UpdatingMode == Settings.UpdatingModeType.AutoCheck))
+						if (Settings.UpdatingMode == Settings.UpdatingModeType.AutoCheck)
 						{
-							update = MessageBox.Show(GetLocalizedString("Update!Notify!App!Content"),
-								GetLocalizedString("Update!Notify!App!Header"), MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+							update = MessageBox.Show(GetLocalizedString("Update!Notify!ModApiDlls!Content"),
+								GetLocalizedString("Update!Notify!ModApiDlls!Content"), MessageBoxButton.YesNo) == MessageBoxResult.Yes;
 						}
 
 						if (update)
 						{
-							
-							bool updateDownloadFinished = false;
-
-							/*while ((!File.Exists(UpdaterService.UpdaterPath)) || Permissions.IsFileLocked(UpdaterService.UpdaterPath) || (!updateDownloadFinished))
-							{ }*/
-
-							var progressDialog = GetProgressDialog(GetLocalizedString("Update!Notify!App!ProgressContent"), (s, e) =>
+							var progressDialog = GetProgressDialog(GetLocalizedString("Update!Notify!ModApiDlls!ProgressContent"), (s, e) =>
 							{
-							/*Thread prgThread = new Thread(() =>
-							{*/
-								updateDownloadFinished = UpdaterService.UpdateProgram(release, (s_, e_) =>
-							{
-										(s as BackgroundWorker).ReportProgress(e_.ProgressPercentage);
-									});
-
-							/*});
-							prgThread.Start();*/
+								UpdaterService.UpdateDlls(release, (s_, e_) =>
+								{
+									(s as BackgroundWorker).ReportProgress(e_.ProgressPercentage);
+								});
 							});
 							progressDialog.ShowDialog();
 
 							if (progressDialog.Error != null)
 							{
-								MessageDisplay.ShowException(progressDialog.Error);
-								return;
-							}
-
-							while (Permissions.IsFileLocked(UpdaterService.UpdaterPath))
-							{ }
-
-							string argsPath = Path.Combine(Settings.TempFolderPath, "postUpdateCmdArgs.info");
-							File.WriteAllText(argsPath, Permissions.GetProcessCommandLineArgs());
-							Permissions.GrantAccessFile(argsPath);
-
-							var updaterInfo = new ProcessStartInfo(UpdaterService.UpdaterPath, "--update \"" + Path.GetDirectoryName(Process.GetCurrentProcess().GetExecutablePath()) + "\" \"" + Process.GetCurrentProcess().GetExecutablePath() + "\" --lang:" + LanguageManager.Instance.CurrentLanguage.LanguageCode + " " + Permissions.GetProcessCommandLineArgs())
-							{
-								UseShellExecute = true,
-								WorkingDirectory = Settings.TempFolderPath
-							};
-							//CrossProcess.PropagateDotnetEnvironmentVariables(ref updaterInfo);
-							Process.Start(updaterInfo);
-							
-							Process.GetCurrentProcess().Kill();
-						}
-					}
-
-					//TODO remember to restore this
-					webException = null;
-
-					bool hasDllsUpdate = false;
-					try
-					{
-						hasDllsUpdate = UpdaterService.HasDllsUpdate(out release);
-					}
-					catch (WebException ex)
-					{
-						webException = ex;
-					}
-					catch (Exception ex)
-					{
-						MessageDisplay.ShowException(ex);
-						return;
-					}
-
-					if (webException != null)
-					{
-						MessageBox.Show(GetLocalizedString("Update!Error!Other!Content") + "\n" + webException.ToString(), GetLocalizedString("Update!Error!Other!Header"));
-						return;
-					}
-
-					if (hasDllsUpdate)
-					{
-						// If we reach this point with a program update available, it means it didn't update
-						// (as the update restarts the program), so we cannot continue
-						if (hasProgramUpdate)
-						{
-							MessageBox.Show(GetLocalizedString("Update!Error!CantUpdateDllsYet!Content"),
-								GetLocalizedString("Update!Error!CantUpdateDllsYet!Header"));
-						}
-						else
-						{
-							bool update = true;
-							if (Settings.UpdatingMode == Settings.UpdatingModeType.AutoCheck)
-							{
-								update = MessageBox.Show(GetLocalizedString("Update!Notify!ModApiDlls!Content"),
-									GetLocalizedString("Update!Notify!ModApiDlls!Content"), MessageBoxButton.YesNo) == MessageBoxResult.Yes;
-							}
-
-							if (update)
-							{
-								var progressDialog = GetProgressDialog(GetLocalizedString("Update!Notify!ModApiDlls!ProgressContent"), (s, e) =>
-								{
-									UpdaterService.UpdateDlls(release, (s_, e_) =>
-									{
-										(s as BackgroundWorker).ReportProgress(e_.ProgressPercentage);
-									});
-								});
-								progressDialog.ShowDialog();
-
-								if (progressDialog.Error != null)
-								{
-									MessageDisplay.ShowException(progressDialog.Error);
-								}
+								MessageDisplay.ShowException(progressDialog.Error, false);
 							}
 						}
 					}
@@ -186,7 +195,7 @@ namespace SporeMods.CommonUI
 			if (!exceptionShown)
 			{
 				exceptionShown = true;
-				Exception current = exception;
+				/*Exception current = exception;
 				int count = 0;
 				string errorText = "\n\nPlease send the contents this MessageBox and all which follow it to rob55rod\\Splitwirez, along with a description of what you were doing at the time.\n\nThe Spore Mod Manager will exit after the last Inner exception has been reported.";
 				string errorTitle = "Something is very wrong here. Layer ";
@@ -201,7 +210,8 @@ namespace SporeMods.CommonUI
 				if (current != null)
 				{
 					MessageBox.Show(current.GetType() + ": " + current.Message + "\n" + current.Source + "\n" + current.StackTrace + errorText, errorTitle + count);
-				}
+				}*/
+				MessageDisplay.ShowException(exception, false);
 			}
 		}
 

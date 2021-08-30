@@ -194,7 +194,7 @@ namespace SporeMods.Core
 				fileName = Path.Combine(Settings.TempFolderPath, "smmUpdater.exe");
 				var asset = Array.Find(release.assets, a => a.name.ToLowerInvariant() == "sporemodmanagersetup.exe");
 				if (asset == null)
-					throw new InvalidOperationException("Invalid update: no 'SporeModManagerSetup.exe' or 'updater--" + targetFramework + ".zip' asset");
+					throw new InvalidOperationException("Invalid update: no 'SporeModManagerSetup.exe' or 'updater--" + targetFramework + ".zip' asset (NOT LOCALIZED)");
 			//}
 			using (var client = new WebClient())
 			{

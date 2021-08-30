@@ -45,7 +45,7 @@ namespace SporeMods.CommonUI
 					Updater.CheckForUpdates(true);
 				
 
-				if (isWpfApp)
+				if (isWpfApp && (Application.Current != null))
 					Application.Current.Shutdown();
 				else
 					Process.GetCurrentProcess().Close();
