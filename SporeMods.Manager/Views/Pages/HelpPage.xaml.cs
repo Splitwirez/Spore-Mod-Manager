@@ -39,6 +39,7 @@ namespace SporeMods.Manager
 			new CreditsItem("Huskky", "Assisted substantially with figuring out how to make WINE cooperate."),
 			new CreditsItem("Darhagonable", "Provided an additional perspective on usability. Helped confirm the feasibility of supporting WINE setups on Linux.", @"https://www.youtube.com/user/darhagonable"),
 			new CreditsItem("Zakhar Afonin", "WINE testing [TODO: probably Russian translation]", @"https://github.com/AfoninZ"),
+			new CreditsItem("Auntie Owl", "Testing, Polish translation.", @"https://github.com/plencka"),
 			new CreditsItem("bandithedoge", "WINE regression testing", @"http://bandithedoge.com/"),
 			new CreditsItem("TheRublixCube", "Testing, additional perspective on usability."),
 			new CreditsItem("Magic Gonads", "Testing", @"https://github.com/MagicGonads"),

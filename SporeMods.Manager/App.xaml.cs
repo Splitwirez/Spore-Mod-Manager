@@ -165,8 +165,8 @@ namespace SporeMods.Manager
 								{
 									Content = content,
 									TitlebarHeight = 61,
-									ShowFullscreenButton = true,
-									AutohideTitlebarWhenFullscreen = false
+									//ShowFullscreenButton = true,
+									//AutohideTitlebarWhenFullscreen = false
 								};
 							}
 							else
