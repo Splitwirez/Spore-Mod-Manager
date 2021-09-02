@@ -38,7 +38,7 @@ namespace SporeMods.Core.ModTransactions.Operations
             if (!isModInfo)
             {
                 string outPath = Path.Combine(outputDir, entry.Name);
-                backup = ModBackupFiles.CreateBackup(outPath);
+                backup = ModBackupFiles.BackupFile(outPath);
                 entry.ExtractToFile(outPath, true);
                 Permissions.GrantAccessFile(outPath);
 
@@ -57,14 +57,18 @@ namespace SporeMods.Core.ModTransactions.Operations
         {
             if (!isModInfo)
             {
-                backup.Restore();
-                ModBackupFiles.DisposeBackup(backup);
+                if (backup != null) backup.Restore();
 
                 if (manuallyInstalledFile != null)
                 {
                     ModsManager.InsertMod(manuallyInstalledFileIndex, manuallyInstalledFile);
                 }
             }
+        }
+
+        public void Dispose()
+        {
+            if (backup != null) ModBackupFiles.DisposeBackup(backup);
         }
     }
 }

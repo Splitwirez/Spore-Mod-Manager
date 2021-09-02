@@ -46,12 +46,15 @@ namespace SporeMods.Core.ModTransactions
             {
                 if (!await transaction.CommitAsync())
                 {
+                    // Transaction itself returned false, which means it decided to rollback
                     transaction.Rollback();
                     currentTransactions.Remove(transaction, out _);
                     return new ModTransactionCommitException(TransactionFailureCause.CommitRejected, null, null);
                 }
                 else
                 {
+                    // Transaction finished successfully. We must dispose it (for example, to clear the backups).
+                    transaction.Dispose();
                     currentTransactions.Remove(transaction, out _);
                     return null;
                 }
@@ -76,11 +79,6 @@ namespace SporeMods.Core.ModTransactions
         /// <returns></returns>
         public static async Task InstallModsAsync(string[] modPaths)
         {
-            //TODO implement dependencies
-            // To do so, you will have to move reading the identity outside of the transaction (it's not a problem,
-            // since there is nothing to be reverted there). So, first step, get all the identities. Then, resolve the
-            // dependencies, possibly reordering the mods, then do the loop below, which executes the transactions.
-
             IS_INSTALLING_MODS = true;
 
             var packageTransactions = new List<InstallLoosePackageTransaction>();
@@ -106,7 +104,7 @@ namespace SporeMods.Core.ModTransactions
                         transaction.ParseModIdentity();
                         modTransactions.Add(transaction);
                     }
-                    catch (ModTransactionCommitException e)
+                    catch (Exception e)
                     {
                         // This can happen if the mod provides an invalid DLL
                         INSTALL_FAILURES[path] = e;
@@ -120,8 +118,8 @@ namespace SporeMods.Core.ModTransactions
 
             //TODO handle mod versions here
             // For now, just accept the new mod
-
-            // We iterate in reverse order to remove 
+            // We iterate in reverse order so we can remove from the list 
+            // (in case the mod wasn't accepted, for example because it's an older version)
             for (int i = modTransactions.Count - 1; i >= 0; --i)
             {
                 var otherMod = ModsManager.GetManagedMod(modTransactions[i].identity.Unique);

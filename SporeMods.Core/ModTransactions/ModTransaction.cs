@@ -109,8 +109,17 @@ namespace SporeMods.Core.ModTransactions
             return operation;
         }
 
+        /// <summary>
+        /// Executes the transaction, by creating operations that can later be reverted. It must be an asynchronous method.
+        /// This method must be implemented by subclasses. Return false if the transaction must be reverted.
+        /// </summary>
+        /// <returns></returns>
         public abstract Task<bool> CommitAsync();
 
+        /// <summary>
+        /// Undoes all the executed operations in reverse order, so that the effects of the transaction are cancelled.
+        /// This will also dispose and delete all operators, rendering the transaction useless after this.
+        /// </summary>
         public virtual void Rollback()
         {
             Debug.WriteLine("Rollback on transaction " + ToString());
@@ -122,7 +131,20 @@ namespace SporeMods.Core.ModTransactions
                 operations.TryPop(out IModOperation op);
                 Debug.WriteLine(" - undoing " + op.ToString());
                 op.Undo();
+                op.Dispose();
             }
+        }
+
+        /// <summary>
+        /// Disposes all operators and deletes them. After calling this, the transaction is useless and not valid anymore.
+        /// </summary>
+        public virtual void Dispose()
+        {
+            foreach (var operation in operations)
+            {
+                operation.Dispose();
+            }
+            operations.Clear();
         }
     }
 }

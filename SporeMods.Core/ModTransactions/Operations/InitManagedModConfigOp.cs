@@ -27,8 +27,8 @@ namespace SporeMods.Core.ModTransactions.Operations
         public bool Do()
         {
             var storagePath = Path.Combine(Settings.ModConfigsPath, unique);
-            configBackup = ModBackupFiles.CreateBackup(Path.Combine(storagePath, ManagedMod.MOD_CONFIG));
-            legacyBackup = ModBackupFiles.CreateBackup(Path.Combine(storagePath, ManagedMod.PATH_USELEGACYDLLS));
+            configBackup = ModBackupFiles.BackupFile(Path.Combine(storagePath, ManagedMod.MOD_CONFIG));
+            legacyBackup = ModBackupFiles.BackupFile(Path.Combine(storagePath, ManagedMod.PATH_USELEGACYDLLS));
 
             mod = new ManagedMod(unique, true, configMod.Configuration)
             {
@@ -40,10 +40,14 @@ namespace SporeMods.Core.ModTransactions.Operations
 
         public void Undo()
         {
-            configBackup.Restore();
-            legacyBackup.Restore();
-            ModBackupFiles.DisposeBackup(configBackup);
-            ModBackupFiles.DisposeBackup(legacyBackup);
+            if (configBackup != null) configBackup.Restore();
+            if (legacyBackup != null) legacyBackup.Restore();
+        }
+
+        public void Dispose()
+        {
+            if (configBackup != null) ModBackupFiles.DisposeBackup(configBackup);
+            if (legacyBackup != null) ModBackupFiles.DisposeBackup(legacyBackup);
         }
     }
 }

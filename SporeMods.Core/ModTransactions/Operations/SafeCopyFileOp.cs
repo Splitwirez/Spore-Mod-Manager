@@ -24,15 +24,19 @@ namespace SporeMods.Core.ModTransactions.Operations
 
         public bool Do()
         {
-            backup = ModBackupFiles.CreateBackup(destination);
+            backup = ModBackupFiles.BackupFile(destination);
             FileWrite.SafeCopyFile(source, destination);
             return true;
         }
 
         public void Undo()
         {
-            backup.Restore();
-            ModBackupFiles.DisposeBackup(backup);
+            if (backup != null) backup.Restore();
+        }
+
+        public void Dispose()
+        {
+            if (backup != null) ModBackupFiles.DisposeBackup(backup);
         }
     }
 }

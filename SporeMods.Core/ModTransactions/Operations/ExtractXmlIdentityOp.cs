@@ -38,7 +38,7 @@ namespace SporeMods.Core.ModTransactions.Operations
 		public bool Do()
         {
 			string xmlOutPath = Path.Combine(outputDirPath, ManagedMod.MOD_INFO);
-			backup = ModBackupFiles.CreateBackup(xmlOutPath);
+			backup = ModBackupFiles.BackupFile(xmlOutPath);
 			if (zip != null && zip.TryGetEntry(ManagedMod.MOD_INFO, out ZipArchiveEntry entry))
 			{
 				entry.ExtractToFile(xmlOutPath, true);
@@ -59,8 +59,12 @@ namespace SporeMods.Core.ModTransactions.Operations
 
 		public void Undo()
         {
-			backup.Restore();
-			ModBackupFiles.DisposeBackup(backup);
+			if (backup != null) backup.Restore();
 		}
-    }
+
+		public void Dispose()
+		{
+			if (backup != null) ModBackupFiles.DisposeBackup(backup);
+		}
+	}
 }

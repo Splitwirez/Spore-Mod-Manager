@@ -21,15 +21,18 @@ namespace SporeMods.Core.ModTransactions.Operations
 
         public bool Do()
         {
-            backup = ModBackupFiles.CreateBackup(path);
-            FileWrite.SafeDeleteFile(path);
+            backup = ModBackupFiles.BackupFile(path);
             return true;
         }
 
         public void Undo()
         {
-            backup.Restore();
-            ModBackupFiles.DisposeBackup(backup);
+            if (backup != null) backup.Restore();
+        }
+
+        public void Dispose()
+        {
+            if (backup != null) ModBackupFiles.DisposeBackup(backup);
         }
     }
 }
