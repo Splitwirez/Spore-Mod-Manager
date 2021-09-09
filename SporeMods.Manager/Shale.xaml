@@ -291,7 +291,7 @@
 					</DataTrigger>
 				</DataTemplate.Triggers-->
 			</DataTemplate>
-			<DataTemplate DataType="{x:Type mods:InstallError}">
+			<!--DataTemplate DataType="{x:Type mods:InstallError}">
 				<Grid>
 					<Rectangle x:Name="SizeHelperRectangle"/>
 					<Rectangle x:Name="BackgroundRectangle" RadiusX="3" RadiusY="3" Opacity="0.25">
@@ -341,7 +341,7 @@
 						</DataTrigger.ExitActions>
 					</DataTrigger>
 				</DataTemplate.Triggers>
-			</DataTemplate>
+			</DataTemplate-->
 		</Style.Resources>
 		<Setter Property="Template">
 			<Setter.Value>

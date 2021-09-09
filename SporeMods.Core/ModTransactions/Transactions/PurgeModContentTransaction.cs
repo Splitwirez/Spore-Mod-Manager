@@ -10,11 +10,11 @@ namespace SporeMods.Core.ModTransactions.Transactions
 	/// <summary>
 	/// [PARTIAL NYI]Queues all of this mod's enabled files for removal, and all disabled files for installation
 	/// </summary>
-	public class DisableModTransaction : ModTransaction
+	public class PurgeModContentTransaction : ModTransaction
 	{
 		public readonly ManagedMod mod;
 
-		public DisableModTransaction(ManagedMod mod)
+		public PurgeModContentTransaction(ManagedMod mod)
 		{
 			this.mod = mod;
 		}

@@ -493,7 +493,7 @@ namespace SporeMods.Manager
 			catch (Exception ex)
 			{
 				MessageBox.Show(ex.Message + "\n\n" + ex.StackTrace);
-				ModsManager.InstalledMods.Add(new InstallError(ex));
+				//ModsManager.InstalledMods.Add(new InstallError(ex));
 			}
 		}
 
@@ -819,7 +819,7 @@ namespace SporeMods.Manager
 			catch (Exception ex)
 			{
 				MessageBox.Show("PATH: " + path + "\n\n" + ex.Message + "\n\n" + ex.StackTrace);
-				ModsManager.InstalledMods.Add(new InstallError(ex));
+				//ModsManager.InstalledMods.Add(new InstallError(ex));
 			}
 		}
 
@@ -1629,7 +1629,7 @@ namespace SporeMods.Manager
 			win.Activated -= MainWindow_IsActiveChanged;
 			win.Deactivated -= MainWindow_IsActiveChanged;
 
-			if (ModTransactionManager.IsExecutingTransactions)
+			if (ModTransactionManager.Instance.IsExecutingTransactions)
             {
 				e.Cancel = true;
 				return;

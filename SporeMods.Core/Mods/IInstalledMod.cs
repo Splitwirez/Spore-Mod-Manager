@@ -17,7 +17,7 @@ namespace SporeMods.Core.Mods
 		/// This method should not throw any exception.
 		/// </summary>
 		/// <returns></returns>
-		Task<ModTransactionCommitException> UninstallModAsync();
+		ModTransaction CreateUninstallTransaction();
 
 		bool HasConfigsDirectory { get; }
 

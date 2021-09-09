@@ -64,7 +64,7 @@ namespace SporeMods.Core
 			return IsUnprotectedFile(path, true);
 		}
 
-		public static void SafeCopyFile(string sourcePath, string destPath)
+		public static Exception SafeCopyFile(string sourcePath, string destPath)
 		{
 			try
 			{
@@ -79,10 +79,11 @@ namespace SporeMods.Core
 						throw new FileNotFoundException("destination missing: " + destPath);
 					Permissions.GrantAccessFile(destPath);
 				}
+				return null;
 			}
 			catch (Exception ex)
 			{
-				throw new FileNotFoundException("source missing: " + sourcePath, ex);
+				return ex; //throw new FileNotFoundException("source missing: " + sourcePath, ex);
 			}
 		}
 

@@ -1,4 +1,4 @@
-﻿using SporeMods.Core.ModTransactions;
+﻿/*using SporeMods.Core.ModTransactions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -69,3 +69,4 @@ namespace SporeMods.Core.Mods
 		}
 	}
 }
+*/

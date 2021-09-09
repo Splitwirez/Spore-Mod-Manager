@@ -126,7 +126,7 @@ namespace SporeMods.Core.ModTransactions.Transactions
             // It must fail if we are not upgrading a mod and a mod with this name already exists 
             // (but it will be the developer's fault, as it should never have executed the transaction then)
             Operation(new AddToModManagerOp(managedMod, upgradedMod == null));
-            await OperationAsync(new ExecuteTransactionAsyncOp(new EnableModTransaction(managedMod)));
+            await OperationAsync(new ExecuteTransactionAsyncOp(new ApplyModContentTransaction(managedMod)));
 
             // Finally, close the zip file
             zip.Dispose();

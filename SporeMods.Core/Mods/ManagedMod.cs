@@ -324,9 +324,9 @@ namespace SporeMods.Core.Mods
 		/// <summary>
 		/// [PARTIAL NYI]Queues all of this mod's files for removal, then deletes its configuration
 		/// </summary>
-		public async Task<ModTransactionCommitException> UninstallModAsync()
+		public ModTransaction CreateUninstallTransaction()
 		{
-			return await ModTransactionManager.ExecuteAsync(new UninstallManagedModTransaction(this));
+			return new UninstallManagedModTransaction(this);
 		}
 
 		/// <summary>

@@ -24,7 +24,7 @@ namespace SporeMods.Core.ModTransactions.Transactions
             await OperationAsync(new ShowConfiguratorAsyncOp(mod));
 
             // 2. Apply changes
-            await OperationAsync(new ExecuteTransactionAsyncOp(new EnableModTransaction(mod)));
+            await OperationAsync(new ExecuteTransactionAsyncOp(new ApplyModContentTransaction(mod)));
 
             return true;
         }

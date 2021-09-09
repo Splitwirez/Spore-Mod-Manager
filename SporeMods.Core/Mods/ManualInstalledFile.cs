@@ -40,9 +40,9 @@ namespace SporeMods.Core.Mods
 
 		public List<string> Tags { get; } = new List<string>();
 
-		public async Task<ModTransactionCommitException> UninstallModAsync()
+		public ModTransaction CreateUninstallTransaction()
 		{
-			return await ModTransactionManager.ExecuteAsync(new UninstallManualModTransaction(this));
+			return new UninstallManualModTransaction(this);
 		}
 
 		private void NotifyPropertyChanged(string propertyName)

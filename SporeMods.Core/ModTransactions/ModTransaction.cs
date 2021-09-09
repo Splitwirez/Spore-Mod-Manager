@@ -59,7 +59,7 @@ namespace SporeMods.Core.ModTransactions
         /// Adds an operation to be executed synchronously, immediately executing it.
         /// </summary>
         /// <param name="operation"></param>
-        protected T Operation<T>(T operation) where T : IModSyncOperation
+        internal T Operation<T>(T operation) where T : IModSyncOperation
         {
             operations.Push(operation);
             if (!operation.Do())
@@ -75,7 +75,7 @@ namespace SporeMods.Core.ModTransactions
         /// <typeparam name="T"></typeparam>
         /// <param name="operation"></param>
         /// <returns></returns>
-        protected T OperationNonBlocking<T>(T operation) where T : IModSyncOperation
+        internal T OperationNonBlocking<T>(T operation) where T : IModSyncOperation
         {
             operations.Push(operation);
             var task = new Task<bool>(() =>
@@ -97,7 +97,7 @@ namespace SporeMods.Core.ModTransactions
         /// </summary>
         /// <param name="operation"></param>
         /// <returns></returns>
-        protected async Task<T> OperationAsync<T>(T operation) where T : IModAsyncOperation
+        internal async Task<T> OperationAsync<T>(T operation) where T : IModAsyncOperation
         {
             operations.Push(operation);
             var task = operation.DoAsync();

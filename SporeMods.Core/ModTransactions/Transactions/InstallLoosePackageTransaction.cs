@@ -46,7 +46,7 @@ namespace SporeMods.Core.ModTransactions.Transactions
 
 				mod.Progress++;
 
-                await OperationAsync(new ExecuteTransactionAsyncOp(new EnableModTransaction(mod)));
+                await OperationAsync(new ExecuteTransactionAsyncOp(new ApplyModContentTransaction(mod)));
 
                 return true;
             }

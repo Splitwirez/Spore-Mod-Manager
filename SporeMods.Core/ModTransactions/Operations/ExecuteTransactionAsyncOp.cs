@@ -28,6 +28,7 @@ namespace SporeMods.Core.ModTransactions.Operations
                     failureException = new ModTransactionCommitException(TransactionFailureCause.CommitRejected, null, null);
                     return false;
                 }
+                transaction.Dispose();
                 return true;
             }
             // There is a specific exception for when a transaction fails, so theoretically we should only need to catch ModTransactionCommitException

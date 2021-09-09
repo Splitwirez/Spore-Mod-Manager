@@ -41,7 +41,7 @@ namespace SporeMods.Core.ModTransactions.Transactions
             mod.Progress = 0;
             mod.IsProgressing = false;
 
-            return false;
+            return true;
         }
     }
 }

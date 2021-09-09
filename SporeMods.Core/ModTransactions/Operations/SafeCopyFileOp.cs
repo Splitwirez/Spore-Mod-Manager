@@ -24,9 +24,20 @@ namespace SporeMods.Core.ModTransactions.Operations
 
         public bool Do()
         {
+            //TODO is there a reason why this doesn't check whether or not `destination` already exists before trying to make a backup of it?
             backup = ModBackupFiles.BackupFile(destination);
-            FileWrite.SafeCopyFile(source, destination);
-            return true;
+            
+            Exception ex = FileWrite.SafeCopyFile(source, destination);
+
+            if (ex == null)
+            {
+                return true;
+            }
+            else
+            {
+                throw ex;
+                return false;
+            }
         }
 
         public void Undo()

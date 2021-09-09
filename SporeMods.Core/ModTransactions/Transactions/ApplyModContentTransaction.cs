@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace SporeMods.Core.ModTransactions.Transactions
 {
-	public class EnableModTransaction : ModTransaction
+	public class ApplyModContentTransaction : ModTransaction
 	{
 		public readonly ManagedMod mod;
 
-		public EnableModTransaction(ManagedMod mod)
+		public ApplyModContentTransaction(ManagedMod mod)
 		{
 			this.mod = mod;
 		}

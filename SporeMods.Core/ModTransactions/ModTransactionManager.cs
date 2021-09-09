@@ -3,16 +3,18 @@ using SporeMods.Core.ModTransactions.Transactions;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SporeMods.Core.ModTransactions
 {
-    public static class ModTransactionManager
+    public class ModTransactionManager : NotifyPropertyChangedBase
     {
         internal static bool IS_INSTALLING_MODS = false;
         internal static Dictionary<string, Exception> INSTALL_FAILURES = new Dictionary<string, Exception>();
@@ -24,10 +26,67 @@ namespace SporeMods.Core.ModTransactions
         [DllImport("shlwapi.dll")]
         static extern bool PathIsNetworkPath(string pszPath);
 
-        // Concurrent dictionary is the only collection that lets us remove, we assign it to some random number
-        private static readonly ConcurrentDictionary<ModTransaction, int> currentTransactions = new ConcurrentDictionary<ModTransaction, int>();
+        private static readonly ThreadSafeObservableCollection<ModTransaction> ongoingTransactions = new ThreadSafeObservableCollection<ModTransaction>();
+        public ThreadSafeObservableCollection<ModTransaction> OngoingTransactions
+        {
+            get => ongoingTransactions;
+        }
+        
+        private static readonly ThreadSafeObservableCollection<ModTransaction> concludedTransactions = new ThreadSafeObservableCollection<ModTransaction>();
 
-        public static bool IsExecutingTransactions { get => !currentTransactions.IsEmpty; }
+
+        public static ModTransactionManager Instance { get; } = new ModTransactionManager();
+        private ModTransactionManager()
+        { }
+
+        static ModTransactionManager()
+        {
+            ongoingTransactions.CollectionChanged += Instance.CurrentTransactions_CollectionChanged;
+            concludedTransactions.CollectionChanged += ConcludedTransactions_CollectionChanged;
+        }
+
+        static bool _handlingCollectionChanged = false;
+        private static void ConcludedTransactions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (!_handlingCollectionChanged)
+            {
+                _handlingCollectionChanged = true;
+                if (sender is ThreadSafeObservableCollection<ModTransaction> concluded)
+                {
+                    if (concluded.Count >= ongoingTransactions.Count)
+                    {
+                        ongoingTransactions.Clear();
+                        concludedTransactions.Clear();
+                        AllTransactionsConcluded?.Invoke(null);
+                    }
+                }
+                _handlingCollectionChanged = false;
+            }
+        }
+
+        static int _prevTransactionCount = 0;
+
+        private void CurrentTransactions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (sender is ThreadSafeObservableCollection<ModTransaction> collection)
+            {
+                int newCount = collection.Count;
+                if (newCount > 0)
+                {
+                    IsExecutingTransactions = true;
+                }
+                _prevTransactionCount = newCount;
+                Debug.WriteLine($"{nameof(OngoingTransactions)}.Count: {newCount}");
+            }
+        }
+
+        public static event Action<ThreadSafeObservableCollection<object>> AllTransactionsConcluded;
+
+        public bool IsExecutingTransactions
+        {
+            get => ongoingTransactions.Count <= 0;
+            private set => NotifyPropertyChanged();
+        }
 
         // Events to show confirmation dialog to user
         public static event Func<IEnumerable<string>, bool> UninstallingSaveDataDependencyMod;
@@ -39,23 +98,23 @@ namespace SporeMods.Core.ModTransactions
         /// </summary>
         /// <param name="transaction"></param>
         /// <returns></returns>
-        public static async Task<ModTransactionCommitException> ExecuteAsync(ModTransaction transaction)
+        static async Task<ModTransactionCommitException> ExecuteAsync(ModTransaction transaction)
         {
-            currentTransactions[transaction] = 0;
+            ongoingTransactions.Add(transaction);
             try
             {
                 if (!await transaction.CommitAsync())
                 {
                     // Transaction itself returned false, which means it decided to rollback
                     transaction.Rollback();
-                    currentTransactions.Remove(transaction, out _);
+                    concludedTransactions.Add(transaction);
                     return new ModTransactionCommitException(TransactionFailureCause.CommitRejected, null, null);
                 }
                 else
                 {
                     // Transaction finished successfully. We must dispose it (for example, to clear the backups).
                     transaction.Dispose();
-                    currentTransactions.Remove(transaction, out _);
+                    concludedTransactions.Add(transaction);
                     return null;
                 }
             }
@@ -66,7 +125,7 @@ namespace SporeMods.Core.ModTransactions
             {
                 Debug.WriteLine(e.ToString());
                 transaction.Rollback();
-                currentTransactions.Remove(transaction, out _);
+                ongoingTransactions.Remove(transaction);
                 return new ModTransactionCommitException(TransactionFailureCause.Exception, null, e);
             }
         }
@@ -176,28 +235,8 @@ namespace SporeMods.Core.ModTransactions
             foreach (IInstalledMod mod in modsToUninstall)
             {
                 // This function doesn't throw exceptions, the code inside must handle it
-                await mod.UninstallModAsync();
+                await ExecuteAsync(mod.CreateUninstallTransaction());
             }
-        }
-
-        /// <summary>
-        /// Enables a managed mod, returning to the original state if something fails.
-        /// </summary>
-        /// <param name="mod"></param>
-        /// <returns></returns>
-        public static async Task<ModTransactionCommitException> EnableModAsync(ManagedMod mod)
-        {
-            return await ExecuteAsync(new EnableModTransaction(mod));
-        }
-
-        /// <summary>
-        /// Disables a managed mod, returning to the original state if something fails.
-        /// </summary>
-        /// <param name="mod"></param>
-        /// <returns></returns>
-        public static async Task<ModTransactionCommitException> DisableModAsync(ManagedMod mod)
-        {
-            return await ExecuteAsync(new DisableModTransaction(mod));
         }
 
         /// <summary>
