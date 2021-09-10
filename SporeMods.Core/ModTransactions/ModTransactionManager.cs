@@ -228,11 +228,11 @@ namespace SporeMods.Core.ModTransactions
             // (in case the mod wasn't accepted, for example because it's an older version)
             for (int i = modTransactions.Count - 1; i >= 0; --i)
             {
-                var otherMod = ModsManager.GetManagedMod(modTransactions[i].identity.Unique);
+                var otherMod = ModsManager.GetManagedMod(modTransactions[i].Identity.Unique);
                 if (otherMod != null)
                 {
                     //TODO usually, here you check versions. We'll just accept the incoming mod
-                    modTransactions[i].upgradedMod = otherMod;
+                    modTransactions[i].UpgradeFromMod = otherMod;
                 }
             }
 
@@ -244,7 +244,7 @@ namespace SporeMods.Core.ModTransactions
             }
             foreach (var transaction in modTransactions)
             {
-                taskLists[transaction.modPath] = ExecuteAsync(transaction);
+                taskLists[transaction.ModPath] = ExecuteAsync(transaction);
             }
 
             // Await all tasks to see if there were exceptions

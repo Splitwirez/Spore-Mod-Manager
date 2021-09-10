@@ -8,7 +8,7 @@ namespace SporeMods.Core.ModTransactions.Operations
     /// <summary>
     /// Executes a transaction, returning false if the transaction fails. Undoing this rolls back the transaction.
     /// </summary>
-    public class ExecuteTransactionAsyncOp : IModAsyncOperation
+    public class ExecuteTransactionAsyncOp : IModOperation, IModAsyncOperation
     {
         public readonly ModTransaction transaction;
         // If the transaction failed, the exception that caused it
@@ -28,7 +28,6 @@ namespace SporeMods.Core.ModTransactions.Operations
                     failureException = new ModTransactionCommitException(TransactionFailureCause.CommitRejected, null, null);
                     return false;
                 }
-                transaction.Dispose();
                 return true;
             }
             // There is a specific exception for when a transaction fails, so theoretically we should only need to catch ModTransactionCommitException
@@ -44,6 +43,11 @@ namespace SporeMods.Core.ModTransactions.Operations
         public void Undo()
         {
             transaction.Rollback();
+        }
+
+        public void Dispose()
+        {
+            transaction.Dispose();
         }
     }
 }

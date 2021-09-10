@@ -14,19 +14,19 @@ namespace SporeMods.Core.ModTransactions.Transactions
 {
     public class InstallModTransaction : ModTransaction
     {
-        public ModIdentity identity;
+        public ModIdentity Identity;
         // The mod that this mod is replacing, if any
-        public IInstalledMod upgradedMod;
-        public readonly string modPath;
+        public IInstalledMod UpgradeFromMod;
+        public readonly string ModPath;
         // Because we might need to do undo, and some operators might need the zip, we can't do the 'using...' thing
-        private ZipArchive zip;
+        private ZipArchive _zip;
 
         ManagedMod _managedMod = null;
 
-        public InstallModTransaction(string modPath, ManagedMod upgradedMod = null)
+        public InstallModTransaction(string modPath, ManagedMod upgradeFromMod = null)
         {
-            this.modPath = modPath;
-            this.upgradedMod = upgradedMod;
+            this.ModPath = modPath;
+            this.UpgradeFromMod = upgradeFromMod;
         }
 
         /// <summary>
@@ -37,49 +37,49 @@ namespace SporeMods.Core.ModTransactions.Transactions
         /// <returns></returns>
         public ModIdentity ParseModIdentity()
         {
-            if (zip == null)
+            if (_zip == null)
             {
-                zip = ZipFile.OpenRead(modPath);
+                _zip = ZipFile.OpenRead(ModPath);
             }
 
-            var modName = Path.GetFileNameWithoutExtension(modPath).Replace(".", "-");
-            var identityOp = Operation(new ParseIdentityOp(zip, modName));
-            identity = identityOp.Identity;
+            var modName = Path.GetFileNameWithoutExtension(ModPath).Replace(".", "-");
+            var identityOp = Operation(new ParseIdentityOp(_zip, modName));
+            Identity = identityOp.Identity;
             if (!identityOp.IsGeneratedIdentity)
             {
-                Operation(new ValidateModOp(identity));
+                Operation(new ValidateModOp(Identity));
             }
 
-            ProgressSignifier = new TaskProgressSignifier(identity.DisplayName, (upgradedMod != null) ? TaskCategory.Install : TaskCategory.Upgrade);
-            return identity;
+            return Identity;
         }
 
         public override async Task<bool> CommitAsync()
         {
-            if (zip == null)
+            if (_zip == null)
             {
-                zip = ZipFile.OpenRead(modPath);
+                _zip = ZipFile.OpenRead(ModPath);
             }
 
             // 1. Read the mod identity and validate it
-            if (identity == null)
+            if (Identity == null)
             {
                 ParseModIdentity();
             }
-            var unique = identity.Unique;
-            var modName = identity.DisplayName;
+            var unique = Identity.Unique;
+            var modName = Identity.DisplayName;
             string modDirectory = Path.Combine(Settings.ModConfigsPath, unique);
 
             // 2. Show the configurator, if any
             // Needed to show the configurator
-            _managedMod = new ManagedMod(true, identity);
+            _managedMod = new ManagedMod(true, Identity);
 
+            ProgressSignifier = new TaskProgressSignifier(Identity.DisplayName, (UpgradeFromMod != null) ? TaskCategory.Upgrade : TaskCategory.Install);
             _managedMod.ProgressSignifier = ProgressSignifier;
 
             // 3. Add the mod to the mod list; 
-            Operation(new AddToModManagerOp(_managedMod, upgradedMod));
+            Operation(new AddToModManagerOp(_managedMod, UpgradeFromMod));
 
-            if ((upgradedMod != null) && (upgradedMod is ManagedMod mgMod))
+            if ((UpgradeFromMod != null) && (UpgradeFromMod is ManagedMod mgMod))
             {
                 // We use the same settings we had
                 _managedMod.Configuration = new ModConfiguration(mgMod.Configuration);
@@ -91,15 +91,15 @@ namespace SporeMods.Core.ModTransactions.Transactions
             }
             ProgressSignifier.Status = TaskStatus.Determinate;
 
-            if (upgradedMod != null)
+            if (UpgradeFromMod != null)
             {
                 // To upgrade, we just delete all the files and install
                 IEnumerable<string> filesToDelete = null;
-                if (upgradedMod != null)
+                if (UpgradeFromMod != null)
                 {
-                    if (upgradedMod is ManagedMod mMod)
+                    if (UpgradeFromMod is ManagedMod mMod)
                         filesToDelete = mMod.GetFilePathsToRemove();
-                    else if (upgradedMod is ManualInstalledFile manual)
+                    else if (UpgradeFromMod is ManualInstalledFile manual)
                         filesToDelete = new List<string>()
                         {
                             FileWrite.GetFileOutputPath(manual.Location, manual.RealName, manual.IsLegacy)
@@ -111,7 +111,7 @@ namespace SporeMods.Core.ModTransactions.Transactions
                     Operation(new SafeDeleteFileOp(file));
                 }
                 
-                if (upgradedMod is ManagedMod mMod2)
+                if (UpgradeFromMod is ManagedMod mMod2)
                     Operation(new DeleteDirectoryOp(mMod2.StoragePath));
             }
 
@@ -120,11 +120,11 @@ namespace SporeMods.Core.ModTransactions.Transactions
 
             // We don't increase all the progress, because EnableMod() will be called
             double totalProgress = 50.0;
-            var fileEntries = zip.Entries.Where(x => !x.IsDirectory());
+            var fileEntries = _zip.Entries.Where(x => !x.IsDirectory());
             var numFiles = fileEntries.Count() + 1;
 
             // 5. Extract the XML file
-            Operation(new ExtractXmlIdentityOp(zip, modDirectory, unique, modName));
+            Operation(new ExtractXmlIdentityOp(_zip, modDirectory, unique, modName));
             ProgressSignifier.Progress += totalProgress / numFiles;
 
             // 6. Extract all mod files
@@ -141,7 +141,7 @@ namespace SporeMods.Core.ModTransactions.Transactions
             var oldManagedMod = _managedMod;
             _managedMod = Operation(new InitManagedModConfigOp(unique, _managedMod)).mod;
             Operation(new AddToModManagerOp(_managedMod, oldManagedMod));
-            identity = _managedMod.Identity;
+            Identity = _managedMod.Identity;
 
 
             // 7. Apply the mod's contents; 
@@ -151,29 +151,29 @@ namespace SporeMods.Core.ModTransactions.Transactions
             await OperationAsync(new ExecuteTransactionAsyncOp(new ApplyModContentTransaction(_managedMod, ProgressSignifier)));
 
             // Finally, close the zip file
-            zip.Dispose();
-            zip = null;
+            _zip.Dispose();
+            _zip = null;
                 
             return true;
         }
 
         public override void Rollback()
         {
-            if (upgradedMod != null)
-                upgradedMod.ProgressSignifier = ProgressSignifier;
+            if (UpgradeFromMod != null)
+                UpgradeFromMod.ProgressSignifier = ProgressSignifier;
 
             base.Rollback();
 
-            if (zip != null)
+            if (_zip != null)
             {
-                zip.Dispose();
-                zip = null;
+                _zip.Dispose();
+                _zip = null;
             }
         }
 
         protected override void CompleteProgress(bool dispose)
         {
-            Debug.WriteLine($"{nameof(CompleteProgress)}\n\t{nameof(_managedMod)}: {_managedMod != null}\n\t{nameof(upgradedMod)}: {upgradedMod != null}");
+            Debug.WriteLine($"{nameof(CompleteProgress)}\n\t{nameof(_managedMod)}: {_managedMod != null}\n\t{nameof(UpgradeFromMod)}: {UpgradeFromMod != null}");
             base.CompleteProgress(dispose);
 
 
@@ -184,10 +184,10 @@ namespace SporeMods.Core.ModTransactions.Transactions
             }
 
 
-            if (upgradedMod != null)
+            if (UpgradeFromMod != null)
             {
-                upgradedMod.ProgressSignifier = null;
-                Debug.WriteLine($"\t{upgradedMod}: {upgradedMod.ProgressSignifier != null}, {upgradedMod.PreventsGameLaunch}");
+                UpgradeFromMod.ProgressSignifier = null;
+                Debug.WriteLine($"\t{UpgradeFromMod}: {UpgradeFromMod.ProgressSignifier != null}, {UpgradeFromMod.PreventsGameLaunch}");
             }
         }
     }
