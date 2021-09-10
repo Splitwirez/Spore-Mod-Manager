@@ -26,13 +26,16 @@ namespace SporeMods.Core.ModTransactions
         [DllImport("shlwapi.dll")]
         static extern bool PathIsNetworkPath(string pszPath);
 
-        private static readonly ThreadSafeObservableCollection<ModTransaction> ongoingTransactions = new ThreadSafeObservableCollection<ModTransaction>();
-        public ThreadSafeObservableCollection<ModTransaction> OngoingTransactions
+        private readonly ThreadSafeObservableCollection<TaskProgressSignifier> _tasks = new ThreadSafeObservableCollection<TaskProgressSignifier>();
+        public ThreadSafeObservableCollection<TaskProgressSignifier> Tasks
         {
-            get => ongoingTransactions;
+            get => _tasks;
         }
-        
-        private static readonly ThreadSafeObservableCollection<ModTransaction> concludedTransactions = new ThreadSafeObservableCollection<ModTransaction>();
+
+
+
+        private static readonly ThreadSafeObservableCollection<ModTransaction> _ongoingTransactions = new ThreadSafeObservableCollection<ModTransaction>();
+        private static readonly ThreadSafeObservableCollection<ModTransaction> _concludedTransactions = new ThreadSafeObservableCollection<ModTransaction>();
 
 
         public static ModTransactionManager Instance { get; } = new ModTransactionManager();
@@ -41,23 +44,25 @@ namespace SporeMods.Core.ModTransactions
 
         static ModTransactionManager()
         {
-            ongoingTransactions.CollectionChanged += Instance.CurrentTransactions_CollectionChanged;
-            concludedTransactions.CollectionChanged += ConcludedTransactions_CollectionChanged;
+            _ongoingTransactions.CollectionChanged += Instance.OngoingTransactions_CollectionChanged;
+            _concludedTransactions.CollectionChanged += Instance.ConcludedTransactions_CollectionChanged;
         }
 
         static bool _handlingCollectionChanged = false;
-        private static void ConcludedTransactions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void ConcludedTransactions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (!_handlingCollectionChanged)
             {
                 _handlingCollectionChanged = true;
                 if (sender is ThreadSafeObservableCollection<ModTransaction> concluded)
                 {
-                    if (concluded.Count >= ongoingTransactions.Count)
+                    if (concluded.Count >= _ongoingTransactions.Count)
                     {
-                        ongoingTransactions.Clear();
-                        concludedTransactions.Clear();
-                        AllTransactionsConcluded?.Invoke(null);
+                        _ongoingTransactions.Clear();
+                        _concludedTransactions.Clear();
+                        Instance.Tasks.Clear();
+                        HasRunningTasks = false;
+                        AllTasksConcluded?.Invoke(null);
                     }
                 }
                 _handlingCollectionChanged = false;
@@ -66,26 +71,60 @@ namespace SporeMods.Core.ModTransactions
 
         static int _prevTransactionCount = 0;
 
-        private void CurrentTransactions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void OngoingTransactions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (sender is ThreadSafeObservableCollection<ModTransaction> collection)
             {
                 int newCount = collection.Count;
                 if (newCount > 0)
                 {
-                    IsExecutingTransactions = true;
+                    HasRunningTasks = true;
                 }
                 _prevTransactionCount = newCount;
-                Debug.WriteLine($"{nameof(OngoingTransactions)}.Count: {newCount}");
+                Debug.WriteLine($"{nameof(_ongoingTransactions)}.Count: {newCount}");
             }
         }
 
-        public static event Action<ThreadSafeObservableCollection<object>> AllTransactionsConcluded;
+        public event EventHandler<EventArgs> TaskStarted;
+        public event Action<ThreadSafeObservableCollection<object>> AllTasksConcluded;
 
-        public bool IsExecutingTransactions
+        bool _hasRunningTasks = false;
+        public bool HasRunningTasks
         {
-            get => ongoingTransactions.Count <= 0;
-            private set => NotifyPropertyChanged();
+            get => _hasRunningTasks;
+            private set
+            {
+                _hasRunningTasks = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        double _overallProgress = 0.0;
+        public double OverallProgress
+        {
+            get => _overallProgress;
+            internal set
+            {
+                _overallProgress = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        double _overallProgressTotal = 0.0;
+        public double OverallProgressTotal
+        {
+            get => _overallProgressTotal;
+            internal set
+            {
+                if (
+                        (value > _overallProgressTotal)
+                        || (value == 0)
+                    )
+                {
+                    _overallProgressTotal = value;
+                    NotifyPropertyChanged();
+                }
+            }
         }
 
         // Events to show confirmation dialog to user
@@ -100,21 +139,20 @@ namespace SporeMods.Core.ModTransactions
         /// <returns></returns>
         static async Task<ModTransactionCommitException> ExecuteAsync(ModTransaction transaction)
         {
-            ongoingTransactions.Add(transaction);
             try
             {
                 if (!await transaction.CommitAsync())
                 {
                     // Transaction itself returned false, which means it decided to rollback
                     transaction.Rollback();
-                    concludedTransactions.Add(transaction);
+                    _concludedTransactions.Add(transaction);
                     return new ModTransactionCommitException(TransactionFailureCause.CommitRejected, null, null);
                 }
                 else
                 {
                     // Transaction finished successfully. We must dispose it (for example, to clear the backups).
                     transaction.Dispose();
-                    concludedTransactions.Add(transaction);
+                    _concludedTransactions.Add(transaction);
                     return null;
                 }
             }
@@ -125,7 +163,7 @@ namespace SporeMods.Core.ModTransactions
             {
                 Debug.WriteLine(e.ToString());
                 transaction.Rollback();
-                ongoingTransactions.Remove(transaction);
+                _ongoingTransactions.Remove(transaction);
                 return new ModTransactionCommitException(TransactionFailureCause.Exception, null, e);
             }
         }
@@ -153,7 +191,9 @@ namespace SporeMods.Core.ModTransactions
                 }
                 else if (Path.GetExtension(path).ToLowerInvariant() == ".package")
                 {
-                    packageTransactions.Add(new InstallLoosePackageTransaction(path));
+                    var transaction = new InstallLoosePackageTransaction(path);
+                    packageTransactions.Add(transaction);
+                    _ongoingTransactions.Add(transaction);
                 }
                 else if (Path.GetExtension(path).ToLowerInvariant() == ".sporemod")
                 {
@@ -161,7 +201,9 @@ namespace SporeMods.Core.ModTransactions
                     {
                         var transaction = new InstallModTransaction(path);
                         transaction.ParseModIdentity();
+                        
                         modTransactions.Add(transaction);
+                        _ongoingTransactions.Add(transaction);
                     }
                     catch (Exception e)
                     {
@@ -232,10 +274,18 @@ namespace SporeMods.Core.ModTransactions
                 }
             }
 
+            List<ModTransaction> transactions = new List<ModTransaction>();
             foreach (IInstalledMod mod in modsToUninstall)
             {
+                var transaction = mod.CreateUninstallTransaction();
+                transactions.Add(transaction);
+                _ongoingTransactions.Add(transaction);
+            }
+
+            foreach (ModTransaction transaction in transactions)
+            {
                 // This function doesn't throw exceptions, the code inside must handle it
-                await ExecuteAsync(mod.CreateUninstallTransaction());
+                await ExecuteAsync(transaction);
             }
         }
 
@@ -246,7 +296,9 @@ namespace SporeMods.Core.ModTransactions
         /// <returns></returns>
         public static async Task<ModTransactionCommitException> ConfigureModAsync(ManagedMod mod)
         {
-            return await ExecuteAsync(new ConfigureModTransaction(mod));
+            var transaction = new ConfigureModTransaction(mod);
+            _ongoingTransactions.Add(transaction);
+            return await ExecuteAsync(transaction);
         }
     }
 }

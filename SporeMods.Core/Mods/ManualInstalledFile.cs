@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SporeMods.Core.Mods
 {
-	public class ManualInstalledFile : IInstalledMod, INotifyPropertyChanged
+	public class ManualInstalledFile : NotifyPropertyChangedBase, IInstalledMod
 	{
 		bool _legacy = false;
 		public ManualInstalledFile(string fileName, ComponentGameDir location, bool legacy)
@@ -56,5 +56,20 @@ namespace SporeMods.Core.Mods
 		{
 			return DisplayName;
 		}
+
+		TaskProgressSignifier _progressSignifier = null;
+		public TaskProgressSignifier ProgressSignifier
+		{
+			get => _progressSignifier;
+			set
+			{
+				_progressSignifier = value;
+				NotifyPropertyChanged();
+			}
+		}
+
+		public bool CanUninstall => ProgressSignifier == null;
+		public bool CanReconfigure => false;
+		public bool PreventsGameLaunch => ProgressSignifier != null;
 	}
 }

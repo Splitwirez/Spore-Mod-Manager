@@ -10,10 +10,12 @@ namespace SporeMods.Core.ModTransactions.Transactions
     public class UninstallManualModTransaction : ModTransaction
     {
         public readonly ManualInstalledFile mod;
+        
 
         public UninstallManualModTransaction(ManualInstalledFile mod)
         {
             this.mod = mod;
+            ProgressSignifier = new TaskProgressSignifier(mod.DisplayName, TaskCategory.Uninstall);
         }
 
         public override async Task<bool> CommitAsync()
@@ -27,6 +29,12 @@ namespace SporeMods.Core.ModTransactions.Transactions
             Operation(new RemoveFromModManagerOp(mod));
 
             return true;
+        }
+
+        protected override void CompleteProgress(bool dispose)
+        {
+            base.CompleteProgress(dispose);
+            mod.ProgressSignifier = null;
         }
     }
 }

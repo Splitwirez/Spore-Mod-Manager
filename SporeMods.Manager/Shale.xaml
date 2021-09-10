@@ -97,6 +97,32 @@
 		</Style.Triggers>
 	</Style>
 
+    <Style x:Key="ModListProgressDisplayStyle" TargetType="Control">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Control">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock x:Name="InstallingNowTextBlock" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left" Text="{DynamicResource Mods!ListEntry!InstallInProgress}" Margin="0,0,5,0"/>
+                        <ProgressBar x:Name="ModProgressBar" Width="100" Height="23" Value="{Binding Progress, Mode=OneWay}" Minimum="0" Maximum="{Binding ProgressTotal, Mode=OneWay}" VerticalAlignment="Stretch"/>
+                    </StackPanel>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Status}" Value="Indeterminate">
+                            <Setter TargetName="ModProgressBar" Property="IsIndeterminate" Value="True"/>
+                            <Setter TargetName="ModProgressBar" Property="Opacity" Value="0.25"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Category}" Value="Reconfigure">
+                            <Setter TargetName="InstallingNowTextBlock" Property="Text" Value="Applying settings... (NOT LOCALIZED)"/>
+                            <!--Value="{DynamicResource Mods!ListEntry!ReconfigureInProgress}"-->
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Category}" Value="Uninstall">
+                            <Setter TargetName="InstallingNowTextBlock" Property="Text" Value="{DynamicResource Mods!ListEntry!UninstallInProgress}"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 	<Style x:Key="InstalledModsListViewStyle" TargetType="{x:Type ListView}" BasedOn="{StaticResource {x:Type ListView}}">
 		<Style.Resources>
 			<CubicEase x:Key="ScalingEase" EasingMode="EaseOut"/>
@@ -112,11 +138,8 @@
 								<TextBlock Text="{Binding ModVersion}" Visibility="{Binding ModHasVersion, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="15,0" VerticalAlignment="Center"/>
 								<!--ui:ToggleSwitch x:Name="IsEnabledToggleSwitch" TrueText="{DynamicResource ModSwitchOnText}" FalseText="{DynamicResource ModSwitchOffText}" Content="{x:Null}" IsChecked="{Binding IsEnabled, FallbackValue=True}" Visibility="{Binding Source={x:Static core:Settings.DeveloperMode}, Converter={StaticResource BooleanToVisibilityConverter}}" VerticalAlignment="Center" Width="110" MinWidth="110" HorizontalAlignment="Right"/-->
 								<!--{Binding CanDisable, Converter={StaticResource BooleanToVisibilityConverter}}-->
-								<StackPanel Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding IsProgressing, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
-                                    <TextBlock x:Name="InstallingNowTextBlock" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left" Text="{DynamicResource Mods!ListEntry!InstallInProgress}" Margin="0,0,5,0"/>
-									<ProgressBar x:Name="ModProgressBar" Width="100" Height="23" Value="{Binding Progress, Mode=OneWay}" Minimum="0" Maximum="100" VerticalAlignment="Stretch"/>
-								</StackPanel>
-							</StackPanel>
+                                <Control x:Name="ProgressDisplay" Visibility="Collapsed"/>
+                            </StackPanel>
 						</Grid>
 						<!--ui:ToggleSwitch x:Name="IsEnabledToggleSwitch" IsChecked="{Binding IsEnabled}" TrueText="{DynamicResource ModSwitchOn}" FalseText="{DynamicResource ModSwitchOff}" VerticalAlignment="Center" IsThreeState="False" DockPanel.Dock="Right"/-->
 						<!--mod:ToggleSwitch.Style>
@@ -190,6 +213,15 @@
 					</StackPanel>
 				</DockPanel>
 				<DataTemplate.Triggers>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding IsProgressing}" Value="True"/>
+                            <Condition Binding="{Binding ProgressSignifier.IsConcluded}" Value="False"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter TargetName="ProgressDisplay" Property="Visibility" Value="Visible"/>
+                        <Setter TargetName="ProgressDisplay" Property="DataContext" Value="{Binding ProgressSignifier}"/>
+                        <Setter TargetName="ProgressDisplay" Property="Style" Value="{DynamicResource ModListProgressDisplayStyle}"/>
+                    </MultiDataTrigger>
 					<DataTrigger Binding="{Binding HasDescription}" Value="True">
 						<Setter TargetName="ExpandCollapseToggleButton" Property="Visibility" Value="Visible"/>
 					</DataTrigger>

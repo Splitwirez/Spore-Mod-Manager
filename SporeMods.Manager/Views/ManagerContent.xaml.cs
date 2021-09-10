@@ -73,12 +73,22 @@ namespace SporeMods.Manager
 			ModInstallation.ClearQueues();
 			//GameInfo.GetRegistryPath(GameInfo.GameDlc.GalacticAdventures);
 			MessageDisplay.DebugShowMessageBox("DATA FOLDERS: \n\n" + GameInfo.CoreSporeData + "\n\n" + GameInfo.GalacticAdventuresData);
-			ModsManager.InstalledMods.CollectionChanged += (sneder, args) =>
+			/*ModsManager.InstalledMods.CollectionChanged += (sneder, args) =>
 			{
 				Dispatcher.BeginInvoke(new Action(() => ModConfigurations_CollectionChanged(sneder, args)));
+			};*/
+
+			//ModsManager.TasksCompleted += ModsManager_TasksCompleted;
+			
+
+			ModTransactionManager.Instance.TaskStarted += (s, e) => EvaluateCanLaunch();
+			ModTransactionManager.Instance.AllTasksConcluded += (tasks) =>
+			{
+				EvaluateCanLaunch();
+				UpdateActionButtonStates();
+				MessageBox.Show("All tasks have completed (PLACEHOLDER) (NOT LOCALIZED)");
 			};
-			ModsManager.TasksCompleted += ModsManager_TasksCompleted;
-			ManagedMod.AnyModIsProgressingChanged += (sneder, args) => EvaluateCanLaunch();
+			//ManagedMod.AnyModIsProgressingChanged += (s, e) => EvaluateCanLaunch();
 
 			Application.Current.Resources.MergedDictionaries[0].MergedDictionaries[1] = ShaleAccents.Sky.Dictionary;
 			if (Settings.ShaleDarkTheme)
@@ -193,7 +203,7 @@ namespace SporeMods.Manager
 				_badPaths.Add(e);*/
 		}
 
-		private void ModConfigurations_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+		/*private void ModConfigurations_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
 		{
 			if (e.NewItems != null)
 			{
@@ -214,7 +224,7 @@ namespace SporeMods.Manager
 			}
 			EvaluateShowInstallModsPrompt();
 			EvaluateCanLaunch();
-		}
+		}*/
 
 		private void EvaluateShowInstallModsPrompt()
 		{
@@ -222,11 +232,6 @@ namespace SporeMods.Manager
 				InstallModsPromptContentControl.Visibility = Visibility.Visible;
 			else
 				InstallModsPromptContentControl.Visibility = Visibility.Collapsed;
-		}
-
-		private void InstalledMod_IsProgressingChanged(object sender, EventArgs e)
-		{
-			EvaluateCanLaunch();
 		}
 
 		private void EvaluateCanLaunch()
@@ -244,11 +249,11 @@ namespace SporeMods.Manager
 				}
 				LaunchGameButton.IsEnabled = canLaunch;*/
 
-				LaunchGameButton.IsEnabled = !IsAnythingHappening(ModsManager.InstalledMods);
+				LaunchGameButton.IsEnabled = !ModTransactionManager.Instance.HasRunningTasks;
 			}));
 		}
 
-		bool IsAnythingHappening(IEnumerable<IInstalledMod> modsInQuestion) => modsInQuestion.Any(x =>
+		/*bool IsAnythingHappening(IEnumerable<IInstalledMod> modsInQuestion) => modsInQuestion.Any(x =>
 		{
 			if (x == null)
 				return false;
@@ -256,7 +261,7 @@ namespace SporeMods.Manager
 				return mod.IsProgressing;
 			else
 				return false;
-		});
+		});*/
 
 		//private void MainWindow_Loaded(object sender, RoutedEventArgs e)
 		//public override void EndInit()
@@ -1568,11 +1573,11 @@ namespace SporeMods.Manager
 							break;
 						}
 					}*/
-					UninstallModsButton.IsEnabled = !IsAnythingHappening(selectedMods);
+					UninstallModsButton.IsEnabled = selectedMods.All(x => x.CanUninstall);
 				}
 				else if (list.SelectedItems.Count == 1)
 				{
-					if ((list.SelectedItem is ManagedMod item) && (!item.IsProgressing))
+					/*if ((list.SelectedItem is ManagedMod item) && (!item.IsProgressing))
 					{
 						UninstallModsButton.IsEnabled = true;
 
@@ -1585,7 +1590,12 @@ namespace SporeMods.Manager
 					{
 						UninstallModsButton.IsEnabled = list.SelectedItem is ManualInstalledFile;
 						ConfigureModButton.IsEnabled = false;
-					}
+					}*/
+					if (list.SelectedItem is IInstalledMod mod)
+                    {
+						UninstallModsButton.IsEnabled = mod.CanUninstall;
+						ConfigureModButton.IsEnabled = mod.CanReconfigure;
+                    }
 				}
 				else
 				{
@@ -1624,24 +1634,20 @@ namespace SporeMods.Manager
 
 		public void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			var win = sender as Window;
-			win.SizeChanged -= MainWindow_SizeChanged;
-			win.Activated -= MainWindow_IsActiveChanged;
-			win.Deactivated -= MainWindow_IsActiveChanged;
-
-			if (ModTransactionManager.Instance.IsExecutingTransactions)
+			bool hasTasks = ModTransactionManager.Instance.HasRunningTasks;
+			bool anyPreventingLaunch = ModsManager.InstalledMods.ToList().Any(x => x.PreventsGameLaunch);
+			Debug.WriteLine($"{nameof(hasTasks)}: {hasTasks}\n{nameof(anyPreventingLaunch)}: {anyPreventingLaunch}");
+			if (hasTasks || anyPreventingLaunch)
             {
 				e.Cancel = true;
 				return;
             }
-
-			foreach (var mod in ModsManager.InstalledMods.OfType<ManagedMod>())
+			else
 			{
-				if (mod.IsProgressing)
-				{
-					e.Cancel = true;
-					break;
-				}
+				var win = sender as Window;
+				win.SizeChanged -= MainWindow_SizeChanged;
+				win.Activated -= MainWindow_IsActiveChanged;
+				win.Deactivated -= MainWindow_IsActiveChanged;
 			}
 		}
 

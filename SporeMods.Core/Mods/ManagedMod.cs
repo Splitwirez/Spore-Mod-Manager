@@ -16,7 +16,7 @@ namespace SporeMods.Core.Mods
 	/// <summary>
 	/// A generic mod installed through the Mod Manager.
 	/// </summary>
-	public class ManagedMod : IInstalledMod, INotifyPropertyChanged
+	public class ManagedMod : NotifyPropertyChangedBase, IInstalledMod
 	{
 		public static readonly string MOD_INFO = "ModInfo.xml";
 		public static readonly string MOD_CONFIG = "Config.xml";
@@ -107,7 +107,7 @@ namespace SporeMods.Core.Mods
 			{
 				NotifyPropertyChanged(nameof(IsProgressing));
 				IsProgressingChanged?.Invoke(this, null);
-				RaiseAnyModIsProgressingChanged(this, false, true);
+				//RaiseAnyModIsProgressingChanged(this, false, true);
 			}
 
 			_hasStoredFiles = true;
@@ -291,11 +291,23 @@ namespace SporeMods.Core.Mods
 			get => _isProgressing;
 			set
 			{
-				bool oldVal = _isProgressing;
+				//bool oldVal = _isProgressing;
 				_isProgressing = value;
-				NotifyPropertyChanged(nameof(IsProgressing));
-				IsProgressingChanged?.Invoke(this, null);
-				RaiseAnyModIsProgressingChanged(this, oldVal, _isProgressing);
+				NotifyPropertyChanged();
+				//IsProgressingChanged?.Invoke(this, null);
+				//RaiseAnyModIsProgressingChanged(this, oldVal, _isProgressing);
+			}
+		}
+
+		TaskProgressSignifier _progressSignifier = null;
+		public TaskProgressSignifier ProgressSignifier
+        {
+			get => _progressSignifier;
+			set
+            {
+				_progressSignifier = value;
+				NotifyPropertyChanged();
+				IsProgressing = _progressSignifier != null;
 			}
 		}
 
@@ -308,7 +320,7 @@ namespace SporeMods.Core.Mods
 			get => _progress;
 			set
 			{
-				double oldVal = _progress;
+				/*double oldVal = _progress;
 				_progress = value;
 				NotifyPropertyChanged(nameof(Progress));
 				/*if ((FileCount > 0) && (Progress >= FileCount) && (IsProgressing))
@@ -316,10 +328,16 @@ namespace SporeMods.Core.Mods
 					IsProgressing = false;
 					_watcher.EnableRaisingEvents = false;
 					Progress = 0.0;
-				}*/
-				AnyModProgressChanged?.Invoke(this, new ModProgressChangedEventArgs(this, _progress - oldVal));
+				}* /
+				AnyModProgressChanged?.Invoke(this, new ModProgressChangedEventArgs(this, _progress - oldVal));*/
 			}
 		}
+
+		public bool CanUninstall => !IsProgressing;
+		public bool CanReconfigure => HasConfigurator && (!IsProgressing);
+
+		public bool PreventsGameLaunch => IsProgressing;
+
 
 		/// <summary>
 		/// [PARTIAL NYI]Queues all of this mod's files for removal, then deletes its configuration
@@ -362,23 +380,16 @@ namespace SporeMods.Core.Mods
 			return result;
 		}
 
-		private void NotifyPropertyChanged(string propertyName)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
 		public event EventHandler IsProgressingChanged;
 
-		public static event EventHandler<ModIsProgressingChangedEventArgs> AnyModIsProgressingChanged;
+		/*public static event EventHandler<ModIsProgressingChangedEventArgs> AnyModIsProgressingChanged;
 		public static event EventHandler<ModProgressChangedEventArgs> AnyModProgressChanged;
 
 		internal static void RaiseAnyModIsProgressingChanged(IInstalledMod mod, bool oldVal, bool newVal)
 		{
 			if (oldVal != newVal)
 				AnyModIsProgressingChanged?.Invoke(mod, new ModIsProgressingChangedEventArgs(mod, newVal));
-		}
+		}*/
 
 		public override string ToString()
 		{

@@ -13,9 +13,28 @@ namespace SporeMods.Core.ModTransactions.Transactions
 	{
 		public readonly ManagedMod mod;
 
+		TaskProgressSignifier _signifier = null;
+		public ApplyModContentTransaction(ManagedMod mod, TaskProgressSignifier signifier)
+			: this(mod)
+        {
+			_signifier = signifier;
+        }
+
 		public ApplyModContentTransaction(ManagedMod mod)
 		{
 			this.mod = mod;
+		}
+
+		void SetProgress(double newVal)
+        {
+			if (_signifier != null)
+				_signifier.Progress = newVal;
+		}
+
+		void AddProgress(double newVal)
+		{
+			if (_signifier != null)
+				_signifier.Progress += newVal;
 		}
 
 		public override async Task<bool> CommitAsync()
@@ -26,12 +45,12 @@ namespace SporeMods.Core.ModTransactions.Transactions
 			bool startsHere = !mod.IsProgressing;
 			if (startsHere)
 			{
-				mod.Progress = 0;
-				mod.IsProgressing = true;
+				SetProgress(0);
+				//mod.IsProgressing = true;
 			}
-			else
+			else if (_signifier != null)
 			{
-				totalProgress = 100.0 - mod.Progress;
+				totalProgress = 100.0 - _signifier.Progress;
 			}
 
 			// 1. Delete all mod-related files
@@ -40,7 +59,7 @@ namespace SporeMods.Core.ModTransactions.Transactions
 			foreach (var file in filesToDelete)
 			{
 				Operation(new SafeDeleteFileOp(file));
-				mod.Progress += progressRange / filesToDelete.Count;
+				AddProgress(progressRange / filesToDelete.Count);
 			}
 
 			// 2. Add the mod files
@@ -57,7 +76,7 @@ namespace SporeMods.Core.ModTransactions.Transactions
 					else if (Path.GetExtension(s).ToLowerInvariant() == ".dll")
 						Operation(new SafeCopyFileOp(s, FileWrite.GetFileOutputPath(ComponentGameDir.ModAPI, Path.GetFileName(s), mod.IsLegacy)));
 
-					mod.Progress += progressInc;
+					AddProgress(progressInc);
 				}
 			}
 			else
@@ -69,9 +88,6 @@ namespace SporeMods.Core.ModTransactions.Transactions
 			var newConfig = new ModConfiguration(mod.Configuration);
 			newConfig.IsEnabled = true;
 			Operation(new ChangeModConfigurationOp(mod, newConfig));
-
-			mod.Progress = 0;
-			mod.IsProgressing = false;
 
 			return true;
 		}
@@ -85,13 +101,13 @@ namespace SporeMods.Core.ModTransactions.Transactions
 			foreach (var file in mod.Identity.FilesToRemove)
 			{
 				RemoveModFile(file);
-				mod.Progress += progressIncrease;
+				AddProgress(progressIncrease);
 			}
 
 			foreach (var file in mod.Identity.Files)
 			{
 				AddModFile(file);
-				mod.Progress += progressIncrease;
+				AddProgress(progressIncrease);
 			}
 
 			foreach (var component in mod.Identity.SubComponents)
@@ -105,7 +121,7 @@ namespace SporeMods.Core.ModTransactions.Transactions
 							foreach (var file in subComponent.Files)
 							{
 								AddModFile(file);
-								mod.Progress += progressIncrease;
+								AddProgress(progressIncrease);
 							}
 							break;
 						}
@@ -116,7 +132,7 @@ namespace SporeMods.Core.ModTransactions.Transactions
 					foreach (var file in component.Files)
 					{
 						AddModFile(file);
-						mod.Progress += progressIncrease;
+						AddProgress(progressIncrease);
 					}
 				}
 			}
@@ -149,12 +165,12 @@ namespace SporeMods.Core.ModTransactions.Transactions
 					foreach (var file in fix.FilesToRemove)
 					{
 						RemoveModFile(file);
-						mod.Progress += progressIncrease;
+						AddProgress(progressIncrease);
 					}
 					foreach (var file in fix.FilesToAdd)
 					{
 						AddModFile(file);
-						mod.Progress += progressIncrease;
+						AddProgress(progressIncrease);
 					}
 				}
 			}

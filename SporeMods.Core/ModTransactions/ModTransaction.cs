@@ -49,6 +49,8 @@ namespace SporeMods.Core.ModTransactions
 
     public abstract class ModTransaction
     {
+        protected TaskProgressSignifier ProgressSignifier = null;
+
         // The operations that have executed, in order. This will be used to undo them.
         private ConcurrentStack<IModOperation> operations = new ConcurrentStack<IModOperation>();
 
@@ -122,6 +124,9 @@ namespace SporeMods.Core.ModTransactions
         /// </summary>
         public virtual void Rollback()
         {
+            CompleteProgress(false);
+
+
             Debug.WriteLine("Rollback on transaction " + ToString());
             // Wait until all currently running operations have finished running
             Task.WhenAll(executedTasks).Wait();
@@ -140,11 +145,22 @@ namespace SporeMods.Core.ModTransactions
         /// </summary>
         public virtual void Dispose()
         {
+            CompleteProgress(true);
+
             foreach (var operation in operations)
             {
                 operation.Dispose();
             }
             operations.Clear();
+        }
+
+        protected virtual void CompleteProgress(bool dispose)
+        {
+            if (ProgressSignifier != null)
+            {
+                ProgressSignifier.Progress = ProgressSignifier.ProgressTotal;
+                ProgressSignifier.Status = dispose ? TaskStatus.Succeeded : TaskStatus.Failed;
+            }
         }
     }
 }

@@ -304,7 +304,7 @@ namespace SporeMods.Core
 
 
 			PopulateModConfigurations();
-
+			/*
 			ManagedMod.AnyModIsProgressingChanged += (sneder, e) =>
 			{
 				SyncContext.Send(state =>
@@ -323,7 +323,7 @@ namespace SporeMods.Core
 							OverallProgressTotal = 0;
 							AnyTasksRunning = false;
 						}
-					}*/
+					}* /
 					if (e.IsNowProgressing)
 					{
 						AnyTasksRunning = true;
@@ -383,7 +383,7 @@ namespace SporeMods.Core
 						};
 						timer.Start();
 						//MessageDisplay.ShowMessageBox("!AnyTasksRunning");
-					}*/
+					}* /
 					//MessageDisplay.ShowMessageBox("Progress", OverallProgress + " --> " + OverallProgressTotal);
 				}, null);
 			};
@@ -396,6 +396,7 @@ namespace SporeMods.Core
 						OverallProgress += e.Change;
 				}, null);
 			};
+			*/
 		}
 	}
 

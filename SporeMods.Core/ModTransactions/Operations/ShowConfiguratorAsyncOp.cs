@@ -15,6 +15,7 @@ namespace SporeMods.Core.ModTransactions.Operations
 	{
 		public readonly ManagedMod mod;
 		private ModConfiguration originalConfig;
+		internal bool UserCancelled = false;
 		
 		public ShowConfiguratorAsyncOp(ManagedMod mod)
         {
@@ -26,7 +27,8 @@ namespace SporeMods.Core.ModTransactions.Operations
 			if (mod.HasConfigurator)
 			{
 				originalConfig = new ModConfiguration(mod.Configuration);
-				return await ModsManager.Instance.ShowModConfigurator(mod);
+				UserCancelled = !await ModsManager.Instance.ShowModConfigurator(mod);
+				return true;
 			}
 			else
 			{

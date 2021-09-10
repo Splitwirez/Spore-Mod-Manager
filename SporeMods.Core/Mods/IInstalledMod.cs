@@ -44,5 +44,13 @@ namespace SporeMods.Core.Mods
 		List<string> Tags { get; }
 
 		Version ModVersion { get; }
+
+		TaskProgressSignifier ProgressSignifier { get; }
+
+		bool CanUninstall { get; }
+
+		bool CanReconfigure { get; }
+
+		bool PreventsGameLaunch { get; }
 	}
 }

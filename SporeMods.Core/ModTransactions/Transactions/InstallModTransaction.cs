@@ -20,6 +20,8 @@ namespace SporeMods.Core.ModTransactions.Transactions
         // Because we might need to do undo, and some operators might need the zip, we can't do the 'using...' thing
         private ZipArchive zip;
 
+        ManagedMod _managedMod = null;
+
         public InstallModTransaction(string modPath, ManagedMod upgradedMod = null)
         {
             this.modPath = modPath;
@@ -47,6 +49,7 @@ namespace SporeMods.Core.ModTransactions.Transactions
                 Operation(new ValidateModOp(identity));
             }
 
+            ProgressSignifier = new TaskProgressSignifier(identity.DisplayName, TaskCategory.Install);
             return identity;
         }
 
@@ -68,22 +71,24 @@ namespace SporeMods.Core.ModTransactions.Transactions
 
             // 2. Show the configurator, if any
             // Needed to show the configurator
-            var managedMod = new ManagedMod(true, identity)
-            {
-                Progress = 0,
-                IsProgressing = true
-            };
+            _managedMod = new ManagedMod(true, identity);
+
+            _managedMod.ProgressSignifier = ProgressSignifier;
+
+            // 3. Add the mod to the mod list; 
+            Operation(new AddToModManagerOp(_managedMod, upgradedMod == null));
 
             if (upgradedMod != null)
             {
                 // We use the same settings we had
-                managedMod.Configuration = new ModConfiguration(upgradedMod.Configuration);
+                _managedMod.Configuration = new ModConfiguration(upgradedMod.Configuration);
             }
 
-            if (managedMod.HasConfigurator)
+            if (_managedMod.HasConfigurator)
             {
-                await OperationAsync(new ShowConfiguratorAsyncOp(managedMod));
+                await OperationAsync(new ShowConfiguratorAsyncOp(_managedMod));
             }
+            ProgressSignifier.Status = TaskStatus.Determinate;
 
             if (upgradedMod != null)
             {
@@ -96,7 +101,7 @@ namespace SporeMods.Core.ModTransactions.Transactions
                 Operation(new DeleteDirectoryOp(upgradedMod.StoragePath));
             }
 
-            // 3. Create the directory
+            // 4. Create the directory
             Operation(new CreateDirectoryOp(modDirectory));
 
             // We don't increase all the progress, because EnableMod() will be called
@@ -104,29 +109,29 @@ namespace SporeMods.Core.ModTransactions.Transactions
             var fileEntries = zip.Entries.Where(x => !x.IsDirectory());
             var numFiles = fileEntries.Count() + 1;
 
-            // 4. Extract the XML file
+            // 5. Extract the XML file
             Operation(new ExtractXmlIdentityOp(zip, modDirectory, unique, modName));
-            managedMod.Progress += totalProgress / numFiles;
+            ProgressSignifier.Progress += totalProgress / numFiles;
 
-            // 5. Extract all mod files
+            // 6. Extract all mod files
             foreach (ZipArchiveEntry e in fileEntries)
             {
                 Operation(new ExtractFileOp(e, modDirectory));
-                managedMod.Progress += totalProgress / numFiles;
+                ProgressSignifier.Progress += totalProgress / numFiles;
             }
 
             // We cannot enable the mod until all files are extracted
 
             // The instance we have of ManagedMod was temporary, only to show the configurator;
             // recreate it now that we have all the files extracted
-            managedMod = Operation(new InitManagedModConfigOp(unique, managedMod)).mod;
-            identity = managedMod.Identity;
+            _managedMod = Operation(new InitManagedModConfigOp(unique, _managedMod)).mod;
+            identity = _managedMod.Identity;
 
-            // 6. Enable the mod and add it to the mod list; 
+            // 7. Apply the mod's contents; 
             // It must fail if we are not upgrading a mod and a mod with this name already exists 
             // (but it will be the developer's fault, as it should never have executed the transaction then)
-            Operation(new AddToModManagerOp(managedMod, upgradedMod == null));
-            await OperationAsync(new ExecuteTransactionAsyncOp(new ApplyModContentTransaction(managedMod)));
+            
+            await OperationAsync(new ExecuteTransactionAsyncOp(new ApplyModContentTransaction(_managedMod, ProgressSignifier)));
 
             // Finally, close the zip file
             zip.Dispose();
@@ -144,6 +149,13 @@ namespace SporeMods.Core.ModTransactions.Transactions
                 zip.Dispose();
                 zip = null;
             }
+        }
+
+        protected override void CompleteProgress(bool dispose)
+        {
+            base.CompleteProgress(dispose);
+            if (_managedMod != null)
+                    _managedMod.ProgressSignifier = null;
         }
     }
 }

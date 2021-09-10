@@ -5,6 +5,7 @@
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 			 xmlns:local="clr-namespace:SporeMods.Manager"
 			 xmlns:core="clr-namespace:SporeMods.Core;assembly=SporeMods.Core"
+			 xmlns:trs="clr-namespace:SporeMods.Core.ModTransactions;assembly=SporeMods.Core"
 			 xmlns:ui="clr-namespace:Mechanism.Wpf.Core;assembly=Mechanism.Wpf.Core"
              xmlns:loc="clr-namespace:SporeMods.CommonUI.Localization;assembly=SporeMods.CommonUI"
 			 xmlns:win="clr-namespace:Mechanism.Wpf.Core.Windows;assembly=Mechanism.Wpf.Core"
@@ -26,9 +27,18 @@
                     <Button x:Name="InstallModsButton" Content="{DynamicResource Footer!InstallMods}" Style="{DynamicResource InstallModsButtonStyle}" Click="InstallModsButton_Click"/>
                     <Button x:Name="ConfigureModButton" Content="{DynamicResource Footer!ConfigureMod}" Style="{DynamicResource ConfigureModButtonStyle}" IsEnabled="False" Click="ConfigureModButton_Click"/>
                     <Button x:Name="UninstallModsButton" Content="{DynamicResource Footer!UninstallMods}" Style="{DynamicResource UninstallModsButtonStyle}" IsEnabled="False" Click="UninstallModsButton_Click"/>
-					<Grid>
-                        <Button x:Name="LaunchGameButton" Content="{DynamicResource Footer!LaunchGame}" Style="{DynamicResource LaunchGameButtonStyle}" Click="LaunchGameButton_Click"/>
-						<ProgressBar x:Name="OverallProgressProgressBar" Minimum="0" Maximum="{Binding OverallProgressTotal, Source={x:Static core:ModsManager.Instance}, Mode=OneWay}" Value="{Binding OverallProgress, Source={x:Static core:ModsManager.Instance}, Mode=OneWay}" Visibility="{Binding AnyTasksRunning, Source={x:Static core:ModsManager.Instance}, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Margin="5,5,10,5"/>
+                    <Grid DataContext="{Binding Source={x:Static trs:ModTransactionManager.Instance}}">
+                        <Button x:Name="LaunchGameButton"
+                                Content="{DynamicResource Footer!LaunchGame}"
+                                Style="{DynamicResource LaunchGameButtonStyle}"
+                                Click="LaunchGameButton_Click"
+                                IsEnabled="{Binding HasRunningTasks, Converter={StaticResource BoolInverterConverter}}"/>
+                        <ProgressBar x:Name="OverallProgressProgressBar"
+                                     Minimum="0"
+                                     Maximum="{Binding OverallProgressTotal, Mode=OneWay}"
+                                     Value="{Binding OverallProgress, Mode=OneWay}"
+                                     Visibility="{Binding HasRunningTasks, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"
+                                     Margin="5,5,10,5"/>
 					</Grid>
 				</UniformGrid>
 			</ContentControl>

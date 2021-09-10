@@ -14,21 +14,23 @@ namespace SporeMods.Core.ModTransactions.Transactions
         public UninstallManagedModTransaction(ManagedMod mod)
         {
             this.mod = mod;
+            ProgressSignifier = new TaskProgressSignifier(mod.DisplayName, TaskCategory.Uninstall);
         }
 
         public override async Task<bool> CommitAsync()
         {
-            //TODO maybe this shouldn't go here? because when the transaction fails, no one calls this
-            mod.Progress = 0;
-            mod.IsProgressing = true;
+            mod.ProgressSignifier = ProgressSignifier;
 
             // 1. Delete all enabled mod-related files
             var progressRange = 80.0;
+            ProgressSignifier.ProgressTotal = progressRange;
+            ProgressSignifier.Status = TaskStatus.Determinate;
+
             var filesToDelete = mod.GetFilePathsToRemove();
             foreach (var file in filesToDelete)
             {
                 Operation(new SafeDeleteFileOp(file));
-                mod.Progress += progressRange / filesToDelete.Count;
+                ProgressSignifier.Progress += progressRange / filesToDelete.Count;
             }
 
             // 2. Delete all files in the SMM mod folder
@@ -37,11 +39,13 @@ namespace SporeMods.Core.ModTransactions.Transactions
             // 3. Remove mod from the list
             Operation(new RemoveFromModManagerOp(mod));
 
-            //TODO maybe this shouldn't go here? because when the transaction fails, no one calls this
-            mod.Progress = 0;
-            mod.IsProgressing = false;
-
             return true;
+        }
+
+        protected override void CompleteProgress(bool dispose)
+        {
+            base.CompleteProgress(dispose);
+            mod.ProgressSignifier = null;
         }
     }
 }
