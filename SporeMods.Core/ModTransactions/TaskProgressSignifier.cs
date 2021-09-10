@@ -7,6 +7,7 @@ namespace SporeMods.Core.ModTransactions
     public enum TaskCategory
     {
         Install,
+        Upgrade,
         Reconfigure,
         Uninstall,
         Rollback

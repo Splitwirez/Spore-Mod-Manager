@@ -3,6 +3,7 @@ using SporeMods.Core.Mods;
 using SporeMods.Manager.Configurators;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Media;
 using System.Linq;
@@ -38,41 +39,47 @@ namespace SporeMods.Manager
 
 					if (component.ImagePlacement != ImagePlacementType.None)
 					{
-
-						string imgPath = Path.Combine((configurator.DataContext as ManagedMod).StoragePath, component.Unique + ".png");
-						if (File.Exists(imgPath))
+						if ((configurator.DataContext != null) && (configurator.DataContext is ManagedMod mod) && (!(string.IsNullOrEmpty(mod.StoragePath) || string.IsNullOrWhiteSpace(mod.StoragePath))))
 						{
-							Image image = new Image()
+							string imgPath = Path.Combine(mod.StoragePath, component.Unique + ".png");
+							if (File.Exists(imgPath))
 							{
-								HorizontalAlignment = HorizontalAlignment.Stretch,
-								Stretch = Stretch.Uniform,
-								IsHitTestVisible = false
-							};
+								Image image = new Image()
+								{
+									HorizontalAlignment = HorizontalAlignment.Stretch,
+									Stretch = Stretch.Uniform,
+									IsHitTestVisible = false
+								};
 
-							MemoryStream mStream = new MemoryStream();
-							using (FileStream fStream = new FileStream(imgPath, FileMode.Open, FileAccess.Read))
-							{
-								fStream.Seek(0, SeekOrigin.Begin);
-								fStream.CopyTo(mStream);
-							}
-							mStream.Seek(0, SeekOrigin.Begin);
+								MemoryStream mStream = new MemoryStream();
+								using (FileStream fStream = new FileStream(imgPath, FileMode.Open, FileAccess.Read))
+								{
+									fStream.Seek(0, SeekOrigin.Begin);
+									fStream.CopyTo(mStream);
+								}
+								mStream.Seek(0, SeekOrigin.Begin);
 
-							image.Source = BitmapFrame.Create(mStream); //new BitmapImage(new Uri(imgPath, UriKind.RelativeOrAbsolute));
-							
-							if (component.ImagePlacement == ImagePlacementType.Before)
-							{
-								elements.Insert(0, image);
-							}
-							else if (component.ImagePlacement == ImagePlacementType.After)
-							{
-								elements.Add(image);
-							}
-							else if (component.ImagePlacement == ImagePlacementType.InsteadOf)
-							{
-								elements.Clear();
-								elements.Add(image);
+								image.Source = BitmapFrame.Create(mStream); //new BitmapImage(new Uri(imgPath, UriKind.RelativeOrAbsolute));
+
+								if (component.ImagePlacement == ImagePlacementType.Before)
+								{
+									elements.Insert(0, image);
+								}
+								else if (component.ImagePlacement == ImagePlacementType.After)
+								{
+									elements.Add(image);
+								}
+								else if (component.ImagePlacement == ImagePlacementType.InsteadOf)
+								{
+									elements.Clear();
+									elements.Add(image);
+								}
 							}
 						}
+						else if (configurator.DataContext == null)
+							Debug.WriteLine("configurator.DataContext == null");
+						else
+							Debug.WriteLine($"configurator DataContext is a '{configurator.DataContext.GetType().FullName}'.");
 					}
 					configurator.SetBody(elements.ToArray());
 				}

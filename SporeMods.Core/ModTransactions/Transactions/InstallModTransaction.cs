@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO.Compression;
 using System.IO;
 using System.Text;
@@ -15,7 +16,7 @@ namespace SporeMods.Core.ModTransactions.Transactions
     {
         public ModIdentity identity;
         // The mod that this mod is replacing, if any
-        public ManagedMod upgradedMod;
+        public IInstalledMod upgradedMod;
         public readonly string modPath;
         // Because we might need to do undo, and some operators might need the zip, we can't do the 'using...' thing
         private ZipArchive zip;
@@ -49,7 +50,7 @@ namespace SporeMods.Core.ModTransactions.Transactions
                 Operation(new ValidateModOp(identity));
             }
 
-            ProgressSignifier = new TaskProgressSignifier(identity.DisplayName, TaskCategory.Install);
+            ProgressSignifier = new TaskProgressSignifier(identity.DisplayName, (upgradedMod != null) ? TaskCategory.Install : TaskCategory.Upgrade);
             return identity;
         }
 
@@ -76,12 +77,12 @@ namespace SporeMods.Core.ModTransactions.Transactions
             _managedMod.ProgressSignifier = ProgressSignifier;
 
             // 3. Add the mod to the mod list; 
-            Operation(new AddToModManagerOp(_managedMod, upgradedMod == null));
+            Operation(new AddToModManagerOp(_managedMod, upgradedMod));
 
-            if (upgradedMod != null)
+            if ((upgradedMod != null) && (upgradedMod is ManagedMod mgMod))
             {
                 // We use the same settings we had
-                _managedMod.Configuration = new ModConfiguration(upgradedMod.Configuration);
+                _managedMod.Configuration = new ModConfiguration(mgMod.Configuration);
             }
 
             if (_managedMod.HasConfigurator)
@@ -93,12 +94,25 @@ namespace SporeMods.Core.ModTransactions.Transactions
             if (upgradedMod != null)
             {
                 // To upgrade, we just delete all the files and install
-                var filesToDelete = upgradedMod.GetFilePathsToRemove();
+                IEnumerable<string> filesToDelete = null;
+                if (upgradedMod != null)
+                {
+                    if (upgradedMod is ManagedMod mMod)
+                        filesToDelete = mMod.GetFilePathsToRemove();
+                    else if (upgradedMod is ManualInstalledFile manual)
+                        filesToDelete = new List<string>()
+                        {
+                            FileWrite.GetFileOutputPath(manual.Location, manual.RealName, manual.IsLegacy)
+                        };
+                }
+
                 foreach (var file in filesToDelete)
                 {
                     Operation(new SafeDeleteFileOp(file));
                 }
-                Operation(new DeleteDirectoryOp(upgradedMod.StoragePath));
+                
+                if (upgradedMod is ManagedMod mMod2)
+                    Operation(new DeleteDirectoryOp(mMod2.StoragePath));
             }
 
             // 4. Create the directory
@@ -124,13 +138,16 @@ namespace SporeMods.Core.ModTransactions.Transactions
 
             // The instance we have of ManagedMod was temporary, only to show the configurator;
             // recreate it now that we have all the files extracted
+            var oldManagedMod = _managedMod;
             _managedMod = Operation(new InitManagedModConfigOp(unique, _managedMod)).mod;
+            Operation(new AddToModManagerOp(_managedMod, oldManagedMod));
             identity = _managedMod.Identity;
+
 
             // 7. Apply the mod's contents; 
             // It must fail if we are not upgrading a mod and a mod with this name already exists 
             // (but it will be the developer's fault, as it should never have executed the transaction then)
-            
+
             await OperationAsync(new ExecuteTransactionAsyncOp(new ApplyModContentTransaction(_managedMod, ProgressSignifier)));
 
             // Finally, close the zip file
@@ -142,6 +159,9 @@ namespace SporeMods.Core.ModTransactions.Transactions
 
         public override void Rollback()
         {
+            if (upgradedMod != null)
+                upgradedMod.ProgressSignifier = ProgressSignifier;
+
             base.Rollback();
 
             if (zip != null)
@@ -153,9 +173,22 @@ namespace SporeMods.Core.ModTransactions.Transactions
 
         protected override void CompleteProgress(bool dispose)
         {
+            Debug.WriteLine($"{nameof(CompleteProgress)}\n\t{nameof(_managedMod)}: {_managedMod != null}\n\t{nameof(upgradedMod)}: {upgradedMod != null}");
             base.CompleteProgress(dispose);
+
+
             if (_managedMod != null)
-                    _managedMod.ProgressSignifier = null;
+            {
+                _managedMod.ProgressSignifier = null;
+                Debug.WriteLine($"\t{_managedMod}: {_managedMod.ProgressSignifier != null}, {_managedMod.PreventsGameLaunch}");
+            }
+
+
+            if (upgradedMod != null)
+            {
+                upgradedMod.ProgressSignifier = null;
+                Debug.WriteLine($"\t{upgradedMod}: {upgradedMod.ProgressSignifier != null}, {upgradedMod.PreventsGameLaunch}");
+            }
         }
     }
 }

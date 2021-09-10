@@ -32,8 +32,9 @@ namespace SporeMods.Core.ModTransactions.Operations
 
             mod = new ManagedMod(unique, true, configMod.Configuration)
             {
-                Progress = configMod.Progress,
-                IsProgressing = configMod.IsProgressing
+                ProgressSignifier = configMod.ProgressSignifier
+                //Progress = configMod.Progress,
+                //IsProgressing = configMod.IsProgressing
             };
             return true;
         }

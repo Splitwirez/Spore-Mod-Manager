@@ -39,7 +39,7 @@ namespace SporeMods.Core.ModTransactions.Transactions
                 };
 
                 // 3. Add the mod to the manager and copy the file
-                Operation(new AddToModManagerOp(mod, false));
+                Operation(new AddToModManagerOp(mod));
                 Operation(new SafeCopyFileOp(modPath, Path.Combine(dir, name)));
 
                 Operation(new RemoveManuallyInstalledFileOp(name, ComponentGameDir.GalacticAdventures));

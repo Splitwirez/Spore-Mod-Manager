@@ -11,23 +11,19 @@ namespace SporeMods.Core.ModTransactions.Operations
     public class AddToModManagerOp : IModSyncOperation
     {
         public readonly IInstalledMod mod;
-        public readonly bool failIfExists;
         // If we allowed replacing an existing mod, this is the old one
-        private ManagedMod previousMod = null;
-        private int previousModIndex = -1;
+        private IInstalledMod previousMod = null;
 
-        public AddToModManagerOp(IInstalledMod mod, bool failIfExists = true)
+        public AddToModManagerOp(IInstalledMod mod, IInstalledMod previousMod = null)
         {
             this.mod = mod;
-            this.failIfExists = failIfExists;
+            this.previousMod = previousMod;
         }
 
         public bool Do()
         {
-            var previousMod = ModsManager.GetManagedMod(mod.Unique);
             if (previousMod != null)
             {
-                if (failIfExists) return false;
                 int previousModIndex = ModsManager.InstalledMods.IndexOf(previousMod);
                 ModsManager.RemoveMod(previousMod);
                 ModsManager.InsertMod(previousModIndex, mod);
@@ -41,11 +37,11 @@ namespace SporeMods.Core.ModTransactions.Operations
 
         public void Undo()
         {
+            int index = ModsManager.InstalledMods.IndexOf(mod);
+            ModsManager.RemoveMod(mod);
+            
             if (previousMod != null)
-            {
-                ModsManager.RemoveMod(mod);
-                ModsManager.InsertMod(previousModIndex, previousMod);
-            }
+                ModsManager.InsertMod(index, previousMod);
         }
     }
 }

@@ -79,23 +79,61 @@
 		</Grid>
 	</ControlTemplate>
 
-	<Style x:Key="DropdownToggleButtonStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource CaptionToggleButtonStyle}">
-		<Setter Property="Width" Value="32"/>
-		<Setter Property="Height" Value="Auto"/>
-		<Setter Property="Margin" Value="0"/>
-		<Style.Triggers>
-			<MultiDataTrigger>
-				<MultiDataTrigger.Conditions>
-					<Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=Self}, FallbackValue=False}" Value="False"/>
-					<Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Mode=Self}, FallbackValue=False}" Value="False"/>
-				</MultiDataTrigger.Conditions>
-				<Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
-			</MultiDataTrigger>
-			<Trigger Property="IsMouseOver" Value="True">
-				<Setter Property="Foreground" Value="{DynamicResource TitlebarHoverForegroundBrush}" />
-			</Trigger>
-		</Style.Triggers>
-	</Style>
+    <Style x:Key="DropdownToggleButtonStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource CaptionToggleButtonStyle}">
+        <Setter Property="Width" Value="32"/>
+        <Setter Property="Height" Value="Auto"/>
+        <Setter Property="Margin" Value="0"/>
+        <Style.Triggers>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=Self}, FallbackValue=False}" Value="False"/>
+                    <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Mode=Self}, FallbackValue=False}" Value="False"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
+            </MultiDataTrigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource TitlebarHoverForegroundBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <ControlTemplate x:Key="TemporaryIndeterminateProgressBarTemplate" TargetType="{x:Type ProgressBar}">
+        <Border BorderBrush="#FF00FF" Background="#0000FF" BorderThickness="4">
+            <Grid ClipToBounds="True">
+                <Rectangle x:Name="SizeHelper"/>
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle x:Name="Offsetter" Width="{Binding ActualWidth, ElementName=SizeHelper}">
+                        <Rectangle.LayoutTransform>
+                            <ScaleTransform ScaleX="0" ScaleY="1"/>
+                        </Rectangle.LayoutTransform>
+                    </Rectangle>
+                    <Rectangle x:Name="ProgressSegment" Width="30" Fill="{TemplateBinding Background}">
+                        <Rectangle.RenderTransform>
+                            <TranslateTransform X="-30" Y="0"/>
+                        </Rectangle.RenderTransform>
+                    </Rectangle>
+                </StackPanel>
+            </Grid>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsVisible" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard RepeatBehavior="Forever" AutoReverse="True">
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Offsetter" Storyboard.TargetProperty="LayoutTransform.ScaleX" Duration="0:0:0.5">
+                                <LinearDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
+                                <LinearDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ProgressSegment" Storyboard.TargetProperty="RenderTransform.X" Duration="0:0:0.5">
+                                <LinearDoubleKeyFrame KeyTime="0:0:0" Value="-30"/>
+                                <LinearDoubleKeyFrame KeyTime="0:0:0.5" Value="30"/>
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
 
     <Style x:Key="ModListProgressDisplayStyle" TargetType="Control">
         <Setter Property="Template">
@@ -108,14 +146,24 @@
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding Status}" Value="Indeterminate">
                             <Setter TargetName="ModProgressBar" Property="IsIndeterminate" Value="True"/>
-                            <Setter TargetName="ModProgressBar" Property="Opacity" Value="0.25"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Category}" Value="Upgrade">
+                            <Setter TargetName="InstallingNowTextBlock" Property="Text" Value="Upgrading... (NOT LOCALIZED)"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Category}" Value="Reconfigure">
                             <Setter TargetName="InstallingNowTextBlock" Property="Text" Value="Applying settings... (NOT LOCALIZED)"/>
-                            <!--Value="{DynamicResource Mods!ListEntry!ReconfigureInProgress}"-->
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Category}" Value="Uninstall">
                             <Setter TargetName="InstallingNowTextBlock" Property="Text" Value="{DynamicResource Mods!ListEntry!UninstallInProgress}"/>
+                        </DataTrigger>
+                        <Trigger SourceName="ModProgressBar" Property="IsIndeterminate" Value="True">
+                            <Setter TargetName="ModProgressBar" Property="Template" Value="{DynamicResource TemporaryIndeterminateProgressBarTemplate}"/>
+                            <Setter TargetName="ModProgressBar" Property="Background" Value="#00FF00"/>
+                        </Trigger>
+                        <DataTrigger Binding="{Binding Category}" Value="Rollback">
+                            <Setter TargetName="InstallingNowTextBlock" Property="Text" Value="Failed. Reverting changes... (NOT LOCALIZED)"/>
+                            <Setter TargetName="ModProgressBar" Property="IsIndeterminate" Value="True"/>
+                            <Setter TargetName="ModProgressBar" Property="Background" Value="#FF0000"/>
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

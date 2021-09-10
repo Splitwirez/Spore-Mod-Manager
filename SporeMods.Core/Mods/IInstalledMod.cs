@@ -45,7 +45,7 @@ namespace SporeMods.Core.Mods
 
 		Version ModVersion { get; }
 
-		TaskProgressSignifier ProgressSignifier { get; }
+		TaskProgressSignifier ProgressSignifier { get; set; }
 
 		bool CanUninstall { get; }
 

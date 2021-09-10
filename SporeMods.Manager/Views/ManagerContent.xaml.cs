@@ -1635,7 +1635,13 @@ namespace SporeMods.Manager
 		public void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			bool hasTasks = ModTransactionManager.Instance.HasRunningTasks;
-			bool anyPreventingLaunch = ModsManager.InstalledMods.ToList().Any(x => x.PreventsGameLaunch);
+			bool anyPreventingLaunch = ModsManager.InstalledMods.ToArray().Any(x =>
+			{
+				if (x.PreventsGameLaunch)
+					Debug.WriteLine($"{x} prevents game launch! ProgressSignifier is '{x.ProgressSignifier}'.");
+
+				return x.PreventsGameLaunch;
+			});
 			Debug.WriteLine($"{nameof(hasTasks)}: {hasTasks}\n{nameof(anyPreventingLaunch)}: {anyPreventingLaunch}");
 			if (hasTasks || anyPreventingLaunch)
             {

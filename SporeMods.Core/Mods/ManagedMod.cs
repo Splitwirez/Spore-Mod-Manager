@@ -103,12 +103,12 @@ namespace SporeMods.Core.Mods
 			else
 				_copyAllFiles = false;
 
-			if (IsProgressing)
+			/*if (IsProgressing)
 			{
 				NotifyPropertyChanged(nameof(IsProgressing));
 				IsProgressingChanged?.Invoke(this, null);
 				//RaiseAnyModIsProgressingChanged(this, false, true);
-			}
+			}*/
 
 			_hasStoredFiles = true;
 		}
@@ -307,7 +307,7 @@ namespace SporeMods.Core.Mods
             {
 				_progressSignifier = value;
 				NotifyPropertyChanged();
-				IsProgressing = _progressSignifier != null;
+				IsProgressing = value != null;
 			}
 		}
 
@@ -391,9 +391,10 @@ namespace SporeMods.Core.Mods
 				AnyModIsProgressingChanged?.Invoke(mod, new ModIsProgressingChangedEventArgs(mod, newVal));
 		}*/
 
+		string uniqueGarbage = Path.GetFileNameWithoutExtension(Path.GetRandomFileName());
 		public override string ToString()
 		{
-			return DisplayName;
+			return DisplayName + " " + uniqueGarbage;
 		}
 	}
 

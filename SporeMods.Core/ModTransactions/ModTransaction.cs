@@ -124,8 +124,8 @@ namespace SporeMods.Core.ModTransactions
         /// </summary>
         public virtual void Rollback()
         {
-            CompleteProgress(false);
-
+            if (ProgressSignifier != null)
+                ProgressSignifier.Category = TaskCategory.Rollback;
 
             Debug.WriteLine("Rollback on transaction " + ToString());
             // Wait until all currently running operations have finished running
@@ -138,6 +138,8 @@ namespace SporeMods.Core.ModTransactions
                 op.Undo();
                 op.Dispose();
             }
+
+            CompleteProgress(false);
         }
 
         /// <summary>
@@ -145,13 +147,13 @@ namespace SporeMods.Core.ModTransactions
         /// </summary>
         public virtual void Dispose()
         {
-            CompleteProgress(true);
-
             foreach (var operation in operations)
             {
                 operation.Dispose();
             }
             operations.Clear();
+
+            CompleteProgress(true);
         }
 
         protected virtual void CompleteProgress(bool dispose)

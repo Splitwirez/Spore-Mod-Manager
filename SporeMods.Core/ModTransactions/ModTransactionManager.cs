@@ -61,6 +61,8 @@ namespace SporeMods.Core.ModTransactions
                         _ongoingTransactions.Clear();
                         _concludedTransactions.Clear();
                         Instance.Tasks.Clear();
+                        OverallProgress = 0.0;
+                        OverallProgressTotal = 0.0;
                         HasRunningTasks = false;
                         AllTasksConcluded?.Invoke(null);
                     }
@@ -147,6 +149,7 @@ namespace SporeMods.Core.ModTransactions
                     transaction.Rollback();
                     _concludedTransactions.Add(transaction);
                     return new ModTransactionCommitException(TransactionFailureCause.CommitRejected, null, null);
+                    Debug.WriteLine("Transaction returned false");
                 }
                 else
                 {
@@ -163,7 +166,9 @@ namespace SporeMods.Core.ModTransactions
             {
                 Debug.WriteLine(e.ToString());
                 transaction.Rollback();
-                _ongoingTransactions.Remove(transaction);
+                //_ongoingTransactions.Remove(transaction);
+                _concludedTransactions.Add(transaction);
+                Debug.WriteLine("Transaction failed violently");
                 return new ModTransactionCommitException(TransactionFailureCause.Exception, null, e);
             }
         }
