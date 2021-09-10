@@ -33,181 +33,191 @@
                                 Style="{DynamicResource LaunchGameButtonStyle}"
                                 Click="LaunchGameButton_Click"
                                 IsEnabled="{Binding HasRunningTasks, Converter={StaticResource BoolInverterConverter}}"/>
-                        <ProgressBar x:Name="OverallProgressProgressBar"
-                                     Minimum="0"
-                                     Maximum="{Binding OverallProgressTotal, Mode=OneWay}"
-                                     Value="{Binding OverallProgress, Mode=OneWay}"
-                                     Visibility="{Binding HasRunningTasks, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"
-                                     Margin="5,5,10,5"/>
-					</Grid>
+                        <DockPanel Visibility="{Binding HasRunningTasks, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"
+                                   Margin="5,5,10,5">
+                            <ProgressBar x:Name="OverallProgressProgressBar"
+                                         Height="10"
+                                         DockPanel.Dock="Bottom"
+                                         Minimum="0"
+                                         Maximum="{Binding OverallProgressTotal, Mode=OneWay}"
+                                         Value="{Binding OverallProgress, Mode=OneWay}"
+                                         ui:AttachedProperties.CornerCurves="False,False,True,True"/>
+                            <ToggleButton x:Name="TaskProgressDetailsToggleButton"
+                                          Padding="5,0"
+                                          ui:AttachedProperties.CornerCurves="True,True,False,False"
+                                          ui:AttachedProperties.BorderPresence="True,True,True,False"
+                                          Content="Details (NOT LOCALIZED)"/>
+                        </DockPanel>
+                    </Grid>
 				</UniformGrid>
 			</ContentControl>
-			<TabControl x:Name="PrimaryTabControl" Style="{DynamicResource PrimaryTabControlStyle}" SelectionChanged="PrimaryTabControl_SelectionChanged">
-                <TabItem x:Name="ModsTabItem" Header="{DynamicResource Mods!Header}">
-					<DockPanel>
-						<ContentControl Style="{DynamicResource MainWindowHeaderContentControlStyle}" DockPanel.Dock="Top">
-							<DockPanel LastChildFill="False">
-								<StackPanel x:Name="SearchStackPanel" Orientation="Horizontal" DockPanel.Dock="Right">
-									<ui:ActionBox x:Name="SearchBox" WatermarkText="{DynamicResource Mods!FilterBar!Search!Watermark}" Style="{DynamicResource SearchBoxStyle}" Width="200" VerticalAlignment="Center" ActionSubmitted="SearchBox_ActionSubmitted" ActionCanceled="SearchBox_ActionCanceled" ActionType="Instant" ui:AttachedProperties.CornerCurves="True,False,False,True"/>
-									<ToggleButton x:Name="SearchTargetsToggleButton" Style="{DynamicResource SearchTargetsToggleButtonStyle}" ui:AttachedProperties.CornerCurves="False,True,True,False" ui:AttachedProperties.BorderPresence="False,True,True,True" Click="MenuToggleButton_Click" PreviewMouseRightButtonUp="MenuToggleButton_PreviewMouseRightButtonUp" Tag="{Binding ElementName=SearchStackPanel}">
-										<ToggleButton.ContextMenu>
-											<ContextMenu x:Name="SearchTargetsContextMenu" PlacementTarget="{Binding ElementName=SearchStackPanel}" Width="{Binding ActualWidth, ElementName=SearchStackPanel}" Placement="AbsolutePoint" Closed="SearchTargetsContextMenu_Closed">
-												<!--IsOpen="{Binding IsChecked, ElementName=SearchTargetsToggleButton, Mode=TwoWay}"-->
-                                                <MenuItem x:Name="SearchNamesMenuItem" Header="{DynamicResource Mods!FilterBar!Search!InNames}" IsChecked="True" IsCheckable="True" Checked="SearchOptionMenuItem_Checked" Unchecked="SearchOptionMenuItem_Checked"/>
-                                                <MenuItem x:Name="SearchDescriptionsMenuItem" Header="{DynamicResource Mods!FilterBar!Search!InDescriptions}" IsCheckable="True" Checked="SearchOptionMenuItem_Checked" Unchecked="SearchOptionMenuItem_Checked"/>
-												<MenuItem x:Name="SearchTagsMenuItem" Visibility="Collapsed" IsCheckable="True" IsEnabled="False" Checked="SearchOptionMenuItem_Checked" Unchecked="SearchOptionMenuItem_Checked"/>
-											</ContextMenu>
-										</ToggleButton.ContextMenu>
-									</ToggleButton>
-								</StackPanel>
-                                <Button x:Name="CopyModsToClipboardButton" DockPanel.Dock="Left" Content="{DynamicResource Mods!FilterBar!CopyModsList!Label}" Click="CopyModsToClipboardButton_Click"/>
-							</DockPanel>
-						</ContentControl>
-						<Grid>
-							<ListView x:Name="InstalledModsListView" Style="{DynamicResource InstalledModsListViewStyle}" ItemsSource="{Binding Source={x:Static core:ModsManager.InstalledMods}}" SelectionChanged="InstalledModsListView_SelectionChanged" IsVisibleChanged="ModsListView_IsVisibleChanged" PreviewKeyDown="ModsListView_PreviewKeyDown">
-								<ui:AttachedProperties.CornerCurves>
-									<ui:CornerCurves TopLeft="False" TopRight="False" BottomRight="False" BottomLeft="False"/>
-								</ui:AttachedProperties.CornerCurves>
-							</ListView>
-							<ListView x:Name="ModSearchListView" Style="{DynamicResource InstalledModsListViewStyle}" ItemsSource="{Binding SearchResults, Source={x:Static core:ModSearch.Instance}}" Visibility="Collapsed" IsVisibleChanged="ModsListView_IsVisibleChanged" PreviewKeyDown="ModsListView_PreviewKeyDown">
-								<ui:AttachedProperties.CornerCurves>
-									<ui:CornerCurves TopLeft="False" TopRight="False" BottomRight="False" BottomLeft="False"/>
-								</ui:AttachedProperties.CornerCurves>
-							</ListView>
-							<ContentControl x:Name="InstallModsPromptContentControl" Content="{DynamicResource Mods!CallToAction!Prompt}" Style="{DynamicResource InstallModsPromptContentControlStyle}" Visibility="Collapsed"/>
-						</Grid>
-					</DockPanel>
-				</TabItem>
-                <TabItem x:Name="SettingsTabItem" Header="{DynamicResource Settings!Header}">
-                    <TabItem.Resources>
-                        <Style x:Key="{x:Type ToolTip}" BasedOn="{StaticResource {x:Type ToolTip}}" TargetType="{x:Type ToolTip}">
-                            <Setter Property="MaxWidth" Value="300"/>
-                        </Style>
-                    </TabItem.Resources>
-					<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-						<ui:AttachedProperties.CornerCurves>
-							<ui:CornerCurves TopLeft="False" TopRight="False" BottomRight="False" BottomLeft="False"/>
-						</ui:AttachedProperties.CornerCurves>
-						<StackPanel Orientation="Vertical">
-							<GroupBox x:Name="FoldersGroupBox" Header="{DynamicResource Settings!Folders!Header}">
-								<Grid>
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="Auto"/>
-										<ColumnDefinition/>
-										<ColumnDefinition Width="Auto"/>
-									</Grid.ColumnDefinitions>
-									<Grid.RowDefinitions>
-										<RowDefinition Height="*"/>
-										<RowDefinition Height="5"/>
-										<RowDefinition Height="*"/>
-										<RowDefinition Height="5"/>
-										<RowDefinition Height="*"/>
-										<RowDefinition Height="5"/>
-										<RowDefinition Height="Auto"/>
-									</Grid.RowDefinitions>
-                                    <CheckBox x:Name="AutoGaDataPathCheckBox" Content="{DynamicResource Settings!Folders!AutoGaData}" Style="{DynamicResource GamePathCheckBoxStyle}" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" DockPanel.Dock="Left"/>
-									<TextBox x:Name="GaDataPathTextBox" Grid.Column="1" Grid.Row="0" TextChanged="GaDataPathTextBox_TextChanged" ui:AttachedProperties.CornerCurves="False"/>
-									<Button x:Name="GaDataPathBrowseButton" Content="{DynamicResource Browse}" Grid.Column="2" Grid.Row="0" Click="PathBrowseButton_Click" ui:AttachedProperties.CornerCurves="False,True,True,False" ui:AttachedProperties.BorderPresence="False,True,True,True"/>
+            <Grid>
+                <TabControl x:Name="PrimaryTabControl" Style="{DynamicResource PrimaryTabControlStyle}" SelectionChanged="PrimaryTabControl_SelectionChanged">
+                    <TabItem x:Name="ModsTabItem" Header="{DynamicResource Mods!Header}">
+                        <DockPanel>
+                            <ContentControl Style="{DynamicResource MainWindowHeaderContentControlStyle}" DockPanel.Dock="Top">
+                                <DockPanel LastChildFill="False">
+                                    <StackPanel x:Name="SearchStackPanel" Orientation="Horizontal" DockPanel.Dock="Right">
+                                        <ui:ActionBox x:Name="SearchBox" WatermarkText="{DynamicResource Mods!FilterBar!Search!Watermark}" Style="{DynamicResource SearchBoxStyle}" Width="200" VerticalAlignment="Center" ActionSubmitted="SearchBox_ActionSubmitted" ActionCanceled="SearchBox_ActionCanceled" ActionType="Instant" ui:AttachedProperties.CornerCurves="True,False,False,True"/>
+                                        <ToggleButton x:Name="SearchTargetsToggleButton" Style="{DynamicResource SearchTargetsToggleButtonStyle}" ui:AttachedProperties.CornerCurves="False,True,True,False" ui:AttachedProperties.BorderPresence="False,True,True,True" Click="MenuToggleButton_Click" PreviewMouseRightButtonUp="MenuToggleButton_PreviewMouseRightButtonUp" Tag="{Binding ElementName=SearchStackPanel}">
+                                            <ToggleButton.ContextMenu>
+                                                <ContextMenu x:Name="SearchTargetsContextMenu" PlacementTarget="{Binding ElementName=SearchStackPanel}" Width="{Binding ActualWidth, ElementName=SearchStackPanel}" Placement="AbsolutePoint" Closed="SearchTargetsContextMenu_Closed">
+                                                    <!--IsOpen="{Binding IsChecked, ElementName=SearchTargetsToggleButton, Mode=TwoWay}"-->
+                                                    <MenuItem x:Name="SearchNamesMenuItem" Header="{DynamicResource Mods!FilterBar!Search!InNames}" IsChecked="True" IsCheckable="True" Checked="SearchOptionMenuItem_Checked" Unchecked="SearchOptionMenuItem_Checked"/>
+                                                    <MenuItem x:Name="SearchDescriptionsMenuItem" Header="{DynamicResource Mods!FilterBar!Search!InDescriptions}" IsCheckable="True" Checked="SearchOptionMenuItem_Checked" Unchecked="SearchOptionMenuItem_Checked"/>
+                                                    <MenuItem x:Name="SearchTagsMenuItem" Visibility="Collapsed" IsCheckable="True" IsEnabled="False" Checked="SearchOptionMenuItem_Checked" Unchecked="SearchOptionMenuItem_Checked"/>
+                                                </ContextMenu>
+                                            </ToggleButton.ContextMenu>
+                                        </ToggleButton>
+                                    </StackPanel>
+                                    <Button x:Name="CopyModsToClipboardButton" DockPanel.Dock="Left" Content="{DynamicResource Mods!FilterBar!CopyModsList!Label}" Click="CopyModsToClipboardButton_Click"/>
+                                </DockPanel>
+                            </ContentControl>
+                            <Grid>
+                                <ListView x:Name="InstalledModsListView" Style="{DynamicResource InstalledModsListViewStyle}" ItemsSource="{Binding Source={x:Static core:ModsManager.InstalledMods}}" SelectionChanged="InstalledModsListView_SelectionChanged" IsVisibleChanged="ModsListView_IsVisibleChanged" PreviewKeyDown="ModsListView_PreviewKeyDown">
+                                    <ui:AttachedProperties.CornerCurves>
+                                        <ui:CornerCurves TopLeft="False" TopRight="False" BottomRight="False" BottomLeft="False"/>
+                                    </ui:AttachedProperties.CornerCurves>
+                                </ListView>
+                                <ListView x:Name="ModSearchListView" Style="{DynamicResource InstalledModsListViewStyle}" ItemsSource="{Binding SearchResults, Source={x:Static core:ModSearch.Instance}}" Visibility="Collapsed" IsVisibleChanged="ModsListView_IsVisibleChanged" PreviewKeyDown="ModsListView_PreviewKeyDown">
+                                    <ui:AttachedProperties.CornerCurves>
+                                        <ui:CornerCurves TopLeft="False" TopRight="False" BottomRight="False" BottomLeft="False"/>
+                                    </ui:AttachedProperties.CornerCurves>
+                                </ListView>
+                                <ContentControl x:Name="InstallModsPromptContentControl" Content="{DynamicResource Mods!CallToAction!Prompt}" Style="{DynamicResource InstallModsPromptContentControlStyle}" Visibility="Collapsed"/>
+                            </Grid>
+                        </DockPanel>
+                    </TabItem>
+                    <TabItem x:Name="SettingsTabItem" Header="{DynamicResource Settings!Header}">
+                        <TabItem.Resources>
+                            <Style x:Key="{x:Type ToolTip}" BasedOn="{StaticResource {x:Type ToolTip}}" TargetType="{x:Type ToolTip}">
+                                <Setter Property="MaxWidth" Value="300"/>
+                            </Style>
+                        </TabItem.Resources>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                            <ui:AttachedProperties.CornerCurves>
+                                <ui:CornerCurves TopLeft="False" TopRight="False" BottomRight="False" BottomLeft="False"/>
+                            </ui:AttachedProperties.CornerCurves>
+                            <StackPanel Orientation="Vertical">
+                                <GroupBox x:Name="FoldersGroupBox" Header="{DynamicResource Settings!Folders!Header}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="5"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="5"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="5"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <CheckBox x:Name="AutoGaDataPathCheckBox" Content="{DynamicResource Settings!Folders!AutoGaData}" Style="{DynamicResource GamePathCheckBoxStyle}" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+                                        <TextBox x:Name="GaDataPathTextBox" Grid.Column="1" Grid.Row="0" TextChanged="GaDataPathTextBox_TextChanged" ui:AttachedProperties.CornerCurves="False"/>
+                                        <Button x:Name="GaDataPathBrowseButton" Content="{DynamicResource Browse}" Grid.Column="2" Grid.Row="0" Click="PathBrowseButton_Click" ui:AttachedProperties.CornerCurves="False,True,True,False" ui:AttachedProperties.BorderPresence="False,True,True,True"/>
 
-                                    <CheckBox x:Name="AutoSporebinEp1PathCheckBox" Content="{DynamicResource Settings!Folders!AutoSporebinEp1}" Style="{DynamicResource GamePathCheckBoxStyle}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" DockPanel.Dock="Left"/>
-									<TextBox x:Name="SporebinEp1PathTextBox" Grid.Column="1" Grid.Row="2" TextChanged="SporebinEp1PathTextBox_TextChanged" ui:AttachedProperties.CornerCurves="False"/>
-                                    <Button x:Name="SporebinEp1PathBrowseButton" Content="{DynamicResource Browse}" Grid.Column="2" Grid.Row="2" Click="PathBrowseButton_Click" ui:AttachedProperties.CornerCurves="False,True,True,False" ui:AttachedProperties.BorderPresence="False,True,True,True"/>
+                                        <CheckBox x:Name="AutoSporebinEp1PathCheckBox" Content="{DynamicResource Settings!Folders!AutoSporebinEp1}" Style="{DynamicResource GamePathCheckBoxStyle}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+                                        <TextBox x:Name="SporebinEp1PathTextBox" Grid.Column="1" Grid.Row="2" TextChanged="SporebinEp1PathTextBox_TextChanged" ui:AttachedProperties.CornerCurves="False"/>
+                                        <Button x:Name="SporebinEp1PathBrowseButton" Content="{DynamicResource Browse}" Grid.Column="2" Grid.Row="2" Click="PathBrowseButton_Click" ui:AttachedProperties.CornerCurves="False,True,True,False" ui:AttachedProperties.BorderPresence="False,True,True,True"/>
 
-									<CheckBox x:Name="AutoCoreDataPathCheckBox" Content="{DynamicResource Settings!Folders!AutoCoreData}" Style="{DynamicResource GamePathCheckBoxStyle}" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Center" DockPanel.Dock="Left"/>
-									<TextBox x:Name="CoreDataPathTextBox" Grid.Column="1" Grid.Row="4" TextChanged="CoreDataPathTextBox_TextChanged" ui:AttachedProperties.CornerCurves="False"/>
-                                    <Button x:Name="CoreDataPathBrowseButton" Content="{DynamicResource Browse}" Grid.Column="2" Grid.Row="4" Click="PathBrowseButton_Click" ui:AttachedProperties.CornerCurves="False,True,True,False" ui:AttachedProperties.BorderPresence="False,True,True,True"/>
+                                        <CheckBox x:Name="AutoCoreDataPathCheckBox" Content="{DynamicResource Settings!Folders!AutoCoreData}" Style="{DynamicResource GamePathCheckBoxStyle}" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+                                        <TextBox x:Name="CoreDataPathTextBox" Grid.Column="1" Grid.Row="4" TextChanged="CoreDataPathTextBox_TextChanged" ui:AttachedProperties.CornerCurves="False"/>
+                                        <Button x:Name="CoreDataPathBrowseButton" Content="{DynamicResource Browse}" Grid.Column="2" Grid.Row="4" Click="PathBrowseButton_Click" ui:AttachedProperties.CornerCurves="False,True,True,False" ui:AttachedProperties.BorderPresence="False,True,True,True"/>
 
-                                    <CheckBox x:Name="IgnoreSteamInstallInfoCheckBox" Content="{DynamicResource Settings!Folders!IgnoreSteamInfo}" Grid.ColumnSpan="3" Grid.Row="6"/>
+                                        <CheckBox x:Name="IgnoreSteamInstallInfoCheckBox" Content="{DynamicResource Settings!Folders!IgnoreSteamInfo}" Grid.ColumnSpan="3" Grid.Row="6"/>
 
-									<!--CheckBox x:Name="AutoSporebinPathCheckBox" Style="{DynamicResource GamePathCheckBoxStyle}" Grid.Column="0" Grid.Row="6" HorizontalAlignment="Stretch" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+                                        <!--CheckBox x:Name="AutoSporebinPathCheckBox" Style="{DynamicResource GamePathCheckBoxStyle}" Grid.Column="0" Grid.Row="6" HorizontalAlignment="Stretch" VerticalAlignment="Center" DockPanel.Dock="Left"/>
 									<TextBox x:Name="SporebinPathTextBox" Grid.Column="1" Grid.Row="6" TextChanged="SporebinPathTextBox_TextChanged" ui:AttachedProperties.CornerCurves="False"/>
 									<Button x:Name="SporebinPathBrowseButton" Grid.Column="2" Grid.Row="6" Click="PathBrowseButton_Click" ui:AttachedProperties.CornerCurves="False,True,True,False" ui:AttachedProperties.BorderPresence="False,True,True,True"/-->
-								</Grid>
-							</GroupBox>
-                            <UniformGrid Columns="2">
-                                <StackPanel Orientation="Vertical">
-                                    <GroupBox x:Name="WindowGroupBox" Header="{DynamicResource Settings!Window!Header}">
-                                        <StackPanel Orientation="Vertical">
-                                            <!--CheckBox>Keep on top</>
+                                    </Grid>
+                                </GroupBox>
+                                <UniformGrid Columns="2">
+                                    <StackPanel Orientation="Vertical">
+                                        <GroupBox x:Name="WindowGroupBox" Header="{DynamicResource Settings!Window!Header}">
+                                            <StackPanel Orientation="Vertical">
+                                                <!--CheckBox>Keep on top</>
 										<StackPanel Orientation="Vertical" Margin="0,10">
 											<TextBlock>Manager window opacity</TextBlock>
 											<Slider Minimum="0.25" Maximum="1" Orientation="Horizontal" Value="{Binding Opacity, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type mod:ModenaWindow}}}"/>
 										</StackPanel-->
-                                            <CheckBox x:Name="OverrideWindowModeCheckBox" Content="{DynamicResource Settings!Window!OverrideWindowMode!Header}"/>
-                                            <StackPanel Orientation="Vertical" Margin="15,0,0,0" IsEnabled="{Binding IsChecked, Source={x:Reference OverrideWindowModeCheckBox}}">
-                                                <RadioButton x:Name="FullscreenWindowModeRadioButton" Content="{DynamicResource Settings!Window!OverrideWindowMode!Fullscreen}" IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}}" GroupName="WindowModeRadioGroup"/>
-                                                <!--RadioButton x:Name="BorderlessWindowModeRadioButton" IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}}" GroupName="WindowModeRadioGroup"/-->
-                                                <RadioButton x:Name="WindowedWindowModeRadioButton" Content="{DynamicResource Settings!Window!OverrideWindowMode!Windowed}" IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}}" GroupName="WindowModeRadioGroup"/>
-                                                <RadioButton x:Name="BorderlessWindowModeRadioButton" Content="{DynamicResource Settings!Window!OverrideWindowMode!BorderlessWindowed}" IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}}" GroupName="WindowModeRadioGroup"/>
-                                                <Button x:Name="ChoosePreferredMonitorButton"
+                                                <CheckBox x:Name="OverrideWindowModeCheckBox" Content="{DynamicResource Settings!Window!OverrideWindowMode!Header}"/>
+                                                <StackPanel Orientation="Vertical" Margin="15,0,0,0" IsEnabled="{Binding IsChecked, Source={x:Reference OverrideWindowModeCheckBox}}">
+                                                    <RadioButton x:Name="FullscreenWindowModeRadioButton" Content="{DynamicResource Settings!Window!OverrideWindowMode!Fullscreen}" IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}}" GroupName="WindowModeRadioGroup"/>
+                                                    <!--RadioButton x:Name="BorderlessWindowModeRadioButton" IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}}" GroupName="WindowModeRadioGroup"/-->
+                                                    <RadioButton x:Name="WindowedWindowModeRadioButton" Content="{DynamicResource Settings!Window!OverrideWindowMode!Windowed}" IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}}" GroupName="WindowModeRadioGroup"/>
+                                                    <RadioButton x:Name="BorderlessWindowModeRadioButton" Content="{DynamicResource Settings!Window!OverrideWindowMode!BorderlessWindowed}" IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}}" GroupName="WindowModeRadioGroup"/>
+                                                    <Button x:Name="ChoosePreferredMonitorButton"
                                                         Content="{DynamicResource Settings!Window!OverrideWindowMode!ChooseMonitor!Button}"
                                                         IsEnabled="{Binding IsChecked, ElementName=BorderlessWindowModeRadioButton}"
                                                         Click="ChoosePreferredMonitorButton_Click"/>
+                                                </StackPanel>
+                                                <CheckBox x:Name="OverrideGameResolutionCheckBox" Content="{DynamicResource Settings!Window!OverrideGameResolution!Header}" Margin="0,25,0,0"/>
+                                                <StackPanel Orientation="Vertical" Margin="15,0,0,0" IsEnabled="{Binding IsChecked, Source={x:Reference OverrideGameResolutionCheckBox}}">
+                                                    <!-- IsEnabled="{Binding IsChecked, Source={x:Reference WindowedWindowModeRadioButton}}"-->
+                                                    <RadioButton x:Name="AutoResolutionRadioButton" Content="{DynamicResource Settings!Window!OverrideGameResolution!Auto}" GroupName="WindowSizeRadioGroup" IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}}"/>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <RadioButton x:Name="CustomResolutionRadioButton" Content="{DynamicResource Settings!Window!OverrideGameResolution!Custom}" GroupName="WindowSizeRadioGroup" IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}}" Grid.Column="0"/>
+                                                        <!--TextBlock x:Name="CustomResolutionTextBlock" Margin="0,0,10,0" Grid.Column="0" VerticalAlignment="Center"/-->
+                                                        <TextBox x:Name="CustomResolutionWidthTextBox" Width="75" Grid.Column="1" IsEnabled="{Binding IsChecked, Source={x:Reference CustomResolutionRadioButton}}" TextChanged="CustomResolutionWidthTextBox_TextChanged"/>
+                                                        <TextBlock Margin="10,0" Grid.Column="2" VerticalAlignment="Center">x</TextBlock>
+                                                        <TextBox x:Name="CustomResolutionHeightTextBox" Width="75" Grid.Column="3" IsEnabled="{Binding IsChecked, Source={x:Reference CustomResolutionRadioButton}}" TextChanged="CustomResolutionHeightTextBox_TextChanged"/>
+                                                    </Grid>
+                                                </StackPanel>
                                             </StackPanel>
-                                            <CheckBox x:Name="OverrideGameResolutionCheckBox" Content="{DynamicResource Settings!Window!OverrideGameResolution!Header}" Margin="0,25,0,0"/>
-                                            <StackPanel Orientation="Vertical" Margin="15,0,0,0" IsEnabled="{Binding IsChecked, Source={x:Reference OverrideGameResolutionCheckBox}}">
-                                                <!-- IsEnabled="{Binding IsChecked, Source={x:Reference WindowedWindowModeRadioButton}}"-->
-                                                <RadioButton x:Name="AutoResolutionRadioButton" Content="{DynamicResource Settings!Window!OverrideGameResolution!Auto}" GroupName="WindowSizeRadioGroup" IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}}"/>
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <RadioButton x:Name="CustomResolutionRadioButton" Content="{DynamicResource Settings!Window!OverrideGameResolution!Custom}" GroupName="WindowSizeRadioGroup" IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}}" Grid.Column="0"/>
-                                                    <!--TextBlock x:Name="CustomResolutionTextBlock" Margin="0,0,10,0" Grid.Column="0" VerticalAlignment="Center"/-->
-                                                    <TextBox x:Name="CustomResolutionWidthTextBox" Width="75" Grid.Column="1" IsEnabled="{Binding IsChecked, Source={x:Reference CustomResolutionRadioButton}}" TextChanged="CustomResolutionWidthTextBox_TextChanged"/>
-                                                    <TextBlock Margin="10,0" Grid.Column="2" VerticalAlignment="Center">x</TextBlock>
-                                                    <TextBox x:Name="CustomResolutionHeightTextBox" Width="75" Grid.Column="3" IsEnabled="{Binding IsChecked, Source={x:Reference CustomResolutionRadioButton}}" TextChanged="CustomResolutionHeightTextBox_TextChanged"/>
-                                                </Grid>
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </GroupBox>
-                                    <GroupBox x:Name="UpdateGroupBox" Header="{DynamicResource Settings!Update!Header}" IsEnabled="True" Grid.Column="1">
-                                        <StackPanel Orientation="Vertical">
-                                            <TextBlock x:Name="UpdateTextBlock" Text="{DynamicResource Settings!Update!When!Header}" TextWrapping="Wrap" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+                                        </GroupBox>
+                                        <GroupBox x:Name="UpdateGroupBox" Header="{DynamicResource Settings!Update!Header}" IsEnabled="True" Grid.Column="1">
                                             <StackPanel Orientation="Vertical">
-                                                <RadioButton x:Name="UpdateAutomaticallyRadioButton" Content="{DynamicResource Settings!Update!When!Auto}" GroupName="UpdateModeRadioGroup"/>
-                                                <RadioButton x:Name="UpdateAutoCheckRadioButton" Content="{DynamicResource Settings!Update!When!AskFirst}" GroupName="UpdateModeRadioGroup"/>
-                                                <RadioButton x:Name="UpdateNeverRadioButton" Content="{DynamicResource Settings!Update!When!Never}" GroupName="UpdateModeRadioGroup"/>
+                                                <TextBlock x:Name="UpdateTextBlock" Text="{DynamicResource Settings!Update!When!Header}" TextWrapping="Wrap" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+                                                <StackPanel Orientation="Vertical">
+                                                    <RadioButton x:Name="UpdateAutomaticallyRadioButton" Content="{DynamicResource Settings!Update!When!Auto}" GroupName="UpdateModeRadioGroup"/>
+                                                    <RadioButton x:Name="UpdateAutoCheckRadioButton" Content="{DynamicResource Settings!Update!When!AskFirst}" GroupName="UpdateModeRadioGroup"/>
+                                                    <RadioButton x:Name="UpdateNeverRadioButton" Content="{DynamicResource Settings!Update!When!Never}" GroupName="UpdateModeRadioGroup"/>
+                                                </StackPanel>
                                             </StackPanel>
-                                        </StackPanel>
-                                    </GroupBox>
-                                </StackPanel>
-                                <StackPanel Orientation="Vertical">
-                                    <GroupBox x:Name="CommandLineGroupBox" Header="{DynamicResource Settings!GameEntry!Header}">
-                                        <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
-                                            <StackPanel Orientation="Vertical"
+                                        </GroupBox>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical">
+                                        <GroupBox x:Name="CommandLineGroupBox" Header="{DynamicResource Settings!GameEntry!Header}">
+                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
+                                                <StackPanel Orientation="Vertical"
                                                         HorizontalAlignment="Stretch"
                                                         ToolTipService.ShowDuration="{x:Static sys:Int32.MaxValue}">
-                                                <StackPanel.ToolTip>
-                                                    <StackPanel Orientation="Vertical">
-                                                        <TextBlock Text="{DynamicResource Settings!GameEntry!StartupEditor!ToolTip!Content}" Margin="0,0,0,5"/>
-                                                        <TextBlock Text="{DynamicResource Settings!GameEntry!StartupEditor!ToolTip!Warning}"
+                                                    <StackPanel.ToolTip>
+                                                        <StackPanel Orientation="Vertical">
+                                                            <TextBlock Text="{DynamicResource Settings!GameEntry!StartupEditor!ToolTip!Content}" Margin="0,0,0,5"/>
+                                                            <TextBlock Text="{DynamicResource Settings!GameEntry!StartupEditor!ToolTip!Warning}"
                                                                    Foreground="{DynamicResource ErrorTextBrush}"/>
-                                                    </StackPanel>
-                                                </StackPanel.ToolTip>
-                                                <CheckBox x:Name="LaunchWithStateCheckBox" Content="{DynamicResource Settings!GameEntry!StartupEditor!Header}"/>
-                                                <DockPanel Margin="15,0,0,10" IsEnabled="{Binding IsChecked, Source={x:Reference LaunchWithStateCheckBox}}">
-                                                    <TextBlock x:Name="LaunchWithStateNameTextBlock" Text="{DynamicResource Settings!GameEntry!StartupEditor!Content}" Margin="0,0,10,0" DockPanel.Dock="Left" VerticalAlignment="Center"/>
-                                                    <ComboBox x:Name="LaunchWithStateComboBox"
+                                                        </StackPanel>
+                                                    </StackPanel.ToolTip>
+                                                    <CheckBox x:Name="LaunchWithStateCheckBox" Content="{DynamicResource Settings!GameEntry!StartupEditor!Header}"/>
+                                                    <DockPanel Margin="15,0,0,10" IsEnabled="{Binding IsChecked, Source={x:Reference LaunchWithStateCheckBox}}">
+                                                        <TextBlock x:Name="LaunchWithStateNameTextBlock" Text="{DynamicResource Settings!GameEntry!StartupEditor!Content}" Margin="0,0,10,0" DockPanel.Dock="Left" VerticalAlignment="Center"/>
+                                                        <ComboBox x:Name="LaunchWithStateComboBox"
                                                               Style="{DynamicResource AutoCompleteComboBoxStyle}"
                                                               Text="{Binding CurrentCommandLineSStateIdentifier, Mode=OneWayToSource}"
                                                               ItemsSource="{Binding CommandLineStates, Source={x:Static core:ModsManager.Instance}}"
                                                               SelectedValuePath="StateIdentifier"
                                                               IsEditable="True">
-                                                        <ComboBox.ItemTemplate>
-                                                            <DataTemplate DataType="{x:Type core:CommandLineState}">
-                                                                <TextBlock ToolTip="{x:Null}" >
+                                                            <ComboBox.ItemTemplate>
+                                                                <DataTemplate DataType="{x:Type core:CommandLineState}">
+                                                                    <TextBlock ToolTip="{x:Null}" >
                                                                     <e:Interaction.Behaviors>
                                                                         <local:BindTextToDynamicResourceAsKeyBehavior ResourceKey="{Binding DisplayNameKey}"/>
                                                                     </e:Interaction.Behaviors>
-                                                                </TextBlock>
-                                                            </DataTemplate>
-                                                        </ComboBox.ItemTemplate>
-                                                    </ComboBox>
-                                                    <!--Popup IsOpen="{Binding IsFocused, ElementName=LaunchWithStateTextBox, Mode=OneWay}" PlacementTarget="{Binding ElementName=LaunchWithStateTextBox}" Width="{Binding ActualWidth, ElementName=LaunchWithStateTextBox}" Placement="Bottom">
+                                                                    </TextBlock>
+                                                                </DataTemplate>
+                                                            </ComboBox.ItemTemplate>
+                                                        </ComboBox>
+                                                        <!--Popup IsOpen="{Binding IsFocused, ElementName=LaunchWithStateTextBox, Mode=OneWay}" PlacementTarget="{Binding ElementName=LaunchWithStateTextBox}" Width="{Binding ActualWidth, ElementName=LaunchWithStateTextBox}" Placement="Bottom">
 												<Border Background="White">
 													<ListView>
 
@@ -216,157 +226,157 @@
 													</ListView>
 												</Border>
 											</Popup-->
-                                                </DockPanel>
-                                            </StackPanel>
-                                            <CheckBox x:Name="LaunchWithLanguageCheckBox"
+                                                    </DockPanel>
+                                                </StackPanel>
+                                                <CheckBox x:Name="LaunchWithLanguageCheckBox"
                                                       Content="{DynamicResource Settings!GameEntry!GameLanguage!Header}"
                                                       ToolTipService.ShowDuration="{x:Static sys:Int32.MaxValue}">
-                                                <CheckBox.ToolTip>
-                                                    <StackPanel Orientation="Vertical">
-                                                        <TextBlock Text="{DynamicResource Settings!GameEntry!GameLanguage!ToolTip!Content}" Margin="0,0,0,5"/>
-                                                        <TextBlock Text="{DynamicResource Settings!GameEntry!GameLanguage!ToolTip!Warning}"
+                                                    <CheckBox.ToolTip>
+                                                        <StackPanel Orientation="Vertical">
+                                                            <TextBlock Text="{DynamicResource Settings!GameEntry!GameLanguage!ToolTip!Content}" Margin="0,0,0,5"/>
+                                                            <TextBlock Text="{DynamicResource Settings!GameEntry!GameLanguage!ToolTip!Warning}"
                                                                    Foreground="{DynamicResource ErrorTextBrush}"/>
-                                                    </StackPanel>
-                                                </CheckBox.ToolTip>
-                                            </CheckBox>
-                                            <Grid HorizontalAlignment="Stretch"
+                                                        </StackPanel>
+                                                    </CheckBox.ToolTip>
+                                                </CheckBox>
+                                                <Grid HorizontalAlignment="Stretch"
                                                   Margin="15,0,0,10"
                                                   IsEnabled="{Binding IsChecked, Source={x:Reference LaunchWithLanguageCheckBox}}"
                                                   ToolTip="{Binding ToolTip, ElementName=LaunchWithLanguageCheckBox}"
                                                   ToolTipService.ShowDuration="{x:Static sys:Int32.MaxValue}">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="17"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock x:Name="LocaleNameTextBlock" Text="{DynamicResource Settings!GameEntry!GameLanguage!Content}" Margin="0,0,10,0" Grid.Column="0" VerticalAlignment="Center">
-                                                </TextBlock>
-                                                <ComboBox x:Name="LanguagesComboBox" Grid.Column="1" Grid.ColumnSpan="4" Style="{DynamicResource LanguagesComboBoxStyle}" IsEditable="False">
-                                                    <ComboBoxItem Tag="en-us">English (US)</ComboBoxItem>
-                                                    <ComboBoxItem Tag="en-gb">English (GB)</ComboBoxItem>
-                                                    <ComboBoxItem Tag="cs-cz">Čeština</ComboBoxItem>
-                                                    <ComboBoxItem Tag="da-dk">Dansk</ComboBoxItem>
-                                                    <ComboBoxItem Tag="de-de">Deutsch</ComboBoxItem>
-                                                    <ComboBoxItem Tag="el-gr">Ελληνικά</ComboBoxItem>
-                                                    <ComboBoxItem Tag="es-es">Español</ComboBoxItem>
-                                                    <ComboBoxItem Tag="fi-fi">Suomi</ComboBoxItem>
-                                                    <ComboBoxItem Tag="fr-fr">Français</ComboBoxItem>
-                                                    <ComboBoxItem Tag="hu-hu">Magyar</ComboBoxItem>
-                                                    <ComboBoxItem Tag="it-it">Italiano</ComboBoxItem>
-                                                    <ComboBoxItem Tag="ja-jp">日本語</ComboBoxItem>
-                                                    <ComboBoxItem Tag="ko-kr">한국어</ComboBoxItem>
-                                                    <ComboBoxItem Tag="nl-nl">Nederlands</ComboBoxItem>
-                                                    <ComboBoxItem Tag="no-no">Norsk</ComboBoxItem>
-                                                    <ComboBoxItem Tag="pl-pl">Polski</ComboBoxItem>
-                                                    <ComboBoxItem Tag="pt-pt">Português</ComboBoxItem>
-                                                    <ComboBoxItem Tag="pt-br">Português (Brazil)</ComboBoxItem>
-                                                    <ComboBoxItem Tag="ru-ru">Русский</ComboBoxItem>
-                                                    <ComboBoxItem Tag="sv-se">Svenska</ComboBoxItem>
-                                                    <ComboBoxItem Tag="th-th">ภาษาไทย</ComboBoxItem>
-                                                    <ComboBoxItem Tag="zh-cn">简体中文</ComboBoxItem>
-                                                    <ComboBoxItem Tag="zh-tw">繁體中文</ComboBoxItem>
-                                                </ComboBox>
-                                                <TextBox x:Name="LaunchWithLanguageLangTextBox" Grid.Column="1" IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Grid}}}"/>
-                                                <TextBox x:Name="LaunchWithLanguageRegionTextBox" Grid.Column="3" IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Grid}}}" ui:AttachedProperties.CornerCurves="True,False,False,True"/>
-                                                <DockPanel VerticalAlignment="Center" Margin="-1,0" Width="12" Height="18" Grid.Column="2">
-                                                    <Border Height="8" BorderThickness="1,0,1,1" CornerRadius="0,0,3,3" DockPanel.Dock="Top" BorderBrush="{DynamicResource ButtonIdleBorderBrush}"/>
-                                                    <Border Height="8" BorderThickness="1,1,1,0" CornerRadius="3,3,0,0" DockPanel.Dock="Bottom" BorderBrush="{DynamicResource ButtonIdleBorderBrush}"/>
-                                                    <Rectangle Margin="0,-1" Panel.ZIndex="-10">
-                                                        <Rectangle.Fill>
-                                                            <LinearGradientBrush StartPoint="0,6" EndPoint="0,-5" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
-                                                        </Rectangle.Fill>
-                                                    </Rectangle>
-                                                </DockPanel>
-                                                <!--Rectangle Margin="0" Grid.Column="2" VerticalAlignment="Center" Height="4" Width="10" Fill="{DynamicResource ButtonIdleBorderBrush}"/>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="17"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock x:Name="LocaleNameTextBlock" Text="{DynamicResource Settings!GameEntry!GameLanguage!Content}" Margin="0,0,10,0" Grid.Column="0" VerticalAlignment="Center">
+                                                    </TextBlock>
+                                                    <ComboBox x:Name="LanguagesComboBox" Grid.Column="1" Grid.ColumnSpan="4" Style="{DynamicResource LanguagesComboBoxStyle}" IsEditable="False">
+                                                        <ComboBoxItem Tag="en-us">English (US)</ComboBoxItem>
+                                                        <ComboBoxItem Tag="en-gb">English (GB)</ComboBoxItem>
+                                                        <ComboBoxItem Tag="cs-cz">Čeština</ComboBoxItem>
+                                                        <ComboBoxItem Tag="da-dk">Dansk</ComboBoxItem>
+                                                        <ComboBoxItem Tag="de-de">Deutsch</ComboBoxItem>
+                                                        <ComboBoxItem Tag="el-gr">Ελληνικά</ComboBoxItem>
+                                                        <ComboBoxItem Tag="es-es">Español</ComboBoxItem>
+                                                        <ComboBoxItem Tag="fi-fi">Suomi</ComboBoxItem>
+                                                        <ComboBoxItem Tag="fr-fr">Français</ComboBoxItem>
+                                                        <ComboBoxItem Tag="hu-hu">Magyar</ComboBoxItem>
+                                                        <ComboBoxItem Tag="it-it">Italiano</ComboBoxItem>
+                                                        <ComboBoxItem Tag="ja-jp">日本語</ComboBoxItem>
+                                                        <ComboBoxItem Tag="ko-kr">한국어</ComboBoxItem>
+                                                        <ComboBoxItem Tag="nl-nl">Nederlands</ComboBoxItem>
+                                                        <ComboBoxItem Tag="no-no">Norsk</ComboBoxItem>
+                                                        <ComboBoxItem Tag="pl-pl">Polski</ComboBoxItem>
+                                                        <ComboBoxItem Tag="pt-pt">Português</ComboBoxItem>
+                                                        <ComboBoxItem Tag="pt-br">Português (Brazil)</ComboBoxItem>
+                                                        <ComboBoxItem Tag="ru-ru">Русский</ComboBoxItem>
+                                                        <ComboBoxItem Tag="sv-se">Svenska</ComboBoxItem>
+                                                        <ComboBoxItem Tag="th-th">ภาษาไทย</ComboBoxItem>
+                                                        <ComboBoxItem Tag="zh-cn">简体中文</ComboBoxItem>
+                                                        <ComboBoxItem Tag="zh-tw">繁體中文</ComboBoxItem>
+                                                    </ComboBox>
+                                                    <TextBox x:Name="LaunchWithLanguageLangTextBox" Grid.Column="1" IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Grid}}}"/>
+                                                    <TextBox x:Name="LaunchWithLanguageRegionTextBox" Grid.Column="3" IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Grid}}}" ui:AttachedProperties.CornerCurves="True,False,False,True"/>
+                                                    <DockPanel VerticalAlignment="Center" Margin="-1,0" Width="12" Height="18" Grid.Column="2">
+                                                        <Border Height="8" BorderThickness="1,0,1,1" CornerRadius="0,0,3,3" DockPanel.Dock="Top" BorderBrush="{DynamicResource ButtonIdleBorderBrush}"/>
+                                                        <Border Height="8" BorderThickness="1,1,1,0" CornerRadius="3,3,0,0" DockPanel.Dock="Bottom" BorderBrush="{DynamicResource ButtonIdleBorderBrush}"/>
+                                                        <Rectangle Margin="0,-1" Panel.ZIndex="-10">
+                                                            <Rectangle.Fill>
+                                                                <LinearGradientBrush StartPoint="0,6" EndPoint="0,-5" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
+                                                            </Rectangle.Fill>
+                                                        </Rectangle>
+                                                    </DockPanel>
+                                                    <!--Rectangle Margin="0" Grid.Column="2" VerticalAlignment="Center" Height="4" Width="10" Fill="{DynamicResource ButtonIdleBorderBrush}"/>
 											<Rectangle Margin="-1,0" Grid.Column="2" VerticalAlignment="Center" Height="2">
 												<Rectangle.Fill>
 													<LinearGradientBrush StartPoint="0,1" EndPoint="0,0" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
 												</Rectangle.Fill>
 											</Rectangle-->
-                                            </Grid>
-                                            <DockPanel HorizontalAlignment="Stretch"
+                                                </Grid>
+                                                <DockPanel HorizontalAlignment="Stretch"
                                                        ToolTip="{DynamicResource Settings!GameEntry!CommandLineExtras!ToolTip!Content}"
                                                        ToolTipService.ShowDuration="{x:Static sys:Int32.MaxValue}">
-                                                <TextBlock x:Name="AdditionalCommandLineOptionsTextBlock" Text="{DynamicResource Settings!GameEntry!CommandLineExtras!Header}" Margin="0,0,10,0" DockPanel.Dock="Left" VerticalAlignment="Center"/>
-                                                <TextBox x:Name="AdditionalCommandLineOptionsTextBox"/>
-                                            </DockPanel>
-                                        </StackPanel>
-                                    </GroupBox>
-                                    <GroupBox x:Name="AppearanceGroupBox" Header="{DynamicResource Settings!Appearance!Header}" Grid.Column="0">
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="5"/>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="5"/>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
-                                            <DockPanel VerticalAlignment="Bottom" Grid.Row="0" DataContext="{x:Static loc:LanguageManager.Instance}">
-                                                <TextBlock x:Name="LanguageTextBlock" Text="{DynamicResource Settings!Appearance!Language!Header}" VerticalAlignment="Center" Margin="0,0,10,0" DockPanel.Dock="Left"/>
-                                                <ComboBox IsEnabled="True" 
+                                                    <TextBlock x:Name="AdditionalCommandLineOptionsTextBlock" Text="{DynamicResource Settings!GameEntry!CommandLineExtras!Header}" Margin="0,0,10,0" DockPanel.Dock="Left" VerticalAlignment="Center"/>
+                                                    <TextBox x:Name="AdditionalCommandLineOptionsTextBox"/>
+                                                </DockPanel>
+                                            </StackPanel>
+                                        </GroupBox>
+                                        <GroupBox x:Name="AppearanceGroupBox" Header="{DynamicResource Settings!Appearance!Header}" Grid.Column="0">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="5"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="5"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <DockPanel VerticalAlignment="Bottom" Grid.Row="0" DataContext="{x:Static loc:LanguageManager.Instance}">
+                                                    <TextBlock x:Name="LanguageTextBlock" Text="{DynamicResource Settings!Appearance!Language!Header}" VerticalAlignment="Center" Margin="0,0,10,0" DockPanel.Dock="Left"/>
+                                                    <ComboBox IsEnabled="True" 
 													  ItemsSource="{Binding Languages}"
 													  SelectedItem="{Binding CurrentLanguage, Mode=TwoWay}"
 													  SelectionChanged="LanguageComboBox_SelectionChanged">
-                                                    <ComboBox.ItemContainerStyle>
-                                                        <Style TargetType="{x:Type ComboBoxItem}" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
-                                                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                                        </Style>
-                                                    </ComboBox.ItemContainerStyle>
-                                                    <ComboBox.ItemTemplate>
-                                                        <DataTemplate DataType="{x:Type loc:Language}">
-                                                            <Grid HorizontalAlignment="Stretch">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                    <ColumnDefinition Width="100"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <TextBlock x:Name="DisplayNameTextBlock" Text="{Binding DisplayName, Mode=OneTime}" VerticalAlignment="Center" Grid.Column="0"/>
-                                                                <ProgressBar x:Name="CompletenessBar" Value="{Binding Completeness, Mode=OneTime}" Minimum="0" Maximum="100" IsIndeterminate="False" Grid.Column="1" Margin="-4,-2,-7,-2"/>
-                                                                <local:FormattingTextBlock x:Name="CompletenessText" Value="{Binding Completeness, Mode=OneWay}" Format="{DynamicResource Settings!Appearance!Language!Completeness}" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="1"/>
-                                                                <!--TextBlock Text="{Binding Completeness, Mode=OneWay, StringFormat='{DynamicResource Settings!Appearance!Language!Completeness}'}" VerticalAlignment="Center"
+                                                        <ComboBox.ItemContainerStyle>
+                                                            <Style TargetType="{x:Type ComboBoxItem}" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
+                                                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                                            </Style>
+                                                        </ComboBox.ItemContainerStyle>
+                                                        <ComboBox.ItemTemplate>
+                                                            <DataTemplate DataType="{x:Type loc:Language}">
+                                                                <Grid HorizontalAlignment="Stretch">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                        <ColumnDefinition Width="100"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <TextBlock x:Name="DisplayNameTextBlock" Text="{Binding DisplayName, Mode=OneTime}" VerticalAlignment="Center" Grid.Column="0"/>
+                                                                    <ProgressBar x:Name="CompletenessBar" Value="{Binding Completeness, Mode=OneTime}" Minimum="0" Maximum="100" IsIndeterminate="False" Grid.Column="1" Margin="-4,-2,-7,-2"/>
+                                                                    <local:FormattingTextBlock x:Name="CompletenessText" Value="{Binding Completeness, Mode=OneWay}" Format="{DynamicResource Settings!Appearance!Language!Completeness}" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="1"/>
+                                                                    <!--TextBlock Text="{Binding Completeness, Mode=OneWay, StringFormat='{DynamicResource Settings!Appearance!Language!Completeness}'}" VerticalAlignment="Center"
                                                                 Grid.Column="1" Visibility="{Binding Visibility, ElementName=Completeness}"/-->
-                                                            </Grid>
-                                                            <DataTemplate.Triggers>
-                                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ComboBoxItem}}, Path=IsSelected}" Value="{x:Null}">
-                                                                    <Setter TargetName="CompletenessBar" Property="Visibility" Value="Collapsed" />
-                                                                    <Setter TargetName="CompletenessText" Property="Visibility" Value="Collapsed" />
-                                                                    <Setter TargetName="DisplayNameTextBlock" Property="Grid.ColumnSpan" Value="2" />
-                                                                </DataTrigger>
-                                                            </DataTemplate.Triggers>
-                                                        </DataTemplate>
-                                                    </ComboBox.ItemTemplate>
-                                                </ComboBox>
-                                            </DockPanel>
-                                            <ui:ToggleSwitch x:Name="DarkShaleToggleSwitch" Content="{DynamicResource Settings!Appearance!LightSwitch!Header}" TrueText="{DynamicResource Switch!On}" FalseText="{DynamicResource Switch!Off}" IsChecked="True" Grid.Row="2"/>
-                                            <!--ui:ToggleSwitch x:Name="StandardWindowDecorationsToggleSwitch" Content="{DynamicResource Settings!Appearance!WindowDecorations!Header}" TrueText="{DynamicResource Switch!On}" FalseText="{DynamicResource Switch!Off}"  IsChecked="True" Grid.Row="4"/-->
-                                            <Grid Grid.Row="4">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="10"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Text="{DynamicResource Settings!Appearance!SmmWindowFrame!Header}"
+                                                                </Grid>
+                                                                <DataTemplate.Triggers>
+                                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ComboBoxItem}}, Path=IsSelected}" Value="{x:Null}">
+                                                                        <Setter TargetName="CompletenessBar" Property="Visibility" Value="Collapsed" />
+                                                                        <Setter TargetName="CompletenessText" Property="Visibility" Value="Collapsed" />
+                                                                        <Setter TargetName="DisplayNameTextBlock" Property="Grid.ColumnSpan" Value="2" />
+                                                                    </DataTrigger>
+                                                                </DataTemplate.Triggers>
+                                                            </DataTemplate>
+                                                        </ComboBox.ItemTemplate>
+                                                    </ComboBox>
+                                                </DockPanel>
+                                                <ui:ToggleSwitch x:Name="DarkShaleToggleSwitch" Content="{DynamicResource Settings!Appearance!LightSwitch!Header}" TrueText="{DynamicResource Switch!On}" FalseText="{DynamicResource Switch!Off}" IsChecked="True" Grid.Row="2"/>
+                                                <!--ui:ToggleSwitch x:Name="StandardWindowDecorationsToggleSwitch" Content="{DynamicResource Settings!Appearance!WindowDecorations!Header}" TrueText="{DynamicResource Switch!On}" FalseText="{DynamicResource Switch!Off}"  IsChecked="True" Grid.Row="4"/-->
+                                                <Grid Grid.Row="4">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="10"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Text="{DynamicResource Settings!Appearance!SmmWindowFrame!Header}"
                                                            VerticalAlignment="Center"
                                                            Grid.Column="0"/>
-                                                <UniformGrid Grid.Column="2"
+                                                    <UniformGrid Grid.Column="2"
                                                              Rows="1">
-                                                    <ToggleButton x:Name="StandardWindowDecorationsToggleSwitch"
+                                                        <ToggleButton x:Name="StandardWindowDecorationsToggleSwitch"
 															  Content="{DynamicResource Settings!Appearance!SmmWindowFrame!StandardFrame}"
 															  ui:AttachedProperties.CornerCurves="True,False,False,True"/>
-                                                    <ToggleButton Content="{DynamicResource Settings!Appearance!SmmWindowFrame!BuiltInFrame}"
+                                                        <ToggleButton Content="{DynamicResource Settings!Appearance!SmmWindowFrame!BuiltInFrame}"
 															  IsChecked="{Binding IsChecked, ElementName=StandardWindowDecorationsToggleSwitch, Converter={StaticResource BoolInverterConverter}, Mode=TwoWay}"
 															  ui:AttachedProperties.CornerCurves="False,True,True,False"/>
-                                                </UniformGrid>
+                                                    </UniformGrid>
+                                                </Grid>
                                             </Grid>
-                                        </Grid>
-                                    </GroupBox>
-                                </StackPanel>
-                            </UniformGrid>
-                        </StackPanel>
-					</ScrollViewer>
-				</TabItem>
-				<!--TabItem x:Name="DeveloperTabItem" Visibility="Collapsed">
+                                        </GroupBox>
+                                    </StackPanel>
+                                </UniformGrid>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </TabItem>
+                    <!--TabItem x:Name="DeveloperTabItem" Visibility="Collapsed">
 					<StackPanel Orientation="Vertical">
 						<GroupBox x:Name="SideloadCoreDllsGroupBox">
 							<StackPanel Orientation="Vertical">
@@ -377,11 +387,20 @@
 						</GroupBox>
 					</StackPanel>
 				</TabItem-->
-                <TabItem x:Name="HelpTabItem" Header="{DynamicResource Help!Header}">
-                    <local:HelpPage/>
-                </TabItem>
-			</TabControl>
-		</DockPanel>
+                    <TabItem x:Name="HelpTabItem" Header="{DynamicResource Help!Header}">
+                        <local:HelpPage/>
+                    </TabItem>
+                </TabControl>
+                <ui:AnimatableContentControl MaxHeight="{Binding ActualHeight, ElementName=PrimaryTabControl}"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Bottom"
+                                    IsOpen="{Binding IsChecked, ElementName=TaskProgressDetailsToggleButton, Mode=TwoWay}"
+                                    HasCloseButton="True"
+                                    Style="{DynamicResource OngoingTasksListContentControlStyle}">
+                    <local:OngoingTasksList/>
+                </ui:AnimatableContentControl>
+            </Grid>
+        </DockPanel>
         <ui:AnimatableContentControl x:Name="ChooseMonitorContentControl" Style="{DynamicResource ModalDialogContentControlStyle}" HasCloseButton="True">
             <TextBlock Text="{DynamicResource Settings!Window!OverrideWindowMode!ChooseMonitor!Header}" Style="{DynamicResource DropModsHereTextBlockStyle}" VerticalAlignment="Center"/>
         </ui:AnimatableContentControl>

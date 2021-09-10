@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="SporeMods.Manager.OngoingTasksList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SporeMods.Manager"
+             xmlns:ui="clr-namespace:Mechanism.Wpf.Core;assembly=Mechanism.Wpf.Core"
+             xmlns:trs="clr-namespace:SporeMods.Core.ModTransactions;assembly=SporeMods.Core"
+             DataContext="{Binding Source={x:Static trs:ModTransactionManager.Instance}}">
+    <Grid Margin="0,-31,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="31"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!--ListViewItem x:Name="BackgroundCard" Style="{DynamicResource CardListViewItemStyle}" IsHitTestVisible="False" Margin="0"/-->
+        <TextBlock HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Grid.Row="0">Ongoing Tasks (NOT LOCALIZED)</TextBlock>
+        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="0,0,0,-5" Height="5" Grid.Row="0" IsHitTestVisible="False">
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,1" EndPoint="0,0" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>
+            </Rectangle.Fill>
+        </Rectangle>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" ui:AttachedProperties.CornerCurves="False,False,True,True">
+            <ItemsControl ItemsSource="{Binding Tasks}" Margin="8,0">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type trs:TaskProgressSignifier}">
+                        <Grid HorizontalAlignment="Stretch" Margin="0,0,0,-5" Height="61">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock x:Name="InstallingNowTextBlock" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left" Text="{Binding Title}" Margin="0,0,5,0"/>
+                            <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding Progress}" Margin="5,0,0,0" Grid.Column="1"/>
+
+                            <ProgressBar x:Name="ModProgressBar" Height="23" Value="{Binding Progress, Mode=OneWay}" Minimum="0" Maximum="{Binding ProgressTotal, Mode=OneWay}" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="2"/>
+
+                            <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="10,0" Height="5" Grid.Row="1" Grid.ColumnSpan="2" IsHitTestVisible="False">
+                                <Rectangle.Fill>
+                                    <LinearGradientBrush StartPoint="0,1" EndPoint="0,0" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>
+                                </Rectangle.Fill>
+                                <Rectangle.OpacityMask>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0" GradientStops="{DynamicResource SeparatorMaskGradientStops}"/>
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

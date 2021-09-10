@@ -798,7 +798,111 @@
 		</Style.Triggers>
 	</Style>
 
-	<Style x:Key="DropModsHereTextBlockStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+    <Style x:Key="OngoingTasksListContentControlStyle" TargetType="{x:Type ui:AnimatableContentControl}" BasedOn="{StaticResource {x:Type ui:AnimatableContentControl}}">
+        <Setter Property="Width" Value="375"/>
+        <Setter Property="Margin" Value="5,5,5,-11"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ui:AnimatableContentControl}">
+                    <Grid x:Name="ContentGrid" RenderTransformOrigin="0.92,1">
+                        <Grid.RenderTransform>
+                            <ScaleTransform ScaleX="0" ScaleY="{Binding ScaleX, RelativeSource={RelativeSource Mode=Self}}"/>
+                        </Grid.RenderTransform>
+                        <DockPanel Effect="{DynamicResource TertiaryDropShadow}">
+                            <Path Data="M 0 0 L 10 16 L 20 0 Z" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="20,0">
+                                <Path.Fill>
+                                    <LinearGradientBrush StartPoint="0,-1" EndPoint="0,0" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
+                                </Path.Fill>
+                            </Path>
+                            <Border x:Name="ContentPaneBorder" CornerRadius="3" BorderBrush="Transparent" UseLayoutRounding="True">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.75" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
+                                </Border.Background>
+                            </Border>
+                        </DockPanel>
+                        <DockPanel>
+                            <Button x:Name="PART_CloseButton" Content="{DynamicResource AnimatableContentControlCloseButtonIcon}" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="{Binding HasCloseButton, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}" DockPanel.Dock="Top" Panel.ZIndex="99999999">
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="Width" Value="45"/>
+                                        <Setter Property="Height" Value="31"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource WindowForegroundBrush}"/>
+                                        <Setter Property="BorderThickness" Value="0"/>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#01000000" BorderBrush="{DynamicResource TitlebarBorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+                                                        <DockPanel HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Effect="{DynamicResource DropShadow}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="True" UseLayoutRounding="True">
+                                                            <ContentPresenter x:Name="IconPresenter" Content="{Binding Path=(ui:AttachedProperties.Icon), RelativeSource={RelativeSource Mode=TemplatedParent}}" TextElement.Foreground="{TemplateBinding Foreground}" TextElement.FontFamily="{TemplateBinding FontFamily}" TextElement.FontSize="{TemplateBinding FontSize}" Margin="0,0,4,0"/>
+                                                            <ContentPresenter x:Name="ContentPresenter" Content="{TemplateBinding Content}" TextElement.Foreground="{TemplateBinding Foreground}" TextElement.FontFamily="{TemplateBinding FontFamily}" TextElement.FontSize="{TemplateBinding FontSize}" Margin="0"/>
+                                                        </DockPanel>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="ui:AttachedProperties.Icon" Value="{x:Null}">
+                                                            <Setter TargetName="IconPresenter" Property="Visibility" Value="Collapsed"/>
+                                                        </Trigger>
+                                                        <Trigger Property="Content" Value="{x:Null}">
+                                                            <Setter TargetName="ContentPresenter" Property="Visibility" Value="Collapsed"/>
+                                                            <Setter TargetName="IconPresenter" Property="Margin" Value="0"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter Property="Opacity" Value="0.5"/>
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Foreground" Value="{DynamicResource TitlebarHoverForegroundBrush}" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter Property="Foreground" Value="{DynamicResource TitlebarPressedForegroundBrush}" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                            <ContentPresenter Content="{TemplateBinding Content}" Margin="0,0,0,16"/>
+                        </DockPanel>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsOpen" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.25">
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuinticEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.25"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="RenderTransform.ScaleX" To="0" Duration="0:0:0.25">
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuinticEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.25"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <Trigger SourceName="ContentGrid" Property="Opacity" Value="0">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="DropModsHereTextBlockStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
 		<Setter Property="TextAlignment" Value="Center"/>
 		<Setter Property="TextWrapping" Value="Wrap"/>
 		<Setter Property="VerticalAlignment" Value="Center"/>

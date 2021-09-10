@@ -85,6 +85,7 @@ namespace SporeMods.Manager
 			ModTransactionManager.Instance.AllTasksConcluded += (tasks) =>
 			{
 				EvaluateCanLaunch();
+				TaskProgressDetailsToggleButton.IsChecked = false;
 				UpdateActionButtonStates();
 				MessageBox.Show("All tasks have completed (PLACEHOLDER) (NOT LOCALIZED)");
 			};
@@ -249,7 +250,7 @@ namespace SporeMods.Manager
 				}
 				LaunchGameButton.IsEnabled = canLaunch;*/
 
-				LaunchGameButton.IsEnabled = !ModTransactionManager.Instance.HasRunningTasks;
+				//LaunchGameButton.IsEnabled = !ModTransactionManager.Instance.HasRunningTasks;
 			}));
 		}
 

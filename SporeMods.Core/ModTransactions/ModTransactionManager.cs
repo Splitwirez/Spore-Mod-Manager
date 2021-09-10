@@ -60,7 +60,26 @@ namespace SporeMods.Core.ModTransactions
                     {
                         _ongoingTransactions.Clear();
                         _concludedTransactions.Clear();
-                        Instance.Tasks.Clear();
+                        Tasks.Clear();
+                        /*foreach (TaskProgressSignifier taskSig in new List<TaskProgressSignifier>() {
+
+                            new TaskProgressSignifier("0", TaskCategory.Reconfigure),
+            new TaskProgressSignifier("1", TaskCategory.Reconfigure),
+            new TaskProgressSignifier("2", TaskCategory.Reconfigure),
+            new TaskProgressSignifier("3", TaskCategory.Reconfigure),
+            new TaskProgressSignifier("4", TaskCategory.Reconfigure),
+            new TaskProgressSignifier("5", TaskCategory.Reconfigure),
+            new TaskProgressSignifier("6", TaskCategory.Reconfigure),
+            new TaskProgressSignifier("7", TaskCategory.Reconfigure),
+            new TaskProgressSignifier("8", TaskCategory.Reconfigure),
+            new TaskProgressSignifier("9", TaskCategory.Reconfigure),
+            new TaskProgressSignifier("10", TaskCategory.Reconfigure),
+            new TaskProgressSignifier("11", TaskCategory.Reconfigure),
+            new TaskProgressSignifier("12", TaskCategory.Reconfigure)
+                        })
+                        {
+                            Tasks.Add(taskSig);
+                        }*/
                         OverallProgress = 0.0;
                         OverallProgressTotal = 0.0;
                         HasRunningTasks = false;
