@@ -46,7 +46,7 @@
                                           Padding="5,0"
                                           ui:AttachedProperties.CornerCurves="True,True,False,False"
                                           ui:AttachedProperties.BorderPresence="True,True,True,False"
-                                          Content="Details (NOT LOCALIZED)"/>
+                                          Content="{DynamicResource Mods!TaskList!ToggleButton}"/>
                         </DockPanel>
                     </Grid>
 				</UniformGrid>

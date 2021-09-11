@@ -140,30 +140,32 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Control">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock x:Name="InstallingNowTextBlock" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left" Text="{DynamicResource Mods!ListEntry!InstallInProgress}" Margin="0,0,5,0"/>
+                        <TextBlock x:Name="TaskStateTextBlock" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left" Text="{DynamicResource Mods!ListEntry!Tasks!Install}" Margin="0,0,5,0"/>
                         <ProgressBar x:Name="ModProgressBar" Width="100" Height="23" Value="{Binding Progress, Mode=OneWay}" Minimum="0" Maximum="{Binding ProgressTotal, Mode=OneWay}" VerticalAlignment="Stretch"/>
                     </StackPanel>
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding Status}" Value="Indeterminate">
                             <Setter TargetName="ModProgressBar" Property="IsIndeterminate" Value="True"/>
+                            <Setter TargetName="TaskStateTextBlock" Property="Text" Value="{DynamicResource Mods!ListEntry!Tasks!Pending}"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Category}" Value="Upgrade">
-                            <Setter TargetName="InstallingNowTextBlock" Property="Text" Value="Upgrading... (NOT LOCALIZED)"/>
+                            <Setter TargetName="TaskStateTextBlock" Property="Text" Value="{DynamicResource Mods!ListEntry!Tasks!Update}"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Category}" Value="Reconfigure">
-                            <Setter TargetName="InstallingNowTextBlock" Property="Text" Value="Applying settings... (NOT LOCALIZED)"/>
+                            <Setter TargetName="TaskStateTextBlock" Property="Text" Value="{DynamicResource Mods!ListEntry!Tasks!Reconfigure}"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Category}" Value="Uninstall">
-                            <Setter TargetName="InstallingNowTextBlock" Property="Text" Value="{DynamicResource Mods!ListEntry!UninstallInProgress}"/>
+                            <Setter TargetName="TaskStateTextBlock" Property="Text" Value="{DynamicResource Mods!ListEntry!Tasks!Uninstall}"/>
                         </DataTrigger>
                         <Trigger SourceName="ModProgressBar" Property="IsIndeterminate" Value="True">
                             <Setter TargetName="ModProgressBar" Property="Template" Value="{DynamicResource TemporaryIndeterminateProgressBarTemplate}"/>
                             <Setter TargetName="ModProgressBar" Property="Background" Value="#00FF00"/>
                         </Trigger>
                         <DataTrigger Binding="{Binding Category}" Value="Rollback">
-                            <Setter TargetName="InstallingNowTextBlock" Property="Text" Value="Failed. Reverting changes... (NOT LOCALIZED)"/>
                             <Setter TargetName="ModProgressBar" Property="IsIndeterminate" Value="True"/>
                             <Setter TargetName="ModProgressBar" Property="Background" Value="#FF0000"/>
+                            <Setter TargetName="TaskStateTextBlock" Property="Text" Value="{DynamicResource Mods!ListEntry!Tasks!Rollback}"/>
+                            <Setter TargetName="TaskStateTextBlock" Property="Foreground" Value="{DynamicResource ErrorTextBrush}"/>
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -334,7 +336,7 @@
 					</DataTrigger>
 					<!--DataTrigger Binding="{Binding IsProgressing}" Value="True">
 							<Setter TargetName="StatusGrid" Property="Width" Value="200"/>
-							<Setter TargetName="InstallingNowTextBlock" Property="Visibility" Value="Visible"/>
+							<Setter TargetName="TaskStateTextBlock" Property="Visibility" Value="Visible"/>
 							<Setter TargetName="ModProgressBar" Property="Visibility" Value="Visible"/>
 						</DataTrigger-->
 				</DataTemplate.Triggers>

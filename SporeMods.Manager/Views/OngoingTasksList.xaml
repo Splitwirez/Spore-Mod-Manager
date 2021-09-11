@@ -13,7 +13,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <!--ListViewItem x:Name="BackgroundCard" Style="{DynamicResource CardListViewItemStyle}" IsHitTestVisible="False" Margin="0"/-->
-        <TextBlock HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Grid.Row="0">Ongoing Tasks (NOT LOCALIZED)</TextBlock>
+        <TextBlock HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Grid.Row="0" Text="{DynamicResource Mods!TaskList!Header}"/>
         <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="0,0,0,-5" Height="5" Grid.Row="0" IsHitTestVisible="False">
             <Rectangle.Fill>
                 <LinearGradientBrush StartPoint="0,1" EndPoint="0,0" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>
@@ -25,6 +25,7 @@
                     <DataTemplate DataType="{x:Type trs:TaskProgressSignifier}">
                         <Grid HorizontalAlignment="Stretch" Margin="0,0,0,-5" Height="61">
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
@@ -32,12 +33,48 @@
                                 <RowDefinition Height="25"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <TextBlock x:Name="InstallingNowTextBlock" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left" Text="{Binding Title}" Margin="0,0,5,0"/>
-                            <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding Progress}" Margin="5,0,0,0" Grid.Column="1"/>
+                            
+                            <TextBlock x:Name="FailedTextBlock"
+                                       Text="{DynamicResource Mods!TaskList!Failure}"
+                                       Foreground="{DynamicResource ErrorTextBrush}"
+                                       HorizontalAlignment="Left"
+                                       TextAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       Visibility="Collapsed"/>
+                            
+                            <local:FormattingTextBlock x:Name="TaskTitleTextBlock"
+                                                       Value="{Binding Title}"
+                                                       Format="{DynamicResource Mods!TaskList!Entry!Header!Install}"
+                                                       HorizontalAlignment="Left"
+                                                       TextAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       Margin="0,0,5,0"
+                                                       Grid.Column="1"/>
+                            <local:FormattingTextBlock x:Name="ProgressPercentageTextBlock"
+                                                       Value="{Binding ProgressPercentage, Mode=OneWay}"
+                                                       Format="{DynamicResource Mods!TaskList!Entry!Percentage!Install}"
+                                                       HorizontalAlignment="Right"
+                                                       TextAlignment="Right"
+                                                       VerticalAlignment="Center"
+                                                       Margin="5,0,0,0"
+                                                       Grid.Column="2"/>
 
-                            <ProgressBar x:Name="ModProgressBar" Height="23" Value="{Binding Progress, Mode=OneWay}" Minimum="0" Maximum="{Binding ProgressTotal, Mode=OneWay}" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="2"/>
+                            <ProgressBar x:Name="ModProgressBar"
+                                         Height="23"
+                                         Value="{Binding Progress, Mode=OneWay}"
+                                         Minimum="0"
+                                         Maximum="{Binding ProgressTotal, Mode=OneWay}"
+                                         VerticalAlignment="Top"
+                                         Grid.Row="1"
+                                         Grid.ColumnSpan="3"/>
 
-                            <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="10,0" Height="5" Grid.Row="1" Grid.ColumnSpan="2" IsHitTestVisible="False">
+                            <Rectangle HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Bottom"
+                                       Margin="10,0"
+                                       Height="5"
+                                       Grid.Row="1"
+                                       Grid.ColumnSpan="3"
+                                       IsHitTestVisible="False">
                                 <Rectangle.Fill>
                                     <LinearGradientBrush StartPoint="0,1" EndPoint="0,0" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>
                                 </Rectangle.Fill>
@@ -46,6 +83,36 @@
                                 </Rectangle.OpacityMask>
                             </Rectangle>
                         </Grid>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Status}" Value="Indeterminate">
+                                <Setter TargetName="ModProgressBar" Property="IsIndeterminate" Value="True"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Category}" Value="Upgrade">
+                                <Setter TargetName="TaskTitleTextBlock" Property="Format" Value="{DynamicResource Mods!TaskList!Entry!Header!Update}"/>
+                                <Setter TargetName="ProgressPercentageTextBlock" Property="Format" Value="{DynamicResource Mods!TaskList!Entry!Percentage!Update}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Category}" Value="Reconfigure">
+                                <Setter TargetName="TaskTitleTextBlock" Property="Format" Value="{DynamicResource Mods!TaskList!Entry!Header!Reconfigure}"/>
+                                <Setter TargetName="ProgressPercentageTextBlock" Property="Format" Value="{DynamicResource Mods!TaskList!Entry!Percentage!Reconfigure}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Category}" Value="Uninstall">
+                                <Setter TargetName="TaskTitleTextBlock" Property="Format" Value="{DynamicResource Mods!TaskList!Entry!Header!Uninstall}"/>
+                                <Setter TargetName="ProgressPercentageTextBlock" Property="Format" Value="{DynamicResource Mods!TaskList!Entry!Percentage!Uninstall}"/>
+                            </DataTrigger>
+                            <Trigger SourceName="ModProgressBar" Property="IsIndeterminate" Value="True">
+                                <Setter TargetName="TaskTitleTextBlock" Property="Format" Value="{DynamicResource Mods!TaskList!Entry!Header!Pending}"/>
+                                <Setter TargetName="ProgressPercentageTextBlock" Property="Format" Value="{DynamicResource Mods!TaskList!Entry!Percentage!Pending}"/>
+                                <Setter TargetName="ModProgressBar" Property="Background" Value="#00FF00"/>
+                                <Setter TargetName="ProgressPercentageTextBlock" Property="Visibility" Value="Collapsed"/>
+                            </Trigger>
+                            <DataTrigger Binding="{Binding Category}" Value="Rollback">
+                                <Setter TargetName="TaskTitleTextBlock" Property="Format" Value="{DynamicResource Mods!TaskList!Entry!Header!Rollback}"/>
+                                <Setter TargetName="ProgressPercentageTextBlock" Property="Format" Value="{DynamicResource Mods!TaskList!Entry!Percentage!Rollback}"/>
+                                <Setter TargetName="ModProgressBar" Property="IsIndeterminate" Value="True"/>
+                                <Setter TargetName="ModProgressBar" Property="Background" Value="#FF0000"/>
+                                <Setter TargetName="FailedTextBlock" Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

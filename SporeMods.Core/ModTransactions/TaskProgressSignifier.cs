@@ -92,6 +92,7 @@ namespace SporeMods.Core.ModTransactions
                 ModTransactionManager.Instance.OverallProgress += (value - _progress);
                 _progress = value;
                 NotifyPropertyChanged();
+                RefreshPercentage();
             }
         }
 
@@ -104,6 +105,24 @@ namespace SporeMods.Core.ModTransactions
             {
                 ModTransactionManager.Instance.OverallProgressTotal = (ModTransactionManager.Instance.OverallProgressTotal - _progressTotal) + value;
                 _progressTotal = value;
+                NotifyPropertyChanged();
+                RefreshPercentage();
+            }
+        }
+
+        void RefreshPercentage()
+        {
+            ProgressPercentage = (int)((_progress / Math.Max(_progressTotal, 1.0)) * 100.0);
+        }
+
+
+        int _progressPercentage = 0;
+        public int ProgressPercentage
+        {
+            get => _progressPercentage;
+            private set
+            {
+                _progressPercentage = value;
                 NotifyPropertyChanged();
             }
         }
