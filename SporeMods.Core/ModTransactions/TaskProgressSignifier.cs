@@ -66,7 +66,7 @@ namespace SporeMods.Core.ModTransactions
             {
                 _status = value;
                 NotifyPropertyChanged();
-                IsConcluded = (_status == TaskStatus.Failed) || (_status == TaskStatus.Skipped) || (_status == TaskStatus.Succeeded);
+                IsConcluded = (Status == TaskStatus.Succeeded) || (Status == TaskStatus.Failed) || (Status == TaskStatus.Skipped);
             }
         }
 

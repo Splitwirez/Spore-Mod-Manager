@@ -87,7 +87,36 @@ namespace SporeMods.Manager
 				EvaluateCanLaunch();
 				TaskProgressDetailsToggleButton.IsChecked = false;
 				UpdateActionButtonStates();
-				MessageBox.Show("All tasks have completed (PLACEHOLDER) (NOT LOCALIZED)");
+				string tempText = "All tasks have completed (PLACEHOLDER) (NOT LOCALIZED)";
+
+				bool anyPreventsGameLaunch = ModsManager.InstalledMods.ToList().Any(x => x.PreventsGameLaunch);
+				int howManyNotConcluded = tasks.Count(x => !x.IsConcluded);
+				bool anyNotConcluded = howManyNotConcluded > 0;
+				if (anyPreventsGameLaunch || anyNotConcluded)
+				{
+					tempText = "All tasks have completed, but something weird happened: ";
+					if (anyPreventsGameLaunch)
+						tempText += "[ANY PREVENTSGAMELAUNCH] ";
+					if (anyNotConcluded)
+						tempText += $"[{howManyNotConcluded} NOTCONCLUDED] ";
+					
+					tempText += "(PLACEHOLDER) (NOT LOCALIZED)\nIf you see this text, inform Splitwirez immediately, and try not to close the SMM in the meantime if possible.";
+				}
+
+				int succeeded = tasks.Count(x => x.Status == Core.ModTransactions.TaskStatus.Succeeded);
+				int skipped = tasks.Count(x => x.Status == Core.ModTransactions.TaskStatus.Skipped);
+				int failed = tasks.Count(x => x.Status == Core.ModTransactions.TaskStatus.Failed);
+
+				if (succeeded > 0)
+					tempText += $"\n\tSucceeded: {succeeded} (PLACEHOLDER) (NOT LOCALIZED)";
+
+				if (skipped > 0)
+					tempText += $"\n\tSkipped: {skipped} (PLACEHOLDER) (NOT LOCALIZED)";
+
+				if (failed > 0)
+					tempText += $"\n\tFailed: {failed} (PLACEHOLDER) (NOT LOCALIZED)";
+
+				MessageBox.Show(tempText, "Temporary task conclusion notification (PLACEHOLDER) (NOT LOCALIZED)");
 			};
 			//ManagedMod.AnyModIsProgressingChanged += (s, e) => EvaluateCanLaunch();
 

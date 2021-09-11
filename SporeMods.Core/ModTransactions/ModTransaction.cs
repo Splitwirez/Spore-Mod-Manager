@@ -160,6 +160,7 @@ namespace SporeMods.Core.ModTransactions
         {
             if (ProgressSignifier != null)
             {
+                Debug.WriteLine("Setting ProgressSignifier output");
                 ProgressSignifier.Progress = ProgressSignifier.ProgressTotal;
                 ProgressSignifier.Status = dispose ? TaskStatus.Succeeded : TaskStatus.Failed;
             }

@@ -23,7 +23,7 @@
             <ItemsControl ItemsSource="{Binding Tasks}" Margin="8,0">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="{x:Type trs:TaskProgressSignifier}">
-                        <Grid HorizontalAlignment="Stretch" Margin="0,0,0,-5" Height="61">
+                        <Grid HorizontalAlignment="Stretch" Margin="0,0,0,-5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
@@ -61,6 +61,7 @@
 
                             <ProgressBar x:Name="ModProgressBar"
                                          Height="23"
+                                         Margin="0,0,0,13"
                                          Value="{Binding Progress, Mode=OneWay}"
                                          Minimum="0"
                                          Maximum="{Binding ProgressTotal, Mode=OneWay}"
@@ -89,28 +90,69 @@
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Category}" Value="Upgrade">
                                 <Setter TargetName="TaskTitleTextBlock" Property="Format" Value="{DynamicResource Mods!TaskList!Entry!Header!Update}"/>
-                                <Setter TargetName="ProgressPercentageTextBlock" Property="Format" Value="{DynamicResource Mods!TaskList!Entry!Percentage!Update}"/>
                             </DataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Category}" Value="Upgrade"/>
+                                    <Condition Binding="{Binding IsConcluded}" Value="False"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter TargetName="ProgressPercentageTextBlock" Property="Format" Value="{DynamicResource Mods!TaskList!Entry!Percentage!Update}"/>
+                            </MultiDataTrigger>
                             <DataTrigger Binding="{Binding Category}" Value="Reconfigure">
                                 <Setter TargetName="TaskTitleTextBlock" Property="Format" Value="{DynamicResource Mods!TaskList!Entry!Header!Reconfigure}"/>
-                                <Setter TargetName="ProgressPercentageTextBlock" Property="Format" Value="{DynamicResource Mods!TaskList!Entry!Percentage!Reconfigure}"/>
                             </DataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Category}" Value="Reconfigure"/>
+                                    <Condition Binding="{Binding IsConcluded}" Value="False"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter TargetName="ProgressPercentageTextBlock" Property="Format" Value="{DynamicResource Mods!TaskList!Entry!Percentage!Reconfigure}"/>
+                            </MultiDataTrigger>
                             <DataTrigger Binding="{Binding Category}" Value="Uninstall">
                                 <Setter TargetName="TaskTitleTextBlock" Property="Format" Value="{DynamicResource Mods!TaskList!Entry!Header!Uninstall}"/>
-                                <Setter TargetName="ProgressPercentageTextBlock" Property="Format" Value="{DynamicResource Mods!TaskList!Entry!Percentage!Uninstall}"/>
                             </DataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Category}" Value="Uninstall"/>
+                                    <Condition Binding="{Binding IsConcluded}" Value="False"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter TargetName="ProgressPercentageTextBlock" Property="Format" Value="{DynamicResource Mods!TaskList!Entry!Percentage!Uninstall}"/>
+                            </MultiDataTrigger>
                             <Trigger SourceName="ModProgressBar" Property="IsIndeterminate" Value="True">
                                 <Setter TargetName="TaskTitleTextBlock" Property="Format" Value="{DynamicResource Mods!TaskList!Entry!Header!Pending}"/>
-                                <Setter TargetName="ProgressPercentageTextBlock" Property="Format" Value="{DynamicResource Mods!TaskList!Entry!Percentage!Pending}"/>
                                 <Setter TargetName="ModProgressBar" Property="Background" Value="#00FF00"/>
-                                <Setter TargetName="ProgressPercentageTextBlock" Property="Visibility" Value="Collapsed"/>
                             </Trigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Status}" Value="Indeterminate"/>
+                                    <Condition Binding="{Binding IsConcluded}" Value="False"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter TargetName="ProgressPercentageTextBlock" Property="Format" Value="{DynamicResource Mods!TaskList!Entry!Percentage!Pending}"/>
+                            </MultiDataTrigger>
                             <DataTrigger Binding="{Binding Category}" Value="Rollback">
                                 <Setter TargetName="TaskTitleTextBlock" Property="Format" Value="{DynamicResource Mods!TaskList!Entry!Header!Rollback}"/>
-                                <Setter TargetName="ProgressPercentageTextBlock" Property="Format" Value="{DynamicResource Mods!TaskList!Entry!Percentage!Rollback}"/>
                                 <Setter TargetName="ModProgressBar" Property="IsIndeterminate" Value="True"/>
                                 <Setter TargetName="ModProgressBar" Property="Background" Value="#FF0000"/>
                                 <Setter TargetName="FailedTextBlock" Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Category}" Value="Rollback"/>
+                                    <Condition Binding="{Binding IsConcluded}" Value="False"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter TargetName="ProgressPercentageTextBlock" Property="Format" Value="{DynamicResource Mods!TaskList!Entry!Percentage!Rollback}"/>
+                            </MultiDataTrigger>
+                            <DataTrigger Binding="{Binding IsConcluded}" Value="True">
+                                <Setter TargetName="ModProgressBar" Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Status}" Value="Succeeded">
+                                <Setter TargetName="ProgressPercentageTextBlock" Property="Format" Value="{DynamicResource Mods!TaskList!Entry!Conclusion!Succeeded}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Status}" Value="Skipped">
+                                <Setter TargetName="ProgressPercentageTextBlock" Property="Format" Value="{DynamicResource Mods!TaskList!Entry!Conclusion!Skipped}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Status}" Value="Failed">
+                                <Setter TargetName="ProgressPercentageTextBlock" Property="Format" Value="{DynamicResource Mods!TaskList!Entry!Conclusion!Failed}"/>
                             </DataTrigger>
                         </DataTemplate.Triggers>
                     </DataTemplate>

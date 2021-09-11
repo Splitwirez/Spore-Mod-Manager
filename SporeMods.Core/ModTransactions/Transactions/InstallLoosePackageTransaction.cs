@@ -10,6 +10,8 @@ namespace SporeMods.Core.ModTransactions.Transactions
 {
     public class InstallLoosePackageTransaction : ModTransaction
     {
+        ManagedMod _managedMod = null;
+
         public readonly string modPath;
 
         public InstallLoosePackageTransaction(string modPath)
@@ -23,6 +25,10 @@ namespace SporeMods.Core.ModTransactions.Transactions
             {
                 string name = Path.GetFileName(modPath);
                 string noExtensionName = Path.GetFileNameWithoutExtension(modPath).Replace(".", "-");
+                ProgressSignifier = new TaskProgressSignifier(noExtensionName, TaskCategory.Install)
+                {
+                    ProgressTotal = 2
+                };
 
                 string dir = Path.Combine(Settings.ModConfigsPath, noExtensionName);
 
@@ -32,21 +38,21 @@ namespace SporeMods.Core.ModTransactions.Transactions
                 // 2. Generate a basic XML identity for it
                 Operation(new ExtractXmlIdentityOp(null, dir, noExtensionName, noExtensionName));
 
-                var mod = new ManagedMod(noExtensionName, true)
+                _managedMod = new ManagedMod(noExtensionName, true)
                 {
-                    Progress = 0,
-                    IsProgressing = true
+                    ProgressSignifier = ProgressSignifier
                 };
 
                 // 3. Add the mod to the manager and copy the file
-                Operation(new AddToModManagerOp(mod));
+                Operation(new AddToModManagerOp(_managedMod));
                 Operation(new SafeCopyFileOp(modPath, Path.Combine(dir, name)));
 
                 Operation(new RemoveManuallyInstalledFileOp(name, ComponentGameDir.GalacticAdventures));
+                ProgressSignifier.Progress++;
 
-				mod.Progress++;
 
-                await OperationAsync(new ExecuteTransactionAsyncOp(new ApplyModContentTransaction(mod)));
+                await OperationAsync(new ExecuteTransactionAsyncOp(new ApplyModContentTransaction(_managedMod)));
+                ProgressSignifier.Progress++;
 
                 return true;
             }
@@ -54,6 +60,14 @@ namespace SporeMods.Core.ModTransactions.Transactions
             {
                 return false;
             }
+        }
+
+        protected override void CompleteProgress(bool dispose)
+        {
+            base.CompleteProgress(dispose);
+
+            if (_managedMod != null)
+                _managedMod.ProgressSignifier = null;
         }
     }
 }

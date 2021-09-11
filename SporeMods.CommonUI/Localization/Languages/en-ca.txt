@@ -157,6 +157,16 @@ Mods {
 				#ADDED
 				Rollback Reverting changes
 			}
+			
+			#ADDED
+			Conclusion {
+				#ADDED
+				Succeeded Succeeded
+				#ADDED
+				Skipped Skipped
+				#ADDED
+				Failed Failed, reverted
+			}
 		
 			#ADDED
 			Failure Failed - 

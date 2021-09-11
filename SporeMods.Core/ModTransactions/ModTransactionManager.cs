@@ -60,6 +60,7 @@ namespace SporeMods.Core.ModTransactions
                     {
                         _ongoingTransactions.Clear();
                         _concludedTransactions.Clear();
+                        List<TaskProgressSignifier> copiedTasks = Tasks.ToList();
                         Tasks.Clear();
                         /*foreach (TaskProgressSignifier taskSig in new List<TaskProgressSignifier>() {
 
@@ -83,7 +84,7 @@ namespace SporeMods.Core.ModTransactions
                         OverallProgress = 0.0;
                         OverallProgressTotal = 0.0;
                         HasRunningTasks = false;
-                        AllTasksConcluded?.Invoke(null);
+                        AllTasksConcluded?.Invoke(copiedTasks);
                     }
                 }
                 _handlingCollectionChanged = false;
@@ -107,7 +108,7 @@ namespace SporeMods.Core.ModTransactions
         }
 
         public event EventHandler<EventArgs> TaskStarted;
-        public event Action<ThreadSafeObservableCollection<object>> AllTasksConcluded;
+        public event Action<IEnumerable<TaskProgressSignifier>> AllTasksConcluded;
 
         bool _hasRunningTasks = false;
         public bool HasRunningTasks
@@ -160,22 +161,20 @@ namespace SporeMods.Core.ModTransactions
         /// <returns></returns>
         static async Task<ModTransactionCommitException> ExecuteAsync(ModTransaction transaction)
         {
+            ModTransactionCommitException exc = null;
             try
             {
                 if (!await transaction.CommitAsync())
                 {
+                    Debug.WriteLine("Transaction returned false");
                     // Transaction itself returned false, which means it decided to rollback
                     transaction.Rollback();
-                    _concludedTransactions.Add(transaction);
-                    return new ModTransactionCommitException(TransactionFailureCause.CommitRejected, null, null);
-                    Debug.WriteLine("Transaction returned false");
+                    exc = new ModTransactionCommitException(TransactionFailureCause.CommitRejected, null, null);
                 }
                 else
                 {
                     // Transaction finished successfully. We must dispose it (for example, to clear the backups).
                     transaction.Dispose();
-                    _concludedTransactions.Add(transaction);
-                    return null;
                 }
             }
             // There is a specific exception for when a transaction fails, so theoretically we should only need to catch ModTransactionCommitException
@@ -183,13 +182,16 @@ namespace SporeMods.Core.ModTransactions
             // (although that is the developers fault!)
             catch (Exception e)
             {
+                Debug.WriteLine("Transaction failed violently");
                 Debug.WriteLine(e.ToString());
                 transaction.Rollback();
                 //_ongoingTransactions.Remove(transaction);
                 _concludedTransactions.Add(transaction);
-                Debug.WriteLine("Transaction failed violently");
-                return new ModTransactionCommitException(TransactionFailureCause.Exception, null, e);
+                exc = new ModTransactionCommitException(TransactionFailureCause.Exception, null, e);
             }
+            
+            _concludedTransactions.Add(transaction);
+            return exc;
         }
 
         /// <summary>
