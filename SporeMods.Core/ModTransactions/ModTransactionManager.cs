@@ -16,13 +16,6 @@ namespace SporeMods.Core.ModTransactions
 {
     public class ModTransactionManager : NotifyPropertyChangedBase
     {
-        internal static bool IS_INSTALLING_MODS = false;
-        internal static Dictionary<string, Exception> INSTALL_FAILURES = new Dictionary<string, Exception>();
-
-        internal static bool IS_UNINSTALLING_MODS = false;
-
-        internal static bool IS_RECONFIGURING_MODS = false;
-
         [DllImport("shlwapi.dll")]
         static extern bool PathIsNetworkPath(string pszPath);
 
@@ -202,8 +195,6 @@ namespace SporeMods.Core.ModTransactions
         /// <returns></returns>
         public static async Task InstallModsAsync(string[] modPaths)
         {
-            IS_INSTALLING_MODS = true;
-
             var packageTransactions = new List<InstallLoosePackageTransaction>();
             var modTransactions = new List<InstallModTransaction>();
             var taskLists = new Dictionary<string, Task<ModTransactionCommitException>>();
@@ -213,7 +204,13 @@ namespace SporeMods.Core.ModTransactions
             {
                 if (PathIsNetworkPath(path))
                 {
-                    INSTALL_FAILURES.Add(Path.GetFileName(path), new Exception("Cannot install mods from network locations. Please move the mod(s) to local storage and try again from there."));
+                    Instance.Tasks.Add(new TaskProgressSignifier(Path.GetFileName(path), TaskCategory.Install)
+                    {
+                        ProgressTotal = 0,
+                        Progress = 0,
+                        Status = TaskStatus.Skipped
+                        //"Cannot install mods from network locations. Please move the mod(s) to local storage and try again from there. (NOT LOCALIZED)"
+                    });
                 }
                 else if (Path.GetExtension(path).ToLowerInvariant() == ".package")
                 {
@@ -234,12 +231,24 @@ namespace SporeMods.Core.ModTransactions
                     catch (Exception e)
                     {
                         // This can happen if the mod provides an invalid DLL
-                        INSTALL_FAILURES[path] = e;
+                        Instance.Tasks.Add(new TaskProgressSignifier(Path.GetFileName(path), TaskCategory.Install)
+                        {
+                            ProgressTotal = 0,
+                            Progress = 0,
+                            Status = TaskStatus.Failed
+                            //$"An error occurred: {e} (NOT LOCALIZED)"
+                        });
                     }
                 }
                 else
                 {
-                    INSTALL_FAILURES.Add(Path.GetFileName(path), new Exception("'" + Path.GetExtension(path) + "' is not a valid mod extension."));
+                    Instance.Tasks.Add(new TaskProgressSignifier(Path.GetFileName(path), TaskCategory.Install)
+                    {
+                        ProgressTotal = 0,
+                        Progress = 0,
+                        Status = TaskStatus.Skipped
+                        //$"'{Path.GetExtension(path)}' is not a valid file type for a mod. (NOT LOCALIZED)"
+                    });
                 }
             }
 
@@ -274,7 +283,13 @@ namespace SporeMods.Core.ModTransactions
                 var exception = await task.Value;
                 if (exception != null)
                 {
-                    INSTALL_FAILURES[task.Key] = exception;
+                    Instance.Tasks.Add(new TaskProgressSignifier(task.Key, TaskCategory.Install)
+                    {
+                        ProgressTotal = 0,
+                        Progress = 0,
+                        Status = TaskStatus.Failed
+                        //$"An error occurred: {exception} (NOT LOCALIZED)"
+                    });
                 }
             }
         }

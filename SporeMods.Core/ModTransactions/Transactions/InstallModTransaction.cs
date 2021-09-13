@@ -69,14 +69,13 @@ namespace SporeMods.Core.ModTransactions.Transactions
             var modName = Identity.DisplayName;
             string modDirectory = Path.Combine(Settings.ModConfigsPath, unique);
 
-            // 2. Show the configurator, if any
             // Needed to show the configurator
             _managedMod = new ManagedMod(true, Identity);
 
             ProgressSignifier = new TaskProgressSignifier(Identity.DisplayName, (UpgradeFromMod != null) ? TaskCategory.Upgrade : TaskCategory.Install);
             _managedMod.ProgressSignifier = ProgressSignifier;
 
-            // 3. Add the mod to the mod list; 
+            // 2. Add the mod to the mod list; 
             Operation(new AddToModManagerOp(_managedMod, UpgradeFromMod));
 
             if ((UpgradeFromMod != null) && (UpgradeFromMod is ManagedMod mgMod))
@@ -85,6 +84,7 @@ namespace SporeMods.Core.ModTransactions.Transactions
                 _managedMod.Configuration = new ModConfiguration(mgMod.Configuration);
             }
 
+            // 3. Show the configurator, if any
             if (_managedMod.HasConfigurator)
             {
                 await OperationAsync(new ShowConfiguratorAsyncOp(_managedMod));

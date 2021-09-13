@@ -87,7 +87,7 @@ namespace SporeMods.Manager
 				EvaluateCanLaunch();
 				TaskProgressDetailsToggleButton.IsChecked = false;
 				UpdateActionButtonStates();
-				string tempText = "All tasks have completed (PLACEHOLDER) (NOT LOCALIZED)";
+				string tempText = "All tasks have concluded (PLACEHOLDER) (NOT LOCALIZED)";
 
 				bool anyPreventsGameLaunch = ModsManager.InstalledMods.ToList().Any(x => x.PreventsGameLaunch);
 				int howManyNotConcluded = tasks.Count(x => !x.IsConcluded);
@@ -716,7 +716,7 @@ namespace SporeMods.Manager
 		private async Task<bool> Instance_ModConfiguratorShown(ManagedMod arg)
 		{
 			var tcs = new TaskCompletionSource<bool>();
-
+			Debug.WriteLine($"{nameof(Instance_ModConfiguratorShown)} called for {arg.DisplayName}");
 			Task task = new Task(() =>
 			{
 				while (_isConfiguratorOpen)
