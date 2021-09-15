@@ -1,6 +1,6 @@
 ﻿using SporeMods.Core;
 using SporeMods.Core.Mods;
-using SporeMods.Manager.Configurators;
+using SporeMods.Views;
 using System;
 using System.Collections.Generic;
 using System.IO;

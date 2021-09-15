@@ -8,8 +8,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interactivity;
+using App = SporeMods.Manager.App;
 
-namespace SporeMods.Manager
+namespace SporeMods.ViewModels
 {
 	public class CreditsItem : DependencyObject
 	{
@@ -50,12 +51,12 @@ namespace SporeMods.Manager
 		DependencyProperty.Register(nameof(HasLink), typeof(bool), typeof(CreditsItem), new FrameworkPropertyMetadata(false));
 
 
-		public void OpenLinkAction(object parameter)
+		public void OpenLinkCommand(object parameter)
 		{
 			if (HasLink)
 				WineHelper.OpenUrl(Link, App.DragServantProcess);
 
-			MessageBox.Show("OpenLink called!");
+			//MessageBox.Show("OpenLink called!");
 		}
 
 		public CreditsItem(string name, string contribution)

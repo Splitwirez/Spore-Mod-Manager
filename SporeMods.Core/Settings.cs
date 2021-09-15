@@ -62,19 +62,138 @@ namespace SporeMods.Core
 			}
 		}
 
+		
+		/*static string CreateTargetFrameworkString()
+		{
+			string targetFramework = string.Empty;
+			using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("RuntimeVersion"))
+			{
+				StreamReader reader = new StreamReader(stream);
+				targetFramework = reader.ReadToEnd();
+			}
+			for (int charIndex = 0; charIndex < targetFramework.Length; charIndex++)
+			{
+				char current = targetFramework[charIndex];
+				if (!current.IsLetter())
+				{
+					targetFramework = targetFramework.Substring(0, charIndex);
+					break;
+				}
+			}
+			return targetFramework + Environment.Version;
+		}*/
+
+
+		//https://docs.microsoft.com/en-us/dotnet/core/tutorials/libraries#how-to-multitarget
+		static readonly string TARGET_FRAMEWORK_PREFIX =
+#if NET
+			"dotnet"
+#elif NETCORE
+			"dotnet-core"
+#elif NETFRAMEWORK
+			"dotnet-framework"
+#else
+			string.Empty //"targetframework-unknown"
+#endif
+			;
+
+
+/*		static readonly string TARGET_FRAMEWORK_PREFIX = "TARGETS="
+#if NET
+			+ "NET,"
+#endif
+#if NETCORE
+			+ "NETCORE,"
+#endif
+#if NETCOREAPP
+			+ "NETCOREAPP,"
+#endif
+#if NETCOREAPP3_1
+			+ "NETCOREAPP3_1,"
+#endif
+#if NETFRAMEWORK
+			+ "NETFRAMEWORK,"
+#endif
+#if NETFX
+			+ "NETFX"
+#endif
+			;*/
+		
+
+		static readonly string TARGET_FRAMEWORK_VERSION =
+#if NETFRAMEWORK
+	#if NET48
+			"4-8"
+	#elif NET472
+			"4-7-2"
+	#elif NET471
+			"4-7-1"
+	#elif NET47
+			"4-7-0"
+	#elif NET462
+			"4-6-2"
+	#elif NET461
+			"4-6-2"
+	#elif NET46
+			"4-6"
+	#elif NET452
+			"4-5-2"
+	#elif NET451
+			"4-5-1"
+	#elif NET45
+			"4-5"
+	#elif NET40
+			"4-0"
+	#elif NET35
+			"3-5"
+	#elif NET20
+			"2-0"
+	#else
+			"unknown-netfx-version"
+	#endif
+			+ "_" +
+#endif
+			Environment.Version.ToString().Replace('.', '-');
+
+
+		static readonly string _targetFramework = $"{TARGET_FRAMEWORK_PREFIX}--{TARGET_FRAMEWORK_VERSION}";
 		public static string TargetFramework
 		{
-			get
-			{
-				/*string targetFramework = string.Empty;
-				using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("RuntimeVersion.txt"))
-				{
-					StreamReader reader = new StreamReader(stream);
-					targetFramework = reader.ReadToEnd();
-				}*/
-				return "dotnet-core--" + Environment.Version;
-			}
+			get => _targetFramework;
 		}
+
+		static string GetBuildChannel()
+		{
+#if SET_BUILD_CHANNEL
+			string buildChannel = 
+	#if DEBUG
+				"DEBUG_"
+	#else
+				string.Empty
+	#endif
+				;
+			
+
+			using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("BuildChannel"))
+			{
+				using (StreamReader reader = new StreamReader(stream))
+				{
+					buildChannel += reader.ReadToEnd();
+				}
+			}
+			return buildChannel.Replace("\r", string.Empty).Replace("\n", string.Empty);
+#else
+			return
+	#if DEBUG	
+				"DEBUG"
+	#else
+				string.Empty
+	#endif
+				;
+#endif
+		}
+		
+		public static readonly string BuildChannel = GetBuildChannel();
 
 		/// <summary>
 		/// Path to the mod collection folder in ProgramData.

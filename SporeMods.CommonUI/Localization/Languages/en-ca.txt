@@ -55,7 +55,14 @@ CopyUrlIntoBrowser Copy the following URL into your internet browser. #CopyUrlIn
 
 
 # Manager
-Header Spore Mod Manager BETA v%VERSION% [DLLs Build %DLLSBUILD%] #WindowTitle
+#REMOVED Header Spore Mod Manager BETA v%VERSION% [DLLs Build %DLLSBUILD%] #WindowTitle
+#REVISED - removed "impossible case" instruction text, as this isn't actually an impossible case. (formerly "The Spore process could not be created. This should never happen, so if you see this message, please report the problem immediately.")
+
+Header {
+	#Spore Mod Manager  v%VERSION% [DLLs Build %DLLSBUILD%] #WindowTitle
+	WithBuildChannel Spore Mod Manager %BUILDCHANNEL% v%VERSION% [DLLs Build %DLLSBUILD%] (%DOTNETRUNTIME%)
+	NoBuildChannel Spore Mod Manager v%VERSION% [DLLs Build %DLLSBUILD%] (%DOTNETRUNTIME%)
+}
 
 Mods {
 	Header Mods #ModsTabItem
@@ -77,31 +84,105 @@ Mods {
 		Prompt Click the Install mods button to get started installing Spore mods! #DropModsHerePrompt
 	}
 	
-	DropHere {
-		Header Drag-and-drop mods here to install them #DropModsHereInstruction
-	}
+	#REMOVED (see FilesRequest group)
+	#DropHere {
+		#REMOVED (see FilesRequest group)
+		#Header Drag-and-drop mods here to install them #DropModsHereInstruction
+	#}
 	
 	
-	Browse {
-		Header Select one or more mods to install #SelectMod
-		Filter Spore mods (%EXTENSIONS%) #AllSporeModsFilter
-	}
+	#REMOVED (see FilesRequest group)
+	#Browse {
+		#REMOVED (see FilesRequest group)
+		#Header Select one or more mods to install #SelectMod
+
+		#REMOVED (see FilesRequest group)
+		#Filter Spore mods (%EXTENSIONS%) #AllSporeModsFilter
+	#}
 	
 	
 	ListEntry {
-		InstallInProgress Installing... #ModInstallingNow
-		UninstallInProgress Uninstalling... #ModUninstallingNow
+		#REMOVED InstallInProgress Installing...
+		#REMOVED UninstallInProgress Uninstalling...
+		
+		#ADDED
+		Tasks {
+			#ADDED
+			Pending Pending
+			#ADDED
+			Install Installing
+			#ADDED
+			Update Updating
+			#ADDED
+			Reconfigure Applying new settings
+			#ADDED
+			Uninstall Uninstalling
+			#ADDED
+			Rollback Failed - reverting changes
+		}
 		
 		ManuallyInstalled Manually installed #ModInstalledManually
 		
 		CausesSaveDataDependency This mod causes save data dependency. Uninstalling it could damage or corrupt your save planets. #CausesSaveDataDependencyWarning
 		
-		#ADDED
 		MoreInfo {
-			#ADDED
 			Expand Show more information
-			#ADDED
 			Collapse Hide more information
+		}
+	}
+	
+	#ADDED
+	TaskList {
+		#ADDED
+		Header Ongoing task progress
+		
+		#ADDED
+		ToggleButton Task progress details
+		
+		#ADDED
+		Entry {
+			#ADDED
+			Header {
+				#ADDED
+				Install Installing {0}
+				#ADDED
+				Update Updating {0}
+				#ADDED
+				Reconfigure Applying new settings to {0}
+				#ADDED
+				Uninstall Uninstalling {0}
+				#ADDED
+				Rollback Reverting changes to {0}
+			}
+			
+			#ADDED
+			Percentage {
+				#ADDED
+				Pending Pending
+				#ADDED
+				Install {0}% installed
+				#ADDED
+				Update {0}% updated
+				#ADDED
+				Reconfigure {0}% applied
+				#ADDED
+				Uninstall {0}% uninstalled
+				#ADDED
+				Rollback Reverting changes
+			}
+			
+			#ADDED
+			Conclusion {
+				#ADDED
+				Succeeded Succeeded
+				#ADDED
+				Skipped Skipped
+				#ADDED
+				Failed Failed, reverted
+			}
+		
+			#ADDED
+			Failure Failed - 
 		}
 	}
 	
@@ -177,6 +258,29 @@ Mods {
 	}
 }
 
+#ADDED
+FilesRequest {
+	#ADDED
+	InstallMods {
+		#ADDED
+		Header Install mods
+		#ADDED
+		Description Drag-and-drop mods here to install them, or choose files directly below
+
+		#ADDED
+		WrongFiles The files provided are not mods. Mods are %EXTENSIONS% files.
+
+		
+		#ADDED
+		Browse {
+			#ADDED
+			Header Choose one or more mods to install #SelectMod
+			#ADDED
+			Filter Spore mods (%EXTENSIONS%) #AllSporeModsFilter
+		}
+	}
+}
+
 Settings {
 	Header Settings #SettingsTabItem
 
@@ -192,45 +296,33 @@ Settings {
 	}
 	
 	Window {
-		#REVISED - Talk about how Spore is displayed - after all, Spore is fullscreen by default, and nobody thinks of a fullscreen program as being a window, even if it technically is (formerly "Window")
 		Header Spore display options #WindowHeader
 		
 		OverrideWindowMode {
-			#REVISED - fixed capitalization on "window" and "mode"
 			Header Override window mode #OverrideWindowMode
 			
 			Fullscreen Fullscreen #WindowModeFullscreen
-			#REVISED - fixed capitalization on "windowed"
 			BorderlessWindowed Borderless windowed #WindowModeBorderlessWindowed
 			Windowed Windowed #WindowModeWindowed
 			
-			#ADDED
 			ChooseMonitor {
-				#ADDED
 				Header Choose a monitor to use when launching Spore
-				#ADDED
 				Button Choose preferred monitor
-				#ADDED
 				SelectButton Click here to use this monitor
 			}
 		}
 		
 		OverrideGameResolution {
-			#REVISED - Refer to Spore by name, fixed capitalization on entire string (formerly "Override Game Resolution")
 			Header Override window resolution #OverrideGameResolution
 			
-			#REVISED - fixed capitalization on "windowed"
 			Auto Automatic resolution #ResolutionAuto
-			#REVISED - fixed capitalization on "windowed"
 			Custom Custom resolution #ResolutionCustom
 		}
 	}
 	
 	GameEntry {
-		#REVISED - More descriptive in non-technical terms (formerly "Game entry")
 		Header Spore startup behaviour #GameEntryHeader
 		
-		#ADDED
 		StartupEditor {
 			Header Go directly into a creator
 			Content Creator name #CommandLineStateName
@@ -253,18 +345,10 @@ Settings {
 			}
 		}
 		
-		#REMOVED CommandLineState group
-		#CommandLineState {
-			#Header Launch game with a startup State #CommandLineState
-			#Content State name #CommandLineStateName
-		#}
-		
 		GameLanguage {
-			#REVISED - "game" --> "Spore"
 			Header Launch Spore with a non-default language #CommandLineLanguage
 			Content Locale name #CommandLineLocaleName
 			
-			#ADDED
 			ToolTip {
 				Content Start Spore in a different language.
 				Warning Using this option may result in stray folders with names in the selected language in your 'My Spore Creations' folder, which won't go away on their own even once this option is disabled.
@@ -277,9 +361,6 @@ Settings {
 				Content Spore supports a few more command-line options, and some mods may introduce their own. For convenience's sake, you can specify them here.
 			}
 		}
-		
-		#REMOVED CommandLineOther (refer to CommandLineExtras above)
-		#CommandLineOther Additional Command Line options #CommandLineOptions
 	}
 	
 	
@@ -289,7 +370,6 @@ Settings {
 		Language {
 			Header Language #LanguageHeader
 			
-			#ADDED
 			Completeness {0}% Complete
 		}
 		
@@ -297,18 +377,12 @@ Settings {
 			Header Lights#LightSwitchHeader
 		}
 		
-		#ADDED
 		SmmWindowFrame {
 			Header Window frame
 			
 			StandardFrame Standard
 			BuiltInFrame Built-in
 		}
-		
-		#REMOVED WindowDecorations group (refer to SmmWindowFrame above)
-		#WindowDecorations {
-			#Header Use Standard Window Decorations #UseStandardWindowDecorations
-		#}
 	}
 	
 	Update {
@@ -320,8 +394,6 @@ Settings {
 			Never Don't update (not recommended) #UpdateNever
 		}
 	}
-	
-	#REMOVED RequiresAppRestart (formerly "%CONTEXT% (requires app restart)") RequiresAppRestart
 }
 
 Help {
@@ -330,7 +402,6 @@ Help {
 	NeedHelp {
 		Header Need help? #HelpHeader
 		AskQuestion Ask a question #AskQuestion
-		#REVISED - Let's not makes this specifically about features (formerly "Suggest a feature")
 		SuggestFeature Make a suggestion #SuggestFeature
 		ReportBug Report a bug #ReportBug
 	}
@@ -341,18 +412,12 @@ Help {
 }
 
 SporeIsOpen {
-	#REVISED (formerly "Please close Spore to continue") #CloseSporeFirst
 	Header Hmmm...is Spore still open?
 	
-	#ADDED
 	Content Mod management is not possible while Spore is open. If you were looking to do so, and Spore does not appear to be open, you can try to
 	
-	#REMOVED AndCantClose (formerly "If Spore is not responding, has crashed, or has already been closed, click here:") #SporeCantClose 
-	
 	ForceClose {
-		#REVISED - actually say "Force" now (formerly "Close Spore")
 		Button Force-close Spore #ForceKillSporeButton
-		#REVISED - formerly "Force-close Spore?") #ForceKillConfirmTitle
 		Header Are you sure?
 		Content ANY UNSAVED PROGRESS WILL BE LOST. Are you sure you wish to force-close Spore? #ForceKillConfirmDesc
 	}
@@ -391,22 +456,15 @@ LauncherError {
 	RunMgr Please run the Spore Mod Manager at least once before running the Spore Mod Launcher. #Error_RunModManagerFirst
 
 	GameVersion {
-		#REMOVED NotRecognized (formerly "Version information for your Spore executable could not recognized.") Error_ExeVersionNotRecognized
-		
-		#REVISED - "game" --> "Spore", also less robotic wording (formerly "executable version not recognized")
 		ReadFailed SporeApp.exe version could not be read. This should never happen, so if you see this message, please report the problem immediately.
 	
-		#REVISED - More helpful (formerly "This version of Spore is too old. Please update to a supported patch.")
 		TooOld You're using version %GAMEVER% of Spore, which is not supported by the Spore Mod Manager. Please update to a supported patch.<br>For disk installs, this means Patch 1.5.1 .<br>Installs from any other source will need the March 2017 patch.
-		#REVISED - Phrasing tweaked to make room for %GAMEVER% field (formerly "This version of Spore is too new, and is not yet supported. To protect your save data, please refraing from playing Spore, modded or otherwise, until an update to the Spore Mod Manager is released to address this.")
 		WaitDidTheyActuallyUpdateSpore You're using version %GAMEVER% of Spore. Support for this version of Spore has not yet been added to the Spore Mod Manager. To protect your save data, please refraing from playing Spore, modded or otherwise, until an update to the Spore Mod Manager is released to address this.
 		NullDllSuffix Somehow, the Spore Mod Launcher has determined that there is no DLL suffix corresponding to your version of Spore. This should never happen, so if you see this message, please report the problem immediately. #Error_NullDllSuffix
 	}
 	
 	Process {
-		#REVISED - removed "impossible case" instruction text, as this isn't actually an impossible case. (formerly "The Spore process could not be created. This should never happen, so if you see this message, please report the problem immediately.")
 		Create The Spore process could not be created.
-		#REVISED - removed "impossible case" instruction text, as this isn't actually an impossible case. (formerly "The Spore process could not be resumed. This should never happen, so if you see this message, please report the problem immediately.")
 		Resume The Spore process could not be resumed.
 	}
 

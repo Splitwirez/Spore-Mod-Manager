@@ -1,5 +1,10 @@
 ﻿using SporeMods.Core;
+using SporeMods.CommonUI;
 using SporeMods.CommonUI.Localization;
+using CUIMsg = SporeMods.CommonUI.MessageDisplay;
+using CoreMsg = SporeMods.Core.MessageDisplay;
+using SporeMods.Views;
+using SporeMods.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,7 +22,7 @@ namespace SporeMods.Manager
 	public partial class App : Application
 	{
 		public static Process DragServantProcess = null;
-
+		
 		public App()
 		{
 			AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
@@ -27,14 +32,14 @@ namespace SporeMods.Manager
 		private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
 		{
 			App_Exit(this, null);
-			CommonUI.MessageDisplay.ShowException(e.Exception);
+			CUIMsg.ShowException(e.Exception);
 		}
 
 		private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
 			App_Exit(this, null);
 			if (e.ExceptionObject is Exception exc)
-				CommonUI.MessageDisplay.ShowException(exc);
+				CUIMsg.ShowException(exc);
 		}
 
 		public static readonly string DragServantIdArg = "-dragServantId:";
@@ -42,14 +47,21 @@ namespace SporeMods.Manager
 		{
 			if (Settings.ForceSoftwareRendering)
 				RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+			
+			Externals.SpecifyFuncCommandType(typeof(FuncCommand<>));
+			/*CrossProcess.CREATE_FUNC_COMMAND = (t, e, ce) =>
+			{
+				
+				//return new FuncCommand<typeof(t)>((Action<typeof(t)>)e, (Predicate<typeof(t)>)ce);
+			};*/
 
-			MessageDisplay.ErrorOccurred += (sender, args) =>
+			CoreMsg.ErrorOccurred += (sender, args) =>
 			{
 				App_Exit(this, null);
-				CommonUI.MessageDisplay.ShowException(args.Exception);
+				CUIMsg.ShowException(args.Exception);
 			};
-			MessageDisplay.MessageBoxShown += (sneder, args) => Dispatcher.BeginInvoke(new Action(() => CommonUI.MessageDisplay.ShowMessageBox(args.Content, args.Title)));
-			MessageDisplay.DebugMessageSent += (sneder, args) => Dispatcher.BeginInvoke(new Action(() => CommonUI.MessageDisplay.ShowMessageBox(args.Content, args.Title)));
+			CoreMsg.MessageBoxShown += (sneder, args) => Dispatcher.BeginInvoke(new Action(() => CUIMsg.ShowMessageBox(args.Content, args.Title)));
+			CoreMsg.DebugMessageSent += (sneder, args) => Dispatcher.BeginInvoke(new Action(() => CUIMsg.ShowMessageBox(args.Content, args.Title)));
 
 			Settings.EnsureDllsAreExtracted();
 			CommonUI.Updater.CheckForUpdates();
@@ -156,9 +168,13 @@ namespace SporeMods.Manager
 							base.OnStartup(e);
 
 							//ModInstallation.DoFirstRunVerification();
-							CommonUI.VersionValidation.WarnIfMissingOriginPrerequisites(Path.Combine(new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).Directory.FullName, "Launch Spore.dll"));
+							VersionValidation.WarnIfMissingOriginPrerequisites(Path.Combine(new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).Directory.FullName, "Launch Spore.dll"));
+							var _ = LanguageManager.Instance;
+
+#if OLD_WINDOWING
 							Window window;
-							ManagerContent content = new ManagerContent();
+							MainView content = new MainView();
+
 							if (Settings.UseCustomWindowDecorations)
 							{
 								window = new Mechanism.Wpf.Core.Windows.DecoratableWindow()
@@ -181,14 +197,27 @@ namespace SporeMods.Manager
 							window.MinHeight = 400;
 							window.Width = 800;
 							window.Height = 450;
+							window.DataContext = content.DataContext;
 							MainWindow = window;
-							window.ContentRendered += (sneder, args) => content.MainWindow_OnContentRendered(args);
+							//TODO: Restore this stuff
+							/*window.ContentRendered += (sneder, args) => content.MainWindow_OnContentRendered(args);
 							window.Activated += content.MainWindow_IsActiveChanged;
 							window.Deactivated += content.MainWindow_IsActiveChanged;
 							window.SizeChanged += content.MainWindow_SizeChanged;
 							window.PreviewKeyDown += content.MainWindow_PreviewKeyDown;
-							window.Closing += content.MainWindow_Closing;
+							window.Closing += content.MainWindow_Closing;*/
 							window.Show();
+#endif
+							Resources.MergedDictionaries[0].MergedDictionaries[1] = Mechanism.Wpf.Styles.Shale.ShaleAccents.Sky.Dictionary;
+							
+							FrameworkElement.StyleProperty.OverrideMetadata(typeof(Window), new FrameworkPropertyMetadata
+							{
+								DefaultValue = Application.Current.FindResource(typeof(Window))
+							});
+							
+							
+							MainWindow = new MainView();
+							MainWindow.Show();
 						}
 						else
 						{

@@ -1,4 +1,5 @@
-﻿using SporeMods.Core;
+﻿#if REMOVED
+using SporeMods.Core;
 using SporeMods.Core.Mods;
 using SporeMods.Manager.Configurators;
 using System;
@@ -80,3 +81,4 @@ namespace SporeMods.Manager
 		}
 	}
 }
+#endif

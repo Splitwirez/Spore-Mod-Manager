@@ -240,6 +240,7 @@ namespace SporeMods.CommonUI.Localization
 
                 TryRefreshWpfResources();
                 NotifyPropertyChanged();
+                LanguageChanged?.Invoke(this, null);
             }
         }
 
@@ -288,5 +289,8 @@ namespace SporeMods.CommonUI.Localization
             
             return $"{key} (NOT LOCALIZED)";
         }
+
+
+        public static event EventHandler<EventArgs> LanguageChanged;
     }
 }

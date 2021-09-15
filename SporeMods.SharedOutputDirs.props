@@ -16,4 +16,8 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
+  <PropertyGroup Condition="Exists('..\build\BuildChannel')">
+    <!--'$(DefineConstants.Contains(SET_BUILD_CHANNEL)) and-->
+    <DefineConstants>$(DefineConstants);SET_BUILD_CHANNEL</DefineConstants>
+  </PropertyGroup>
 </Project>

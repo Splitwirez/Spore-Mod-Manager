@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SporeMods.Manager.Configurators
+namespace SporeMods.Views
 {
 	/// <summary>
 	/// Interaction logic for ModConfiguratorV1_0_0_0.xaml

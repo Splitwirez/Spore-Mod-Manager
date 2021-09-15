@@ -48,7 +48,8 @@ namespace SporeMods.Manager
 
 				if (!areChildrenMousedOver)
 				{
-					((Window.GetWindow(AssociatedObject) as Window).Content as ManagerContent).InstalledModsListView.SelectedItem = null;
+					//TODO: DESELECT
+					//((Window.GetWindow(AssociatedObject) as Window).Content as ManagerContent).InstalledModsListView.SelectedItem = null;
 					e.Handled = true;
 				}
 			}

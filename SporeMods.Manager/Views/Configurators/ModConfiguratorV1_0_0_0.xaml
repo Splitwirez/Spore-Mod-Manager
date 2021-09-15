@@ -1,9 +1,8 @@
-﻿<UserControl x:Class="SporeMods.Manager.Configurators.ModConfiguratorV1_0_0_0"
+﻿<UserControl x:Class="SporeMods.Views.ModConfiguratorV1_0_0_0"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-			 xmlns:local="clr-namespace:SporeMods.Manager.Configurators"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:core="clr-namespace:SporeMods.Core;assembly=SporeMods.Core"
 			 xmlns:ui="clr-namespace:Mechanism.Wpf.Core;assembly=Mechanism.Wpf.Core"
 			 xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
@@ -46,9 +45,10 @@
 						<GroupBox.Resources>
 							<DataTemplate DataType="{x:Type mods:ModComponent}">
 								<RadioButton x:Name="ComponentRadioButton" Content="{Binding DisplayName}" IsChecked="{Binding IsEnabled, Mode=TwoWay}">
-									<e:Interaction.Behaviors>
+									<!--TODO: Restore this-->
+									<!--e:Interaction.Behaviors>
 										<beh:CheckBoxComponentMouseOverBehavior/>
-									</e:Interaction.Behaviors>
+									</e:Interaction.Behaviors-->
 								</RadioButton>
 							</DataTemplate>
 						</GroupBox.Resources>
@@ -57,9 +57,10 @@
 				</DataTemplate>
 				<DataTemplate DataType="{x:Type mods:ModComponent}">
 					<CheckBox x:Name="ComponentCheckBox" Content="{Binding DisplayName}" IsChecked="{Binding IsEnabled, Mode=TwoWay}">
-						<e:Interaction.Behaviors>
+						<!--TODO: Restore this-->
+						<!--e:Interaction.Behaviors>
 							<beh:CheckBoxComponentMouseOverBehavior/>
-						</e:Interaction.Behaviors>
+						</e:Interaction.Behaviors-->
 					</CheckBox>
 				</DataTemplate>
 			</ListView.Resources>

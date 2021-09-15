@@ -1,33 +1,18 @@
-﻿using SporeMods.CommonUI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Linq;
 using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using SporeMods.Core;
+using SporeMods.CommonUI;
+using App = SporeMods.Manager.App;
 
-namespace SporeMods.Manager
+namespace SporeMods.ViewModels
 {
-    /// <summary>
-    /// Interaction logic for HelpPage.xaml
-    /// </summary>
-    public partial class HelpPage : UserControl
-    {
-		public ObservableCollection<CreditsItem> Credits
-		{
-			get => (ObservableCollection<CreditsItem>)GetValue(CreditsProperty);
-			set => SetValue(CreditsProperty, value);
-		}
-
-		public static readonly DependencyProperty CreditsProperty =
-		DependencyProperty.Register(nameof(Credits), typeof(ObservableCollection<CreditsItem>), typeof(ManagerContent), new PropertyMetadata(new ObservableCollection<CreditsItem>()
+	public class HelpViewModel : NotifyPropertyChangedBase
+	{
+		ObservableCollection<CreditsItem> _credits = new ObservableCollection<CreditsItem>()
 		{
 			new CreditsItem("Splitwirez (formerly rob55rod)", "Designed and (mostly) built the Spore Mod Manager.", @"https://github.com/Splitwirez/"),
 			new CreditsItem("emd4600", "Started the Spore ModAPI Project. Created the Spore ModAPI Launcher Kit, which laid the foundations for the Spore Mod Manager. Helped build the Spore Mod Manager to be as robust as possible. Oh, and Spanish and Catalan translations.", @"https://github.com/emd4600/"),
@@ -50,25 +35,35 @@ namespace SporeMods.Manager
 			new CreditsItem("Psi", "Testing"),
 			new CreditsItem("Ivy", "Testing"),
 			new CreditsItem("Masaochism", "Testing"),
-		}));
+		};
 
-		public HelpPage()
-        {
-            InitializeComponent();
-        }
-
-		private void AskQuestionButton_Click(object sender, RoutedEventArgs e) =>
-			OpenUrl(@"https://github.com/Splitwirez/Spore-Mod-Manager/issues/new?assignees=&labels=question&template=question.md&title=");
-
-		private void SuggestFeatureButton_Click(object sender, RoutedEventArgs e) =>
-			OpenUrl(@"https://github.com/Splitwirez/Spore-Mod-Manager/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=");
-
-		private void ReportBugButton_Click(object sender, RoutedEventArgs e) =>
-			OpenUrl(@"https://github.com/Splitwirez/Spore-Mod-Manager/issues/new?assignees=&labels=bug&template=bug_report.md&title=");
-
-		private void OpenUrl(string url)
+		public ObservableCollection<CreditsItem> Credits
 		{
-			WineHelper.OpenUrl(url, App.DragServantProcess);
+			get => _credits;
+			private set
+			{
+				_credits = value;
+				NotifyPropertyChanged();
+			}
 		}
+
+
+		public void AskQuestionCommand(object parameter)
+			=> OpenUrl(@"https://github.com/Splitwirez/Spore-Mod-Manager/issues/new?assignees=&labels=question&template=question.md&title=");
+
+		public void MakeSuggestionCommand(object parameter)
+			=> OpenUrl(@"https://github.com/Splitwirez/Spore-Mod-Manager/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=");
+
+		public void ReportBugCommand(object parameter)
+			=> OpenUrl(@"https://github.com/Splitwirez/Spore-Mod-Manager/issues/new?assignees=&labels=bug&template=bug_report.md&title=");
+
+		public void OpenUrlCommand(object parameter)
+		{
+			if (parameter is string url)
+				OpenUrl(url);
+		}
+
+		public static void OpenUrl(string url)
+			=> WineHelper.OpenUrl(url, App.DragServantProcess);
 	}
 }
