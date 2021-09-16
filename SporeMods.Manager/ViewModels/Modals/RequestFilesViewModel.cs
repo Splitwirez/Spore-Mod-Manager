@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using SporeMods.Core;
 using SporeMods.CommonUI;
 using SporeMods.CommonUI.Localization;
+
+
+using FClipboard = System.Windows.Forms.Clipboard;
 
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
@@ -18,26 +22,46 @@ namespace SporeMods.ViewModels
 	
 	public class RequestFilesViewModel : ModalViewModel<IEnumerable<string>>
 	{
-		string _description = string.Empty;
-		public string Description
+		string _descriptionDrag = string.Empty;
+		public string DescriptionDrag
 		{
-			get => _description;
+			get => _descriptionDrag;
 			set
 			{
-				_description = value;
+				_descriptionDrag = value;
+				NotifyPropertyChanged();
+			}
+		}
+		
+		string _descriptionPasteBrowse = string.Empty;
+		public string DescriptionPasteBrowse
+		{
+			get => _descriptionPasteBrowse;
+			set
+			{
+				_descriptionPasteBrowse = value;
 				NotifyPropertyChanged();
 			}
 		}
 
-
-
-		FuncCommand<object> _browseInsteadCommand = null;
-		public FuncCommand<object> BrowseInsteadCommand
+		FuncCommand<object> _browseCommand = null;
+		public FuncCommand<object> BrowseCommand
 		{
-			get => _browseInsteadCommand;
+			get => _browseCommand;
 			set
 			{
-				_browseInsteadCommand = value;
+				_browseCommand = value;
+				NotifyPropertyChanged();
+			}
+		}
+
+		FuncCommand<object> _pasteCommand = null;
+		public FuncCommand<object> PasteCommand
+		{
+			get => _pasteCommand;
+			set
+			{
+				_pasteCommand = value;
 				NotifyPropertyChanged();
 			}
 		}
@@ -47,7 +71,8 @@ namespace SporeMods.ViewModels
 		
 		const string PURPOSE_PLACEHOLDER = "%PURPOSE%";
 		static readonly string TITLE_KEY_BASE = $"FilesRequest!{PURPOSE_PLACEHOLDER}!Header";
-		static readonly string DESCRIPTION_KEY_BASE = $"FilesRequest!{PURPOSE_PLACEHOLDER}!Description";
+		static readonly string DESCRIPTION_DRAG_KEY_BASE = $"FilesRequest!{PURPOSE_PLACEHOLDER}!DescriptionDrag";
+		static readonly string DESCRIPTION_PASTE_BROWSE_KEY_BASE = $"FilesRequest!{PURPOSE_PLACEHOLDER}!DescriptionPasteBrowse";
 		
 		static readonly string WRONG_FILES_KEY_BASE = $"FilesRequest!{PURPOSE_PLACEHOLDER}!WrongFiles";
 		
@@ -56,16 +81,27 @@ namespace SporeMods.ViewModels
 
 		const string MOD_FILE_EXTENSIONS = "*.sporemod, *.package";
 
+		static readonly TextDataFormat[] TEXT_FORMATS =
+		{
+			TextDataFormat.CommaSeparatedValue,
+			TextDataFormat.Html,
+			TextDataFormat.Rtf,
+			TextDataFormat.Text,
+			TextDataFormat.UnicodeText,
+			TextDataFormat.Xaml
+		};
+
 		public RequestFilesViewModel(FileRequestPurpose purpose, bool acceptMultiple)
 			: base()
 		{
 			_purpose = purpose;
 
 			Title = GetText(TITLE_KEY_BASE);
-			Description = GetText(DESCRIPTION_KEY_BASE);
+			DescriptionDrag = GetText(DESCRIPTION_DRAG_KEY_BASE);
+			DescriptionPasteBrowse = GetText(DESCRIPTION_PASTE_BROWSE_KEY_BASE);
 			
 
-			_browseInsteadCommand = new FuncCommand<object>(o =>
+			_browseCommand = new FuncCommand<object>(o =>
 			{
 				OpenFileDialog dialog = new OpenFileDialog()
 				{
@@ -90,18 +126,57 @@ namespace SporeMods.ViewModels
 				}
 			});
 
+			_pasteCommand = new FuncCommand<object>(o =>
+			{
+				if (FClipboard.ContainsFileDropList())
+				{
+					var files = FClipboard.GetFileDropList();
+					GrantFiles(files.Cast<string>());
+				}
+				/*else
+				{
+					bool anyText = false;
+					foreach (TextDataFormat format in TEXT_FORMATS)
+					{
+						if (Clipboard.ContainsText(format))
+						{
+							MessageBox.Show($"FORMAT: {format}\nDATA: {Clipboard.GetText(format)}");
+							anyText = true;
+							break;
+						}
+					}
+
+					if (!anyText)
+						MessageBox.Show("No text!");
+				}*/
+			});
+
 			DismissCommand = new FuncCommand<object>(o => CompletionSource.TrySetResult(null));
 		}
 
 		public bool GrantFiles(IEnumerable<string> fileNames)
 		{
-			if ((fileNames != null) && (fileNames.Count() > 0))
+			if (fileNames != null)
 			{
-				CompletionSource.TrySetResult(fileNames);
-				return true;
+				if (fileNames.Count() > 0)
+				{
+					/*string msgbox = string.Empty;
+					foreach (string h in fileNames)
+					{
+						msgbox += $"'h'\n";
+					}
+					MessageBox.Show(msgbox);*/
+
+					CompletionSource.TrySetResult(fileNames);
+					return true;
+				}
+				else
+					MessageBox.Show("Zero files in collection!");
 			}
 			else
-				return false;
+				MessageBox.Show("Null collection!");
+			
+			return false;
 		}
 
 		string GetText(string key)

@@ -4,11 +4,11 @@ using System.Windows.Controls;
 namespace SporeMods.Views
 {
     /// <summary>
-    /// Interaction logic for InstalledModsView.xaml
+    /// Interaction logic for HelpView.xaml
     /// </summary>
-    public partial class InstalledModsView : UserControl
+    public partial class HelpView : UserControl
     {
-		public InstalledModsView()
+		public HelpView()
         {
             InitializeComponent();
         }

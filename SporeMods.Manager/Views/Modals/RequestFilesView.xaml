@@ -10,14 +10,26 @@
     <DockPanel>
         <ContentControl Style="{DynamicResource CustomInstallerFooterContentControlStyle}"
                         DockPanel.Dock="Bottom">
-            <Button Content="{DynamicResource Browse}"
-                    Command="{Binding BrowseInsteadCommand}"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="{DynamicResource FilesRequest!PasteFromClipboard}"
+                        Command="{Binding PasteCommand}"/>
+                <Button Content="{DynamicResource Browse}"
+                        Command="{Binding BrowseCommand}"
+                        Grid.Column="2"/>
+            </Grid>
         </ContentControl>
-        <TextBlock Text="{Binding Description}" DockPanel.Dock="Top"/>
+        <TextBlock Text="{Binding DescriptionDrag}" DockPanel.Dock="Top"/>
+        <TextBlock Text="{Binding DescriptionPasteBrowse}" DockPanel.Dock="Bottom"/>
         <ContentControl x:Name="DropHereContentControl"
-                        Drop="DropHereContentControl_Drop"
+                        AllowDrop="True"
                         PreviewDrop="DropHereContentControl_Drop"
-                        Background="#4000C000">
+                        Background="#40FF0000"
+                        Style="{x:Null}">
             <ContentControl.Template>
                 <ControlTemplate TargetType="{x:Type ContentControl}">
                     <Border Background="{TemplateBinding Background}">
@@ -25,7 +37,7 @@
                     </Border>
                 </ControlTemplate>
             </ContentControl.Template>
-            <Rectangle Fill="#0000FF" Margin="100"/>
+            <TextBlock Text="Drag and drop NYI...ish (PLACEHOLDER) (NOT LOCALIZED)" FontSize="28"/>
         </ContentControl>
     </DockPanel>
 </UserControl>

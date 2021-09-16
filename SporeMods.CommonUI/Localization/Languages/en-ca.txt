@@ -265,7 +265,9 @@ FilesRequest {
 		#ADDED
 		Header Install mods
 		#ADDED
-		Description Drag-and-drop mods here to install them, or choose files directly below
+		DescriptionDrag Drag-and-drop mods here to install them...
+		#ADDED
+		DescriptionPasteBrowse ...or paste copied mods, or browse for downloaded mods.
 
 		#ADDED
 		WrongFiles The files provided are not mods. Mods are %EXTENSIONS% files.
@@ -279,6 +281,10 @@ FilesRequest {
 			Filter Spore mods (%EXTENSIONS%) #AllSporeModsFilter
 		}
 	}
+
+	#ADDED
+	PasteFromClipboard Paste
+	#ADDED
 }
 
 Settings {

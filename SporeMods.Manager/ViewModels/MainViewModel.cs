@@ -7,8 +7,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using SporeMods.Core;
+using SporeMods.Core.Mods;
 using SporeMods.CommonUI;
 using SporeMods.CommonUI.Localization;
+using App = SporeMods.Manager.App;
 
 namespace SporeMods.ViewModels
 {
@@ -26,8 +28,8 @@ namespace SporeMods.ViewModels
 			}
 		}
 
-		string _title = string.Empty;
 
+		string _title = string.Empty;
 		public string Title
 		{
 			get => _title;
@@ -39,38 +41,40 @@ namespace SporeMods.ViewModels
 		}
 
 
-
-		public MainViewModel()
-			: base()
+		bool _canChangeModSettings = false;
+		public bool CanChangeModSettings
 		{
-			LanguageManager.LanguageChanged += (s, e) => RefreshTitle();
-			RefreshTitle();
-
-			_installMods = new FuncCommand<object>(o =>
+			get => _canChangeModSettings;
+			set
 			{
-				InstallMods();
-			});
+				_canChangeModSettings = value;
+				NotifyPropertyChanged();
+			}
 		}
 
-		void RefreshTitle()
+
+		bool _canUninstallMods = false;
+		public bool CanUninstallMods
 		{
-			Title = LanguageManager.Instance.GetLocalizedText("Header!" +
-#if SET_BUILD_CHANNEL
-				"WithBuildChannel"
-#else
-				"NoBuildChannel"
-#endif
-				)
-				.Replace("%VERSION%", Settings.ModManagerVersion.ToString())
-				.Replace("%DLLSBUILD%", Settings.CurrentDllsBuildString)
-				.Replace("%DOTNETRUNTIME%", Settings.TargetFramework)
-#if SET_BUILD_CHANNEL
-				.Replace("%BUILDCHANNEL%", Settings.BuildChannel)
-#endif
-				;
+			get => _canUninstallMods;
+			set
+			{
+				_canUninstallMods = value;
+				NotifyPropertyChanged();
+			}
 		}
 
 
+		bool _canLaunchSpore = true;
+		public bool CanLaunchSpore
+		{
+			get => _canLaunchSpore;
+			set
+			{
+				_canLaunchSpore = value;
+				NotifyPropertyChanged();
+			}
+		}
 
 		public FuncCommand<object> ShowTestDialogCommand { get; }
 			= new FuncCommand<object>(o =>
@@ -85,6 +89,95 @@ namespace SporeMods.ViewModels
 			get => _installMods;
 		}
 
+		FuncCommand<object> _uninstallMods = null;
+		public FuncCommand<object> UninstallModsCommand
+		{
+			get => _uninstallMods;
+		}
+		
+		FuncCommand<object> _changeModSettings = null;
+		public FuncCommand<object> ChangeModSettingsCommand
+		{
+			get => _changeModSettings;
+		}
+
+		FuncCommand<object> _launchSpore = null;
+		public FuncCommand<object> LaunchSporeCommand
+		{
+			get => _launchSpore;
+		}
+
+
+		public MainViewModel()
+			: base()
+		{
+			LanguageManager.LanguageChanged += (s, e) => RefreshTitle();
+			RefreshTitle();
+
+			_installMods = new FuncCommand<object>(o => InstallMods());
+			_uninstallMods = new FuncCommand<object>(o => UninstallMods());
+			_changeModSettings = new FuncCommand<object>(o => ChangeModSettings());
+
+			_launchSpore = new FuncCommand<object>(o =>
+			{
+				if (CanLaunchSpore)
+				{
+					if (Permissions.IsAtleastWindowsVista() && Permissions.IsAdministrator() && ((App.DragServantProcess != null) && (!App.DragServantProcess.HasExited)))
+						ServantCommands.RunLauncher();
+					else// if (!Permissions.IsAdministrator())
+						CrossProcess.StartLauncher();
+
+					_minimizeOnGameStart = true;
+				}
+			});
+
+			InstalledModsViewModel.SelectedModsChanged += (s, e) =>
+			{
+				if (s is IEnumerable<IInstalledMod> mods)
+				{
+					RefreshCanDoesThings(mods);
+					_selectedMods = mods;
+				}
+			};
+
+			ManagedMod.AnyModIsProgressingChanged += (s, e) => CanLaunchSpore = !AreAnyProgressing(ModsManager.InstalledMods);
+		}
+
+		void RefreshCanDoesThings(IEnumerable<IInstalledMod> mods)
+		{
+			CanUninstallMods = false;
+			CanChangeModSettings = false;
+			
+			int count = mods.Count();
+			
+			if (count >= 1)
+			{
+				CanUninstallMods = !AreAnyProgressing(mods);
+				CanChangeModSettings = (mods.Count() == 1) && (mods.First() is ManagedMod mmod) && (!mmod.IsProgressing) && mmod.HasConfigurator;
+			}
+		}
+
+		bool AreAnyProgressing(IEnumerable<IInstalledMod> mods)
+			=> mods.Any(x => (x is ManagedMod mmod) ? mmod.IsProgressing : false);
+
+		void RefreshTitle()
+		{
+			Title = LanguageManager.Instance.GetLocalizedText("Header!" +
+#if SET_BUILD_CHANNEL || DEBUG
+				"WithBuildChannel"
+#else
+				"NoBuildChannel"
+#endif
+				)
+				.Replace("%VERSION%", Settings.ModManagerVersion.ToString())
+				.Replace("%DLLSBUILD%", Settings.CurrentDllsBuildString)
+				.Replace("%DOTNETRUNTIME%", Settings.TargetFramework)
+#if SET_BUILD_CHANNEL || DEBUG
+				.Replace("%BUILDCHANNEL%", Settings.BuildChannel)
+#endif
+				;
+		}
+
 		async Task InstallMods()
 		{
 			var files = await Modal.Show(new RequestFilesViewModel(FileRequestPurpose.InstallMods, true));
@@ -92,14 +185,52 @@ namespace SporeMods.ViewModels
 				ModInstallation.InstallModsAsync(files.ToArray());
 		}
 
-		public void ConfigureSelectedModCommand(object parameter)
+		
+		IEnumerable<IInstalledMod> _selectedMods = null;
+		async Task UninstallMods()
 		{
-			//TODO: Implement
+			if (
+					(_selectedMods != null) &&
+					(_selectedMods.Count() > 0) &&
+					(!_selectedMods.Any(x => (x is ManagedMod mmod) ? mmod.IsProgressing : false))
+				)
+				ModInstallation.UninstallModsAsync(_selectedMods.ToArray());
+			else
+			{
+				CanUninstallMods = false;
+				await DialogBox.ShowAsync("Can't uninstall mods that are presently doing other stuff (PLACEHOLDER) (NOT LOCALIZED)");
+			}
 		}
 
-		public void LaunchGameCommand(object parameter)
+
+		async Task ChangeModSettings()
 		{
-			//TODO: Implement
+			await DialogBox.ShowAsync("NYI (PLACEHOLDER) (NOT LOCALIZED)");
+			return;
+			bool error = true;
+			if (
+					(_selectedMods != null) &&
+					(_selectedMods.Count() == 1)
+				)
+			{
+				if (
+					(_selectedMods.First() is ManagedMod mmod) &&
+					(!mmod.IsProgressing) &&
+					(mmod.HasConfigurator)
+				)
+				{
+					error = false;
+					await ModsManager.Instance.ShowModConfigurator(mmod);
+				}
+			}
+			
+			if (error)
+			{
+				CanChangeModSettings = false;
+				await DialogBox.ShowAsync("Can't change settings for the specified mod or lack thereof (PLACEHOLDER) (NOT LOCALIZED)");
+			}
 		}
+
+		bool _minimizeOnGameStart = false;
 	}
 }

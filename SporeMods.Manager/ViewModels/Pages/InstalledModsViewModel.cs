@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using SporeMods.Core;
+using SporeMods.Core.Mods;
 using SporeMods.CommonUI;
 using App = SporeMods.Manager.App;
 
@@ -82,5 +83,20 @@ namespace SporeMods.ViewModels
 			
 			return search;
 		}
+
+
+		IEnumerable<IInstalledMod> _selectedMods = new List<IInstalledMod>();
+		public IEnumerable<IInstalledMod> SelectedMods
+		{
+			get => _selectedMods;
+			set
+			{
+				_selectedMods = value.ToList();
+				NotifyPropertyChanged();
+				SelectedModsChanged?.Invoke(_selectedMods, null);
+			}
+		}
+
+		public static event EventHandler<EventArgs> SelectedModsChanged;
 	}
 }

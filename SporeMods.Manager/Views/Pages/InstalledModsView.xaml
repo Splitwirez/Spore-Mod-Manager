@@ -94,6 +94,7 @@
                     Style="{DynamicResource InstalledModsListViewStyle}"
                     ItemsSource="{Binding Source={x:Static core:ModsManager.InstalledMods}}"
                     Visibility="{Binding IsSearching, Converter={StaticResource BooleanToInvisibilityConverter}}"
+                    SelectionChanged="ModsList_SelectionChanged"
                     mech:AttachedProperties.CornerCurves="False"/>
                     <!--SelectionChanged="InstalledModsListView_SelectionChanged"
                     IsVisibleChanged="ModsListView_IsVisibleChanged"
@@ -102,6 +103,7 @@
                     Style="{DynamicResource InstalledModsListViewStyle}"
                     ItemsSource="{Binding SearchResults, Source={x:Static core:ModSearch.Instance}}"
                     Visibility="{Binding IsSearching, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    SelectionChanged="ModsList_SelectionChanged"
                     mech:AttachedProperties.CornerCurves="False"/>
                     <!--IsVisibleChanged="ModsListView_IsVisibleChanged"
                     PreviewKeyDown="ModsListView_PreviewKeyDown"-->

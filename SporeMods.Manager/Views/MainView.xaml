@@ -36,8 +36,7 @@
                     <Button x:Name="InstallModsButton"
                             Content="{DynamicResource Footer!InstallMods}"
                             Style="{DynamicResource InstallModsButtonStyle}"
-                            Command="{Binding InstallModsCommand}"
-                            CommandParameter="{x:Null}">
+                            Command="{Binding InstallModsCommand}">
                             <!--Command="{Binding InstallModsCommand, Converter={x:Static cui:Func.Cmd}}"
                             CommandParameter="{x:Null}"/-->
                         <!--e:Interaction.Triggers>
@@ -47,21 +46,22 @@
                             </e:EventTrigger>
                         </e:Interaction.Triggers-->
                     </Button>
-                    <Button x:Name="ConfigureModButton"
+                    <Button x:Name="ChangeModSettingsButton"
                             Content="{DynamicResource Footer!ConfigureMod}"
                             Style="{DynamicResource ConfigureModButtonStyle}"
-                            IsEnabled="False"
-                            Command="{Binding ConfigureSelectedModCommand}"/>
+                            IsEnabled="{Binding CanChangeModSettings}"
+                            Command="{Binding ChangeModSettingsCommand}"/>
                     <Button x:Name="UninstallModsButton"
                             Content="{DynamicResource Footer!UninstallMods}"
                             Style="{DynamicResource UninstallModsButtonStyle}"
-                            IsEnabled="False"
-                            Command="{Binding UninstallSelectedModsCommand}"/>
+                            IsEnabled="{Binding CanUninstallMods}"
+                            Command="{Binding UninstallModsCommand}"/>
 					<Grid>
-                        <Button x:Name="LaunchGameButton"
+                        <Button x:Name="LaunchSporeButton"
                                 Content="{DynamicResource Footer!LaunchGame}"
+                                IsEnabled="{Binding CanLaunchSpore}"
                                 Style="{DynamicResource LaunchGameButtonStyle}"
-                                Command="{Binding LaunchGameCommand}"/>
+                                Command="{Binding LaunchSporeCommand}"/>
 						<ProgressBar x:Name="OverallProgressProgressBar"
                                     Minimum="0"
                                     Maximum="{Binding OverallProgressTotal, Source={x:Static core:ModsManager.Instance}, Mode=OneWay}"
