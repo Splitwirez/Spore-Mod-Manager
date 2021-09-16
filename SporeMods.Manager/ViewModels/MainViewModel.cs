@@ -220,7 +220,7 @@ namespace SporeMods.ViewModels
 				)
 				{
 					error = false;
-					await ModsManager.Instance.ShowModConfigurator(mmod);
+					await mmod.ConfigureMod();
 				}
 			}
 			

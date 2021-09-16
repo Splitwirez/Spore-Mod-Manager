@@ -732,7 +732,7 @@ namespace SporeMods.Core
 
 				//DebugMessageBoxShow("Component count: " + mod.Configurator.Components.Count + "\nXML Mod Identity Version: " + mod.XmlVersion);
 
-				if (await ModsManager.Instance.ShowModConfigurator(mod))
+				if (await Modal.Show(mod.Identity.CreateConfigurator(false))) //await ModsManager.Instance.ShowModConfigurator(mod))
 				{
 					if (!isProgressing)
 						IS_RECONFIGURING_MODS = true;

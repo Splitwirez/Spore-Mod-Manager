@@ -218,7 +218,7 @@ namespace SporeMods.Core
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		public async Task<bool> ShowModConfigurator(ManagedMod mod)
+		/*public async Task<bool> ShowModConfigurator(ManagedMod mod)
 		{
 			MessageDisplay.DebugShowMessageBox("ShowModConfigurator\nHasConfigurator: " + mod.HasConfigurator);
 
@@ -226,9 +226,9 @@ namespace SporeMods.Core
 				return await ModConfiguratorShown(mod);
 			else
 				return false;
-		}
+		}*/
 
-		public event Func<ManagedMod, Task<bool>> ModConfiguratorShown;
+		//public event Func<ManagedMod, Task<bool>> ModConfiguratorShown;
 
 
 		bool _anyTasksRunning = false;

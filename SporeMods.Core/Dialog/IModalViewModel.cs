@@ -11,8 +11,7 @@ namespace SporeMods.Core
 {
 	public interface IModalViewModel
 	{
-		public virtual string GetViewTypeName()
-			=> this.GetType().FullName.Replace("ViewModel", "View");
+		string GetViewTypeName();
 
 		bool CanDismiss { get; }
 		object DismissCommand { get; }
@@ -28,6 +27,9 @@ namespace SporeMods.Core
 
 	public abstract class ModalViewModel<T> : NotifyPropertyChangedBase, IModalViewModel, IModalViewModel<T>
 	{
+		public virtual string GetViewTypeName()
+			=> this.GetType().FullName.Replace("ViewModel", "View");
+
 		TaskCompletionSource<T> _completionSource = new TaskCompletionSource<T>();
 		
 		public virtual TaskCompletionSource<T> CompletionSource

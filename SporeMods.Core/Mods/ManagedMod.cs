@@ -221,7 +221,7 @@ namespace SporeMods.Core.Mods
 				if (HasConfigurator)
 				{
 					//ModsManager.Instance.AddToTaskCount(1);
-					await ModInstallation.RegisterSporemodModWithInstallerAsync(this.RealName);
+					await Modal.Show(Identity.CreateConfigurator(true)); //ModInstallation.RegisterSporemodModWithInstallerAsync(this.RealName);
 					//await EnableMod();
 				}
 				else

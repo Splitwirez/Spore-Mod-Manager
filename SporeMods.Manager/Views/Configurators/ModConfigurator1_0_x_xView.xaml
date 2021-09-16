@@ -1,0 +1,138 @@
+﻿<UserControl x:Class="SporeMods.Views.ModConfigurator1_0_x_xView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mech="clr-namespace:Mechanism.Wpf.Core;assembly=Mechanism.Wpf.Core"
+             xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:mods="clr-namespace:SporeMods.Core.Mods;assembly=SporeMods.Core"
+             xmlns:draw="clr-namespace:System.Drawing;assembly=System.Drawing.Common"
+             xmlns:clsp="clr-namespace:System.Collections.Specialized;assembly=System.Collections.Specialized"
+             xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+             xmlns:vm="clr-namespace:SporeMods.ViewModels"
+             xmlns:local="clr-namespace:SporeMods.Manager">
+    <UserControl.Resources>
+        <local:SysDrawingImageToImageSourceConverter x:Key="SysDrawingImageToImageSourceConverter"/>
+        <local:BooleanToInvisibilityConverter x:Key="BooleanToInvisibilityConverter"/>
+    </UserControl.Resources>
+    <DockPanel>
+        <ContentControl Style="{DynamicResource CustomInstallerFooterContentControlStyle}"
+                        DockPanel.Dock="Bottom">
+            <Control>
+                <Control.Template>
+                    <ControlTemplate>
+                        <DockPanel LastChildFill="False">
+                            <Button x:Name="AcceptButton"
+                                    Command="{Binding AcceptCommand}"
+                                    DockPanel.Dock="Right"/>
+                        </DockPanel>
+                        <ControlTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Configuring}" Value="False">
+                                <Setter TargetName="AcceptButton" Property="Content" Value="{DynamicResource Mods!Configurator!Accept!Install}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Configuring}" Value="True">
+                                <Setter TargetName="AcceptButton" Property="Content" Value="{DynamicResource Mods!Configurator!Accept!ChangeSettings}"/>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Control.Template>
+            </Control>
+        </ContentControl>
+        <!--TextBlock Text="{Binding Content}" Margin="100"/-->
+        <ItemsControl x:Name="ComponentsPane"
+                DockPanel.Dock="Left"
+                ItemsSource="{Binding Identity.SubComponents}"
+                mech:AttachedProperties.CornerCurves="False,True,False,False"
+                Width="300">
+                 <!--Style="{DynamicResource ModConfiguratorComponentsListViewStyle}"-->
+			<ItemsControl.Resources>
+				<DataTemplate DataType="{x:Type mods:MutualExclusiveComponentGroup}">
+					<GroupBox x:Name="SubComponentsGroupBox" Header="{Binding DisplayName}">
+						<GroupBox.Resources>
+							<DataTemplate DataType="{x:Type mods:ModComponent}">
+								<RadioButton x:Name="ComponentRadioButton" Content="{Binding DisplayName}" IsChecked="{Binding IsEnabled, Mode=TwoWay}">
+									<e:Interaction.Triggers>
+                                        <e:EventTrigger EventName="MouseEnter">
+                                            <e:InvokeCommandAction Command="{Binding ViewComponentCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                                                CommandParameter="{Binding}"/>
+                                        </e:EventTrigger>
+                                    </e:Interaction.Triggers>
+								</RadioButton>
+							</DataTemplate>
+						</GroupBox.Resources>
+						<ItemsControl ItemsSource="{Binding SubComponents}"/>
+					</GroupBox>
+				</DataTemplate>
+				<DataTemplate DataType="{x:Type mods:ModComponent}">
+					<CheckBox x:Name="ComponentCheckBox"
+                            Content="{Binding DisplayName}"
+                            IsChecked="{Binding IsEnabled, Mode=TwoWay}">
+                        <e:Interaction.Triggers>
+                            <e:EventTrigger EventName="MouseEnter">
+                                <e:InvokeCommandAction Command="{Binding ViewComponentCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                                    CommandParameter="{Binding}"/>
+                            </e:EventTrigger>
+                        </e:Interaction.Triggers>
+					</CheckBox>
+				</DataTemplate>
+			</ItemsControl.Resources>
+		</ItemsControl>
+        <ScrollViewer x:Name="Body" HorizontalScrollBarVisibility="Disabled">
+            <ListView ItemsSource="{Binding ViewingComponentContent}">
+                <ListView.Resources>
+                    <DataTemplate DataType="{x:Type draw:Image}">
+                        <Image Source="{Binding Converter={StaticResource SysDrawingImageToImageSourceConverter}}"/>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type sys:String}">
+                        <TextBlock Text="{Binding}"/>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type clsp:StringCollection}">
+                        <TextBlock Text="{Binding [0]}" Style="{DynamicResource h2}"/>
+                    </DataTemplate>
+                </ListView.Resources>
+            </ListView>
+        </ScrollViewer>
+    </DockPanel>
+        <!--ContentControl>
+            <ContentControl.Template>
+                <ControlTemplate TargetType="{x:Type ContentControl}">
+                    <DockPanel>
+                        <ContentControl x:Name="HeaderContentControl"
+                                    Style="{DynamicResource ModConfiguratorHeaderContentControlStyle}"
+                                    mech:AttachedProperties.CornerCurves="False,True,False,False"
+                                    DockPanel.Dock="Top">
+                            <Image x:Name="LogoImage"
+                                Height="40"
+                                Margin="50,5"/>
+                        </ContentControl>
+                        <ScrollViewer x:Name="Body" HorizontalScrollBarVisibility="Disabled">
+                            <ItemsControl ItemsSource="{Binding ViewingComponentContent}">
+                                <ItemsControl.Resources>
+                                    <DataTemplate DataType="{x:Type draw:Image}">
+                                        <Image Source="{Binding Converter={StaticResource SysDrawingImageToImageSourceConverter}}"/>
+                                    </DataTemplate>
+                                    <DataTemplate DataType="{x:Type sys:String}">
+                                        <TextBlock Text="{Binding}"/>
+                                    </DataTemplate>
+                                    <DataTemplate DataType="{x:Type clsp:StringCollection}">
+                                        <TextBlock Text="{Binding [0]}" Style="{DynamicResource h2}"/>
+                                    </DataTemplate>
+                                </ItemsControl.Resources>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </DockPanel>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Identity.ParentMod.HasLogo}" Value="True">
+                            <Setter TargetName="LogoImage" Property="Source" Value="{Binding Logo, Converter={StaticResource SysDrawingImageToImageSourceConverter}}"/>
+                            <Setter TargetName="LogoImage" Property="Stretch" Value="Uniform"/>
+                            <Setter TargetName="Body" Property="mech:AttachedProperties.CornerCurves" Value="False"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Identity.ParentMod.HasLogo}" Value="False">
+                            <Setter TargetName="HeaderContentControl" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="Body" Property="mech:AttachedProperties.CornerCurves" Value="False,True,False,False"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </ContentControl.Template>
+        </ContentControl-->
+</UserControl>

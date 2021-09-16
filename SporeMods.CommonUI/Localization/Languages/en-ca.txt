@@ -187,11 +187,28 @@ Mods {
 	}
 	
 	Configurator {
-		10xx {
-			Header %MODNAME% Installer #CustomInstaller_ModInstallerHeader
-			Proceed Proceed #CustomInstaller_Proceed
-			Apply Apply #CustomInstaller_Apply
+		#ADDED
+		Header {
+			#ADDED
+			Install %MODNAME%
+			#ADDED
+			%MODNAME% settings
 		}
+
+		#ADDED
+		Accept {
+			#ADDED
+			Install Proceed
+			#ADDED
+			ChangeSettings Apply
+		}
+
+		#REMOVED 10xx {
+			#REMOVED Header %MODNAME% Installer #CustomInstaller_ModInstallerHeader
+
+			#REMOVED Proceed Proceed #CustomInstaller_Proceed
+			#REMOVED Apply Apply #CustomInstaller_Apply
+		#}
 	}
 	
 	Warning {
