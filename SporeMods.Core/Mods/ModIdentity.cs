@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -225,6 +226,7 @@ namespace SporeMods.Core.Mods
 			get => _viewingComponent;
 			set
 			{
+				Console.WriteLine("a");
 				_viewingComponent = value;
 				NotifyPropertyChanged();
 
@@ -232,13 +234,17 @@ namespace SporeMods.Core.Mods
 				
 				ViewingComponentContent.Clear();
 				bool hasValue = value != null;
-				string desc = hasValue ? value.Description : Identity.Description;
-				if (!hasValue)
+				
+				
+				ViewingComponentContent.Add(new StringCollection()
 				{
-					ViewingComponentContent.Add(new StringCollection()
-					{
-						Identity.DisplayName
-					});
+					hasValue ? value.DisplayName : Identity.DisplayName,
+					string.Empty
+				});
+
+				string desc = hasValue ? value.Description : Identity.Description;
+				/*if (!hasValue)
+				{
 					ViewingComponentContent.Add(desc);
 				}
 				else if (
@@ -258,7 +264,15 @@ namespace SporeMods.Core.Mods
 						if (modCmp.ImagePlacement == ImagePlacementType.After)
 							ViewingComponentContent.Add(image);
 					}
-				}
+				}*/
+				ViewingComponentContent.Add(new StringCollection()
+				{
+					desc
+				});
+				
+				
+				Console.WriteLine(hasValue ? $"type: {value.GetType().FullName}" : "null");
+				Console.WriteLine($"count: {ViewingComponentContent.Count}");
 			}
 		}
 
@@ -289,7 +303,7 @@ namespace SporeMods.Core.Mods
 		public ModConfigurator1_0_x_xViewModel(ModIdentity identity, bool configuring)
 		{
 			Identity = identity;
-			_viewingComponent = identity;
+			ViewingComponent = identity;
 
 			AcceptCommand = Externals.CreateCommand<object>(_ => CompletionSource.TrySetResult(true));
 			ViewComponentCommand = Externals.CreateCommand<BaseModComponent>((p => ViewingComponent = p));

@@ -13,11 +13,61 @@
              xmlns:local="clr-namespace:SporeMods.Manager">
     <UserControl.Resources>
         <local:SysDrawingImageToImageSourceConverter x:Key="SysDrawingImageToImageSourceConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <local:BooleanToInvisibilityConverter x:Key="BooleanToInvisibilityConverter"/>
     </UserControl.Resources>
     <DockPanel>
+        <ItemsControl x:Name="ComponentsPane"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    DockPanel.Dock="Left"
+                    Style="{DynamicResource ModConfiguratorComponentsListStyle}"
+                    ItemsSource="{Binding Identity.SubComponents}"
+                    mech:AttachedProperties.CornerCurves="True,False,False,True">
+            <ItemsControl.Resources>
+                <DataTemplate DataType="{x:Type mods:MutualExclusiveComponentGroup}">
+                    <GroupBox x:Name="SubComponentsGroupBox" Header="{Binding DisplayName}">
+                        <GroupBox.Resources>
+                            <DataTemplate DataType="{x:Type mods:ModComponent}">
+                                <RadioButton x:Name="ComponentRadioButton" Content="{Binding DisplayName}" IsChecked="{Binding IsEnabled, Mode=TwoWay}">
+                                    <e:Interaction.Triggers>
+                                        <e:EventTrigger EventName="MouseEnter">
+                                            <e:InvokeCommandAction Command="{Binding DataContext.ViewComponentCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                                                CommandParameter="{Binding}"/>
+                                        </e:EventTrigger>
+                                    </e:Interaction.Triggers>
+                                </RadioButton>
+                            </DataTemplate>
+                        </GroupBox.Resources>
+                        <ItemsControl ItemsSource="{Binding SubComponents}"/>
+                    </GroupBox>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type mods:ModComponent}">
+                    <CheckBox x:Name="ComponentCheckBox"
+                            Content="{Binding DisplayName}"
+                            IsChecked="{Binding IsEnabled, Mode=TwoWay}">
+                        <e:Interaction.Triggers>
+                            <e:EventTrigger EventName="MouseEnter">
+                                <e:InvokeCommandAction Command="{Binding DataContext.ViewComponentCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                                    CommandParameter="{Binding}"/>
+                            </e:EventTrigger>
+                        </e:Interaction.Triggers>
+                    </CheckBox>
+                </DataTemplate>
+            </ItemsControl.Resources>
+        </ItemsControl>
+        <ContentControl x:Name="HeaderContentControl"
+                        Style="{DynamicResource ModConfiguratorHeaderContentControlStyle}"
+                        mech:AttachedProperties.CornerCurves="False,True,False,False"
+                        DockPanel.Dock="Top"
+                        Visibility="{Binding Identity.ParentMod.HasLogo, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Image x:Name="LogoImage"
+                Height="40"
+                Margin="50,5"
+                Source="{Binding Identity.ParentMod.Logo, Converter={StaticResource SysDrawingImageToImageSourceConverter}}"/>
+        </ContentControl>
         <ContentControl Style="{DynamicResource CustomInstallerFooterContentControlStyle}"
-                        DockPanel.Dock="Bottom">
+                        DockPanel.Dock="Bottom"
+                        mech:AttachedProperties.CornerCurves="False,False,True,False">
             <Control>
                 <Control.Template>
                     <ControlTemplate>
@@ -38,101 +88,38 @@
                 </Control.Template>
             </Control>
         </ContentControl>
-        <!--TextBlock Text="{Binding Content}" Margin="100"/-->
-        <ItemsControl x:Name="ComponentsPane"
-                DockPanel.Dock="Left"
-                ItemsSource="{Binding Identity.SubComponents}"
-                mech:AttachedProperties.CornerCurves="False,True,False,False"
-                Width="300">
-                 <!--Style="{DynamicResource ModConfiguratorComponentsListViewStyle}"-->
-			<ItemsControl.Resources>
-				<DataTemplate DataType="{x:Type mods:MutualExclusiveComponentGroup}">
-					<GroupBox x:Name="SubComponentsGroupBox" Header="{Binding DisplayName}">
-						<GroupBox.Resources>
-							<DataTemplate DataType="{x:Type mods:ModComponent}">
-								<RadioButton x:Name="ComponentRadioButton" Content="{Binding DisplayName}" IsChecked="{Binding IsEnabled, Mode=TwoWay}">
-									<e:Interaction.Triggers>
-                                        <e:EventTrigger EventName="MouseEnter">
-                                            <e:InvokeCommandAction Command="{Binding ViewComponentCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                                                                CommandParameter="{Binding}"/>
-                                        </e:EventTrigger>
-                                    </e:Interaction.Triggers>
-								</RadioButton>
-							</DataTemplate>
-						</GroupBox.Resources>
-						<ItemsControl ItemsSource="{Binding SubComponents}"/>
-					</GroupBox>
-				</DataTemplate>
-				<DataTemplate DataType="{x:Type mods:ModComponent}">
-					<CheckBox x:Name="ComponentCheckBox"
-                            Content="{Binding DisplayName}"
-                            IsChecked="{Binding IsEnabled, Mode=TwoWay}">
-                        <e:Interaction.Triggers>
-                            <e:EventTrigger EventName="MouseEnter">
-                                <e:InvokeCommandAction Command="{Binding ViewComponentCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                                                    CommandParameter="{Binding}"/>
-                            </e:EventTrigger>
-                        </e:Interaction.Triggers>
-					</CheckBox>
-				</DataTemplate>
-			</ItemsControl.Resources>
-		</ItemsControl>
-        <ScrollViewer x:Name="Body" HorizontalScrollBarVisibility="Disabled">
-            <ListView ItemsSource="{Binding ViewingComponentContent}">
-                <ListView.Resources>
+        <ScrollViewer x:Name="Body"
+                    HorizontalScrollBarVisibility="Disabled"
+                    VerticalScrollBarVisibility="Auto"
+                    mech:AttachedProperties.CornerCurves="False">
+            <ItemsControl ItemsSource="{Binding ViewingComponentContent}"
+                    mech:AttachedProperties.CornerCurves="False">
+                <ItemsControl.Resources>
                     <DataTemplate DataType="{x:Type draw:Image}">
                         <Image Source="{Binding Converter={StaticResource SysDrawingImageToImageSourceConverter}}"/>
                     </DataTemplate>
-                    <DataTemplate DataType="{x:Type sys:String}">
+                    <!--DataTemplate DataType="{x:Type sys:String}">
                         <TextBlock Text="{Binding}"/>
-                    </DataTemplate>
+                    </DataTemplate-->
                     <DataTemplate DataType="{x:Type clsp:StringCollection}">
-                        <TextBlock Text="{Binding [0]}" Style="{DynamicResource h2}"/>
+                        <!--mech:NoSizeDecorator Margin="0,10,0,0">
+                            <TextBlock x:Name="TextB" Text="{Binding [0]}" TextWrapping="Wrap" HorizontalAlignment="Left" Padding="5" Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}}" ClipToBounds="False"/-->
+                            <TextBlock x:Name="TextB"
+                                        Text="{Binding [0]}"
+                                        TextAlignment="Left"
+                                        TextWrapping="Wrap"
+                                        Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}"
+                                        Margin="0,0,-18,0"
+                                        Padding="5,5,23,5"/>
+                        <!--/mech:NoSizeDecorator-->
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Count}" Value="2">
+                                <Setter TargetName="TextB" Property="Style" Value="{DynamicResource h2}"/>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
                     </DataTemplate>
-                </ListView.Resources>
-            </ListView>
+                </ItemsControl.Resources>
+            </ItemsControl>
         </ScrollViewer>
     </DockPanel>
-        <!--ContentControl>
-            <ContentControl.Template>
-                <ControlTemplate TargetType="{x:Type ContentControl}">
-                    <DockPanel>
-                        <ContentControl x:Name="HeaderContentControl"
-                                    Style="{DynamicResource ModConfiguratorHeaderContentControlStyle}"
-                                    mech:AttachedProperties.CornerCurves="False,True,False,False"
-                                    DockPanel.Dock="Top">
-                            <Image x:Name="LogoImage"
-                                Height="40"
-                                Margin="50,5"/>
-                        </ContentControl>
-                        <ScrollViewer x:Name="Body" HorizontalScrollBarVisibility="Disabled">
-                            <ItemsControl ItemsSource="{Binding ViewingComponentContent}">
-                                <ItemsControl.Resources>
-                                    <DataTemplate DataType="{x:Type draw:Image}">
-                                        <Image Source="{Binding Converter={StaticResource SysDrawingImageToImageSourceConverter}}"/>
-                                    </DataTemplate>
-                                    <DataTemplate DataType="{x:Type sys:String}">
-                                        <TextBlock Text="{Binding}"/>
-                                    </DataTemplate>
-                                    <DataTemplate DataType="{x:Type clsp:StringCollection}">
-                                        <TextBlock Text="{Binding [0]}" Style="{DynamicResource h2}"/>
-                                    </DataTemplate>
-                                </ItemsControl.Resources>
-                            </ItemsControl>
-                        </ScrollViewer>
-                    </DockPanel>
-                    <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding Identity.ParentMod.HasLogo}" Value="True">
-                            <Setter TargetName="LogoImage" Property="Source" Value="{Binding Logo, Converter={StaticResource SysDrawingImageToImageSourceConverter}}"/>
-                            <Setter TargetName="LogoImage" Property="Stretch" Value="Uniform"/>
-                            <Setter TargetName="Body" Property="mech:AttachedProperties.CornerCurves" Value="False"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Identity.ParentMod.HasLogo}" Value="False">
-                            <Setter TargetName="HeaderContentControl" Property="Visibility" Value="Collapsed"/>
-                            <Setter TargetName="Body" Property="mech:AttachedProperties.CornerCurves" Value="False,True,False,False"/>
-                        </DataTrigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </ContentControl.Template>
-        </ContentControl-->
 </UserControl>

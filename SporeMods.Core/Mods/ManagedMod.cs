@@ -214,15 +214,14 @@ namespace SporeMods.Core.Mods
 		/// <summary>
 		/// Shows the configurator for this mod, if it has one.
 		/// </summary>
-		public async Task ConfigureMod()
+		public async Task ShowSettings()
 		{
 			try
 			{
 				if (HasConfigurator)
 				{
-					//ModsManager.Instance.AddToTaskCount(1);
-					await Modal.Show(Identity.CreateConfigurator(true)); //ModInstallation.RegisterSporemodModWithInstallerAsync(this.RealName);
-					//await EnableMod();
+					var configurator = Identity.CreateConfigurator(true);
+					await Modal.Show(configurator);
 				}
 				else
 				{

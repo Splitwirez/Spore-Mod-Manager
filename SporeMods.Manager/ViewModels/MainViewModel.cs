@@ -205,8 +205,6 @@ namespace SporeMods.ViewModels
 
 		async Task ChangeModSettings()
 		{
-			await DialogBox.ShowAsync("NYI (PLACEHOLDER) (NOT LOCALIZED)");
-			return;
 			bool error = true;
 			if (
 					(_selectedMods != null) &&
@@ -219,8 +217,8 @@ namespace SporeMods.ViewModels
 					(mmod.HasConfigurator)
 				)
 				{
+					await mmod.ShowSettings();
 					error = false;
-					await mmod.ConfigureMod();
 				}
 			}
 			

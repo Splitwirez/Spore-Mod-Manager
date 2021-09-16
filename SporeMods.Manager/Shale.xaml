@@ -1034,34 +1034,29 @@
 		</Setter>
 	</Style>
 
-	<Style x:Key="ModConfiguratorComponentsListViewStyle" TargetType="{x:Type ListView}" BasedOn="{StaticResource {x:Type ListView}}">
+	<Style x:Key="ModConfiguratorComponentsListStyle" TargetType="{x:Type ItemsControl}" BasedOn="{StaticResource {x:Type ItemsControl}}">
 		<Setter Property="MinWidth" Value="300"/>
-		<Setter Property="Margin" Value="0,0,-14,0"/>
-		<Setter Property="Panel.ZIndex" Value="999"/>
+		<!--Setter Property="Margin" Value="0,0,-14,0"/>
+		<Setter Property="Panel.ZIndex" Value="999"/-->
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="{x:Type ListView}">
-					<DockPanel>
-						<Rectangle x:Name="RightShadow" DockPanel.Dock="Right" Width="14" IsHitTestVisible="False">
-							<Rectangle.Fill>
-								<LinearGradientBrush Opacity="0.875" StartPoint="0,0" EndPoint="1,0" GradientStops="{DynamicResource ShadowGradientStops}"/>
-							</Rectangle.Fill>
-						</Rectangle>
-						<Grid>
-							<Border Style="{DynamicResource HorizontalBarBorderStyle}" DockPanel.Dock="{TemplateBinding DockPanel.Dock}">
-								<ScrollViewer>
-									<ui:AttachedProperties.CornerCurves>
-										<ui:CornerCurves TopLeft="False" TopRight="False" BottomRight="False" BottomLeft="False"/>
-									</ui:AttachedProperties.CornerCurves>
-									<ItemsPresenter/>
-								</ScrollViewer>
-							</Border>
-						</Grid>
-					</DockPanel>
+				<ControlTemplate TargetType="{x:Type ItemsControl}">
+					<Border Style="{DynamicResource HorizontalBarBorderStyle}" DockPanel.Dock="{TemplateBinding DockPanel.Dock}"
+						CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}">
+						<ScrollViewer ui:AttachedProperties.CornerCurves="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}}">
+							<Grid>
+								<ItemsPresenter/>
+								<!--Rectangle x:Name="RightShadow" HorizontalAlignment="Right" Width="7" IsHitTestVisible="False">
+									<Rectangle.Fill>
+										<LinearGradientBrush Opacity="0.5" StartPoint="1,0" EndPoint="0,0" GradientStops="{DynamicResource ShadowGradientStops}"/>
+									</Rectangle.Fill>
+								</Rectangle-->
+							</Grid>
+						</ScrollViewer>
+					</Border>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
-		<Setter Property="ItemContainerStyle" Value="{DynamicResource ModConfiguratorComponentsListViewItemStyle}"/>
 	</Style>
 
 	<!--Style x:Key="HamburgerButtonStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource CaptionToggleButtonStyle}">
@@ -1206,7 +1201,8 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type ContentControl}">
-					<Border Style="{DynamicResource HorizontalBarBorderStyle}" DockPanel.Dock="Bottom" CornerRadius="0,0,3,3">
+					<Border Style="{DynamicResource HorizontalBarBorderStyle}" DockPanel.Dock="Bottom"
+					CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='0,0,3,3;0,0,0,0'}">
 						<ContentPresenter Content="{TemplateBinding Content}" Margin="5"/>
 					</Border>
 				</ControlTemplate>
