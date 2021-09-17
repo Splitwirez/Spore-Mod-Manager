@@ -148,12 +148,13 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="{x:Type Window}" TargetType="{x:Type Window}" BasedOn="{StaticResource {x:Type Window}}">
+    <Style x:Key="{x:Type Window}" TargetType="{x:Type Window}">
         <Setter Property="Background">
             <Setter.Value>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource WindowBackgroundGradientStops}"/>
             </Setter.Value>
         </Setter>
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="Foreground" Value="{DynamicResource WindowForegroundBrush}"/>
         <Setter Property="FontFamily" Value="pack://application:,,,/SporeMods.CommonUI;component/Fonts/#Ubuntu"/>
         <Setter Property="FontSize" Value="12"/>

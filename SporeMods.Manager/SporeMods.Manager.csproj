@@ -21,9 +21,6 @@
     <ProjectReference Include="..\SporeMods.Core\SporeMods.Core.csproj"/>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="WPFTextBoxAutoComplete" Version="1.0.5" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="..\AppIcons\ModManagerIcon.ico">
       <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
       <LogicalName>ModManagerIcon.ico</LogicalName>

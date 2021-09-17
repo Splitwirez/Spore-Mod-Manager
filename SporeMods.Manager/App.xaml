@@ -6,7 +6,8 @@
 	<Application.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="Shale.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/ShaleSmm.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Smm/SmmLight.xaml"/>
 				<!--shale:ShaleAccent Hue="50" Saturation="255"/-->
 				<shale:GetShaleAccent>Sky</shale:GetShaleAccent>
 			</ResourceDictionary.MergedDictionaries>

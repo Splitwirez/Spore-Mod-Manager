@@ -7,8 +7,9 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Converters.xaml"/>
     </ResourceDictionary.MergedDictionaries>
-    
+
     <Style TargetType="{x:Type GroupBox}">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="UseLayoutRounding" Value="True"/>
         <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
         <Setter Property="Padding" Value="10"/>

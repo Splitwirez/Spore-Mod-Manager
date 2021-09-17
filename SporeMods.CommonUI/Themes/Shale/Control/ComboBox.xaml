@@ -7,8 +7,9 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Converters.xaml"/>
     </ResourceDictionary.MergedDictionaries>
-    
+
     <Style x:Key="{x:Type ComboBox}" TargetType="{x:Type ComboBox}">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="Padding" Value="5" />
         <Setter Property="Background">
             <Setter.Value>

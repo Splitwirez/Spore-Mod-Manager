@@ -213,7 +213,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style TargetType="{x:Type Separator}" BasedOn="{StaticResource {x:Type Separator}}">
+    <Style TargetType="{x:Type Separator}">
         <Setter Property="Margin" Value="0,0,0,3"/>
         <Setter Property="MinHeight" Value="5"/>
         <Setter Property="MinWidth" Value="50"/>

@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:core="clr-namespace:SporeMods.Core;assembly=SporeMods.Core"
-             xmlns:mech="clr-namespace:SporeMods.CommonUI;assembly=SporeMods.CommonUI"
+             xmlns:cui="clr-namespace:SporeMods.CommonUI;assembly=SporeMods.CommonUI"
              xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:vm="clr-namespace:SporeMods.ViewModels"
              xmlns:local="clr-namespace:SporeMods.Manager"
@@ -15,46 +15,46 @@
         <local:BooleanToInvisibilityConverter x:Key="BooleanToInvisibilityConverter"/>
         <local:BoolInverterConverter x:Key="BoolInverterConverter"/>
 
-        <ContentControl x:Key="InstallModsPromptContentControl"
+        <cui:Zone x:Key="InstallModsPromptContentControl"
                         x:Shared="False"
                         Content="{DynamicResource Mods!CallToAction!Prompt}"
-                        Style="{DynamicResource InstallModsPromptContentControlStyle}"/>
+                        Style="{DynamicResource InstallModsPromptZoneStyle}"/>
     </UserControl.Resources>
     <UserControl.DataContext>
         <vm:InstalledModsViewModel/>
     </UserControl.DataContext>
     <DockPanel>
-        <ContentControl Style="{DynamicResource MainWindowHeaderContentControlStyle}"
+        <cui:Zone Style="{DynamicResource ModsListTopZoneStyle}"
                         DockPanel.Dock="Top">
             <DockPanel LastChildFill="False">
                 <StackPanel x:Name="SearchStackPanel"
                             Orientation="Horizontal"
                             VerticalAlignment="Center"
                             DockPanel.Dock="Right">
-                    <mech:ActionBox x:Name="SearchBox"
+                    <cui:ActionBox x:Name="SearchBox"
                                 Style="{DynamicResource SearchBoxStyle}"
                                 WatermarkText="{DynamicResource Mods!FilterBar!Search!Watermark}"
                                 Width="200"
                                 VerticalAlignment="Stretch"
                                 ActionType="Regular"
                                 IsChecked="{Binding IsSearching}"
-                                mech:AttachedProperties.CornerCurves="True,False,False,True"/>
+                                cui:AttachedProperties.CornerCurves="True,False,False,True"/>
                     <ToggleButton x:Name="SearchTargetsToggleButton"
                                 Style="{DynamicResource SearchTargetsToggleButtonStyle}"
                                 VerticalAlignment="Stretch"
-                                mech:AttachedProperties.CornerCurves="False,True,True,False"
-                                mech:AttachedProperties.BorderPresence="False,True,True,True"
+                                cui:AttachedProperties.CornerCurves="False,True,True,False"
+                                cui:AttachedProperties.BorderPresence="False,True,True,True"
                                 IsChecked="{Binding IsOpen, ElementName=SearchTargetsContextMenu, Mode=TwoWay}"
                                 IsHitTestVisible="{Binding IsOpen, ElementName=SearchTargetsContextMenu, Mode=OneWay, Converter={StaticResource BoolInverterConverter}}"
                                 Tag="{Binding ElementName=SearchStackPanel}">
-                                <!--PreviewMouseRightButtonUp="MenuToggleButton_PreviewMouseRightButtonUp"
+                        <!--PreviewMouseRightButtonUp="MenuToggleButton_PreviewMouseRightButtonUp"
                                 IsChecked="{Binding IsOpen, ElementName=SearchTargetsContextMenu, Mode=TwoWay}"-->
                         <ToggleButton.ContextMenu>
                             <ContextMenu x:Name="SearchTargetsContextMenu"
                                         PlacementTarget="{Binding ElementName=SearchStackPanel}"
                                         Placement="RelativePoint"
                                         Width="{Binding ActualWidth, ElementName=SearchStackPanel}">
-                                        <!--IsOpen="{Binding IsChecked, ElementName=SearchTargetsToggleButton, Mode=TwoWay}"-->
+                                <!--IsOpen="{Binding IsChecked, ElementName=SearchTargetsToggleButton, Mode=TwoWay}"-->
                                 <!--IsOpen="{Binding IsChecked, ElementName=SearchTargetsToggleButton, Mode=TwoWay}"
                                         Closed="SearchTargetsContextMenu_Closed"-->
                                 <MenuItem Header="{DynamicResource Mods!FilterBar!Search!InNames}"
@@ -72,7 +72,7 @@
                         Content="{DynamicResource Mods!FilterBar!CopyModsList!Label}"
                         Command="{Binding CopyModsToClipboardCommand}"/>
             </DockPanel>
-        </ContentControl>
+        </cui:Zone>
         <Grid>
             <ContentControl>
                 <ContentControl.Style>
@@ -95,8 +95,8 @@
                     ItemsSource="{Binding Source={x:Static core:ModsManager.InstalledMods}}"
                     Visibility="{Binding IsSearching, Converter={StaticResource BooleanToInvisibilityConverter}}"
                     SelectionChanged="ModsList_SelectionChanged"
-                    mech:AttachedProperties.CornerCurves="False"/>
-                    <!--SelectionChanged="InstalledModsListView_SelectionChanged"
+                    cui:AttachedProperties.CornerCurves="False"/>
+            <!--SelectionChanged="InstalledModsListView_SelectionChanged"
                     IsVisibleChanged="ModsListView_IsVisibleChanged"
                     PreviewKeyDown="ModsListView_PreviewKeyDown"-->
             <ListView x:Name="ModSearchListView"
@@ -104,8 +104,8 @@
                     ItemsSource="{Binding SearchResults, Source={x:Static core:ModSearch.Instance}}"
                     Visibility="{Binding IsSearching, Converter={StaticResource BooleanToVisibilityConverter}}"
                     SelectionChanged="ModsList_SelectionChanged"
-                    mech:AttachedProperties.CornerCurves="False"/>
-                    <!--IsVisibleChanged="ModsListView_IsVisibleChanged"
+                    cui:AttachedProperties.CornerCurves="False"/>
+            <!--IsVisibleChanged="ModsListView_IsVisibleChanged"
                     PreviewKeyDown="ModsListView_PreviewKeyDown"-->
         </Grid>
     </DockPanel>

@@ -7,8 +7,9 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Converters.xaml"/>
     </ResourceDictionary.MergedDictionaries>
-    
+
     <Style x:Key="PrimaryTabControlSelectionStyle" TargetType="{x:Type ui:ConnectedSelectDecorator}">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="AnimationDuration" Value="0:0:0.250"/>
         <Setter Property="AnimationEase">
             <Setter.Value>

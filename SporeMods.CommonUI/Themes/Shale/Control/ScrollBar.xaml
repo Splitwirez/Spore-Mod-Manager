@@ -1292,7 +1292,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ShadowScrollViewerStyle" TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource {x:Type ScrollViewer}}">
+    <Style x:Key="ShadowScrollViewerStyle" TargetType="{x:Type ScrollViewer}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>

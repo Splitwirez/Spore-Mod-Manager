@@ -29,7 +29,7 @@
                 VerticalAlignment="Stretch"
                 Visibility="Collapsed"/>
 		<DockPanel>
-			<ContentControl Style="{DynamicResource MainWindowFooterContentControlStyle}"
+            <cui:Zone Style="{DynamicResource MainWindowFooterZoneStyle}"
                             DockPanel.Dock="Bottom">
 				<UniformGrid Rows="1"
                             UseLayoutRounding="True">
@@ -70,7 +70,7 @@
                                     Margin="5,5,10,5"/>
 					</Grid>
 				</UniformGrid>
-			</ContentControl>
+			</cui:Zone>
             <TabControl x:Name="PrimaryTabControl" 
                         Style="{DynamicResource PrimaryTabControlStyle}"
                         SelectedIndex="{Binding SelectedTabIndex}">

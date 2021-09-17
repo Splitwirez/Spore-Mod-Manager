@@ -1,0 +1,182 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:cui="clr-namespace:SporeMods.CommonUI"
+			xmlns:core="clr-namespace:SporeMods.Core;assembly=SporeMods.Core"
+			xmlns:mods="clr-namespace:SporeMods.Core.Mods;assembly=SporeMods.Core"
+			xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
+			xmlns:conv="clr-namespace:SporeMods.CommonUI.Converters"
+			xmlns:shale="clr-namespace:SporeMods.CommonUI.Themes.Shale"
+			xmlns:uib="clr-namespace:SporeMods.CommonUI.Behaviors"
+			xmlns:autocomp="clr-namespace:WPFTextBoxAutoComplete;assembly=WPFTextBoxAutoComplete"
+			xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <Style x:Key="GamePathCheckBoxStyle" TargetType="CheckBox">
+        <Setter Property="Margin" Value="0,0,-1,0"/>
+        <Setter Property="cui:AttachedProperties.CornerCurves" Value="True,False,False,True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#01000000">
+                        <DockPanel>
+                            <Grid Width="Auto" VerticalAlignment="Stretch" DockPanel.Dock="Right">
+                                <Border x:Name="IdleBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
+                                    </Border.Background>
+                                    <Border x:Name="IdleInnerBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,2,2,2;0,0,0,0'}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
+                                        <Border.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonBackgroundGradientStops}"/>
+                                        </Border.Background>
+                                    </Border>
+                                </Border>
+                                <Border x:Name="HoverBackground" CornerRadius="{Binding CornerRadius, ElementName=IdleBackground}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonHoverBorderBrush}" BorderThickness="1" Opacity="0">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1"  GradientStops="{DynamicResource ButtonHoverBackgroundGradientStops}"/>
+                                    </Border.Background>
+                                    <Border CornerRadius="{Binding CornerRadius, ElementName=IdleInnerBackground}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
+                                        <Border.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonHoverSecondaryBackgroundGradientStops}"/>
+                                        </Border.Background>
+                                    </Border>
+                                </Border>
+                                <Border x:Name="PressedBackground" CornerRadius="{Binding CornerRadius, ElementName=IdleBackground}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonPressedBorderBrush}" BorderThickness="1" Opacity="0">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedBackgroundGradientStops}"/>
+                                    </Border.Background>
+                                    <Border CornerRadius="{Binding CornerRadius, ElementName=IdleInnerBackground}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
+                                        <Border.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedSecondaryBackgroundGradientStops}"/>
+                                        </Border.Background>
+                                    </Border>
+                                </Border>
+                                <Border x:Name="DisabledBackground" CornerRadius="{Binding CornerRadius, ElementName=IdleBackground}" Margin="0" Padding="0" Background="{DynamicResource ButtonDisabledBackgroundBrush}" BorderBrush="{DynamicResource ButtonDisabledBorderBrush}" BorderThickness="1" Opacity="0">
+                                    <Border CornerRadius="{Binding CornerRadius, ElementName=IdleInnerBackground}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0" Background="{DynamicResource ButtonDisabledSecondaryBackgroundBrush}"/>
+                                </Border>
+                                <Grid x:Name="OpacityLimiterCanvas" Opacity="1" Margin="5">
+                                    <DockPanel>
+                                        <Grid DockPanel.Dock="Right">
+                                            <Path x:Name="CheckMark" Data="M 2 5 L 4 9 L 8 0" HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="{DynamicResource CheckBoxTickBrush}" StrokeThickness="1.125"
+							  Opacity="0" />
+                                            <Path x:Name="IndeterminateBox" Data="M 0.5 0.5 L 0.5 6 L 6 6 L 6 0.5 Z" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="{DynamicResource CheckBoxTickBrush}" Stroke="{DynamicResource CheckBoxTickBrush}" StrokeThickness="1.25" Opacity="0" />
+                                        </Grid>
+                                        <TextBlock Text="{DynamicResource Settings!Folders!AutoDetectPath}" Margin="0,0,5,0"/>
+                                    </DockPanel>
+                                </Grid>
+                            </Grid>
+                            <Grid Margin="5,0,0,0">
+                                <ContentPresenter Margin="{TemplateBinding Padding}"/>
+                            </Grid>
+                        </DockPanel>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsPressed" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="HoverBackground"
+														 Storyboard.TargetProperty="Opacity" To="1"
+														 Duration="0:0:0.125" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="HoverBackground"
+														 Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.5" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.ExitActions>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsThreeState" Value="True" />
+                                <Condition Property="IsChecked" Value="{x:Null}" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="IndeterminateBox"
+														 Storyboard.TargetProperty="Opacity" To="1"
+														 Duration="0:0:0.125" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="IndeterminateBox"
+														 Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.5" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.ExitActions>
+                        </MultiTrigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="CheckMark"
+														 Storyboard.TargetProperty="Opacity" To="1"
+														 Duration="0:0:0.125" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="CheckMark"
+														 Storyboard.TargetProperty="Opacity" To="0"
+														 Duration="0:0:0.125" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="DisabledBackground"
+														 Storyboard.TargetProperty="Opacity" To="1"
+														 Duration="0:0:0.125" />
+                                        <DoubleAnimation Storyboard.TargetName="OpacityLimiterCanvas"
+														 Storyboard.TargetProperty="Opacity" To="0.5"
+														 Duration="0:0:0.125" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="DisabledBackground"
+														 Storyboard.TargetProperty="Opacity" To="0"
+														 Duration="0:0:0.125" />
+                                        <DoubleAnimation Storyboard.TargetName="OpacityLimiterCanvas"
+														 Storyboard.TargetProperty="Opacity" To="1"
+														 Duration="0:0:0.125" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="GamePathActionBoxStyle" TargetType="{x:Type cui:ActionBox}">
+        <Setter Property="ButtonContent" Value="Browse..."/>
+        <Setter Property="Margin" Value="0,5"/>
+        <Setter Property="cui:AttachedProperties.CornerCurves">
+            <Setter.Value>
+                <cui:CornerCurves TopLeft="False" BottomLeft="False"/>
+            </Setter.Value>
+        </Setter>
+        <!--Style.Triggers>
+			<Trigger Property="Name" Value="GaDataFolderTextBox">
+			</Trigger>
+		</Style.Triggers-->
+    </Style>
+</ResourceDictionary>

@@ -60,7 +60,7 @@ namespace SporeMods.DragServant
 
 		public void RefreshText(string text)
 		{
-			DropModsHereTextBlock.Text = text;
+			DropZone.Content = text;
 		}
 
 		/*protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)

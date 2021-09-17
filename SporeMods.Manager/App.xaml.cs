@@ -211,10 +211,7 @@ namespace SporeMods.Manager
 							//Resources.MergedDictionaries[0].MergedDictionaries[1] = SporeMods.CommonUI.Themes.Shale.ShaleAccents.Sky.Dictionary;
 							//Resources.MergedDictionaries.Add(SporeMods.CommonUI.Themes.Shale.ShaleAccents.Sky);
 							if (Settings.ShaleDarkTheme)
-								Resources.MergedDictionaries.Add(new ResourceDictionary()
-								{
-									Source = new Uri(@"DarkShale.xaml", UriKind.RelativeOrAbsolute)
-								});
+								Resources.MergedDictionaries[1].Source = new Uri(@"pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Smm/SmmDark.xaml", UriKind.RelativeOrAbsolute);
 
 							
 							FrameworkElement.StyleProperty.OverrideMetadata(typeof(Window), new FrameworkPropertyMetadata
