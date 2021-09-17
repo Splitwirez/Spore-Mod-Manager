@@ -2,7 +2,7 @@
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:local="clr-namespace:SporeMods.Manager">
 	<ResourceDictionary.MergedDictionaries>
-		<ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Colors/BaseDark.xaml"/>
+		<ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Colors/BaseDark.xaml"/>
 	</ResourceDictionary.MergedDictionaries>
 	
 	<SolidColorBrush x:Key="InstallModsButtonBorderBrush">#FF9E7948</SolidColorBrush>

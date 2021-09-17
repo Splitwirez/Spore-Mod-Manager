@@ -5,7 +5,7 @@
             xmlns:uib="clr-namespace:SporeMods.CommonUI.Behaviors"
             xmlns:beh="http://schemas.microsoft.com/expression/2010/interactivity">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Converters.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Converters.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     
     <Style x:Key="PrimaryTabControlSelectionStyle" TargetType="{x:Type ui:ConnectedSelectDecorator}">
@@ -65,6 +65,9 @@
                         <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" Effect="{DynamicResource DropShadow}" TextElement.Foreground="{DynamicResource TitlebarIdleForegroundBrush}"/>
                     </Grid>
                     <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Value="False">
+                            <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="{DynamicResource TitlebarInactiveIdleForegroundBrush}" />
+                        </DataTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True"/>
@@ -98,9 +101,6 @@
                             <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="{DynamicResource TitlebarHoverForegroundBrush}" />
                         </Trigger>
                         <!--DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Value="False"-->
-                        <DataTrigger Binding="{Binding IsVisuallyActive, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Value="False">
-                            <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="{DynamicResource TitlebarInactiveIdleForegroundBrush}" />
-                        </DataTrigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Trigger.EnterActions>
                                 <BeginStoryboard>

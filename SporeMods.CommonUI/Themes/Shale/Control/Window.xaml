@@ -5,7 +5,7 @@
             xmlns:uib="clr-namespace:SporeMods.CommonUI.Behaviors"
             xmlns:beh="http://schemas.microsoft.com/expression/2010/interactivity">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Converters.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Converters.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     
     <Style x:Key="CaptionButtonBaseStyle" TargetType="ButtonBase">
@@ -49,11 +49,7 @@
             </Setter.Value>
         </Setter>
         <Style.Triggers>
-            <Trigger Property="IsEnabled" Value="False">
-                <!--Setter Property="Foreground" Value="{DynamicResource TitlebarInactiveIdleForegroundBrush}" /-->
-                <Setter Property="Opacity" Value="0.5"/>
-            </Trigger>
-            <DataTrigger Binding="{Binding IsVisuallyActive, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" Value="False">
+            <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" Value="False">
                 <Setter Property="Foreground" Value="{DynamicResource TitlebarInactiveIdleForegroundBrush}" />
             </DataTrigger>
             <Trigger Property="IsMouseOver" Value="True">
@@ -61,6 +57,10 @@
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
                 <Setter Property="Foreground" Value="{DynamicResource TitlebarPressedForegroundBrush}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <!--Setter Property="Foreground" Value="{DynamicResource TitlebarInactiveIdleForegroundBrush}" /-->
+                <Setter Property="Opacity" Value="0.5"/>
             </Trigger>
         </Style.Triggers>
     </Style>

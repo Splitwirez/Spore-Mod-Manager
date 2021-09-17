@@ -5,7 +5,7 @@
             xmlns:uib="clr-namespace:SporeMods.CommonUI.Behaviors"
             xmlns:beh="http://schemas.microsoft.com/expression/2010/interactivity">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Converters.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Converters.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     
     <Path x:Key="AnimatableContentControlCloseButtonIcon" x:Shared="False" Data="M 0 -1 L 2 -1 L 4.5 2 L 7 -1 L 9 -1 L 9 1 L 6 3.5 L 9 6 L 9 8 L 7 8 L 4.5 5 L 2 8 L 0 8 L 0 6 L 3 3.5 L 0 1 Z" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Stroke="Transparent" StrokeThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True"/>

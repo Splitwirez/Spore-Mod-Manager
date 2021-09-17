@@ -13,9 +13,9 @@
 					xmlns:autocomp="clr-namespace:WPFTextBoxAutoComplete;assembly=WPFTextBoxAutoComplete"
 					xmlns:sys="clr-namespace:System;assembly=mscorlib">
 	<ResourceDictionary.MergedDictionaries>
-		<ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Shale.xaml"/>
-		<!--ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Colors/Accent.xaml"/-->
-		<ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Colors/BaseLight.xaml"/>
+		<ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Shale.xaml"/>
+		<!--ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Colors/Accent.xaml"/-->
+		<ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Colors/BaseLight.xaml"/>
 	</ResourceDictionary.MergedDictionaries>
 
 	<conv:IconToImageBrushConverter x:Key="IconToImageBrushConverter"/>

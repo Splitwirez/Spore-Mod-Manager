@@ -133,28 +133,28 @@
     </Style-->
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Colors/BaseLight.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Colors/Accent.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Control/ActionBox.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Control/AnimatableContentControl.xaml"/>
-        <!--ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Control/BreadcrumbsBar.xaml"/-->
-        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Control/Button.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Control/CheckBox.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Control/ComboBox.xaml"/>
-        <!--ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Control/CommandBar.xaml"/-->
-        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Control/Window.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Control/GroupBox.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Control/ListView.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Control/Menu.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Control/ProgressBar.xaml"/>
-        <!--ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Control/Rearranger.xaml"/-->
-        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Control/ScrollBar.xaml"/>
-        <!--ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Control/ShaleBorderDecorator.xaml"/-->
-        <!--ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Control/SpinBox.xaml"/-->
-        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Control/StatusBar.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Control/TabControl.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Control/TextBox.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Control/ToggleSwitch.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Control/TreeView.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Colors/BaseLight.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Colors/Accent.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/ActionBox.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/AnimatableContentControl.xaml"/>
+        <!--ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/BreadcrumbsBar.xaml"/-->
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/Button.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/CheckBox.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/ComboBox.xaml"/>
+        <!--ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/CommandBar.xaml"/-->
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/Window.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/GroupBox.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/ListView.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/Menu.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/ProgressBar.xaml"/>
+        <!--ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/Rearranger.xaml"/-->
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/ScrollBar.xaml"/>
+        <!--ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/ShaleBorderDecorator.xaml"/-->
+        <!--ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/SpinBox.xaml"/-->
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/StatusBar.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/TabControl.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/TextBox.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/ToggleSwitch.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/TreeView.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

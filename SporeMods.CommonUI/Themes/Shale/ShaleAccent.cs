@@ -323,7 +323,7 @@ namespace SporeMods.CommonUI.Themes.Shale
         
         static readonly ResourceDictionary SHALE_ACCENT_BASE = new ResourceDictionary()
         {
-            Source = new Uri("/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Colors/Accent.xaml", UriKind.RelativeOrAbsolute)
+            Source = new Uri("/SporeMods.CommonUI;component/Themes/Shale/Colors/Accent.xaml", UriKind.RelativeOrAbsolute)
         };
 
         private ResourceDictionary CreateColors()

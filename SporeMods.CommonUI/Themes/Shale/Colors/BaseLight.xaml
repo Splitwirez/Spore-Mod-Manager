@@ -27,18 +27,26 @@
     <SolidColorBrush x:Key="WindowBorderBrush">#FF555555</SolidColorBrush>
     <SolidColorBrush x:Key="WindowForegroundBrush">Black</SolidColorBrush>
 
-    <SolidColorBrush x:Key="TitlebarBorderBrush">#FF9B9B9B</SolidColorBrush>
-    <SolidColorBrush x:Key="TitlebarIdleForegroundBrush">#FFCBCBCB</SolidColorBrush>
-    <SolidColorBrush x:Key="TitlebarHoverForegroundBrush">White</SolidColorBrush>
+    <SolidColorBrush x:Key="TitlebarBorderBrush">#FFA6A6A6</SolidColorBrush>
+    <!--FF9B9B9B-->
+    <SolidColorBrush x:Key="TitlebarIdleForegroundBrush">White</SolidColorBrush>
+    <!--FFCBCBCB-->
+    <SolidColorBrush x:Key="TitlebarHoverForegroundBrush" Color="{DynamicResource TitlebarHoverForegroundLightColor}"/>
+    <!--White-->
     <SolidColorBrush x:Key="TitlebarPressedForegroundBrush">#FF606060</SolidColorBrush>
-    <SolidColorBrush x:Key="TitlebarInactiveIdleForegroundBrush">#7FCBCBCB</SolidColorBrush>
+    <SolidColorBrush x:Key="TitlebarInactiveIdleForegroundBrush">#7FFFFFFF</SolidColorBrush>
+    <!--7FCBCBCB-->
     <GradientStopCollection x:Key="TitlebarActiveGradientStops">
-        <GradientStop Offset="0" Color="#FF575757"/>
-        <GradientStop Offset="1" Color="#FF454545"/>
+        <GradientStop Offset="0" Color="#FF808080"/>
+        <GradientStop Offset="1" Color="#FF6E6E6E"/>
+        <!--GradientStop Offset="0" Color="#FF575757"/>
+        <GradientStop Offset="1" Color="#FF454545"/-->
     </GradientStopCollection>
     <GradientStopCollection x:Key="TitlebarInactiveGradientStops">
-        <GradientStop Offset="0" Color="#FF7B7B7B"/>
-        <GradientStop Offset="1" Color="#FF6B6B6B"/>
+        <GradientStop Offset="0" Color="#FFB4B4B4"/>
+        <GradientStop Offset="1" Color="#FF9F9F9F"/>
+        <!--GradientStop Offset="0" Color="#FF7B7B7B"/>
+        <GradientStop Offset="1" Color="#FF6B6B6B"/-->
     </GradientStopCollection>
 
     <SolidColorBrush x:Key="ButtonForegroundBrush">#FF333333</SolidColorBrush>

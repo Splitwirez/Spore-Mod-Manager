@@ -29,7 +29,8 @@
 
     <SolidColorBrush x:Key="TitlebarBorderBrush">#FF9B9B9B</SolidColorBrush>
     <SolidColorBrush x:Key="TitlebarIdleForegroundBrush">#FFCBCBCB</SolidColorBrush>
-    <SolidColorBrush x:Key="TitlebarHoverForegroundBrush">White</SolidColorBrush>
+    <SolidColorBrush x:Key="TitlebarHoverForegroundBrush" Color="{DynamicResource TitlebarHoverForegroundDarkColor}"/>
+    <!--White-->
     <SolidColorBrush x:Key="TitlebarPressedForegroundBrush">#FF606060</SolidColorBrush>
     <SolidColorBrush x:Key="TitlebarInactiveIdleForegroundBrush">#7FCBCBCB</SolidColorBrush>
     <GradientStopCollection x:Key="TitlebarActiveGradientStops">
