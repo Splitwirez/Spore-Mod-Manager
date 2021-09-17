@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:mech="clr-namespace:Mechanism.Wpf.Core;assembly=Mechanism.Wpf.Core"
+             xmlns:mech="clr-namespace:SporeMods.CommonUI;assembly=SporeMods.CommonUI"
              xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:mods="clr-namespace:SporeMods.Core.Mods;assembly=SporeMods.Core"
              xmlns:draw="clr-namespace:System.Drawing;assembly=System.Drawing.Common"

@@ -4,7 +4,7 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:local="clr-namespace:SporeMods.KitImporter"
-		xmlns:ui="clr-namespace:Mechanism.Wpf.Core;assembly=Mechanism.Wpf.Core"
+		xmlns:ui="clr-namespace:SporeMods.CommonUI;assembly=SporeMods.CommonUI"
 		mc:Ignorable="d"
 		Title="Import from Spore ModAPI Launcher Kit" Width="475" Height="325" Loaded="MainWindow_Loaded" Closing="MainWindow_Closing" Style="{DynamicResource {x:Type Window}}">
 	<Grid Margin="25">

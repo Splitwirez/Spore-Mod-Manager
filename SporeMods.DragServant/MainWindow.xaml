@@ -3,10 +3,9 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:win="clr-namespace:Mechanism.Wpf.Core.Windows;assembly=Mechanism.Wpf.Core"
 		xmlns:local="clr-namespace:SporeMods.DragServant"
 		mc:Ignorable="d"
-		Title="Spore Mod Manager DragWindow" Height="1" Width="1" ShowActivated="False" AllowDrop="True" WindowStyle="None" AllowsTransparency="True" Background="#01000000" PreviewDrop="Window_PreviewDrop" FontFamily="pack://application:,,,/Mechanism.Wpf.Core;component/Fonts/#Ubuntu">
+		Title="Spore Mod Manager DragWindow" Height="1" Width="1" ShowActivated="False" AllowDrop="True" WindowStyle="None" AllowsTransparency="True" Background="#01000000" PreviewDrop="Window_PreviewDrop" FontFamily="pack://application:,,,/SporeMods.CommonUI;component/Fonts/#Ubuntu">
 	<Grid x:Name="RootGrid" IsHitTestVisible="False" Background="#01000000" Margin="4,0,4,4" RenderTransformOrigin="0,0">
 		<Grid.Style>
 			<Style TargetType="Grid">

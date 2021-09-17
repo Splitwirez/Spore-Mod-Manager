@@ -12,7 +12,7 @@ using Screen = System.Windows.Forms.Screen;
 using Graphics = System.Drawing.Graphics;
 using Point = System.Windows.Point;
 using System.Runtime.InteropServices;
-using Mechanism.Wpf.Core;
+using SporeMods.CommonUI;
 using System.Diagnostics;
 
 namespace SporeMods.CommonUI
@@ -490,7 +490,7 @@ namespace SporeMods.CommonUI
     }
 #endif
 
-    internal static class NativeMethods
+    /*internal static class NativeMethods
     {
         [DllImport("user32.dll")]
         public static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
@@ -542,5 +542,5 @@ namespace SporeMods.CommonUI
             ACCENT_ENABLE_ACRYLICBLURBEHIND = 4,
             ACCENT_INVALID_STATE = 5
         }
-    }
+    }*/
 }
