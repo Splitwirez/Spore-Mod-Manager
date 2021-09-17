@@ -5,17 +5,17 @@
 					xmlns:core="clr-namespace:SporeMods.Core;assembly=SporeMods.Core"
 					xmlns:mods="clr-namespace:SporeMods.Core.Mods;assembly=SporeMods.Core"
 					xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
-					xmlns:ui="clr-namespace:Mechanism.Wpf.Core;assembly=Mechanism.Wpf.Core"
-					xmlns:shale="clr-namespace:Mechanism.Wpf.Styles.Shale;assembly=Mechanism.Wpf.Styles.Shale"
-					xmlns:conv="clr-namespace:Mechanism.Wpf.Core.Converters;assembly=Mechanism.Wpf.Core"
-					xmlns:win="clr-namespace:Mechanism.Wpf.Core.Windows;assembly=Mechanism.Wpf.Core"
-					xmlns:uib="clr-namespace:Mechanism.Wpf.Core.Behaviors;assembly=Mechanism.Wpf.Core"
+					xmlns:ui="clr-namespace:SporeMods.CommonUI;assembly=SporeMods.CommonUI"
+					xmlns:conv="clr-namespace:SporeMods.CommonUI.Converters;assembly=SporeMods.CommonUI"
+					xmlns:shale="clr-namespace:SporeMods.CommonUI.Themes.Shale;assembly=SporeMods.CommonUI"
+					xmlns:win="clr-namespace:SporeMods.CommonUI.Windows;assembly=SporeMods.CommonUI"
+					xmlns:uib="clr-namespace:SporeMods.CommonUI.Behaviors;assembly=SporeMods.CommonUI"
 					xmlns:autocomp="clr-namespace:WPFTextBoxAutoComplete;assembly=WPFTextBoxAutoComplete"
 					xmlns:sys="clr-namespace:System;assembly=mscorlib">
 	<ResourceDictionary.MergedDictionaries>
-		<ResourceDictionary Source="pack://application:,,,/Mechanism.Wpf.Styles.Shale;component/Themes/Shale.xaml"/>
-		<ResourceDictionary Source="pack://application:,,,/Mechanism.Wpf.Styles.Shale;component/Themes/Colors/Accent.xaml"/>
-		<ResourceDictionary Source="pack://application:,,,/Mechanism.Wpf.Styles.Shale;component/Themes/Colors/BaseLight.xaml"/>
+		<ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Shale.xaml"/>
+		<!--ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Colors/Accent.xaml"/-->
+		<ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/MechanismImports/Themes/Shale/Colors/BaseLight.xaml"/>
 	</ResourceDictionary.MergedDictionaries>
 
 	<conv:IconToImageBrushConverter x:Key="IconToImageBrushConverter"/>
@@ -31,266 +31,6 @@
 	<conv:BorderPresenceToThicknessConverter x:Key="BorderPresenceToThicknessConverter"/>
 	<conv:CornerCurvesToCornerRadiusConverter x:Key="CornerCurvesToCornerRadiusConverter"/>
 	<cui:IsAllTrueConverter x:Key="IsAllTrueConverter"/>
-
-	<Style x:Key="{x:Type Window}" TargetType="{x:Type Window}" BasedOn="{StaticResource {x:Type Window}}">
-        <Setter Property="FontFamily" Value="pack://application:,,,/Mechanism.Wpf.Core;component/Fonts/#Ubuntu"/>
-		<Setter Property="cui:WindowChromeHelper.UseReRenderHack" Value="True"/>
-		<Setter Property="Background">
-            <Setter.Value>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource WindowBackgroundGradientStops}"/>
-            </Setter.Value>
-        </Setter>
-		<!--Setter Property="cui:WindowChromeHelper.ExtendedTitleBarHeight" Value="0"/-->
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="{x:Type Window}">
-					<Grid>
-						<Border x:Name="OuterBorder"
-								Background="{TemplateBinding BorderBrush}"
-								CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='8,8,8,8;0,0,0,0'}">
-                            <Border.Effect>
-                                <DropShadowEffect Color="Black" RenderingBias="Performance" Direction="270" ShadowDepth="5" BlurRadius="12" Opacity="0.5"/>
-							</Border.Effect>
-						</Border>
-
-						<Grid x:Name="MainPanel"
-								Margin="1">
-							<Grid.RowDefinitions>
-								<RowDefinition Height="Auto"/>
-								<RowDefinition Height="*"/>
-							</Grid.RowDefinitions>
-							<Border x:Name="TitleBar"
-										BorderBrush="{DynamicResource TitlebarBorderBrush}"
-										BorderThickness="{Binding Path=(ui:AttachedProperties.BorderPresence), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BorderPresenceToThicknessConverter}, ConverterParameter='1,1,1,1;0,0,0,1'}"
-										CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='7,7,0,0;0,0,0,0'}"
-										Grid.Row="0">
-                                    <Border.Background>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource TitlebarActiveGradientStops}"/>
-                                    </Border.Background>
-								<StackPanel x:Name="TitleBarContentRegion"
-                                            Margin="{Binding Path=(ui:AttachedProperties.BorderPresence), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BorderPresenceToThicknessConverter}, ConverterParameter='0,-1,0,-1;0,0,0,-1'}">
-									<DockPanel x:Name="TitleBarContent">
-										<StackPanel x:Name="CaptionButtons"
-													Orientation="Horizontal"
-													Height="30"
-													DockPanel.Dock="Right">
-											<Button x:Name="MinimizeButton"
-													Style="{DynamicResource CaptionButtonStyle}"
-													WindowChrome.IsHitTestVisibleInChrome="True"
-													cui:WindowChromeHelper.MinimizesWindow="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=OneTime}">
-												<Path Data="M 0 0 L 9 0 L 9 2 L 0 2 Z" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Stroke="Transparent" StrokeThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-											</Button>	
-											<Button x:Name="MaximizeButton"
-													Style="{DynamicResource CaptionButtonStyle}"
-													WindowChrome.IsHitTestVisibleInChrome="True"
-													cui:WindowChromeHelper.MaximizesWindow="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=OneTime}">
-												<Grid>
-													<Path x:Name="MaximizeIcon" Data="M 0 0 L 0 7 L 7 7 L 7 0 Z" Fill="Transparent" Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="1,0,-1,0"/>
-													<Grid x:Name="RestoreIcon" Visibility="Collapsed">
-														<Path Data="M 0 0 L 0 5 L 5 5 L 5 0 Z" Fill="Transparent" Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,3,3,0"/>
-														<Path Data="M -1 0 L 5 0 L 5 6" Fill="Transparent" Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,0,0,3"/>
-													</Grid>
-												</Grid>
-											</Button>
-											<Button x:Name="CloseButton"
-													Style="{DynamicResource CaptionButtonStyle}"
-													WindowChrome.IsHitTestVisibleInChrome="True"
-													cui:WindowChromeHelper.ClosesWindow="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=OneTime}">
-												<Path Data="M 0 -1 L 2 -1 L 4.5 2 L 7 -1 L 9 -1 L 9 1 L 6 3.5 L 9 6 L 9 8 L 7 8 L 4.5 5 L 2 8 L 0 8 L 0 6 L 3 3.5 L 0 1 Z" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Stroke="Transparent" StrokeThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
-											</Button>
-										</StackPanel>
-										<Rectangle Width="{Binding ActualWidth, ElementName=CaptionButtons}"
-													Visibility="Hidden"
-													DockPanel.Dock="Left"/>
-										<TextBlock x:Name="TitleText"
-													Text="{TemplateBinding Title}"
-													Style="{DynamicResource h3}"
-													Foreground="{DynamicResource TitlebarIdleForegroundBrush}"
-													Effect="{DynamicResource DropShadow}"
-													IsHitTestVisible="False"
-													UseLayoutRounding="True"
-													SnapsToDevicePixels="True"
-													HorizontalAlignment="Center"
-													VerticalAlignment="Center"/>
-									</DockPanel>
-									<Rectangle Height="{Binding Path=(cui:WindowChromeHelper.ExtendedTitleBarHeight), RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=OneWay}" Visibility="Hidden"/>
-								</StackPanel>
-							</Border>
-							<Border x:Name="WindowBackground"
-									Background="{TemplateBinding Background}"
-									CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='0,0,7,7;0,0,0,0'}"
-									Grid.Row="1">
-							</Border>
-							<AdornerDecorator x:Name="ContentZone"
-											Margin="0,30,0,0"
-											Grid.RowSpan="2">
-								<ContentPresenter />
-							</AdornerDecorator>
-						</Grid>
-					</Grid>
-					<ControlTemplate.Triggers>
-						<Trigger Property="IsActive" Value="False">
-							<Setter TargetName="TitleBar" Property="Background">
-                                <Setter.Value>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource TitlebarInactiveGradientStops}"/>
-                                </Setter.Value>
-                            </Setter>
-							<Setter TargetName="TitleText" Property="Foreground" Value="{DynamicResource TitlebarInactiveIdleForegroundBrush}"/>
-						</Trigger>
-						<Trigger Property="cui:WindowChromeHelper.UseCustomDecorations" Value="False">
-							<Setter TargetName="OuterBorder" Property="Visibility" Value="Collapsed"/>
-							<Setter TargetName="TitleBarContent" Property="Visibility" Value="Collapsed"/>
-                            <Setter TargetName="TitleBar" Property="BorderThickness" Value="0,0,0,1"/>
-                            <Setter TargetName="TitleBarContentRegion" Property="Margin" Value="0,0,0,-1"/>
-                            <Setter TargetName="TitleBar" Property="CornerRadius" Value="0"/>
-							<Setter TargetName="MainPanel" Property="Margin" Value="0"/>
-							<Setter TargetName="WindowBackground" Property="CornerRadius" Value="0"/>
-							<Setter TargetName="ContentZone" Property="Margin" Value="0"/>
-						</Trigger>
-                        <Trigger Property="WindowState" Value="Maximized">
-                            <Setter TargetName="TitleBar" Property="BorderThickness" Value="0,0,0,1"/>
-                            <Setter TargetName="TitleBarContentRegion" Property="Margin" Value="0,0,0,-1"/>
-							<Setter TargetName="MaximizeIcon" Property="Visibility" Value="Collapsed"/>
-							<Setter TargetName="RestoreIcon" Property="Visibility" Value="Visible"/>
-						</Trigger>
-						<MultiTrigger>
-							<MultiTrigger.Conditions>
-								<Condition Property="cui:WindowChromeHelper.ExtendedTitleBarHeight" Value="0"/>
-								<Condition Property="cui:WindowChromeHelper.UseCustomDecorations" Value="False"/>
-							</MultiTrigger.Conditions>
-							<Setter TargetName="TitleBar" Property="BorderThickness" Value="0"/>
-						</MultiTrigger>
-						<MultiTrigger>
-							<MultiTrigger.Conditions>
-								<Condition Property="cui:WindowChromeHelper.UseCustomDecorations" Value="True"/>
-								<Condition Property="cui:WindowChromeHelper.Win7UseCornerRadius" Value="False"/>
-								<Condition Property="WindowState" Value="Normal"/>
-							</MultiTrigger.Conditions>
-							<!--Setter TargetName="OuterBorder" Property="Margin" Value="8,0,8,8"/>
-							<Setter TargetName="MainPanel" Property="Margin" Value="9,1,9,9"/-->
-							<Setter TargetName="OuterBorder" Property="Margin" Value="{Binding Path=(ui:AttachedProperties.BorderPresence), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BorderPresenceToThicknessConverter}, ConverterParameter='8,0,8,12;0,0,0,0'}"/>
-							<Setter TargetName="MainPanel" Property="Margin" Value="{Binding Path=(ui:AttachedProperties.BorderPresence), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BorderPresenceToThicknessConverter}, ConverterParameter='9,1,9,13;0,0,0,0'}"/>
-						</MultiTrigger>
-						<MultiTrigger>
-							<MultiTrigger.Conditions>
-								<Condition Property="cui:WindowChromeHelper.UseCustomDecorations" Value="True"/>
-								<Condition Property="cui:WindowChromeHelper.Win7UseCornerRadius" Value="True"/>
-								<Condition Property="WindowState" Value="Normal"/>
-							</MultiTrigger.Conditions>
-							<Setter TargetName="MainPanel" Property="Margin" Value="{Binding Path=(ui:AttachedProperties.BorderPresence), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BorderPresenceToThicknessConverter}, ConverterParameter='1,1,1,1;0,0,0,0'}"/>
-						</MultiTrigger>
-						<MultiTrigger>
-							<MultiTrigger.Conditions>
-								<Condition Property="cui:WindowChromeHelper.UseCustomDecorations" Value="True"/>
-								<Condition Property="WindowState" Value="Maximized"/>
-							</MultiTrigger.Conditions>
-							<Setter TargetName="OuterBorder" Property="Visibility" Value="Collapsed"/>
-							<Setter TargetName="MainPanel" Property="Margin" Value="{Binding Path=(cui:WindowChromeHelper.MaximizeInset), RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-						</MultiTrigger>
-					</ControlTemplate.Triggers>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-		<Style.Triggers>
-			<Trigger Property="cui:WindowChromeHelper.UseCustomDecorations" Value="True">
-				<Setter Property="BorderBrush" Value="{DynamicResource WindowBorderBrush}" />
-			</Trigger>
-			<MultiTrigger>
-				<MultiTrigger.Conditions>
-					<Condition Property="cui:WindowChromeHelper.UseCustomDecorations" Value="True"/>
-					<Condition Property="cui:WindowChromeHelper.Win7UseCornerRadius" Value="False"/>
-				</MultiTrigger.Conditions>
-				<Setter Property="WindowChrome.WindowChrome">
-					<Setter.Value>
-						<WindowChrome CaptionHeight="30"
-									GlassFrameThickness="0"
-									ResizeBorderThickness="8,8,8,12"
-									NonClientFrameEdges="None"
-									UseAeroCaptionButtons="False"
-									CornerRadius="0"/>
-					</Setter.Value>
-				</Setter>
-			</MultiTrigger>
-
-			<MultiTrigger>
-				<MultiTrigger.Conditions>
-					<Condition Property="cui:WindowChromeHelper.UseCustomDecorations" Value="True"/>
-					<Condition Property="cui:WindowChromeHelper.Win7UseCornerRadius" Value="True"/>
-					<Condition Property="WindowState" Value="Normal"/>
-					<!--Condition Binding="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=Self}, Mode=OneWay, Converter={StaticResource IsAllTrueConverter}}" Value="True"/-->
-					<!--Condition Binding="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=Self}, Mode=OneWay, Converter={StaticResource AlwaysDifferentConverter1}}" Value="True"/>
-					<Condition Binding="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=Self}, Mode=OneWay, Converter={StaticResource AlwaysDifferentConverter2}}" Value="True"/-->
-				</MultiTrigger.Conditions>
-				<Setter Property="WindowChrome.WindowChrome">
-					<Setter.Value>
-						<WindowChrome CaptionHeight="30"
-									GlassFrameThickness="0"
-									ResizeBorderThickness="8,8,8,12"
-									NonClientFrameEdges="None"
-									UseAeroCaptionButtons="False"
-									CornerRadius="8"/>
-					</Setter.Value>
-				</Setter>
-			</MultiTrigger>
-			<!--MultiDataTrigger>
-				<MultiDataTrigger.Conditions>
-					<Condition Binding="{Binding Path=(cui:WindowChromeHelper.UseCustomDecorations), RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
-					<Condition Binding="{Binding Path=(cui:WindowChromeHelper.Win7UseCornerRadius), RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
-					<Condition Binding="{Binding Path=WindowState, RelativeSource={RelativeSource Mode=Self}}" Value="Normal"/>
-					<Condition Binding="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=Self}, Mode=OneWay, Converter={StaticResource IsAllTrueConverter}, ConverterParameter='invert'}" Value="True"/>
-					<!-Condition Binding="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=Self}, Mode=OneWay, Converter={StaticResource AlwaysDifferentConverter1}}" Value="True"/>
-					<Condition Binding="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=Self}, Mode=OneWay, Converter={StaticResource AlwaysDifferentConverter2}}" Value="True"/->
-				</MultiDataTrigger.Conditions>
-				<Setter Property="WindowChrome.WindowChrome">
-					<Setter.Value>
-						<WindowChrome CaptionHeight="30"
-									GlassFrameThickness="0"
-									ResizeBorderThickness="8,8,8,12"
-									NonClientFrameEdges="None"
-									UseAeroCaptionButtons="False"
-									CornerRadius="0"/>
-						<!-{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='8,8,8,8;0,0,0,0'}->
-					</Setter.Value>
-				</Setter>
-			</MultiDataTrigger-->
-			<!--MultiDataTrigger>
-				<MultiDataTrigger.Conditions>
-					<Condition Binding="{Binding Path=(cui:WindowChromeHelper.UseCustomDecorations), RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
-					<Condition Binding="{Binding Path=(cui:WindowChromeHelper.Win7UseCornerRadius), RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
-					<Condition Binding="{Binding Path=WindowState, RelativeSource={RelativeSource Mode=Self}}" Value="Normal"/>
-					<Condition Binding="{Binding Path=(ui:AttachedProperties.BorderPresence), RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource IsNotAllTrueConverter}}" Value="True"/>
-					<Condition Binding="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource IsNotAllTrueConverter}}" Value="True"/>
-				</MultiDataTrigger.Conditions>
-				<Setter Property="WindowChrome.WindowChrome">
-					<Setter.Value>
-						<WindowChrome CaptionHeight="30"
-									GlassFrameThickness="0"
-									ResizeBorderThickness="8,8,8,12"
-									NonClientFrameEdges="None"
-									UseAeroCaptionButtons="False"
-									CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='8,8,8,8;0,0,0,0'}"/>
-					</Setter.Value>
-				</Setter>
-			</MultiDataTrigger-->
-			<MultiTrigger>
-				<MultiTrigger.Conditions>
-					<Condition Property="cui:WindowChromeHelper.UseCustomDecorations" Value="True"/>
-					<Condition Property="cui:WindowChromeHelper.Win7UseCornerRadius" Value="True"/>
-					<Condition Property="WindowState" Value="Maximized"/>
-				</MultiTrigger.Conditions>
-				<Setter Property="WindowChrome.WindowChrome">
-					<Setter.Value>
-						<WindowChrome CaptionHeight="30"
-									GlassFrameThickness="0"
-									ResizeBorderThickness="8,8,8,12"
-									NonClientFrameEdges="None"
-									UseAeroCaptionButtons="False"
-									CornerRadius="0"/>
-					</Setter.Value>
-				</Setter>
-			</MultiTrigger>
-		</Style.Triggers>
-	</Style>
 
 
 
@@ -615,7 +355,10 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="ListView">
 					<Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}">
-						<ScrollViewer x:Name="PART_ScrollViewer" uib:ScrollAnimationBehavior.IsEnabled="{TemplateBinding uib:ScrollAnimationBehavior.IsEnabled}" uib:ScrollAnimationBehavior.TimeDuration="{TemplateBinding uib:ScrollAnimationBehavior.TimeDuration}" uib:ScrollAnimationBehavior.EasingFunction="{TemplateBinding uib:ScrollAnimationBehavior.EasingFunction}">
+						<ScrollViewer x:Name="PART_ScrollViewer">
+									<!--uib:ScrollAnimationBehavior.IsEnabled="{TemplateBinding uib:ScrollAnimationBehavior.IsEnabled}"
+									uib:ScrollAnimationBehavior.TimeDuration="{TemplateBinding uib:ScrollAnimationBehavior.TimeDuration}"
+									uib:ScrollAnimationBehavior.EasingFunction="{TemplateBinding uib:ScrollAnimationBehavior.EasingFunction}"-->
 							<ui:AttachedProperties.CornerCurves>
 								<ui:CornerCurves TopLeft="False" TopRight="False" BottomRight="False" BottomLeft="False"/>
 							</ui:AttachedProperties.CornerCurves>

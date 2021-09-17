@@ -10,7 +10,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
-using Mechanism.Wpf.Styles.Shale;
+using SporeMods.CommonUI.Themes.Shale;
 
 namespace SporeMods.KitImporter
 {

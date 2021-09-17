@@ -177,7 +177,7 @@ namespace SporeMods.Manager
 
 							if (Settings.UseCustomWindowDecorations)
 							{
-								window = new Mechanism.Wpf.Core.Windows.DecoratableWindow()
+								window = new SporeMods.CommonUI.Windows.DecoratableWindow()
 								{
 									Content = content,
 									TitlebarHeight = 61,
@@ -208,7 +208,14 @@ namespace SporeMods.Manager
 							window.Closing += content.MainWindow_Closing;*/
 							window.Show();
 #endif
-							Resources.MergedDictionaries[0].MergedDictionaries[1] = Mechanism.Wpf.Styles.Shale.ShaleAccents.Sky.Dictionary;
+							//Resources.MergedDictionaries[0].MergedDictionaries[1] = SporeMods.CommonUI.Themes.Shale.ShaleAccents.Sky.Dictionary;
+							//Resources.MergedDictionaries.Add(SporeMods.CommonUI.Themes.Shale.ShaleAccents.Sky);
+							if (Settings.ShaleDarkTheme)
+								Resources.MergedDictionaries.Add(new ResourceDictionary()
+								{
+									Source = new Uri(@"DarkShale.xaml", UriKind.RelativeOrAbsolute)
+								});
+
 							
 							FrameworkElement.StyleProperty.OverrideMetadata(typeof(Window), new FrameworkPropertyMetadata
 							{

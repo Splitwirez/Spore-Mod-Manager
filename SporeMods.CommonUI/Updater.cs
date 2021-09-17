@@ -1,5 +1,4 @@
-﻿using DecoratableWindow = Mechanism.Wpf.Core.Windows.DecoratableWindow;
-using SporeMods.Core;
+﻿using SporeMods.Core;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -214,19 +213,14 @@ namespace SporeMods.CommonUI
 		{
 			ProgressDialog dialog = new ProgressDialog(text, action);
 
-			Window window;
-			if (false) //Settings.UseCustomWindowDecorations)
+			Window window = new Window()
 			{
-				window = new DecoratableWindow();
-				window.SetResourceReference(DecoratableWindow.StyleProperty, typeof(DecoratableWindow));
-			}
-			else
-				window = new Window();
+				Content = dialog,
+				SizeToContent = SizeToContent.WidthAndHeight,
+				ResizeMode = ResizeMode.CanMinimize,
+				Resources = dialog.Resources //.MergedDictionaries.Add() //Application.Current.Resources.MergedDictionaries[0].MergedDictionaries[1] = ShaleAccents.Sky.Dictionary;
+			};
 
-			window.Content = dialog;
-			window.SizeToContent = SizeToContent.WidthAndHeight;
-			window.ResizeMode = ResizeMode.CanMinimize;
-			window.Resources = dialog.Resources;//.MergedDictionaries.Add() //Application.Current.Resources.MergedDictionaries[0].MergedDictionaries[1] = ShaleAccents.Sky.Dictionary;
 
 			if (testUI)
 			{

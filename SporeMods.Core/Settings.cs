@@ -881,7 +881,7 @@ namespace SporeMods.Core
 
 		static string _useCustomWindowDecorations = "UseCustomWindowDecorations";
 		/// <summary>
-		/// Whether or not the Spore Mod Manager should use a Mechanism.Wpf.Core.Windows.DecoratableWindow (requires an app restart to take effect)
+		/// Whether or not the Spore Mod Manager should use a SporeMods.CommonUI.Windows.DecoratableWindow (requires an app restart to take effect)
 		/// </summary>
 		public static bool UseCustomWindowDecorations
 		{

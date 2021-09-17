@@ -1,4 +1,4 @@
-﻿using Mechanism.Wpf.Styles.Shale;
+﻿using SporeMods.CommonUI.Themes.Shale;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,7 +27,7 @@ namespace SporeMods.CommonUI
 		public ProgressDialog(string text, DoWorkEventHandler action)
 		{
 			InitializeComponent();
-			Resources.MergedDictionaries[1] = ShaleAccents.Sky.Dictionary;
+			//Resources.MergedDictionaries[1] = ShaleAccents.Sky.Dictionary;
 			Status.Text = text;
 			if (action != null)
 			{

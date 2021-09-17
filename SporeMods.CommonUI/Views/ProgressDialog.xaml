@@ -4,13 +4,15 @@
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 			 xmlns:local="clr-namespace:SporeMods.CommonUI"
+			 xmlns:shale="clr-namespace:SporeMods.CommonUI.Themes.Shale"
 			 Width="400">
 	<UserControl.Resources>
 		<ResourceDictionary>	
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="pack://application:,,,/Mechanism.Wpf.Styles.Shale;component/Themes/Shale.xaml"/>
-				<ResourceDictionary Source="pack://application:,,,/Mechanism.Wpf.Styles.Shale;component/Themes/Colors/Accent.xaml"/>
-				<ResourceDictionary Source="pack://application:,,,/Mechanism.Wpf.Styles.Shale;component/Themes/Colors/BaseLight.xaml"/>
+				<ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI.Themes.Shale;component/Themes/Shale.xaml"/>
+				<!--ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI.Themes.Shale;component/Themes/Colors/Accent.xaml"/-->
+				<!--shale:ShaleAccent>Sky</shale:ShaleAccent-->
+				<ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI.Themes.Shale;component/Themes/Colors/BaseLight.xaml"/>
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</UserControl.Resources>
