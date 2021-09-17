@@ -2,8 +2,8 @@
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
             xmlns:local="clr-namespace:SporeMods.CommonUI.Themes.Shales"
             xmlns:ui="clr-namespace:SporeMods.CommonUI"
-            xmlns:conv="clr-namespace:SporeMods.CommonUI.Converters"
-            xmlns:uib="clr-namespace:SporeMods.CommonUI.Behaviors"
+            xmlns:conv="clr-namespace:SporeMods.CommonUI"
+            xmlns:uib="clr-namespace:SporeMods.CommonUI"
             xmlns:beh="http://schemas.microsoft.com/expression/2010/interactivity">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Converters.xaml"/>
@@ -507,4 +507,61 @@
             </Setter.Value>
         </Setter>
     </Style-->
+
+    <Style x:Key="GlyphButtonStyle" TargetType="ButtonBase">
+        <Setter Property="MinWidth" Value="{DynamicResource CaptionButtonWidth}"/>
+        <!--32-->
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Foreground" Value="{DynamicResource TitlebarIdleForegroundBrush}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderBrush" Value="{DynamicResource TitlebarBorderBrush}" />
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <!--Setter Property="Effect" Value="{DynamicResource DropShadow}"/-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ButtonBase">
+                    <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#01000000" BorderBrush="{DynamicResource TitlebarBorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+                        <DockPanel HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Effect="{DynamicResource DropShadow}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="True" UseLayoutRounding="True">
+                            <ContentPresenter x:Name="IconPresenter" Content="{Binding Path=(ui:AttachedProperties.Icon), RelativeSource={RelativeSource Mode=TemplatedParent}}" TextElement.Foreground="{TemplateBinding Foreground}" TextElement.FontFamily="{TemplateBinding FontFamily}" TextElement.FontSize="{TemplateBinding FontSize}" Margin="0,0,4,0"/>
+                            <ContentPresenter x:Name="ContentPresenter" Content="{TemplateBinding Content}" TextElement.Foreground="{TemplateBinding Foreground}" TextElement.FontFamily="{TemplateBinding FontFamily}" TextElement.FontSize="{TemplateBinding FontSize}" Margin="0"/>
+                        </DockPanel>
+                    </Border>
+                    <!--Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#01000000" Margin="{TemplateBinding Padding}">
+                        <Label x:Name="Glyph" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" RenderOptions.EdgeMode="Aliased" IsTabStop="False" Margin="0" Padding="0" />
+                    </Grid-->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="ui:AttachedProperties.Icon" Value="{x:Null}">
+                            <Setter TargetName="IconPresenter" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="Content" Value="{x:Null}">
+                            <Setter TargetName="ContentPresenter" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="IconPresenter" Property="Margin" Value="0"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" Value="False">
+                <Setter Property="Foreground" Value="{DynamicResource TitlebarInactiveIdleForegroundBrush}" />
+            </DataTrigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource TitlebarHoverForegroundBrush}" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource TitlebarPressedForegroundBrush}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <!--Setter Property="Foreground" Value="{DynamicResource TitlebarInactiveIdleForegroundBrush}" /-->
+                <Setter Property="Opacity" Value="0.5"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 </ResourceDictionary>

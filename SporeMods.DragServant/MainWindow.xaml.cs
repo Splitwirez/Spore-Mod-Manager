@@ -60,7 +60,7 @@ namespace SporeMods.DragServant
 
 		public void RefreshText(string text)
 		{
-			DropZone.Content = text;
+			DropHereZone.Content = text;
 		}
 
 		/*protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
@@ -92,11 +92,13 @@ namespace SporeMods.DragServant
 			handled = false;
 			return IntPtr.Zero;
 		}*/
-			
+
 		void SetStyles()
 		{
+			SetWindowLong(_winHandle, GwlStyle, ((Int32)(GetWindowLong(_winHandle, GwlStyle)) & ~WsSizeBox));
+
 			//SetWindowLong(_winHandle, GwlExstyle, (Int32)(GetWindowLong(_winHandle, GwlExstyle)) | ~WsExToolwindow);
-			SetWindowLong(_winHandle, GwlExstyle, ((Int32)(GetWindowLong(_winHandle, GwlExstyle)) | WsExToolwindow) & ~0x00040000);
+			SetWindowLong(_winHandle, GwlExstyle, ((Int32)(GetWindowLong(_winHandle, GwlExstyle)) | WsExToolwindow)/* & ~WsExAppWindow*/);
 			//SetWindowLong(helper.Handle, GwlExstyle, (Int32)GetWindowLong(helper.Handle, GwlExstyle) | ~0x00040000); //WS_EX_APPWINDOW
 		}
 
@@ -109,6 +111,7 @@ namespace SporeMods.DragServant
 
 		private void Window_PreviewDrop(object sender, DragEventArgs e)
 		{
+			//MessageBox.Show("Files dropped!");
 			/*foreach (ResourceDictionary dict in App.Current.Resources.MergedDictionaries)
 			{
 				string outp = string.Empty;
@@ -123,18 +126,7 @@ namespace SporeMods.DragServant
 			if (e.Data.GetDataPresent(DataFormats.FileDrop))
 			{
 				string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-
-				if (Settings.DebugMode)
-				{
-					foreach (string f in files)
-					{
-						MessageBox.Show(f);
-					}
-				}
-
-				string draggedFilesPath = Path.Combine(Settings.TempFolderPath, "draggedFiles");
-				File.WriteAllLines(draggedFilesPath, files);
-				Permissions.GrantAccessFile(draggedFilesPath);
+				ServantCommands.SendDroppedFiles(files);
 			}
 		}
 	}

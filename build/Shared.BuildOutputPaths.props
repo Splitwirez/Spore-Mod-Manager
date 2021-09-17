@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <OutputPath>..\devBin\$(Configuration)\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(OS)' == 'Windows_NT' and Exists('$(userprofile)\Spore Mod Manager\BUILD_TO_USER_DIR')">
+    <OutputPath>$(userprofile)\Spore Mod Manager\bin\$(Configuration)\</OutputPath>
+  </PropertyGroup>
+</Project>

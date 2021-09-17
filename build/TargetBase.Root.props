@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <Import Project="Shared.DontRequireWindows.props" />
+  <Import Project="Shared.BuildConfigs.props" />
+  <Import Project="Shared.BuildOutputPathConcat.props" />
+  <Import Project="Shared.BuildChannels.props" />
+  <Import Project="Shared.SmmVersion.props" />
+</Project>

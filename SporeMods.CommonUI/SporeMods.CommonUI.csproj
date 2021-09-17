@@ -1,16 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-  <Import Project="..\SporeMods.SharedAssemblyInfo.props" />
-  <Import Project="..\SporeMods.NetCoreSharedAssemblyInfo.props" />
+  <!--aImport Project="..\SporeMods.SharedAssemblyInfo.props" />
+  <Import Project="..\SporeMods.NetCoreSharedAssemblyInfo.props" /-->
+  <Import Project="..\build\Target.Lib.props" />
   <PropertyGroup>
-    <OutputType>Library</OutputType>
+    <!--aOutputType>Library</OutputType-->
 	  <UseWPF>true</UseWPF>
 	  <UseWindowsForms>true</UseWindowsForms>
 	  <AssemblyTitle>SporeMods.CommonUI</AssemblyTitle>
     <Product>SporeMods.CommonUI</Product>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <!--GenerateAssemblyInfo>false</GenerateAssemblyInfo-->
   </PropertyGroup>
-  <Import Project="..\SporeMods.SharedOutputDirs.props" />
+  <!--aImport Project="..\SporeMods.SharedOutputDirs.props" /-->
   <ItemGroup>
     <PackageReference Include="System.Windows.Interactivity.WPF" Version="2.0.20525" />
     <PackageReference Include="WPFTextBoxAutoComplete" Version="1.0.5" />
@@ -20,6 +21,11 @@
     <Resource Include="Fonts\**" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SporeMods.Core\SporeMods.Core.csproj" />
+    <Page Update="Themes\Shale\Control\Separator.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
   </ItemGroup>
+  <!--aItemGroup>
+    <ProjectReference Include="..\SporeMods.Core\SporeMods.Core.csproj" />
+  </ItemGroup-->
 </Project>

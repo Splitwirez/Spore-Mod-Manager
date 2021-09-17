@@ -1,4 +1,4 @@
-﻿using SporeMods.CommonUI.Behaviors;
+﻿using SporeMods.CommonUI;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -392,6 +392,21 @@ namespace SporeMods.CommonUI
         public static void SetIcon(DependencyObject element, object value)
         {
             element.SetValue(IconProperty, value);
+        }
+
+
+
+        public static readonly DependencyProperty CastDirectionProperty =
+            DependencyProperty.RegisterAttached("CastDirection", typeof(ExpandDirection), typeof(AttachedProperties), new FrameworkPropertyMetadata(ExpandDirection.Down));
+
+        public static ExpandDirection GetCastDirection(Separator element)
+        {
+            return (ExpandDirection)element.GetValue(CastDirectionProperty);
+        }
+
+        public static void SetCastDirection(Separator element, ExpandDirection value)
+        {
+            element.SetValue(CastDirectionProperty, value);
         }
     }
 }

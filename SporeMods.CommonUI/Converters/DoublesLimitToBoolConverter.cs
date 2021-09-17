@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Text;
 using System.Windows.Data;
 
-namespace SporeMods.CommonUI.Converters
+namespace SporeMods.CommonUI
 {
     public class DoublesLimitToBoolConverter : IMultiValueConverter
     {

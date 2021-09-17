@@ -9,7 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace SporeMods.CommonUI.Converters
+namespace SporeMods.CommonUI
 {
     public class ListViewItemIndexToBoolConverter : IMultiValueConverter
     {

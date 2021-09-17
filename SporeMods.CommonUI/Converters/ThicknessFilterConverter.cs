@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows;
 
-namespace SporeMods.CommonUI.Converters
+namespace SporeMods.CommonUI
 {
     public class ThicknessFilterConverter : IValueConverter
     {

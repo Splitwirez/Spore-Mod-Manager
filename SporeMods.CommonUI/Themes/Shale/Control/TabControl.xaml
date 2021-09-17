@@ -1,8 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
             xmlns:ui="clr-namespace:SporeMods.CommonUI"
-            xmlns:conv="clr-namespace:SporeMods.CommonUI.Converters"
-            xmlns:uib="clr-namespace:SporeMods.CommonUI.Behaviors"
+            xmlns:conv="clr-namespace:SporeMods.CommonUI"
+            xmlns:uib="clr-namespace:SporeMods.CommonUI"
             xmlns:beh="http://schemas.microsoft.com/expression/2010/interactivity">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Converters.xaml"/>
@@ -35,6 +35,11 @@
                             </Border>
                         </Border>
                     </Canvas>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="SelectionExists" Value="False">
+                            <Setter TargetName="PART_Selector" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

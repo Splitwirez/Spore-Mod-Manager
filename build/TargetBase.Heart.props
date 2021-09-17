@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+	<Import Project="TargetBase.AllPostLK.props" />
+	<Import Project="Shared.BuildOutputPaths.props" />
+	<PropertyGroup Condition=" '$(AssemblyName)' != 'SporeMods.Core' ">
+		<Product>$(AssemblyTitle)</Product>
+	</PropertyGroup>
+	<ItemGroup Condition=" '$(AssemblyName)' != 'SporeMods.Core' ">
+		<ProjectReference Include="..\SporeMods.Core\SporeMods.Core.csproj">
+			<Project>{5d0e076f-9c1c-4990-9242-4f7e7c66a045}</Project>
+			<Name>SporeMods.Core</Name>
+		</ProjectReference>
+	</ItemGroup>
+</Project>

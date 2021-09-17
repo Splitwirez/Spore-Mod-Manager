@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace SporeMods.CommonUI.Converters
+namespace SporeMods.CommonUI
 {
     public class RectangleToAspectRatioConverter : IValueConverter
     {

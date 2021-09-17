@@ -12,7 +12,7 @@ using Microsoft.Xaml.Behaviors;
 using System.Windows.Interactivity;
 //#endif
 
-namespace SporeMods.CommonUI.Behaviors
+namespace SporeMods.CommonUI
 {
     public class ClickVsTouchBehavior : Behavior<FrameworkElement>
     {

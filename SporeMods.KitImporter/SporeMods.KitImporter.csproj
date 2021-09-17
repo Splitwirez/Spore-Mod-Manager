@@ -1,13 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-  <Import Project="..\SporeMods.SharedAssemblyInfo.props" />
-  <Import Project="..\SporeMods.NetCoreSharedAssemblyInfo.props" />
+  <!--aImport Project="..\SporeMods.SharedAssemblyInfo.props" />
+  <Import Project="..\SporeMods.NetCoreSharedAssemblyInfo.props" /-->
+  <Import Project="..\build\Target.App.props" />
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <UseWPF>true</UseWPF>
+    <!--aOutputType>WinExe</OutputType>
+    <UseWPF>true</UseWPF-->
     <AssemblyTitle>SporeMods.KitImporter</AssemblyTitle>
     <Product>SporeMods.KitImporter</Product>
     <ApplicationIcon>..\AppIcons\ModManagerSetupIcon.ico</ApplicationIcon>
+    <AssemblyName>xLauncherKitImport</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="..\AppIcons\ModManagerSetupIcon.ico">
@@ -15,10 +17,7 @@
       <LogicalName>ModManagerSetupIcon.ico</LogicalName>
     </Content>
   </ItemGroup>
-  <Import Project="..\SporeMods.SharedOutputDirs.props" />
-  <PropertyGroup>
-    <AssemblyName>xLauncherKitImport</AssemblyName>
-  </PropertyGroup>
+  <!--aImport Project="..\SporeMods.SharedOutputDirs.props" /-->
   <ItemGroup>
     <ProjectReference Include="..\SporeMods.CommonUI\SporeMods.CommonUI.csproj"/>
     <ProjectReference Include="..\SporeMods.Core\SporeMods.Core.csproj"/>

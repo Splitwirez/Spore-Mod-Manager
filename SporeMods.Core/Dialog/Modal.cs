@@ -31,6 +31,8 @@ namespace SporeMods.Core
 		}
 
 		static bool _rolling = false;
+
+		static ModalShownEventArgs _current = null;
 		static async void StartRollingModals()
 		{
 			if (!_rolling)
@@ -38,15 +40,18 @@ namespace SporeMods.Core
 				_rolling = true;
 				while (_modals.Count > 0)
 				{
-					var args = _modals[0];
+					_current = _modals[0];
 
-					_modalShown?.Invoke(null, args);
-					await args.Task;
-					_modals.Remove(args);
+					_modalShown?.Invoke(null, _current);
+					await _current.Task;
+					_modals.Remove(_current);
 				}
 				_rolling = false;
 			}
 		}
+
+		public static bool IsCurrent(IModalViewModel vm)
+			=> (_current != null) ? (_current.ViewModel == vm) : false;
 		
 		
 		static int _totalHandlers = 0;

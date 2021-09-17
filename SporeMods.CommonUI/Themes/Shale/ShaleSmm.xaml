@@ -4,9 +4,9 @@
 					xmlns:core="clr-namespace:SporeMods.Core;assembly=SporeMods.Core"
 					xmlns:mods="clr-namespace:SporeMods.Core.Mods;assembly=SporeMods.Core"
 					xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
-					xmlns:conv="clr-namespace:SporeMods.CommonUI.Converters"
+					xmlns:conv="clr-namespace:SporeMods.CommonUI"
 					xmlns:shale="clr-namespace:SporeMods.CommonUI.Themes.Shale"
-					xmlns:uib="clr-namespace:SporeMods.CommonUI.Behaviors"
+					xmlns:uib="clr-namespace:SporeMods.CommonUI"
 					xmlns:autocomp="clr-namespace:WPFTextBoxAutoComplete;assembly=WPFTextBoxAutoComplete"
 					xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <ResourceDictionary.MergedDictionaries>
@@ -52,41 +52,101 @@
         <GradientStop Offset="1" Color="#00000000"/>
     </LinearGradientBrush>
 
-    <Style x:Key="DragZoneStyle" TargetType="{x:Type cui:Zone}">
+    <Style x:Key="DropHereZoneStyle" TargetType="{x:Type cui:Zone}">
+        <Setter Property="Padding" Value="20"/>
+        <Setter Property="Margin" Value="4"/>
+        <Setter Property="Background" Value="#01000000"/>
+        <Setter Property="ClipToBounds" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type cui:Zone}">
-                    <Grid Background="#01000000" Margin="4">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="64"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="64"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="64"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="64"/>
-                        </Grid.RowDefinitions>
+                    <!--Grid Background="{TemplateBinding Background}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition x:Name="GridSize" Width="0"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="{Binding Width, ElementName=GridSize}"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="{Binding Width, ElementName=GridSize}"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="{Binding Width, ElementName=GridSize}"/>
+                            </Grid.RowDefinitions>
 
-                        <Border Opacity="0.25" Background="{DynamicResource TopDownMaskBrush}" CornerRadius="6,0,0,0" Grid.Column="0" Grid.Row="0" OpacityMask="{DynamicResource FromLeftMaskBrush}" Width="12" HorizontalAlignment="Left"/>
-                        <Border Opacity="0.25" Background="{DynamicResource FromLeftMaskBrush}" CornerRadius="6,0,0,0" Grid.Column="0" Grid.Row="0" OpacityMask="{DynamicResource TopDownMaskBrush}" Height="16" VerticalAlignment="Top"/>
+                            <Border Opacity="0.25" Background="{DynamicResource TopDownMaskBrush}" CornerRadius="6,0,0,0" Grid.Column="0" Grid.Row="0" OpacityMask="{DynamicResource FromLeftMaskBrush}" Width="12" HorizontalAlignment="Left"/>
+                            <Border Opacity="0.25" Background="{DynamicResource FromLeftMaskBrush}" CornerRadius="6,0,0,0" Grid.Column="0" Grid.Row="0" OpacityMask="{DynamicResource TopDownMaskBrush}" Height="16" VerticalAlignment="Top"/>
 
-                        <Border Opacity="0.25" Background="{DynamicResource FromRightMaskBrush}" CornerRadius="0,6,0,0" Grid.Column="2" Grid.Row="0" OpacityMask="{DynamicResource TopDownMaskBrush}" Height="16" VerticalAlignment="Top"/>
-                        <Border Opacity="0.25" Background="{DynamicResource TopDownMaskBrush}" CornerRadius="0,6,0,0" Grid.Column="2" Grid.Row="0" OpacityMask="{DynamicResource FromRightMaskBrush}" Width="12" HorizontalAlignment="Right"/>
+                            <Border Opacity="0.25" Background="{DynamicResource FromRightMaskBrush}" CornerRadius="0,6,0,0" Grid.Column="2" Grid.Row="0" OpacityMask="{DynamicResource TopDownMaskBrush}" Height="16" VerticalAlignment="Top"/>
+                            <Border Opacity="0.25" Background="{DynamicResource TopDownMaskBrush}" CornerRadius="0,6,0,0" Grid.Column="2" Grid.Row="0" OpacityMask="{DynamicResource FromRightMaskBrush}" Width="12" HorizontalAlignment="Right"/>
 
-                        <Border Opacity="0.25" Background="{DynamicResource BottomUpMaskBrush}" CornerRadius="0,0,6,0" Grid.Column="2" Grid.Row="2" OpacityMask="{DynamicResource FromRightMaskBrush}" Width="12" HorizontalAlignment="Right"/>
-                        <Border Opacity="0.25" Background="{DynamicResource FromRightMaskBrush}" CornerRadius="0,0,6,0" Grid.Column="2" Grid.Row="2" OpacityMask="{DynamicResource BottomUpMaskBrush}" Height="8" VerticalAlignment="Bottom"/>
+                            <Border Opacity="0.25" Background="{DynamicResource BottomUpMaskBrush}" CornerRadius="0,0,6,0" Grid.Column="2" Grid.Row="2" OpacityMask="{DynamicResource FromRightMaskBrush}" Width="12" HorizontalAlignment="Right"/>
+                            <Border Opacity="0.25" Background="{DynamicResource FromRightMaskBrush}" CornerRadius="0,0,6,0" Grid.Column="2" Grid.Row="2" OpacityMask="{DynamicResource BottomUpMaskBrush}" Height="8" VerticalAlignment="Bottom"/>
 
-                        <Border Opacity="0.25" Background="{DynamicResource FromLeftMaskBrush}" CornerRadius="0,0,0,6" Grid.Column="0" Grid.Row="2" OpacityMask="{DynamicResource BottomUpMaskBrush}" Height="8" VerticalAlignment="Bottom"/>
-                        <Border Opacity="0.25" Background="{DynamicResource BottomUpMaskBrush}" CornerRadius="0,0,0,6" Grid.Column="0" Grid.Row="2" OpacityMask="{DynamicResource FromLeftMaskBrush}" Width="12" HorizontalAlignment="Left"/>
-                        <ContentPresenter Content="{TemplateBinding Content}"
+                            <Border Opacity="0.25" Background="{DynamicResource FromLeftMaskBrush}" CornerRadius="0,0,0,6" Grid.Column="0" Grid.Row="2" OpacityMask="{DynamicResource BottomUpMaskBrush}" Height="8" VerticalAlignment="Bottom"/>
+                            <Border Opacity="0.25" Background="{DynamicResource BottomUpMaskBrush}" CornerRadius="0,0,0,6" Grid.Column="0" Grid.Row="2" OpacityMask="{DynamicResource FromLeftMaskBrush}" Width="12" HorizontalAlignment="Left"/>
+                        </Grid>
+                        <ContentPresenter x:Name="PART_ContentPresenter"
+                                          Content="{TemplateBinding Content}"
                                           TextElement.Foreground="#FF7F7F7F"
-                                          Grid.Row="0"
-                                          Grid.Column="0"
-                                          Grid.RowSpan="3"
-                                          Grid.ColumnSpan="3"
-                                          Margin="20"/>
+                                          Style="{DynamicResource h1}"
+                                          Margin="{TemplateBinding Padding}"/>
+                        <TextBox x:Name="Edge"
+                                 Text=""
+                                 IsHitTestVisible="False"/>
+                        <!-IsEnabled="False"
+                                 IsReadOnly="True"
+                                 IsReadOnlyCaretVisible="False"->
+                        <TextBlock x:Name="NoDragDrop"
+                                   Text="Drag-and-drop unavailable because haha UAC quirks go brrr (PLACEHOLDER) (NOT LOCALIZED)"
+                                   Margin="{TemplateBinding Padding}"
+                                   Style="{DynamicResource h1}"
+                                   Visibility="Collapsed"/>
+                    </Grid-->
+                    <Grid>
+                        <Rectangle x:Name="NoTransparencyAllowed"
+                                   Margin="-5,-48,-5,-68">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.75" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <DockPanel>
+                            <Separator x:Name="Shading"
+                                   cui:AttachedProperties.CastDirection="Down"
+                                   DockPanel.Dock="Top"/>
+                            <Separator cui:AttachedProperties.CastDirection="Up"
+                                   DockPanel.Dock="Bottom"
+                                   Visibility="{Binding Visibility, ElementName=Shading}"/>
+                            <Grid>
+                                <ContentPresenter x:Name="PART_ContentPresenter"
+                                          Content="{TemplateBinding Content}"
+                                          TextElement.Foreground="#FF7F7F7F"
+                                          Style="{DynamicResource h1}"
+                                          Margin="{TemplateBinding Padding}"/>
+                                <TextBlock x:Name="NoDragDrop"
+                                   Text="Drag-and-drop unavailable because haha UAC quirks go brrr (PLACEHOLDER) (NOT LOCALIZED)"
+                                   Margin="{TemplateBinding Padding}"
+                                   Style="{DynamicResource h1}"
+                                   Visibility="Collapsed"/>
+                            </Grid>
+                        </DockPanel>
                     </Grid>
+                    <ControlTemplate.Triggers>
+                        <!--No drag servant, UAC interference present-->
+                        <Trigger Property="Tag" Value="NoDrop">
+                            <!--Setter Property="Background" Value="#7F00FF00"/-->
+                            <Setter TargetName="NoDragDrop" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="PART_ContentPresenter" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="Shading" Property="Visibility" Value="Hidden"/>
+                        </Trigger>
+                        <!--No drag servant, UAC interference not present-->
+                        <Trigger Property="Tag" Value="CanDrop">
+                        </Trigger>
+                        <!--In drag servant-->
+                        <Trigger Property="Tag" Value="{x:Null}">
+                            <!--Setter Property="Background" Value="#7FFF00FF"/-->
+                            <!--Setter TargetName="Edge" Property="Visibility" Value="Visible"/-->
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -159,25 +219,24 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="hBase" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
-        <Setter Property="TextAlignment" Value="Center"/>
-    </Style>
-    <Style x:Key="h1" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource hBase}">
-        <Setter Property="FontSize" Value="24"/>
-        <Setter Property="FontWeight" Value="Bold"/>
+    <Style x:Key="hBase">
+        <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+        <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
     </Style>
 
-    <Style x:Key="h2" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource hBase}">
-        <Setter Property="FontSize" Value="16"/>
-        <Setter Property="FontWeight" Value="Bold"/>
-        <!--Setter Property="HorizontalAlignment" Value="Center"/>
-		<Setter Property="VerticalAlignment" Value="Center"/-->
+    <Style x:Key="h1" BasedOn="{StaticResource hBase}">
+        <Setter Property="TextElement.FontSize" Value="24"/>
+        <Setter Property="TextElement.FontWeight" Value="Bold"/>
     </Style>
 
-    <Style x:Key="h3" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource hBase}">
-        <!--Setter Property="TextAlignment" Value="Center"/-->
-        <Setter Property="FontSize" Value="12"/>
-        <Setter Property="FontWeight" Value="Bold"/>
+    <Style x:Key="h2" BasedOn="{StaticResource hBase}">
+        <Setter Property="TextElement.FontSize" Value="16"/>
+        <Setter Property="TextElement.FontWeight" Value="Bold"/>
+    </Style>
+
+    <Style x:Key="h3" BasedOn="{StaticResource hBase}">
+        <Setter Property="TextElement.FontSize" Value="12"/>
+        <Setter Property="TextElement.FontWeight" Value="Bold"/>
     </Style>
 
     <Style x:Name="ModConfiguratorComponentsListViewItemStyle" TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource {x:Type ListViewItem}}">

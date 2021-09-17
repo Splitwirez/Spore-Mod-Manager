@@ -15,7 +15,7 @@ using System.Windows.Interactivity;
 using System.Windows.Media;
 //#endif
 
-namespace SporeMods.CommonUI.Behaviors
+namespace SporeMods.CommonUI
 {
     public class ClickVsTouchContextMenuBehavior : Behavior<ContextMenu>
     {

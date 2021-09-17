@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Data;
 
-namespace SporeMods.CommonUI.Converters
+namespace SporeMods.CommonUI
 {
     public class BorderPresenceToThicknessConverter : IValueConverter
     {

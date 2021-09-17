@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 using System.Windows;
 
-namespace SporeMods.CommonUI.Converters
+namespace SporeMods.CommonUI
 {
     public class DoubleToThicknessConverter : IValueConverter
     {

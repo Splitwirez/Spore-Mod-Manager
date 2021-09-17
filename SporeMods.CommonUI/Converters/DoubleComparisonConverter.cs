@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
 
-namespace SporeMods.CommonUI.Converters
+namespace SporeMods.CommonUI
 {
     public class DoubleComparisonConverter : IValueConverter
     {

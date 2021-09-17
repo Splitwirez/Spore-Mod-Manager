@@ -24,10 +24,10 @@ namespace SporeMods.CommonUI
 			}
 		}
 
-		public static void OpenUrl(string url, Process dragServant)
+		public static void OpenUrl(string url)
 		{
 			string servantNoticePath = Path.Combine(Settings.TempFolderPath, "OpenUrl");
-			if (Permissions.IsAdministrator() && (dragServant != null) && (!dragServant.HasExited))
+			if (Permissions.IsAdministrator() && (ServantCommands.HasDragServant))
 			{
 				try
 				{

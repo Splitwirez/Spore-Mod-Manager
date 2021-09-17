@@ -215,7 +215,8 @@ namespace SporeMods.CommonUI
         public const Int32
             WsExToolwindow = 0x00000080,
             WsExTransparent = 0x00000020,
-            WsExNoActivate = 0x08000000;
+            WsExNoActivate = 0x08000000,
+            WsExAppWindow = 0x00040000;
 
 
         public static IntPtr GetWindowLong(IntPtr hWnd, Int32 nIndex)/* => IntPtr.Size == 8
@@ -390,11 +391,12 @@ namespace SporeMods.CommonUI
             }
         }
 
-        public const Int32
+        public const UInt32
             SwpNoSize = 0x0001,
             SwpNoMove = 0x0002,
             SwpNoZOrder = 0x0004,
-            SwpNoActivate = 0x0010;
+            SwpNoActivate = 0x0010,
+            SwpShowWindow = 0x0040;
 
         public const Int32
             WmActivate = 0x0006,
@@ -530,5 +532,21 @@ namespace SporeMods.CommonUI
 
         [DllImport("user32.dll")]
         public static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetForegroundWindow();
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern bool AllocConsole();
+
+        [DllImport("kernel32.dll")]
+        public static extern IntPtr GetConsoleWindow();
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool IsWindow(IntPtr hWnd);
     }
 }

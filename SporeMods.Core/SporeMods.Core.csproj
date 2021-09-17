@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\SporeMods.SharedAssemblyInfo.props" />
-  <Import Project="..\SporeMods.NetCoreSharedAssemblyInfo.props" />
+  <!--aaImport Project="..\SporeMods.SharedAssemblyInfo.props" />
+  <Import Project="..\SporeMods.NetCoreSharedAssemblyInfo.props" /-->
+  <Import Project="..\build\Target.Lib.props" />
   <PropertyGroup>
-    <OutputType>Library</OutputType>
+    <!--aaOutputType>Library</OutputType-->
     <AssemblyTitle>SporeMods.Core</AssemblyTitle>
     <Product>SporeMods.Core</Product>
   </PropertyGroup>
-  <Import Project="..\SporeMods.SharedOutputDirs.props" />
+  <!--aaImport Project="..\SporeMods.SharedOutputDirs.props" /-->
   <ItemGroup Condition="$(DefineConstants.Contains(SET_BUILD_CHANNEL))">
     <EmbeddedResource Include="..\build\BuildChannel" LogicalName="BuildChannel"/>
   </ItemGroup>

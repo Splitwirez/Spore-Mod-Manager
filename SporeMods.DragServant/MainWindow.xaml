@@ -6,51 +6,63 @@
 		xmlns:local="clr-namespace:SporeMods.DragServant"
         xmlns:cui="clr-namespace:SporeMods.CommonUI;assembly=SporeMods.CommonUI"
 		mc:Ignorable="d"
-		Title="Spore Mod Manager DragWindow" Height="1" Width="1" ShowActivated="False" AllowDrop="True" WindowStyle="None" AllowsTransparency="True" Background="#01000000" PreviewDrop="Window_PreviewDrop" FontFamily="pack://application:,,,/SporeMods.CommonUI;component/Fonts/#Ubuntu">
-    <Window.Style>
+		Title="Spore Mod Manager DragWindow"
+        Width="100" Height="100"
+        ShowActivated="False"
+        WindowStyle="None"
+        Background="#01000000"
+        AllowsTransparency="True"
+
+        AllowDrop="True"
+        PreviewDrop="Window_PreviewDrop"
+        FontFamily="pack://application:,,,/SporeMods.CommonUI;component/Fonts/#Ubuntu">
+    <!--Window.Style>
         <Style TargetType="Window">
             <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Window">
-                        <Grid>
-                            <ContentPresenter x:Name="PART_ContentPresenter" RenderTransformOrigin="0,0">
-                                <ContentPresenter.RenderTransform>
-                                    <ScaleTransform ScaleX="0" ScaleY="{Binding ScaleX, RelativeSource={RelativeSource Mode=Self}}"/>
-                                </ContentPresenter.RenderTransform>
-                            </ContentPresenter>
-                        </Grid>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsVisible" Value="True">
-                                <Trigger.EnterActions>
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.1"/>
-                                            <DoubleAnimation Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="RenderTransform.ScaleX" From="0" To="1" Duration="0:0:0.25">
-                                                <DoubleAnimation.EasingFunction>
-                                                    <QuinticEase EasingMode="EaseOut"/>
-                                                </DoubleAnimation.EasingFunction>
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </Trigger.EnterActions>
-                                <Trigger.ExitActions>
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.1"/>
-                                            <DoubleAnimation Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="RenderTransform.ScaleX" From="1" To="0" Duration="0:0:0.25">
-                                                <DoubleAnimation.EasingFunction>
-                                                    <QuinticEase EasingMode="EaseOut"/>
-                                                </DoubleAnimation.EasingFunction>
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </Trigger.ExitActions>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
+                <Setter.Value-->
+    <!--Window.Template>
+        <ControlTemplate TargetType="Window">
+            <Grid>
+                <ContentPresenter x:Name="PART_ContentPresenter" RenderTransformOrigin="0,0">
+                    <ContentPresenter.RenderTransform>
+                        <ScaleTransform ScaleX="0" ScaleY="{Binding ScaleX, RelativeSource={RelativeSource Mode=Self}}"/>
+                    </ContentPresenter.RenderTransform>
+                </ContentPresenter>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsVisible" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.1"/>
+                                <DoubleAnimation Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="RenderTransform.ScaleX" From="0" To="1" Duration="0:0:0.25">
+                                    <DoubleAnimation.EasingFunction>
+                                        <QuinticEase EasingMode="EaseOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.1"/>
+                                <DoubleAnimation Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="RenderTransform.ScaleX" From="1" To="0" Duration="0:0:0.25">
+                                    <DoubleAnimation.EasingFunction>
+                                        <QuinticEase EasingMode="EaseOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Window.Template-->
+                <!--/Setter.Value>
             </Setter>
-        </Style>
-    </Window.Style>
-    <cui:Zone x:Name="DropZone" Style="{DynamicResource DragZoneStyle}"/>
+        </Style-->
+    <cui:Zone x:Name="DropHereZone"
+              Style="{DynamicResource DropHereZoneStyle}"
+              Content="Drop files here or whatever lol (PLACEHOLDER) (NOT LOCALIZED)"/>
 </Window>

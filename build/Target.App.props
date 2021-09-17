@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+	<Import Project="TargetBase.Heart.props" />
+	<ItemGroup>
+		<ProjectReference Include="..\SporeMods.CommonUI\SporeMods.CommonUI.csproj">
+			<Project>{21a4b753-80b6-426e-b09f-0e6bb307b139}</Project>
+			<Name>SporeMods.CommonUI</Name>
+		</ProjectReference>
+	</ItemGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<!--OutputType>WinExe</OutputType-->
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
+</Project>

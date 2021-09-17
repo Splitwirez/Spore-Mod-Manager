@@ -1,22 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-  <Import Project="..\SporeMods.SharedAssemblyInfo.props" />
-  <Import Project="..\SporeMods.NetCoreSharedAssemblyInfo.props" />
+  <!--aImport Project="..\SporeMods.SharedAssemblyInfo.props" />
+  <Import Project="..\SporeMods.NetCoreSharedAssemblyInfo.props" /-->
+  <Import Project="..\build\Target.App.props" />
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-	  <UseWPF>true</UseWPF>
+    <!--aOutputType>WinExe</OutputType>
+	  <UseWPF>true</UseWPF-->
 	  <AssemblyTitle>SporeMods.Launcher</AssemblyTitle>
     <Product>SporeMods.Launcher</Product>
   </PropertyGroup>
-  <Import Project="..\SporeMods.SharedOutputDirs.props" />
+  <!--aImport Project="..\SporeMods.SharedOutputDirs.props" /-->
   <PropertyGroup>
     <ApplicationIcon>..\AppIcons\ModLauncherIcon.ico</ApplicationIcon>
     <AssemblyName>Launch Spore</AssemblyName>
   </PropertyGroup>
-  <ItemGroup>
+  <!--aItemGroup>
     <ProjectReference Include="..\SporeMods.CommonUI\SporeMods.CommonUI.csproj"/>
     <ProjectReference Include="..\SporeMods.Core\SporeMods.Core.csproj"/>
-  </ItemGroup>
+  </ItemGroup-->
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>

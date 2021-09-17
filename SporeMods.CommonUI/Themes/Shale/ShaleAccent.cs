@@ -329,7 +329,7 @@ namespace SporeMods.CommonUI.Themes.Shale
         private ResourceDictionary CreateColors()
         {
             LightSwatchBrush = new SolidColorBrush(ColorHelper.ColorFromHsv(_hue, _saturation, 75));
-            DarkSwatchBrush = new SolidColorBrush(ColorHelper.ColorFromHsv(_hue, _saturation, 25));
+            DarkSwatchBrush = new SolidColorBrush(ColorHelper.ColorFromHsv(_hue, _saturation, 75/*/2*/));
             MergedDictionaries.Clear();
 
             ResourceDictionary colors = new ResourceDictionary();
@@ -340,8 +340,8 @@ namespace SporeMods.CommonUI.Themes.Shale
                     color.ToHsv(out double hue, out double sat, out double val);
                     sat = _saturation;
                     hue = _hue;
-                    if (s.Contains("DarkColor"))
-                        sat /= 3;
+                    /*if (s.Contains("DarkColor"))
+                        sat /= 2;*/
 
                     colors.Add(s, ColorHelper.ColorFromHsv(hue, sat, val));
                 }

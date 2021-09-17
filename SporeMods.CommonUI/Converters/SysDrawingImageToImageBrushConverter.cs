@@ -9,7 +9,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using static SporeMods.CommonUI.Extensions;
 
-namespace SporeMods.CommonUI.Converters
+namespace SporeMods.CommonUI
 {
     public class SysDrawingImageToImageBrushConverter : IValueConverter
     {

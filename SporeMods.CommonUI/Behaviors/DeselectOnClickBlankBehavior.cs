@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Interactivity;
 using System.Windows.Media;
 
-namespace SporeMods.CommonUI.Behaviors
+namespace SporeMods.CommonUI
 {
     public class DeselectOnClickBlankBehavior : Behavior<FrameworkElement>
 	{

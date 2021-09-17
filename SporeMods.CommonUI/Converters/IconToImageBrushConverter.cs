@@ -14,7 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using static SporeMods.CommonUI.SystemScaling;
 
-namespace SporeMods.CommonUI.Converters
+namespace SporeMods.CommonUI
 {
     public class IconToImageBrushConverter : IValueConverter
     {

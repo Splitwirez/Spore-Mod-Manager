@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <AssemblyVersion>1.7.8.1</AssemblyVersion>
+	<FileVersion>1.7.8.1</FileVersion>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+</Project>
