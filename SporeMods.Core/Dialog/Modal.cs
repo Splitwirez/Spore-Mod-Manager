@@ -33,6 +33,7 @@ namespace SporeMods.Core
 		static bool _rolling = false;
 
 		static ModalShownEventArgs _current = null;
+
 		static async void StartRollingModals()
 		{
 			if (!_rolling)
@@ -40,7 +41,12 @@ namespace SporeMods.Core
 				_rolling = true;
 				while (_modals.Count > 0)
 				{
+					if (_awaitProceed != null)
+						await _awaitProceed.Task;
+					
 					_current = _modals[0];
+					
+					
 					_modalShown?.Invoke(null, _current);
 					string modalStr = $"\'{_current.ViewModel.ToString()}\'";
 					Console.WriteLine($"Showing modal {modalStr}...");
@@ -48,9 +54,9 @@ namespace SporeMods.Core
 					Console.WriteLine($"...done with {modalStr}.");
 					_modals.Remove(_current);
 					_current = null;
+					_modalShown?.Invoke(null, null);
 				}
 				_rolling = false;
-				_modalShown?.Invoke(null, null);
 			}
 		}
 
@@ -63,6 +69,20 @@ namespace SporeMods.Core
 		{
 			get => _totalHandlers;
 			set => _totalHandlers = Math.Max(0, value);
+		}
+
+		static TaskCompletionSource<object> _awaitProceed = null;
+		public static void PreventProceed()
+		{
+			_awaitProceed = new TaskCompletionSource<object>();
+		}
+
+		public static void PermitProceed()
+		{
+			if (_awaitProceed != null)
+				_awaitProceed.TrySetResult(null);
+			
+			_awaitProceed = null;
 		}
 
 		

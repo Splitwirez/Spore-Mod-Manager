@@ -13,7 +13,8 @@
              mc:Ignorable="d"
              x:Name="ModalDisplayViewRoot"
              IsOpen="{Binding HasModal}"
-             Style="{DynamicResource {x:Type mech:AnimatableContentControl}}">
+             Style="{DynamicResource {x:Type mech:AnimatableContentControl}}"
+             IsVisibleChanged="ModalDisplayView_IsVisibleChanged">
     <mech:AnimatableContentControl.DataContext>
         <vm:ModalDisplayViewModel/>
     </mech:AnimatableContentControl.DataContext>

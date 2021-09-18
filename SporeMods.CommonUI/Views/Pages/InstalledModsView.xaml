@@ -77,7 +77,7 @@
             <ContentControl>
                 <ContentControl.Style>
                     <Style TargetType="{x:Type ContentControl}">
-                        <Setter Property="Content" Value="{DynamicResource InstallModsPromptContentControl}"/>
+                        <!--Setter Property="Content" Value="{DynamicResource InstallModsPromptContentControl}"/-->
                         <!--Style.Triggers>
                             <MultiDataTrigger>
                                 <MultiDataTrigger.Conditions>

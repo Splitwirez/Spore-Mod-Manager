@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using SporeMods.CommonUI;
+using SporeMods.Core;
 
 namespace SporeMods.Views
 {
@@ -10,18 +11,20 @@ namespace SporeMods.Views
     /// </summary>
     public partial class ModalDisplayView : AnimatableContentControl
     {
-        static ModalDisplayView()
-        {
-            //DefaultStyleKeyProperty.OverrideMetadata(typeof(ModalDisplayView), new FrameworkPropertyMetadata(typeof(AnimatableContentControl)));
-            /*FrameworkElement.StyleProperty.OverrideMetadata(typeof(Window), new FrameworkPropertyMetadata
-            {
-                DefaultValue = Application.Current.FindResource(typeof(Window))
-            });*/
-        }
-
 		public ModalDisplayView()
         {
             InitializeComponent();
+        }
+
+        void ModalDisplayView_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue is bool newIsVisible)
+            {
+                if (newIsVisible)
+                    Modal.PreventProceed();
+                else
+                    Modal.PermitProceed();
+            }
         }
 	}
 }
