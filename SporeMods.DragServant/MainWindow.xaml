@@ -8,7 +8,6 @@
 		mc:Ignorable="d"
 		Title="Spore Mod Manager DragWindow"
         Width="100" Height="100"
-        ShowActivated="False"
         WindowStyle="None"
         Background="#01000000"
         AllowsTransparency="True"
@@ -16,21 +15,21 @@
         AllowDrop="True"
         PreviewDrop="Window_PreviewDrop"
         FontFamily="pack://application:,,,/SporeMods.CommonUI;component/Fonts/#Ubuntu">
+    <!--
+        ShowActivated="False"-->
     <!--Window.Style>
         <Style TargetType="Window">
             <Setter Property="Template">
                 <Setter.Value-->
-    <!--Window.Template>
+    <Window.Template>
         <ControlTemplate TargetType="Window">
-            <Grid>
-                <ContentPresenter x:Name="PART_ContentPresenter" RenderTransformOrigin="0,0">
-                    <ContentPresenter.RenderTransform>
-                        <ScaleTransform ScaleX="0" ScaleY="{Binding ScaleX, RelativeSource={RelativeSource Mode=Self}}"/>
-                    </ContentPresenter.RenderTransform>
-                </ContentPresenter>
-            </Grid>
+            <ContentPresenter x:Name="PART_ContentPresenter" RenderTransformOrigin="0,0">
+                <ContentPresenter.RenderTransform>
+                    <ScaleTransform ScaleX="0" ScaleY="{Binding ScaleX, RelativeSource={RelativeSource Mode=Self}}"/>
+                </ContentPresenter.RenderTransform>
+            </ContentPresenter>
             <ControlTemplate.Triggers>
-                <Trigger Property="IsVisible" Value="True">
+                <Trigger Property="Visibility" Value="Visible">
                     <Trigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
@@ -58,7 +57,7 @@
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
-    </Window.Template-->
+    </Window.Template>
                 <!--/Setter.Value>
             </Setter>
         </Style-->

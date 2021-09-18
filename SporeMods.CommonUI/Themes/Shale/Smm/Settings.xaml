@@ -9,9 +9,11 @@
 			xmlns:uib="clr-namespace:SporeMods.CommonUI"
 			xmlns:autocomp="clr-namespace:WPFTextBoxAutoComplete;assembly=WPFTextBoxAutoComplete"
 			xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <Style x:Key="GamePathCheckBoxStyle" TargetType="CheckBox">
-        <Setter Property="Margin" Value="0,0,-1,0"/>
-        <Setter Property="cui:AttachedProperties.CornerCurves" Value="True,False,False,True"/>
+    <cui:CornerCurvesToCornerRadiusConverter x:Key="CornerCurvesToCornerRadiusConverter"/>
+
+    <Style x:Key="AutoDetectGamePathStyle" TargetType="CheckBox">
+        <!--Setter Property="Margin" Value="0,0,-1,0"/>
+        <Setter Property="cui:AttachedProperties.CornerCurves" Value="True,False,False,True"/-->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">

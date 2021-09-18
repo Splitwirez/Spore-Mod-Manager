@@ -92,6 +92,8 @@ namespace SporeMods.Launcher
 		[STAThread]
 		static void Main(string[] programArgs)
 		{
+			CommonUI.MessageDisplay.EnsureConsole();
+
 			var _ = CommonUI.Localization.LanguageManager.Instance;
 
 			MessageDisplay.ErrorOccurred += (sender, args) =>

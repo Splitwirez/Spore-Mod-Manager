@@ -91,22 +91,21 @@
                 </ContentControl.Style>
             </ContentControl>
             <ListView x:Name="InstalledModsListView"
-                    Style="{DynamicResource InstalledModsListViewStyle}"
-                    ItemsSource="{Binding Source={x:Static core:ModsManager.InstalledMods}}"
-                    Visibility="{Binding IsSearching, Converter={StaticResource BooleanToInvisibilityConverter}}"
-                    SelectionChanged="ModsList_SelectionChanged"
-                    cui:AttachedProperties.CornerCurves="False"/>
-            <!--SelectionChanged="InstalledModsListView_SelectionChanged"
-                    IsVisibleChanged="ModsListView_IsVisibleChanged"
-                    PreviewKeyDown="ModsListView_PreviewKeyDown"-->
+                      Style="{DynamicResource InstalledModsListViewStyle}"
+                      ItemsSource="{Binding Source={x:Static core:ModsManager.InstalledMods}}"
+                      Visibility="{Binding IsSearching, Converter={StaticResource BooleanToInvisibilityConverter}}"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      SelectionChanged="ModsList_SelectionChanged"
+                      cui:AttachedProperties.CornerCurves="False"/>
             <ListView x:Name="ModSearchListView"
-                    Style="{DynamicResource InstalledModsListViewStyle}"
-                    ItemsSource="{Binding SearchResults, Source={x:Static core:ModSearch.Instance}}"
-                    Visibility="{Binding IsSearching, Converter={StaticResource BooleanToVisibilityConverter}}"
-                    SelectionChanged="ModsList_SelectionChanged"
-                    cui:AttachedProperties.CornerCurves="False"/>
-            <!--IsVisibleChanged="ModsListView_IsVisibleChanged"
-                    PreviewKeyDown="ModsListView_PreviewKeyDown"-->
+                      Style="{DynamicResource InstalledModsListViewStyle}"
+                      ItemsSource="{Binding SearchResults, Source={x:Static core:ModSearch.Instance}}"
+                      Visibility="{Binding IsSearching, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      SelectionChanged="ModsList_SelectionChanged"
+                      cui:AttachedProperties.CornerCurves="False"/>
         </Grid>
     </DockPanel>
 </UserControl>

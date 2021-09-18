@@ -70,6 +70,7 @@
                     <v:InstalledModsView/>
                 </TabItem>
                 <TabItem x:Name="SettingsTabItem" Header="{DynamicResource Settings!Header}">
+                    <v:SettingsView/>
                 </TabItem>
                 <TabItem x:Name="HelpTabItem" Header="{DynamicResource Help!Header}">
                     <v:HelpView/>

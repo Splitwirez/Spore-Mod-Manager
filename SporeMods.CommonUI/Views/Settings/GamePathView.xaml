@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="SporeMods.Views.GamePathView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:cui="clr-namespace:SporeMods.CommonUI"
+             xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:vm="clr-namespace:SporeMods.ViewModels"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <cui:BoolInverterConverter x:Key="BoolInverterConverter"/>
+    </UserControl.Resources>
+    <DockPanel>
+        <TextBlock Text="{DynamicResource Settings!Folders!AutoGaData}"
+                   Style="{DynamicResource h3}"/>
+        <Rectangle Width="{DynamicResource SettingsControlsHorizontalSpacing}"
+                   DockPanel.Dock="Left"
+                   Visibility="Hidden"/>
+        <CheckBox Content="{DynamicResource Settings!Folders!AutoDetectPath}"
+                          DockPanel.Dock="Left"
+                          VerticalAlignment="Stretch"
+                          HorizontalAlignment="Stretch"
+                  IsChecked="{Binding UseExplicitPath, Converter={StaticResource BoolInverterConverter}, Mode=TwoWay}"/>
+        <Rectangle Width="{DynamicResource SettingsControlsHorizontalSpacing}"
+                   DockPanel.Dock="Left"
+                   Visibility="Hidden"/>
+        <Button Content="{DynamicResource Browse}"
+                cui:AttachedProperties.CornerCurves="False,True,True,False"
+                DockPanel.Dock="Right"
+                IsEnabled="{Binding UseExplicitPath}"
+                Command="{Binding BrowseCommand}"/>
+        <TextBox Text="{Binding WorkingPath}"
+                 cui:AttachedProperties.BorderPresence="False,True,True,True"
+                 cui:AttachedProperties.CornerCurves="True,False,False,True"
+                 IsEnabled="{Binding UseExplicitPath}"/>
+    </DockPanel>
+</UserControl>

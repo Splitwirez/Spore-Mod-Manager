@@ -41,21 +41,31 @@
                     </Grid>
                 </GroupBox>
                 <GroupBox x:Name="CreditsGroupBox" Header="{DynamicResource Help!Credits!Header}">
-                    <ItemsControl x:Name="CreditsItemsControl" Style="{DynamicResource CreditsItemsControlStyle}" ItemsSource="{Binding Credits}">
+                    <ItemsControl x:Name="CreditsItemsControl"
+                                  Style="{DynamicResource CreditsItemsControlStyle}"
+                                  ItemsSource="{Binding Credits}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate DataType="{x:Type vm:CreditsItem}">
-                                <Button x:Name="TemplateRootButton" Style="{DynamicResource CreditsButtonStyle}">
-                                    <!--e:Interaction.Behaviors>
-                                        <local:OpenCreditsLinkBehavior/>
-                                    </e:Interaction.Behaviors-->
-                                    <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
-                                        <TextBlock Foreground="{DynamicResource WindowForegroundBrush}" Text="{Binding Name}" FontSize="16" FontWeight="Bold" HorizontalAlignment="Left" TextAlignment="Left" Margin="0,0,0,4"/>
-                                        <TextBlock Foreground="{DynamicResource WindowForegroundBrush}" Text="{Binding Contribution}" TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Left" Margin="4"/>
-                                        <StackPanel x:Name="LinkAreaStackPanel" Orientation="Horizontal" Opacity="0.5" Margin="4,0">
-                                            <TextBlock Foreground="{DynamicResource WindowForegroundBrush}" Text="Click to visit " TextWrapping="NoWrap" HorizontalAlignment="Left" TextAlignment="Left"/>
-                                            <TextBlock Foreground="{DynamicResource WindowForegroundBrush}" Text="{Binding Link}" TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Left"/>
+                                <Button x:Name="TemplateRootButton"
+                                        Style="{DynamicResource CreditsButtonStyle}">
+                                    <ui:StackPanelEx Orientation="Vertical" HorizontalAlignment="Stretch" Spacing="4">
+                                        <TextBlock Text="{Binding Name}"
+                                                   Style="{DynamicResource h2}"
+                                                   TextAlignment="Left"/>
+                                        <TextBlock Text="{Binding Contribution}"
+                                                   TextWrapping="Wrap"
+                                                   HorizontalAlignment="Left"
+                                                   TextAlignment="Left"
+                                                   Margin="4"/>
+                                        <StackPanel x:Name="LinkAreaStackPanel"
+                                                    Orientation="Horizontal"
+                                                    Opacity="0.5">
+                                            <TextBlock Text="Click to visit "
+                                                       TextWrapping="NoWrap"/>
+                                            <TextBlock Text="{Binding Link}"
+                                                       TextWrapping="NoWrap"/>
                                         </StackPanel>
-                                    </StackPanel>
+                                    </ui:StackPanelEx>
                                 </Button>
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding HasLink}" Value="False">

@@ -15,7 +15,7 @@ namespace SporeMods.Core
 		
 		public static async Task<T> Show<T>(IModalViewModel<T> vm)
 		{
-			Console.WriteLine("MODAL OF TYPE \'" + vm.GetType().FullName + "\' SHOWN: " + vm.ToString());
+			Console.WriteLine($"Modal \'{vm.ToString()}\' added to queue.");
 			var task = vm.CompletionSource.Task;
 			AddToQueue(new ModalShownEventArgs(vm, task));
 			return await task;
@@ -41,12 +41,16 @@ namespace SporeMods.Core
 				while (_modals.Count > 0)
 				{
 					_current = _modals[0];
-
 					_modalShown?.Invoke(null, _current);
+					string modalStr = $"\'{_current.ViewModel.ToString()}\'";
+					Console.WriteLine($"Showing modal {modalStr}...");
 					await _current.Task;
+					Console.WriteLine($"...done with {modalStr}.");
 					_modals.Remove(_current);
+					_current = null;
 				}
 				_rolling = false;
+				_modalShown?.Invoke(null, null);
 			}
 		}
 
@@ -69,7 +73,7 @@ namespace SporeMods.Core
 			{
 				_modalShown += value;
 				if (_rolling && (_modals.Count > 0))
-					_modalShown?.Invoke(null, _modals[0]);
+					_modalShown?.Invoke(null, _current);
 				
 				TotalHandlers++;
 			}

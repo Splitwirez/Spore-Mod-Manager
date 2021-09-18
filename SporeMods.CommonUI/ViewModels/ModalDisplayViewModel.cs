@@ -17,6 +17,7 @@ namespace SporeMods.ViewModels
             get => _currentModalVM;
             set
 			{
+				Console.WriteLine($"===VM: CurrentModalVM is now \'{value}\'");
 				_currentModalVM = value;
 				bool hasModal = _currentModalVM != null;
 				CurrentModalView = hasModal ? Activator.CreateInstance(Type.GetType(value.GetViewTypeName())) : null;
@@ -32,6 +33,7 @@ namespace SporeMods.ViewModels
             get => _currentModalView;
             set
 			{
+				Console.WriteLine($"===VM: CurrentModalView is now \'{value}\'");
 				_currentModalView = value;
 				NotifyPropertyChanged();
 			}
@@ -43,6 +45,7 @@ namespace SporeMods.ViewModels
             get => _hasModal;
             set
 			{
+				Console.WriteLine($"===VM: HasModal is now \'{value}\'");
 				_hasModal = value;
 				NotifyPropertyChanged();
 			}
@@ -58,9 +61,8 @@ namespace SporeMods.ViewModels
 
 		async void Modal_Shown(object sender, ModalShownEventArgs args)
         {
-            CurrentModalVM = args.ViewModel;
-            await args.Task;
-            CurrentModalVM = null;
+            CurrentModalVM = args != null ? args.ViewModel : null;
+            //await args.Task;
         }
 	}
 }

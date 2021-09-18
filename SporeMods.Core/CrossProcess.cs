@@ -47,7 +47,9 @@ namespace SporeMods.Core
 				info.Verb = "runas";
 
 			if (!string.IsNullOrEmpty(args))
-				info.Arguments = args;
+				info.Arguments = MessageDisplay.ShowsConsole ? $"{args} {MessageDisplay.SHOW_CONSOLE_CMD}" : args;
+			else if (MessageDisplay.ShowsConsole)
+				info.Arguments = MessageDisplay.SHOW_CONSOLE_CMD;
 
 			return Process.Start(info);
 		}

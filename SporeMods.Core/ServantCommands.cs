@@ -9,11 +9,13 @@ namespace SporeMods.Core
 {
 	public static class ServantCommands
 	{
-
 		public static string CreateDragServant()
         {
+			if (File.Exists(DragWindowHwndPath))
+				File.Delete(DragWindowHwndPath);
+
 			string id = string.Empty;
-			Process dragServant = CrossProcess.StartDragServant(/*Process.GetCurrentProcess().Id.ToString()*/);
+			Process dragServant = CrossProcess.StartDragServant();
 			if (dragServant != null)
 				id = dragServant.Id.ToString();
 
@@ -57,11 +59,32 @@ namespace SporeMods.Core
 		}
 
 
+		static IntPtr _servantHwnd = IntPtr.Zero;
 		public static bool TryGetDragServantHwnd(out IntPtr hWnd)
         {
 			if (HasDragServant)
 			{
-				hWnd = DragServantProcess.MainWindowHandle;
+				if (_servantHwnd != IntPtr.Zero)
+				{
+					hWnd = _servantHwnd;
+					return true;
+				}
+
+				string hwndPath = DragWindowHwndPath;
+				if (File.Exists(hwndPath))
+                {
+					if (int.TryParse(File.ReadAllText(hwndPath), out int ihWnd))
+					{
+
+						_servantHwnd = new IntPtr(ihWnd);
+						File.Delete(hwndPath);
+					}
+				}
+				
+				if (_servantHwnd == IntPtr.Zero)
+					_servantHwnd = DragServantProcess.MainWindowHandle;
+
+				hWnd = _servantHwnd;
 				return true;
 			}
 			else
@@ -71,12 +94,29 @@ namespace SporeMods.Core
 			}
         }
 
-		
-		static string DroppedFilesPath
-        {
-			get => Path.Combine(Settings.TempFolderPath, "droppedFiles");
 
+		static string DragWindowHwndPath
+		{
+			get => Path.Combine(Settings.TempFolderPath, "dragWindowHwnd");
 		}
+
+		public static void SendDragWindowHwnd(IntPtr hWnd)
+        {
+			File.WriteAllText(DragWindowHwndPath, hWnd.ToString());
+		}
+		
+		
+		public static bool DragWindowHwndSent
+        {
+			get => File.Exists(DragWindowHwndPath);
+        }
+
+
+		static string DroppedFilesPath
+		{
+			get => Path.Combine(Settings.TempFolderPath, "droppedFiles");
+		}
+
 		public static void SendDroppedFiles(IEnumerable<string> files)
         {
 			string msg = "FILES: ";

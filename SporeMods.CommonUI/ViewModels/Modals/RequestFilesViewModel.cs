@@ -17,7 +17,9 @@ namespace SporeMods.ViewModels
 {
 	public enum FileRequestPurpose
 	{
-		InstallMods
+		InstallMods,
+		GamePathNotFound,
+		AmbiguousGamePath
 	}
 	
 	public class RequestFilesViewModel : ModalViewModel<IEnumerable<string>>
@@ -91,10 +93,12 @@ namespace SporeMods.ViewModels
 			TextDataFormat.Xaml
 		};
 
+		bool _acceptMultiple = false;
 		public RequestFilesViewModel(FileRequestPurpose purpose, bool acceptMultiple)
 			: base()
 		{
 			_purpose = purpose;
+			_acceptMultiple = acceptMultiple;
 
 			Title = GetText(TITLE_KEY_BASE);
 			DescriptionDrag = GetText(DESCRIPTION_DRAG_KEY_BASE);
@@ -105,7 +109,7 @@ namespace SporeMods.ViewModels
 			{
 				OpenFileDialog dialog = new OpenFileDialog()
 				{
-					Multiselect = acceptMultiple,
+					Multiselect = _acceptMultiple,
 					Title = GetText(BROWSE_HEADER_KEY_BASE),
 					Filter = GetText(BROWSE_FILTER_KEY_BASE) + "|*.sporemod;*.package"
 				};
@@ -151,14 +155,16 @@ namespace SporeMods.ViewModels
 				}*/
 			});
 
-			DismissCommand = new FuncCommand<object>(o => CompletionSource.TrySetResult(null));
+			if (_purpose == FileRequestPurpose.InstallMods)
+				DismissCommand = new FuncCommand<object>(o => CompletionSource.TrySetResult(null));
 		}
 
 		public bool GrantFiles(IEnumerable<string> fileNames)
 		{
 			if (fileNames != null)
 			{
-				if (fileNames.Count() > 0)
+				int count = fileNames.Count();
+				if (count > 0)
 				{
 					/*string msgbox = string.Empty;
 					foreach (string h in fileNames)
@@ -167,8 +173,21 @@ namespace SporeMods.ViewModels
 					}
 					MessageBox.Show(msgbox);*/
 
-					CompletionSource.TrySetResult(fileNames);
-					return true;
+
+					if (
+							(
+								_acceptMultiple &&
+								(count >= 1)
+							) ||
+							(
+								(!_acceptMultiple) &&
+								(count == 1)
+							)
+						)
+					{
+						CompletionSource.TrySetResult(fileNames);
+						return true;
+					}
 				}
 				else
 					MessageBox.Show("Zero files in collection!");

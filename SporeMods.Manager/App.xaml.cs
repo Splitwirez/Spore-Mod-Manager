@@ -44,13 +44,7 @@ namespace SporeMods.Manager
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
-#if DEBUG && !LINUX_DEBUG
-			IntPtr consoleHwnd = NativeMethods.GetConsoleWindow();
-			if (consoleHwnd == IntPtr.Zero)
-				NativeMethods.AllocConsole();
-			else
-				NativeMethods.ShowWindow(consoleHwnd, 1);
-#endif
+			CUIMsg.EnsureConsole();
 
 			if (Settings.ForceSoftwareRendering)
 				RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
@@ -115,7 +109,13 @@ namespace SporeMods.Manager
 						Process p = Process.Start(dragServantStartInfo);*/
 						string args = Permissions.GetProcessCommandLineArgs();
 						args += $" {ServantCommands.CreateDragServant()}";
-						if (!Environment.GetCommandLineArgs().Contains(UpdaterService.IgnoreUpdatesArg)) args += " " + UpdaterService.IgnoreUpdatesArg;
+						
+						while (!ServantCommands.DragWindowHwndSent)
+						{ }
+
+						if (!Environment.GetCommandLineArgs().Contains(UpdaterService.IgnoreUpdatesArg))
+							args += " " + UpdaterService.IgnoreUpdatesArg;
+
 						try
 						{
 							//while (p.MainWindowHandle == IntPtr.Zero) { }
@@ -219,7 +219,9 @@ namespace SporeMods.Manager
 								DefaultValue = Application.Current.FindResource(typeof(Window))
 							});
 
-
+							if (ServantCommands.TryGetDragServantHwnd(out IntPtr dragWindow))
+								NativeMethods.ShowWindow(dragWindow, 0);
+                            
 							MainWindow = new MainView();
 							MainWindow.Show();
 						}

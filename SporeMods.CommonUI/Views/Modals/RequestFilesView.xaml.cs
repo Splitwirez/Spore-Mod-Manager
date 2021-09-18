@@ -15,6 +15,7 @@ using SporeMods.CommonUI.Localization;
 
 using RequestFilesViewModel = SporeMods.ViewModels.RequestFilesViewModel;
 using WRect = System.Windows.Rect;
+using System.Threading;
 
 namespace SporeMods.Views
 {
@@ -37,9 +38,20 @@ namespace SporeMods.Views
         {
             InitializeComponent();
 
-			DropHereZone.Tag = (Permissions.IsAdministrator() && (!ServantCommands.HasDragServant) && (!Settings.NonEssentialIsRunningUnderWine))
-				? "NoDrop"
-				: "CanDrop";
+			bool hasServant = ServantCommands.HasDragServant;
+			bool sober = (!Settings.NonEssentialIsRunningUnderWine);
+			if (hasServant || sober)
+			{
+				DropHereZone.Content = "Choose an installation method from below... (PLACEHOLDER) (NOT LOCALIZED)";
+				if (hasServant)
+					DropHereZone.Tag = "HasDragServant";
+				else if (sober)
+					DropHereZone.Tag = "NoDrop";
+			}
+			else
+            {
+
+            }
 
 
 			Loaded += (s, e) =>
@@ -54,7 +66,7 @@ namespace SporeMods.Views
 					if (IsWindow(_servantHwnd))
 					{
 						SetParent(_servantHwnd, _ownerHwnd);
-						//ShowWindow(_servantHwnd, 1);
+						ShowWindow(_servantHwnd, 4);
 
 
 						/*GetCoordsForSetWindowPos(out int X, out int Y, out int cx, out int cy);
@@ -65,7 +77,7 @@ namespace SporeMods.Views
 						else
 							flags |= SwpNoMove;*/
 
-						RefreshDropHereZonePlacement();
+						RefreshDropHereZonePlacement(true);
 						//(int)(_topLeft.X), (int)(_topLeft.Y)
 						//SwpNoSize | 
 					}
@@ -77,7 +89,7 @@ namespace SporeMods.Views
                     //_ownerWindow.LayoutUpdated += OwnerWindow_LayoutUpdated;
                     //_ownerWindow.ContentRendered += OwnerWindow_ContentRendered;
                     CompositionTarget.Rendering += CompositionTarget_Rendering;
-					_ownerWindow.Deactivated += OwnerWindow_Deactivated;
+					////////_ownerWindow.Deactivated += OwnerWindow_Deactivated;
 				}), DispatcherPriority.Render, null);
 			};
 			Unloaded += (s, e) =>
@@ -90,15 +102,19 @@ namespace SporeMods.Views
 				//_ownerWindow.SizeChanged -= OwnerWindow_SizeChanged;
 				//_ownerWindow.SizeChanged -= OwnerWindow_LayoutUpdated;
 				CompositionTarget.Rendering -= CompositionTarget_Rendering;
-				_ownerWindow.Deactivated -= OwnerWindow_Deactivated;
+				////////_ownerWindow.Deactivated -= OwnerWindow_Deactivated;
 				
 				_ownerWindow = null;
 			};
 		}
 
-        private void CompositionTarget_Rendering(object sender, EventArgs e)
+		private void CompositionTarget_Rendering(object sender, EventArgs e)
 		{
 			RefreshDropHereZonePlacement();
+
+
+			if (IsWindow(_servantHwnd) && (GetForegroundWindow() == _servantHwnd))
+				_ownerWindow?.Activate();
 		}
 
 		/*private void OwnerWindow_ContentRendered(object sender, EventArgs e)
@@ -161,7 +177,7 @@ namespace SporeMods.Views
 			RefreshDropHereZonePlacement(false);
 		}*/
 
-		void RefreshDropHereZonePlacement()
+		void RefreshDropHereZonePlacement(bool activate = false)
         {
 			if (
 					(_ownerWindow != null) &&
@@ -181,7 +197,9 @@ namespace SporeMods.Views
 				int cx = (int)SystemScaling.WpfUnitsToRealPixels(DropHereZone.RenderSize.Width + (margin.Right + marginL));
 				int cy = (int)SystemScaling.WpfUnitsToRealPixels(DropHereZone.RenderSize.Height + (margin.Bottom + marginT));
 
-				var flags = SwpNoActivate | SwpShowWindow | SwpNoZOrder;
+				var flags = SwpShowWindow | SwpNoZOrder;
+				if (!activate)
+					flags |= SwpNoActivate;
 				/*if (!move)
 					flags |= SwpNoMove;
 				if (!size)
@@ -190,7 +208,10 @@ namespace SporeMods.Views
 					flags |= SwpShowWindow;*/
 				//RefreshDropHereZonePlacement()
 				SetWindowPos(_servantHwnd, _ownerHwnd, X, Y, cx, cy, flags);
-				Console.WriteLine($"Moved to: {X}, {Y}, {cx}, {cy}"); // ...{move}, {size}, {show}");
+				//Console.WriteLine($"Moved to: {X}, {Y}, {cx}, {cy}"); // ...{move}, {size}, {show}");
+
+				if (activate)
+					_ownerWindow.Activate();
 			}
 		}
 

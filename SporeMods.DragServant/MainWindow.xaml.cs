@@ -17,6 +17,7 @@ using static SporeMods.CommonUI.NativeMethods;
 using SporeMods.Core;
 using SporeMods.CommonUI.Localization;
 using System.Diagnostics;
+using System.Threading;
 
 namespace SporeMods.DragServant
 {
@@ -29,21 +30,20 @@ namespace SporeMods.DragServant
 		public MainWindow()
 		{
 			InitializeComponent();
-			//Hide();
-			/*ShowInTaskbar = false;
+            //Hide();
+            /*ShowInTaskbar = false;
 			ShowActivated = false;*/
-			//this.SizeChanged  += (sneder, args) => RefreshText();
+            //this.SizeChanged  += (sneder, args) => RefreshText();
 
-			/*RootGrid.IsVisibleChanged += (sneder, args) =>
+            /*RootGrid.IsVisibleChanged += (sneder, args) =>
 			{
 				if (args.NewValue is bool val)
 					RefreshText(val);
 			};*/
-
 			Activated += (sneder, args) => SetStyles();
 		}
 
-		/*int count = 0;
+        /*int count = 0;
 		public static void RefreshText()
         {
 			/*
@@ -58,7 +58,7 @@ namespace SporeMods.DragServant
 			//DropModsHereTextBlock.Text = LanguageManager.Instance.GetLocalizedText("DontRunAsAdmin");
 		}*/
 
-		public void RefreshText(string text)
+        public void RefreshText(string text)
 		{
 			DropHereZone.Content = text;
 		}
@@ -75,12 +75,22 @@ namespace SporeMods.DragServant
 			//var _ = LanguageManager.Instance.CurrentLanguage;
 			_winHandle = new WindowInteropHelper(this).EnsureHandle();
 			SetStyles();
+			ServantCommands.SendDragWindowHwnd(_winHandle);
+			//Hide();
+
+			/*new Thread(() => */CommonUI.MessageDisplay.EnsureConsole()/*).Start()*/;
+			//Hide();
 
 			//NativeMethods.SetWindowLong(Handle, NativeMethods.GwlStyle, NativeMethods.GetWindowLong(Handle, NativeMethods.GwlStyle).ToInt32() & ~(0x00000000 | 0x00C00000 | 0x00800000 | 0x00080000 | 0x00040000));
 			////////HwndSource.FromHwnd(_winHandle).AddHook(new HwndSourceHook(WndProc));
 			//SetWindowLong(_winHandle, GwlExstyle, (Int32)(GetWindowLong(_winHandle, GwlExstyle)) | WsExToolwindow | WsExNoActivate);
 			//Hide();
 			//Path.Combine(Settings.TempFolderPath, "LaunchGame")
+			/*IsVisibleChanged += (s, e) =>
+			{
+				if (e.NewValue is bool newIsVisible)
+					Visibility = newIsVisible ? Visibility.Visible : Visibility.Collapsed;
+			};*/
 		}
 
 		/*IntPtr WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, ref Boolean handled)
@@ -111,7 +121,7 @@ namespace SporeMods.DragServant
 
 		private void Window_PreviewDrop(object sender, DragEventArgs e)
 		{
-			//MessageBox.Show("Files dropped!");
+			Console.WriteLine("Dropped!");
 			/*foreach (ResourceDictionary dict in App.Current.Resources.MergedDictionaries)
 			{
 				string outp = string.Empty;
@@ -126,6 +136,10 @@ namespace SporeMods.DragServant
 			if (e.Data.GetDataPresent(DataFormats.FileDrop))
 			{
 				string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+				
+				foreach (string x in files)
+					Console.WriteLine(x);
+
 				ServantCommands.SendDroppedFiles(files);
 			}
 		}

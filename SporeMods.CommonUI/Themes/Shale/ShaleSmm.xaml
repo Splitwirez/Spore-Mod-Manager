@@ -21,12 +21,20 @@
 
     <Style x:Key="{x:Type TextBlock}" TargetType="{x:Type TextBlock}">
         <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
 
 
     <conv:BorderPresenceToThicknessConverter x:Key="BorderPresenceToThicknessConverter"/>
     <conv:CornerCurvesToCornerRadiusConverter x:Key="CornerCurvesToCornerRadiusConverter"/>
     <cui:IsAllTrueConverter x:Key="IsAllTrueConverter"/>
+
+
+    <sys:Double x:Key="SettingsControlsVerticalSpacing">5</sys:Double>
+    <sys:Double x:Key="SettingsControlsHorizontalSpacing">5</sys:Double>
+    
+    <sys:Double x:Key="SubControlsInset">15</sys:Double>
+    <Thickness x:Key="SubControlsInsetMargin">15,0,0,0</Thickness>
 
 
 
@@ -112,7 +120,8 @@
                         <DockPanel>
                             <Separator x:Name="Shading"
                                    cui:AttachedProperties.CastDirection="Down"
-                                   DockPanel.Dock="Top"/>
+                                   DockPanel.Dock="Top"
+                                       Visibility="Collapsed"/>
                             <Separator cui:AttachedProperties.CastDirection="Up"
                                    DockPanel.Dock="Bottom"
                                    Visibility="{Binding Visibility, ElementName=Shading}"/>
@@ -122,29 +131,24 @@
                                           TextElement.Foreground="#FF7F7F7F"
                                           Style="{DynamicResource h1}"
                                           Margin="{TemplateBinding Padding}"/>
-                                <TextBlock x:Name="NoDragDrop"
+                                <!--TextBlock x:Name="NoDragDrop"
                                    Text="Drag-and-drop unavailable because haha UAC quirks go brrr (PLACEHOLDER) (NOT LOCALIZED)"
                                    Margin="{TemplateBinding Padding}"
                                    Style="{DynamicResource h1}"
-                                   Visibility="Collapsed"/>
+                                   Visibility="Collapsed"/-->
                             </Grid>
                         </DockPanel>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <!--No drag servant, UAC interference present-->
                         <Trigger Property="Tag" Value="NoDrop">
-                            <!--Setter Property="Background" Value="#7F00FF00"/-->
-                            <Setter TargetName="NoDragDrop" Property="Visibility" Value="Visible"/>
-                            <Setter TargetName="PART_ContentPresenter" Property="Visibility" Value="Collapsed"/>
-                            <Setter TargetName="Shading" Property="Visibility" Value="Hidden"/>
                         </Trigger>
-                        <!--No drag servant, UAC interference not present-->
-                        <Trigger Property="Tag" Value="CanDrop">
+                        <!--Drag servant running-->
+                        <Trigger Property="Tag" Value="HasDragServant">
                         </Trigger>
                         <!--In drag servant-->
                         <Trigger Property="Tag" Value="{x:Null}">
-                            <!--Setter Property="Background" Value="#7FFF00FF"/-->
-                            <!--Setter TargetName="Edge" Property="Visibility" Value="Visible"/-->
+                            <Setter TargetName="Shading" Property="Visibility" Value="Visible"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -237,6 +241,7 @@
     <Style x:Key="h3" BasedOn="{StaticResource hBase}">
         <Setter Property="TextElement.FontSize" Value="12"/>
         <Setter Property="TextElement.FontWeight" Value="Bold"/>
+        <Setter Property="TextBlock.TextAlignment" Value="Left"/>
     </Style>
 
     <Style x:Name="ModConfiguratorComponentsListViewItemStyle" TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource {x:Type ListViewItem}}">
@@ -703,7 +708,7 @@
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Margin" Value="0"/>
-        <Setter Property="Padding" Value="0,0,0,-10"/>
+        <!--Setter Property="Padding" Value="0,0,0,-10"/-->
         <Setter Property="ClipToBounds" Value="True"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
@@ -792,6 +797,15 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="False"/>
+                    <Condition Property="IsEnabled" Value="True"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"/>
+            </MultiTrigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="FolderNotFoundListViewStyle" TargetType="{x:Type ListView}">
@@ -995,6 +1009,21 @@
                             <Setter TargetName="DropDownBorder" Property="Margin" Value="0,2,0,0" />
                         </Trigger>
                     </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="WithSubControls" TargetType="{x:Type HeaderedContentControl}">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type HeaderedContentControl}">
+                    <DockPanel>
+                        <ContentPresenter ContentSource="Header" DockPanel.Dock="Top"/>
+                        <ContentPresenter ContentSource="Content" Margin="{DynamicResource SubControlsInsetMargin}"/>
+                    </DockPanel>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

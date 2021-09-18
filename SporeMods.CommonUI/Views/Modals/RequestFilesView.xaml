@@ -23,13 +23,13 @@
                         Grid.Column="2"/>
             </Grid>
         </ContentControl>
-        <TextBlock Text="{Binding DescriptionDrag}" DockPanel.Dock="Top"/>
+        <!--TextBlock Text="{Binding DescriptionDrag}" DockPanel.Dock="Top"/-->
         <TextBlock Text="{Binding DescriptionPasteBrowse}" DockPanel.Dock="Bottom"/>
         <ui:Zone x:Name="DropHereZone"
                         AllowDrop="True"
                         PreviewDrop="DropHereZone_Drop"
                         Style="{DynamicResource DropHereZoneStyle}"
-                        Content="Choose an installation method from below..."/>
+                        Content="{Binding DescriptionDrag}"/>
         <!--Style="{x:Null}"
             <ContentControl.Template>
                 <ControlTemplate TargetType="{x:Type ContentControl}">

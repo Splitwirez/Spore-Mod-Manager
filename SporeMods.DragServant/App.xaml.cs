@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Interop;
 
 namespace SporeMods.DragServant
 {
@@ -69,7 +70,7 @@ namespace SporeMods.DragServant
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            base.OnStartup(e);
+			base.OnStartup(e);
 			var _ = CommonUI.Localization.LanguageManager.Instance;
 			var __ = CommonUI.Localization.LanguageManager.Instance.CurrentLanguage;
 

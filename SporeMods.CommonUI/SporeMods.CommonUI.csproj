@@ -20,11 +20,6 @@
     <EmbeddedResource Include="Localization\Languages\**" />
     <Resource Include="Fonts\**" />
   </ItemGroup>
-  <ItemGroup>
-    <Page Update="Themes\Shale\Control\Separator.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-  </ItemGroup>
   <!--aItemGroup>
     <ProjectReference Include="..\SporeMods.Core\SporeMods.Core.csproj" />
   </ItemGroup-->
