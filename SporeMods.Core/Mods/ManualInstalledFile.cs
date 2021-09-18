@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SporeMods.Core.ModTransactions;
+using SporeMods.Core.ModTransactions.Transactions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SporeMods.Core.Mods
 {
-	public class ManualInstalledFile : IInstalledMod, INotifyPropertyChanged
+	public class ManualInstalledFile : NotifyPropertyChangedBase, IInstalledMod
 	{
 		bool _legacy = false;
 		public ManualInstalledFile(string fileName, ComponentGameDir location, bool legacy)
@@ -26,6 +28,8 @@ namespace SporeMods.Core.Mods
 
 		public string RealName { get; }
 
+		public bool IsLegacy { get => _legacy; }
+
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		public bool HasConfigsDirectory => false;
@@ -36,24 +40,9 @@ namespace SporeMods.Core.Mods
 
 		public List<string> Tags { get; } = new List<string>();
 
-		public async Task<bool> UninstallModAsync()
+		public ModTransaction CreateUninstallTransaction()
 		{
-			var task = new Task<bool>(() =>
-			{
-				try
-				{
-					FileWrite.SafeDeleteFile(FileWrite.GetFileOutputPath(Location, RealName, _legacy));
-					ModsManager.RunOnMainSyncContext(state => ModsManager.InstalledMods.Remove(this));
-					return true;
-				}
-				catch (Exception ex)
-				{
-					MessageDisplay.RaiseError(new ErrorEventArgs(ex));
-					return false;
-				}
-			});
-			task.Start();
-			return await task;
+			return new UninstallManualModTransaction(this);
 		}
 
 		private void NotifyPropertyChanged(string propertyName)
@@ -67,5 +56,20 @@ namespace SporeMods.Core.Mods
 		{
 			return DisplayName;
 		}
+
+		TaskProgressSignifier _progressSignifier = null;
+		public TaskProgressSignifier ProgressSignifier
+		{
+			get => _progressSignifier;
+			set
+			{
+				_progressSignifier = value;
+				NotifyPropertyChanged();
+			}
+		}
+
+		public bool CanUninstall => ProgressSignifier == null;
+		public bool CanReconfigure => false;
+		public bool PreventsGameLaunch => ProgressSignifier != null;
 	}
 }

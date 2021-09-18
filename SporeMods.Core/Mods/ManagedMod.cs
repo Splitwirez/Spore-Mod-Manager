@@ -1,7 +1,10 @@
-﻿using System;
+﻿using SporeMods.Core.ModTransactions;
+using SporeMods.Core.ModTransactions.Transactions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -13,30 +16,79 @@ namespace SporeMods.Core.Mods
 	/// <summary>
 	/// A generic mod installed through the Mod Manager.
 	/// </summary>
-	public class ManagedMod : IInstalledMod, INotifyPropertyChanged
+	public class ManagedMod : NotifyPropertyChangedBase, IInstalledMod
 	{
+		public static readonly string MOD_INFO = "ModInfo.xml";
+		public static readonly string MOD_CONFIG = "Config.xml";
+		public static readonly string PATH_USELEGACYDLLS = "UseLegacyDLLs";
+
+
+		// True if the mod has its files in the SMM storage, false if not (for example just before it is installed)
+		// When it is false, _xmlPath, _configPath, StoragePath must be ignored
+		bool _hasStoredFiles;
+		// Only valid when we are installing
+		ZipArchive _zipArchive;
+
 		string _xmlPath;
 		string _configPath;
 		bool _isLegacy;
 		bool _copyAllFiles;
 
-		public ManagedMod(string name, bool isEnabledByDefault)
+		/// <summary>
+		/// Creates a non-stored managed mod, which is only temporary. This mod is linked to a mod identity,
+		/// but it has no extracted files inside SMM and many features cannot be used.
+		/// Optionally, the original zip archive of the mod can be provided: this will be used to extract resources for the configurator.
+		/// </summary>
+		/// <param name="isEnabledByDefault"></param>
+		/// <param name="identity"></param>
+		/// <param name="zip"></param>
+		public ManagedMod(bool isEnabledByDefault, ModIdentity identity, ZipArchive zip = null)
+        {
+			_zipArchive = zip;
+			_hasStoredFiles = false;
+			Identity = identity;
+			Identity.ParentMod = this;
+
+			Configuration = new ModConfiguration(this);
+			Configuration.IsEnabled = isEnabledByDefault;
+			Configuration.Tags.AddRange(Identity.Tags);
+			PopulateEnabledUniques(Identity);
+		}
+
+		/// <summary>
+		/// Creates a managed mod instance for a mod whose files are present in SMM.
+		/// Optionally, a predefined configuration can be specified; if not, it will use the configuration
+		/// existing in the folder, or create a new one.
+		/// </summary>
+		/// <param name="unique">The unique tag, used as folder name</param>
+		/// <param name="isEnabledByDefault"></param>
+		/// <param name="configuration"></param>
+		public ManagedMod(string unique, bool isEnabledByDefault, ModConfiguration configuration = null)
 		{
-			StoragePath = Path.Combine(Settings.ModConfigsPath, Path.GetFileName(name));
-			_xmlPath = Path.Combine(StoragePath, "ModInfo.xml");
-			_configPath = Path.Combine(StoragePath, "Config.xml");
+			StoragePath = Path.Combine(Settings.ModConfigsPath, unique);
+			_xmlPath = Path.Combine(StoragePath, MOD_INFO);
+			_configPath = Path.Combine(StoragePath, MOD_CONFIG);
 
 			var document = XDocument.Load(_xmlPath);
-			Version xmlVersion = ParseXmlVersion(document);
+			Version xmlVersion = XmlModIdentity.ParseXmlVersion(document);
 
 			if (xmlVersion.Major == 1)
 			{
 				Identity = XmlModIdentityV1.ParseModIdentity(this, document.Root);
 			}
 
-			PrepareConfiguration(isEnabledByDefault);
+			if (configuration == null)
+			{
+				PrepareConfiguration(isEnabledByDefault);
+			}
+			else
+            {
+				Configuration = configuration;
+				Configuration.IsEnabled = isEnabledByDefault;
+				Configuration.Save(_configPath);
+			}
 
-			string isLegacyPath = Path.Combine(StoragePath, "UseLegacyDLLs");
+			string isLegacyPath = Path.Combine(StoragePath, PATH_USELEGACYDLLS);
 			if (xmlVersion == ModIdentity.XmlModIdentityVersion1_0_0_0)
 			{
 				File.WriteAllText(isLegacyPath, string.Empty);
@@ -51,30 +103,14 @@ namespace SporeMods.Core.Mods
 			else
 				_copyAllFiles = false;
 
-			if (IsProgressing)
+			/*if (IsProgressing)
 			{
 				NotifyPropertyChanged(nameof(IsProgressing));
 				IsProgressingChanged?.Invoke(this, null);
-				RaiseAnyModIsProgressingChanged(this, false, true);
-			}
-		}
+				//RaiseAnyModIsProgressingChanged(this, false, true);
+			}*/
 
-		private Version ParseXmlVersion(XDocument document)
-		{
-			var xmlVersionAttr = document.Root.Attribute("installerSystemVersion");
-			if (xmlVersionAttr != null)
-			{
-				if (Version.TryParse(xmlVersionAttr.Value, out Version version))
-				{
-					return version;
-				}
-				else
-					throw new FormatException("Mod identity 'installerSystemVersion': '" + xmlVersionAttr.Value + "' is not a valid version");
-			}
-			else
-			{
-				throw new FormatException("Mod identity 'installerSystemVersion': '" + xmlVersionAttr.Value + "' is not a valid version");
-			}
+			_hasStoredFiles = true;
 		}
 
 		private void PopulateEnabledUniques(BaseModComponent component)
@@ -112,6 +148,13 @@ namespace SporeMods.Core.Mods
 		public ModIdentity Identity { get; }
 		public ModConfiguration Configuration;
 
+		/// <summary>
+		/// True if the mod uses the old duplicated DLLs system.
+		/// </summary>
+		public bool IsLegacy { get => _isLegacy; }
+
+		public bool MustCopyAllFiles { get => _copyAllFiles; }
+
 		public bool HasConfigsDirectory { get { return true; } }
 
 		public string StoragePath { get; }
@@ -138,16 +181,6 @@ namespace SporeMods.Core.Mods
 			get => ModVersion != ModIdentity.UNKNOWN_MOD_VERSION;
 		}
 
-		public bool IsEnabled 
-		{
-			get { return Configuration.IsEnabled; }
-			set
-			{
-				if (value != Configuration.IsEnabled)
-					EnableOrDisable(value);
-			}
-		}
-
 		/// <summary>
 		/// The mod's icon, if any, or null if no icon is provided.
 		/// </summary>
@@ -166,11 +199,24 @@ namespace SporeMods.Core.Mods
 		}
 
 
-		string LogoPath => Path.Combine(StoragePath, "Branding.png"); 
+		string LogoPath => _hasStoredFiles ? Path.Combine(StoragePath, "Branding.png") : null; 
 		
 		public bool HasLogo
 		{
-			get => File.Exists(LogoPath) && TryGetLogo(LogoPath, out System.Drawing.Image img);
+			get {
+				if (_hasStoredFiles)
+				{
+					return File.Exists(LogoPath) && TryGetLogo(LogoPath, out System.Drawing.Image img);
+				}
+				else if (_zipArchive != null)
+                {
+					return _zipArchive.GetEntry("Branding.png") != null;
+                }
+				else
+                {
+					return false;
+                }
+			}
 		}
 
 		/// <summary>
@@ -193,10 +239,21 @@ namespace SporeMods.Core.Mods
 			try
 			{
 				System.Drawing.Image logo = null;
-				using (FileStream stream = new FileStream(LogoPath, FileMode.Open, FileAccess.Read))
-				{
-					stream.Seek(0, SeekOrigin.Begin);
-					logo = System.Drawing.Image.FromStream(stream);
+				if (path != null)
+                {
+					using (FileStream stream = new FileStream(LogoPath, FileMode.Open, FileAccess.Read))
+					{
+						stream.Seek(0, SeekOrigin.Begin);
+						logo = System.Drawing.Image.FromStream(stream);
+					}
+				}
+				else if (_zipArchive != null)
+                {
+					using (Stream stream = _zipArchive.GetEntry("Branding.png").Open())
+					{
+						stream.Seek(0, SeekOrigin.Begin);
+						logo = System.Drawing.Image.FromStream(stream);
+					}
 				}
 				img = logo;
 				return true;
@@ -214,14 +271,13 @@ namespace SporeMods.Core.Mods
 		/// <summary>
 		/// Shows the configurator for this mod, if it has one.
 		/// </summary>
-		public async Task ShowSettings()
+		public async Task ShowSettings(bool configuring = true)
 		{
 			try
 			{
 				if (HasConfigurator)
 				{
-					var configurator = Identity.CreateConfigurator(true);
-					await Modal.Show(configurator);
+					await ModTransactionManager.ConfigureModAsync(this);
 				}
 				else
 				{
@@ -231,7 +287,6 @@ namespace SporeMods.Core.Mods
 			catch (Exception ex)
 			{
 				MessageDisplay.RaiseError(new ErrorEventArgs(ex));
-				ModsManager.InstalledMods.Add(new InstallError(ex));
 			}
 		}
 
@@ -258,11 +313,23 @@ namespace SporeMods.Core.Mods
 			get => _isProgressing;
 			set
 			{
-				bool oldVal = _isProgressing;
+				//bool oldVal = _isProgressing;
 				_isProgressing = value;
-				NotifyPropertyChanged(nameof(IsProgressing));
-				IsProgressingChanged?.Invoke(this, null);
-				RaiseAnyModIsProgressingChanged(this, oldVal, _isProgressing);
+				NotifyPropertyChanged();
+				//IsProgressingChanged?.Invoke(this, null);
+				//RaiseAnyModIsProgressingChanged(this, oldVal, _isProgressing);
+			}
+		}
+
+		TaskProgressSignifier _progressSignifier = null;
+		public TaskProgressSignifier ProgressSignifier
+        {
+			get => _progressSignifier;
+			set
+            {
+				_progressSignifier = value;
+				NotifyPropertyChanged();
+				IsProgressing = value != null;
 			}
 		}
 
@@ -275,7 +342,7 @@ namespace SporeMods.Core.Mods
 			get => _progress;
 			set
 			{
-				double oldVal = _progress;
+				/*double oldVal = _progress;
 				_progress = value;
 				NotifyPropertyChanged(nameof(Progress));
 				/*if ((FileCount > 0) && (Progress >= FileCount) && (IsProgressing))
@@ -283,351 +350,73 @@ namespace SporeMods.Core.Mods
 					IsProgressing = false;
 					_watcher.EnableRaisingEvents = false;
 					Progress = 0.0;
-				}*/
-				AnyModProgressChanged?.Invoke(this, new ModProgressChangedEventArgs(this, _progress - oldVal));
+				}* /
+				AnyModProgressChanged?.Invoke(this, new ModProgressChangedEventArgs(this, _progress - oldVal));*/
 			}
 		}
 
-		/// <summary>
-		/// Removes all the files in the mod, increasing the 'Progress' property.
-		/// </summary>
-		/// <param name="progressRange">How much Progress increases after removing all files</param>
-		private void RemoveModFiles(double progressRange)
-		{
-			if (HasConfigurator)
-			{
-				bool isLegacyPath = Identity.InstallerSystemVersion == ModIdentity.XmlModIdentityVersion1_0_0_0;
-				var files = Identity.GetAllFilesToAdd();
-				
-				foreach (var file in files)
-				{
-					FileWrite.SafeDeleteFile(FileWrite.GetFileOutputPath(file.GameDir, file.Name, isLegacyPath));
-					Progress += progressRange / files.Count;
-				}
-			}
-			else
-			{
-				var files = GetModFileNames();
-				foreach (string s in files)
-				{
-					if (Path.GetExtension(s).ToLowerInvariant() == ".package")
-						FileWrite.SafeDeleteFile(FileWrite.GetFileOutputPath(ComponentGameDir.GalacticAdventures, s, _isLegacy));
-					else if (Path.GetExtension(s).ToLowerInvariant() == ".dll")
-						FileWrite.SafeDeleteFile(FileWrite.GetFileOutputPath(ComponentGameDir.ModAPI, s, _isLegacy));
+		public bool CanUninstall => !IsProgressing;
+		public bool CanReconfigure => HasConfigurator && (!IsProgressing);
 
-					Progress += progressRange / files.Count;
-				}
-			}
-		}
+		public bool PreventsGameLaunch => IsProgressing;
+
 
 		/// <summary>
 		/// [PARTIAL NYI]Queues all of this mod's files for removal, then deletes its configuration
 		/// </summary>
-		public async Task<bool> UninstallModAsync()
+		public ModTransaction CreateUninstallTransaction()
 		{
-			var task = new Task<bool>(() =>
-			{
-				try
-				{
-					Progress = 0;
-					IsProgressing = true;
-
-					RemoveModFiles(80.0);
-
-					Directory.Delete(StoragePath, true);
-
-					ModsManager.RunOnMainSyncContext(state => ModsManager.InstalledMods.Remove(this));
-
-					Progress = 0;
-					IsProgressing = false;
-					return true;
-				}
-				catch (Exception ex)
-				{
-					MessageDisplay.RaiseError(new ErrorEventArgs(ex));
-					ModsManager.InstalledMods.Add(new InstallError(ex));
-
-					return false;
-				}
-			});
-			task.Start();
-			return await task;
+			return new UninstallManagedModTransaction(this);
 		}
 
 		/// <summary>
-		/// Queues all of this mod's enabled files for installation
-		/// </summary>
-		public async Task<bool> EnableMod()
-		{
-			var task = new Task<bool>(() =>
-			{
-				try
-				{
-					// It is possible that this is called RegisterSporemodModAsync, and some progress has already happened
-					double totalProgress = 100.0;
-
-					bool startsHere = !IsProgressing;
-					if (startsHere)
-					{
-						Progress = 0;
-						IsProgressing = true;
-					}
-					else
-					{
-						totalProgress = 100.0 - Progress;
-					}
-
-					RemoveModFiles(totalProgress * 0.1);
-
-					if (_copyAllFiles)
-					{
-						var files = Directory.EnumerateFiles(StoragePath).Where(x => ModsManager.IsModFile(x));
-						var progressInc = totalProgress * 0.9 / files.Count();
-
-						foreach (string s in files)
-						{
-							if (Path.GetExtension(s).ToLowerInvariant() == ".package")
-								FileWrite.SafeCopyFile(s, FileWrite.GetFileOutputPath(ComponentGameDir.GalacticAdventures, Path.GetFileName(s), _isLegacy));
-							else if (Path.GetExtension(s).ToLowerInvariant() == ".dll")
-								FileWrite.SafeCopyFile(s, FileWrite.GetFileOutputPath(ComponentGameDir.ModAPI, Path.GetFileName(s), _isLegacy));
-
-							Progress += progressInc;
-						}
-					}
-					else
-					{
-						EnableModAdvanced(totalProgress * 0.9);
-					}
-
-					Progress = 0;
-					IsProgressing = false;
-
-					Configuration.IsEnabled = true;
-
-					Configuration.Save(_configPath);
-
-					return true;
-				}
-				catch (Exception ex)
-				{
-					MessageDisplay.RaiseError(new ErrorEventArgs(ex));
-					ModsManager.InstalledMods.Add(new InstallError(ex));
-					return false;
-				}
-			});
-			task.Start();
-			return await task;
-		}
-
-		private int GetEnabledComponentFileCount(BaseModComponent component)
-		{
-			int count = component.Files.Count;
-			foreach (var child in component.SubComponents)
-			{
-				count += GetEnabledComponentFileCount(child);
-			}
-			return count;
-		}
-
-		/// <summary>
-		/// Returns how many files have to be added or removed by the enabled components of this mod.
+		/// Returns a list of the paths to all the mod-related files that can be removed.
+		/// If the mod has a configurator, those are all the files that the mod can add.
+		/// If the mod does not have a configurator, it's all the .package and .dll files.
 		/// </summary>
 		/// <returns></returns>
-		private int GetEnabledComponentFileCount()
-		{
-			int count = Identity.FilesToRemove.Count;
-			foreach (var fix in Identity.CompatibilityFixes)
+		public List<string> GetFilePathsToRemove()
+        {
+			var result = new List<string>();
+
+			if (HasConfigurator)
 			{
-				count += fix.FilesToAdd.Count;
-				count += fix.FilesToRemove.Count;
-			}
-			return count + GetEnabledComponentFileCount(Identity);
-		}
+				bool isLegacyPath = Identity.InstallerSystemVersion == ModIdentity.XmlModIdentityVersion1_0_0_0;
 
-		private event EventHandler CompatibilityProgressIncreased;
-
-		//TODO: Implement this for XML Mod Identity v2.0.0.0, in a generalized way for components
-		private void EnableModAdvanced(double progressRange)
-		{
-			int fileCount = GetEnabledComponentFileCount();
-			double progressIncrease = progressRange / fileCount;
-
-			foreach (var file in Identity.FilesToRemove)
-			{
-				DirectoryInfo info = new DirectoryInfo(FileWrite.GetGameDirectory(file.GameDir, _isLegacy));
-				foreach (FileInfo f in info.EnumerateFiles(file.Name))
+				foreach (var file in Identity.GetAllFilesToAdd())
 				{
-					if (File.Exists(f.FullName))
-						FileWrite.SafeDeleteFile(f.FullName);
-				}
-
-				if (file.GameDir == ComponentGameDir.ModAPI && (!_isLegacy))
-				{
-					foreach (FileInfo f2 in new DirectoryInfo(Settings.LegacyLibsPath).EnumerateFiles(file.Name))
-					{
-						string path = Path.Combine(Settings.LegacyLibsPath, f2.Name);
-						if (File.Exists(path))
-							FileWrite.SafeDeleteFile(path);
-					}
-				}
-
-				Progress += progressIncrease;
-			}
-
-			foreach (var file in Identity.Files)
-			{
-				FileWrite.SafeCopyFile(Path.Combine(StoragePath, file.Name), FileWrite.GetFileOutputPath(file.GameDir, file.Name, _isLegacy));
-				Progress += progressIncrease;
-			}
-
-			foreach (var component in Identity.SubComponents)
-			{
-				if (component.IsGroup)
-				{
-					foreach (var subComponent in component.SubComponents)
-					{
-						if (subComponent.IsEnabled)
-						{
-							foreach (var file in subComponent.Files)
-							{
-								FileWrite.SafeCopyFile(Path.Combine(StoragePath, file.Name), FileWrite.GetFileOutputPath(file.GameDir, file.Name, _isLegacy));
-								Progress += progressIncrease;
-							}
-							break;
-						}
-					}
-				}
-				else if (component.IsEnabled)
-				{
-					foreach (var file in component.Files)
-					{
-						FileWrite.SafeCopyFile(Path.Combine(StoragePath, file.Name), FileWrite.GetFileOutputPath(file.GameDir, file.Name, _isLegacy));
-						Progress += progressIncrease;
-					}
+					result.Add(FileWrite.GetFileOutputPath(file.GameDir, file.Name, isLegacyPath));
 				}
 			}
-
-			void CompatibilityProgressIncreasedHandler(object sender, EventArgs e)
-			{
-				Progress += progressIncrease;
-			}
-			CompatibilityProgressIncreased += CompatibilityProgressIncreasedHandler;
-			EvaluateCompatibilityFixes();
-			CompatibilityProgressIncreased -= CompatibilityProgressIncreasedHandler;
-		}
-
-		public void EvaluateCompatibilityFixes()
-		{
-			if (_copyAllFiles)
-			{
-				foreach (var fix in Identity.CompatibilityFixes)
-				{
-					bool proceed = true;
-					foreach (var file in fix.RequiredFiles)
-					{
-						bool fileDoesntExist = !File.Exists(FileWrite.GetFileOutputPath(file.GameDir, file.Name, _isLegacy));
-						if ((!_isLegacy) && (!fileDoesntExist) && (file.GameDir == ComponentGameDir.ModAPI))
-							fileDoesntExist = !File.Exists(FileWrite.GetFileOutputPath(file.GameDir, file.Name, true));
-						if (fileDoesntExist)
-						{
-							proceed = false;
-							break;
-						}
-					}
-					if (proceed)
-					{
-						foreach (var file in fix.FilesToRemove)
-						{
-							DirectoryInfo info = new DirectoryInfo(FileWrite.GetGameDirectory(file.GameDir, _isLegacy));
-							foreach (FileInfo f in info.EnumerateFiles(file.Name))
-							{
-								if (File.Exists(f.FullName))
-									FileWrite.SafeDeleteFile(f.FullName);
-							}
-
-							if ((!_isLegacy) && (file.GameDir == ComponentGameDir.ModAPI))
-							{
-								foreach (FileInfo f in new DirectoryInfo(Settings.LegacyLibsPath).EnumerateFiles(file.Name))
-								{
-									string path = Path.Combine(Settings.LegacyLibsPath, file.Name);
-									if (File.Exists(path))
-										FileWrite.SafeDeleteFile(path);
-								}
-							}
-
-							CompatibilityProgressIncreased?.Invoke(this, null);
-						}
-						foreach (var file in fix.FilesToAdd)
-						{
-							FileWrite.SafeCopyFile(Path.Combine(StoragePath, file.Name), FileWrite.GetFileOutputPath(file.GameDir, file.Name, _isLegacy));
-							CompatibilityProgressIncreased?.Invoke(this, null);
-						}
-					}
-				}
-			}
-		}
-
-		/// <summary>
-		/// [PARTIAL NYI]Queues all of this mod's enabled files for removal, and all disabled files for installation
-		/// </summary>
-		public async Task<bool> DisableMod()
-		{
-			var task = new Task<bool>(() =>
-			{
-				try
-				{
-					Progress = 0;
-					IsProgressing = true;
-					RemoveModFiles(100.0);
-
-					Progress = 0;
-					IsProgressing = false;
-
-					Configuration.IsEnabled = true;
-
-					return true;
-				}
-				catch (Exception ex)
-				{
-					ModsManager.InstalledMods.Add(new InstallError(ex));
-					return false;
-				}
-			});
-			task.Start();
-			return await task;
-		}
-
-		public async Task EnableOrDisable(bool isEnabling)
-		{
-			if (isEnabling)
-				await EnableMod();
 			else
-				await DisableMod();
+			{
+				foreach (string s in GetModFileNames())
+				{
+					if (Path.GetExtension(s).ToLowerInvariant() == ".package")
+						result.Add(FileWrite.GetFileOutputPath(ComponentGameDir.GalacticAdventures, s, _isLegacy));
+					else if (Path.GetExtension(s).ToLowerInvariant() == ".dll")
+						result.Add(FileWrite.GetFileOutputPath(ComponentGameDir.ModAPI, s, _isLegacy));
+				}
+			}
 
-			NotifyPropertyChanged(nameof(IsEnabled));
+			return result;
 		}
-
-		private void NotifyPropertyChanged(string propertyName)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
-
-		public event PropertyChangedEventHandler PropertyChanged;
 
 		public event EventHandler IsProgressingChanged;
 
-		public static event EventHandler<ModIsProgressingChangedEventArgs> AnyModIsProgressingChanged;
+		/*public static event EventHandler<ModIsProgressingChangedEventArgs> AnyModIsProgressingChanged;
 		public static event EventHandler<ModProgressChangedEventArgs> AnyModProgressChanged;
 
 		internal static void RaiseAnyModIsProgressingChanged(IInstalledMod mod, bool oldVal, bool newVal)
 		{
 			if (oldVal != newVal)
 				AnyModIsProgressingChanged?.Invoke(mod, new ModIsProgressingChangedEventArgs(mod, newVal));
-		}
+		}*/
 
+		string uniqueGarbage = Path.GetFileNameWithoutExtension(Path.GetRandomFileName());
 		public override string ToString()
 		{
-			return DisplayName;
+			return DisplayName + " " + uniqueGarbage;
 		}
 	}
 

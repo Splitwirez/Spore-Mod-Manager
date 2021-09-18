@@ -42,16 +42,19 @@ namespace SporeMods.Core
 				while (_modals.Count > 0)
 				{
 					if (_awaitProceed != null)
+					{
 						await _awaitProceed.Task;
+						_awaitProceed = null;
+					}
 					
 					_current = _modals[0];
 					
 					
 					_modalShown?.Invoke(null, _current);
-					string modalStr = $"\'{_current.ViewModel.ToString()}\'";
-					Console.WriteLine($"Showing modal {modalStr}...");
+					//string modalStr = $"\'{_current.ViewModel.ToString()}\'";
+					//Console.WriteLine($"Showing modal {modalStr}...");
 					await _current.Task;
-					Console.WriteLine($"...done with {modalStr}.");
+					//Console.WriteLine($"...done with {modalStr}.");
 					_modals.Remove(_current);
 					_current = null;
 					_modalShown?.Invoke(null, null);

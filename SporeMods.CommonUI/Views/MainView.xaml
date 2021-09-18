@@ -4,12 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:core="clr-namespace:SporeMods.Core;assembly=SporeMods.Core"
-             xmlns:mech="clr-namespace:SporeMods.CommonUI"
              xmlns:cui="clr-namespace:SporeMods.CommonUI"
              xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:v="clr-namespace:SporeMods.Views"
              xmlns:vm="clr-namespace:SporeMods.ViewModels"
              xmlns:local="clr-namespace:SporeMods.CommonUI"
+             xmlns:trs="clr-namespace:SporeMods.Core.ModTransactions;assembly=SporeMods.Core"
              mc:Ignorable="d"
              cui:WindowChromeHelper.UseCustomDecorations="{x:Static core:Settings.UseCustomWindowDecorations}"
              cui:WindowChromeHelper.ExtendedTitleBarHeight="30"
@@ -22,6 +22,10 @@
     <Window.DataContext>
         <vm:MainViewModel/>
     </Window.DataContext>
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <cui:BoolInverterConverter x:Key="BoolInverterConverter"/>
+    </Window.Resources>
     <Grid>
         <!--Control x:Name="WindowBackdropControl"
                 Style="{DynamicResource WindowBackdropControlStyle}"
@@ -51,15 +55,55 @@
 					<Grid>
                         <Button x:Name="LaunchSporeButton"
                                 Content="{DynamicResource Footer!LaunchGame}"
-                                IsEnabled="{Binding CanLaunchSpore}"
                                 Style="{DynamicResource LaunchGameButtonStyle}"
+                                IsEnabled="{Binding HasRunningTasks, Source={x:Static trs:ModTransactionManager.Instance}, Converter={StaticResource BoolInverterConverter}}"
                                 Command="{Binding LaunchSporeCommand}"/>
-						<ProgressBar x:Name="OverallProgressProgressBar"
+						<DockPanel Visibility="{Binding HasRunningTasks, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"
+                                   DataContext="{Binding Source={x:Static trs:ModTransactionManager.Instance}}"
+                                   Margin="5,5,10,5">
+                            <ProgressBar x:Name="OverallProgressProgressBar"
+                                         Height="10"
+                                         DockPanel.Dock="Bottom"
+                                         Minimum="0"
+                                         Maximum="{Binding OverallProgressTotal, Mode=OneWay}"
+                                         Value="{Binding OverallProgress, Mode=OneWay}"
+                                         cui:AttachedProperties.CornerCurves="False,False,True,True"/>
+                            <ToggleButton x:Name="TaskProgressDetailsToggleButton"
+                                          Padding="5,0"
+                                          cui:AttachedProperties.CornerCurves="True,True,False,False"
+                                          cui:AttachedProperties.BorderPresence="True,True,True,False"
+                                          Content="{DynamicResource Mods!TaskList!ToggleButton}"/>
+                        </DockPanel>
+                        <!--Grid HorizontalAlignment="Right" Margin="-255,5,10,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Slider x:Name="ValueSlider"
+                                    Grid.Column="0"
+                                    Minimum="0"
+                                    Maximum="100"
+                                    Value="50"
+                                    Orientation="Horizontal"
+                                    Width="200"/>
+                            <CheckBox x:Name="IndeterminateTest"
+                                      Grid.Column="1"/>
+                            <ProgressBar DockPanel.Dock="Bottom"
+                                         Minimum="{Binding Minimum, ElementName=ValueSlider}"
+                                         Maximum="{Binding Maximum, ElementName=ValueSlider}"
+                                         Value="{Binding Value, ElementName=ValueSlider}"
+                                         Height="23"
+                                         Width="200"
+                                         IsIndeterminate="{Binding IsChecked, ElementName=IndeterminateTest}"
+                                         Grid.Column="2"/>
+                        </Grid-->
+                        <!--ProgressBar x:Name="OverallProgressProgressBar"
                                     Minimum="0"
                                     Maximum="{Binding OverallProgressTotal, Source={x:Static core:ModsManager.Instance}, Mode=OneWay}"
                                     Value="{Binding OverallProgress, Source={x:Static core:ModsManager.Instance}, Mode=OneWay}"
                                     Visibility="{Binding AnyTasksRunning, Source={x:Static core:ModsManager.Instance}, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"
-                                    Margin="5,5,10,5"/>
+                                    Margin="5,5,10,5"/-->
 					</Grid>
 				</UniformGrid>
 			</cui:Zone>
@@ -77,6 +121,14 @@
                 </TabItem>
 			</TabControl>
         </DockPanel>
+        <cui:AnimatableContentControl MaxHeight="{Binding ActualHeight, ElementName=PrimaryTabControl}"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            IsOpen="{Binding IsChecked, ElementName=TaskProgressDetailsToggleButton, Mode=TwoWay}"
+                            HasCloseButton="True"
+                            Style="{DynamicResource OngoingTasksListContentControlStyle}">
+            <v:OngoingTasksList/>
+        </cui:AnimatableContentControl>
         <v:ModalDisplayView/>
     </Grid>
 </Window>

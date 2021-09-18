@@ -48,6 +48,46 @@
     </ControlTemplate>
 
 
+    <Style x:Key="ModListProgressDisplayStyle" TargetType="Control">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Control">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock x:Name="TaskStateTextBlock" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left" Text="{DynamicResource Mods!ListEntry!Tasks!Install}" Margin="0,0,5,0"/>
+                        <ProgressBar x:Name="ModProgressBar" Width="100" Height="23" Value="{Binding Progress, Mode=OneWay}" Minimum="0" Maximum="{Binding ProgressTotal, Mode=OneWay}" VerticalAlignment="Stretch"/>
+                    </StackPanel>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Status}" Value="Indeterminate">
+                            <Setter TargetName="ModProgressBar" Property="IsIndeterminate" Value="True"/>
+                            <Setter TargetName="TaskStateTextBlock" Property="Text" Value="{DynamicResource Mods!ListEntry!Tasks!Pending}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Category}" Value="Upgrade">
+                            <Setter TargetName="TaskStateTextBlock" Property="Text" Value="{DynamicResource Mods!ListEntry!Tasks!Update}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Category}" Value="Reconfigure">
+                            <Setter TargetName="TaskStateTextBlock" Property="Text" Value="{DynamicResource Mods!ListEntry!Tasks!Reconfigure}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Category}" Value="Uninstall">
+                            <Setter TargetName="TaskStateTextBlock" Property="Text" Value="{DynamicResource Mods!ListEntry!Tasks!Uninstall}"/>
+                        </DataTrigger>
+                        <Trigger SourceName="ModProgressBar" Property="IsIndeterminate" Value="True">
+                            <Setter TargetName="ModProgressBar" Property="Template" Value="{DynamicResource TemporaryIndeterminateProgressBarTemplate}"/>
+                            <Setter TargetName="ModProgressBar" Property="Background" Value="#00FF00"/>
+                        </Trigger>
+                        <DataTrigger Binding="{Binding Category}" Value="Rollback">
+                            <Setter TargetName="ModProgressBar" Property="IsIndeterminate" Value="True"/>
+                            <Setter TargetName="ModProgressBar" Property="Background" Value="#FF0000"/>
+                            <Setter TargetName="TaskStateTextBlock" Property="Text" Value="{DynamicResource Mods!ListEntry!Tasks!Rollback}"/>
+                            <Setter TargetName="TaskStateTextBlock" Property="Foreground" Value="{DynamicResource ErrorTextBrush}"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     <Style x:Key="InstalledModsListViewStyle" TargetType="{x:Type ListView}" BasedOn="{StaticResource {x:Type ListView}}">
         <Style.Resources>
             <CubicEase x:Key="ScalingEase" EasingMode="EaseOut"/>
@@ -61,15 +101,12 @@
                             </Grid.RenderTransform>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Text="{Binding ModVersion}" Visibility="{Binding ModHasVersion, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="15,0" VerticalAlignment="Center"/>
-                                <!--cui:ToggleSwitch x:Name="IsEnabledToggleSwitch" TrueText="{DynamicResource ModSwitchOnText}" FalseText="{DynamicResource ModSwitchOffText}" Content="{x:Null}" IsChecked="{Binding IsEnabled, FallbackValue=True}" Visibility="{Binding Source={x:Static core:Settings.DeveloperMode}, Converter={StaticResource BooleanToVisibilityConverter}}" VerticalAlignment="Center" Width="110" MinWidth="110" HorizontalAlignment="Right"/-->
+                                <!--ui:ToggleSwitch x:Name="IsEnabledToggleSwitch" TrueText="{DynamicResource ModSwitchOnText}" FalseText="{DynamicResource ModSwitchOffText}" Content="{x:Null}" IsChecked="{Binding IsEnabled, FallbackValue=True}" Visibility="{Binding Source={x:Static core:Settings.DeveloperMode}, Converter={StaticResource BooleanToVisibilityConverter}}" VerticalAlignment="Center" Width="110" MinWidth="110" HorizontalAlignment="Right"/-->
                                 <!--{Binding CanDisable, Converter={StaticResource BooleanToVisibilityConverter}}-->
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding IsProgressing, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
-                                    <TextBlock x:Name="InstallingNowTextBlock" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left" Text="{DynamicResource Mods!ListEntry!InstallInProgress}" Margin="0,0,5,0"/>
-                                    <ProgressBar x:Name="ModProgressBar" Width="100" Height="23" Value="{Binding Progress, Mode=OneWay}" Minimum="0" Maximum="100" VerticalAlignment="Stretch"/>
-                                </StackPanel>
+                                <Control x:Name="ProgressDisplay" Visibility="Collapsed"/>
                             </StackPanel>
                         </Grid>
-                        <!--cui:ToggleSwitch x:Name="IsEnabledToggleSwitch" IsChecked="{Binding IsEnabled}" TrueText="{DynamicResource ModSwitchOn}" FalseText="{DynamicResource ModSwitchOff}" VerticalAlignment="Center" IsThreeState="False" DockPanel.Dock="Right"/-->
+                        <!--ui:ToggleSwitch x:Name="IsEnabledToggleSwitch" IsChecked="{Binding IsEnabled}" TrueText="{DynamicResource ModSwitchOn}" FalseText="{DynamicResource ModSwitchOff}" VerticalAlignment="Center" IsThreeState="False" DockPanel.Dock="Right"/-->
                         <!--mod:ToggleSwitch.Style>
 													<Style TargetType="{x:Type mod:ToggleSwitch}" BasedOn="{StaticResource {x:Type mod:ToggleSwitch}}">
 														<EventSetter Event="Checked" Handler="ModToggleSwitch_Checked"/>
@@ -90,7 +127,7 @@
                                 </ContentPresenter.Content>
                             </ContentPresenter>
                         </Grid>
-                        <ToggleButton x:Name="ExpandCollapseToggleButton" Visibility="Collapsed" Style="{DynamicResource CaptionToggleButtonStyle}" DockPanel.Dock="Right" Margin="5,0,0,0">
+                        <ToggleButton x:Name="ExpandCollapseToggleButton" Visibility="Collapsed" Style="{DynamicResource DropdownToggleButtonStyle}" DockPanel.Dock="Right" Margin="5,0,0,0">
                             <Path x:Name="Arrow" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 6 L 6 0 L 12 6" Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToggleButton}}}" StrokeThickness="2" RenderTransformOrigin="0.5,0.5">
                                 <Path.RenderTransform>
                                     <RotateTransform Angle="-180"/>
@@ -141,15 +178,18 @@
                     </StackPanel>
                 </DockPanel>
                 <DataTemplate.Triggers>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding IsProgressing}" Value="True"/>
+                            <Condition Binding="{Binding ProgressSignifier.IsConcluded}" Value="False"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter TargetName="ProgressDisplay" Property="Visibility" Value="Visible"/>
+                        <Setter TargetName="ProgressDisplay" Property="DataContext" Value="{Binding ProgressSignifier}"/>
+                        <Setter TargetName="ProgressDisplay" Property="Style" Value="{DynamicResource ModListProgressDisplayStyle}"/>
+                    </MultiDataTrigger>
                     <DataTrigger Binding="{Binding HasDescription}" Value="True">
                         <Setter TargetName="ExpandCollapseToggleButton" Property="Visibility" Value="Visible"/>
                     </DataTrigger>
-                    <Trigger SourceName="ExpandCollapseToggleButton" Property="IsMouseOver" Value="False">
-                        <Setter TargetName="ExpandCollapseToggleButton" Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
-                    </Trigger>
-                    <Trigger SourceName="ExpandCollapseToggleButton" Property="IsMouseOver" Value="True">
-                        <Setter TargetName="ExpandCollapseToggleButton" Property="Foreground" Value="{DynamicResource TitlebarIdleForegroundBrush}" />
-                    </Trigger>
                     <Trigger SourceName="ExpandCollapseToggleButton" Property="IsChecked" Value="True">
                         <Setter Property="ToolTip" Value="{DynamicResource Mods!ListEntry!MoreInfo!Collapse}"/>
                     </Trigger>
@@ -211,7 +251,7 @@
                     </DataTrigger>
                     <!--DataTrigger Binding="{Binding IsProgressing}" Value="True">
 							<Setter TargetName="StatusGrid" Property="Width" Value="200"/>
-							<Setter TargetName="InstallingNowTextBlock" Property="Visibility" Value="Visible"/>
+							<Setter TargetName="TaskStateTextBlock" Property="Visibility" Value="Visible"/>
 							<Setter TargetName="ModProgressBar" Property="Visibility" Value="Visible"/>
 						</DataTrigger-->
                 </DataTemplate.Triggers>
@@ -247,57 +287,6 @@
 						</DataTrigger.ExitActions>
 					</DataTrigger>
 				</DataTemplate.Triggers-->
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type mods:InstallError}">
-                <Grid>
-                    <Rectangle x:Name="SizeHelperRectangle"/>
-                    <Rectangle x:Name="BackgroundRectangle" RadiusX="3" RadiusY="3" Opacity="0.25">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource RedIconGradientStops}"/>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                    <cui:NoSizeDecorator>
-                        <StackPanel Orientation="Vertical" Width="{Binding ActualWidth, ElementName=SizeHelperRectangle}">
-                            <DockPanel Height="42" DockPanel.Dock="Top">
-                                <Button Margin="10" Content="Copy Error" DataContext="{Binding}" DockPanel.Dock="Right">
-                                    <!--e:Interaction.Behaviors>
-										<local:CopyErrorBehavior/>
-									</e:Interaction.Behaviors-->
-                                </Button>
-                                <TextBlock Margin="10,0" Text="{Binding DisplayName}" TextWrapping="Wrap" VerticalAlignment="Center" TextAlignment="Left" HorizontalAlignment="Left"/>
-                            </DockPanel>
-                            <Rectangle x:Name="ExceptionSeparator" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="40,0" Height="5">
-                                <Rectangle.Fill>
-                                    <LinearGradientBrush StartPoint="0,1" EndPoint="0,0" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>
-                                </Rectangle.Fill>
-                                <Rectangle.OpacityMask>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0" GradientStops="{DynamicResource SeparatorMaskGradientStops}"/>
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                            <TextBlock Text="{Binding InstallException}" TextWrapping="Wrap" Margin="5,0,5,5"/>
-                        </StackPanel>
-                    </cui:NoSizeDecorator>
-                </Grid>
-                <DataTemplate.Triggers>
-                    <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}" Value="True">
-                        <DataTrigger.EnterActions>
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <ThicknessAnimation Storyboard.TargetName="BackgroundRectangle" Storyboard.TargetProperty="Margin" To="-5" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
-                                    <ThicknessAnimation Storyboard.TargetName="ExceptionSeparator" Storyboard.TargetProperty="Margin" To="30,0" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </DataTrigger.EnterActions>
-                        <DataTrigger.ExitActions>
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <ThicknessAnimation Storyboard.TargetName="BackgroundRectangle" Storyboard.TargetProperty="Margin" To="0" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
-                                    <ThicknessAnimation Storyboard.TargetName="ExceptionSeparator" Storyboard.TargetProperty="Margin" To="40,0" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </DataTrigger.ExitActions>
-                    </DataTrigger>
-                </DataTemplate.Triggers>
             </DataTemplate>
         </Style.Resources>
         <Setter Property="Template">
@@ -452,6 +441,110 @@
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.EnterActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="OngoingTasksListContentControlStyle" TargetType="{x:Type cui:AnimatableContentControl}">
+        <Setter Property="Width" Value="375"/>
+        <Setter Property="Margin" Value="5,5,5,-11"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type cui:AnimatableContentControl}">
+                    <Grid x:Name="ContentGrid" RenderTransformOrigin="0.92,1">
+                        <Grid.RenderTransform>
+                            <ScaleTransform ScaleX="0" ScaleY="{Binding ScaleX, RelativeSource={RelativeSource Mode=Self}}"/>
+                        </Grid.RenderTransform>
+                        <DockPanel Effect="{DynamicResource TertiaryDropShadow}">
+                            <Path Data="M 0 0 L 10 16 L 20 0 Z" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="20,0">
+                                <Path.Fill>
+                                    <LinearGradientBrush StartPoint="0,-1" EndPoint="0,0" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
+                                </Path.Fill>
+                            </Path>
+                            <Border x:Name="ContentPaneBorder" CornerRadius="3" BorderBrush="Transparent" UseLayoutRounding="True">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.75" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
+                                </Border.Background>
+                            </Border>
+                        </DockPanel>
+                        <DockPanel>
+                            <Button x:Name="PART_CloseButton" Content="{DynamicResource AnimatableContentControlCloseButtonIcon}" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="{Binding HasCloseButton, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}" DockPanel.Dock="Top" Panel.ZIndex="99999999">
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="Width" Value="45"/>
+                                        <Setter Property="Height" Value="31"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource WindowForegroundBrush}"/>
+                                        <Setter Property="BorderThickness" Value="0"/>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#01000000" BorderBrush="{DynamicResource TitlebarBorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+                                                        <DockPanel HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Effect="{DynamicResource DropShadow}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="True" UseLayoutRounding="True">
+                                                            <ContentPresenter x:Name="IconPresenter" Content="{Binding Path=(cui:AttachedProperties.Icon), RelativeSource={RelativeSource Mode=TemplatedParent}}" TextElement.Foreground="{TemplateBinding Foreground}" TextElement.FontFamily="{TemplateBinding FontFamily}" TextElement.FontSize="{TemplateBinding FontSize}" Margin="0,0,4,0"/>
+                                                            <ContentPresenter x:Name="ContentPresenter" Content="{TemplateBinding Content}" TextElement.Foreground="{TemplateBinding Foreground}" TextElement.FontFamily="{TemplateBinding FontFamily}" TextElement.FontSize="{TemplateBinding FontSize}" Margin="0"/>
+                                                        </DockPanel>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="cui:AttachedProperties.Icon" Value="{x:Null}">
+                                                            <Setter TargetName="IconPresenter" Property="Visibility" Value="Collapsed"/>
+                                                        </Trigger>
+                                                        <Trigger Property="Content" Value="{x:Null}">
+                                                            <Setter TargetName="ContentPresenter" Property="Visibility" Value="Collapsed"/>
+                                                            <Setter TargetName="IconPresenter" Property="Margin" Value="0"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter Property="Opacity" Value="0.5"/>
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Foreground" Value="{DynamicResource TitlebarHoverForegroundBrush}" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter Property="Foreground" Value="{DynamicResource TitlebarPressedForegroundBrush}" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                            <ContentPresenter Content="{TemplateBinding Content}" Margin="0,0,0,16"/>
+                        </DockPanel>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsOpen" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.25">
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuinticEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.25"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="RenderTransform.ScaleX" To="0" Duration="0:0:0.25">
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuinticEase EasingMode="EaseOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.25"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <Trigger SourceName="ContentGrid" Property="Opacity" Value="0">
+                            <Setter Property="Visibility" Value="Collapsed"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -36,7 +37,10 @@ namespace SporeMods.CommonUI
         void UpdateText(object value, string format)
         {
             if (format != null)
+            {
+                Debug.WriteLine($"format: {format}");
                 Text = string.Format(format, value);
+            }
         }
     }
 }

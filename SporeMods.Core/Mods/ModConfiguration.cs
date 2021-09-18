@@ -18,6 +18,20 @@ namespace SporeMods.Core.Mods
 			Parent = parent;
 		}
 
+		public ModConfiguration(ModConfiguration other)
+		{
+			Parent = other.Parent;
+			foreach (var entry in other.UserSetComponents)
+            {
+				UserSetComponents[entry.Key] = entry.Value;
+            }
+			foreach (var entry in other.Tags)
+			{
+				Tags.Add(entry);
+			}
+			IsEnabled = other.IsEnabled;
+		}
+
 		/// <summary>
 		/// The ManagedMod that this configuration represents.
 		/// </summary>
@@ -88,6 +102,10 @@ namespace SporeMods.Core.Mods
 			}
 		}
 
+		/// <summary>
+		/// Saves the current configuration to the specified path, overwriting it if a file exists.
+		/// </summary>
+		/// <param name="path"></param>
 		public void Save(string path)
 		{
 			var rootElement = new XElement("config");

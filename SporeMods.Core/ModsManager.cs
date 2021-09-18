@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using SporeMods.Core.ModTransactions;
 using TTimer = System.Timers.Timer;
 
 namespace SporeMods.Core
@@ -89,14 +90,14 @@ namespace SporeMods.Core
 		}
 
 		/// <summary>
-		/// Retrieves an existing ManagedMod matching the name provided if one exists. If not, returns null.
+		/// Retrieves an existing ManagedMod matching the unique provided if one exists. If not, returns null.
 		/// </summary>
-		public static ManagedMod GetManagedMod(string name)
+		public static ManagedMod GetManagedMod(string unique)
 		{
-			name = name.ToLowerInvariant();
+			unique = unique.ToLowerInvariant();
 			foreach (ManagedMod m in InstalledMods.Where(x => x is ManagedMod))
 			{
-				if (m is ManagedMod && m.RealName.ToLowerInvariant() == name)
+				if (m is ManagedMod && m.Unique.ToLowerInvariant() == unique)
 				{
 					return m;
 				}
@@ -159,21 +160,21 @@ namespace SporeMods.Core
 			NotifyPropertyChanged();
 		}
 
-		public static void RemoveMatchingManuallyInstalledFile(string fileName, ComponentGameDir targetLocation)
-		{
-			SyncContext.Send(state =>
-			{
-				foreach (ManualInstalledFile file in ModsManager.InstalledMods.Where(
-					x => x is ManualInstalledFile && ((ManualInstalledFile)x).Location == targetLocation))
-				{
-					if (file.RealName.Equals(fileName, StringComparison.OrdinalIgnoreCase))
-					{
-						ModsManager.InstalledMods.Remove(file);
-						break;
-					}
-				}
-			}, null);
-		}
+		public static ManualInstalledFile GetManuallyInstalledFile(string fileName, ComponentGameDir targetLocation)
+        {
+			foreach (var mod in InstalledMods)
+            {
+				if (mod is ManualInstalledFile)
+                {
+					var file = (ManualInstalledFile)mod;
+					if (file.Location == targetLocation && file.RealName.Equals(fileName, StringComparison.OrdinalIgnoreCase))
+                    {
+						return file;
+                    }
+                }
+            }
+			return null;
+        }
 
 		public static string GetModsListForClipboard()
 		{
@@ -303,7 +304,7 @@ namespace SporeMods.Core
 
 
 			PopulateModConfigurations();
-
+			/*
 			ManagedMod.AnyModIsProgressingChanged += (sneder, e) =>
 			{
 				SyncContext.Send(state =>
@@ -322,7 +323,7 @@ namespace SporeMods.Core
 							OverallProgressTotal = 0;
 							AnyTasksRunning = false;
 						}
-					}*/
+					}* /
 					if (e.IsNowProgressing)
 					{
 						AnyTasksRunning = true;
@@ -339,15 +340,15 @@ namespace SporeMods.Core
 							ModInstallation.InstallActivitiesCounter = 0;
 							TasksCompleted?.Invoke(this, new ModTasksCompletedEventArgs()
 							{
-								InstalledAnyMods = ModInstallation.IS_INSTALLING_MODS,
-								UninstalledAnyMods = ModInstallation.IS_UNINSTALLING_MODS,
-								ReconfiguredAnyMods = ModInstallation.IS_RECONFIGURING_MODS,
-								Failures = ModInstallation.INSTALL_FAILURES
+								InstalledAnyMods = ModTransactionManager.IS_INSTALLING_MODS,
+								UninstalledAnyMods = ModTransactionManager.IS_UNINSTALLING_MODS,
+								ReconfiguredAnyMods = ModTransactionManager.IS_RECONFIGURING_MODS,
+								Failures = ModTransactionManager.INSTALL_FAILURES
 							});
-							ModInstallation.IS_INSTALLING_MODS = false;
-							ModInstallation.IS_UNINSTALLING_MODS = false;
-							ModInstallation.IS_RECONFIGURING_MODS = false;
-							ModInstallation.INSTALL_FAILURES.Clear();
+							ModTransactionManager.IS_INSTALLING_MODS = false;
+							ModTransactionManager.IS_UNINSTALLING_MODS = false;
+							ModTransactionManager.IS_RECONFIGURING_MODS = false;
+							ModTransactionManager.INSTALL_FAILURES.Clear();
 						}
 					}
 					/*else if (!InstalledMods.OfType<ManagedMod>().Any(x => x.IsProgressing))
@@ -382,7 +383,7 @@ namespace SporeMods.Core
 						};
 						timer.Start();
 						//MessageDisplay.ShowMessageBox("!AnyTasksRunning");
-					}*/
+					}* /
 					//MessageDisplay.ShowMessageBox("Progress", OverallProgress + " --> " + OverallProgressTotal);
 				}, null);
 			};
@@ -395,6 +396,7 @@ namespace SporeMods.Core
 						OverallProgress += e.Change;
 				}, null);
 			};
+			*/
 		}
 	}
 

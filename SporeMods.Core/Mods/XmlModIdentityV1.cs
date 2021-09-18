@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
@@ -119,7 +120,11 @@ namespace SporeMods.Core.Mods
 			if (uniqueAttr == null)
 				throw new FormatException("A mod must have a 'unique' attribute");
 
-			var identity = new ModIdentity(mod, uniqueAttr.Value);
+			string unique = uniqueAttr.Value;
+			foreach (char c in Path.GetInvalidPathChars())
+				unique = unique.Replace(c.ToString(), string.Empty);
+
+			var identity = new ModIdentity(mod, unique);
 
 			var displayAttr = node.Attribute("displayName");
 			if (displayAttr != null)
@@ -149,6 +154,17 @@ namespace SporeMods.Core.Mods
 				}
 				else
 					throw new FormatException(GetLocalizedString("Mods!Error!Identity!InvalidAttributeValue").Replace("%ATTRIBUTE%", "installerSystemVersion").Replace("%VALUE%", xmlVersionAttr.Value).Replace("%TYPE%", "Version")); //throw new FormatException("Mod identity 'installerSystemVersion': '" + xmlVersionAttr.Value + "' is not a valid version");
+			}
+
+			var dllsBuildAttr = node.Attribute("dllsBuild");
+			if (dllsBuildAttr != null)
+			{
+				if (Version.TryParse(dllsBuildAttr.Value, out Version version))
+				{
+					identity.DllsBuild = version;
+				}
+				else
+					throw new FormatException(GetLocalizedString("Mods!Error!Identity!InvalidAttributeValue").Replace("%ATTRIBUTE%", "dllsBuild").Replace("%VALUE%", xmlVersionAttr.Value).Replace("%TYPE%", "Version")); //throw new FormatException("Mod identity 'installerSystemVersion': '" + xmlVersionAttr.Value + "' is not a valid version");
 			}
 
 			var canDisableAttr = node.Attribute("canDisableMod");
@@ -187,24 +203,31 @@ namespace SporeMods.Core.Mods
 				}
 			}
 
+			var vanillaCompatAttr = node.Attribute("verifiedVanillaCompatible");
+			if (vanillaCompatAttr != null)
+			{
+				if (bool.TryParse(vanillaCompatAttr.Value, out bool value))
+					identity.VerifiedVanillaCompatible = value;
+			}
+
 			var warnAttr = node.Attribute("isExperimental");
 			if (warnAttr != null)
 			{
-				if (bool.TryParse(warnAttr.Value, out bool isExperimental) && isExperimental)
+				if (bool.TryParse(warnAttr.Value, out bool isExperimental))
 					identity.IsExperimental = isExperimental;
 			}
 			
 			warnAttr = node.Attribute("requiresGalaxyReset");
 			if (warnAttr != null)
 			{
-				if (bool.TryParse(warnAttr.Value, out bool requiresGalaxyReset) && requiresGalaxyReset)
+				if (bool.TryParse(warnAttr.Value, out bool requiresGalaxyReset))
 					identity.RequiresGalaxyReset = requiresGalaxyReset;
 			}
 
 			warnAttr = node.Attribute("causesSaveDataDependency");
 			if (warnAttr != null)
 			{
-				if (bool.TryParse(warnAttr.Value, out bool causesSaveDataDependency) && causesSaveDataDependency)
+				if (bool.TryParse(warnAttr.Value, out bool causesSaveDataDependency))
 					identity.CausesSaveDataDependency = causesSaveDataDependency;
 			}
 

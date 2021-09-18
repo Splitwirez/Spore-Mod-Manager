@@ -285,7 +285,7 @@ namespace SporeMods.KitImporter
 							string displayName = mod.DisplayName;
 							if (displayName == null) displayName = mod.Name;
 							if (displayName == null) displayName = mod.Unique;
-							ModInstallation.CreateModInfoXml(mod.Unique, mod.Name, managerModConfigPath, out XDocument document);
+							XmlModIdentity.CreateModInfoXml(mod.Unique, mod.Name, managerModConfigPath, out XDocument document);
 
 							foreach (ModFile file in mod.Files)
 							{
@@ -316,7 +316,7 @@ namespace SporeMods.KitImporter
 
 						if (usesLegacyDlls)
 						{
-							string legacyPath = Path.Combine(managerModConfigPath, "UseLegacyDLLs");
+							string legacyPath = Path.Combine(managerModConfigPath, ManagedMod.PATH_USELEGACYDLLS);
 							File.WriteAllText(legacyPath, string.Empty);
 							Permissions.GrantAccessFile(legacyPath);
 						}
@@ -444,16 +444,16 @@ namespace SporeMods.KitImporter
 					}
 
 					
-					if (!File.Exists(Path.Combine(managerModConfigPath, "ModInfo.xml")))
+					if (!File.Exists(Path.Combine(managerModConfigPath, ManagedMod.MOD_INFO)))
 					{
 						string displayName = mod.DisplayName;
 						if (displayName == null) displayName = mod.Name;
 						if (displayName == null) displayName = mod.Unique;
-						ModInstallation.CreateModInfoXml(mod.Unique, mod.Name, managerModConfigPath, out XDocument document);
+						XmlModIdentity.CreateModInfoXml(mod.Unique, mod.Name, managerModConfigPath, out XDocument document);
 					}
 					else
 					{
-						var document = XDocument.Load(Path.Combine(managerModConfigPath, "ModInfo.xml"));
+						var document = XDocument.Load(Path.Combine(managerModConfigPath, ManagedMod.MOD_INFO));
 						var xmlVersionAttr = document.Root.Attribute("installerSystemVersion");
 						if (xmlVersionAttr != null && Version.TryParse(xmlVersionAttr.Value, out Version version)
 							&& (version == ModIdentity.XmlModIdentityVersion1_0_0_0))
@@ -464,7 +464,7 @@ namespace SporeMods.KitImporter
 
 					if (usesLegacyDlls)
 					{
-						string legacyPath = Path.Combine(managerModConfigPath, "UseLegacyDLLs");
+						string legacyPath = Path.Combine(managerModConfigPath, ManagedMod.PATH_USELEGACYDLLS);
 						File.WriteAllText(legacyPath, string.Empty);
 						Permissions.GrantAccessFile(legacyPath);
 					}
@@ -498,7 +498,7 @@ namespace SporeMods.KitImporter
 			{
 				string managerModConfigPath = Path.Combine(Settings.ModConfigsPath, mod.Unique);
 
-				string prepXmlPath = Path.Combine(managerModConfigPath, "ModInfo.xml");
+				string prepXmlPath = Path.Combine(managerModConfigPath, ManagedMod.MOD_INFO);
 				if (File.Exists(prepXmlPath))
 				{
 					XDocument prepDoc = XDocument.Load(prepXmlPath);
@@ -508,7 +508,7 @@ namespace SporeMods.KitImporter
 						if (prepUniqueAttr.Value != mod.Unique)
 						{
 							File.Delete(prepXmlPath);
-							ModInstallation.CreateModInfoXml(mod.Unique, mod.Name, managerModConfigPath, out XDocument document);
+							XmlModIdentity.CreateModInfoXml(mod.Unique, mod.Name, managerModConfigPath, out XDocument document);
 						}
 					}
 				}

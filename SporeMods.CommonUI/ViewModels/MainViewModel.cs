@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using SporeMods.Core;
 using SporeMods.Core.Mods;
+using SporeMods.Core.ModTransactions;
 using SporeMods.CommonUI;
 using SporeMods.CommonUI.Localization;
 
@@ -150,7 +151,7 @@ namespace SporeMods.ViewModels
 				}
 			};
 
-			ManagedMod.AnyModIsProgressingChanged += (s, e) => CanLaunchSpore = !AreAnyProgressing(ModsManager.InstalledMods);
+			//ManagedMod.AnyModIsProgressingChanged += (s, e) => CanLaunchSpore = !AreAnyProgressing(ModsManager.InstalledMods);
 		}
 
 		void RefreshCanDoesThings(IEnumerable<IInstalledMod> mods)
@@ -192,7 +193,7 @@ namespace SporeMods.ViewModels
 		{
 			var files = await Modal.Show(new RequestFilesViewModel(FileRequestPurpose.InstallMods, true));
 			if (files != null)
-				ModInstallation.InstallModsAsync(files.ToArray());
+				ModTransactionManager.InstallModsAsync(files.ToArray());
 		}
 
 		
@@ -204,7 +205,7 @@ namespace SporeMods.ViewModels
 					(_selectedMods.Count() > 0) &&
 					(!_selectedMods.Any(x => (x is ManagedMod mmod) ? mmod.IsProgressing : false))
 				)
-				ModInstallation.UninstallModsAsync(_selectedMods.ToArray());
+				ModTransactionManager.UninstallModsAsync(_selectedMods.ToArray());
 			else
 			{
 				CanUninstallMods = false;
@@ -227,7 +228,7 @@ namespace SporeMods.ViewModels
 					(mmod.HasConfigurator)
 				)
 				{
-					await mmod.ShowSettings();
+					mmod.ShowSettings();
 					error = false;
 				}
 			}

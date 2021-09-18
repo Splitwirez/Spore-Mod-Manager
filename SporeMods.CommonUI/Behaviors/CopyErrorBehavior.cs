@@ -1,4 +1,4 @@
-﻿using SporeMods.Core.Mods;
+﻿/*using SporeMods.Core.Mods;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,3 +22,4 @@ namespace SporeMods.CommonUI
 		}
 	}
 }
+*/

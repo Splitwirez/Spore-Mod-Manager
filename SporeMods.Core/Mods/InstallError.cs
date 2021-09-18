@@ -1,4 +1,5 @@
-﻿using System;
+﻿/*using SporeMods.Core.ModTransactions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -34,7 +35,7 @@ namespace SporeMods.Core.Mods
 
 		public List<string> Tags { get; } = new List<string>();
 
-		public Task<bool> UninstallModAsync()
+		public Task<ModTransactionCommitException> UninstallModAsync()
 		{
 			throw new NotImplementedException();
 		}
@@ -68,3 +69,4 @@ namespace SporeMods.Core.Mods
 		}
 	}
 }
+*/

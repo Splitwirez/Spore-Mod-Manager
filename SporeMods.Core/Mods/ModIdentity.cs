@@ -70,7 +70,7 @@ namespace SporeMods.Core.Mods
 			ParentMod = mod;
 		}
 
-		public ManagedMod ParentMod { get; }
+		public ManagedMod ParentMod { get; set; }
 
 		/// <summary>
 		/// The version of XML Mod Identity used by this mod.
@@ -87,6 +87,9 @@ namespace SporeMods.Core.Mods
 		/// allowing the user to select what they want among whatever components and/or componentGroups you have specified.
 		/// </summary>
 		public bool HasCustomInstaller { get; set; }
+
+		//TODO
+		public bool VerifiedVanillaCompatible { get; set; }
 
 		/// <summary>
 		/// If explicitly set to true, the user will receive a warning, telling them that the mod is still 
