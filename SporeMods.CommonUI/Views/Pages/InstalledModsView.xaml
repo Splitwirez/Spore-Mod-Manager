@@ -7,13 +7,12 @@
              xmlns:cui="clr-namespace:SporeMods.CommonUI"
              xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:vm="clr-namespace:SporeMods.ViewModels"
-             xmlns:local="clr-namespace:SporeMods.CommonUI"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        <local:BooleanToInvisibilityConverter x:Key="BooleanToInvisibilityConverter"/>
-        <local:BoolInverterConverter x:Key="BoolInverterConverter"/>
+        <cui:BooleanToInvisibilityConverter x:Key="BooleanToInvisibilityConverter"/>
+        <cui:BoolInverterConverter x:Key="BoolInverterConverter"/>
 
         <cui:Zone x:Key="InstallModsPromptContentControl"
                         x:Shared="False"

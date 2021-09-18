@@ -3,14 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:ui="clr-namespace:SporeMods.CommonUI"
+             xmlns:cui="clr-namespace:SporeMods.CommonUI"
              xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:vm="clr-namespace:SporeMods.ViewModels"
-             xmlns:local="clr-namespace:SporeMods.CommonUI">
+             xmlns:vm="clr-namespace:SporeMods.ViewModels">
     <DockPanel>
-        <!--TextBlock Text="{Binding Title}"
-                TextAlignment="Center"
-                DockPanel.Dock="Top"/-->
         <ContentControl Style="{DynamicResource CustomInstallerFooterContentControlStyle}"
                         DockPanel.Dock="Bottom">
             <Button Content="{DynamicResource OK}"

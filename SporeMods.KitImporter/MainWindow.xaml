@@ -4,7 +4,7 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:local="clr-namespace:SporeMods.KitImporter"
-		xmlns:ui="clr-namespace:SporeMods.CommonUI;assembly=SporeMods.CommonUI"
+		xmlns:cui="clr-namespace:SporeMods.CommonUI;assembly=SporeMods.CommonUI"
 		mc:Ignorable="d"
 		Title="Import from Spore ModAPI Launcher Kit" Width="475" Height="325" Loaded="MainWindow_Loaded" Closing="MainWindow_Closing" Style="{DynamicResource {x:Type Window}}">
 	<Grid Margin="25">
@@ -24,8 +24,8 @@
 				<Button x:Name="ProceedWithSpecifiedPathButton" Click="ProceedWithSpecifiedPathButton_Click" IsEnabled="False" Margin="5">OK</Button>
 			</Border>
 			<DockPanel DockPanel.Dock="Bottom">
-				<Button Margin="-1,0,0,0" x:Name="LauncherKitPathBrowseButton" Click="LauncherKitPathBrowseButton_Click" ui:AttachedProperties.CornerCurves="False,True,True,False" ui:AttachedProperties.BorderPresence="False,True,True,True" DockPanel.Dock="Right"/>
-				<TextBox x:Name="LauncherKitPathTextBox" ui:AttachedProperties.CornerCurves="True,False,False,True"/>
+				<Button Margin="-1,0,0,0" x:Name="LauncherKitPathBrowseButton" Click="LauncherKitPathBrowseButton_Click" cui:AttachedProperties.CornerCurves="False,True,True,False" cui:AttachedProperties.BorderPresence="False,True,True,True" DockPanel.Dock="Right"/>
+				<TextBox x:Name="LauncherKitPathTextBox" cui:AttachedProperties.CornerCurves="True,False,False,True"/>
 			</DockPanel>
 			<TextBlock x:Name="SpecifyLauncherKitPathInstructionTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 		</DockPanel>
@@ -36,7 +36,7 @@
 					<ControlTemplate TargetType="{x:Type ProgressBar}">
 						<Grid>
 							<Border x:Name="PART_Indicator" Visibility="Hidden"/>
-							<Border Name="PART_Track" CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}" BorderThickness="1" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsHitTestVisible="False">
+							<Border Name="PART_Track" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}" BorderThickness="1" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsHitTestVisible="False">
 								<Border.Background>
 									<LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ProgressBarTrackBackgroundGradientStops}"/>
 								</Border.Background>
@@ -46,11 +46,11 @@
 											<ScaleTransform ScaleX="0" ScaleY="1"/>
 										</Rectangle.LayoutTransform>
 									</Rectangle>
-									<Border x:Name="IndeterminateProgressIndicator" Margin="0,0,0,0" Width="20" CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,2,2,2;0,0,0,0'}" Padding="0" BorderBrush="{DynamicResource ButtonPressedBorderBrush}" BorderThickness="1" HorizontalAlignment="Left">
+									<Border x:Name="IndeterminateProgressIndicator" Margin="0,0,0,0" Width="20" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,2,2,2;0,0,0,0'}" Padding="0" BorderBrush="{DynamicResource ButtonPressedBorderBrush}" BorderThickness="1" HorizontalAlignment="Left">
 										<Border.Background>
 											<LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedBackgroundGradientStops}"/>
 										</Border.Background>
-										<Border CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='1,1,1,1;0,0,0,0'}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
+										<Border CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='1,1,1,1;0,0,0,0'}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
 											<Border.Background>
 												<LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedSecondaryBackgroundGradientStops}"/>
 											</Border.Background>

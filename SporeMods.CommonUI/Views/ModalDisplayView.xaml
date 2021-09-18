@@ -1,23 +1,21 @@
-﻿<mech:AnimatableContentControl x:Class="SporeMods.Views.ModalDisplayView"
+﻿<cui:AnimatableContentControl x:Class="SporeMods.Views.ModalDisplayView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:core="clr-namespace:SporeMods.Core;assembly=SporeMods.Core"
-             xmlns:mech="clr-namespace:SporeMods.CommonUI"
              xmlns:cui="clr-namespace:SporeMods.CommonUI"
              xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:v="clr-namespace:SporeMods.Views"
              xmlns:vm="clr-namespace:SporeMods.ViewModels"
-             xmlns:local="clr-namespace:SporeMods.CommonUI"
              mc:Ignorable="d"
              x:Name="ModalDisplayViewRoot"
              IsOpen="{Binding HasModal}"
-             Style="{DynamicResource {x:Type mech:AnimatableContentControl}}"
+             Style="{DynamicResource {x:Type cui:AnimatableContentControl}}"
              IsVisibleChanged="ModalDisplayView_IsVisibleChanged">
-    <mech:AnimatableContentControl.DataContext>
+    <cui:AnimatableContentControl.DataContext>
         <vm:ModalDisplayViewModel/>
-    </mech:AnimatableContentControl.DataContext>
+    </cui:AnimatableContentControl.DataContext>
     <ContentControl Content="{Binding DataContext.CurrentModalView, ElementName=ModalDisplayViewRoot}"
                     DataContext="{Binding CurrentModalVM}">
         <ContentControl.Template>
@@ -83,4 +81,4 @@
             </ControlTemplate>
         </ContentControl.Template>
     </ContentControl>
-</mech:AnimatableContentControl>
+</cui:AnimatableContentControl>

@@ -3,18 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:mech="clr-namespace:SporeMods.CommonUI"
+             xmlns:cui="clr-namespace:SporeMods.CommonUI"
              xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:mods="clr-namespace:SporeMods.Core.Mods;assembly=SporeMods.Core"
              xmlns:draw="clr-namespace:System.Drawing;assembly=System.Drawing.Common"
              xmlns:clsp="clr-namespace:System.Collections.Specialized;assembly=System.Collections.Specialized"
              xmlns:sys="clr-namespace:System;assembly=System.Runtime"
-             xmlns:vm="clr-namespace:SporeMods.ViewModels"
-             xmlns:local="clr-namespace:SporeMods.CommonUI">
+             xmlns:vm="clr-namespace:SporeMods.ViewModels">
     <UserControl.Resources>
-        <local:SysDrawingImageToImageSourceConverter x:Key="SysDrawingImageToImageSourceConverter"/>
+        <cui:SysDrawingImageToImageSourceConverter x:Key="SysDrawingImageToImageSourceConverter"/>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        <local:BooleanToInvisibilityConverter x:Key="BooleanToInvisibilityConverter"/>
+        <cui:BooleanToInvisibilityConverter x:Key="BooleanToInvisibilityConverter"/>
     </UserControl.Resources>
     <DockPanel>
         <ItemsControl x:Name="ComponentsPane"
@@ -22,7 +21,7 @@
                     DockPanel.Dock="Left"
                     Style="{DynamicResource ModConfiguratorComponentsListStyle}"
                     ItemsSource="{Binding Identity.SubComponents}"
-                    mech:AttachedProperties.CornerCurves="True,False,False,True">
+                    cui:AttachedProperties.CornerCurves="True,False,False,True">
             <ItemsControl.Resources>
                 <DataTemplate DataType="{x:Type mods:MutualExclusiveComponentGroup}">
                     <GroupBox x:Name="SubComponentsGroupBox" Header="{Binding DisplayName}">
@@ -57,7 +56,7 @@
         </ItemsControl>
         <ContentControl x:Name="HeaderContentControl"
                         Style="{DynamicResource ModConfiguratorHeaderContentControlStyle}"
-                        mech:AttachedProperties.CornerCurves="False,True,False,False"
+                        cui:AttachedProperties.CornerCurves="False,True,False,False"
                         DockPanel.Dock="Top"
                         Visibility="{Binding Identity.ParentMod.HasLogo, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Image x:Name="LogoImage"
@@ -67,7 +66,7 @@
         </ContentControl>
         <ContentControl Style="{DynamicResource CustomInstallerFooterContentControlStyle}"
                         DockPanel.Dock="Bottom"
-                        mech:AttachedProperties.CornerCurves="False,False,True,False">
+                        cui:AttachedProperties.CornerCurves="False,False,True,False">
             <Control>
                 <Control.Template>
                     <ControlTemplate>
@@ -91,9 +90,9 @@
         <ScrollViewer x:Name="Body"
                     HorizontalScrollBarVisibility="Disabled"
                     VerticalScrollBarVisibility="Auto"
-                    mech:AttachedProperties.CornerCurves="False">
+                    cui:AttachedProperties.CornerCurves="False">
             <ItemsControl ItemsSource="{Binding ViewingComponentContent}"
-                    mech:AttachedProperties.CornerCurves="False">
+                    cui:AttachedProperties.CornerCurves="False">
                 <ItemsControl.Resources>
                     <DataTemplate DataType="{x:Type draw:Image}">
                         <Image Source="{Binding Converter={StaticResource SysDrawingImageToImageSourceConverter}}"/>
@@ -102,7 +101,7 @@
                         <TextBlock Text="{Binding}"/>
                     </DataTemplate-->
                     <DataTemplate DataType="{x:Type clsp:StringCollection}">
-                        <!--mech:NoSizeDecorator Margin="0,10,0,0">
+                        <!--cui:NoSizeDecorator Margin="0,10,0,0">
                             <TextBlock x:Name="TextB" Text="{Binding [0]}" TextWrapping="Wrap" HorizontalAlignment="Left" Padding="5" Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}}" ClipToBounds="False"/-->
                             <TextBlock x:Name="TextB"
                                         Text="{Binding [0]}"
@@ -111,7 +110,7 @@
                                         Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}"
                                         Margin="0,0,-18,0"
                                         Padding="5,5,23,5"/>
-                        <!--/mech:NoSizeDecorator-->
+                        <!--/cui:NoSizeDecorator-->
                         <DataTemplate.Triggers>
                             <DataTrigger Binding="{Binding Count}" Value="2">
                                 <Setter TargetName="TextB" Property="Style" Value="{DynamicResource h2}"/>

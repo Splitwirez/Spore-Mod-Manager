@@ -1,9 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
             xmlns:local="clr-namespace:SporeMods.CommonUI.Themes.Shales"
-            xmlns:ui="clr-namespace:SporeMods.CommonUI"
-            xmlns:conv="clr-namespace:SporeMods.CommonUI"
-            xmlns:uib="clr-namespace:SporeMods.CommonUI"
+            xmlns:cui="clr-namespace:SporeMods.CommonUI"
             xmlns:beh="http://schemas.microsoft.com/expression/2010/interactivity">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Converters.xaml"/>
@@ -25,11 +23,11 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ButtonBase">
                     <Grid>
-                        <!--Border x:Name="IdleBackground" CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1">
+                        <!--Border x:Name="IdleBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1">
                             <Border.Background>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
                             </Border.Background>
-                            <Border x:Name="IdleInnerBackground" CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,2,2,2;0,0,0,0'}" Margin="1" Padding="0" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0"/>
+                            <Border x:Name="IdleInnerBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,2,2,2;0,0,0,0'}" Margin="1" Padding="0" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0"/>
                         </Border>
                         <Border x:Name="HoverBackground" CornerRadius="{Binding CornerRadius, ElementName=IdleBackground}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonHoverBorderBrush}" BorderThickness="1" Opacity="0">
                             <Border.Background>
@@ -54,11 +52,11 @@
                         <Border x:Name="DisabledBackground" CornerRadius="{Binding CornerRadius, ElementName=IdleBackground}" Margin="0" Padding="0" Background="{DynamicResource ButtonDisabledBackgroundBrush}" BorderBrush="{DynamicResource ButtonDisabledBorderBrush}" BorderThickness="1" Opacity="0">
                             <Border CornerRadius="{Binding CornerRadius, ElementName=IdleInnerBackground}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0" Background="{DynamicResource ButtonDisabledSecondaryBackgroundBrush}"/>
                         </Border-->
-                        <Border x:Name="IdleBackground" CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="{Binding Path=(ui:AttachedProperties.BorderPresence), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BorderPresenceToThicknessConverter}, ConverterParameter='1,1,1,1;0,0,0,0'}">
+                        <Border x:Name="IdleBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="{Binding Path=(cui:AttachedProperties.BorderPresence), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BorderPresenceToThicknessConverter}, ConverterParameter='1,1,1,1;0,0,0,0'}">
                             <Border.Background>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
                             </Border.Background>
-                            <Border x:Name="IdleInnerBackground" CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,2,2,2;0,0,0,0'}" Margin="1" Padding="0" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0"/>
+                            <Border x:Name="IdleInnerBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,2,2,2;0,0,0,0'}" Margin="1" Padding="0" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0"/>
                         </Border>
                         <Border x:Name="HoverBackground" CornerRadius="{Binding CornerRadius, ElementName=IdleBackground}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonHoverBorderBrush}" BorderThickness="{Binding BorderThickness, ElementName=IdleBackground}" Opacity="0">
                             <Border.Background>
@@ -83,7 +81,7 @@
                         <Border x:Name="DisabledBackground" CornerRadius="{Binding CornerRadius, ElementName=IdleBackground}" Margin="0" Padding="0" Background="{DynamicResource ButtonDisabledBackgroundBrush}" BorderBrush="{DynamicResource ButtonDisabledBorderBrush}" BorderThickness="{Binding BorderThickness, ElementName=IdleBackground}" Opacity="0">
                             <Border CornerRadius="{Binding CornerRadius, ElementName=IdleInnerBackground}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0" Background="{DynamicResource ButtonDisabledSecondaryBackgroundBrush}"/>
                         </Border>
-                        <Border x:Name="BorderBrushBorder" CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,2,2,2;0,0,0,0'}" Margin="1" Padding="0" Background="Transparent" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1"/>
+                        <Border x:Name="BorderBrushBorder" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,2,2,2;0,0,0,0'}" Margin="1" Padding="0" Background="Transparent" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1"/>
                         <ContentControl Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}" Focusable="False" IsTabStop="False" />
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -255,11 +253,11 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Grid>
-                        <Border x:Name="IdleBackground" CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1">
+                        <Border x:Name="IdleBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1">
                             <Border.Background>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
                             </Border.Background>
-                            <Border x:Name="IdleInnerBackground" CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,2,2,2;0,0,0,0'}" Margin="1" Padding="0" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0"/>
+                            <Border x:Name="IdleInnerBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,2,2,2;0,0,0,0'}" Margin="1" Padding="0" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0"/>
                         </Border>
                         <Border x:Name="HoverBackground" CornerRadius="{Binding CornerRadius, ElementName=IdleBackground}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonHoverBorderBrush}" BorderThickness="1" Opacity="0">
                             <Border.Background>
@@ -383,25 +381,25 @@
         <Setter Property="OverridesDefaultStyle" Value="True" />
     </Style>
 
-    <!--Style x:Key="{x:Type ui:SplitButton}" TargetType="{x:Type ui:SplitButton}" BasedOn="{StaticResource {x:Type ButtonBase}}">
+    <!--Style x:Key="{x:Type cui:SplitButton}" TargetType="{x:Type cui:SplitButton}" BasedOn="{StaticResource {x:Type ButtonBase}}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ui:SplitButton}">
+                <ControlTemplate TargetType="{x:Type cui:SplitButton}">
                     <DockPanel>
                         <Grid DockPanel.Dock="Right" ClipToBounds="True">
                             <ToggleButton x:Name="PART_FlyoutButton" Margin="-1,0,0,0" IsChecked="{Binding IsFlyoutOpen, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}" ContextMenu="{TemplateBinding FlyoutMenu}" Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                                <ui:AttachedProperties.CornerCurves>
-                                    <ui:CornerCurves TopLeft="False" TopRight="{TemplateBinding ui:CornerCurves.TopRight}" BottomRight="{TemplateBinding ui:CornerCurves.BottomRight}" BottomLeft="False"/>
-                                </ui:AttachedProperties.CornerCurves>
+                                <cui:AttachedProperties.CornerCurves>
+                                    <cui:CornerCurves TopLeft="False" TopRight="{TemplateBinding cui:CornerCurves.TopRight}" BottomRight="{TemplateBinding cui:CornerCurves.BottomRight}" BottomLeft="False"/>
+                                </cui:AttachedProperties.CornerCurves>
                                 <Path x:Name="Arrow" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 6 6 L 0 12" Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToggleButton}}}" StrokeThickness="2"/>
                             </ToggleButton>
                         </Grid>
                         <Grid>
-                            <Border x:Name="IdleBackground" CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,0,0,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1">
+                            <Border x:Name="IdleBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,0,0,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1">
                                 <Border.Background>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
                                 </Border.Background>
-                                <Border x:Name="IdleInnerBackground" CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,0,0,2;0,0,0,0'}" Margin="1" Padding="0" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0"/>
+                                <Border x:Name="IdleInnerBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,0,0,2;0,0,0,0'}" Margin="1" Padding="0" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0"/>
                             </Border>
                             <Border x:Name="HoverBackground" CornerRadius="{Binding CornerRadius, ElementName=IdleBackground}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonHoverBorderBrush}" BorderThickness="1" Opacity="0">
                                 <Border.Background>
@@ -413,7 +411,7 @@
                                     </Border.Background>
                                 </Border>
                             </Border>
-                            <Border CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,0,0,2;0,0,0,0'}" Margin="1" Padding="0" Background="Transparent" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1"/>
+                            <Border CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,0,0,2;0,0,0,0'}" Margin="1" Padding="0" Background="Transparent" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1"/>
                             <Border x:Name="PressedBackground" CornerRadius="{Binding CornerRadius, ElementName=IdleBackground}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonPressedBorderBrush}" BorderThickness="1" Opacity="0">
                                 <Border.Background>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedBackgroundGradientStops}"/>
@@ -529,7 +527,7 @@
                 <ControlTemplate TargetType="ButtonBase">
                     <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#01000000" BorderBrush="{DynamicResource TitlebarBorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
                         <DockPanel HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Effect="{DynamicResource DropShadow}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="True" UseLayoutRounding="True">
-                            <ContentPresenter x:Name="IconPresenter" Content="{Binding Path=(ui:AttachedProperties.Icon), RelativeSource={RelativeSource Mode=TemplatedParent}}" TextElement.Foreground="{TemplateBinding Foreground}" TextElement.FontFamily="{TemplateBinding FontFamily}" TextElement.FontSize="{TemplateBinding FontSize}" Margin="0,0,4,0"/>
+                            <ContentPresenter x:Name="IconPresenter" Content="{Binding Path=(cui:AttachedProperties.Icon), RelativeSource={RelativeSource Mode=TemplatedParent}}" TextElement.Foreground="{TemplateBinding Foreground}" TextElement.FontFamily="{TemplateBinding FontFamily}" TextElement.FontSize="{TemplateBinding FontSize}" Margin="0,0,4,0"/>
                             <ContentPresenter x:Name="ContentPresenter" Content="{TemplateBinding Content}" TextElement.Foreground="{TemplateBinding Foreground}" TextElement.FontFamily="{TemplateBinding FontFamily}" TextElement.FontSize="{TemplateBinding FontSize}" Margin="0"/>
                         </DockPanel>
                     </Border>
@@ -537,7 +535,7 @@
                         <Label x:Name="Glyph" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" RenderOptions.EdgeMode="Aliased" IsTabStop="False" Margin="0" Padding="0" />
                     </Grid-->
                     <ControlTemplate.Triggers>
-                        <Trigger Property="ui:AttachedProperties.Icon" Value="{x:Null}">
+                        <Trigger Property="cui:AttachedProperties.Icon" Value="{x:Null}">
                             <Setter TargetName="IconPresenter" Property="Visibility" Value="Collapsed"/>
                         </Trigger>
                         <Trigger Property="Content" Value="{x:Null}">

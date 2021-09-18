@@ -3,10 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:ui="clr-namespace:SporeMods.CommonUI"
+             xmlns:cui="clr-namespace:SporeMods.CommonUI"
              xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:vm="clr-namespace:SporeMods.ViewModels"
-             xmlns:local="clr-namespace:SporeMods.CommonUI"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.DataContext>
@@ -15,7 +14,7 @@
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto"
                     HorizontalScrollBarVisibility="Disabled"
-                    ui:AttachedProperties.CornerCurves="False">
+                    cui:AttachedProperties.CornerCurves="False">
             <StackPanel Orientation="Vertical">
                 <GroupBox x:Name="HelpGroupBox" Header="{DynamicResource Help!NeedHelp!Header}">
                     <Grid>
@@ -48,7 +47,7 @@
                             <DataTemplate DataType="{x:Type vm:CreditsItem}">
                                 <Button x:Name="TemplateRootButton"
                                         Style="{DynamicResource CreditsButtonStyle}">
-                                    <ui:StackPanelEx Orientation="Vertical" HorizontalAlignment="Stretch" Spacing="4">
+                                    <cui:StackPanelEx Orientation="Vertical" HorizontalAlignment="Stretch" Spacing="4">
                                         <TextBlock Text="{Binding Name}"
                                                    Style="{DynamicResource h2}"
                                                    TextAlignment="Left"/>
@@ -65,7 +64,7 @@
                                             <TextBlock Text="{Binding Link}"
                                                        TextWrapping="NoWrap"/>
                                         </StackPanel>
-                                    </ui:StackPanelEx>
+                                    </cui:StackPanelEx>
                                 </Button>
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding HasLink}" Value="False">

@@ -4,9 +4,7 @@
 			xmlns:core="clr-namespace:SporeMods.Core;assembly=SporeMods.Core"
 			xmlns:mods="clr-namespace:SporeMods.Core.Mods;assembly=SporeMods.Core"
 			xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
-			xmlns:conv="clr-namespace:SporeMods.CommonUI"
 			xmlns:shale="clr-namespace:SporeMods.CommonUI.Themes.Shale"
-			xmlns:uib="clr-namespace:SporeMods.CommonUI"
 			xmlns:autocomp="clr-namespace:WPFTextBoxAutoComplete;assembly=WPFTextBoxAutoComplete"
 			xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <ResourceDictionary.MergedDictionaries>
@@ -15,7 +13,7 @@
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/Window.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/ListView.xaml"/>
     </ResourceDictionary.MergedDictionaries>
-    <conv:IconToImageBrushConverter x:Key="IconToImageBrushConverter"/>
+    <cui:IconToImageBrushConverter x:Key="IconToImageBrushConverter"/>
     
     <Grid x:Key="NoIconModIcon" x:Shared="False" Width="32" Height="32" HorizontalAlignment="Center" VerticalAlignment="Center">
         <Ellipse Stroke="{DynamicResource ButtonIdleBorderBrush}" StrokeThickness="1">
@@ -101,12 +99,12 @@
                             </Grid.RenderTransform>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Text="{Binding ModVersion}" Visibility="{Binding ModHasVersion, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="15,0" VerticalAlignment="Center"/>
-                                <!--ui:ToggleSwitch x:Name="IsEnabledToggleSwitch" TrueText="{DynamicResource ModSwitchOnText}" FalseText="{DynamicResource ModSwitchOffText}" Content="{x:Null}" IsChecked="{Binding IsEnabled, FallbackValue=True}" Visibility="{Binding Source={x:Static core:Settings.DeveloperMode}, Converter={StaticResource BooleanToVisibilityConverter}}" VerticalAlignment="Center" Width="110" MinWidth="110" HorizontalAlignment="Right"/-->
+                                <!--cui:ToggleSwitch x:Name="IsEnabledToggleSwitch" TrueText="{DynamicResource ModSwitchOnText}" FalseText="{DynamicResource ModSwitchOffText}" Content="{x:Null}" IsChecked="{Binding IsEnabled, FallbackValue=True}" Visibility="{Binding Source={x:Static core:Settings.DeveloperMode}, Converter={StaticResource BooleanToVisibilityConverter}}" VerticalAlignment="Center" Width="110" MinWidth="110" HorizontalAlignment="Right"/-->
                                 <!--{Binding CanDisable, Converter={StaticResource BooleanToVisibilityConverter}}-->
                                 <Control x:Name="ProgressDisplay" Visibility="Collapsed"/>
                             </StackPanel>
                         </Grid>
-                        <!--ui:ToggleSwitch x:Name="IsEnabledToggleSwitch" IsChecked="{Binding IsEnabled}" TrueText="{DynamicResource ModSwitchOn}" FalseText="{DynamicResource ModSwitchOff}" VerticalAlignment="Center" IsThreeState="False" DockPanel.Dock="Right"/-->
+                        <!--cui:ToggleSwitch x:Name="IsEnabledToggleSwitch" IsChecked="{Binding IsEnabled}" TrueText="{DynamicResource ModSwitchOn}" FalseText="{DynamicResource ModSwitchOff}" VerticalAlignment="Center" IsThreeState="False" DockPanel.Dock="Right"/-->
                         <!--mod:ToggleSwitch.Style>
 													<Style TargetType="{x:Type mod:ToggleSwitch}" BasedOn="{StaticResource {x:Type mod:ToggleSwitch}}">
 														<EventSetter Event="Checked" Handler="ModToggleSwitch_Checked"/>
@@ -302,7 +300,7 @@
                             </cui:AttachedProperties.CornerCurves>
                             <Border x:Name="ItemsPresenterBorder" Background="#01000000">
                                 <e:Interaction.Behaviors>
-                                    <uib:DeselectOnClickBlankBehavior ItemsPresenterElement="{Binding Source={x:Reference ItemsPresenter}}"/>
+                                    <cui:DeselectOnClickBlankBehavior ItemsPresenterElement="{Binding Source={x:Reference ItemsPresenter}}"/>
                                 </e:Interaction.Behaviors>
                                 <ItemsPresenter x:Name="ItemsPresenter"/>
                             </Border>

@@ -1,8 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-            xmlns:ui="clr-namespace:SporeMods.CommonUI"
-            xmlns:conv="clr-namespace:SporeMods.CommonUI"
-            xmlns:uib="clr-namespace:SporeMods.CommonUI"
+            xmlns:cui="clr-namespace:SporeMods.CommonUI"
             xmlns:beh="http://schemas.microsoft.com/expression/2010/interactivity">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Converters.xaml"/>
@@ -19,11 +17,11 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBoxBase}">
                     <Grid>
-                        <Border x:Name="IdleBackground" CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1">
+                        <Border x:Name="IdleBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1">
                             <Border.Background>
                                 <LinearGradientBrush StartPoint="0,1" EndPoint="0,0" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
                             </Border.Background>
-                            <Border x:Name="IdleInnerBackground" CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,2,2,2;0,0,0,0'}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
+                            <Border x:Name="IdleInnerBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,2,2,2;0,0,0,0'}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
                                 <Border.Background>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource TextBoxIdleBackgroundGradientStops}"/>
                                 </Border.Background>

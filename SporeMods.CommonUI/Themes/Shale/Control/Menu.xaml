@@ -1,8 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-            xmlns:ui="clr-namespace:SporeMods.CommonUI"
-            xmlns:conv="clr-namespace:SporeMods.CommonUI"
-            xmlns:uib="clr-namespace:SporeMods.CommonUI"
+            xmlns:cui="clr-namespace:SporeMods.CommonUI"
             xmlns:beh="http://schemas.microsoft.com/expression/2010/interactivity">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Converters.xaml"/>
@@ -45,11 +43,11 @@
                         </Border.Background>
                     </Border>
                 </Border-->
-                <Border x:Name="HoverBackground" CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonHoverBorderBrush}" BorderThickness="1" Opacity="0">
+                <Border x:Name="HoverBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonHoverBorderBrush}" BorderThickness="1" Opacity="0">
                     <Border.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1"  GradientStops="{DynamicResource ButtonHoverBackgroundGradientStops}"/>
                     </Border.Background>
-                    <Border CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,2,2,2;0,0,0,0'}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
+                    <Border CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,2,2,2;0,0,0,0'}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonHoverSecondaryBackgroundGradientStops}"/>
                         </Border.Background>
@@ -105,11 +103,11 @@
 
     <ControlTemplate x:Key="{x:Static MenuItem.TopLevelItemTemplateKey}" TargetType="MenuItem">
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#01000000">
-            <!--Border x:Name="IdleBackground" CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1">
+            <!--Border x:Name="IdleBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1">
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
                 </Border.Background>
-                <Border x:Name="IdleInnerBackground" CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,2,2,2;0,0,0,0'}" Margin="1" Padding="0" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0"/>
+                <Border x:Name="IdleInnerBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,2,2,2;0,0,0,0'}" Margin="1" Padding="0" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0"/>
             </>
             <Border x:Name="HoverBackground" CornerRadius="{Binding CornerRadius, ElementName=IdleBackground}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonHoverBorderBrush}" BorderThickness="1" Opacity="0">
                 <Border.Background>
@@ -131,11 +129,11 @@
                     </Border.Background>
                 </Border>
             </Border-->
-            <Border x:Name="HoverBackground" CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonHoverBorderBrush}" BorderThickness="1" Opacity="0">
+            <Border x:Name="HoverBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonHoverBorderBrush}" BorderThickness="1" Opacity="0">
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1"  GradientStops="{DynamicResource ButtonHoverBackgroundGradientStops}"/>
                 </Border.Background>
-                <Border CornerRadius="{Binding Path=(ui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,2,2,2;0,0,0,0'}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
+                <Border CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,2,2,2;0,0,0,0'}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
                     <Border.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonHoverSecondaryBackgroundGradientStops}"/>
                     </Border.Background>
@@ -203,11 +201,11 @@
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{DynamicResource ButtonDisabledForegroundBrush}"/>
             </Trigger>
-            <DataTrigger Binding="{Binding Path=(ui:AttachedProperties.LastClickWasTouch), Mode=OneWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}, FallbackValue=False}" Value="True">
+            <DataTrigger Binding="{Binding Path=(cui:AttachedProperties.LastClickWasTouch), Mode=OneWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}, FallbackValue=False}" Value="True">
                 <!--Setter Property="Height" Value="45"/-->
                 <Setter Property="Padding" Value="15,10"/>
             </DataTrigger>
-            <!--Trigger Property="ui:AttachedProperties.LastClickWasTouch" Value="True">
+            <!--Trigger Property="cui:AttachedProperties.LastClickWasTouch" Value="True">
                 <Setter Property="Padding" Value="15,10"/>
             </Trigger-->
         </Style.Triggers>
@@ -238,7 +236,7 @@
         <Setter Property="Padding" Value="3,3,3,0"/>
         <Setter Property="HasDropShadow" Value="False" />
         <Setter Property="MinWidth" Value="50"/>
-        <Setter Property="ui:AttachedProperties.IsContextMenuTouchable" Value="True"/>
+        <Setter Property="cui:AttachedProperties.IsContextMenuTouchable" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ContextMenu">

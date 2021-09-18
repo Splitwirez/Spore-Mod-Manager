@@ -8,7 +8,6 @@
              xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:v="clr-namespace:SporeMods.Views"
              xmlns:vm="clr-namespace:SporeMods.ViewModels"
-             xmlns:local="clr-namespace:SporeMods.CommonUI"
              xmlns:trs="clr-namespace:SporeMods.Core.ModTransactions;assembly=SporeMods.Core"
              mc:Ignorable="d"
              cui:WindowChromeHelper.UseCustomDecorations="{x:Static core:Settings.UseCustomWindowDecorations}"
@@ -27,100 +26,102 @@
         <cui:BoolInverterConverter x:Key="BoolInverterConverter"/>
     </Window.Resources>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
         <!--Control x:Name="WindowBackdropControl"
                 Style="{DynamicResource WindowBackdropControlStyle}"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Visibility="Collapsed"/-->
-		<DockPanel>
-            <cui:Zone Style="{DynamicResource MainWindowFooterZoneStyle}"
-                            DockPanel.Dock="Bottom">
-				<UniformGrid Rows="1"
-                            UseLayoutRounding="True">
-                    <Button x:Name="InstallModsButton"
-                            Content="{DynamicResource Footer!InstallMods}"
-                            Style="{DynamicResource InstallModsButtonStyle}"
-                            Command="{Binding InstallModsCommand}">
-                    </Button>
-                    <Button x:Name="ChangeModSettingsButton"
-                            Content="{DynamicResource Footer!ConfigureMod}"
-                            Style="{DynamicResource ConfigureModButtonStyle}"
-                            IsEnabled="{Binding CanChangeModSettings}"
-                            Command="{Binding ChangeModSettingsCommand}"/>
-                    <Button x:Name="UninstallModsButton"
-                            Content="{DynamicResource Footer!UninstallMods}"
-                            Style="{DynamicResource UninstallModsButtonStyle}"
-                            IsEnabled="{Binding CanUninstallMods}"
-                            Command="{Binding UninstallModsCommand}"/>
-					<Grid>
-                        <Button x:Name="LaunchSporeButton"
-                                Content="{DynamicResource Footer!LaunchGame}"
-                                Style="{DynamicResource LaunchGameButtonStyle}"
-                                IsEnabled="{Binding HasRunningTasks, Source={x:Static trs:ModTransactionManager.Instance}, Converter={StaticResource BoolInverterConverter}}"
-                                Command="{Binding LaunchSporeCommand}"/>
-						<DockPanel Visibility="{Binding HasRunningTasks, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"
-                                   DataContext="{Binding Source={x:Static trs:ModTransactionManager.Instance}}"
-                                   Margin="5,5,10,5">
-                            <ProgressBar x:Name="OverallProgressProgressBar"
-                                         Height="10"
-                                         DockPanel.Dock="Bottom"
-                                         Minimum="0"
-                                         Maximum="{Binding OverallProgressTotal, Mode=OneWay}"
-                                         Value="{Binding OverallProgress, Mode=OneWay}"
-                                         cui:AttachedProperties.CornerCurves="False,False,True,True"/>
-                            <ToggleButton x:Name="TaskProgressDetailsToggleButton"
-                                          Padding="5,0"
-                                          cui:AttachedProperties.CornerCurves="True,True,False,False"
-                                          cui:AttachedProperties.BorderPresence="True,True,True,False"
-                                          Content="{DynamicResource Mods!TaskList!ToggleButton}"/>
-                        </DockPanel>
-                        <!--Grid HorizontalAlignment="Right" Margin="-255,5,10,5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Slider x:Name="ValueSlider"
-                                    Grid.Column="0"
-                                    Minimum="0"
-                                    Maximum="100"
-                                    Value="50"
-                                    Orientation="Horizontal"
-                                    Width="200"/>
-                            <CheckBox x:Name="IndeterminateTest"
-                                      Grid.Column="1"/>
-                            <ProgressBar DockPanel.Dock="Bottom"
-                                         Minimum="{Binding Minimum, ElementName=ValueSlider}"
-                                         Maximum="{Binding Maximum, ElementName=ValueSlider}"
-                                         Value="{Binding Value, ElementName=ValueSlider}"
-                                         Height="23"
-                                         Width="200"
-                                         IsIndeterminate="{Binding IsChecked, ElementName=IndeterminateTest}"
-                                         Grid.Column="2"/>
-                        </Grid-->
-                        <!--ProgressBar x:Name="OverallProgressProgressBar"
-                                    Minimum="0"
-                                    Maximum="{Binding OverallProgressTotal, Source={x:Static core:ModsManager.Instance}, Mode=OneWay}"
-                                    Value="{Binding OverallProgress, Source={x:Static core:ModsManager.Instance}, Mode=OneWay}"
-                                    Visibility="{Binding AnyTasksRunning, Source={x:Static core:ModsManager.Instance}, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"
-                                    Margin="5,5,10,5"/-->
-					</Grid>
-				</UniformGrid>
-			</cui:Zone>
-            <TabControl x:Name="PrimaryTabControl" 
-                        Style="{DynamicResource PrimaryTabControlStyle}"
-                        SelectedIndex="{Binding SelectedTabIndex}">
-                <TabItem x:Name="ModsTabItem" Header="{DynamicResource Mods!Header}">
-                    <v:InstalledModsView/>
-                </TabItem>
-                <TabItem x:Name="SettingsTabItem" Header="{DynamicResource Settings!Header}">
-                    <v:SettingsView/>
-                </TabItem>
-                <TabItem x:Name="HelpTabItem" Header="{DynamicResource Help!Header}">
-                    <v:HelpView/>
-                </TabItem>
-			</TabControl>
-        </DockPanel>
+        <cui:Zone Style="{DynamicResource MainWindowFooterZoneStyle}"
+                Grid.Row="1">
+            <UniformGrid Rows="1"
+                        UseLayoutRounding="True">
+                <Button x:Name="InstallModsButton"
+                        Content="{DynamicResource Footer!InstallMods}"
+                        Style="{DynamicResource InstallModsButtonStyle}"
+                        Command="{Binding InstallModsCommand}">
+                </Button>
+                <Button x:Name="ChangeModSettingsButton"
+                        Content="{DynamicResource Footer!ConfigureMod}"
+                        Style="{DynamicResource ConfigureModButtonStyle}"
+                        IsEnabled="{Binding CanChangeModSettings}"
+                        Command="{Binding ChangeModSettingsCommand}"/>
+                <Button x:Name="UninstallModsButton"
+                        Content="{DynamicResource Footer!UninstallMods}"
+                        Style="{DynamicResource UninstallModsButtonStyle}"
+                        IsEnabled="{Binding CanUninstallMods}"
+                        Command="{Binding UninstallModsCommand}"/>
+                <Grid>
+                    <Button x:Name="LaunchSporeButton"
+                            Content="{DynamicResource Footer!LaunchGame}"
+                            Style="{DynamicResource LaunchGameButtonStyle}"
+                            IsEnabled="{Binding HasRunningTasks, Source={x:Static trs:ModTransactionManager.Instance}, Converter={StaticResource BoolInverterConverter}}"
+                            Command="{Binding LaunchSporeCommand}"/>
+                    <DockPanel Visibility="{Binding HasRunningTasks, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"
+                                DataContext="{Binding Source={x:Static trs:ModTransactionManager.Instance}}"
+                                Margin="5,5,10,5">
+                        <ProgressBar x:Name="OverallProgressProgressBar"
+                                        Height="10"
+                                        DockPanel.Dock="Bottom"
+                                        Minimum="0"
+                                        Maximum="{Binding OverallProgressTotal, Mode=OneWay}"
+                                        Value="{Binding OverallProgress, Mode=OneWay}"
+                                        cui:AttachedProperties.CornerCurves="False,False,True,True"/>
+                        <ToggleButton x:Name="TaskProgressDetailsToggleButton"
+                                        Padding="5,0"
+                                        cui:AttachedProperties.CornerCurves="True,True,False,False"
+                                        cui:AttachedProperties.BorderPresence="True,True,True,False"
+                                        Content="{DynamicResource Mods!TaskList!ToggleButton}"/>
+                    </DockPanel>
+                    <!--Grid HorizontalAlignment="Right" Margin="-255,5,10,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Slider x:Name="ValueSlider"
+                                Grid.Column="0"
+                                Minimum="0"
+                                Maximum="100"
+                                Value="50"
+                                Orientation="Horizontal"
+                                Width="200"/>
+                        <CheckBox x:Name="IndeterminateTest"
+                                    Grid.Column="1"/>
+                        <ProgressBar DockPanel.Dock="Bottom"
+                                        Minimum="{Binding Minimum, ElementName=ValueSlider}"
+                                        Maximum="{Binding Maximum, ElementName=ValueSlider}"
+                                        Value="{Binding Value, ElementName=ValueSlider}"
+                                        Height="23"
+                                        Width="200"
+                                        IsIndeterminate="{Binding IsChecked, ElementName=IndeterminateTest}"
+                                        Grid.Column="2"/>
+                    </Grid-->
+                    <!--ProgressBar x:Name="OverallProgressProgressBar"
+                                Minimum="0"
+                                Maximum="{Binding OverallProgressTotal, Source={x:Static core:ModsManager.Instance}, Mode=OneWay}"
+                                Value="{Binding OverallProgress, Source={x:Static core:ModsManager.Instance}, Mode=OneWay}"
+                                Visibility="{Binding AnyTasksRunning, Source={x:Static core:ModsManager.Instance}, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"
+                                Margin="5,5,10,5"/-->
+                </Grid>
+            </UniformGrid>
+        </cui:Zone>
+        <TabControl x:Name="PrimaryTabControl" 
+                    Style="{DynamicResource PrimaryTabControlStyle}"
+                    SelectedIndex="{Binding SelectedTabIndex}">
+            <TabItem x:Name="ModsTabItem" Header="{DynamicResource Mods!Header}">
+                <v:InstalledModsView/>
+            </TabItem>
+            <TabItem x:Name="SettingsTabItem" Header="{DynamicResource Settings!Header}">
+                <v:SettingsView/>
+            </TabItem>
+            <TabItem x:Name="HelpTabItem" Header="{DynamicResource Help!Header}">
+                <v:HelpView/>
+            </TabItem>
+        </TabControl>
         <cui:AnimatableContentControl MaxHeight="{Binding ActualHeight, ElementName=PrimaryTabControl}"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Bottom"
@@ -129,6 +130,6 @@
                             Style="{DynamicResource OngoingTasksListContentControlStyle}">
             <v:OngoingTasksList/>
         </cui:AnimatableContentControl>
-        <v:ModalDisplayView/>
+        <v:ModalDisplayView Grid.RowSpan="2"/>
     </Grid>
 </Window>

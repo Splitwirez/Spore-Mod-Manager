@@ -1,8 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
             xmlns:cui="clr-namespace:SporeMods.CommonUI"
-            xmlns:conv="clr-namespace:SporeMods.CommonUI"
-            xmlns:uib="clr-namespace:SporeMods.CommonUI"
             xmlns:beh="http://schemas.microsoft.com/expression/2010/interactivity">
     <LinearGradientBrush x:Key="SeparatorFillLeft" StartPoint="0,0" EndPoint="1,0" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>
     <LinearGradientBrush x:Key="SeparatorFillUp" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>

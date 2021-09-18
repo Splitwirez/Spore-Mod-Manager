@@ -4,9 +4,7 @@
 			xmlns:core="clr-namespace:SporeMods.Core;assembly=SporeMods.Core"
 			xmlns:mods="clr-namespace:SporeMods.Core.Mods;assembly=SporeMods.Core"
 			xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
-			xmlns:conv="clr-namespace:SporeMods.CommonUI"
 			xmlns:shale="clr-namespace:SporeMods.CommonUI.Themes.Shale"
-			xmlns:uib="clr-namespace:SporeMods.CommonUI"
 			xmlns:autocomp="clr-namespace:WPFTextBoxAutoComplete;assembly=WPFTextBoxAutoComplete"
 			xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <cui:CornerCurvesToCornerRadiusConverter x:Key="CornerCurvesToCornerRadiusConverter"/>
