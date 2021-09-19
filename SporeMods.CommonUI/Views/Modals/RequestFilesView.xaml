@@ -7,7 +7,7 @@
              xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:vm="clr-namespace:SporeMods.ViewModels">
     <DockPanel>
-        <ContentControl Style="{DynamicResource CustomInstallerFooterContentControlStyle}"
+        <cui:Zone Style="{DynamicResource CustomInstallerFooterZoneStyle}"
                         DockPanel.Dock="Bottom">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -21,7 +21,7 @@
                         Command="{Binding BrowseCommand}"
                         Grid.Column="2"/>
             </Grid>
-        </ContentControl>
+        </cui:Zone>
         <!--TextBlock Text="{Binding DescriptionDrag}" DockPanel.Dock="Top"/-->
         <TextBlock Text="{Binding DescriptionPasteBrowse}" DockPanel.Dock="Bottom"/>
         <cui:Zone x:Name="DropHereZone"
@@ -30,13 +30,13 @@
                         Style="{DynamicResource DropHereZoneStyle}"
                         Content="{Binding DescriptionDrag}"/>
         <!--Style="{x:Null}"
-            <ContentControl.Template>
+            <cui:Zone.Template>
                 <ControlTemplate TargetType="{x:Type ContentControl}">
                     <Border Background="{TemplateBinding Background}">
                         <ContentPresenter x:Name="PART_ContentPresenter"/>
                     </Border>
                 </ControlTemplate>
-            </ContentControl.Template-->
+            </cui:Zone.Template-->
         <!--TextBlock Text="Drag and drop NYI...ish (PLACEHOLDER) (NOT LOCALIZED)" FontSize="28" IsHitTestVisible="False"/-->
     </DockPanel>
 </UserControl>

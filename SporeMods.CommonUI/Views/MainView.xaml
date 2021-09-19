@@ -127,7 +127,7 @@
                             VerticalAlignment="Bottom"
                             IsOpen="{Binding IsChecked, ElementName=TaskProgressDetailsToggleButton, Mode=TwoWay}"
                             HasCloseButton="True"
-                            Style="{DynamicResource OngoingTasksListContentControlStyle}">
+                            Style="{DynamicResource OngoingTasksListZoneStyle}">
             <v:OngoingTasksList/>
         </cui:AnimatableContentControl>
         <v:ModalDisplayView Grid.RowSpan="2"/>

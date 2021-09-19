@@ -7,11 +7,11 @@
              xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:vm="clr-namespace:SporeMods.ViewModels">
     <DockPanel>
-        <ContentControl Style="{DynamicResource CustomInstallerFooterContentControlStyle}"
+        <cui:Zone Style="{DynamicResource CustomInstallerFooterZoneStyle}"
                         DockPanel.Dock="Bottom">
             <Button Content="{DynamicResource OK}"
                     Command="{Binding DismissCommand}"/>
-        </ContentControl>
+        </cui:Zone>
         <TextBlock Text="{Binding Content}" Margin="100"/>
     </DockPanel>
 </UserControl>

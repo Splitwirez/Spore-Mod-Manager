@@ -515,9 +515,9 @@
                                                 <RadialGradientBrush GradientOrigin="1,0" Center="1,0" GradientStops="{DynamicResource ShadowGradientStops}" RadiusX="1" RadiusY="1"/>
                                             </Rectangle.Fill>
                                         </Rectangle>
-                                        <ContentControl ClipToBounds="True" Grid.Column="1" Grid.Row="1">
+                                        <cui:Zone ClipToBounds="True" Grid.Column="1" Grid.Row="1">
                                             <Border BorderBrush="{DynamicResource ShadowCornerBorderBrush}" BorderThickness="5" Margin="-5" CornerRadius="7" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                                        </ContentControl>
+                                        </cui:Zone>
                                     </Grid>
                                 </Grid>
                                 <ControlTemplate.Triggers>

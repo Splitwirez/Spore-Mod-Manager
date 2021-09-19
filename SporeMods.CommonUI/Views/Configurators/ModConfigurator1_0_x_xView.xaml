@@ -54,8 +54,8 @@
                 </DataTemplate>
             </ItemsControl.Resources>
         </ItemsControl>
-        <ContentControl x:Name="HeaderContentControl"
-                        Style="{DynamicResource ModConfiguratorHeaderContentControlStyle}"
+        <cui:Zone x:Name="HeaderContentControl"
+                        Style="{DynamicResource ModConfiguratorHeaderZoneStyle}"
                         cui:AttachedProperties.CornerCurves="False,True,False,False"
                         DockPanel.Dock="Top"
                         Visibility="{Binding Identity.ParentMod.HasLogo, Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -63,8 +63,8 @@
                 Height="40"
                 Margin="50,5"
                 Source="{Binding Identity.ParentMod.Logo, Converter={StaticResource SysDrawingImageToImageSourceConverter}}"/>
-        </ContentControl>
-        <ContentControl Style="{DynamicResource CustomInstallerFooterContentControlStyle}"
+        </cui:Zone>
+        <cui:Zone Style="{DynamicResource CustomInstallerFooterZoneStyle}"
                         DockPanel.Dock="Bottom"
                         cui:AttachedProperties.CornerCurves="False,False,True,False">
             <Control>
@@ -86,7 +86,7 @@
                     </ControlTemplate>
                 </Control.Template>
             </Control>
-        </ContentControl>
+        </cui:Zone>
         <ScrollViewer x:Name="Body"
                     HorizontalScrollBarVisibility="Disabled"
                     VerticalScrollBarVisibility="Auto"

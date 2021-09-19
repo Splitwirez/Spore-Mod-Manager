@@ -13,6 +13,7 @@ namespace SporeMods.CommonUI
             FocusableProperty.OverrideMetadata(typeof(Zone), new FrameworkPropertyMetadata(false));
             IsTabStopProperty.OverrideMetadata(typeof(Zone), new FrameworkPropertyMetadata(false));
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Zone), new FrameworkPropertyMetadata(typeof(Zone)));
+            //DefaultStyleKeyProperty.OverrideMetadata(typeof(ContentControl), new FrameworkPropertyMetadata(typeof(ContentControl)));
         }
 
         public Zone()

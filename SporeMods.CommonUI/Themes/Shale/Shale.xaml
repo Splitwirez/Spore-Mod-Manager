@@ -89,7 +89,7 @@
         <Setter Property="BorderThickness" Value="1"/>
     </Style>
 
-    <!--Style x:Key="MessageBoxIconContentControlStyle" TargetType="{x:Type ContentControl}">
+    <!--Style x:Key="MessageBoxIconZoneStyle" TargetType="{x:Type ContentControl}">
         <Setter Property="Margin" Value="50,0,-25,0"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>

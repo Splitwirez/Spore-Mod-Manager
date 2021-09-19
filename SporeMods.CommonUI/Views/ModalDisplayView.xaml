@@ -16,9 +16,9 @@
     <cui:AnimatableContentControl.DataContext>
         <vm:ModalDisplayViewModel/>
     </cui:AnimatableContentControl.DataContext>
-    <ContentControl Content="{Binding DataContext.CurrentModalView, ElementName=ModalDisplayViewRoot}"
+    <cui:Zone Content="{Binding DataContext.CurrentModalView, ElementName=ModalDisplayViewRoot}"
                     DataContext="{Binding CurrentModalVM}">
-        <ContentControl.Template>
+        <cui:Zone.Template>
             <ControlTemplate TargetType="{x:Type ContentControl}">
                 <Grid x:Name="RootGrid"
                     DataContext="{TemplateBinding DataContext}">
@@ -41,7 +41,7 @@
                             Grid.Column="2"
                             Grid.RowSpan="2"
                             Panel.ZIndex="999"/>
-                    <ContentControl x:Name="TitleContainer"
+                    <cui:Zone x:Name="TitleContainer"
                                     Height="30"
                                     Grid.Column="1"
                                     Grid.Row="0">
@@ -49,7 +49,7 @@
                                 Style="{DynamicResource h2}"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"/>
-                    </ContentControl>
+                    </cui:Zone>
                     <ContentPresenter DataContext="{TemplateBinding DataContext}"
                                     Content="{TemplateBinding Content}"
                                     Grid.ColumnSpan="3"
@@ -79,6 +79,6 @@
                     </Trigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate>
-        </ContentControl.Template>
-    </ContentControl>
+        </cui:Zone.Template>
+    </cui:Zone>
 </cui:AnimatableContentControl>
