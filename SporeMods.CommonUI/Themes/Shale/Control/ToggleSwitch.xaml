@@ -30,7 +30,7 @@
                             <RowDefinition MinHeight="25"/>
                             <RowDefinition Height="25"/>
                         </Grid.RowDefinitions-->
-                        <Grid Background="#01000000" Width="50" Height="23" VerticalAlignment="Center" DockPanel.Dock="Right">
+                        <cui:FloorPanel Background="#01000000" Width="50" Height="23" VerticalAlignment="Center" DockPanel.Dock="Right">
                             <!--Grid.Column="1" Grid.Row="1" Margin="0,1"-->
                             <Border x:Name="IdleBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='5,5,5,5;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1">
                                 <Border.Background>
@@ -67,7 +67,7 @@
                                 <Button x:Name="PART_Grip" IsTabStop="False" Width="25" VerticalAlignment="Stretch" Margin="0" IsHitTestVisible="True">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
-                                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                            <cui:FloorPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                                 <Border x:Name="IdleBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1">
                                                     <Border.Background>
                                                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
@@ -98,7 +98,7 @@
                                                     <Border CornerRadius="{Binding CornerRadius, ElementName=IdleInnerBackground}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0" Background="{DynamicResource ButtonDisabledSecondaryBackgroundBrush}"/>
                                                 </Border>
                                                 <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}" Focusable="False"/>
-                                            </Grid>
+                                            </cui:FloorPanel>
                                             <ControlTemplate.Triggers>
                                                 <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type cui:ToggleSwitch}}}" Value="True">
                                                     <DataTrigger.EnterActions>
@@ -156,7 +156,7 @@
                                     </Button.Template>
                                 </Button>
                             </StackPanel>
-                        </Grid>
+                        </cui:FloorPanel>
                         <TextBlock x:Name="PART_StateText" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left" IsHitTestVisible="False" Margin="0,0,5,0" DockPanel.Dock="Right"/>
                         <!--Grid.Column="0" Grid.Row="1"-->
                         <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="Left" VerticalAlignment="Center" TextBlock.TextAlignment="Left" IsHitTestVisible="False"/>

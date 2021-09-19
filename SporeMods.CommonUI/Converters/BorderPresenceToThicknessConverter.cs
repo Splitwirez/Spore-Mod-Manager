@@ -9,29 +9,34 @@ namespace SporeMods.CommonUI
 {
     public class BorderPresenceToThicknessConverter : IValueConverter
     {
+        static readonly ThicknessConverter _THC_CONV = new ThicknessConverter();
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var brdp = (BorderPresence)value;
 
             string[] param0 = parameter.ToString().Split(';');
-            string[] param1 = param0[0].Split(',');
-            string[] param2 = param0[1].Split(',');
 
-            double left = Double.Parse(param1[0]);
+            Thickness trueThickness = (Thickness)_THC_CONV.ConvertFrom(null, CultureInfo.InvariantCulture, param0[0]);
+            Thickness falseThickness = (Thickness)_THC_CONV.ConvertFrom(null, CultureInfo.InvariantCulture, param0[1]);
+            /*string[] param1 = param0[0].Split(',');
+            string[] param2 = param0[1].Split(',');*/
+
+            double left = trueThickness.Left;
             if (!brdp.Left)
-                left = Double.Parse(param2[0]);
+                left = falseThickness.Left;
 
-            double top = Double.Parse(param1[1]);
+            double top = trueThickness.Top;
             if (!brdp.Top)
-                top = Double.Parse(param2[1]);
+                top = falseThickness.Top;
 
-            double right = Double.Parse(param1[2]);
+            double right = trueThickness.Right;
             if (!brdp.Right)
-                right = Double.Parse(param2[2]);
+                right = falseThickness.Right;
 
-            double bottom = Double.Parse(param1[3]);
+            double bottom = trueThickness.Bottom;
             if (!brdp.Bottom)
-                bottom = Double.Parse(param2[3]);
+                bottom = falseThickness.Bottom;
 
             return new Thickness(left, top, right, bottom);
         }

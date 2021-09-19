@@ -160,7 +160,7 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type Window}">
-					<Grid>
+					<cui:FloorPanel>
 						<Border x:Name="OuterBorder"
 								Background="{TemplateBinding BorderBrush}"
 								CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='8,8,8,8;0,0,0,0'}">
@@ -209,13 +209,13 @@
 													Style="{DynamicResource CaptionButtonStyle}"
 													WindowChrome.IsHitTestVisibleInChrome="True"
 													cui:WindowChromeHelper.MaximizesWindow="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=OneTime}">
-												<Grid>
+												<cui:FloorPanel>
 													<Path x:Name="MaximizeIcon" Data="M 0 0 L 0 7 L 7 7 L 7 0 Z" Fill="Transparent" Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="1,0,-1,0"/>
-													<Grid x:Name="RestoreIcon" Visibility="Collapsed">
+													<cui:FloorPanel x:Name="RestoreIcon" Visibility="Collapsed">
 														<Path Data="M 0 0 L 0 5 L 5 5 L 5 0 Z" Fill="Transparent" Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,3,3,0"/>
 														<Path Data="M -1 0 L 5 0 L 5 6" Fill="Transparent" Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,0,0,3"/>
-													</Grid>
-												</Grid>
+													</cui:FloorPanel>
+												</cui:FloorPanel>
 											</Button>
 											<Button x:Name="CloseButton"
 													Style="{DynamicResource CaptionButtonStyle}"
@@ -252,7 +252,7 @@
 								<ContentPresenter />
 							</AdornerDecorator>
 						</Grid>
-					</Grid>
+					</cui:FloorPanel>
 					<ControlTemplate.Triggers>
 						<Trigger Property="IsActive" Value="False">
 							<Setter TargetName="TitleBar" Property="Background">

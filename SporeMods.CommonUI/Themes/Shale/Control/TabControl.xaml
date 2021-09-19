@@ -53,8 +53,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabItem}">
-                    <Grid Background="#01000000">
-                        <Grid ClipToBounds="True" Margin="-2,0,-2,1">
+                    <cui:FloorPanel Background="#01000000">
+                        <cui:FloorPanel ClipToBounds="True" Margin="-2,0,-2,1">
                             <Border x:Name="HoverBorder" Margin="4,0" BorderThickness="0,0,0,2" BorderBrush="{DynamicResource HoverHighlightBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RenderTransformOrigin="0.5,1">
                                 <Border.RenderTransform>
                                     <ScaleTransform ScaleX="0" ScaleY="1"/>
@@ -65,9 +65,9 @@
                                     </Rectangle.Effect>
                                 </Rectangle>
                             </Border>
-                        </Grid>
+                        </cui:FloorPanel>
                         <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" Effect="{DynamicResource DropShadow}" TextElement.Foreground="{DynamicResource TitlebarIdleForegroundBrush}"/>
-                    </Grid>
+                    </cui:FloorPanel>
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Value="False">
                             <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="{DynamicResource TitlebarInactiveIdleForegroundBrush}" />
@@ -148,7 +148,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <Grid Grid.Row="0" Margin="0">
+                        <cui:FloorPanel Grid.Row="0" Margin="0">
                             <cui:ConnectedSelectDecorator Style="{DynamicResource PrimaryTabControlSelectionStyle}"
                                                         TargetPanel="{Binding ElementName=HeaderPanel}"
                                                         SelectedObjectIndex="{TemplateBinding SelectedIndex}"
@@ -156,16 +156,16 @@
                                                         Width="{Binding ActualWidth, ElementName=HeaderPanel}"
                                                         Height="{Binding ActualHeight, ElementName=HeaderPanel}"/>
                             <UniformGrid Name="HeaderPanel" Panel.ZIndex="1" IsItemsHost="True" KeyboardNavigation.TabIndex="1" Rows="1"/>
-                        </Grid>
+                        </cui:FloorPanel>
                         <Border x:Name="Border" Grid.Row="1" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0" CornerRadius="0" KeyboardNavigation.TabNavigation="Local" KeyboardNavigation.DirectionalNavigation="Contained" KeyboardNavigation.TabIndex="2">
-                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <cui:FloorPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <Rectangle VerticalAlignment="Top" Height="18" IsHitTestVisible="False" Grid.Column="0" Grid.Row="0">
                                     <Rectangle.Fill>
                                         <LinearGradientBrush Opacity="0.75" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ShadowGradientStops}"/>
                                     </Rectangle.Fill>
                                 </Rectangle>
                                 <ContentPresenter Name="PART_SelectedContentHost" ContentSource="SelectedContent" TextBlock.Foreground="{TemplateBinding Foreground}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}"/>
-                            </Grid>
+                            </cui:FloorPanel>
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -186,7 +186,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabItem}">
-                    <Grid>
+                    <cui:FloorPanel>
                         <Border x:Name="IdleBackground" Margin="0" Padding="0" BorderBrush="{DynamicResource TabItemIdleBorderBrush}" BorderThickness="1,1,1,0">
                             <Border.Background>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource TabItemIdleBackgroundGradientStops}"/>
@@ -226,7 +226,7 @@
                             <Border Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0" Background="{DynamicResource ButtonDisabledSecondaryBackgroundBrush}"/>
                         </Border>
                         <ContentPresenter x:Name="ContentSite" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" ContentSource="Header" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True"/>
-                    </Grid>
+                    </cui:FloorPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Trigger.EnterActions>

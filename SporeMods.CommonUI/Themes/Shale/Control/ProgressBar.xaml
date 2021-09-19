@@ -12,13 +12,13 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ProgressBar}">
-                    <Grid>
+                    <cui:FloorPanel>
                         <Border CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}" BorderThickness="1" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsHitTestVisible="False">
                             <Border.Background>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ProgressBarTrackBackgroundGradientStops}"/>
                             </Border.Background>
                             <Border x:Name="PART_Track">
-                                <Grid>
+                                <cui:FloorPanel>
                                     <Rectangle x:Name="SizeHelper" HorizontalAlignment="Stretch"/>
                                     <Border x:Name="PART_Indicator" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,2,2,2;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonPressedBorderBrush}" BorderThickness="1" HorizontalAlignment="Left">
                                         <Border.Background>
@@ -28,7 +28,7 @@
                                             <Border.Background>
                                                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedSecondaryBackgroundGradientStops}"/>
                                             </Border.Background>
-                                            <Grid x:Name="DeterminatePulsePanel"
+                                            <cui:FloorPanel x:Name="DeterminatePulsePanel"
                                               Visibility="Collapsed">
                                                 <StackPanel Orientation="Horizontal"
                                                         ClipToBounds="True">
@@ -50,7 +50,7 @@
                                                         </Border.RenderTransform>
                                                     </Border>
                                                 </StackPanel>
-                                            </Grid>
+                                            </cui:FloorPanel>
                                         </Border>
                                     </Border>
                                     <StackPanel x:Name="FillPanel"
@@ -77,10 +77,10 @@
                                             </Border.RenderTransform>
                                         </Border>
                                     </StackPanel>
-                                </Grid>
+                                </cui:FloorPanel>
                             </Border>
                         </Border>
-                    </Grid>
+                    </cui:FloorPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsIndeterminate" Value="False">
                             <Setter TargetName="DeterminatePulsePanel" Property="Visibility" Value="Visible"/>

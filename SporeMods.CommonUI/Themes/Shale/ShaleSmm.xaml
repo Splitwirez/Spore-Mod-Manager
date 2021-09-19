@@ -9,7 +9,6 @@
 					xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Shale.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/Button.xaml"/>
         
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Smm/Mods.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Smm/Settings.xaml"/>
@@ -67,25 +66,29 @@
 
 
 
-    <Style x:Key="ToolstripButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+    <!--Style x:Key="ToolstripButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Margin" Value="0,0,5,0"/>
-    </Style>
+    </Style-->
 
     <Style x:Key="MainWindowFooterZoneStyle" TargetType="{x:Type cui:Zone}">
+        <Style.Resources>
+            <sys:Double x:Key="MainWindowFooterSpacing">5</sys:Double>
+        </Style.Resources>
+        <Setter Property="Padding" Value="5"/>
         <Setter Property="Height" Value="50"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type cui:Zone}">
-                    <Grid>
+                    <cui:FloorPanel>
                         <Rectangle VerticalAlignment="Top" Height="9" IsHitTestVisible="False" Margin="0,-9">
                             <Rectangle.Fill>
                                 <LinearGradientBrush Opacity="0.625" StartPoint="0,1" EndPoint="0,0" GradientStops="{DynamicResource ShadowGradientStops}"/>
                             </Rectangle.Fill>
                         </Rectangle>
                         <Border x:Name="BackgroundBorder" Style="{DynamicResource HorizontalBarBorderStyle}" DockPanel.Dock="Bottom">
-                            <ContentPresenter Content="{TemplateBinding Content}" Margin="5,5,0,5"/>
+                            <ContentPresenter Content="{TemplateBinding Content}" Margin="{TemplateBinding Padding}"/>
                         </Border>
-                    </Grid>
+                    </cui:FloorPanel>
                     <ControlTemplate.Triggers>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
@@ -100,19 +103,19 @@
         </Setter>
     </Style>
 
-    <Style x:Key="InstallModsButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource ToolstripButtonStyle}">
+    <Style x:Key="InstallModsButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="BorderBrush" Value="{DynamicResource InstallModsButtonBorderBrush}"/>
     </Style>
 
-    <Style x:Key="ConfigureModButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource ToolstripButtonStyle}">
+    <Style x:Key="ConfigureModButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="BorderBrush" Value="{DynamicResource ConfigureModButtonBorderBrush}"/>
     </Style>
 
-    <Style x:Key="UninstallModsButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource ToolstripButtonStyle}">
+    <Style x:Key="UninstallModsButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="BorderBrush" Value="{DynamicResource UninstallModsButtonBorderBrush}"/>
     </Style>
 
-    <Style x:Key="LaunchGameButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource ToolstripButtonStyle}">
+    <Style x:Key="LaunchGameButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="BorderBrush" Value="{DynamicResource LaunchGameButtonBorderBrush}"/>
     </Style>
 
@@ -156,12 +159,12 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListViewItem}">
-                    <Grid>
-                        <Grid HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}">
+                    <cui:FloorPanel>
+                        <cui:FloorPanel HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}">
                             <ContentPresenter x:Name="PART_ContentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Visibility="Collapsed"/>
                             <GridViewRowPresenter x:Name="PART_GridViewRowPesenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Visibility="Visible" />
-                        </Grid>
-                    </Grid>
+                        </cui:FloorPanel>
+                    </cui:FloorPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="GridView.ColumnCollection" Value="{x:Null}">
                             <Setter TargetName="PART_ContentPresenter" Property="Visibility" Value="Visible"/>
@@ -183,14 +186,14 @@
                     <Border Style="{DynamicResource HorizontalBarBorderStyle}" DockPanel.Dock="{TemplateBinding DockPanel.Dock}"
 						CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}">
                         <ScrollViewer cui:AttachedProperties.CornerCurves="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}}">
-                            <Grid>
+                            <cui:FloorPanel>
                                 <ItemsPresenter/>
                                 <!--Rectangle x:Name="RightShadow" HorizontalAlignment="Right" Width="7" IsHitTestVisible="False">
 									<Rectangle.Fill>
 										<LinearGradientBrush Opacity="0.5" StartPoint="1,0" EndPoint="0,0" GradientStops="{DynamicResource ShadowGradientStops}"/>
 									</Rectangle.Fill>
 								</Rectangle-->
-                            </Grid>
+                            </cui:FloorPanel>
                         </ScrollViewer>
                     </Border>
                 </ControlTemplate>
@@ -210,8 +213,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ContentControl}">
-                    <Grid>
-                        <Grid Margin="0,50">
+                    <cui:FloorPanel>
+                        <cui:FloorPanel Margin="0,50">
                             <Rectangle VerticalAlignment="Top" Height="18" IsHitTestVisible="False">
                                 <Rectangle.Fill>
                                     <LinearGradientBrush Opacity="0.75" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ShadowGradientStops}"/>
@@ -222,9 +225,9 @@
                                     <LinearGradientBrush Opacity="0.625" StartPoint="0,1" EndPoint="0,0" GradientStops="{DynamicResource ShadowGradientStops}"/>
                                 </Rectangle.Fill>
                             </Rectangle>
-                        </Grid>
+                        </cui:FloorPanel>
                         <ContentPresenter Content="{TemplateBinding Content}"/>
-                    </Grid>
+                    </cui:FloorPanel>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -301,7 +304,7 @@
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                                <Grid>
+                                                <cui:FloorPanel>
                                                     <Border x:Name="IdleBackground" CornerRadius="0,3,3,0" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1">
                                                         <Border.Background>
                                                             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
@@ -331,15 +334,15 @@
                                                     <Border x:Name="DisabledBackground" CornerRadius="{Binding CornerRadius, ElementName=IdleBackground}" Margin="0" Padding="0" Background="{DynamicResource ButtonDisabledBackgroundBrush}" BorderBrush="{DynamicResource ButtonDisabledBorderBrush}" BorderThickness="1" Opacity="0">
                                                         <Border CornerRadius="{Binding CornerRadius, ElementName=IdleInnerBackground}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0" Background="{DynamicResource ButtonDisabledSecondaryBackgroundBrush}"/>
                                                     </Border>
-                                                    <Grid>
+                                                    <cui:FloorPanel>
                                                         <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Focusable="False" Margin="0"/>
                                                         <Path x:Name="Arrow" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0" Fill="{TemplateBinding Foreground}" DockPanel.Dock="Right" RenderTransformOrigin="0.5,0.5">
                                                             <Path.RenderTransform>
                                                                 <RotateTransform Angle="0"/>
                                                             </Path.RenderTransform>
                                                         </Path>
-                                                    </Grid>
-                                                </Grid>
+                                                    </cui:FloorPanel>
+                                                </cui:FloorPanel>
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsMouseOver" Value="True">
                                                         <Trigger.EnterActions>
@@ -413,14 +416,14 @@
                                 <Border.Background>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
                                 </Border.Background>
-                                <Grid x:Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                <cui:FloorPanel x:Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
                                     <ScrollViewer Margin="3,3,3,0" SnapsToDevicePixels="True">
                                         <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
                                     </ScrollViewer>
-                                </Grid>
+                                </cui:FloorPanel>
                             </Border>
                         </Popup>
-                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <cui:FloorPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <ContentPresenter x:Name="ContentSite" IsHitTestVisible="False" Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                             <!--Grid Margin="{Binding Padding, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ComboBox}}, Converter={StaticResource ThicknessInvertFilterConverter}, ConverterParameter=ltrb}" Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ComboBox}}}" VerticalAlignment="Stretch"-->
                             <TextBox x:Name="PART_EditableTextBox" Padding="{TemplateBinding Padding}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" autocomp:AutoCompleteBehavior.AutoCompleteItemsSource="{TemplateBinding ItemsSource}">
@@ -429,7 +432,7 @@
                                 </cui:AttachedProperties.CornerCurves>
                             </TextBox>
                             <!--/Grid-->
-                        </Grid>
+                        </cui:FloorPanel>
                     </DockPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasItems" Value="false">
@@ -445,7 +448,7 @@
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
                 <!--ControlTemplate TargetType="{x:Type ComboBox}">
-					<Grid>
+					<cui:FloorPanel>
 						<ToggleButton x:Name="ToggleButton" Focusable="False" ClickMode="Press" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay,  RelativeSource={RelativeSource TemplatedParent}}">
 							<ToggleButton.Style>
 								<Style TargetType="{x:Type ToggleButton}">
@@ -463,7 +466,7 @@
 									<Setter Property="Template">
 										<Setter.Value>
 											<ControlTemplate TargetType="{x:Type ToggleButton}">
-												<Grid>
+												<cui:FloorPanel>
 													<Border x:Name="IdleBackground" CornerRadius="3" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1">
 														<Border.Background>
 															<LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
@@ -635,7 +638,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <StackPanel Orientation="Vertical">
-                        <Grid>
+                        <cui:FloorPanel>
                             <Border x:Name="HoverBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonHoverBorderBrush}" BorderThickness="1" Opacity="0">
                                 <Border.Background>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonHoverBackgroundGradientStops}"/>
@@ -657,7 +660,7 @@
                                 </Border>
                             </Border>
                             <ContentPresenter Margin="{TemplateBinding Padding}"/>
-                        </Grid>
+                        </cui:FloorPanel>
                         <Rectangle HorizontalAlignment="Stretch" Margin="40,0,40,5" Height="5">
                             <Rectangle.Fill>
                                 <LinearGradientBrush StartPoint="0,1" EndPoint="0,0" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>
@@ -760,7 +763,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBox}">
-                    <Grid>
+                    <cui:FloorPanel>
                         <ToggleButton x:Name="ToggleButton" Focusable="False" ClickMode="Press" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay,  RelativeSource={RelativeSource TemplatedParent}}" HorizontalAlignment="Right" Width="18" cui:AttachedProperties.CornerCurves="False,True,True,False">
                             <ToggleButton.Style>
                                 <Style TargetType="{x:Type ToggleButton}">
@@ -777,7 +780,7 @@
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                                <Grid>
+                                                <cui:FloorPanel>
                                                     <Border x:Name="IdleBackground" CornerRadius="0,3,3,0" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1">
                                                         <Border.Background>
                                                             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
@@ -812,7 +815,7 @@
                                                             <RotateTransform Angle="0"/>
                                                         </Path.RenderTransform>
                                                     </Path>
-                                                </Grid>
+                                                </cui:FloorPanel>
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsMouseOver" Value="True">
                                                         <Trigger.EnterActions>
@@ -878,29 +881,29 @@
                                 </Style>
                             </ToggleButton.Style>
                         </ToggleButton>
-                        <Grid VerticalAlignment="Stretch" Visibility="Collapsed" IsHitTestVisible="False">
+                        <cui:FloorPanel VerticalAlignment="Stretch" Visibility="Collapsed" IsHitTestVisible="False">
                             <ContentPresenter x:Name="ContentSite" IsHitTestVisible="False" Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                            <Grid VerticalAlignment="Stretch">
+                            <cui:FloorPanel VerticalAlignment="Stretch">
                                 <TextBox x:Name="PART_EditableTextBox" Margin="0,0,17,0" Padding="{TemplateBinding Padding}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" autocomp:AutoCompleteBehavior.AutoCompleteItemsSource="{TemplateBinding ItemsSource}">
                                     <cui:AttachedProperties.CornerCurves>
                                         <cui:CornerCurves TopLeft="True" TopRight="False" BottomRight="False" BottomLeft="True"/>
                                     </cui:AttachedProperties.CornerCurves>
                                 </TextBox>
-                            </Grid>
-                        </Grid>
+                            </cui:FloorPanel>
+                        </cui:FloorPanel>
                         <Popup x:Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Slide">
                             <Border x:Name="DropDownBorder" BorderThickness="1" UseLayoutRounding="True" Effect="{DynamicResource SecondaryDropShadow}" Margin="4,3,4,5">
                                 <Border.Background>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
                                 </Border.Background>
-                                <Grid x:Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                <cui:FloorPanel x:Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
                                     <ScrollViewer Padding="3,3,3,0" SnapsToDevicePixels="True">
                                         <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
                                     </ScrollViewer>
-                                </Grid>
+                                </cui:FloorPanel>
                             </Border>
                         </Popup>
-                    </Grid>
+                    </cui:FloorPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEditable" Value="False">
                             <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Collapsed"/>

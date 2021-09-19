@@ -22,7 +22,7 @@
 
     <ControlTemplate x:Key="{x:Static MenuItem.TopLevelHeaderTemplateKey}" TargetType="MenuItem">
         <Border Name="Border" Padding="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#01000000">
-            <Grid Background="#01000000">
+            <cui:FloorPanel Background="#01000000">
                 <!--Border x:Name="SelectedBackground" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonPressedBorderBrush}" BorderThickness="1" Opacity="0">
                     <Border.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedBackgroundGradientStops}"/>
@@ -58,7 +58,7 @@
                     <Path HorizontalAlignment="Right" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 0 8 Z" Fill="{DynamicResource CheckBoxTickBrush}" StrokeThickness="0" Margin="7,0,0,0"/>
                 </DockPanel>
                 <Popup Name="Popup" Placement="Right" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
-                    <Grid Margin="4,3,4,5">
+                    <cui:FloorPanel Margin="4,3,4,5">
                         <!--Border IsHitTestVisible="False" Background="Black" BorderBrush="Transparent">
                             <Border.Effect>
                                 <DropShadowEffect x:Name="DropShadow" Color="Black" Direction="230" ShadowDepth="3" BlurRadius="3" Opacity="0.375"/>
@@ -77,9 +77,9 @@
                                 <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                             </ScrollViewer>
                         </Border>
-                    </Grid>
+                    </cui:FloorPanel>
                 </Popup>
-            </Grid>
+            </cui:FloorPanel>
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="IsHighlighted" Value="True">

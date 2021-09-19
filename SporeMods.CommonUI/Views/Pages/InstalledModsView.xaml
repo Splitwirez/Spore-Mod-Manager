@@ -4,20 +4,48 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:core="clr-namespace:SporeMods.Core;assembly=SporeMods.Core"
+             xmlns:mods="clr-namespace:SporeMods.Core.Mods;assembly=SporeMods.Core"
              xmlns:cui="clr-namespace:SporeMods.CommonUI"
              xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:v="clr-namespace:SporeMods.Views"
              xmlns:vm="clr-namespace:SporeMods.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        <cui:BooleanToInvisibilityConverter x:Key="BooleanToInvisibilityConverter"/>
-        <cui:BoolInverterConverter x:Key="BoolInverterConverter"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Views/Data/ManagedModViewTemplate.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            
+            <DataTemplate DataType="{x:Type mods:ManualInstalledFile}">
+                <DockPanel x:Name="ModRootDockPanel" Height="42" Margin="10,0">
+                    <Control x:Name="ProgressDisplay" Visibility="Collapsed"/>
+                    <TextBlock Text="{DynamicResource Mods!ListEntry!ManuallyInstalled}" TextAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,0,0,0" Opacity="0.5" DockPanel.Dock="Right"/>
+                    <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center" TextAlignment="Left" HorizontalAlignment="Left"/>
+                </DockPanel>
+                <DataTemplate.Triggers>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding IsProgressing}" Value="True"/>
+                            <Condition Binding="{Binding ProgressSignifier.IsConcluded}" Value="False"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter TargetName="ProgressDisplay" Property="Visibility" Value="Visible"/>
+                        <Setter TargetName="ProgressDisplay" Property="DataContext" Value="{Binding ProgressSignifier}"/>
+                        <Setter TargetName="ProgressDisplay" Property="Style" Value="{DynamicResource ModListProgressDisplayStyle}"/>
+                    </MultiDataTrigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+            
+            
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <cui:BooleanToInvisibilityConverter x:Key="BooleanToInvisibilityConverter"/>
+            <cui:BoolInverterConverter x:Key="BoolInverterConverter"/>
 
-        <cui:Zone x:Key="InstallModsPromptContentControl"
-                        x:Shared="False"
-                        Content="{DynamicResource Mods!CallToAction!Prompt}"
-                        Style="{DynamicResource InstallModsPromptZoneStyle}"/>
+            <cui:Zone x:Key="InstallModsPromptContentControl"
+                            x:Shared="False"
+                            Content="{DynamicResource Mods!CallToAction!Prompt}"
+                            Style="{DynamicResource InstallModsPromptZoneStyle}"/>
+        </ResourceDictionary>
     </UserControl.Resources>
     <UserControl.DataContext>
         <vm:InstalledModsViewModel/>
@@ -72,7 +100,7 @@
                         Command="{Binding CopyModsToClipboardCommand}"/>
             </DockPanel>
         </cui:Zone>
-        <Grid>
+        <cui:FloorPanel>
             <ContentControl>
                 <ContentControl.Style>
                     <Style TargetType="{x:Type ContentControl}">
@@ -105,6 +133,6 @@
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
                       SelectionChanged="ModsList_SelectionChanged"
                       cui:AttachedProperties.CornerCurves="False"/>
-        </Grid>
+        </cui:FloorPanel>
     </DockPanel>
 </UserControl>

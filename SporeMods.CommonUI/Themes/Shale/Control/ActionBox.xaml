@@ -33,7 +33,7 @@
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                                <Grid>
+                                                <cui:FloorPanel>
                                                     <Border x:Name="IdleBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='0,3,3,0;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1">
                                                         <Border.Background>
                                                             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
@@ -64,14 +64,14 @@
                                                         <Border CornerRadius="{Binding CornerRadius, ElementName=IdleInnerBackground}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0" Background="{DynamicResource ButtonDisabledSecondaryBackgroundBrush}"/>
                                                     </Border>
                                                     <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{TemplateBinding Padding}" Focusable="False" />
-                                                    <Grid Visibility="Collapsed" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                                    <cui:FloorPanel Visibility="Collapsed" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                                                         <Canvas x:Name="SearchIconCanvas" Width="16" Height="16">
                                                             <Path Data="M 0 7 L 7 0" Stroke="{TemplateBinding Foreground}" StrokeThickness="2" Canvas.Top="9"/>
                                                             <Ellipse Width="11" Height="11" Stroke="{TemplateBinding Foreground}" StrokeThickness="2" Canvas.Left="5"/>
                                                         </Canvas>
                                                         <Path x:Name="CancelIconPath" Data="M 0 0 L 16 16 M 0 16 L 16 0" Stroke="{TemplateBinding Foreground}" StrokeThickness="2" Visibility="Collapsed"/>
-                                                    </Grid>
-                                                </Grid>
+                                                    </cui:FloorPanel>
+                                                </cui:FloorPanel>
                                                 <ControlTemplate.Triggers>
                                                     <MultiTrigger>
                                                         <MultiTrigger.Conditions>
@@ -168,7 +168,7 @@
                                 </Style>
                             </ToggleButton.Style>
                         </ToggleButton>
-                        <Grid>
+                        <cui:FloorPanel>
                             <Border x:Name="IdleBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,0,0,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1,1,0,1">
                                 <Border.Background>
                                     <LinearGradientBrush StartPoint="0,1" EndPoint="0,0" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
@@ -199,11 +199,11 @@
                             <Border x:Name="DisabledBackground" CornerRadius="{Binding CornerRadius, ElementName=IdleBackground}" Margin="0" Padding="0" Background="{DynamicResource ButtonDisabledBackgroundBrush}" BorderBrush="{DynamicResource ButtonDisabledBorderBrush}" BorderThickness="1,1,0,1" Opacity="0">
                                 <Border CornerRadius="{Binding CornerRadius, ElementName=IdleInnerBackground}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0" Background="{DynamicResource ButtonDisabledSecondaryBackgroundBrush}"/>
                             </Border>
-                            <Grid Margin="0">
+                            <cui:FloorPanel>
                                 <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Center" Margin="0" Padding="{TemplateBinding Padding}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                 <TextBlock x:Name="PART_WatermarkTextBlock" Text="{TemplateBinding WatermarkText}" Foreground="{TemplateBinding Foreground}" Margin="{TemplateBinding Padding}" Opacity="0.5" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                            </Grid>
-                        </Grid>
+                            </cui:FloorPanel>
+                        </cui:FloorPanel>
                     </DockPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">

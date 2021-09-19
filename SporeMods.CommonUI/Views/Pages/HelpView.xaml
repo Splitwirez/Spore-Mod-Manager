@@ -11,20 +11,20 @@
     <UserControl.DataContext>
         <vm:HelpViewModel/>
     </UserControl.DataContext>
-    <Grid>
+    <cui:FloorPanel>
         <ScrollViewer VerticalScrollBarVisibility="Auto"
                     HorizontalScrollBarVisibility="Disabled"
                     cui:AttachedProperties.CornerCurves="False">
             <StackPanel Orientation="Vertical">
                 <GroupBox x:Name="HelpGroupBox" Header="{DynamicResource Help!NeedHelp!Header}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
+                    <cui:StackPanelEx Orientation="Horizontal" Spacing="{DynamicResource SettingsControlsHorizontalSpacing}">
+                        <!--Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="5"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="5"/>
                             <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                        </Grid.ColumnDefinitions-->
                         <Button x:Name="AskQuestionButton"
                                 Content="{DynamicResource Help!NeedHelp!AskQuestion}"
                                 Command="{Binding AskQuestionCommand}"
@@ -37,7 +37,7 @@
                                 Content="{DynamicResource Help!NeedHelp!ReportBug}"
                                 Command="{Binding ReportBugCommand}"
                                 Grid.Column="4"/>
-                    </Grid>
+                    </cui:StackPanelEx>
                 </GroupBox>
                 <GroupBox x:Name="CreditsGroupBox" Header="{DynamicResource Help!Credits!Header}">
                     <ItemsControl x:Name="CreditsItemsControl"
@@ -81,5 +81,5 @@
                 </GroupBox>
             </StackPanel>
         </ScrollViewer>
-    </Grid>
+    </cui:FloorPanel>
 </UserControl>

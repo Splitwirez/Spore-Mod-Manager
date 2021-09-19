@@ -44,7 +44,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type StatusBar}">
-                    <Grid>
+                    <cui:FloorPanel>
                         <Rectangle VerticalAlignment="Top" Height="9" IsHitTestVisible="False" Margin="0,-9">
                             <Rectangle.Fill>
                                 <LinearGradientBrush Opacity="0.625" StartPoint="0,1" EndPoint="0,0" GradientStops="{DynamicResource ShadowGradientStops}"/>
@@ -53,7 +53,7 @@
                         <Border x:Name="Border" Style="{DynamicResource HorizontalBarBorderStyle}" cui:AttachedProperties.CornerCurves="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}}">
                             <ItemsPresenter/>
                         </Border>
-                    </Grid>
+                    </cui:FloorPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="DockPanel.Dock" Value="Left">
                             <Setter TargetName="Border" Property="BorderThickness" Value="0,0,1,0"/>

@@ -16,12 +16,12 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type cui:AnimatableContentControl}">
-                    <Grid>
+                    <cui:FloorPanel>
                         <Border x:Name="RootBorder" Background="{DynamicResource ModalPanelBackdropBrush}" BorderBrush="{DynamicResource TitlebarBorderBrush}" BorderThickness="1" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}" Opacity="0">
-                            <Grid x:Name="ContentGrid" RenderTransformOrigin="0.5,0.5" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="2">
-                                <Grid.RenderTransform>
+                            <cui:FloorPanel x:Name="ContentGrid" RenderTransformOrigin="0.5,0.5" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="2">
+                                <cui:FloorPanel.RenderTransform>
                                     <ScaleTransform ScaleX="0" ScaleY="{Binding ScaleX, RelativeSource={RelativeSource Mode=Self}}"/>
-                                </Grid.RenderTransform>
+                                </cui:FloorPanel.RenderTransform>
                                 <Border x:Name="ContentPaneBorder" CornerRadius="3" Effect="{DynamicResource TertiaryDropShadow}" BorderBrush="Transparent" Margin="48" UseLayoutRounding="True">
                                     <Border.Background>
                                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.75" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
@@ -72,9 +72,9 @@
                                         <ContentPresenter Content="{TemplateBinding Content}"/>
                                     </DockPanel>
                                 </Border>
-                            </Grid>
+                            </cui:FloorPanel>
                         </Border>
-                    </Grid>
+                    </cui:FloorPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsOpen" Value="True">
                             <Trigger.EnterActions>

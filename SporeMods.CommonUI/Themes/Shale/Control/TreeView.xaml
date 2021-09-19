@@ -52,7 +52,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="TreeViewItem">
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <Grid>
+                        <cui:FloorPanel>
                             <Border x:Name="SelectedBackground" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonPressedBorderBrush}" BorderThickness="1" Opacity="0">
                                 <Border.Background>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedBackgroundGradientStops}"/>
@@ -91,7 +91,7 @@
                                             <Setter Property="Template">
                                                 <Setter.Value>
                                                     <ControlTemplate TargetType="ToggleButton">
-                                                        <Grid Background="#01000000" Effect="{DynamicResource DropShadow}" UseLayoutRounding="True" SnapsToDevicePixels="True">
+                                                        <cui:FloorPanel Background="#01000000" Effect="{DynamicResource DropShadow}" UseLayoutRounding="True" SnapsToDevicePixels="True">
                                                             <!--RenderOptions.EdgeMode="Aliased"-->
                                                             <!--ContentPresenter x:Name="ContentPresenter" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="8,0"-->
                                                             <Path x:Name="Arrow" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 6 6 L 0 12" Stroke="{TemplateBinding Foreground}" StrokeThickness="2" RenderTransformOrigin="0.5,0.5">
@@ -101,7 +101,7 @@
                                                                 </Path.RenderTransform>
                                                             </Path>
                                                             <ContentPresenter x:Name="ContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="0,0,1,0" RenderTransformOrigin="0.5,0.5"/>
-                                                        </Grid>
+                                                        </cui:FloorPanel>
                                                         <ControlTemplate.Triggers>
                                                             <Trigger Property="IsMouseOver" Value="True">
                                                                 <Setter Property="Foreground" Value="{DynamicResource TitlebarHoverForegroundBrush}" />
@@ -134,7 +134,7 @@
                                 </ToggleButton>
                                 <ContentPresenter x:Name="PART_Header" ContentSource="Header" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
                             </DockPanel>
-                        </Grid>
+                        </cui:FloorPanel>
                         <ItemsPresenter x:Name="ItemsHost" HorizontalAlignment="Stretch" Height="Auto" Visibility="Visible" MinWidth="{TemplateBinding MinWidth}" Margin="15,0,0,0"/>
                     </StackPanel>
                     <ControlTemplate.Triggers>
@@ -277,7 +277,7 @@
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="ToggleButton">
-                                                <Grid>
+                                                <cui:FloorPanel>
                                                     <Border x:Name="SelectedBackground" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonPressedBorderBrush}" BorderThickness="1" Opacity="0">
                                                         <Border.Background>
                                                             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedBackgroundGradientStops}"/>
@@ -299,7 +299,7 @@
                                                         </Border>
                                                     </Border>
                                                     <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="8,0"/>
-                                                </Grid>
+                                                </cui:FloorPanel>
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsMouseOver" Value="True">
                                                         <Trigger.EnterActions>

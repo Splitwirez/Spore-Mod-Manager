@@ -13,30 +13,37 @@ namespace SporeMods.CommonUI
 {
     public class CornerCurvesToCornerRadiusConverter : IValueConverter
     {
+        static readonly CornerRadiusConverter _RAD_CONV = new CornerRadiusConverter();
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var curves = (CornerCurves)value;
             //Debug.WriteLine("curves.TopLeft: " + curves.TopLeft.ToString());
 
             string[] param0 = parameter.ToString().Split(';');
-            string[] param1 = param0[0].Split(',');
-            string[] param2 = param0[1].Split(',');
 
-            double topLeft = Double.Parse(param1[0]);
+            CornerRadius trueRadius = (CornerRadius)_RAD_CONV.ConvertFrom(null, CultureInfo.InvariantCulture, param0[0]);
+            CornerRadius falseRadius = (CornerRadius)_RAD_CONV.ConvertFrom(null, CultureInfo.InvariantCulture, param0[1]);
+            
+            //string[] param1 = param0[0].Split(',');
+            //string[] param2 = param0[1].Split(',');
+
+
+            double topLeft = trueRadius.TopLeft;
             if (!curves.TopLeft)
-                topLeft = Double.Parse(param2[0]);
+                topLeft = falseRadius.TopLeft;
 
-            double topRight = Double.Parse(param1[1]);
+            double topRight = trueRadius.TopRight;
             if (!curves.TopRight)
-                topRight = Double.Parse(param2[1]);
+                topRight = falseRadius.TopRight;
 
-            double bottomRight = Double.Parse(param1[2]);
+            double bottomRight = trueRadius.BottomRight;
             if (!curves.BottomRight)
-                bottomRight = Double.Parse(param2[2]);
+                bottomRight = falseRadius.BottomLeft;
 
-            double bottomLeft = Double.Parse(param1[3]);
+            double bottomLeft = trueRadius.TopLeft;
             if (!curves.BottomLeft)
-                bottomLeft = Double.Parse(param2[3]);
+                bottomLeft = falseRadius.BottomLeft;
 
             /*Debug.WriteLine("curves: " + curves.TopLeft + ", " + curves.TopRight + ", " + curves.BottomRight + ", " + curves.BottomLeft);
             Debug.WriteLine("param1: ");

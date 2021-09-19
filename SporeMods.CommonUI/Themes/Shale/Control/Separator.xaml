@@ -18,8 +18,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Separator}">
-                    <Rectangle x:Name="FillRectangle">
-                    </Rectangle>
+                    <Rectangle x:Name="FillRectangle"/>
                     <ControlTemplate.Triggers>
                         <Trigger Property="cui:AttachedProperties.CastDirection" Value="Left">
                             <Setter TargetName="FillRectangle" Property="Fill" Value="{DynamicResource SeparatorFillLeft}"/>

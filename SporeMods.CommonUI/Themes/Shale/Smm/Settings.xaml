@@ -15,9 +15,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
-                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#01000000">
+                    <cui:FloorPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#01000000">
                         <DockPanel>
-                            <Grid Width="Auto" VerticalAlignment="Stretch" DockPanel.Dock="Right">
+                            <cui:FloorPanel Width="Auto" VerticalAlignment="Stretch" DockPanel.Dock="Right">
                                 <Border x:Name="IdleBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1">
                                     <Border.Background>
                                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
@@ -51,22 +51,22 @@
                                 <Border x:Name="DisabledBackground" CornerRadius="{Binding CornerRadius, ElementName=IdleBackground}" Margin="0" Padding="0" Background="{DynamicResource ButtonDisabledBackgroundBrush}" BorderBrush="{DynamicResource ButtonDisabledBorderBrush}" BorderThickness="1" Opacity="0">
                                     <Border CornerRadius="{Binding CornerRadius, ElementName=IdleInnerBackground}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0" Background="{DynamicResource ButtonDisabledSecondaryBackgroundBrush}"/>
                                 </Border>
-                                <Grid x:Name="OpacityLimiterCanvas" Opacity="1" Margin="5">
+                                <cui:FloorPanel x:Name="OpacityLimiterCanvas" Opacity="1" Margin="5">
                                     <DockPanel>
-                                        <Grid DockPanel.Dock="Right">
+                                        <cui:FloorPanel DockPanel.Dock="Right">
                                             <Path x:Name="CheckMark" Data="M 2 5 L 4 9 L 8 0" HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="{DynamicResource CheckBoxTickBrush}" StrokeThickness="1.125"
 							  Opacity="0" />
                                             <Path x:Name="IndeterminateBox" Data="M 0.5 0.5 L 0.5 6 L 6 6 L 6 0.5 Z" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="{DynamicResource CheckBoxTickBrush}" Stroke="{DynamicResource CheckBoxTickBrush}" StrokeThickness="1.25" Opacity="0" />
-                                        </Grid>
+                                        </cui:FloorPanel>
                                         <TextBlock Text="{DynamicResource Settings!Folders!AutoDetectPath}" Margin="0,0,5,0"/>
                                     </DockPanel>
-                                </Grid>
-                            </Grid>
-                            <Grid Margin="5,0,0,0">
+                                </cui:FloorPanel>
+                            </cui:FloorPanel>
+                            <cui:FloorPanel Margin="5,0,0,0">
                                 <ContentPresenter Margin="{TemplateBinding Padding}"/>
-                            </Grid>
+                            </cui:FloorPanel>
                         </DockPanel>
-                    </Grid>
+                    </cui:FloorPanel>
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>

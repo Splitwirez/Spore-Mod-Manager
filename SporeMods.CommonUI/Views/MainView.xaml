@@ -37,8 +37,8 @@
                 Visibility="Collapsed"/-->
         <cui:Zone Style="{DynamicResource MainWindowFooterZoneStyle}"
                 Grid.Row="1">
-            <UniformGrid Rows="1"
-                        UseLayoutRounding="True">
+            <cui:UniformStackPanel Orientation="Horizontal"
+                        Spacing="{DynamicResource MainWindowFooterSpacing}">
                 <Button x:Name="InstallModsButton"
                         Content="{DynamicResource Footer!InstallMods}"
                         Style="{DynamicResource InstallModsButtonStyle}"
@@ -54,7 +54,7 @@
                         Style="{DynamicResource UninstallModsButtonStyle}"
                         IsEnabled="{Binding CanUninstallMods}"
                         Command="{Binding UninstallModsCommand}"/>
-                <Grid>
+                <cui:FloorPanel>
                     <Button x:Name="LaunchSporeButton"
                             Content="{DynamicResource Footer!LaunchGame}"
                             Style="{DynamicResource LaunchGameButtonStyle}"
@@ -106,8 +106,8 @@
                                 Value="{Binding OverallProgress, Source={x:Static core:ModsManager.Instance}, Mode=OneWay}"
                                 Visibility="{Binding AnyTasksRunning, Source={x:Static core:ModsManager.Instance}, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"
                                 Margin="5,5,10,5"/-->
-                </Grid>
-            </UniformGrid>
+                </cui:FloorPanel>
+            </cui:UniformStackPanel>
         </cui:Zone>
         <TabControl x:Name="PrimaryTabControl" 
                     Style="{DynamicResource PrimaryTabControlStyle}"

@@ -61,7 +61,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListViewItem">
-                    <Grid Background="#01000000">
+                    <cui:FloorPanel Background="#01000000">
                         <Border x:Name="HoverBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonHoverBorderBrush}" BorderThickness="1" Opacity="0">
                             <Border.Background>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonHoverBackgroundGradientStops}"/>
@@ -82,11 +82,11 @@
                                 </Border.Background>
                             </Border>
                         </Border>
-                        <Grid HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}">
+                        <cui:FloorPanel HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}">
                             <ContentPresenter x:Name="PART_ContentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Visibility="Collapsed"/>
                             <GridViewRowPresenter x:Name="PART_GridViewRowPesenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Visibility="Visible" />
-                        </Grid>
-                    </Grid>
+                        </cui:FloorPanel>
+                    </cui:FloorPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="GridView.ColumnCollection" Value="{x:Null}">
                             <Setter TargetName="PART_ContentPresenter" Property="Visibility" Value="Visible"/>
@@ -140,24 +140,24 @@
                     <ControlTemplate.Resources>
                         <CubicEase x:Key="ScalingEase" EasingMode="EaseOut"/>
                     </ControlTemplate.Resources>
-                    <Grid x:Name="RootGrid" Background="#01000000">
-                        <Grid x:Name="BackgroundGrid" Margin="10" RenderTransformOrigin="0.5,0.5" Effect="{DynamicResource TertiaryDropShadow}" UseLayoutRounding="True">
+                    <cui:FloorPanel x:Name="RootGrid" Background="#01000000">
+                        <cui:FloorPanel x:Name="BackgroundGrid" Margin="10" RenderTransformOrigin="0.5,0.5" Effect="{DynamicResource TertiaryDropShadow}" UseLayoutRounding="True">
                             <Border x:Name="SizingAid" Background="#01000000"/>
                             <Border x:Name="BackgroundBorder" BorderBrush="Transparent" BorderThickness="0" CornerRadius="3" ClipToBounds="True" UseLayoutRounding="True">
                                 <Border.Background>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.75" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
                                 </Border.Background>
-                                <Grid>
+                                <cui:FloorPanel>
                                     <Border x:Name="SelectedBorder" BorderBrush="Transparent" BorderThickness="0" CornerRadius="3" ClipToBounds="True" UseLayoutRounding="True" Opacity="0">
                                         <Border.Background>
                                             <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.75" GradientStops="{DynamicResource CardListViewSelectedBackgroundGradientStops}"/>
                                         </Border.Background>
                                     </Border>
-                                </Grid>
+                                </cui:FloorPanel>
                             </Border>
-                        </Grid>
+                        </cui:FloorPanel>
                         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}" Focusable="False" UseLayoutRounding="True"/>
-                    </Grid>
+                    </cui:FloorPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Trigger.EnterActions>

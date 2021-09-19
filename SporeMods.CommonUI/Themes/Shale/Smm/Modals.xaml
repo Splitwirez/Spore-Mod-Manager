@@ -58,7 +58,7 @@
                                    Style="{DynamicResource h1}"
                                    Visibility="Collapsed"/>
                     </Grid-->
-                    <Grid>
+                    <cui:FloorPanel>
                         <Rectangle x:Name="NoTransparencyAllowed"
                                    Margin="-5,-48,-5,-68">
                             <Rectangle.Fill>
@@ -73,20 +73,18 @@
                             <Separator cui:AttachedProperties.CastDirection="Up"
                                    DockPanel.Dock="Bottom"
                                    Visibility="{Binding Visibility, ElementName=Shading}"/>
-                            <Grid>
-                                <ContentPresenter x:Name="PART_ContentPresenter"
-                                          Content="{TemplateBinding Content}"
-                                          TextElement.Foreground="#FF7F7F7F"
-                                          Style="{DynamicResource h1}"
-                                          Margin="{TemplateBinding Padding}"/>
+                            <ContentPresenter x:Name="PART_ContentPresenter"
+                                            Content="{TemplateBinding Content}"
+                                            TextElement.Foreground="#FF7F7F7F"
+                                            Style="{DynamicResource h1}"
+                                            Margin="{TemplateBinding Padding}"/>
                                 <!--TextBlock x:Name="NoDragDrop"
                                    Text="Drag-and-drop unavailable because haha UAC quirks go brrr (PLACEHOLDER) (NOT LOCALIZED)"
                                    Margin="{TemplateBinding Padding}"
                                    Style="{DynamicResource h1}"
                                    Visibility="Collapsed"/-->
-                            </Grid>
                         </DockPanel>
-                    </Grid>
+                    </cui:FloorPanel>
                     <ControlTemplate.Triggers>
                         <!--No drag servant, UAC interference present-->
                         <Trigger Property="Tag" Value="NoDrop">

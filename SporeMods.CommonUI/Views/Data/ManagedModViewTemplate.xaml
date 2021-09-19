@@ -1,0 +1,196 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:cui="clr-namespace:SporeMods.CommonUI"
+					xmlns:core="clr-namespace:SporeMods.Core;assembly=SporeMods.Core"
+					xmlns:mods="clr-namespace:SporeMods.Core.Mods;assembly=SporeMods.Core"
+					xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
+					xmlns:shale="clr-namespace:SporeMods.CommonUI.Themes.Shale"
+					xmlns:autocomp="clr-namespace:WPFTextBoxAutoComplete;assembly=WPFTextBoxAutoComplete"
+					xmlns:sys="clr-namespace:System;assembly=mscorlib">
+<!--UserControl x:Class="SporeMods.Views.ManagedModViewTemplate"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:cui="clr-namespace:SporeMods.CommonUI"
+             xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:mods="clr-namespace:SporeMods.Core.Mods;assembly=SporeMods.Core"
+             xmlns:draw="clr-namespace:System.Drawing;assembly=System.Drawing.Common"
+             xmlns:clsp="clr-namespace:System.Collections.Specialized;assembly=System.Collections.Specialized"
+             xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+             xmlns:vm="clr-namespace:SporeMods.ViewModels"
+             Content="{Binding}"-->
+    <cui:SysDrawingImageToImageSourceConverter x:Key="SysDrawingImageToImageSourceConverter"/>
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <cui:BooleanToInvisibilityConverter x:Key="BooleanToInvisibilityConverter"/>
+    <cui:IconToImageBrushConverter x:Key="IconToImageBrushConverter"/>
+
+
+    <CubicEase x:Key="ScalingEase" EasingMode="EaseOut"/>
+    
+    <DataTemplate x:Key="{x:Static cui:AddResourceExtension.RES_KEY}" DataType="{x:Type mods:ManagedMod}">
+        <DockPanel>
+            <DockPanel x:Name="ModRootDockPanel" Height="42" DockPanel.Dock="Top">
+                <!--Height="{Binding Height, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}"-->
+                <cui:FloorPanel x:Name="StatusGrid" Margin="0,0,5,0" DockPanel.Dock="Right">
+                    <cui:FloorPanel.RenderTransform>
+                        <TranslateTransform X="0"/>
+                    </cui:FloorPanel.RenderTransform>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding ModVersion}" Visibility="{Binding ModHasVersion, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="15,0" VerticalAlignment="Center"/>
+                        <!--cui:ToggleSwitch x:Name="IsEnabledToggleSwitch" TrueText="{DynamicResource ModSwitchOnText}" FalseText="{DynamicResource ModSwitchOffText}" Content="{x:Null}" IsChecked="{Binding IsEnabled, FallbackValue=True}" Visibility="{Binding Source={x:Static core:Settings.DeveloperMode}, Converter={StaticResource BooleanToVisibilityConverter}}" VerticalAlignment="Center" Width="110" MinWidth="110" HorizontalAlignment="Right"/-->
+                        <!--{Binding CanDisable, Converter={StaticResource BooleanToVisibilityConverter}}-->
+                        <Control x:Name="ProgressDisplay" Visibility="Collapsed"/>
+                    </StackPanel>
+                </cui:FloorPanel>
+                <!--cui:ToggleSwitch x:Name="IsEnabledToggleSwitch" IsChecked="{Binding IsEnabled}" TrueText="{DynamicResource ModSwitchOn}" FalseText="{DynamicResource ModSwitchOff}" VerticalAlignment="Center" IsThreeState="False" DockPanel.Dock="Right"/-->
+                <!--mod:ToggleSwitch.Style>
+                                            <Style TargetType="{x:Type mod:ToggleSwitch}" BasedOn="{StaticResource {x:Type mod:ToggleSwitch}}">
+                                                <EventSetter Event="Checked" Handler="ModToggleSwitch_Checked"/>
+                                            </Style>
+                                        </mod:ToggleSwitch.Style-->
+                <cui:FloorPanel x:Name="IconGrid" Width="{Binding Height, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DockPanel}}}" Height="{Binding Width, RelativeSource={RelativeSource Mode=Self}}" Margin="2,0" DockPanel.Dock="Left">
+                    <Rectangle x:Name="IconEdgeShadowRectangle" HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="5" Margin="0,5,-2,5">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>
+                        </Rectangle.Fill>
+                        <Rectangle.OpacityMask>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource SeparatorMaskGradientStops}"/>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <ContentPresenter x:Name="IconContainer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Effect="{DynamicResource DropShadow}">
+                        <ContentPresenter.Content>
+                            <Canvas x:Name="IconCanvas" HorizontalAlignment="Center" VerticalAlignment="Center" Width="32" Height="32" Background="{Binding Icon, Converter={StaticResource IconToImageBrushConverter}}"/>
+                        </ContentPresenter.Content>
+                    </ContentPresenter>
+                </cui:FloorPanel>
+                <ToggleButton x:Name="ExpandCollapseToggleButton" Visibility="Collapsed" Style="{DynamicResource DropdownToggleButtonStyle}" DockPanel.Dock="Right" Margin="5,0,0,0">
+                    <Path x:Name="Arrow" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 6 L 6 0 L 12 6" Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToggleButton}}}" StrokeThickness="2" RenderTransformOrigin="0.5,0.5">
+                        <Path.RenderTransform>
+                            <RotateTransform Angle="-180"/>
+                        </Path.RenderTransform>
+                    </Path>
+                </ToggleButton>
+                <cui:FloorPanel Visibility="{Binding Identity.CausesSaveDataDependency, Converter={StaticResource BooleanToVisibilityConverter}}" Width="32" Height="32" Background="#01000000" ToolTip="{DynamicResource Mods!ListEntry!CausesSaveDataDependency}" DockPanel.Dock="Right">
+                    <Control Template="{DynamicResource AlertIconBackgroundTemplate}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <cui:FloorPanel Width="12" Height="12" HorizontalAlignment="Center" VerticalAlignment="Center" Effect="{DynamicResource DropShadow}" Margin="0,6,0,-6">
+                        <Path Data="M 0 6 L 6 0" StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,2,0,-2">
+                            <Path.Stroke>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource DarkIconGradientStops3}"/>
+                            </Path.Stroke>
+                        </Path>
+                        <Ellipse Width="8" Height="8" HorizontalAlignment="Right" VerticalAlignment="Top">
+                            <Ellipse.Fill>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource DarkIconGradientStops}"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <Ellipse Width="4" Height="4" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                            <Ellipse.Fill>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource DarkIconGradientStops}"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                    </cui:FloorPanel>
+                    <!--{DynamicResource ButtonForegroundBrush}-->
+                </cui:FloorPanel>
+                <!--Rectangle DockPanel.Dock="Left" Width="{Binding Height, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DockPanel}}, Converter={StaticResource WidthToHalfWidthConverter}}"/-->
+                <TextBlock x:Name="DisplayNameTextBlock" Margin="5,0,0,0" Text="{Binding DisplayName}" VerticalAlignment="Center" TextAlignment="Left" HorizontalAlignment="Left"/>
+            </DockPanel>
+            <StackPanel x:Name="DescriptionGrid" Orientation="Vertical" Visibility="{Binding Visibility, ElementName=ExpandCollapseToggleButton}">
+                <!--MaxWidth="{Binding ActualWidth, ElementName=ModRootDockPanel}"-->
+                <StackPanel.LayoutTransform>
+                    <ScaleTransform ScaleY="0"/>
+                </StackPanel.LayoutTransform>
+                <Rectangle x:Name="DescriptionSeparator" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="40,0" Height="5">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush StartPoint="0,1" EndPoint="0,0" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>
+                    </Rectangle.Fill>
+                    <Rectangle.OpacityMask>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0" GradientStops="{DynamicResource SeparatorMaskGradientStops}"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+                <!--Fill="{DynamicResource HorizontalPanelBorderBrush}"/-->
+                <cui:NoSizeDecorator>
+                    <TextBlock Text="{Binding Description}" TextWrapping="Wrap" HorizontalAlignment="Left" Padding="5" Width="{Binding ActualWidth, ElementName=ModRootDockPanel}" ClipToBounds="False"/>
+                </cui:NoSizeDecorator>
+            </StackPanel>
+        </DockPanel>
+        <DataTemplate.Triggers>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsProgressing}" Value="True"/>
+                    <Condition Binding="{Binding ProgressSignifier.IsConcluded}" Value="False"/>
+                </MultiDataTrigger.Conditions>
+                <Setter TargetName="ProgressDisplay" Property="Visibility" Value="Visible"/>
+                <Setter TargetName="ProgressDisplay" Property="DataContext" Value="{Binding ProgressSignifier}"/>
+                <Setter TargetName="ProgressDisplay" Property="Style" Value="{DynamicResource ModListProgressDisplayStyle}"/>
+            </MultiDataTrigger>
+            <DataTrigger Binding="{Binding HasDescription}" Value="True">
+                <Setter TargetName="ExpandCollapseToggleButton" Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+            <Trigger SourceName="ExpandCollapseToggleButton" Property="IsChecked" Value="True">
+                <Setter Property="ToolTip" Value="{DynamicResource Mods!ListEntry!MoreInfo!Collapse}"/>
+            </Trigger>
+            <Trigger SourceName="ExpandCollapseToggleButton" Property="IsChecked" Value="False">
+                <Setter Property="ToolTip" Value="{DynamicResource Mods!ListEntry!MoreInfo!Expand}"/>
+            </Trigger>
+            <DataTrigger Binding="{Binding IsChecked, ElementName=ExpandCollapseToggleButton}" Value="True">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="Arrow" Storyboard.TargetProperty="RenderTransform.Angle" To="0" Duration="0:0:0.125"/>
+                            <DoubleAnimation Storyboard.TargetName="DescriptionGrid" Storyboard.TargetProperty="LayoutTransform.ScaleY" To="1" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.EnterActions>
+                <DataTrigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="Arrow" Storyboard.TargetProperty="RenderTransform.Angle" To="-180" Duration="0:0:0.125"/>
+                            <DoubleAnimation Storyboard.TargetName="DescriptionGrid" Storyboard.TargetProperty="LayoutTransform.ScaleY" To="0" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.ExitActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}" Value="True">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <!--DoubleAnimation Storyboard.TargetName="ModRootDockPanel" Storyboard.TargetProperty="Height" To="50" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/-->
+                            <!--DoubleAnimation Storyboard.TargetName="StatusGrid" Storyboard.TargetProperty="RenderTransform.X" To="-5" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/-->
+
+                            <ThicknessAnimation Storyboard.TargetName="IconGrid" Storyboard.TargetProperty="Margin" To="2,0,7,0" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
+                            <ThicknessAnimation Storyboard.TargetName="IconEdgeShadowRectangle" Storyboard.TargetProperty="Margin" To="0,0,-7,0" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
+                            <ThicknessAnimation Storyboard.TargetName="DescriptionSeparator" Storyboard.TargetProperty="Margin" To="35,5,35,-5" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
+                            <!--ThicknessAnimation Storyboard.TargetName="ModRootDockPanel" Storyboard.TargetProperty="Margin" To="-5" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/-->
+                            <!--DoubleAnimation Storyboard.TargetName="IsEnabledToggleSwitch" Storyboard.TargetProperty="Width" To="105" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/-->
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.EnterActions>
+                <DataTrigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <!--DoubleAnimation Storyboard.TargetName="ModRootDockPanel" Storyboard.TargetProperty="Height" To="40" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/-->
+                            <!--DoubleAnimation Storyboard.TargetName="StatusGrid" Storyboard.TargetProperty="RenderTransform.X" To="0" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/-->
+
+                            <ThicknessAnimation Storyboard.TargetName="IconGrid" Storyboard.TargetProperty="Margin" To="2,0" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
+                            <ThicknessAnimation Storyboard.TargetName="IconEdgeShadowRectangle" Storyboard.TargetProperty="Margin" To="0,5,-2,5" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
+                            <ThicknessAnimation Storyboard.TargetName="DescriptionSeparator" Storyboard.TargetProperty="Margin" To="40,0" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
+                            <!--ThicknessAnimation Storyboard.TargetName="ModRootDockPanel" Storyboard.TargetProperty="Margin" To="0" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/-->
+                            <!--DoubleAnimation Storyboard.TargetName="IsEnabledToggleSwitch" Storyboard.TargetProperty="Width" To="100" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/-->
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.ExitActions>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Icon}" Value="{x:Null}">
+                <!--Setter TargetName="IconContainer" Property="Content" Value="{DynamicResource NoIconModIcon}"/-->
+                <Setter TargetName="IconGrid" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="DisplayNameTextBlock" Property="Margin" Value="10,0,0,0"/>
+            </DataTrigger>
+            <!--DataTrigger Binding="{Binding IsProgressing}" Value="True">
+                    <Setter TargetName="StatusGrid" Property="Width" Value="200"/>
+                    <Setter TargetName="TaskStateTextBlock" Property="Visibility" Value="Visible"/>
+                    <Setter TargetName="ModProgressBar" Property="Visibility" Value="Visible"/>
+                </DataTrigger-->
+        </DataTemplate.Triggers>
+    </DataTemplate>
+</ResourceDictionary>
