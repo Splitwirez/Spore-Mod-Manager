@@ -230,7 +230,7 @@
                                     </cui:FloorPanel>
                                 </ToggleButton>
                                 <Popup x:Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Slide">
-                                    <Border x:Name="DropDownBorder" BorderThickness="1" UseLayoutRounding="True" Effect="{DynamicResource SecondaryDropShadow}" Margin="4,3,4,5">
+                                    <Border x:Name="DropDownBorder" BorderThickness="1" UseLayoutRounding="True" Effect="{DynamicResource DropShadow}" Margin="0">
                                         <!--Border.Effect>
                                         <DropShadowEffect Color="Black" Direction="270" ShadowDepth="10" BlurRadius="20" Opacity="0.5"/>
                                     </Border.Effect-->
@@ -238,8 +238,8 @@
                                             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
                                         </Border.Background>
                                         <cui:FloorPanel x:Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                                            <ScrollViewer Margin="3,3,3,0" SnapsToDevicePixels="True">
-                                                <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                            <ScrollViewer Padding="3" SnapsToDevicePixels="True">
+                                                <cui:StackPanelEx Spacing="{DynamicResource SettingsControlsVerticalSpacing}" IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
                                             </ScrollViewer>
                                         </cui:FloorPanel>
                                     </Border>
@@ -257,7 +257,7 @@
                                 </Trigger>
                                 <Trigger SourceName="Popup" Property="AllowsTransparency" Value="true">
                                     <Setter TargetName="DropDownBorder" Property="CornerRadius" Value="4" />
-                                    <Setter TargetName="DropDownBorder" Property="Margin" Value="0,2,0,0" />
+                                    <Setter TargetName="DropDownBorder" Property="Margin" Value="4,3,4,5" />
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
@@ -391,7 +391,7 @@
                                     </ToggleButton.Style>
                                 </ToggleButton>
                                 <Popup x:Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Slide">
-                                    <Border x:Name="DropDownBorder" BorderThickness="1" UseLayoutRounding="True" Effect="{DynamicResource SecondaryDropShadow}" Margin="4,3,4,5">
+                                    <Border x:Name="DropDownBorder" BorderThickness="1" UseLayoutRounding="True" Effect="{DynamicResource DropShadow}" Margin="0">
                                         <!--Border.Effect>
                                         <DropShadowEffect Color="Black" Direction="270" ShadowDepth="10" BlurRadius="20" Opacity="0.5"/>
                                     </Border.Effect-->
@@ -399,8 +399,8 @@
                                             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
                                         </Border.Background>
                                         <cui:FloorPanel x:Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                                            <ScrollViewer Margin="3,3,3,0" SnapsToDevicePixels="True">
-                                                <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                            <ScrollViewer Padding="3" SnapsToDevicePixels="True">
+                                                <cui:StackPanelEx Spacing="{DynamicResource SettingsControlsVerticalSpacing}" IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
                                             </ScrollViewer>
                                         </cui:FloorPanel>
                                     </Border>
@@ -425,7 +425,7 @@
                                 </Trigger>
                                 <Trigger SourceName="Popup" Property="AllowsTransparency" Value="true">
                                     <Setter TargetName="DropDownBorder" Property="CornerRadius" Value="4" />
-                                    <Setter TargetName="DropDownBorder" Property="Margin" Value="0,2,0,0" />
+                                    <Setter TargetName="DropDownBorder" Property="Margin" Value="4,3,4,5" />
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>

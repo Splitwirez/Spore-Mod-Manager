@@ -13,6 +13,8 @@ using System.Diagnostics;
 using SporeMods.Core;
 using SporeMods.CommonUI;
 using SporeMods.CommonUI.Localization;
+using ColorMine;
+using ColorMine.ColorSpaces;
 
 namespace SporeMods.CommonUI.Themes.Shale
 {
@@ -23,6 +25,7 @@ namespace SporeMods.CommonUI.Themes.Shale
         {
             {
                 nameof(Sky),
+                //ShaleAccent.FromColor(Color.FromRgb(0xC2, 0xE7, 0xE9), $"{SHALE_ACCENT_PREFIX}{nameof(Sky)}")
                 new ShaleAccent()
                 {
                     Hue = 183,
@@ -131,11 +134,11 @@ namespace SporeMods.CommonUI.Themes.Shale
     //[TypeConverter(typeof(ShaleAccentConverter))]
     public class ShaleAccent : ResourceDictionary//, ISupportInitialize
     {
-        static readonly double MIN_HUE = byte.MinValue;
-        static readonly double MAX_HUE = byte.MaxValue;
+        static readonly int MIN_HUE = byte.MinValue;
+        static readonly int MAX_HUE = byte.MaxValue;
         
-        double _hue = 0;
-        public double Hue
+        int _hue = 0;
+        public int Hue
         {
             get => _hue;
             set
@@ -146,11 +149,11 @@ namespace SporeMods.CommonUI.Themes.Shale
         }
 
 
-        const double MIN_SATURATION = 64;
-        const double MAX_SATURATION = byte.MaxValue;
+        const float MIN_SATURATION = 64;
+        const float MAX_SATURATION = byte.MaxValue;
         
-        double _saturation = MIN_SATURATION;
-        public double Saturation
+        float _saturation = MIN_SATURATION;
+        public float Saturation
         {
             get => _saturation;
             set
@@ -257,21 +260,32 @@ namespace SporeMods.CommonUI.Themes.Shale
 
         public static ShaleAccent FromColor(Color color)
         {
-            color.ToHsv(out double hue, out double saturation, out double _);
+            //color.ToHsl(out int hue, out float saturation, out float _);
             return new ShaleAccent()
             {
-                Hue = hue,
-                Saturation = saturation
+                /*Hue = hue,
+                Saturation = saturation*/
+            };
+        }
+
+        public static ShaleAccent FromColor(Color color, string displayNameKey)
+        {
+            //color.ToHsl(out int hue, out float saturation, out float _);
+            return new ShaleAccent()
+            {
+                /*Hue = hue,
+                Saturation = saturation,
+                DisplayNameKey = displayNameKey*/
             };
         }
 
         public static ShaleAccent FromRgb(byte red, byte green, byte blue)
         {
-            ColorHelper.RgbToHsv(red, green, blue, out double hue, out double saturation, out double _);
+            //ColorHelper.RgbToHsl(red, green, blue, out int hue, out float saturation, out float _);
             return new ShaleAccent()
             {
-                Hue = hue,
-                Saturation = saturation
+                /*Hue = hue,
+                Saturation = saturation*/
             };
         }
 
@@ -328,8 +342,10 @@ namespace SporeMods.CommonUI.Themes.Shale
 
         private ResourceDictionary CreateColors()
         {
-            LightSwatchBrush = new SolidColorBrush(ColorHelper.ColorFromHsv(_hue, _saturation, 75));
-            DarkSwatchBrush = new SolidColorBrush(ColorHelper.ColorFromHsv(_hue, _saturation, 75/*/2*/));
+#if NOPE
+            LightSwatchBrush = new SolidColorBrush(ColorHelper.ColorFromHsl(_hue, _saturation, 75));
+            DarkSwatchBrush = new SolidColorBrush(ColorHelper.ColorFromHsl(_hue, _saturation, 75/*/2*/));
+#endif
             MergedDictionaries.Clear();
 
             ResourceDictionary colors = new ResourceDictionary();
@@ -337,13 +353,41 @@ namespace SporeMods.CommonUI.Themes.Shale
             {
                 if (SHALE_ACCENT_BASE[s] is Color color)
                 {
-                    color.ToHsv(out double hue, out double sat, out double val);
+#if NOPE
+                    color.ToHsl(out int hue, out float sat, out float val);
+                    //color.ToHsv(out double hueHsv, out double satHsv, out double valHsv);
                     sat = _saturation;
                     hue = _hue;
                     /*if (s.Contains("DarkColor"))
                         sat /= 2;*/
+                    if (s.Contains("LightColor"))
+                    {
+                        //sat = Math.Min(sat * 1.25f, 255.0f);
+                        /*val = Math.Min(val * 1.125
+                            //1 - ((1 - val) * 0.75)
+                            , 1);*/
+                        //sat *= 0.75;
+                    }
 
-                    colors.Add(s, ColorHelper.ColorFromHsv(hue, sat, val));
+                    Color hslC = ColorHelper.ColorFromHsl(hue, sat, val);
+                    Color hsvC = ColorHelper.ColorFromHsv(hue, sat, val);
+                    byte r = (byte)((hslC.R + hsvC.R) / 2);
+                    byte g = (byte)((hslC.G + hsvC.G) / 2);
+                    byte b = (byte)((hslC.B + hsvC.B) / 2);
+                    //colors.Add(s, Color.FromArgb(color.A, r, g, b));
+                    colors.Add(s, hsvC);
+#endif
+                    Hsl hsl = (new Rgb() { R = color.R, G = color.G, B = color.B }).To<Hsl>();
+                    hsl.S = _saturation;
+                    hsl.H = _hue;
+                    if (s.Contains("DarkColor"))
+                        hsl.S /= 3; 
+
+                    Rgb rgb = hsl.To<Rgb>();
+                    /*color.R = (byte)rgb.R;
+                    color.G = (byte)rgb.G;
+                    color.B = (byte)rgb.B;*/
+                    colors.Add(s, Color.FromArgb(color.A, (byte)rgb.R, (byte)rgb.G, (byte)rgb.B));
                 }
             }
             return colors;
@@ -374,8 +418,8 @@ namespace SporeMods.CommonUI.Themes.Shale
                 {
                     bool parsedFromHAndS = false;
                     if (
-                            double.TryParse(segments[1], out double saturation) &&
-                            double.TryParse(segments[0], out double hue)
+                            float.TryParse(segments[1], out float saturation) &&
+                            int.TryParse(segments[0], out int hue)
                         )
                     {
                         shaleAccent = new ShaleAccent()
@@ -408,7 +452,7 @@ namespace SporeMods.CommonUI.Themes.Shale
 
         static bool TryParseFromColorOrHue(string input, out ShaleAccent shaleAccent)
         {
-            if (double.TryParse(input, out double hue))
+            if (int.TryParse(input, out int hue))
                 shaleAccent = new ShaleAccent()
                 {
                     Hue = hue

@@ -20,6 +20,7 @@
             <v:GamePathSettingsView/>
             <UniformGrid>
                 <v:GameWindowSettingsView/>
+                <v:GameEntrySettingsView/>
             </UniformGrid>
                 <!--ItemsControl>
                 <ItemsControl.ItemsPanel>

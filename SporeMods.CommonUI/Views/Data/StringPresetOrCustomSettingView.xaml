@@ -1,0 +1,75 @@
+﻿<UserControl x:Class="SporeMods.Views.StringPresetOrCustomSettingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:core="clr-namespace:SporeMods.Core;assembly=SporeMods.Core"
+             xmlns:cui="clr-namespace:SporeMods.CommonUI"
+             xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:v="clr-namespace:SporeMods.Views"
+             xmlns:vm="clr-namespace:SporeMods.ViewModels"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <cui:BoolInverterConverter x:Key="BoolInverterConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+        <sys:String x:Key="YeetText">{0}</sys:String>
+    </UserControl.Resources>
+    <HeaderedContentControl Style="{DynamicResource WithSubControls}">
+        <HeaderedContentControl.Header>
+            <CheckBox Content="{Binding Header}"
+                    IsChecked="{Binding Override, Mode=TwoWay}"
+                    ToolTipService.ShowDuration="{x:Static sys:Int32.MaxValue}">
+                <CheckBox.ToolTip>
+                    <cui:StackPanelEx Orientation="Vertical"
+                                    Spacing="{DynamicResource SettingsControlsVerticalSpacing}">
+                        <TextBlock Text="{Binding ToolTipContent}"/>
+                        <TextBlock Text="{Binding ToolTipWarning}"
+                                Foreground="{DynamicResource ErrorTextBrush}"/>
+                    </cui:StackPanelEx>
+                </CheckBox.ToolTip>
+            </CheckBox>
+        </HeaderedContentControl.Header>
+        <ComboBox x:Name="LanguagesComboBox"
+                    IsEditable="{Binding ManuallyEnter, Mode=OneWay}"
+                    IsEnabled="{Binding Override, Mode=OneWay}"
+                    ItemsSource="{Binding AvailableValues, Mode=OneWay}"
+                    SelectedValue="{Binding CurrentValue, Mode=TwoWay}"
+                    Text="{Binding CustomValueText, Mode=TwoWay}">
+            <ComboBox.Resources>
+                <DataTemplate DataType="{x:Type core:NotifyPropertyChangedBase}">
+                    <TextBlock x:Name="DisplayNameText">
+                        <e:Interaction.Behaviors>
+                            <cui:BindTextToDynamicResourceAsKeyBehavior x:Name="BindToKey" ResourceKey="{Binding DisplayNameKey}"/>
+                        </e:Interaction.Behaviors>
+                    </TextBlock>
+                    <DataTemplate.Triggers>
+                        <!--DataTrigger Binding="{Binding DataContext.UsesLocalizedDisplayNames, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" Value="True">
+                            <Setter TargetName="BindToKey" Property="ResourceKey" Value="{Binding DisplayNameKey}"/>
+                        </DataTrigger-->
+                        <DataTrigger Binding="{Binding DataContext.UsesLocalizedDisplayNames, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" Value="False">
+                            <Setter TargetName="DisplayNameText" Property="Text" Value="{Binding DisplayName}"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type sys:String}">
+                    <StackPanel Orientation="Vertical">
+                        <Separator x:Name="SeparatorHack"
+                                Margin="0,-7,0,7">
+                            <!--Separator.RenderTransform>
+                                <TranslateTransform Y="3"/>
+                            </Separator.RenderTransform-->
+                        </Separator>
+                        <TextBlock Text="Other... (NOT LOCALIZED)"/>
+                    </StackPanel>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ComboBoxItem}}, Path=IsSelected}" Value="{x:Null}">
+                            <Setter TargetName="SeparatorHack" Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </ComboBox.Resources>
+        </ComboBox>
+    </HeaderedContentControl>
+</UserControl>

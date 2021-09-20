@@ -101,9 +101,9 @@
                             </MultiTrigger.ExitActions>
                             <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="{DynamicResource TitlebarHoverForegroundBrush}" />
                         </MultiTrigger>
-                        <Trigger Property="IsSelected" Value="True">
+                        <!--Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="ContentSite" Property="TextElement.Foreground" Value="{DynamicResource TitlebarHoverForegroundBrush}" />
-                        </Trigger>
+                        </Trigger-->
                         <!--DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Value="False"-->
                         <Trigger Property="IsEnabled" Value="False">
                             <Trigger.EnterActions>
