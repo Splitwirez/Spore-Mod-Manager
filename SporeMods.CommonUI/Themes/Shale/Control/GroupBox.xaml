@@ -28,7 +28,7 @@
                                     <RowDefinition x:Name="TopRow" Height="Auto" MinHeight="20"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                <ContentPresenter x:Name="HeaderPresenter" Grid.Row="0" ContentSource="Header" RecognizesAccessKey="True" TextElement.Foreground="{TemplateBinding Foreground}" TextBlock.FontSize="14" Opacity="0.5" VerticalAlignment="Center"/>
+                                <ContentPresenter x:Name="HeaderPresenter" Grid.Row="0" ContentSource="Header" RecognizesAccessKey="True" TextElement.Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Left" TextBlock.FontSize="14" Opacity="0.5" VerticalAlignment="Center"/>
                                 <ContentPresenter x:Name="BodyPresenter" Grid.Row="1"/>
                             </Grid>
                         </Border>

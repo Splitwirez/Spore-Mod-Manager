@@ -155,7 +155,7 @@
         <Setter Property="Foreground" Value="{DynamicResource WindowForegroundBrush}"/>
         <Setter Property="FontFamily" Value="pack://application:,,,/SporeMods.CommonUI;component/Fonts/#Ubuntu"/>
         <Setter Property="FontSize" Value="12"/>
-		<Setter Property="cui:WindowChromeHelper.UseReRenderHack" Value="True"/>
+		<!--Setter Property="cui:WindowChromeHelper.UseReRenderHack" Value="True"/-->
 		<!--Setter Property="cui:WindowChromeHelper.ExtendedTitleBarHeight" Value="0"/-->
 		<Setter Property="Template">
 			<Setter.Value>
@@ -232,10 +232,13 @@
 													Style="{DynamicResource h3}"
 													Foreground="{DynamicResource TitlebarIdleForegroundBrush}"
 													Effect="{DynamicResource DropShadow}"
+                                                    TextWrapping="NoWrap"
+                                                    TextAlignment="Center"
+                                                    MaxHeight="{DynamicResource TitleBarHeight}"
 													IsHitTestVisible="False"
 													UseLayoutRounding="True"
 													SnapsToDevicePixels="True"
-													HorizontalAlignment="Center"
+													HorizontalAlignment="Stretch"
 													VerticalAlignment="Center"/>
 									</DockPanel>
 									<Rectangle Height="{Binding Path=(cui:WindowChromeHelper.ExtendedTitleBarHeight), RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=OneWay}" Visibility="Hidden"/>

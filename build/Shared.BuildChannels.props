@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
-  <PropertyGroup Condition="Exists('..\build\BuildChannel')">
+	<PropertyGroup>
+		<DefineConstants>$(DefineConstants);$(DefineConstantsEx)</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition="Exists('..\build\BuildChannel')">
     <!--'$(DefineConstants.Contains(SET_BUILD_CHANNEL)) and-->
     <DefineConstants>$(DefineConstants);SET_BUILD_CHANNEL</DefineConstants>
   </PropertyGroup>

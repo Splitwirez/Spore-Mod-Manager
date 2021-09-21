@@ -13,10 +13,10 @@
     </UserControl.DataContext>
     <GroupBox Header="{DynamicResource Settings!Folders!Header}" IsEnabled="False">
         <cui:StackPanelEx Orientation="Vertical" Spacing="{DynamicResource SettingsControlsVerticalSpacing}">
-            <TextBlock Text="Soon:tm: (PLACEHOLDER) (NOT LOCALIZED)"/>
-            <v:GamePathView DataContext="{Binding GaData}" Visibility="Collapsed"/>
-            <v:GamePathView DataContext="{Binding SporebinEp1}" Visibility="Collapsed"/>
-            <v:GamePathView DataContext="{Binding CoreData}" Visibility="Collapsed"/>
+            <TextBlock Text="Soon:tm: (PLACEHOLDER) (NOT LOCALIZED)" Visibility="Collapsed"/>
+            <v:GamePathView DataContext="{Binding GaData}"/>
+            <v:GamePathView DataContext="{Binding SporebinEp1}"/>
+            <v:GamePathView DataContext="{Binding CoreData}"/>
         </cui:StackPanelEx>
     </GroupBox>
 </UserControl>

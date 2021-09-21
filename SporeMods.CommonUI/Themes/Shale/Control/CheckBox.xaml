@@ -11,7 +11,7 @@
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="MinHeight" Value="13" />
         <Setter Property="Visibility" Value="Visible" />
-        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Margin" Value="0"/>
         <Setter Property="Padding" Value="5" />
@@ -62,7 +62,8 @@
                                 </Grid>
                             </Grid>
                             <Grid Margin="5,0,0,0">
-                                <ContentPresenter/>
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             </Grid>
                         </DockPanel>
                     </Grid>

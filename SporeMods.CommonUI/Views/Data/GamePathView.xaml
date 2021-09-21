@@ -12,25 +12,26 @@
     </UserControl.Resources>
     <DockPanel>
         <TextBlock Text="{DynamicResource Settings!Folders!AutoGaData}"
-                   Style="{DynamicResource h3}"/>
-        <Rectangle Width="{DynamicResource SettingsControlsHorizontalSpacing}"
-                   DockPanel.Dock="Left"
+                   Style="{DynamicResource h3}"
+                   DockPanel.Dock="Top"/>
+        <Rectangle Height="{DynamicResource SettingsControlsVerticalSpacing}"
+                   DockPanel.Dock="Top"
                    Visibility="Hidden"/>
         <CheckBox Content="{DynamicResource Settings!Folders!AutoDetectPath}"
-                          DockPanel.Dock="Left"
+                          DockPanel.Dock="Bottom"
                           VerticalAlignment="Stretch"
                           HorizontalAlignment="Stretch"
                   IsChecked="{Binding UseExplicitPath, Converter={StaticResource BoolInverterConverter}, Mode=TwoWay}"/>
-        <Rectangle Width="{DynamicResource SettingsControlsHorizontalSpacing}"
-                   DockPanel.Dock="Left"
-                   Visibility="Hidden"/>
+        <!--Rectangle Height="{DynamicResource SettingsControlsVerticalSpacing}"
+                   DockPanel.Dock="Bottom"
+                   Visibility="Hidden"/-->
         <Button Content="{DynamicResource Browse}"
+                cui:AttachedProperties.BorderPresence="False,True,True,True"
                 cui:AttachedProperties.CornerCurves="False,True,True,False"
                 DockPanel.Dock="Right"
                 IsEnabled="{Binding UseExplicitPath}"
                 Command="{Binding BrowseCommand}"/>
         <TextBox Text="{Binding WorkingPath}"
-                 cui:AttachedProperties.BorderPresence="False,True,True,True"
                  cui:AttachedProperties.CornerCurves="True,False,False,True"
                  IsEnabled="{Binding UseExplicitPath}"/>
     </DockPanel>

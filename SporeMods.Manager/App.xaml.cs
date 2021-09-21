@@ -168,46 +168,6 @@ namespace SporeMods.Manager
 							VersionValidation.WarnIfMissingOriginPrerequisites(Path.Combine(new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).Directory.FullName, "Launch Spore.dll"));
 							var _ = LanguageManager.Instance;
 
-#if OLD_WINDOWING
-							Window window;
-							MainView content = new MainView()
-							{
-								DataContext = new MainViewModel(DragServantProcess)
-							};
-
-							if (Settings.UseCustomWindowDecorations)
-							{
-								window = new SporeMods.CommonUI.Windows.DecoratableWindow()
-								{
-									Content = content,
-									TitlebarHeight = 61,
-									//ShowFullscreenButton = true,
-									//AutohideTitlebarWhenFullscreen = false
-								};
-							}
-							else
-							{
-								window = new Window()
-								{
-									Content = content
-								};
-							}
-
-							window.MinWidth = 700;
-							window.MinHeight = 400;
-							window.Width = 800;
-							window.Height = 450;
-							window.DataContext = content.DataContext;
-							MainWindow = window;
-							//TODO: Restore this stuff
-							/*window.ContentRendered += (sneder, args) => content.MainWindow_OnContentRendered(args);
-							window.Activated += content.MainWindow_IsActiveChanged;
-							window.Deactivated += content.MainWindow_IsActiveChanged;
-							window.SizeChanged += content.MainWindow_SizeChanged;
-							window.PreviewKeyDown += content.MainWindow_PreviewKeyDown;
-							window.Closing += content.MainWindow_Closing;*/
-							window.Show();
-#endif
 							//Resources.MergedDictionaries[0].MergedDictionaries[1] = SporeMods.CommonUI.Themes.Shale.ShaleAccents.Sky.Dictionary;
 							//Resources.MergedDictionaries.Add(SporeMods.CommonUI.Themes.Shale.ShaleAccents.Sky);
 							if (Settings.ShaleDarkTheme)

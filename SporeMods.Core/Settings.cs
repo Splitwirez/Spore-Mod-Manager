@@ -88,12 +88,12 @@ namespace SporeMods.Core
 		static readonly string TARGET_FRAMEWORK_PREFIX =
 #if NET
 			"dotnet"
-#elif NETCORE
+#elif NETCOREAPP
 			"dotnet-core"
 #elif NETFRAMEWORK
 			"dotnet-framework"
 #else
-			string.Empty //"targetframework-unknown"
+		"unknown-target"
 #endif
 			;
 

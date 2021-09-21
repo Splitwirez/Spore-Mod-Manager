@@ -7,6 +7,16 @@ namespace SporeMods.CommonUI
 {
     public class UniformStackPanel : StackPanelEx
     {
+        public static readonly DependencyProperty ForceScronchProperty =
+            DependencyProperty.Register("ForceScronch", typeof(bool), typeof(UniformStackPanel), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsParentMeasure | FrameworkPropertyMetadataOptions.AffectsParentArrange));
+
+        public bool ForceScronch
+        {
+            get => (bool)GetValue(ForceScronchProperty);
+            set => SetValue(ForceScronchProperty, value);
+        }
+
+
         static UniformStackPanel()
         {
             UseLayoutRoundingProperty.OverrideMetadata(typeof(UniformStackPanel), new FrameworkPropertyMetadata(true));
@@ -14,9 +24,12 @@ namespace SporeMods.CommonUI
 
         protected override Size MeasureOverride(Size constraint)
         {
+            bool fHorizontal = (Orientation == Orientation.Horizontal);
+            if (ForceScronch)
+                return fHorizontal ? new Size(0, constraint.Height) : new Size(constraint.Width, 0);
+
             var children = InternalChildren;
             int count = children.Count;
-            bool fHorizontal = (Orientation == Orientation.Horizontal);
 
             double spacing = Spacing;
             double totalSpaceBetween = spacing * Math.Max(0, count - 1);

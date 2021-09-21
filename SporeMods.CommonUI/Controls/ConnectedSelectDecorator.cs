@@ -21,6 +21,8 @@ namespace SporeMods.CommonUI
                     DependencyProperty.Register(nameof(TargetPanel), typeof(Panel), typeof(ConnectedSelectDecorator),
                         new PropertyMetadata(null, OnPropertiesChangedCallback));
 
+
+
         public int SelectedObjectIndex
         {
             get => (int)GetValue(SelectedObjectIndexProperty);
@@ -30,6 +32,8 @@ namespace SporeMods.CommonUI
         public static readonly DependencyProperty SelectedObjectIndexProperty =
                     DependencyProperty.Register(nameof(SelectedObjectIndex), typeof(int), typeof(ConnectedSelectDecorator),
                         new PropertyMetadata(-1, OnPropertiesChangedCallback));
+
+
 
         public int CollectionSize
         {
@@ -41,6 +45,8 @@ namespace SporeMods.CommonUI
                     DependencyProperty.Register(nameof(CollectionSize), typeof(int), typeof(ConnectedSelectDecorator),
                         new PropertyMetadata(-1, OnPropertiesChangedCallback));
 
+
+
         public double SelectionLeft
         {
             get => (double)GetValue(SelectionLeftProperty);
@@ -48,7 +54,9 @@ namespace SporeMods.CommonUI
         }
 
         public static readonly DependencyProperty SelectionLeftProperty =
-            DependencyProperty.Register(nameof(SelectionLeft), typeof(double), typeof(ConnectedSelectDecorator), new PropertyMetadata(0.0));
+            DependencyProperty.Register(nameof(SelectionLeft), typeof(double), typeof(ConnectedSelectDecorator), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsRender));
+
+
 
         public double SelectionTop
         {
@@ -57,22 +65,9 @@ namespace SporeMods.CommonUI
         }
 
         public static readonly DependencyProperty SelectionTopProperty =
-            DependencyProperty.Register(nameof(SelectionTop), typeof(double), typeof(ConnectedSelectDecorator), new PropertyMetadata(0.0)); 
-        
-        public double SelectionRight
-        {
-            get => (double)GetValue(SelectionRightProperty);
-            set => SetValue(SelectionRightProperty, value);
-        }
+            DependencyProperty.Register(nameof(SelectionTop), typeof(double), typeof(ConnectedSelectDecorator), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsRender));
 
-        public static readonly DependencyProperty SelectionRightProperty =
-            DependencyProperty.Register(nameof(SelectionRight), typeof(double), typeof(ConnectedSelectDecorator), new PropertyMetadata(0.0));
 
-        public double SelectionBottom
-        {
-            get => (double)GetValue(SelectionBottomProperty);
-            set => SetValue(SelectionBottomProperty, value);
-        }
 
         public double SelectionWidth
         {
@@ -83,6 +78,8 @@ namespace SporeMods.CommonUI
         public static readonly DependencyProperty SelectionWidthProperty =
             DependencyProperty.Register(nameof(SelectionWidth), typeof(double), typeof(ConnectedSelectDecorator), new PropertyMetadata(0.0));
 
+
+
         public double SelectionHeight
         {
             get => (double)GetValue(SelectionHeightProperty);
@@ -92,8 +89,7 @@ namespace SporeMods.CommonUI
         public static readonly DependencyProperty SelectionHeightProperty =
             DependencyProperty.Register(nameof(SelectionHeight), typeof(double), typeof(ConnectedSelectDecorator), new PropertyMetadata(0.0));
 
-        public static readonly DependencyProperty SelectionBottomProperty =
-            DependencyProperty.Register(nameof(SelectionBottom), typeof(double), typeof(ConnectedSelectDecorator), new PropertyMetadata(0.0));
+
 
         public bool SelectionExists
         {
@@ -104,6 +100,8 @@ namespace SporeMods.CommonUI
         public static readonly DependencyProperty SelectionExistsProperty =
             DependencyProperty.Register(nameof(SelectionExists), typeof(bool), typeof(ConnectedSelectDecorator), new PropertyMetadata(false));
 
+
+
         public TimeSpan AnimationDuration
         {
             get => (TimeSpan)GetValue(AnimationDurationProperty);
@@ -112,6 +110,8 @@ namespace SporeMods.CommonUI
 
         public static readonly DependencyProperty AnimationDurationProperty =
             DependencyProperty.Register(nameof(AnimationDuration), typeof(TimeSpan), typeof(ConnectedSelectDecorator), new PropertyMetadata(TimeSpan.FromMilliseconds(0)));
+
+
 
         public IEasingFunction AnimationEase
         {
@@ -122,18 +122,63 @@ namespace SporeMods.CommonUI
         public static readonly DependencyProperty AnimationEaseProperty =
             DependencyProperty.Register(nameof(AnimationEase), typeof(IEasingFunction), typeof(ConnectedSelectDecorator), new PropertyMetadata(null));
 
+
+
         static void OnPropertiesChangedCallback(object sender, DependencyPropertyChangedEventArgs e)
         {
             (sender as ConnectedSelectDecorator).UpdateSelectorBounds();
         }
 
+
+
         public ConnectedSelectDecorator()
         {
-            Loaded += (sneder, args) =>  CompositionTarget.Rendering += (snedre, rags) => UpdateSelectorBounds();
+            //Loaded += ConnectedSelectDecorator_Loaded; //(sneder, args) => CompositionTarget.Rendering += (snedre, rags) => UpdateSelectorBounds();
+            LayoutUpdated += (s, e) => UpdateSelectorBounds();
+            SizeChanged += (s, e) => UpdateSelectorBounds();
+
+            _leftAnim.Completed += (s, e) =>
+            {
+                _isAnimating = false;
+                BeginAnimation(SelectionLeftProperty, null);
+                SelectionLeft = _left;
+            };
+            _topAnim.Completed += (s, e) =>
+            {
+                BeginAnimation(SelectionTopProperty, null);
+                SelectionTop = _top;
+            };
+            _widthAnim.Completed += (s, e) =>
+            {
+                BeginAnimation(SelectionWidthProperty, null);
+                SelectionWidth = _width;
+            };
+            _heightAnim.Completed += (s, e) =>
+            {
+                BeginAnimation(SelectionHeightProperty, null);
+                SelectionHeight = _height;
+            };
         }
 
+        
+        DoubleAnimation _leftAnim = new DoubleAnimation();
+        double _left = 0;
+        
+        DoubleAnimation _topAnim = new DoubleAnimation();
+        double _top = 0;
+        
+        DoubleAnimation _widthAnim = new DoubleAnimation();
+        double _width = 0;
+        
+        DoubleAnimation _heightAnim = new DoubleAnimation();
+        double _height = 0;
+
+        bool _isAnimating = false;
+        FrameworkElement _prevSelected = null;
+        
         void UpdateSelectorBounds()
         {
+            //Console.WriteLine("0");
             if (TargetPanel != null)
             {
                 bool doesSelectionExist = (SelectedObjectIndex >= 0) && (SelectedObjectIndex < TargetPanel.Children.Count);
@@ -142,52 +187,61 @@ namespace SporeMods.CommonUI
 
                 if (SelectionExists && (PresentationSource.FromVisual(TargetPanel) != null) && (TargetPanel.Children[SelectedObjectIndex] is FrameworkElement panelChild))
                 {
-                    //FrameworkElement panelChild = (FrameworkElement);
-                    var point = TargetPanel.PointFromScreen(panelChild.PointToScreen(new Point(0, 0)));
+                    var point = panelChild.TranslatePoint(new Point(0, 0), this);
+
+                    _left = point.X;
+                    _top = point.Y;
+                    _width = panelChild.ActualWidth;
+                    _height = panelChild.ActualHeight;
                     
-                    BeginAnimation(SelectionLeftProperty, new DoubleAnimation()
+                    if ((_prevSelected == null) || (_prevSelected == panelChild))
                     {
-                        To = point.X,
-                        Duration = AnimationDuration,
-                        EasingFunction = AnimationEase
-                    });
-
-                    BeginAnimation(SelectionTopProperty, new DoubleAnimation()
+                        if (!_isAnimating)
+                        {
+                            SelectionLeft = _left;
+                            SelectionTop = _top;
+                            SelectionWidth = _width;
+                            SelectionHeight = _height;
+                        }
+                    }
+                    else
                     {
-                        To = point.Y,
-                        Duration = AnimationDuration,
-                        EasingFunction = AnimationEase
-                    });
+                        Console.WriteLine("b");
+                        _isAnimating = true;
+                        
+                        if (SelectionLeft != _left)
+                        {
+                            _leftAnim.To = _left;
+                            _leftAnim.Duration = AnimationDuration;
+                            _leftAnim.EasingFunction = AnimationEase;
+                            BeginAnimation(SelectionLeftProperty, _leftAnim);
+                        }
 
-                    BeginAnimation(SelectionRightProperty, new DoubleAnimation()
-                    {
-                        To = point.X + panelChild.ActualWidth,
-                        Duration = AnimationDuration,
-                        EasingFunction = AnimationEase
-                    });
+                        if (SelectionTop != _top)
+                        {
+                            _topAnim.To = _top;
+                            _topAnim.Duration = AnimationDuration;
+                            _topAnim.EasingFunction = AnimationEase;
+                            BeginAnimation(SelectionTopProperty, _topAnim);
+                        }
 
-                    BeginAnimation(SelectionBottomProperty, new DoubleAnimation()
-                    {
-                        To = point.Y + panelChild.ActualHeight,
-                        Duration = AnimationDuration,
-                        EasingFunction = AnimationEase
-                    });
+                        if (SelectionWidth != _width)
+                        {
+                            _widthAnim.To = _width;
+                            _widthAnim.Duration = AnimationDuration;
+                            _widthAnim.EasingFunction = AnimationEase;
+                            BeginAnimation(SelectionWidthProperty, _widthAnim);
+                        }
 
-                    BeginAnimation(SelectionWidthProperty, new DoubleAnimation()
-                    {
-                        To = panelChild.ActualWidth,
-                        Duration = AnimationDuration,
-                        EasingFunction = AnimationEase
-                    });
-
-                    BeginAnimation(SelectionHeightProperty, new DoubleAnimation()
-                    {
-                        To = panelChild.ActualHeight,
-                        Duration = AnimationDuration,
-                        EasingFunction = AnimationEase
-                    });
-
-                    //Debug.WriteLine("Pos: " + SelectionLeft + ", " + SelectionTop + ", " + SelectionRight + ", " + SelectionBottom);
+                        if (SelectionHeight != _height)
+                        {
+                            _heightAnim.To = _height;
+                            _heightAnim.Duration = AnimationDuration;
+                            _heightAnim.EasingFunction = AnimationEase;
+                            BeginAnimation(SelectionHeightProperty, _heightAnim);
+                        }
+                    }
+                    _prevSelected = panelChild;
                 }
             }
         }

@@ -14,7 +14,7 @@
              cui:WindowChromeHelper.ExtendedTitleBarHeight="30"
              Width="800"
              Height="450"
-             MinWidth="700"
+             MinWidth="300"
              MinHeight="400"
              Title="{Binding Title}"
              Style="{DynamicResource {x:Type Window}}">
@@ -62,7 +62,7 @@
                             Command="{Binding LaunchSporeCommand}"/>
                     <DockPanel Visibility="{Binding HasRunningTasks, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"
                                 DataContext="{Binding Source={x:Static trs:ModTransactionManager.Instance}}"
-                                Margin="5,5,10,5">
+                                Margin="5">
                         <ProgressBar x:Name="OverallProgressProgressBar"
                                         Height="10"
                                         DockPanel.Dock="Bottom"
@@ -71,7 +71,6 @@
                                         Value="{Binding OverallProgress, Mode=OneWay}"
                                         cui:AttachedProperties.CornerCurves="False,False,True,True"/>
                         <ToggleButton x:Name="TaskProgressDetailsToggleButton"
-                                        Padding="5,0"
                                         cui:AttachedProperties.CornerCurves="True,True,False,False"
                                         cui:AttachedProperties.BorderPresence="True,True,True,False"
                                         Content="{DynamicResource Mods!TaskList!ToggleButton}"/>

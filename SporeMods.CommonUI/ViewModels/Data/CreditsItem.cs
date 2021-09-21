@@ -50,13 +50,13 @@ namespace SporeMods.ViewModels
 		DependencyProperty.Register(nameof(HasLink), typeof(bool), typeof(CreditsItem), new FrameworkPropertyMetadata(false));
 
 
-		public void OpenLinkCommand(object parameter)
+		
+		FuncCommand<object> _openLinkCommand = null;
+		public FuncCommand<object> OpenLinkCommand
 		{
-			if (HasLink)
-				WineHelper.OpenUrl(Link);
-
-			//MessageBox.Show("OpenLink called!");
+			get => _openLinkCommand;
 		}
+			
 
 		public CreditsItem(string name, string contribution)
 		{
@@ -67,8 +67,13 @@ namespace SporeMods.ViewModels
 		public CreditsItem(string name, string contribution, string link) : this(name, contribution)
 		{
 			Link = link;
-
 			HasLink = !Link.IsNullOrEmptyOrWhiteSpace();
+
+			_openLinkCommand = new FuncCommand<object>(_ =>
+			{
+				if (HasLink)
+				WineHelper.OpenUrl(Link);
+			});
 		}
 	}
 

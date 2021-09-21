@@ -137,8 +137,8 @@ namespace SporeMods.CommonUI.Themes.Shale
         static readonly int MIN_HUE = byte.MinValue;
         static readonly int MAX_HUE = byte.MaxValue;
         
-        int _hue = 0;
-        public int Hue
+        double _hue = 0;
+        public double Hue
         {
             get => _hue;
             set
@@ -340,12 +340,22 @@ namespace SporeMods.CommonUI.Themes.Shale
             Source = new Uri("/SporeMods.CommonUI;component/Themes/Shale/Colors/Accent.xaml", UriKind.RelativeOrAbsolute)
         };
 
+        //ResourceDictionary _dictionary = new ResourceDictionary();
         private ResourceDictionary CreateColors()
         {
-#if NOPE
-            LightSwatchBrush = new SolidColorBrush(ColorHelper.ColorFromHsl(_hue, _saturation, 75));
-            DarkSwatchBrush = new SolidColorBrush(ColorHelper.ColorFromHsl(_hue, _saturation, 75/*/2*/));
-#endif
+            LightSwatchBrush = new SolidColorBrush(CalcColor(new Hsl()
+            {
+                H = _hue,
+                S = _saturation,
+                L = 75.0
+            }));
+            DarkSwatchBrush = new SolidColorBrush(CalcColor(new Hsl()
+            {
+                H = _hue,
+                S = _saturation / 3,
+                L = 75.0 / 2
+            }));
+
             MergedDictionaries.Clear();
 
             ResourceDictionary colors = new ResourceDictionary();
@@ -353,44 +363,29 @@ namespace SporeMods.CommonUI.Themes.Shale
             {
                 if (SHALE_ACCENT_BASE[s] is Color color)
                 {
-#if NOPE
-                    color.ToHsl(out int hue, out float sat, out float val);
-                    //color.ToHsv(out double hueHsv, out double satHsv, out double valHsv);
-                    sat = _saturation;
-                    hue = _hue;
-                    /*if (s.Contains("DarkColor"))
-                        sat /= 2;*/
-                    if (s.Contains("LightColor"))
-                    {
-                        //sat = Math.Min(sat * 1.25f, 255.0f);
-                        /*val = Math.Min(val * 1.125
-                            //1 - ((1 - val) * 0.75)
-                            , 1);*/
-                        //sat *= 0.75;
-                    }
-
-                    Color hslC = ColorHelper.ColorFromHsl(hue, sat, val);
-                    Color hsvC = ColorHelper.ColorFromHsv(hue, sat, val);
-                    byte r = (byte)((hslC.R + hsvC.R) / 2);
-                    byte g = (byte)((hslC.G + hsvC.G) / 2);
-                    byte b = (byte)((hslC.B + hsvC.B) / 2);
-                    //colors.Add(s, Color.FromArgb(color.A, r, g, b));
-                    colors.Add(s, hsvC);
-#endif
-                    Hsl hsl = (new Rgb() { R = color.R, G = color.G, B = color.B }).To<Hsl>();
-                    hsl.S = _saturation;
-                    hsl.H = _hue;
-                    if (s.Contains("DarkColor"))
-                        hsl.S /= 3; 
-
-                    Rgb rgb = hsl.To<Rgb>();
-                    /*color.R = (byte)rgb.R;
-                    color.G = (byte)rgb.G;
-                    color.B = (byte)rgb.B;*/
-                    colors.Add(s, Color.FromArgb(color.A, (byte)rgb.R, (byte)rgb.G, (byte)rgb.B));
+                    colors.Add(s, CalcColor(color, _hue, s.Contains("DarkColor") ? _saturation / 3.0 : _saturation));
                 }
             }
             return colors;
+        }
+
+        static Color CalcColor(Color inColor, double hue, double saturation)
+        {
+            Hsl hsl = (new Rgb() { R = inColor.R, G = inColor.G, B = inColor.B }).To<Hsl>();
+            return CalcColor(hsl, hue, saturation, inColor.A);
+        }
+
+        static Color CalcColor(Hsl hsl, double hue, double saturation, byte alpha = 0xFF)
+        {
+            hsl.H = hue;
+            hsl.S = saturation;
+            return CalcColor(hsl, alpha);
+        }
+
+        static Color CalcColor(Hsl hsl, byte alpha = 0xFF)
+        {
+            Rgb rgb = hsl.To<Rgb>();
+            return Color.FromArgb(alpha, (byte)rgb.R, (byte)rgb.G, (byte)rgb.B);
         }
 
 

@@ -9,11 +9,11 @@ using SporeMods.CommonUI;
 
 namespace SporeMods.ViewModels
 {
-	public class HelpViewModel : NotifyPropertyChangedBase
+	public class CreditsViewModel : NotifyPropertyChangedBase
 	{
 		ObservableCollection<CreditsItem> _credits = new ObservableCollection<CreditsItem>()
 		{
-			new CreditsItem("Splitwirez (formerly rob55rod)", "Designed and (mostly) built the Spore Mod Manager.", @"https://github.com/Splitwirez/"),
+			new CreditsItem("Splitwirez (formerly rob55rod)", "Designed - and lead the effort to build - the Spore Mod Manager. (I couldn't have done it alone though!)", @"https://github.com/Splitwirez/"),
 			new CreditsItem("emd4600", "Started the Spore ModAPI Project. Created the Spore ModAPI Launcher Kit, which laid the foundations for the Spore Mod Manager. Helped build the Spore Mod Manager to be as robust as possible. Oh, and Spanish and Catalan translations.", @"https://github.com/emd4600/"),
 			new CreditsItem("reflectronic", "Provided invaluable guidance and assistance with code architecture, asynchronous behaviour, and working the inner machinations of .NET Core in the Spore Mod Manager's favor.", @"https://github.com/reflectronic/"),
 			//new CreditsItem("DotNetZip (formerly Ionic.Zip)", "Zip archive library used throughout the Spore Mod Manager.", @"https://www.nuget.org/packages/DotNetZip/"),
@@ -39,30 +39,10 @@ namespace SporeMods.ViewModels
 		public ObservableCollection<CreditsItem> Credits
 		{
 			get => _credits;
-			private set
-			{
-				_credits = value;
-				NotifyPropertyChanged();
-			}
 		}
 
 
-		public FuncCommand<object> AskQuestionCommand
-			= new FuncCommand<object>(_ => WineHelper.OpenUrl(@"https://github.com/Splitwirez/Spore-Mod-Manager/issues/new?assignees=&labels=question&template=question.md&title="));
-
-		public FuncCommand<object> MakeSuggestionCommand
-			= new FuncCommand<object>(_ => WineHelper.OpenUrl(@"https://github.com/Splitwirez/Spore-Mod-Manager/issues/new?assignees=&labels=enhancement&template=feature_request.md&title="));
-
-		public FuncCommand<object> ReportBugCommand
-			= new FuncCommand<object>(_ => WineHelper.OpenUrl(@"https://github.com/Splitwirez/Spore-Mod-Manager/issues/new?assignees=&labels=bug&template=bug_report.md&title="));
-
-		/*public void OpenUrlCommand(object parameter)
-		{
-			if (parameter is string url)
-				OpenUrl(url);
-		}*/
-
-		public static void OpenUrl(string url)
-			=> WineHelper.OpenUrl(url);
+		public FuncCommand<string> OpenUrlCommand
+			= new FuncCommand<string>(url => WineHelper.OpenUrl(url));
 	}
 }

@@ -8,8 +8,14 @@
     </ResourceDictionary.MergedDictionaries>
     
     <Style x:Key="{x:Type ButtonBase}" TargetType="{x:Type ButtonBase}">
+        <Style.Resources>
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="TextWrapping" Value="Wrap"/>
+            </Style>
+        </Style.Resources>
         <Setter Property="Margin" Value="0" />
-        <Setter Property="Padding" Value="5" />
+        <Setter Property="Padding" Value="5,0" />
+        <Setter Property="MinHeight" Value="24" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="BorderBrush" Value="Transparent" />

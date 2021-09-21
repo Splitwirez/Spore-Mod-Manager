@@ -159,17 +159,4 @@
             </Setter.Value>
         </Setter>
     </Style-->
-
-    <Style x:Key="{x:Type cui:Zone}" TargetType="{x:Type cui:Zone}">
-        <Setter Property="OverridesDefaultStyle" Value="True"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type cui:Zone}">
-                    <Border Background="#FF00FF">
-                        <ContentPresenter/>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
 </ResourceDictionary>

@@ -39,46 +39,6 @@
                                 Grid.Column="4"/>
                     </cui:StackPanelEx>
                 </GroupBox>
-                <GroupBox x:Name="CreditsGroupBox" Header="{DynamicResource Help!Credits!Header}">
-                    <ItemsControl x:Name="CreditsItemsControl"
-                                  Style="{DynamicResource CreditsItemsControlStyle}"
-                                  ItemsSource="{Binding Credits}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate DataType="{x:Type vm:CreditsItem}">
-                                <Button x:Name="TemplateRootButton"
-                                        Style="{DynamicResource CreditsButtonStyle}">
-                                    <cui:StackPanelEx Orientation="Vertical" HorizontalAlignment="Stretch" Spacing="4">
-                                        <TextBlock Text="{Binding Name}"
-                                                   Style="{DynamicResource h2}"
-                                                   TextAlignment="Left"/>
-                                        <TextBlock Text="{Binding Contribution}"
-                                                   TextWrapping="Wrap"
-                                                   HorizontalAlignment="Left"
-                                                   TextAlignment="Left"
-                                                   Margin="4"/>
-                                        <StackPanel x:Name="LinkAreaStackPanel"
-                                                    Orientation="Horizontal"
-                                                    Opacity="0.5">
-                                            <TextBlock Text="Click to visit "
-                                                       TextWrapping="NoWrap"/>
-                                            <TextBlock Text="{Binding Link}"
-                                                       TextWrapping="NoWrap"/>
-                                        </StackPanel>
-                                    </cui:StackPanelEx>
-                                </Button>
-                                <DataTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding HasLink}" Value="False">
-                                        <Setter TargetName="LinkAreaStackPanel" Property="Visibility" Value="Collapsed"/>
-                                        <Setter TargetName="TemplateRootButton" Property="IsHitTestVisible" Value="False"/>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding HasLink}" Value="True">
-                                        <Setter TargetName="TemplateRootButton" Property="Command" Value="{Binding OpenLinkCommand}"/>
-                                    </DataTrigger>
-                                </DataTemplate.Triggers>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </GroupBox>
             </StackPanel>
         </ScrollViewer>
     </cui:FloorPanel>
