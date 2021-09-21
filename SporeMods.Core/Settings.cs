@@ -165,31 +165,32 @@ namespace SporeMods.Core
 		static string GetBuildChannel()
 		{
 #if SET_BUILD_CHANNEL
-			string buildChannel = 
-	#if DEBUG
-				"DEBUG_"
-	#else
-				string.Empty
-	#endif
-				;
+			string buildChannelRaw = string.Empty;
 			
-
 			using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("BuildChannel"))
 			{
 				using (StreamReader reader = new StreamReader(stream))
 				{
-					buildChannel += reader.ReadToEnd();
+					buildChannelRaw += reader.ReadLine();
 				}
 			}
-			return buildChannel.Replace("\r", string.Empty).Replace("\n", string.Empty);
-#else
-			return
+			buildChannelRaw = buildChannelRaw.Replace("\r", string.Empty).Replace("\n", string.Empty);
+
+			string buildChannel = string.Empty;
+			foreach (Char c in buildChannelRaw)
+			{
+				buildChannel += Char.IsLetterOrDigit(c) ? Char.ToUpper(c) : '_';
+			}
+
+			return buildChannel.Replace("\r", string.Empty).Replace("\n", string.Empty)
 	#if DEBUG	
-				"DEBUG"
-	#else
-				string.Empty
+				+ " (DEBUG)"
 	#endif
-				;
+			;
+#elif DEBUG
+			return "DEBUG";
+#else
+			return string.Empty;
 #endif
 		}
 		
