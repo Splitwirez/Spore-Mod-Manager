@@ -1,24 +1,74 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Interop;
+using System.Windows.Interactivity;
+using System.Windows.Shell;
 using Colors = System.Windows.Media.Colors;
 using Screen = System.Windows.Forms.Screen;
 using Graphics = System.Drawing.Graphics;
 using Point = System.Windows.Point;
-using System.Runtime.InteropServices;
 using SporeMods.CommonUI;
-using System.Diagnostics;
 
 namespace SporeMods.CommonUI
 {
-    public class WindowChromeHelper : DependencyObject
+    public class WindowChromeHelper : Behavior<Window>
     {
+        static readonly Thickness ZERO_THICKNESS = new Thickness(0);
+
+        public static readonly DependencyProperty UseCustomDecorationsProperty =
+            DependencyProperty.RegisterAttached("UseCustomDecorations", typeof(bool), typeof(WindowChromeHelper), new FrameworkPropertyMetadata(false, UseCustomDecorationsChanged));
+
+        public static bool GetUseCustomDecorations(Window element)
+        {
+            return (bool)element.GetValue(UseCustomDecorationsProperty);
+        }
+
+        public static void SetUseCustomDecorations(Window element, bool value)
+        {
+            element.SetValue(UseCustomDecorationsProperty, value);
+        }
+
+        static void UseCustomDecorationsChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (sender is Window window)
+            {
+                var helper = GetWindowChromeHelper(window);
+                
+                if (helper == null)
+                    SetWindowChromeHelper(window, new WindowChromeHelper());
+                else if (e.NewValue is bool useCustomDecorations)
+                    helper.CustomDecorationsChanged(useCustomDecorations);
+            }
+        }
+
+        public static readonly DependencyProperty WindowChromeHelperProperty =
+            DependencyProperty.RegisterAttached("WindowChromeHelper", typeof(WindowChromeHelper), typeof(WindowChromeHelper), new FrameworkPropertyMetadata(null, WindowChromeHelperChanged));
+
+        public static WindowChromeHelper GetWindowChromeHelper(Window element)
+        {
+            return (WindowChromeHelper)element.GetValue(WindowChromeHelperProperty);
+        }
+
+        static void WindowChromeHelperChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if ((sender is Window window) && (e.NewValue != null) && (e.NewValue is WindowChromeHelper chromeHelper))
+                Interaction.GetBehaviors(window).Add(chromeHelper);
+        }
+
+        public static void SetWindowChromeHelper(Window element, WindowChromeHelper value)
+        {
+            element.SetValue(WindowChromeHelperProperty, value);
+        }
+        
+        
         static void ButtonWindowPropertiesChanged(object sender, DependencyPropertyChangedEventArgs e)
             => SetButtonStuff(sender, e);
 
@@ -76,32 +126,95 @@ namespace SporeMods.CommonUI
 
 
 
+        public static readonly DependencyProperty UseReRenderHackProperty =
+            DependencyProperty.RegisterAttached("UseReRenderHack", typeof(bool), typeof(WindowChromeHelper), new FrameworkPropertyMetadata(false, UseReRenderHackPropertyChangedCallback));
 
-        public WindowChromeHelper()
+        public static bool GetUseReRenderHack(Window element)
         {
-            /*var closesDesc = DependencyPropertyDescriptor.FromProperty(ClosesWindowProperty, typeof(Button));
-            closesDesc.AddValueChanged(this, (o, e) =>
-            {
-                if (o is Button btn)
-                    SetButtonStuff(btn, GetClosesWindow(btn), IsCloseButtonForProperty, CloseButton_Click);
-            });
-
-
-            var maximizesDesc = DependencyPropertyDescriptor.FromProperty(MaximizesWindowProperty, typeof(Button));
-            maximizesDesc.AddValueChanged(this, (o, e) =>
-            {
-                if (o is Button btn)
-                    SetButtonStuff(btn, GetMaximizesWindow(btn), IsMaximizeButtonForProperty, MaximizeButton_Click);
-            });
-
-
-            var minimizesDesc = DependencyPropertyDescriptor.FromProperty(MinimizesWindowProperty, typeof(Button));
-            minimizesDesc.AddValueChanged(this, (o, e) =>
-            {
-                if (o is Button btn)
-                    SetButtonStuff(btn, GetMinimizesWindow(btn), IsMinimizeButtonForProperty, MinimizeButton_Click);
-            });*/
+            return (bool)element.GetValue(UseReRenderHackProperty);
         }
+
+        public static void SetUseReRenderHack(Window element, bool value)
+        {
+            element.SetValue(UseReRenderHackProperty, value);
+        }
+
+        static void UseReRenderHackPropertyChangedCallback(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if ((sender is Window window) && (e.NewValue is bool useHack))
+                GetWindowChromeHelper(window).UseReRenderHackChanged(useHack);
+        }
+
+
+
+        public static readonly DependencyProperty Win7UseCornerRadiusProperty =
+            DependencyProperty.RegisterAttached("Win7UseCornerRadius", typeof(bool), typeof(WindowChromeHelper), new FrameworkPropertyMetadata(false, Win7UseCornerRadiusPropertyChangedCallback));
+
+        public static bool GetWin7UseCornerRadius(Window element)
+        {
+            return (bool)element.GetValue(Win7UseCornerRadiusProperty);
+        }
+
+        public static void SetWin7UseCornerRadius(Window element, bool value)
+        {
+            element.SetValue(Win7UseCornerRadiusProperty, value);
+        }
+
+        static void Win7UseCornerRadiusPropertyChangedCallback(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if ((sender is Window window) && (e.NewValue is bool useHack))
+                GetWindowChromeHelper(window).Win7UseCornerRadiusChanged(useHack);
+        }
+
+        public static readonly DependencyProperty Win7CornerRadiusProperty
+            = DependencyProperty.RegisterAttached("Win7CornerRadius", typeof(CornerRadius), typeof(WindowChromeHelper), new FrameworkPropertyMetadata(new CornerRadius(), Win7CornerRadiusPropertyChangedCallback));
+
+        public static CornerRadius GetWin7CornerRadius(Window element)
+        {
+            return (CornerRadius)element.GetValue(Win7CornerRadiusProperty);
+        }
+
+        public static void SetWin7CornerRadius(Window element, CornerRadius value)
+        {
+            element.SetValue(Win7CornerRadiusProperty, value);
+        }
+
+        static void Win7CornerRadiusPropertyChangedCallback(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (sender is Window window)
+                GetWindowChromeHelper(window).UpdateCornerRadius();
+        }
+
+
+
+        public static readonly DependencyProperty ExtendedTitleBarHeightProperty =
+            DependencyProperty.RegisterAttached("ExtendedTitleBarHeight", typeof(double), typeof(WindowChromeHelper), new FrameworkPropertyMetadata(0.0));
+
+        public static double GetExtendedTitleBarHeight(Window element)
+        {
+            return (double)element.GetValue(ExtendedTitleBarHeightProperty);
+        }
+
+        public static void SetExtendedTitleBarHeight(Window element, double value)
+        {
+            element.SetValue(ExtendedTitleBarHeightProperty, value);
+        }
+
+
+        public static readonly DependencyProperty MaximizeInsetProperty =
+            DependencyProperty.RegisterAttached("MaximizeInset", typeof(Thickness), typeof(WindowChromeHelper), new FrameworkPropertyMetadata(ZERO_THICKNESS, FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender));
+
+        public static Thickness GetMaximizeInset(Window element)
+        {
+            return (Thickness)element.GetValue(MaximizeInsetProperty);
+        }
+
+        public static void SetMaximizeInset(Window element, Thickness value)
+        {
+            element.SetValue(MaximizeInsetProperty, value);
+        }
+
+
 
         static void SetButtonStuff(object sender, DependencyPropertyChangedEventArgs e)
         {
@@ -143,6 +256,9 @@ namespace SporeMods.CommonUI
             }
         }
 
+
+
+
         static void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button btn)
@@ -169,159 +285,340 @@ namespace SporeMods.CommonUI
 
 
 
-        public static readonly DependencyProperty UseCustomDecorationsProperty =
-            DependencyProperty.RegisterAttached("UseCustomDecorations", typeof(bool), typeof(WindowChromeHelper), new FrameworkPropertyMetadata(false, UseCustomDecorationsChanged));
 
-        public static bool GetUseCustomDecorations(Window element)
+        IntPtr _hwnd = IntPtr.Zero;
+
+        protected override void OnAttached()
         {
-            return (bool)element.GetValue(UseCustomDecorationsProperty);
-        }
+            base.OnAttached();
 
-        public static void SetUseCustomDecorations(Window element, bool value)
-        {
-            element.SetValue(UseCustomDecorationsProperty, value);
-        }
+            var interopHelper = new WindowInteropHelper(AssociatedObject);
+            _hwnd = interopHelper.EnsureHandle();
+            
+            CustomDecorationsChanged(GetUseCustomDecorations(AssociatedObject));
+            UseReRenderHackChanged(GetUseReRenderHack(AssociatedObject));
 
-        public static readonly DependencyProperty UseReRenderHackProperty =
-            DependencyProperty.RegisterAttached("UseReRenderHack", typeof(bool), typeof(WindowChromeHelper), new FrameworkPropertyMetadata(false, UseReRenderHackChanged));
+            if (AssociatedObject.IsInitialized && AssociatedObject.IsLoaded)
+                StateChanged();
+            
 
-        public static bool GetUseReRenderHack(Window element)
-        {
-            return (bool)element.GetValue(UseReRenderHackProperty);
-        }
-
-        public static void SetUseReRenderHack(Window element, bool value)
-        {
-            element.SetValue(UseReRenderHackProperty, value);
-        }
-
-        static void UseReRenderHackChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if ((sender is Window window) && (e.NewValue is bool useHack))
+            HwndSource.FromHwnd(_hwnd).AddHook(new HwndSourceHook(WndProc));
+            /*var closesDesc = DependencyPropertyDescriptor.FromProperty(ClosesWindowProperty, typeof(Button));
+            closesDesc.AddValueChanged(this, (o, e) =>
             {
-                if (useHack)
-                {
-                    window.SizeChanged += Window_SizeChangedHack;
-                    window.StateChanged += Window_StateChangedHack;
-                }
-                else
-                {
-                    window.SizeChanged -= Window_SizeChangedHack;
-                    window.StateChanged -= Window_StateChangedHack;
-                }
-            }
-        }
+                if (o is Button btn)
+                    SetButtonStuff(btn, GetClosesWindow(btn), IsCloseButtonForProperty, CloseButton_Click);
+            });
 
-        private static void Window_SizeChangedHack(object sender, SizeChangedEventArgs e)
-            => ReRenderHack(sender);
 
-        private static void Window_StateChangedHack(object sender, EventArgs e)
-            => ReRenderHack(sender);
-
-        private static void ReRenderHack(object sender)
-        {
-            if (sender is Window window)
+            var maximizesDesc = DependencyPropertyDescriptor.FromProperty(MaximizesWindowProperty, typeof(Button));
+            maximizesDesc.AddValueChanged(this, (o, e) =>
             {
-                window.InvalidateMeasure();
-                window.InvalidateArrange();
-                window.InvalidateVisual();
-                window.UpdateLayout();
-            }
-        }
-
-        public static readonly DependencyProperty Win7UseCornerRadiusProperty =
-            DependencyProperty.RegisterAttached("Win7UseCornerRadius", typeof(bool), typeof(WindowChromeHelper), new FrameworkPropertyMetadata(false));
-
-        public static bool GetWin7UseCornerRadius(Window element)
-        {
-            return (bool)element.GetValue(Win7UseCornerRadiusProperty);
-        }
-
-        public static void SetWin7UseCornerRadius(Window element, bool value)
-        {
-            element.SetValue(Win7UseCornerRadiusProperty, value);
-        }
+                if (o is Button btn)
+                    SetButtonStuff(btn, GetMaximizesWindow(btn), IsMaximizeButtonForProperty, MaximizeButton_Click);
+            });
 
 
-        static void UseCustomDecorationsChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if ((sender is Window window) && (e.NewValue is bool useCustomDecorations))
+            var minimizesDesc = DependencyPropertyDescriptor.FromProperty(MinimizesWindowProperty, typeof(Button));
+            minimizesDesc.AddValueChanged(this, (o, e) =>
             {
-                var interopHelper = new WindowInteropHelper(window);
-                IntPtr hwnd = interopHelper.EnsureHandle();
-                HwndSource.FromHwnd(hwnd).CompositionTarget.BackgroundColor = useCustomDecorations ? Colors.Transparent : Colors.Black;
+                if (o is Button btn)
+                    SetButtonStuff(btn, GetMinimizesWindow(btn), IsMinimizeButtonForProperty, MinimizeButton_Click);
+            });*/
+        }
 
-                if (!SafeSetWindowCompositionAttribute(hwnd, useCustomDecorations))
+        
+        void CustomDecorationsChanged(bool useCustomDecorations)
+        {
+            if (_hwnd != IntPtr.Zero)
+            {
+                HwndSource.FromHwnd(_hwnd).CompositionTarget.BackgroundColor = useCustomDecorations ? Colors.Transparent : Colors.Black;
+
+                if (!SafeSetWindowCompositionAttribute(useCustomDecorations))
                 {
-                    SetWin7UseCornerRadius(window, useCustomDecorations);
+                    SetWin7UseCornerRadius(AssociatedObject, useCustomDecorations);
                 }
 
                 if (useCustomDecorations)
-                    window.StateChanged += Window_StateChangedCustomDeco;
+                    AssociatedObject.StateChanged += Window_StateChangedCustomDeco;
                 else
-                    window.StateChanged -= Window_StateChangedCustomDeco;
-
-                if (window.IsInitialized && window.IsLoaded)
-                    StateChanged(window);
+                    AssociatedObject.StateChanged -= Window_StateChangedCustomDeco;
             }
         }
 
-        private static void Window_StateChangedCustomDeco(object sender, EventArgs e)
+        void UseReRenderHackChanged(bool useReRenderHack)
         {
-            if (sender is Window window)
-                StateChanged(window);
-        }
-
-        static void StateChanged(Window window)
-        {
-            if (window.WindowState == WindowState.Maximized)
+            if (useReRenderHack)
             {
-                window.SizeChanged -= Window_SizeChangedNonMaximized;
-                window.LocationChanged -= Window_LocationChangedNonMaximized;
-                window.InvalidateVisual();
-                window.UpdateLayout();
-
-                window.Dispatcher.BeginInvoke(new Action(() => RefreshEdges(window)), System.Windows.Threading.DispatcherPriority.Render, null);
-
+                AssociatedObject.SizeChanged += Window_SizeChangedHack;
+                AssociatedObject.StateChanged += Window_StateChangedHack;
             }
             else
             {
-                RefreshEdges(window);
-
-                window.SizeChanged += Window_SizeChangedNonMaximized;
-                window.LocationChanged += Window_LocationChangedNonMaximized;
+                AssociatedObject.SizeChanged -= Window_SizeChangedHack;
+                AssociatedObject.StateChanged -= Window_StateChangedHack;
             }
         }
 
-        private static void Window_LocationChangedNonMaximized(object sender, EventArgs e)
+        bool _win7useCornerRadius = false;
+        void Win7UseCornerRadiusChanged(bool win7useCornerRadius)
         {
-            if (sender is Window window)
-                RefreshEdges(window);
+            //NativeMethods.SetWindowLong(GetWindowLong)
+            _win7useCornerRadius = win7useCornerRadius;
         }
 
-        private static void Window_SizeChangedNonMaximized(object sender, SizeChangedEventArgs e)
+        const NativeMethods.CombineRgnStyles COMBINE = NativeMethods.CombineRgnStyles.RgnOr;
+        public IntPtr WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, ref Boolean handled)
         {
-            if (sender is Window window)
-                RefreshEdges(window);
-        }
-
-        private static void Window_LayoutUpdatedAfterMaximize(object sender, EventArgs e)
-        {
-            if (sender is Window window)
+            if (msg == NativeMethods.WmSize)
             {
-                RefreshEdges(window);
-                window.LayoutUpdated -= Window_LayoutUpdatedAfterMaximize;
+                if (_win7useCornerRadius)
+                {
+                    if (wParam.ToInt32() != NativeMethods.SizeMaximized)
+                    {
+                        int lP = lParam.ToInt32();
+                        
+                        //IntPtr rgn = NativeMethods.CreateRoundRectRgn(10, 10, (lP & 0xFFFF) - 20, (lP >> 16) - 20, 20, 20);
+                        int width = (lP & 0xFFFF);
+                        int height = (lP >> 16);
+
+                        //CornerCurves curv = AttachedProperties.GetCornerCurves(AssociatedObject);
+                        UpdateCornerRadius(width, height, false);
+                    }
+                    else
+                        UpdateCornerRadius();
+                }
+            }
+
+            return IntPtr.Zero;
+        }
+
+        void UpdateCornerRadius()
+        {
+            if (AssociatedObject.WindowState == WindowState.Maximized)
+                UpdateCornerRadius(0, 0, true);
+            else
+                UpdateCornerRadius(SystemScaling.WpfUnitsToRealPixels(AssociatedObject.Width), SystemScaling.WpfUnitsToRealPixels(AssociatedObject.Height), false);
+        }
+
+        void UpdateCornerRadius(int width, int height, bool maximized)
+        {
+            IntPtr completeRegion = IntPtr.Zero;
+
+            if (!maximized)
+            {
+                int topLeft = 0;
+                int topRight = 0;
+                int bottomRight = 0;
+                int bottomLeft = 0;
+
+                CornerRadius radius = GetWin7CornerRadius(AssociatedObject);
+                
+                if (radius != null)
+                {
+                    topLeft = SystemScaling.WpfUnitsToRealPixels(radius.TopLeft);
+                    topRight = SystemScaling.WpfUnitsToRealPixels(radius.TopRight);
+                    bottomRight = SystemScaling.WpfUnitsToRealPixels(radius.BottomRight);
+                    bottomLeft = SystemScaling.WpfUnitsToRealPixels(radius.BottomLeft);
+                }
+                
+                /*CornerRadius radiusRaw = (chrome != null) ? chrome.CornerRadius : new CornerRadius(0);
+                int topLeft = SystemScaling.WpfUnitsToRealPixels(curv.TopLeft ? radiusRaw.TopLeft : 0);
+                int topRight = SystemScaling.WpfUnitsToRealPixels(curv.TopRight ? radiusRaw.TopRight : 0);
+                int bottomRight = SystemScaling.WpfUnitsToRealPixels(curv.BottomRight ? radiusRaw.BottomRight : 0);
+                int bottomLeft = SystemScaling.WpfUnitsToRealPixels(curv.BottomLeft ? radiusRaw.BottomLeft : 0);*/
+                
+                int leftEdgeRight = Math.Max(topLeft, bottomLeft);
+                int topEdgeBottom = Math.Max(topLeft, topRight);
+
+                int rightEdgeMax = Math.Max(topRight, bottomRight);
+                int rightEdgeLeft = width - rightEdgeMax;
+                
+                int bottomEdgeMax = Math.Max(bottomLeft, bottomRight);
+                int bottomEdgeTop = height - bottomEdgeMax;
+
+                
+                completeRegion = NativeMethods.CreateRectRgn(leftEdgeRight, topEdgeBottom, rightEdgeLeft, bottomEdgeTop);
+
+
+                if (leftEdgeRight > 0)
+                {
+                    IntPtr leftEdgeRect = NativeMethods.CreateRectRgn(0, topLeft, leftEdgeRight, height - bottomLeft);
+                    NativeMethods.CombineRgn(completeRegion, leftEdgeRect, completeRegion, COMBINE);
+                }
+
+                if (topEdgeBottom > 0)
+                {
+                    IntPtr topEdgeRect = NativeMethods.CreateRectRgn(topLeft, 0, width - topRight, topEdgeBottom);
+                    NativeMethods.CombineRgn(completeRegion, topEdgeRect, completeRegion, COMBINE);
+                }
+
+                if (rightEdgeMax > 0)
+                {
+                    IntPtr rightEdgeRect = NativeMethods.CreateRectRgn(rightEdgeLeft, topRight, width, height - bottomRight);
+                    NativeMethods.CombineRgn(completeRegion, rightEdgeRect, completeRegion, COMBINE);
+                }
+
+                if (bottomEdgeMax > 0)
+                {
+                    IntPtr bottomEdgeRect = NativeMethods.CreateRectRgn(bottomLeft, bottomEdgeTop, width - bottomRight, height);
+                    NativeMethods.CombineRgn(completeRegion, bottomEdgeRect, completeRegion, COMBINE);
+                }
+
+
+                width++;
+                height++;
+                
+                int topLeftD = topLeft * 2;
+                int topRightD = topRight * 2;
+                int bottomRightD = bottomRight * 2;
+                int bottomLeftD = bottomLeft * 2;
+
+                IntPtr topLeftEllipse = NativeMethods.CreateEllipticRgn(0, 0, topLeftD, topLeftD);
+                IntPtr topRightEllipse = NativeMethods.CreateEllipticRgn(width - topRightD, 0, width, topRightD);
+                IntPtr bottomRightEllipse = NativeMethods.CreateEllipticRgn(width - bottomRightD, height - bottomRightD, width, height);
+                IntPtr bottomLeftEllipse = NativeMethods.CreateEllipticRgn(0, height - bottomLeftD, bottomLeftD, height);
+
+                if (topLeft > 0)
+                    NativeMethods.CombineRgn(completeRegion, topLeftEllipse, completeRegion, COMBINE);
+                
+                if (topRight > 0)
+                    NativeMethods.CombineRgn(completeRegion, topRightEllipse, completeRegion, COMBINE);
+                
+                if (bottomRight > 0)
+                    NativeMethods.CombineRgn(completeRegion, bottomRightEllipse, completeRegion, COMBINE);
+                
+                if (bottomLeft > 0)
+                    NativeMethods.CombineRgn(completeRegion, bottomLeftEllipse, completeRegion, COMBINE);
+            }
+            
+            NativeMethods.SetWindowRgn(_hwnd, completeRegion, true);
+        }
+
+
+
+        private void Window_SizeChangedHack(object sender, SizeChangedEventArgs e)
+            => ReRenderHack();
+
+        private void Window_StateChangedHack(object sender, EventArgs e)
+            => ReRenderHack();
+
+        private void ReRenderHack()
+        {
+            
+            AssociatedObject.InvalidateMeasure();
+            AssociatedObject.InvalidateArrange();
+            AssociatedObject.InvalidateVisual();
+            AssociatedObject.UpdateLayout();
+        }
+        
+
+
+        private void Window_StateChangedCustomDeco(object sender, EventArgs e)
+        {
+            StateChanged();
+        }
+
+        
+        double _prevWidth = -1;
+        double _prevHeight = -1;
+        int _wasMaximized = 0;
+        
+        void StateChanged()
+        {
+            if (AssociatedObject.WindowState == WindowState.Maximized)
+            {
+                _prevWidth = AssociatedObject.Width;
+                _prevHeight = AssociatedObject.Height;
+                _wasMaximized = 1;
+
+                AssociatedObject.SizeChanged -= Window_SizeChangedNonMaximized;
+                AssociatedObject.LocationChanged -= Window_LocationChangedNonMaximized;
+                AssociatedObject.InvalidateVisual();
+                AssociatedObject.UpdateLayout();
+
+                AssociatedObject.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    AssociatedObject.InvalidateVisual();
+                    AssociatedObject.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        RefreshEdges();
+                    }), System.Windows.Threading.DispatcherPriority.Render, null);
+
+                }), System.Windows.Threading.DispatcherPriority.Render, null);
+            }
+            else
+            {
+                RefreshEdges();
+
+                AssociatedObject.SizeChanged += Window_SizeChangedNonMaximized;
+                AssociatedObject.LocationChanged += Window_LocationChangedNonMaximized;
             }
         }
 
-        static readonly Thickness ZERO_THICKNESS = new Thickness(0);
-        static void RefreshEdges(Window window)
+        void Window_LocationChangedNonMaximized(object sender, EventArgs e)
+            => RefreshEdges();
+
+        bool IsFloating
         {
-            Screen screen = Screen.FromHandle(new WindowInteropHelper(window).EnsureHandle());
+            get
+            {
+                BorderPresence presence = AttachedProperties.GetBorderPresence(AssociatedObject);
+                return presence.Left && presence.Top && presence.Right && presence.Bottom;
+            }
+        }
+
+        private void Window_SizeChangedNonMaximized(object sender, SizeChangedEventArgs e)
+        {
+            RefreshEdges();
+
+            if (_wasMaximized != 0)
+            {
+            /*window.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (window.WindowState == WindowState.Normal)
+                {*/
+                    if (IsFloating)
+                    {
+                        if (_wasMaximized == 2)
+                        {
+                            if (AssociatedObject.Width != _prevWidth)
+                            {
+                                AssociatedObject.Width = _prevWidth;
+                                _wasMaximized = 0;
+                            }
+                            
+                            
+                            if (AssociatedObject.Height != _prevHeight)
+                            {
+                                AssociatedObject.Height = _prevHeight;
+                                _wasMaximized = 0;
+                            }
+                        }
+                        else if (_wasMaximized == 1)
+                        {
+                            if ((AssociatedObject.Width == _prevWidth) && (AssociatedObject.Height != _prevHeight))
+                                _wasMaximized = 2;
+                        }
+                    }
+                //}
+            //}), System.Windows.Threading.DispatcherPriority.Render, null);
+            }
+        }
+
+        private void Window_LayoutUpdatedAfterMaximize(object sender, EventArgs e)
+        {
+            RefreshEdges();
+            AssociatedObject.LayoutUpdated -= Window_LayoutUpdatedAfterMaximize;
+        }
+
+        void RefreshEdges()
+        {
+            Screen screen = Screen.FromHandle(new WindowInteropHelper(AssociatedObject).EnsureHandle());
             var work = screen.WorkingArea;
             
-            Point targetTL = window.PointToScreen(new Point(0, 0));
-            Point targetBR = window.PointToScreen(new Point(window.ActualWidth, window.ActualHeight));
+            Point targetTL = AssociatedObject.PointToScreen(new Point(0, 0));
+            Point targetBR = AssociatedObject.PointToScreen(new Point(AssociatedObject.ActualWidth, AssociatedObject.ActualHeight));
             
             double leftInset = 0;
             double topInset = 0;
@@ -338,7 +635,7 @@ namespace SporeMods.CommonUI
             bool br = true;
             bool bl = true;
 
-            if (window.WindowState == WindowState.Maximized)
+            if (AssociatedObject.WindowState == WindowState.Maximized)
             {
                 leftInset = Math.Max(0, work.X - targetTL.X);
                 topInset = Math.Max(0, work.Y - targetTL.Y);
@@ -362,12 +659,18 @@ namespace SporeMods.CommonUI
                 br = bottomPresence && rightPresence;
                 bl = bottomPresence && leftPresence;
             }
-            SetMaximizeInset(window, new Thickness(leftInset, topInset, rightInset, bottomInset));
-            AttachedProperties.SetBorderPresence(window, new BorderPresence(leftPresence, topPresence, rightPresence, bottomPresence));
-            AttachedProperties.SetCornerCurves(window, new CornerCurves(tl, tr, br, bl));
+            SetMaximizeInset(AssociatedObject, new Thickness(leftInset, topInset, rightInset, bottomInset));
+            AttachedProperties.SetBorderPresence(AssociatedObject, new BorderPresence(leftPresence, topPresence, rightPresence, bottomPresence));
+            AttachedProperties.SetCornerCurves(AssociatedObject, new CornerCurves(tl, tr, br, bl));
         }
 
-        static bool SafeSetWindowCompositionAttribute(IntPtr hwnd, bool allowTransparency)
+        static bool _useWin10AlphaComposition = new Func<bool>(() =>
+        {
+            NativeMethods.OSVERSIONINFOEXW info = new NativeMethods.OSVERSIONINFOEXW();
+			NativeMethods.RtlGetVersion(ref info);
+            return new Version(info.dwMajorVersion, info.dwMinorVersion, info.dwBuildNumber) >= new Version(10, 0, 15063);
+        })();
+        bool SafeSetWindowCompositionAttribute(bool allowTransparency)
         {
             bool setAttr = false;
             if (
@@ -382,7 +685,18 @@ namespace SporeMods.CommonUI
                 {
                     var accent = new NativeMethods.AccentPolicy();
                     var accentStructSize = Marshal.SizeOf(accent);
-                    accent.AccentState = allowTransparency ? NativeMethods.AccentState.ACCENT_ENABLE_BLURBEHIND : NativeMethods.AccentState.ACCENT_DISABLED;
+
+                    if (allowTransparency)
+                    {
+                        accent.AccentState = _useWin10AlphaComposition ? NativeMethods.AccentState.ACCENT_ENABLE_PER_PIXEL_ALPHA_I_GUESS : NativeMethods.AccentState.ACCENT_ENABLE_BLURBEHIND_BUT_ITS_PER_PIXEL_ALPHA_ON_WINDOWS_8;
+                        
+                        if (_useWin10AlphaComposition)
+                        {
+                            accent.GradientColor = 0x00000000;
+                        }
+                    }
+                    else
+                        accent.AccentState = NativeMethods.AccentState.ACCENT_DISABLED;
 
                     var accentPtr = Marshal.AllocHGlobal(accentStructSize);
                     Marshal.StructureToPtr(accent, accentPtr, false);
@@ -394,44 +708,16 @@ namespace SporeMods.CommonUI
                         Data = accentPtr
                     };
 
-                    NativeMethods.SetWindowCompositionAttribute(hwnd, ref data);
+                    NativeMethods.SetWindowCompositionAttribute(_hwnd, ref data);
+                    //NativeMethods.SetWindowLong(_hwnd, NativeMethods.GwlExstyle, NativeMethods.GetWindowLong(_hwnd, NativeMethods.GwlExstyle).ToInt32() & NativeMethods.WsExNoRedirectionBitmap);
                     setAttr = true;
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine($"SetWindowCompositionAttribute failed!\n{ex}");
                 }
             }
             return setAttr;
-        }
-
-
-
-        public static readonly DependencyProperty ExtendedTitleBarHeightProperty =
-            DependencyProperty.RegisterAttached("ExtendedTitleBarHeight", typeof(double), typeof(WindowChromeHelper), new FrameworkPropertyMetadata(0.0));
-
-        public static double GetExtendedTitleBarHeight(Window element)
-        {
-            return (double)element.GetValue(ExtendedTitleBarHeightProperty);
-        }
-
-        public static void SetExtendedTitleBarHeight(Window element, double value)
-        {
-            element.SetValue(ExtendedTitleBarHeightProperty, value);
-        }
-
-
-
-        public static readonly DependencyProperty MaximizeInsetProperty =
-            DependencyProperty.RegisterAttached("MaximizeInset", typeof(Thickness), typeof(WindowChromeHelper), new FrameworkPropertyMetadata(ZERO_THICKNESS, FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender));
-
-        public static Thickness GetMaximizeInset(Window element)
-        {
-            return (Thickness)element.GetValue(MaximizeInsetProperty);
-        }
-
-        public static void SetMaximizeInset(Window element, Thickness value)
-        {
-            element.SetValue(MaximizeInsetProperty, value);
         }
     }
 

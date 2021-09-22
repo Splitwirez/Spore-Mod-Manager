@@ -121,9 +121,6 @@ namespace SporeMods.CommonUI
 
         public static uint WmClose = 0x0010;
 
-        [DllImport("user32.dll")]
-        internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
-
         [StructLayout(LayoutKind.Sequential)]
         internal struct WindowCompositionAttributeData
         {
@@ -135,27 +132,23 @@ namespace SporeMods.CommonUI
         internal enum WindowCompositionAttribute
         {
             // ...
-            WCA_ACCENT_POLICY = 19
+            WCA_ACCENT_POLICY = 19,
+            WCA_USEDARKMODECOLORS = 26
             // ...
         }
 
-        /*internal enum AccentState
-        {
-            ACCENT_DISABLED = 0,
-            ACCENT_ENABLE_GRADIENT = 1,
-            ACCENT_ENABLE_TRANSPARENTGRADIENT = 2,
-            ACCENT_ENABLE_BLURBEHIND = 3,
-            ACCENT_INVALID_STATE = 4
-        }*/
+        [DllImport("user32.dll")]
+        internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
 
         internal enum AccentState
         {
             ACCENT_DISABLED = 0,
             ACCENT_ENABLE_GRADIENT = 1,
             ACCENT_ENABLE_TRANSPARENTGRADIENT = 2,
-            ACCENT_ENABLE_BLURBEHIND = 3,
+            ACCENT_ENABLE_BLURBEHIND_BUT_ITS_PER_PIXEL_ALPHA_ON_WINDOWS_8 = 3,
             ACCENT_ENABLE_ACRYLICBLURBEHIND = 4,
-            ACCENT_INVALID_STATE = 5
+            ACCENT_INVALID_STATE = 5,
+            ACCENT_ENABLE_PER_PIXEL_ALPHA_I_GUESS = 6
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -216,7 +209,8 @@ namespace SporeMods.CommonUI
             WsExToolwindow = 0x00000080,
             WsExTransparent = 0x00000020,
             WsExNoActivate = 0x08000000,
-            WsExAppWindow = 0x00040000;
+            WsExAppWindow = 0x00040000,
+            WsExNoRedirectionBitmap = 0x00200000;
 
 
         public static IntPtr GetWindowLong(IntPtr hWnd, Int32 nIndex)/* => IntPtr.Size == 8
@@ -253,9 +247,29 @@ namespace SporeMods.CommonUI
         [DllImport("gdi32.dll")]
         public static extern IntPtr CreateRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect);
 
+        [DllImport("gdi32.dll")]
+        public static extern IntPtr CreateEllipticRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect);
+
+        public enum CombineRgnStyles : int
+        {
+            RgnAnd         =1,
+            RgnOr          =2,
+            RgnXor         =3,
+            RgnDiff        =4,
+            RgnCopy        =5,
+            RgnMin         =RgnAnd,
+            RgnMax         =RgnCopy
+        }
+
+        [DllImport("gdi32.dll")]
+        public static extern int CombineRgn(IntPtr hrgnDest, IntPtr hrgnSrc1, IntPtr hrgnSrc2, CombineRgnStyles fnCombineMode);
+
 
         [DllImport("user32.dll")]
         public static extern int GetWindowRgn(IntPtr hWnd, IntPtr hRgn);
+
+        [DllImport("user32.dll")]
+        public static extern int SetWindowRgn(IntPtr hWnd, IntPtr hRgn, bool bRedraw);
 
         public enum RegionFlags
         {
@@ -405,6 +419,10 @@ namespace SporeMods.CommonUI
             WmSysCommand = 0x0112,
             WmWindowPosChanging = 0x0046,
             WmWindowPosChanged = 0x0047;
+        
+        public const Int32
+            SizeMaximized = 2,
+            SizeRestored = 0;
 
         public const Int32
             ScMove = 0xF010;
@@ -548,5 +566,34 @@ namespace SporeMods.CommonUI
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool IsWindow(IntPtr hWnd);
+
+
+        public enum ProductType
+        {
+            VerNtWorkstation = 0x0000001,
+            VerNtDomainCOontroller = 0x0000002,
+            VerNtServer = 0x0000003
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct OSVERSIONINFOEXW
+        {
+            public int dwOSVersionInfoSize;
+            public int dwMajorVersion;
+            public int dwMinorVersion;
+            public int dwBuildNumber;
+            public int dwPlatformId;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+            public string szCSDVersion;
+            public UInt16 wServicePackMajor;
+            public UInt16 wServicePackMinor;
+            public UInt16 wSuiteMask;
+            public ProductType wProductType;
+            public byte wReserved;
+        }
+
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        public static extern bool RtlGetVersion(ref OSVERSIONINFOEXW versionInfo);
     }
 }

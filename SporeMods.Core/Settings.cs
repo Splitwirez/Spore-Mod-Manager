@@ -31,8 +31,8 @@ namespace SporeMods.Core
 			version = new Version(0, 0, 0, 0);
 			try
 			{
-				string wineVer = GetWineVersion();
-				if (!Version.TryParse(wineVer, out version))
+				_getWineVersionResult = GetWineVersion();
+				if (!Version.TryParse(_getWineVersionResult, out version))
 					return null;
 
 				return true;
@@ -60,6 +60,12 @@ namespace SporeMods.Core
 					return retVal;
 				}
 			}
+		}
+
+		static string _getWineVersionResult = null;
+		public static string GetWineVersionResult
+		{
+			get => _getWineVersionResult;
 		}
 
 		

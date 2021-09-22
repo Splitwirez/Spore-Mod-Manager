@@ -6,12 +6,13 @@ using System.Linq;
 using System.Text;
 using SporeMods.Core;
 using SporeMods.CommonUI;
+using SporeMods.CommonUI.Localization;
 
 namespace SporeMods.ViewModels
 {
 	public class HelpViewModel : NotifyPropertyChangedBase
 	{
-		ObservableCollection<CreditsItem> _credits = new ObservableCollection<CreditsItem>()
+		/*ObservableCollection<CreditsItem> _credits = new ObservableCollection<CreditsItem>()
 		{
 			new CreditsItem("Splitwirez (formerly rob55rod)", "Designed and (mostly) built the Spore Mod Manager.", @"https://github.com/Splitwirez/"),
 			new CreditsItem("emd4600", "Started the Spore ModAPI Project. Created the Spore ModAPI Launcher Kit, which laid the foundations for the Spore Mod Manager. Helped build the Spore Mod Manager to be as robust as possible. Oh, and Spanish and Catalan translations.", @"https://github.com/emd4600/"),
@@ -44,6 +45,52 @@ namespace SporeMods.ViewModels
 				_credits = value;
 				NotifyPropertyChanged();
 			}
+		}*/
+		
+		public string SMMVersion
+		{
+			get => Settings.ModManagerVersion.ToString();
+		}
+
+		public string SMMBuildChannel
+		{
+			get => Settings.BuildChannel;
+		}
+
+		public string ModAPIDLLsBuild
+		{
+			get => Settings.CurrentDllsBuildString;
+		}
+
+		public string ReportedWindowsVersion
+		{
+			get => Environment.OSVersion.Version.ToString();
+		}
+
+		
+		string _rtlGetVersionResult = new Func<string>(() =>
+		{
+			NativeMethods.OSVERSIONINFOEXW info = new NativeMethods.OSVERSIONINFOEXW();
+			NativeMethods.RtlGetVersion(ref info);
+			return @$"size: {info.dwOSVersionInfoSize}
+            major: {info.dwMajorVersion}
+            minor: {info.dwMinorVersion}
+            build: {info.dwBuildNumber}
+            platformId: {info.dwPlatformId}
+            csdVersion: {info.szCSDVersion}
+            servicePackMajor: {info.wServicePackMajor}
+            servicePackMinor: {info.wServicePackMinor}
+            suiteMask: {info.wSuiteMask}
+            productType: {info.wProductType}";
+		})();
+		public string RtlGetVersionResult
+		{
+			get => _rtlGetVersionResult;
+		}
+
+		public string WINEVersion
+		{
+			get => Settings.GetWineVersionResult.IsNullOrEmptyOrWhiteSpace() ? LanguageManager.Instance.GetLocalizedText("Help!DiagnosticInfo!WINEVersion!NoneReturned") : Settings.GetWineVersionResult;
 		}
 
 

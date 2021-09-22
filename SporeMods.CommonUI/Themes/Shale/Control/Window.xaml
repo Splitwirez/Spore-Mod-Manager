@@ -5,6 +5,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Converters.xaml"/>
     </ResourceDictionary.MergedDictionaries>
+    <cui:DoubleComparisonConverter x:Key="DoubleComparisonConverter"/>
 
     <Style x:Key="CaptionButtonBaseStyle" TargetType="ButtonBase">
         <Setter Property="MinWidth" Value="{DynamicResource CaptionButtonWidth}"/><!--32-->
@@ -163,7 +164,7 @@
 					<cui:FloorPanel>
 						<Border x:Name="OuterBorder"
 								Background="{TemplateBinding BorderBrush}"
-								CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='8,8,8,8;0,0,0,0'}">
+								CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='8;0'}">
                             <Border.Effect>
                                 <DropShadowEffect Color="Black" RenderingBias="Performance" Direction="270" ShadowDepth="5" BlurRadius="12" Opacity="0.5"/>
 							</Border.Effect>
@@ -185,8 +186,8 @@
                                        Visibility="Hidden"/>
                             <Border x:Name="TitleBar"
 										BorderBrush="{DynamicResource TitlebarBorderBrush}"
-										BorderThickness="{Binding Path=(cui:AttachedProperties.BorderPresence), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BorderPresenceToThicknessConverter}, ConverterParameter='1,1,1,1;0,0,0,1'}"
-										CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='7,7,0,0;0,0,0,0'}"
+										BorderThickness="{Binding Path=(cui:AttachedProperties.BorderPresence), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BorderPresenceToThicknessConverter}, ConverterParameter='1;0,0,0,1'}"
+										CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='7,7,0,0;0'}"
 										Grid.Row="0"
                                         Grid.RowSpan="2">
                                     <Border.Background>
@@ -224,8 +225,9 @@
 												<Path Data="M 0 -1 L 2 -1 L 4.5 2 L 7 -1 L 9 -1 L 9 1 L 6 3.5 L 9 6 L 9 8 L 7 8 L 4.5 5 L 2 8 L 0 8 L 0 6 L 3 3.5 L 0 1 Z" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Stroke="Transparent" StrokeThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
 											</Button>
 										</StackPanel>
-										<Rectangle Width="{Binding ActualWidth, ElementName=CaptionButtons}"
-													Visibility="Hidden"
+										<Rectangle x:Name="TitleSpaceHelper"
+													Width="{Binding ActualWidth, ElementName=CaptionButtons}"
+                                                    Visibility="Hidden"
 													DockPanel.Dock="Left"/>
 										<TextBlock x:Name="TitleText"
 													Text="{TemplateBinding Title}"
@@ -246,7 +248,7 @@
 							</Border>
 							<Border x:Name="WindowBackground"
 									Background="{TemplateBinding Background}"
-									CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='0,0,7,7;0,0,0,0'}"
+									CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='0,0,7,7;0'}"
 									Grid.Row="2">
 							</Border>
 							<AdornerDecorator x:Name="ContentZone"
@@ -300,6 +302,15 @@
 							<Setter TargetName="OuterBorder" Property="Margin" Value="{Binding Path=(cui:AttachedProperties.BorderPresence), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BorderPresenceToThicknessConverter}, ConverterParameter='8,0,8,12;0,0,0,0'}"/>
 							<Setter TargetName="MainPanel" Property="Margin" Value="{Binding Path=(cui:AttachedProperties.BorderPresence), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BorderPresenceToThicknessConverter}, ConverterParameter='9,1,9,13;0,0,0,0'}"/>
 						</MultiTrigger>
+                        <DataTrigger Binding="{Binding ActualWidth, ElementName=MainPanel, Converter={StaticResource DoubleComparisonConverter}, ConverterParameter='le728'}" Value="True">
+                            <!--MultiDataTrigger.Conditions>
+								<Condition Binding="{Binding Path=(cui:WindowChromeHelper.UseCustomDecorations), RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="True"/>
+                                <Condition Binding="{Binding ActualWidth, ElementName=MainPanel, Converter={StaticResource DoubleComparisonConverter}, ConverterParameter='le758'}" Value="True"/>
+                            </MultiDataTrigger.Conditions-->
+                            <Setter TargetName="TitleSpaceHelper" Property="Width" Value="0"/>
+                            <Setter TargetName="TitleSpaceHelper" Property="DockPanel.Dock" Value="Right"/>
+                            <!--Setter TargetName="TitleSpaceHelper" Property="Visibility" Value="Collapsed"/-->
+						</DataTrigger>
 						<MultiTrigger>
 							<MultiTrigger.Conditions>
 								<Condition Property="cui:WindowChromeHelper.UseCustomDecorations" Value="True"/>
@@ -335,8 +346,7 @@
 									GlassFrameThickness="0"
 									ResizeBorderThickness="8,8,8,12"
 									NonClientFrameEdges="None"
-									UseAeroCaptionButtons="False"
-									CornerRadius="0"/>
+									UseAeroCaptionButtons="False"/>
 					</Setter.Value>
 				</Setter>
 			</MultiTrigger>
@@ -345,7 +355,6 @@
 				<MultiTrigger.Conditions>
 					<Condition Property="cui:WindowChromeHelper.UseCustomDecorations" Value="True"/>
 					<Condition Property="cui:WindowChromeHelper.Win7UseCornerRadius" Value="True"/>
-					<Condition Property="WindowState" Value="Normal"/>
 					<!--Condition Binding="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=Self}, Mode=OneWay, Converter={StaticResource IsAllTrueConverter}}" Value="True"/-->
 					<!--Condition Binding="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=Self}, Mode=OneWay, Converter={StaticResource AlwaysDifferentConverter1}}" Value="True"/>
 					<Condition Binding="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=Self}, Mode=OneWay, Converter={StaticResource AlwaysDifferentConverter2}}" Value="True"/-->
@@ -354,12 +363,13 @@
 					<Setter.Value>
                         <WindowChrome CaptionHeight="{DynamicResource TitleBarHeight}"
 									GlassFrameThickness="0"
-									ResizeBorderThickness="8,8,8,12"
+									ResizeBorderThickness="6"
 									NonClientFrameEdges="None"
-									UseAeroCaptionButtons="False"
-									CornerRadius="8"/>
+									UseAeroCaptionButtons="False"/>
 					</Setter.Value>
 				</Setter>
+                <Setter Property="cui:WindowChromeHelper.Win7CornerRadius"
+                        Value="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='8;0'}"/>
 			</MultiTrigger>
 			<!--MultiDataTrigger>
 				<MultiDataTrigger.Conditions>
@@ -407,7 +417,9 @@
 					<Condition Property="cui:WindowChromeHelper.Win7UseCornerRadius" Value="True"/>
 					<Condition Property="WindowState" Value="Maximized"/>
 				</MultiTrigger.Conditions>
-				<Setter Property="WindowChrome.WindowChrome">
+                <Setter Property="cui:WindowChromeHelper.Win7CornerRadius"
+                        Value="0"/>
+                <!--Setter Property="WindowChrome.WindowChrome">
 					<Setter.Value>
                         <WindowChrome CaptionHeight="{DynamicResource TitleBarHeight}"
 									GlassFrameThickness="0"
@@ -416,7 +428,7 @@
 									UseAeroCaptionButtons="False"
 									CornerRadius="0"/>
 					</Setter.Value>
-				</Setter>
+				</Setter-->
 			</MultiTrigger>
 		</Style.Triggers>
 	</Style>

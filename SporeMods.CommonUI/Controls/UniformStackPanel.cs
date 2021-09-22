@@ -25,8 +25,6 @@ namespace SporeMods.CommonUI
         protected override Size MeasureOverride(Size constraint)
         {
             bool fHorizontal = (Orientation == Orientation.Horizontal);
-            if (ForceScronch)
-                return fHorizontal ? new Size(0, constraint.Height) : new Size(constraint.Width, 0);
 
             var children = InternalChildren;
             int count = children.Count;
@@ -55,7 +53,12 @@ namespace SporeMods.CommonUI
             }
 
             double finalExtent = (maxChildExtent * count) + totalSpaceBetween;
-            return new Size(fHorizontal ? finalExtent : maxChildBreadth, fHorizontal ? maxChildBreadth : finalExtent);
+            Size retSize = new Size(fHorizontal ? finalExtent : maxChildBreadth, fHorizontal ? maxChildBreadth : finalExtent);
+
+            if (ForceScronch)
+                return fHorizontal ? new Size(0, retSize.Height) : new Size(retSize.Width, 0);
+            else
+                return retSize;
         }
 
         protected override Size ArrangeOverride(Size finalSize)

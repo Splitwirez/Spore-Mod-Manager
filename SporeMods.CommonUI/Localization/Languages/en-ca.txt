@@ -60,8 +60,8 @@ CopyUrlIntoBrowser Copy the following URL into your internet browser. #CopyUrlIn
 
 Header {
 	#Spore Mod Manager  v%VERSION% [DLLs Build %DLLSBUILD%] #WindowTitle
-	WithBuildChannel Spore Mod Manager %BUILDCHANNEL% v%VERSION% [DLLs Build %DLLSBUILD%] (%DOTNETRUNTIME%)
-	NoBuildChannel Spore Mod Manager v%VERSION% [DLLs Build %DLLSBUILD%] (%DOTNETRUNTIME%)
+	WithBuildChannel Spore Mod Manager v%VERSION% %BUILDCHANNEL%
+	NoBuildChannel Spore Mod Manager v%VERSION%
 }
 
 Mods {
@@ -424,11 +424,40 @@ Help {
 
 	NeedHelp {
 		Header Need help? #HelpHeader
+
 		AskQuestion Ask a question #AskQuestion
 		SuggestFeature Make a suggestion #SuggestFeature
 		ReportBug Report a bug #ReportBug
 	}
 
+	#ADDED
+	DiagnosticInfo {
+		#ADDED
+		Header Diagnostic information
+
+		#ADDED
+		SMMVersion Spore Mod Manager version
+		#ADDED
+		SMMBuildChannel Spore Mod Manager build channel
+		#ADDED
+		ModAPIDLLsBuild Spore ModAPI Core DLLs build
+		#ADDED
+		SporeAppVersion Spore executable version
+		#ADDED
+		ReportedWindowsVersion Reported Windows version
+		#ADDED
+		WINEVersion {
+			#ADDED
+			Header WINE version
+			#ADDED
+			NoneReturned None returned
+		}
+
+		#ADDED
+		Copy Copy
+		#ADDED
+		Save Save
+	}
 	Credits {
 		Header Credits #CreditsHeader
 	}

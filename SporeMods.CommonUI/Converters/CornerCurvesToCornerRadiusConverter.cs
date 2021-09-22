@@ -39,9 +39,9 @@ namespace SporeMods.CommonUI
 
             double bottomRight = trueRadius.BottomRight;
             if (!curves.BottomRight)
-                bottomRight = falseRadius.BottomLeft;
+                bottomRight = falseRadius.BottomRight;
 
-            double bottomLeft = trueRadius.TopLeft;
+            double bottomLeft = trueRadius.BottomLeft;
             if (!curves.BottomLeft)
                 bottomLeft = falseRadius.BottomLeft;
 

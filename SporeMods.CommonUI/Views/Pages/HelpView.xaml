@@ -7,7 +7,8 @@
              xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:vm="clr-namespace:SporeMods.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <UserControl.DataContext>
         <vm:HelpViewModel/>
     </UserControl.DataContext>
@@ -16,8 +17,8 @@
                     HorizontalScrollBarVisibility="Disabled"
                     cui:AttachedProperties.CornerCurves="False">
             <StackPanel Orientation="Vertical">
-                <GroupBox x:Name="HelpGroupBox" Header="{DynamicResource Help!NeedHelp!Header}">
-                    <cui:StackPanelEx Orientation="Horizontal" Spacing="{DynamicResource SettingsControlsHorizontalSpacing}">
+                <GroupBox x:Name="HelpLinksGroupBox" Header="{DynamicResource Help!NeedHelp!Header}">
+                    <cui:UniformStackPanel Orientation="Horizontal" Spacing="{DynamicResource SettingsControlsHorizontalSpacing}">
                         <!--Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="5"/>
@@ -25,19 +26,92 @@
                             <ColumnDefinition Width="5"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions-->
-                        <Button x:Name="AskQuestionButton"
-                                Content="{DynamicResource Help!NeedHelp!AskQuestion}"
-                                Command="{Binding AskQuestionCommand}"
-                                Grid.Column="0"/>
-                        <Button x:Name="SuggestFeatureButton"
-                                Content="{DynamicResource Help!NeedHelp!SuggestFeature}"
-                                Command="{Binding MakeSuggestionCommand}" Grid.Column="2"/>
+                        <Button Content="{DynamicResource Help!NeedHelp!AskQuestion}"
+                                Command="{Binding AskQuestionCommand}"/>
+                        <Button Content="{DynamicResource Help!NeedHelp!SuggestFeature}"
+                                Command="{Binding MakeSuggestionCommand}"/>
                         <!--Button x:Name="ShowConfigurationFileButton" Click="ShowConfigurationFileButton_Click" Grid.Column="2" Grid.ColumnSpan="3" Visibility="Collapsed"/-->
-                        <Button x:Name="ReportBugButton"
-                                Content="{DynamicResource Help!NeedHelp!ReportBug}"
-                                Command="{Binding ReportBugCommand}"
-                                Grid.Column="4"/>
-                    </cui:StackPanelEx>
+                        <Button Content="{DynamicResource Help!NeedHelp!ReportBug}"
+                                Command="{Binding ReportBugCommand}"/>
+                    </cui:UniformStackPanel>
+                </GroupBox>
+                <GroupBox x:Name="DiagnosticInfoGroupBox" Header="{DynamicResource Help!DiagnosticInfo!Header}">
+                    <Grid HorizontalAlignment="Left">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.Resources>
+                            <Style x:Key="{x:Type TextBlock}" TargetType="{x:Type TextBlock}">
+                                <Setter Property="HorizontalAlignment" Value="Left"/>
+                            </Style>
+                        </Grid.Resources>
+                        <TextBlock Text="{DynamicResource Help!DiagnosticInfo!SMMVersion}"
+                                Style="{DynamicResource h3}"
+                                Grid.Column="0"
+                                Grid.Row="0"/>
+                        <TextBlock Text="{Binding SMMVersion}"
+                                Grid.Column="2"
+                                Grid.Row="0"/>
+
+                        <TextBlock Text="{DynamicResource Help!DiagnosticInfo!SMMBuildChannel}"
+                                Style="{DynamicResource h3}"
+                                Grid.Column="0"
+                                Grid.Row="1"/>
+                        <TextBlock Text="{Binding SMMBuildChannel}"
+                                Grid.Column="2"
+                                Grid.Row="1"/>
+
+                        <TextBlock Text="{DynamicResource Help!DiagnosticInfo!ModAPIDLLsBuild}"
+                                Style="{DynamicResource h3}"
+                                Grid.Column="0"
+                                Grid.Row="2"/>
+                        <TextBlock Text="{Binding ModAPIDLLsBuild}"
+                                Grid.Column="2"
+                                Grid.Row="2"/>
+
+                        <!--TextBlock Text="{DynamicResource Help!DiagnosticInfo!SporeAppVersion}"
+                                Style="{DynamicResource h3}"
+                                Grid.Column="0"
+                                Grid.Row="3"/>
+                        <TextBlock Text="{Binding SporeAppVersion}"
+                                Grid.Column="2"
+                                Grid.Row="3"/-->
+
+                        <TextBlock Text="{DynamicResource Help!DiagnosticInfo!ReportedWindowsVersion}"
+                                Style="{DynamicResource h3}"
+                                Grid.Column="0"
+                                Grid.Row="4"/>
+                        <TextBlock Text="{Binding ReportedWindowsVersion}"
+                                Grid.Column="2"
+                                Grid.Row="4"/>
+
+                        <TextBlock Text="{DynamicResource Help!DiagnosticInfo!WINEVersion!Header}"
+                                Style="{DynamicResource h3}"
+                                Grid.Column="0"
+                                Grid.Row="5"/>
+                        <TextBlock Text="{Binding WINEVersion}"
+                                Grid.Column="2"
+                                Grid.Row="5"/>
+                                
+                        <TextBlock Text="{DynamicResource Help!DiagnosticInfo!RtlGetVersionResult!Header}"
+                                Style="{DynamicResource h3}"
+                                Grid.Column="0"
+                                Grid.Row="6"/>
+                        <TextBlock Text="{Binding RtlGetVersionResult}"
+                                Grid.Column="2"
+                                Grid.Row="6"/>
+                    </Grid>
                 </GroupBox>
             </StackPanel>
         </ScrollViewer>

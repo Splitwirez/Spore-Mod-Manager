@@ -181,8 +181,8 @@ namespace SporeMods.ViewModels
 #endif
 				)
 				.Replace("%VERSION%", Settings.ModManagerVersion.ToString())
-				.Replace("%DLLSBUILD%", Settings.CurrentDllsBuildString)
-				.Replace("%DOTNETRUNTIME%", Settings.TargetFramework)
+				//.Replace("%DLLSBUILD%", Settings.CurrentDllsBuildString)
+				//.Replace("%DOTNETRUNTIME%", Settings.TargetFramework)
 #if SET_BUILD_CHANNEL || DEBUG
 				.Replace("%BUILDCHANNEL%", Settings.BuildChannel)
 #endif

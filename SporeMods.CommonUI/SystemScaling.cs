@@ -15,7 +15,7 @@ namespace SporeMods.CommonUI
         /// </summary>
         /// <param name="wpfUnits">The amount of DIPs to convert to physical pixels.</param>
         /// <returns>A floating point number representing the amount of DIPs represented by <paramref name="realPixels"/> pixels.</returns>
-        public static Double WpfUnitsToRealPixels(Double wpfUnits) => (wpfUnits * ScalingFactor);
+        public static int WpfUnitsToRealPixels(Double wpfUnits) => (int)(wpfUnits * ScalingFactor);
 
         /// <summary>
         /// Converts physical pixels to DIPs.
@@ -29,7 +29,7 @@ namespace SporeMods.CommonUI
         /// </summary>
         /// <param name="wpfUnits">The amount of DIPs to convert to physical pixels.</param>
         /// <returns>A floating point number representing the amount of DIPs represented by <paramref name="realPixels"/> pixels.</returns>
-        public static Single WpfUnitsToRealPixels(Single wpfUnits) => (Single)(wpfUnits * ScalingFactor);
+        public static int WpfUnitsToRealPixels(Single wpfUnits) => (int)(wpfUnits * ScalingFactor);
 
         /// <summary>
         /// Converts physical pixels to DIPs.

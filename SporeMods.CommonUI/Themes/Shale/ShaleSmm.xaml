@@ -104,7 +104,7 @@
                                 <Condition Binding="{Binding Path=(cui:WindowChromeHelper.UseCustomDecorations), RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Value="True"/>
                                 <Condition Binding="{Binding WindowState, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, FallbackValue=Maximized}" Value="Normal"/>
                             </MultiDataTrigger.Conditions>
-                            <Setter TargetName="BackgroundBorder" Property="CornerRadius" Value="0,0,7,7"/>
+                            <Setter TargetName="BackgroundBorder" Property="CornerRadius" Value="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='0,0,7,7;0'}"/>
                         </MultiDataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
