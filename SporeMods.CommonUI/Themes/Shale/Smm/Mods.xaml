@@ -56,8 +56,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Control">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock x:Name="TaskStateTextBlock" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left" Text="{DynamicResource Mods!ListEntry!Tasks!Install}" Margin="0,0,5,0"/>
-                        <ProgressBar x:Name="ModProgressBar" Width="100" Height="23" Value="{Binding Progress, Mode=OneWay}" Minimum="0" Maximum="{Binding ProgressTotal, Mode=OneWay}" VerticalAlignment="Stretch"/>
+                        <TextBlock x:Name="TaskStateTextBlock" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left" Text="{DynamicResource Mods!ListEntry!Tasks!Install}" Margin="0,0,4,0"/>
+                        <ProgressBar x:Name="ModProgressBar" Width="100" Height="24" Value="{Binding Progress, Mode=OneWay}" Minimum="0" Maximum="{Binding ProgressTotal, Mode=OneWay}" VerticalAlignment="Stretch"/>
                     </StackPanel>
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding Status}" Value="Indeterminate">
@@ -119,6 +119,13 @@
             </Setter.Value>
         </Setter>
         <Setter Property="ItemContainerStyle" Value="{DynamicResource CardListViewItemStyle}"/>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <cui:StackPanelEx Orientation="Vertical" Spacing="-5" IsItemsHost="True"/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style x:Key="DropdownToggleButtonStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource CaptionButtonBaseStyle}">

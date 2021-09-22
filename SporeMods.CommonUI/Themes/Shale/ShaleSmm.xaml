@@ -128,8 +128,10 @@
             <Setter.Value>
                 <DataTemplate>
                     <DockPanel x:Name="Root">
-                        <cui:FloorPanel Name="ButtonIcon"
+                        <cui:FloorPanel x:Name="ButtonIcon"
                                         Width="32"
+                                        Height="24"
+                                        VerticalAlignment="Center"
                                         Margin="0,-1,0,1"
                                         Effect="{DynamicResource DropShadow}"
                                         UseLayoutRounding="True"
@@ -184,7 +186,7 @@
                         </cui:NoSizeDecorator>
                     </DockPanel>
                     <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Converter={StaticResource DoubleComparisonConverter}, ConverterParameter='le182'}" Value="True">
+                        <DataTrigger Binding="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Converter={StaticResource DoubleComparisonConverter}, ConverterParameter='le136'}" Value="True">
                             <Setter TargetName="ButtonText" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="Root" Property="HorizontalAlignment" Value="Center"/>
                             <Setter TargetName="Root" Property="ToolTip" Value="{Binding}"/>
@@ -207,7 +209,7 @@
                     <DockPanel x:Name="Root">
                         <cui:FloorPanel x:Name="ButtonIcon"
                                         Width="32"
-                                        Height="32"
+                                        VerticalAlignment="Center"
                                         Effect="{DynamicResource DropShadow}"
                                         UseLayoutRounding="True"
                                         DockPanel.Dock="Left">
@@ -230,7 +232,7 @@
                         </cui:NoSizeDecorator>
                     </DockPanel>
                     <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Converter={StaticResource DoubleComparisonConverter}, ConverterParameter='le182'}" Value="True">
+                        <DataTrigger Binding="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Converter={StaticResource DoubleComparisonConverter}, ConverterParameter='le136'}" Value="True">
                             <Setter TargetName="ButtonText" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="Root" Property="HorizontalAlignment" Value="Center"/>
                             <Setter TargetName="Root" Property="ToolTip" Value="{Binding}"/>
@@ -254,6 +256,7 @@
                         <Canvas x:Name="ButtonIcon"
                                 Width="32"
                                 Height="32"
+                                VerticalAlignment="Center"
                                 Effect="{DynamicResource DropShadow}"
                                 UseLayoutRounding="True"
                                 DockPanel.Dock="Left">
@@ -298,7 +301,7 @@
                         </cui:NoSizeDecorator>
                     </DockPanel>
                     <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Converter={StaticResource DoubleComparisonConverter}, ConverterParameter='le182'}" Value="True">
+                        <DataTrigger Binding="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Converter={StaticResource DoubleComparisonConverter}, ConverterParameter='le136'}" Value="True">
                             <Setter TargetName="ButtonText" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="Root" Property="HorizontalAlignment" Value="Center"/>
                             <Setter TargetName="Root" Property="ToolTip" Value="{Binding}"/>
@@ -321,6 +324,8 @@
                     <DockPanel x:Name="Root">
                         <Path x:Name="ButtonIcon"
                             Width="32"
+                            Margin="0,-1,0,1"
+                            VerticalAlignment="Center"
                             Stretch="None"
                             Fill="{DynamicResource IconBackground1}"
                             Effect="{DynamicResource DropShadow}"
@@ -334,7 +339,7 @@
                         </cui:NoSizeDecorator>
                     </DockPanel>
                     <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Converter={StaticResource DoubleComparisonConverter}, ConverterParameter='le182'}" Value="True">
+                        <DataTrigger Binding="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Converter={StaticResource DoubleComparisonConverter}, ConverterParameter='le136'}" Value="True">
                             <Setter TargetName="ButtonText" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="Root" Property="HorizontalAlignment" Value="Center"/>
                             <Setter TargetName="Root" Property="ToolTip" Value="{Binding}"/>

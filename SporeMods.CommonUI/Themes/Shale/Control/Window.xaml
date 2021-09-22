@@ -302,14 +302,14 @@
 							<Setter TargetName="OuterBorder" Property="Margin" Value="{Binding Path=(cui:AttachedProperties.BorderPresence), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BorderPresenceToThicknessConverter}, ConverterParameter='8,0,8,12;0,0,0,0'}"/>
 							<Setter TargetName="MainPanel" Property="Margin" Value="{Binding Path=(cui:AttachedProperties.BorderPresence), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BorderPresenceToThicknessConverter}, ConverterParameter='9,1,9,13;0,0,0,0'}"/>
 						</MultiTrigger>
-                        <DataTrigger Binding="{Binding ActualWidth, ElementName=MainPanel, Converter={StaticResource DoubleComparisonConverter}, ConverterParameter='le728'}" Value="True">
+                        <DataTrigger Binding="{Binding ActualWidth, ElementName=MainPanel, Converter={StaticResource DoubleComparisonConverter}, ConverterParameter='le514'}" Value="True">
                             <!--MultiDataTrigger.Conditions>
 								<Condition Binding="{Binding Path=(cui:WindowChromeHelper.UseCustomDecorations), RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="True"/>
                                 <Condition Binding="{Binding ActualWidth, ElementName=MainPanel, Converter={StaticResource DoubleComparisonConverter}, ConverterParameter='le758'}" Value="True"/>
                             </MultiDataTrigger.Conditions-->
-                            <Setter TargetName="TitleSpaceHelper" Property="Width" Value="0"/>
-                            <Setter TargetName="TitleSpaceHelper" Property="DockPanel.Dock" Value="Right"/>
-                            <!--Setter TargetName="TitleSpaceHelper" Property="Visibility" Value="Collapsed"/-->
+                            <!--Setter TargetName="TitleSpaceHelper" Property="Width" Value="0"/-->
+                            <!--Setter TargetName="TitleSpaceHelper" Property="DockPanel.Dock" Value="Right"/-->
+                            <Setter TargetName="TitleSpaceHelper" Property="Visibility" Value="Collapsed"/>
 						</DataTrigger>
 						<MultiTrigger>
 							<MultiTrigger.Conditions>

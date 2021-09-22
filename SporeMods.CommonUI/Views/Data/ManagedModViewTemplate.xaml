@@ -30,9 +30,9 @@
     
     <DataTemplate x:Key="{x:Static cui:AddResourceExtension.RES_KEY}" DataType="{x:Type mods:ManagedMod}">
         <DockPanel>
-            <DockPanel x:Name="ModRootDockPanel" Height="42" DockPanel.Dock="Top">
+            <DockPanel x:Name="ModRootDockPanel" Height="36" DockPanel.Dock="Top">
                 <!--Height="{Binding Height, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}"-->
-                <cui:FloorPanel x:Name="StatusGrid" Margin="0,0,5,0" DockPanel.Dock="Right">
+                <cui:FloorPanel x:Name="StatusGrid" Margin="0,0,4,0" DockPanel.Dock="Right">
                     <cui:FloorPanel.RenderTransform>
                         <TranslateTransform X="0"/>
                     </cui:FloorPanel.RenderTransform>
@@ -50,17 +50,12 @@
                                             </Style>
                                         </mod:ToggleSwitch.Style-->
                 <cui:FloorPanel x:Name="IconGrid" Width="{Binding Height, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DockPanel}}}" Height="{Binding Width, RelativeSource={RelativeSource Mode=Self}}" Margin="2,0" DockPanel.Dock="Left">
-                    <Rectangle x:Name="IconEdgeShadowRectangle" HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="5" Margin="0,5,-2,5">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>
-                        </Rectangle.Fill>
-                        <Rectangle.OpacityMask>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource SeparatorMaskGradientStops}"/>
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
+                    <Separator x:Name="IconSeparator" HorizontalAlignment="Right" cui:AttachedProperties.CastDirection="Left" Margin="0,5,-2,5"/>
                     <ContentPresenter x:Name="IconContainer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Effect="{DynamicResource DropShadow}">
                         <ContentPresenter.Content>
-                            <Canvas x:Name="IconCanvas" HorizontalAlignment="Center" VerticalAlignment="Center" Width="32" Height="32" Background="{Binding Icon, Converter={StaticResource IconToImageBrushConverter}}"/>
+                            <!--Canvas x:Name="IconCanvas" HorizontalAlignment="Center" VerticalAlignment="Center" Width="32" Height="32" Background="{Binding Icon, Converter={StaticResource IconToImageBrushConverter}}"/-->
+                            <Rectangle Width="24" Height="24" Fill="Red"
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </ContentPresenter.Content>
                     </ContentPresenter>
                 </cui:FloorPanel>
@@ -100,17 +95,9 @@
                 <StackPanel.LayoutTransform>
                     <ScaleTransform ScaleY="0"/>
                 </StackPanel.LayoutTransform>
-                <Rectangle x:Name="DescriptionSeparator" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="40,0" Height="5">
-                    <Rectangle.Fill>
-                        <LinearGradientBrush StartPoint="0,1" EndPoint="0,0" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>
-                    </Rectangle.Fill>
-                    <Rectangle.OpacityMask>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0" GradientStops="{DynamicResource SeparatorMaskGradientStops}"/>
-                    </Rectangle.OpacityMask>
-                </Rectangle>
-                <!--Fill="{DynamicResource HorizontalPanelBorderBrush}"/-->
+                <Separator x:Name="DescriptionSeparator" cui:AttachedProperties.CastDirection="Down" VerticalAlignment="Top" Margin="56,0"/>
                 <cui:NoSizeDecorator>
-                    <TextBlock Text="{Binding Description}" TextWrapping="Wrap" HorizontalAlignment="Left" Padding="5" Width="{Binding ActualWidth, ElementName=ModRootDockPanel}" ClipToBounds="False"/>
+                    <TextBlock Text="{Binding Description}" TextWrapping="Wrap" TextAlignment="Left" Padding="5" Width="{Binding ActualWidth, ElementName=ModRootDockPanel}" ClipToBounds="False"/>
                 </cui:NoSizeDecorator>
             </StackPanel>
         </DockPanel>
@@ -159,7 +146,7 @@
                             <!--DoubleAnimation Storyboard.TargetName="StatusGrid" Storyboard.TargetProperty="RenderTransform.X" To="-5" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/-->
 
                             <ThicknessAnimation Storyboard.TargetName="IconGrid" Storyboard.TargetProperty="Margin" To="2,0,7,0" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
-                            <ThicknessAnimation Storyboard.TargetName="IconEdgeShadowRectangle" Storyboard.TargetProperty="Margin" To="0,0,-7,0" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
+                            <ThicknessAnimation Storyboard.TargetName="IconSeparator" Storyboard.TargetProperty="Margin" To="0,0,-7,0" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
                             <ThicknessAnimation Storyboard.TargetName="DescriptionSeparator" Storyboard.TargetProperty="Margin" To="35,5,35,-5" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
                             <!--ThicknessAnimation Storyboard.TargetName="ModRootDockPanel" Storyboard.TargetProperty="Margin" To="-5" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/-->
                             <!--DoubleAnimation Storyboard.TargetName="IsEnabledToggleSwitch" Storyboard.TargetProperty="Width" To="105" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/-->
@@ -173,7 +160,7 @@
                             <!--DoubleAnimation Storyboard.TargetName="StatusGrid" Storyboard.TargetProperty="RenderTransform.X" To="0" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/-->
 
                             <ThicknessAnimation Storyboard.TargetName="IconGrid" Storyboard.TargetProperty="Margin" To="2,0" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
-                            <ThicknessAnimation Storyboard.TargetName="IconEdgeShadowRectangle" Storyboard.TargetProperty="Margin" To="0,5,-2,5" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
+                            <ThicknessAnimation Storyboard.TargetName="IconSeparator" Storyboard.TargetProperty="Margin" To="0,5,-2,5" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
                             <ThicknessAnimation Storyboard.TargetName="DescriptionSeparator" Storyboard.TargetProperty="Margin" To="40,0" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
                             <!--ThicknessAnimation Storyboard.TargetName="ModRootDockPanel" Storyboard.TargetProperty="Margin" To="0" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/-->
                             <!--DoubleAnimation Storyboard.TargetName="IsEnabledToggleSwitch" Storyboard.TargetProperty="Width" To="100" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/-->

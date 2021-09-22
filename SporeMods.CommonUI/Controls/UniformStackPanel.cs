@@ -8,12 +8,22 @@ namespace SporeMods.CommonUI
     public class UniformStackPanel : StackPanelEx
     {
         public static readonly DependencyProperty ForceScronchProperty =
-            DependencyProperty.Register("ForceScronch", typeof(bool), typeof(UniformStackPanel), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsParentMeasure | FrameworkPropertyMetadataOptions.AffectsParentArrange));
+            DependencyProperty.Register("ForceScronch", typeof(bool), typeof(UniformStackPanel), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsParentMeasure | FrameworkPropertyMetadataOptions.AffectsParentArrange));
 
         public bool ForceScronch
         {
             get => (bool)GetValue(ForceScronchProperty);
             set => SetValue(ForceScronchProperty, value);
+        }
+
+
+        public static readonly DependencyProperty ForceStretchProperty =
+            DependencyProperty.Register("ForceStretch", typeof(bool), typeof(UniformStackPanel), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsParentMeasure | FrameworkPropertyMetadataOptions.AffectsParentArrange));
+
+        public bool ForceStretch
+        {
+            get => (bool)GetValue(ForceStretchProperty);
+            set => SetValue(ForceStretchProperty, value);
         }
 
 
@@ -25,6 +35,8 @@ namespace SporeMods.CommonUI
         protected override Size MeasureOverride(Size constraint)
         {
             bool fHorizontal = (Orientation == Orientation.Horizontal);
+            bool scronch = ForceScronch;
+            bool stretch = ForceStretch;
 
             var children = InternalChildren;
             int count = children.Count;
@@ -44,20 +56,26 @@ namespace SporeMods.CommonUI
                 if (child == null || (child.Visibility == Visibility.Collapsed))
                 { continue; }
 
-                child.Measure(constraint);
+                if (!stretch)
+                    child.Measure(new Size(fHorizontal ? maxChildExtent : maxChildBreadth, fHorizontal ? maxChildBreadth : maxChildExtent));
+                else
+                    child.Measure(constraint);
+                
                 Size childSize = child.DesiredSize;
                 
-                maxChildExtent = Math.Max(maxChildExtent, fHorizontal ? childSize.Width : childSize.Height);
-
-                maxChildBreadth = Math.Max(maxChildBreadth, fHorizontal ? childSize.Height : childSize.Width);
+                if (scronch)
+                {
+                    maxChildExtent = Math.Max(maxChildExtent, fHorizontal ? childSize.Width : childSize.Height);
+                    maxChildBreadth = Math.Max(maxChildBreadth, fHorizontal ? childSize.Height : childSize.Width);
+                }
             }
 
             double finalExtent = (maxChildExtent * count) + totalSpaceBetween;
             Size retSize = new Size(fHorizontal ? finalExtent : maxChildBreadth, fHorizontal ? maxChildBreadth : finalExtent);
 
-            if (ForceScronch)
+            /*if (ForceScronch)
                 return fHorizontal ? new Size(0, retSize.Height) : new Size(retSize.Width, 0);
-            else
+            else*/
                 return retSize;
         }
 
