@@ -664,21 +664,28 @@ namespace SporeMods.CommonUI
             AttachedProperties.SetCornerCurves(AssociatedObject, new CornerCurves(tl, tr, br, bl));
         }
 
-        static bool _useWin10AlphaComposition = new Func<bool>(() =>
+        static Version _winVersion = new Func<Version>(() =>
         {
             NativeMethods.OSVERSIONINFOEXW info = new NativeMethods.OSVERSIONINFOEXW();
 			NativeMethods.RtlGetVersion(ref info);
-            return new Version(info.dwMajorVersion, info.dwMinorVersion, info.dwBuildNumber) >= new Version(10, 0, 15063);
+            return new Version(info.dwMajorVersion, info.dwMinorVersion, info.dwBuildNumber); //>= new Version(10, 0, 10240); //15063);
         })();
         bool SafeSetWindowCompositionAttribute(bool allowTransparency)
         {
             bool setAttr = false;
             if (
-                    (
-                        (Environment.OSVersion.Version.Major == 6) &&
-                        (Environment.OSVersion.Version.Minor >= 2)
-                    ) ||
-                    (Environment.OSVersion.Version.Major > 6)
+                    //(
+                        (_winVersion.Major == 6) &&
+                        (
+                            (_winVersion.Minor >= 2) ||
+                            (_winVersion.Minor == 3)
+                        )
+                    
+                    
+                    //Only on Windows 8 - SetWindowCompositionAttribute doesn't exist in 7, and Windows 10 is way too ever-evolving for calling it to be even remotely safe
+                    
+                    /*) ||
+                    (_winVersion.Major > 6)*/
                 )
             {
                 try
@@ -688,12 +695,13 @@ namespace SporeMods.CommonUI
 
                     if (allowTransparency)
                     {
-                        accent.AccentState = _useWin10AlphaComposition ? NativeMethods.AccentState.ACCENT_ENABLE_PER_PIXEL_ALPHA_I_GUESS : NativeMethods.AccentState.ACCENT_ENABLE_BLURBEHIND_BUT_ITS_PER_PIXEL_ALPHA_ON_WINDOWS_8;
+                        accent.AccentState = /*_useWin10AlphaComposition ? NativeMethods.AccentState.ACCENT_ENABLE_PER_PIXEL_ALPHA_I_GUESS : */
+                        NativeMethods.AccentState.ACCENT_ENABLE_BLURBEHIND_BUT_ITS_PER_PIXEL_ALPHA_ON_WINDOWS_8;
                         
-                        if (_useWin10AlphaComposition)
+                        /*if (_useWin10AlphaComposition)
                         {
                             accent.GradientColor = 0x00000000;
-                        }
+                        }*/
                     }
                     else
                         accent.AccentState = NativeMethods.AccentState.ACCENT_DISABLED;

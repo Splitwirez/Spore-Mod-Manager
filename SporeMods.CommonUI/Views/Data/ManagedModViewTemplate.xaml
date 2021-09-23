@@ -141,7 +141,8 @@
 
                             <ThicknessAnimation Storyboard.TargetName="IconGrid" Storyboard.TargetProperty="Margin" To="2,0,7,0" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
                             <ThicknessAnimation Storyboard.TargetName="IconSeparator" Storyboard.TargetProperty="Margin" To="0,0,-7,0" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
-                            <ThicknessAnimation Storyboard.TargetName="DescriptionSeparator" Storyboard.TargetProperty="Margin" To="35,5,35,-5" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
+                            <!--ThicknessAnimation Storyboard.TargetName="DescriptionSeparator" Storyboard.TargetProperty="Margin" To="35,5,35,-5" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/-->
+                            <ThicknessAnimation Storyboard.TargetName="DescriptionGrid" Storyboard.TargetProperty="Margin" To="0,5,0,-5" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
                             <!--ThicknessAnimation Storyboard.TargetName="ModRootDockPanel" Storyboard.TargetProperty="Margin" To="-5" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/-->
                             <!--DoubleAnimation Storyboard.TargetName="IsEnabledToggleSwitch" Storyboard.TargetProperty="Width" To="105" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/-->
                         </Storyboard>
@@ -155,7 +156,8 @@
 
                             <ThicknessAnimation Storyboard.TargetName="IconGrid" Storyboard.TargetProperty="Margin" To="2,0" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
                             <ThicknessAnimation Storyboard.TargetName="IconSeparator" Storyboard.TargetProperty="Margin" To="0,5,-2,5" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
-                            <ThicknessAnimation Storyboard.TargetName="DescriptionSeparator" Storyboard.TargetProperty="Margin" To="40,0" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
+                            <!--ThicknessAnimation Storyboard.TargetName="DescriptionSeparator" Storyboard.TargetProperty="Margin" To="40,0" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/-->
+                            <ThicknessAnimation Storyboard.TargetName="DescriptionGrid" Storyboard.TargetProperty="Margin" To="0" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
                             <!--ThicknessAnimation Storyboard.TargetName="ModRootDockPanel" Storyboard.TargetProperty="Margin" To="0" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/-->
                             <!--DoubleAnimation Storyboard.TargetName="IsEnabledToggleSwitch" Storyboard.TargetProperty="Width" To="100" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/-->
                         </Storyboard>
