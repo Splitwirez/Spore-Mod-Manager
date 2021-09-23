@@ -4,153 +4,26 @@
             xmlns:beh="http://schemas.microsoft.com/expression/2010/interactivity">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Converters.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/Button.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     
     <!--TODO Redo all of this to reduce redundancy and improve readability-->
     
-    <Style x:Key="ScrollBarLineButton" TargetType="{x:Type RepeatButton}">
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="true" />
-        <Setter Property="Focusable" Value="false" />
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="Background" Value="{DynamicResource ScrollBarLineUpButtonBackgroundBrush}"/>
-        <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <cui:FloorPanel>
-                        <cui:FloorPanel>
-                            <!--Border x:Name="IdleBackground" CornerRadius="{TemplateBinding BorderThickness, Converter={StaticResource ThicknessToCornerRadiusConverter}}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1">
-                                <Border.Background>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
-                                </Border.Background>
-                                <Border CornerRadius="{TemplateBinding BorderThickness, Converter={StaticResource ThicknessToCornerRadiusConverter}}" Margin="1" Padding="0" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0"/>
-                            </Border>
-                            <Border x:Name="HoverBackground" CornerRadius="{TemplateBinding BorderThickness, Converter={StaticResource ThicknessToCornerRadiusConverter}}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonHoverBorderBrush}" BorderThickness="1" Opacity="0">
-                                <Border.Background>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1"  GradientStops="{DynamicResource ButtonHoverBackgroundGradientStops}"/>
-                                </Border.Background>
-                                <Border CornerRadius="{TemplateBinding BorderThickness, Converter={StaticResource ThicknessToCornerRadiusConverter}}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
-                                    <Border.Background>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonHoverSecondaryBackgroundGradientStops}"/>
-                                    </Border.Background>
-                                </Border>
-                            </Border>
-                            <Border x:Name="PressedBackground" CornerRadius="{TemplateBinding BorderThickness, Converter={StaticResource ThicknessToCornerRadiusConverter}}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonPressedBorderBrush}" BorderThickness="1" Opacity="0">
-                                <Border.Background>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedBackgroundGradientStops}"/>
-                                </Border.Background>
-                                <Border CornerRadius="{TemplateBinding BorderThickness, Converter={StaticResource ThicknessToCornerRadiusConverter}}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
-                                    <Border.Background>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedSecondaryBackgroundGradientStops}"/>
-                                    </Border.Background>
-                                </Border>
-                            </Border>
-                            <Border x:Name="DisabledBackground" CornerRadius="{TemplateBinding BorderThickness, Converter={StaticResource ThicknessToCornerRadiusConverter}}" Margin="0" Padding="0" Background="{DynamicResource ButtonDisabledBackgroundBrush}" BorderBrush="{DynamicResource ButtonDisabledBorderBrush}" BorderThickness="1" Opacity="0">
-                                <Border CornerRadius="{TemplateBinding BorderThickness, Converter={StaticResource ThicknessToCornerRadiusConverter}}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0" Background="{DynamicResource ButtonDisabledSecondaryBackgroundBrush}"/>
-                            </Border-->
-                            <Border x:Name="IdleBackground" CornerRadius="3" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1">
-                                <Border.Background>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
-                                </Border.Background>
-                                <Border x:Name="IdleInnerBackground" CornerRadius="2" Margin="1" Padding="0" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0"/>
-                            </Border>
-                            <Border x:Name="HoverBackground" CornerRadius="{Binding CornerRadius, ElementName=IdleBackground}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonHoverBorderBrush}" BorderThickness="1" Opacity="0">
-                                <Border.Background>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonHoverBackgroundGradientStops}"/>
-                                </Border.Background>
-                                <Border CornerRadius="{Binding CornerRadius, ElementName=IdleInnerBackground}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
-                                    <Border.Background>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonHoverSecondaryBackgroundGradientStops}"/>
-                                    </Border.Background>
-                                </Border>
-                            </Border>
-                            <Border x:Name="PressedBackground" CornerRadius="{Binding CornerRadius, ElementName=IdleBackground}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonPressedBorderBrush}" BorderThickness="1" Opacity="0">
-                                <Border.Background>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedBackgroundGradientStops}"/>
-                                </Border.Background>
-                                <Border CornerRadius="{Binding CornerRadius, ElementName=IdleInnerBackground}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
-                                    <Border.Background>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedSecondaryBackgroundGradientStops}"/>
-                                    </Border.Background>
-                                </Border>
-                            </Border>
-                            <Border x:Name="DisabledBackground" CornerRadius="{Binding CornerRadius, ElementName=IdleBackground}" Margin="0" Padding="0" Background="{DynamicResource ButtonDisabledBackgroundBrush}" BorderBrush="{DynamicResource ButtonDisabledBorderBrush}" BorderThickness="1" Opacity="0">
-                                <Border CornerRadius="{Binding CornerRadius, ElementName=IdleInnerBackground}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0" Background="{DynamicResource ButtonDisabledSecondaryBackgroundBrush}"/>
-                            </Border>
-                            <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </cui:FloorPanel>
-                    </cui:FloorPanel>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="HoverBackground" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.125" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="HoverBackground" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.5" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.ExitActions>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="IdleBackground"
-                                                         Storyboard.TargetProperty="Opacity" To="0"
-                                                         Duration="0:0:0.125" />
-                                        <DoubleAnimation Storyboard.TargetName="PressedBackground"
-                                                         Storyboard.TargetProperty="Opacity" To="1"
-                                                         Duration="0:0:0.125" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="IdleBackground"
-                                                         Storyboard.TargetProperty="Opacity" To="1"
-                                                         Duration="0:0:0.125" />
-                                        <DoubleAnimation Storyboard.TargetName="PressedBackground"
-                                                         Storyboard.TargetProperty="Opacity" To="0"
-                                                         Duration="0:0:0.125" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.ExitActions>
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="{DynamicResource ButtonDisabledForegroundBrush}"/>
-                            <Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="DisabledBackground"
-                                                         Storyboard.TargetProperty="Opacity" To="1"
-                                                         Duration="0:0:0.125" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="DisabledBackground"
-                                                         Storyboard.TargetProperty="Opacity" To="0"
-                                                         Duration="0:0:0.125" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.ExitActions>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+    <Style x:Key="ScrollBarLineButton" TargetType="{x:Type RepeatButton}" BasedOn="{StaticResource GlyphRepeatButtonStyle}">
+        <Setter Property="Width" Value="18"/>
+        <Setter Property="Height" Value="18"/>
+        <Setter Property="Foreground" Value="{DynamicResource ScrollBarLineButtonIdleForegroundBrush}"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource ScrollBarLineButtonHoverForegroundBrush}"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource ScrollBarLineButtonPressedForegroundBrush}"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.5"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="ScrollBarPageButton" TargetType="{x:Type RepeatButton}">
@@ -291,7 +164,7 @@
             </Grid.RowDefinitions>
             <Border Grid.RowSpan="3" CornerRadius="2" Background="{TemplateBinding Background}" />
             <RepeatButton Grid.Row="0" Style="{DynamicResource ScrollBarLineButton}" Height="18" Command="ScrollBar.LineUpCommand" cui:AttachedProperties.CornerCurves="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}}">
-                <RepeatButton.Template>
+                <!--RepeatButton.Template>
                     <ControlTemplate TargetType="{x:Type RepeatButton}">
                         <cui:FloorPanel>
                             <Border x:Name="IdleBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,0,0;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1">
@@ -379,8 +252,11 @@
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
-                </RepeatButton.Template>
-                <Path Data="M 0 4 L 8 4 L 4 0 Z" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=RepeatButton}}"/>
+                </RepeatButton.Template-->
+                <Path Data="M 0 7 L 2 7 L 5 4
+                            L 8 7 L 10 7 L 10 5
+                            L 5 0 L 0 5 Z"
+                    Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=RepeatButton}}"/>
             </RepeatButton>
             <Track x:Name="PART_Track" Grid.Row="1" IsDirectionReversed="true">
                 <Track.DecreaseRepeatButton>
@@ -394,7 +270,7 @@
                 </Track.IncreaseRepeatButton>
             </Track>
             <RepeatButton Grid.Row="3" Style="{DynamicResource ScrollBarLineButton}" Background="{DynamicResource ScrollBarLineDownButtonBackgroundBrush}" Height="18" Command="ScrollBar.LineDownCommand" cui:AttachedProperties.CornerCurves="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}}">
-                <RepeatButton.Template>
+                <!--RepeatButton.Template>
                     <ControlTemplate TargetType="{x:Type RepeatButton}">
                         <cui:FloorPanel>
                             <Border x:Name="IdleBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='0,0,3,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1">
@@ -482,8 +358,11 @@
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
-                </RepeatButton.Template>
-                <Path Data="M 0 0 L 4 4 L 8 0 Z" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=RepeatButton}}"/>
+                </RepeatButton.Template-->
+                <Path Data="M 0 0 L 2 0 L 5 3
+                            L 8 0 L 10 0 L 10 2
+                            L 5 7 L 0 2 Z"
+                    Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=RepeatButton}}"/>
             </RepeatButton>
         </Grid>
     </ControlTemplate>
@@ -498,7 +377,7 @@
             <Border Grid.ColumnSpan="3" CornerRadius="2" Background="{TemplateBinding Background}" />
             <!--F0F0F0-->
             <RepeatButton Grid.Column="0" Style="{DynamicResource ScrollBarLineButton}" Width="18" Command="ScrollBar.LineLeftCommand" cui:AttachedProperties.CornerCurves="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}}">
-                <RepeatButton.Template>
+                <!--RepeatButton.Template>
                     <ControlTemplate TargetType="{x:Type RepeatButton}">
                         <cui:FloorPanel>
                             <Border x:Name="IdleBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,0,0,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1">
@@ -586,8 +465,11 @@
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
-                </RepeatButton.Template>
-                <Path Data="M 4 0 L 4 8 L 0 4 Z" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=RepeatButton}}"/>
+                </RepeatButton.Template-->
+                <Path Data="M 7 0 L 7 2 L 4 5
+                            L 7 8 L 7 10 L 5 10
+                            L 0 5 L 5 0 Z"
+                    Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=RepeatButton}}"/>
             </RepeatButton>
             <Track x:Name="PART_Track" Grid.Column="1" IsDirectionReversed="False">
                 <Track.DecreaseRepeatButton>
@@ -601,7 +483,7 @@
                 </Track.IncreaseRepeatButton>
             </Track>
             <RepeatButton Grid.Column="3" Style="{DynamicResource ScrollBarLineButton}" Width="18" Command="ScrollBar.LineRightCommand" cui:AttachedProperties.CornerCurves="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}}">
-                <RepeatButton.Template>
+                <!--RepeatButton.Template>
                     <ControlTemplate TargetType="{x:Type RepeatButton}">
                         <cui:FloorPanel>
                             <Border x:Name="IdleBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='0,3,3,0;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1">
@@ -689,8 +571,11 @@
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
-                </RepeatButton.Template>
-                <Path Data="M 0 0 L 4 4 L 0 8 Z" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=RepeatButton}}"/>
+                </RepeatButton.Template-->
+                <Path Data="M 0 0 L 0 2 L 3 5
+                            L 0 8 L 0 10 L 2 10
+                            L 7 5 L 2 0 Z"
+                    Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=RepeatButton}}"/>
             </RepeatButton>
         </Grid>
     </ControlTemplate>
@@ -698,21 +583,21 @@
     <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
-        <Setter Property="Background">
+        <!--Setter Property="Background">
             <Setter.Value>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonBackgroundGradientStops}"/>
             </Setter.Value>
-        </Setter>
+        </Setter-->
         <Style.Triggers>
             <Trigger Property="Orientation" Value="Horizontal">
                 <Setter Property="Width" Value="Auto" />
                 <Setter Property="Height" Value="18" />
-                <Setter Property="Template" Value="{StaticResource HorizontalScrollBar}" />
+                <Setter Property="Template" Value="{DynamicResource HorizontalScrollBar}" />
             </Trigger>
             <Trigger Property="Orientation" Value="Vertical">
                 <Setter Property="Width" Value="18" />
                 <Setter Property="Height" Value="Auto" />
-                <Setter Property="Template" Value="{StaticResource VerticalScrollBar}" />
+                <Setter Property="Template" Value="{DynamicResource VerticalScrollBar}" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -731,7 +616,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollViewer}">
-                    <ControlTemplate.Resources>
+                    <!--ControlTemplate.Resources>
                         <ControlTemplate x:Key="ViewerVerticalScrollBar" TargetType="{x:Type ScrollBar}">
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -830,7 +715,10 @@
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>
                                     </RepeatButton.Template>
-                                    <Path Data="M 0 4 L 8 4 L 4 0 Z" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=RepeatButton}}"/>
+                                    <Path Data="M 0 0 L 2 0 L 5 3
+                                                L 8 0 L 10 0 L 10 2
+                                                L 5 7 L 0 2 Z"
+                                        Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=RepeatButton}}"/>
                                 </RepeatButton>
                                 <Track x:Name="PART_Track" Grid.Row="1" IsDirectionReversed="true">
                                     <Track.DecreaseRepeatButton>
@@ -933,7 +821,10 @@
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>
                                     </RepeatButton.Template>
-                                    <Path Data="M 0 0 L 4 4 L 8 0 Z" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=RepeatButton}}"/>
+                                    <Path Data="M 0 0 L 2 0 L 5 3
+                                                L 8 0 L 10 0 L 10 2
+                                                L 5 7 L 0 2 Z"
+                                        Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=RepeatButton}}"/>
                                 </RepeatButton>
                             </Grid>
                         </ControlTemplate>
@@ -946,7 +837,7 @@
                                     <ColumnDefinition MaxWidth="18" />
                                 </Grid.ColumnDefinitions>
                                 <Border Grid.ColumnSpan="3" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='0,0,4,4;0,0,0,0'}" Background="{TemplateBinding Background}" />
-                                <!--F0F0F0-->
+                                <!-F0F0F0->
                                 <RepeatButton Grid.Column="0" Style="{DynamicResource ScrollBarLineButton}" Width="18" Command="ScrollBar.LineLeftCommand" cui:AttachedProperties.CornerCurves="{Binding Path=(cui:AttachedProperties.CornerCurves),RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ScrollViewer}}">
                                     <RepeatButton.Template>
                                         <ControlTemplate TargetType="{x:Type RepeatButton}">
@@ -1037,7 +928,10 @@
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>
                                     </RepeatButton.Template>
-                                    <Path Data="M 4 0 L 4 8 L 0 4 Z" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=RepeatButton}}"/>
+                                    <Path Data="M 0 0 L 2 0 L 5 3
+                                                L 8 0 L 10 0 L 10 2
+                                                L 5 7 L 0 2 Z"
+                                        Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=RepeatButton}}"/>
                                 </RepeatButton>
                                 <Track x:Name="PART_Track" Grid.Column="1" IsDirectionReversed="False">
                                     <Track.DecreaseRepeatButton>
@@ -1140,7 +1034,10 @@
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>
                                     </RepeatButton.Template>
-                                    <Path Data="M 0 0 L 4 4 L 0 8 Z" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=RepeatButton}}"/>
+                                    <Path Data="M 0 0 L 2 0 L 5 3
+                                                L 8 0 L 10 0 L 10 2
+                                                L 5 7 L 0 2 Z"
+                                        Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=RepeatButton}}"/>
                                 </RepeatButton>
                             </Grid>
                         </ControlTemplate>
@@ -1268,7 +1165,7 @@
                                 </Setter.Value>
                             </Setter>
                         </Style>
-                    </ControlTemplate.Resources>
+                    </ControlTemplate.Resources-->
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
@@ -1278,11 +1175,114 @@
                             <RowDefinition />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <ScrollContentPresenter Margin="{TemplateBinding Padding}" Grid.Column="0" Grid.Row="0"/>
+                        <ScrollContentPresenter Margin="{TemplateBinding Padding}"
+                                                Grid.Column="0"
+                                                Grid.Row="0"/>
                         <!--uib:SmoothScroll2PresenterBehavior.UseSmoothScrolling="{Binding (uib:SmoothScroll2Behavior.UseSmoothScrolling), RelativeSource={RelativeSource Mode=TemplatedParent}}"-->
-                        <ScrollBar x:Name="PART_VerticalScrollBar" Value="{TemplateBinding VerticalOffset}" Maximum="{TemplateBinding ScrollableHeight}" ViewportSize="{TemplateBinding ViewportHeight}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Grid.Column="1" Grid.Row="0"/>
-                        <ScrollBar x:Name="PART_HorizontalScrollBar" Orientation="Horizontal" Value="{TemplateBinding HorizontalOffset}" Maximum="{TemplateBinding ScrollableWidth}" ViewportSize="{TemplateBinding ViewportWidth}" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Grid.Column="0" Grid.Row="1"/>
+                        <ScrollBar x:Name="PART_VerticalScrollBar"
+                                Value="{TemplateBinding VerticalOffset}"
+                                Maximum="{TemplateBinding ScrollableHeight}"
+                                ViewportSize="{TemplateBinding ViewportHeight}"
+                                Grid.Column="1"
+                                Grid.Row="0">
+                                <!--Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"-->
+                            <!--ScrollBar.LayoutTransform>
+                                <ScaleTransform ScaleX="0"/>
+                            </ScrollBar.LayoutTransform-->
+                        </ScrollBar>
+                        <ScrollBar x:Name="PART_HorizontalScrollBar"
+                                Orientation="Horizontal"
+                                Value="{TemplateBinding HorizontalOffset}"
+                                Maximum="{TemplateBinding ScrollableWidth}"
+                                ViewportSize="{TemplateBinding ViewportWidth}"
+                                Grid.Column="0"
+                                Grid.Row="1">
+                                <!--Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"-->
+                            <!--ScrollBar.LayoutTransform>
+                                <ScaleTransform ScaleY="0"/>
+                            </ScrollBar.LayoutTransform-->
+                        </ScrollBar>
                     </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="ComputedVerticalScrollBarVisibility" Value="Visible">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PART_VerticalScrollBar"
+                                                         Storyboard.TargetProperty="Width"
+                                                         To="18"
+                                                         Duration="0:0:0.125" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_VerticalScrollBar"
+                                                        Storyboard.TargetProperty="Visibility"
+                                                        Duration="0:0:0.001">
+                                            <ObjectAnimationUsingKeyFrames.KeyFrames>
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0"
+                                                        Value="{x:Static Visibility.Visible}"/>
+                                            </ObjectAnimationUsingKeyFrames.KeyFrames>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PART_VerticalScrollBar"
+                                                         Storyboard.TargetProperty="Width"
+                                                         To="0"
+                                                         Duration="0:0:0.125" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_VerticalScrollBar"
+                                                        Storyboard.TargetProperty="Visibility"
+                                                        BeginTime="0:0:0.124"
+                                                        Duration="0:0:0.001">
+                                            <ObjectAnimationUsingKeyFrames.KeyFrames>
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0.001"
+                                                        Value="{x:Static Visibility.Collapsed}"/>
+                                            </ObjectAnimationUsingKeyFrames.KeyFrames>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <Trigger Property="ComputedHorizontalScrollBarVisibility" Value="Visible">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PART_HorizontalScrollBar"
+                                                         Storyboard.TargetProperty="Height"
+                                                         To="18"
+                                                         Duration="0:0:0.125" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_HorizontalScrollBar"
+                                                        Storyboard.TargetProperty="Visibility"
+                                                        Duration="0:0:0.001">
+                                            <ObjectAnimationUsingKeyFrames.KeyFrames>
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0"
+                                                        Value="{x:Static Visibility.Visible}"/>
+                                            </ObjectAnimationUsingKeyFrames.KeyFrames>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PART_HorizontalScrollBar"
+                                                         Storyboard.TargetProperty="Height"
+                                                         To="0"
+                                                         Duration="0:0:0.125" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_HorizontalScrollBar"
+                                                        Storyboard.TargetProperty="Visibility"
+                                                        BeginTime="0:0:0.124"
+                                                        Duration="0:0:0.001">
+                                            <ObjectAnimationUsingKeyFrames.KeyFrames>
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0.001"
+                                                        Value="{x:Static Visibility.Collapsed}"/>
+                                            </ObjectAnimationUsingKeyFrames.KeyFrames>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

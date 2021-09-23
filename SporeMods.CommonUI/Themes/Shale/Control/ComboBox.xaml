@@ -6,229 +6,167 @@
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Converters.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
+    <Style x:Key="ComboBoxToggleButtonStyle" TargetType="{x:Type ToggleButton}">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Background" Value="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}"/>
+        <Setter Property="BorderBrush" Value="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}}"/>
+        <Setter Property="BorderThickness" Value="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}}"/>
+        <Setter Property="cui:AttachedProperties.CornerCurves" Value="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource TemplatedParent}}"/>
+        <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}"/>
+        <Setter Property="BorderThickness" Value="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}}"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}"/>
+        <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border Background="#01000000">
+                        <Path x:Name="Arrow"
+                            Data="M 0 0 L 4 4 L 8 0"
+                            Fill="{TemplateBinding Foreground}"
+                            Margin="5,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Stretch="None"
+                            RenderTransformOrigin="0.5,0.5">
+                            <Path.RenderTransform>
+                                <RotateTransform Angle="0"/>
+                            </Path.RenderTransform>
+                        </Path>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Arrow" Storyboard.TargetProperty="RenderTransform.Angle" To="180" Duration="0:0:0.125" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Arrow" Storyboard.TargetProperty="RenderTransform.Angle" To="0" Duration="0:0:0.125" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="{x:Type ComboBox}" TargetType="{x:Type ComboBox}">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="Padding" Value="5" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         <Setter Property="Background">
             <Setter.Value>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonBackgroundGradientStops}"/>
             </Setter.Value>
         </Setter>
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Foreground" Value="{DynamicResource ComboBoxForegroundBrush}"/>
-        <Style.Triggers>
-            <Trigger Property="IsEditable" Value="False">
+        <!--Style.Triggers>
+            <Trigger Property="IsEditable" Value="False"-->
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ComboBox}">
-                            <cui:FloorPanel>
-                                <ToggleButton x:Name="ToggleButton" Focusable="False" ClickMode="Press" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay,  RelativeSource={RelativeSource TemplatedParent}}">
-                                    <ToggleButton.Style>
-                                        <Style TargetType="{x:Type ToggleButton}">
-                                            <Setter Property="OverridesDefaultStyle" Value="True"/>
-                                            <Setter Property="Background" Value="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                            <Setter Property="BorderBrush" Value="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                            <Setter Property="BorderThickness" Value="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                            <Setter Property="cui:AttachedProperties.CornerCurves" Value="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource TemplatedParent}}"/>
-                                            <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                            <Setter Property="BorderThickness" Value="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                            <Setter Property="Padding" Value="0"/>
-                                            <Setter Property="Margin" Value="0"/>
-                                            <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                            <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource TemplatedParent}}"/>
-                                            <!--Setter Property="Padding" Value="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}}"/-->
-                                            <Setter Property="Template">
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                                        <cui:FloorPanel>
-                                                            <!--Border x:Name="IdleBackground" CornerRadius="{TemplateBinding BorderThickness, Converter={StaticResource ThicknessToCornerRadiusConverter}}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1">
-                                                            <Border.Background>
-                                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
-                                                            </Border.Background>
-                                                            <Border CornerRadius="{TemplateBinding BorderThickness, Converter={StaticResource ThicknessToCornerRadiusConverter}}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
-                                                                <Border.Background>
-                                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonBackgroundGradientStops}"/>
-                                                                </Border.Background>
-                                                            </Border>
-                                                        </Border>
-                                                        <Border x:Name="HoverBackground" CornerRadius="{TemplateBinding BorderThickness, Converter={StaticResource ThicknessToCornerRadiusConverter}}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonHoverBorderBrush}" BorderThickness="1" Opacity="0">
-                                                            <Border.Background>
-                                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1"  GradientStops="{DynamicResource ButtonHoverBackgroundGradientStops}"/>
-                                                            </Border.Background>
-                                                            <Border CornerRadius="{TemplateBinding BorderThickness, Converter={StaticResource ThicknessToCornerRadiusConverter}}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
-                                                                <Border.Background>
-                                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonHoverSecondaryBackgroundGradientStops}"/>
-                                                                </Border.Background>
-                                                            </Border>
-                                                        </Border>
-                                                        <Border x:Name="PressedBackground" CornerRadius="{TemplateBinding BorderThickness, Converter={StaticResource ThicknessToCornerRadiusConverter}}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonPressedBorderBrush}" BorderThickness="1" Opacity="0">
-                                                            <Border.Background>
-                                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedBackgroundGradientStops}"/>
-                                                            </Border.Background>
-                                                            <Border CornerRadius="{TemplateBinding BorderThickness, Converter={StaticResource ThicknessToCornerRadiusConverter}}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
-                                                                <Border.Background>
-                                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedSecondaryBackgroundGradientStops}"/>
-                                                                </Border.Background>
-                                                            </Border>
-                                                        </Border>
-                                                        <Border x:Name="DisabledBackground" CornerRadius="{TemplateBinding BorderThickness, Converter={StaticResource ThicknessToCornerRadiusConverter}}" Margin="0" Padding="0" Background="{DynamicResource ButtonDisabledBackgroundBrush}" BorderBrush="{DynamicResource ButtonDisabledBorderBrush}" BorderThickness="1" Opacity="0">
-                                                            <Border CornerRadius="{TemplateBinding BorderThickness, Converter={StaticResource ThicknessToCornerRadiusConverter}}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0" Background="{DynamicResource ButtonDisabledSecondaryBackgroundBrush}"/>
-                                                        </Border-->
-                                                            <Border x:Name="IdleBackground" CornerRadius="3" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1">
-                                                                <Border.Background>
-                                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
-                                                                </Border.Background>
-                                                                <Border x:Name="IdleInnerBackground" CornerRadius="2" Margin="1" Padding="0" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0"/>
-                                                            </Border>
-                                                            <Border x:Name="HoverBackground" CornerRadius="{Binding CornerRadius, ElementName=IdleBackground}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonHoverBorderBrush}" BorderThickness="1" Opacity="0">
-                                                                <Border.Background>
-                                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonHoverBackgroundGradientStops}"/>
-                                                                </Border.Background>
-                                                                <Border CornerRadius="{Binding CornerRadius, ElementName=IdleInnerBackground}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
-                                                                    <Border.Background>
-                                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonHoverSecondaryBackgroundGradientStops}"/>
-                                                                    </Border.Background>
-                                                                </Border>
-                                                            </Border>
-                                                            <Border x:Name="PressedBackground" CornerRadius="{Binding CornerRadius, ElementName=IdleBackground}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonPressedBorderBrush}" BorderThickness="1" Opacity="0">
-                                                                <Border.Background>
-                                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedBackgroundGradientStops}"/>
-                                                                </Border.Background>
-                                                                <Border CornerRadius="{Binding CornerRadius, ElementName=IdleInnerBackground}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
-                                                                    <Border.Background>
-                                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedSecondaryBackgroundGradientStops}"/>
-                                                                    </Border.Background>
-                                                                </Border>
-                                                            </Border>
-                                                            <Border x:Name="DisabledBackground" CornerRadius="{Binding CornerRadius, ElementName=IdleBackground}" Margin="0" Padding="0" Background="{DynamicResource ButtonDisabledBackgroundBrush}" BorderBrush="{DynamicResource ButtonDisabledBorderBrush}" BorderThickness="1" Opacity="0">
-                                                                <Border CornerRadius="{Binding CornerRadius, ElementName=IdleInnerBackground}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0" Background="{DynamicResource ButtonDisabledSecondaryBackgroundBrush}"/>
-                                                            </Border>
-                                                            <DockPanel Margin="{Binding Padding, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ComboBox}}}">
-                                                                <!--Grid.ColumnDefinitions>
-                                                                <ColumnDefinition />
-                                                                <ColumnDefinition Width="20" />
-                                                            </Grid.ColumnDefinitions-->
-                                                                <!--Border x:Name="Border" Grid.ColumnSpan="2" CornerRadius="2" BorderThickness="1">
-                                                                <Border.BorderBrush>
-                                                                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-                                                                        <GradientStop Color="{DynamicResource BorderLightColor}" Offset="0" />
-                                                                        <GradientStop Color="{DynamicResource BorderDarkColor}" Offset="1" />
-                                                                    </LinearGradientBrush>
-                                                                </Border.BorderBrush>
-                                                                <Border.Background>
-                                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                                        <LinearGradientBrush.GradientStops>
-                                                                            <GradientStopCollection>
-                                                                                <GradientStop Color="{DynamicResource ControlLightColor}" />
-                                                                                <GradientStop Color="{DynamicResource ControlMediumColor}" Offset="1.0" />
-                                                                            </GradientStopCollection>
-                                                                        </LinearGradientBrush.GradientStops>
-                                                                    </LinearGradientBrush>
-                                                                </Border.Background>
-                                                            </Border>
-                                                            <Border Grid.Column="0" CornerRadius="2,0,0,2" Margin="1" Background="Black"/-->
-                                                                <Path x:Name="Arrow" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0" Fill="{TemplateBinding Foreground}" Margin="5,0,0,0" DockPanel.Dock="Right" RenderTransformOrigin="0.5,0.5">
-                                                                    <Path.RenderTransform>
-                                                                        <RotateTransform Angle="0"/>
-                                                                    </Path.RenderTransform>
-                                                                </Path>
-                                                                <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Focusable="False" Margin="0"/>
-                                                                <!--Path.Fill>
-                                                                <SolidColorBrush Color="{TemplateBinding Foreground}"/>
-                                                            </Path.Fill-->
-                                                            </DockPanel>
-                                                        </cui:FloorPanel>
-                                                        <ControlTemplate.Triggers>
-                                                            <Trigger Property="IsMouseOver" Value="True">
-                                                                <Trigger.EnterActions>
-                                                                    <BeginStoryboard>
-                                                                        <Storyboard>
-                                                                            <DoubleAnimation Storyboard.TargetName="HoverBackground" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.125" />
-                                                                        </Storyboard>
-                                                                    </BeginStoryboard>
-                                                                </Trigger.EnterActions>
-                                                                <Trigger.ExitActions>
-                                                                    <BeginStoryboard>
-                                                                        <Storyboard>
-                                                                            <DoubleAnimation Storyboard.TargetName="HoverBackground" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.5" />
-                                                                        </Storyboard>
-                                                                    </BeginStoryboard>
-                                                                </Trigger.ExitActions>
-                                                            </Trigger>
-                                                            <Trigger Property="IsChecked" Value="True">
-                                                                <Trigger.EnterActions>
-                                                                    <BeginStoryboard>
-                                                                        <Storyboard>
-                                                                            <DoubleAnimation Storyboard.TargetName="IdleBackground" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.125" />
-                                                                            <DoubleAnimation Storyboard.TargetName="PressedBackground" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.125" />
-                                                                            <DoubleAnimation Storyboard.TargetName="Arrow" Storyboard.TargetProperty="RenderTransform.Angle" To="180" Duration="0:0:0.125" />
-                                                                        </Storyboard>
-                                                                    </BeginStoryboard>
-                                                                </Trigger.EnterActions>
-                                                                <Trigger.ExitActions>
-                                                                    <BeginStoryboard>
-                                                                        <Storyboard>
-                                                                            <DoubleAnimation Storyboard.TargetName="IdleBackground" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.125" />
-                                                                            <DoubleAnimation Storyboard.TargetName="PressedBackground" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.125" />
-                                                                            <DoubleAnimation Storyboard.TargetName="Arrow" Storyboard.TargetProperty="RenderTransform.Angle" To="0" Duration="0:0:0.125" />
-                                                                        </Storyboard>
-                                                                    </BeginStoryboard>
-                                                                </Trigger.ExitActions>
-                                                            </Trigger>
-                                                            <Trigger Property="IsEnabled" Value="False">
-                                                                <Setter Property="Foreground" Value="{DynamicResource ButtonDisabledForegroundBrush}"/>
-                                                                <Trigger.EnterActions>
-                                                                    <BeginStoryboard>
-                                                                        <Storyboard>
-                                                                            <DoubleAnimation Storyboard.TargetName="DisabledBackground"
-                                                             Storyboard.TargetProperty="Opacity" To="1"
-                                                             Duration="0:0:0.125" />
-                                                                        </Storyboard>
-                                                                    </BeginStoryboard>
-                                                                </Trigger.EnterActions>
-                                                                <Trigger.ExitActions>
-                                                                    <BeginStoryboard>
-                                                                        <Storyboard>
-                                                                            <DoubleAnimation Storyboard.TargetName="DisabledBackground"
-                                                             Storyboard.TargetProperty="Opacity" To="0"
-                                                             Duration="0:0:0.125" />
-                                                                        </Storyboard>
-                                                                    </BeginStoryboard>
-                                                                </Trigger.ExitActions>
-                                                            </Trigger>
-                                                        </ControlTemplate.Triggers>
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </ToggleButton.Style>
-                                    <cui:FloorPanel VerticalAlignment="Stretch">
-                                        <!--Margin="{TemplateBinding Padding}"-->
-                                        <ContentPresenter x:Name="ContentSite" IsHitTestVisible="False" Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                                        <!--Grid Margin="{Binding Padding, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ComboBox}}, Converter={StaticResource ThicknessInvertFilterConverter}, ConverterParameter=ltrb}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"-->
-                                        <cui:FloorPanel Margin="{Binding Padding, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ComboBox}}, Converter={StaticResource ThicknessInvertFilterConverter}, ConverterParameter=ltrb}" Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ComboBox}}}" VerticalAlignment="Stretch">
-                                            <TextBox x:Name="PART_EditableTextBox" Margin="0,0,17,0" Padding="{TemplateBinding Padding}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                                <!--Margin="0,0,12,0"-->
-                                                <cui:AttachedProperties.CornerCurves>
-                                                    <cui:CornerCurves TopLeft="True" TopRight="False" BottomRight="False" BottomLeft="True"/>
-                                                </cui:AttachedProperties.CornerCurves>
-                                            </TextBox>
-                                        </cui:FloorPanel>
-                                        <!--TextBox.Style>
-                                            <Style TargetType="{x:Type TextBox}">
-                                                <Setter Property="Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="{x:Type TextBox}">
-                                                            <Border x:Name="PART_ContentHost" Focusable="False" />
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style>
-                                        </>
-                                    </TextBox-->
-                                    </cui:FloorPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="18"/>
+                                </Grid.ColumnDefinitions>
+                                <!--cui:FloorPanel x:Name="Backgrounds"
+                                    Grid.ColumnSpan="2">
+                                    <Border x:Name="IdleBackground"
+                                            CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3;0', Mode=OneWay}"
+                                            BorderThickness="{Binding Path=(cui:AttachedProperties.BorderPresence), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BorderPresenceToThicknessConverter}, ConverterParameter='1;0', Mode=OneWay}"
+                                            BorderBrush="{DynamicResource ButtonIdleBorderBrush}">
+                                        <Border.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
+                                        </Border.Background>
+                                        <Border x:Name="IdleInnerBackground"
+                                                CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2;0', Mode=OneWay}"
+                                                Margin="1"
+                                                Background="{TemplateBinding Background}"/>
+                                    </Border>
+                                    <Border x:Name="HoverBackground" CornerRadius="{Binding CornerRadius, ElementName=IdleBackground}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonHoverBorderBrush}" BorderThickness="1" Opacity="0">
+                                        <Border.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonHoverBackgroundGradientStops}"/>
+                                        </Border.Background>
+                                        <Border CornerRadius="{Binding CornerRadius, ElementName=IdleInnerBackground}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
+                                            <Border.Background>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonHoverSecondaryBackgroundGradientStops}"/>
+                                            </Border.Background>
+                                        </Border>
+                                    </Border>
+                                    <Border x:Name="PressedBackground" CornerRadius="{Binding CornerRadius, ElementName=IdleBackground}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonPressedBorderBrush}" BorderThickness="1" Opacity="0">
+                                        <Border.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedBackgroundGradientStops}"/>
+                                        </Border.Background>
+                                        <Border CornerRadius="{Binding CornerRadius, ElementName=IdleInnerBackground}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
+                                            <Border.Background>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedSecondaryBackgroundGradientStops}"/>
+                                            </Border.Background>
+                                        </Border>
+                                    </Border>
+                                    <Border x:Name="DisabledBackground" CornerRadius="{Binding CornerRadius, ElementName=IdleBackground}" Margin="0" Padding="0" Background="{DynamicResource ButtonDisabledBackgroundBrush}" BorderBrush="{DynamicResource ButtonDisabledBorderBrush}" BorderThickness="1" Opacity="0">
+                                        <Border CornerRadius="{Binding CornerRadius, ElementName=IdleInnerBackground}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0" Background="{DynamicResource ButtonDisabledSecondaryBackgroundBrush}"/>
+                                    </Border>
+                                </cui:FloorPanel-->
+                                <ToggleButton x:Name="ToggleButton"
+                                            Focusable="False"
+                                            ClickMode="Press"
+                                            IsChecked="{Binding IsDropDownOpen, Mode=TwoWay,  RelativeSource={RelativeSource TemplatedParent}}"
+                                            Grid.ColumnSpan="2"
+                                            cui:AttachedProperties.CornerCurves="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource TemplatedParent}}"
+                                            cui:AttachedProperties.BorderPresence="{Binding Path=(cui:AttachedProperties.BorderPresence), RelativeSource={RelativeSource TemplatedParent}}">
+                                            <!--Style="{DynamicResource ComboBoxToggleButtonStyle}"-->
                                 </ToggleButton>
+                                <Path x:Name="Arrow"
+                                    Data="M 0 0 L 2 0 L 5 3
+                                        L 8 0 L 10 0 L 10 2
+                                        L 5 7 L 0 2 Z"
+                                    Fill="{TemplateBinding Foreground}"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Margin="-1,0,1,0"
+                                    RenderTransformOrigin="0.5,0.5"
+                                    Grid.Column="1">
+                                    <Path.RenderTransform>
+                                        <RotateTransform Angle="0"/>
+                                    </Path.RenderTransform>
+                                </Path>
+                                <ContentPresenter x:Name="SelectionBoxContentSite"
+                                                IsHitTestVisible="false"
+                                                Margin="{TemplateBinding Padding}"
+                                                Content="{TemplateBinding SelectionBoxItem}"
+                                                ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                                ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                                ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"
+                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                <TextBox x:Name="PART_EditableTextBox"
+                                    Padding="{TemplateBinding Padding}"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    Visibility="Collapsed">
+                                    <cui:AttachedProperties.CornerCurves>
+                                        <cui:CornerCurves TopLeft="{Binding Path=(cui:AttachedProperties.CornerCurves).TopLeft, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                                        TopRight="False"
+                                                        BottomRight="False"
+                                                        BottomLeft="{Binding Path=(cui:AttachedProperties.CornerCurves).BottomLeft, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/>
+                                    </cui:AttachedProperties.CornerCurves>
+                                    <cui:AttachedProperties.BorderPresence>
+                                        <cui:BorderPresence Left="{Binding Path=(cui:AttachedProperties.BorderPresence).Left, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                                        Top="{Binding Path=(cui:AttachedProperties.BorderPresence).Top, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                                        Right="False"
+                                                        Bottom="{Binding Path=(cui:AttachedProperties.BorderPresence).Bottom, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/>
+                                    </cui:AttachedProperties.BorderPresence>
+                                </TextBox>
                                 <Popup x:Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Slide">
                                     <Border x:Name="DropDownBorder" BorderThickness="1" UseLayoutRounding="True" Effect="{DynamicResource DropShadow}" Margin="0">
                                         <!--Border.Effect>
@@ -238,16 +176,47 @@
                                             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
                                         </Border.Background>
                                         <cui:FloorPanel x:Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                                            <ScrollViewer Padding="3" SnapsToDevicePixels="True">
-                                                <cui:StackPanelEx Spacing="{DynamicResource SettingsControlsVerticalSpacing}" IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                            <ScrollViewer Padding="3" SnapsToDevicePixels="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                                <cui:StackPanelEx Spacing="3" IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
                                             </ScrollViewer>
                                         </cui:FloorPanel>
                                     </Border>
                                 </Popup>
-                            </cui:FloorPanel>
+                            </Grid>
                             <ControlTemplate.Triggers>
-                                <Trigger Property="IsEditable" Value="False">
-                                    <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Collapsed"/>
+                                <Trigger Property="IsEditable" Value="True">
+                                    <Setter TargetName="SelectionBoxContentSite" Property="Visibility" Value="Collapsed"/>
+                                    <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible"/>
+
+                                    <!--Setter TargetName="Backgrounds" Property="Grid.ColumnSpan" Value="1"/>
+                                    <Setter TargetName="Backgrounds" Property="Grid.Column" Value="1"/-->
+                                    
+                                    <Setter TargetName="ToggleButton" Property="Grid.ColumnSpan" Value="1"/>
+                                    <Setter TargetName="ToggleButton" Property="Grid.Column" Value="1"/>
+                                    <Setter TargetName="ToggleButton" Property="cui:AttachedProperties.CornerCurves">
+                                        <Setter.Value>
+                                            <cui:CornerCurves TopLeft="False"
+                                                            TopRight="{Binding Path=(cui:AttachedProperties.CornerCurves).TopRight, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                                            BottomRight="{Binding Path=(cui:AttachedProperties.CornerCurves).BottomRight, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                                            BottomLeft="False"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter TargetName="ToggleButton" Property="cui:AttachedProperties.BorderPresence">
+                                        <Setter.Value>
+                                            <cui:BorderPresence Left="False"
+                                                        Top="{Binding Path=(cui:AttachedProperties.BorderPresence).Top, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                                        Right="{Binding Path=(cui:AttachedProperties.BorderPresence).Right, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                                        Bottom="{Binding Path=(cui:AttachedProperties.BorderPresence).Bottom, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"/>
+                                        </Setter.Value>
+                                    </Setter>
+
+                                    <!--Setter TargetName="IdleBackground" Property="CornerRadius"
+                                            Value="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='0,3,3,0;0', Mode=OneWay}"/>
+                                    <Setter TargetName="IdleBackground" Property="BorderThickness"
+                                            Value="{Binding Path=(cui:AttachedProperties.BorderPresence), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BorderPresenceToThicknessConverter}, ConverterParameter='1;1,0,0,0', Mode=OneWay}"/>
+                                    
+                                    <Setter TargetName="IdleInnerBackground" Property="CornerRadius"
+                                            Value="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='0,2,2,0;0', Mode=OneWay}"/-->
                                 </Trigger>
                                 <Trigger Property="HasItems" Value="false">
                                     <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95" />
@@ -255,15 +224,89 @@
                                 <Trigger Property="IsGrouping" Value="true">
                                     <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
                                 </Trigger>
-                                <Trigger SourceName="Popup" Property="AllowsTransparency" Value="true">
+                                <Trigger SourceName="Popup" Property="AllowsTransparency" Value="True">
                                     <Setter TargetName="DropDownBorder" Property="CornerRadius" Value="4" />
                                     <Setter TargetName="DropDownBorder" Property="Margin" Value="4,3,4,5" />
                                 </Trigger>
+                                <Trigger Property="IsDropDownOpen" Value="True">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="Arrow" Storyboard.TargetProperty="RenderTransform.Angle" To="180" Duration="0:0:0.125" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="Arrow" Storyboard.TargetProperty="RenderTransform.Angle" To="0" Duration="0:0:0.125" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.ExitActions>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Foreground" Value="{DynamicResource ButtonDisabledForegroundBrush}"/>
+                                </Trigger>
+                                <!--Trigger Property="IsMouseOver" Value="True">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="HoverBackground" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.125" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="HoverBackground" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.5" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.ExitActions>
+                                </Trigger>
+                                <Trigger Property="IsDropDownOpen" Value="True">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="IdleBackground" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.125" />
+                                                <DoubleAnimation Storyboard.TargetName="PressedBackground" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.125" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="IdleBackground" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.125" />
+                                                <DoubleAnimation Storyboard.TargetName="PressedBackground" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.125" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.ExitActions>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Foreground" Value="{DynamicResource ButtonDisabledForegroundBrush}"/>
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="DisabledBackground"
+                                                                Storyboard.TargetProperty="Opacity" To="1"
+                                                                Duration="0:0:0.125" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="DisabledBackground"
+                                                                Storyboard.TargetProperty="Opacity" To="0"
+                                                                Duration="0:0:0.125" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.ExitActions>
+                                </Trigger-->
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
-            </Trigger>
+            <!--/Trigger>
 
             <Trigger Property="IsEditable" Value="True">
                 <Setter Property="Template">
@@ -392,9 +435,9 @@
                                 </ToggleButton>
                                 <Popup x:Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Slide">
                                     <Border x:Name="DropDownBorder" BorderThickness="1" UseLayoutRounding="True" Effect="{DynamicResource DropShadow}" Margin="0">
-                                        <!--Border.Effect>
+                                        <!-Border.Effect>
                                         <DropShadowEffect Color="Black" Direction="270" ShadowDepth="10" BlurRadius="20" Opacity="0.5"/>
-                                    </Border.Effect-->
+                                    </Border.Effect->
                                         <Border.Background>
                                             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
                                         </Border.Background>
@@ -407,13 +450,13 @@
                                 </Popup>
                                 <cui:FloorPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                     <ContentPresenter x:Name="ContentSite" IsHitTestVisible="False" Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                                    <!--Grid Margin="{Binding Padding, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ComboBox}}, Converter={StaticResource ThicknessInvertFilterConverter}, ConverterParameter=ltrb}" Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ComboBox}}}" VerticalAlignment="Stretch"-->
+                                    <!-Grid Margin="{Binding Padding, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ComboBox}}, Converter={StaticResource ThicknessInvertFilterConverter}, ConverterParameter=ltrb}" Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ComboBox}}}" VerticalAlignment="Stretch"->
                                     <TextBox x:Name="PART_EditableTextBox" Padding="{TemplateBinding Padding}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,-1,0">
                                         <cui:AttachedProperties.CornerCurves>
                                             <cui:CornerCurves TopLeft="True" TopRight="False" BottomRight="False" BottomLeft="True"/>
                                         </cui:AttachedProperties.CornerCurves>
                                     </TextBox>
-                                    <!--/Grid-->
+                                    <!-/Grid->
                                 </cui:FloorPanel>
                             </DockPanel>
                             <ControlTemplate.Triggers>
@@ -432,14 +475,17 @@
                     </Setter.Value>
                 </Setter>
             </Trigger>
-        </Style.Triggers>
+        </Style.Triggers-->
     </Style>
     
     <Style x:Key="{x:Type ComboBoxItem}" TargetType="{x:Type ComboBoxItem}">
-        <Setter Property="Padding" Value="10,5" />
-        <Setter Property="Margin" Value="0,0,0,3" />
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="8,4" />
+
+        <Setter Property="HorizontalContentAlignment"
+                Value="{Binding Path=HorizontalContentAlignment,RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+        <Setter Property="VerticalContentAlignment"
+                Value="{Binding Path=VerticalContentAlignment,RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+
         <Setter Property="Foreground" Value="{DynamicResource ComboBoxForegroundBrush}"/>
         <Setter Property="Template">
             <Setter.Value>

@@ -126,7 +126,7 @@ namespace SporeMods.CommonUI.Localization
 
         string GetRoundedSystemLanguageIdentifier()
         {
-            string langCode = CultureInfo.CurrentUICulture.Name.ToLowerInvariant();
+            string langCode = Settings.GetElementValue(_currentLanguageCode, CultureInfo.CurrentUICulture.Name.ToLowerInvariant());
 
             var target = _availableLanguageCodes.FirstOrDefault(x => x.Equals(langCode, StringComparison.OrdinalIgnoreCase));
             

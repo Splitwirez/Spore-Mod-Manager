@@ -47,6 +47,18 @@ namespace SporeMods.ViewModels
 			}
 		}
 
+		string _header = string.Empty;
+		public string HeaderKey
+		{
+			get => _header;
+			set
+			{
+				_header = value;
+				NotifyPropertyChanged();
+			}
+		}
+
+
 		public FuncCommand<object> ExplicitBrowseCommand { get; }
 			= new FuncCommand<object>(o =>
 			{
@@ -71,6 +83,16 @@ namespace SporeMods.ViewModels
 
 			_dlc = dlc;
 			_data = data;
+
+			if (data)
+			{
+				if (_dlc == GameInfo.GameDlc.GalacticAdventures)
+					HeaderKey = "Settings!Folders!AutoGaData";
+				else if (_dlc == GameInfo.GameDlc.CoreSpore)
+					HeaderKey = "Settings!Folders!AutoCoreData";
+			}
+			else if (_dlc == GameInfo.GameDlc.GalacticAdventures)
+				HeaderKey = "Settings!Folders!AutoSporebinEp1";
 
 			EnsurePaths();
 		}

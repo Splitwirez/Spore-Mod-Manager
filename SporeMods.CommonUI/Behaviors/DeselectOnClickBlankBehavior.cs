@@ -46,7 +46,6 @@ namespace SporeMods.CommonUI
 
 				if (!areChildrenMousedOver)
 				{
-					//TODO: DESELECT
 					(AssociatedObject.TemplatedParent as ListBox).SelectedItem = null;
 					e.Handled = true;
 				}

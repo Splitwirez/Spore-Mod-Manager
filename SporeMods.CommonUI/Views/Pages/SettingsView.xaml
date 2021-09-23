@@ -18,11 +18,10 @@
                   VerticalScrollBarVisibility="Auto">
         <StackPanel Orientation="Vertical">
             <cui:SmooshPanel MaxChildExtent="500">
-                <GroupBox Header="Language (PLACEHOLDER) (NOT LOCALIZED)" Height="141"/>
+                <v:LanguageSettingsView x:Name="LanguageSettingsView"/>
                 <v:GamePathSettingsView x:Name="GamePathSettingsView"/>
                 <v:GameWindowSettingsView x:Name="GameWindowSettingsView"/>
                 <v:GameEntrySettingsView x:Name="GameEntrySettingsView"/>
-                <GroupBox Header="Appearance (PLACEHOLDER) (NOT LOCALIZED)" Height="141"/>
                 <v:UpdateDeliverySettingsView x:Name="UpdateDeliverySettingsView"/>
             </cui:SmooshPanel>
             <v:CreditsView/>

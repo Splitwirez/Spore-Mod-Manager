@@ -14,7 +14,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="GroupBox">
-                    <Grid Margin="10">
+                    <Grid Margin="8">
                         <!--Grid.Effect>
                             <DropShadowEffect Color="Black" Direction="270" ShadowDepth="10" BlurRadius="20" Opacity="0.5"/>
                         </Grid.Effect-->
@@ -23,22 +23,26 @@
                             <Border.Background>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
                             </Border.Background>
-                            <Grid Margin="{TemplateBinding Padding}">
+                            <!--Grid Margin="{TemplateBinding Padding}">
                                 <Grid.RowDefinitions>
                                     <RowDefinition x:Name="TopRow" Height="Auto" MinHeight="20"/>
                                     <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-                                <ContentPresenter x:Name="HeaderPresenter" Grid.Row="0" ContentSource="Header" RecognizesAccessKey="True" TextElement.Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Left" TextBlock.FontSize="14" Opacity="0.5" VerticalAlignment="Center"/>
-                                <ContentPresenter x:Name="BodyPresenter" Grid.Row="1"/>
-                            </Grid>
+                                </Grid.RowDefinitions-->
+                            <cui:StackPanelEx Orientation="Vertical"
+                                            Margin="{TemplateBinding Padding}"
+                                            Spacing="8">
+                                <ContentPresenter x:Name="HeaderPresenter" ContentSource="Header" RecognizesAccessKey="True" TextElement.Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Left" TextBlock.FontSize="14" Opacity="0.5" VerticalAlignment="Center"/>
+                                <ContentPresenter x:Name="BodyPresenter"/>
+                            </cui:StackPanelEx>
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <!--DataTrigger Binding="{Binding Path=ContentSource, Source={x:Reference HeaderPresenter}, Converter={StaticResource IsNullOrWhiteSpaceConverter}}" Value="True"-->
                         <Trigger Property="Header" Value="{x:Null}">
                             <!--Setter TargetName="BodyPresenter" Property="Margin" Value="0,-10,0,0"/-->
-                            <Setter TargetName="HeaderPresenter" Property="Margin" Value="0"/>
-                            <Setter TargetName="TopRow" Property="Height" Value="0"/>
+                            <!--Setter TargetName="HeaderPresenter" Property="Margin" Value="0"/>
+                            <Setter TargetName="TopRow" Property="Height" Value="0"/-->
+                            <Setter TargetName="HeaderPresenter" Property="Visibility" Value="Collapsed"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

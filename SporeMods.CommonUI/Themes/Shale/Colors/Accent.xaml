@@ -22,6 +22,9 @@
     <Color x:Key="ButtonPressedSecondaryBackgroundLightColor1">#FFD6D6D6</Color>
     <Color x:Key="ButtonPressedSecondaryBackgroundDarkColor1">#FF6D6D6D</Color>
 
+    <!--Color x:Key="GlyphButtonIdleForegroundLightColor">#FFB2B2B2</Color>
+    <Color x:Key="GlyphButtonIdleForegroundDarkColor">#FF666666</Color-->
+
 
     <Color x:Key="CardListViewSelectedBackgroundLightColor0">#FFF2F2F2</Color>
     <Color x:Key="CardListViewSelectedBackgroundDarkColor0">#FF898989</Color>
@@ -45,4 +48,8 @@
     <Color x:Key="CheckBoxTickLightColor">#FF565656</Color>
     <Color x:Key="CheckBoxTickDarkColor">#FFBABABA</Color>
     <!--special case, add 40 to V in PDN instead of subtracting-->
+    
+    
+    <Color x:Key="ScrollBarLineButtonHoverForegroundLightColor">#FFE0E0E0</Color>
+    <Color x:Key="ScrollBarLineButtonHoverForegroundDarkColor">#FF777777</Color>
 </ResourceDictionary>

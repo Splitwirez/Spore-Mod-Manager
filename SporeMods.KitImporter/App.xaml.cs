@@ -58,7 +58,7 @@ namespace SporeMods.KitImporter
 			else
 			{
 				base.OnStartup(e);
-				Resources.MergedDictionaries[0].MergedDictionaries[1] = ShaleAccents.Sky.Dictionary;
+				Resources.MergedDictionaries[0].MergedDictionaries[1] = ShaleAccents.Sky;
 			}
 		}
 	}

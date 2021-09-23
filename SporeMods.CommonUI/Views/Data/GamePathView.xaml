@@ -11,9 +11,12 @@
         <cui:BoolInverterConverter x:Key="BoolInverterConverter"/>
     </UserControl.Resources>
     <DockPanel>
-        <TextBlock Text="{DynamicResource Settings!Folders!AutoGaData}"
-                   Style="{DynamicResource h3}"
-                   DockPanel.Dock="Top"/>
+        <TextBlock Style="{DynamicResource h3}"
+                   DockPanel.Dock="Top">
+            <e:Interaction.Behaviors>
+                <cui:BindTextToDynamicResourceAsKeyBehavior ResourceKey="{Binding HeaderKey}"/>
+            </e:Interaction.Behaviors>
+        </TextBlock>
         <Rectangle Height="{DynamicResource SettingsControlsVerticalSpacing}"
                    DockPanel.Dock="Top"
                    Visibility="Hidden"/>

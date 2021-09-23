@@ -4,5 +4,6 @@
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
 		<UseWPF>true</UseWPF>
+		<UseWindowsForms>true</UseWindowsForms>
 	</PropertyGroup>
 </Project>

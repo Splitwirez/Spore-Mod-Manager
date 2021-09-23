@@ -6,6 +6,8 @@
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Converters.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
+    <CubicEase x:Key="ScalingEase" EasingMode="EaseOut"/>
+
     <Style x:Key="{x:Type ListView}" TargetType="{x:Type ListView}">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="Background" Value="Transparent"/>
@@ -13,6 +15,8 @@
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Margin" Value="0"/>
         <Setter Property="Padding" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         <Setter Property="ItemContainerStyle" Value="{DynamicResource {x:Type ListViewItem}}"/>
         <!--Setter Property="uib:ScrollAnimationBehavior.IsEnabled" Value="True"/>
         <Setter Property="uib:ScrollAnimationBehavior.TimeDuration" Value="00:00:00.20"/>
@@ -46,8 +50,12 @@
     <Style x:Key="{x:Type ListViewItem}" TargetType="ListViewItem">
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+
+        <Setter Property="HorizontalContentAlignment"
+                Value="{Binding Path=HorizontalContentAlignment,RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+        <Setter Property="VerticalContentAlignment"
+                Value="{Binding Path=VerticalContentAlignment,RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+        
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Margin" Value="0"/>
@@ -137,40 +145,35 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListViewItem">
-                    <ControlTemplate.Resources>
-                        <CubicEase x:Key="ScalingEase" EasingMode="EaseOut"/>
-                    </ControlTemplate.Resources>
                     <cui:FloorPanel x:Name="RootGrid" Background="#01000000">
-                        <cui:FloorPanel x:Name="BackgroundGrid" Margin="10" RenderTransformOrigin="0.5,0.5" Effect="{DynamicResource TertiaryDropShadow}" UseLayoutRounding="True">
-                            <Border x:Name="SizingAid" Background="#01000000"/>
-                            <Border x:Name="BackgroundBorder" BorderBrush="Transparent" BorderThickness="0" CornerRadius="3" ClipToBounds="True" UseLayoutRounding="True">
+                        <cui:FloorPanel x:Name="BackgroundGrid" Margin="8">
+                            <Border x:Name="SizingAid" Background="Black" BorderBrush="Transparent" BorderThickness="1" UseLayoutRounding="True" Effect="{DynamicResource TertiaryDropShadow}"/>
+                            <Border x:Name="BackgroundBorder" BorderBrush="Transparent" BorderThickness="0" CornerRadius="3" ClipToBounds="True">
                                 <Border.Background>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.75" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
                                 </Border.Background>
-                                <cui:FloorPanel>
-                                    <Border x:Name="SelectedBorder" BorderBrush="Transparent" BorderThickness="0" CornerRadius="3" ClipToBounds="True" UseLayoutRounding="True" Opacity="0">
-                                        <Border.Background>
-                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.75" GradientStops="{DynamicResource CardListViewSelectedBackgroundGradientStops}"/>
-                                        </Border.Background>
-                                    </Border>
-                                </cui:FloorPanel>
+                            </Border>
+                            <Border x:Name="SelectedBorder" BorderBrush="Transparent" BorderThickness="0" CornerRadius="3" ClipToBounds="True" Opacity="0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.75" GradientStops="{DynamicResource CardListViewSelectedBackgroundGradientStops}"/>
+                                </Border.Background>
                             </Border>
                         </cui:FloorPanel>
-                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}" Focusable="False" UseLayoutRounding="True"/>
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}" Focusable="False"/>
                     </cui:FloorPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <ThicknessAnimation Storyboard.TargetName="BackgroundGrid" Storyboard.TargetProperty="Margin" To="5" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
+                                        <ThicknessAnimation Storyboard.TargetName="BackgroundGrid" Storyboard.TargetProperty="Margin" To="3" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.EnterActions>
                             <Trigger.ExitActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <ThicknessAnimation Storyboard.TargetName="BackgroundGrid" Storyboard.TargetProperty="Margin" To="10" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
+                                        <ThicknessAnimation Storyboard.TargetName="BackgroundGrid" Storyboard.TargetProperty="Margin" To="8" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>

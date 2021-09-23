@@ -525,8 +525,8 @@
         </Setter>
     </Style-->
 
-    <Style x:Key="GlyphButtonStyle" TargetType="ButtonBase">
-        <Setter Property="MinWidth" Value="{DynamicResource CaptionButtonWidth}"/>
+    <Style x:Key="GlyphButtonBaseRootStyle" TargetType="{x:Type ButtonBase}">
+        <!--Setter Property="MinWidth" Value="{DynamicResource CaptionButtonWidth}"/-->
         <!--32-->
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="Background" Value="Transparent" />
@@ -540,44 +540,43 @@
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <!--Setter Property="Effect" Value="{DynamicResource DropShadow}"/-->
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="ButtonBase">
-                    <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#01000000" BorderBrush="{DynamicResource TitlebarBorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
-                        <DockPanel HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Effect="{DynamicResource DropShadow}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="True" UseLayoutRounding="True">
-                            <ContentPresenter x:Name="IconPresenter" Content="{Binding Path=(cui:AttachedProperties.Icon), RelativeSource={RelativeSource Mode=TemplatedParent}}" TextElement.Foreground="{TemplateBinding Foreground}" TextElement.FontFamily="{TemplateBinding FontFamily}" TextElement.FontSize="{TemplateBinding FontSize}" Margin="0,0,4,0"/>
-                            <ContentPresenter x:Name="ContentPresenter" Content="{TemplateBinding Content}" TextElement.Foreground="{TemplateBinding Foreground}" TextElement.FontFamily="{TemplateBinding FontFamily}" TextElement.FontSize="{TemplateBinding FontSize}" Margin="0"/>
-                        </DockPanel>
+                <ControlTemplate TargetType="{x:Type ButtonBase}">
+                    <Border Background="#01000000">
+                        <ContentPresenter Margin="{TemplateBinding Padding}"
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        RecognizesAccessKey="True"
+                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                     </Border>
-                    <!--Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#01000000" Margin="{TemplateBinding Padding}">
-                        <Label x:Name="Glyph" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" RenderOptions.EdgeMode="Aliased" IsTabStop="False" Margin="0" Padding="0" />
-                    </Grid-->
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="cui:AttachedProperties.Icon" Value="{x:Null}">
-                            <Setter TargetName="IconPresenter" Property="Visibility" Value="Collapsed"/>
-                        </Trigger>
-                        <Trigger Property="Content" Value="{x:Null}">
-                            <Setter TargetName="ContentPresenter" Property="Visibility" Value="Collapsed"/>
-                            <Setter TargetName="IconPresenter" Property="Margin" Value="0"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="GlyphButtonBaseStyle" TargetType="{x:Type ButtonBase}" BasedOn="{StaticResource GlyphButtonBaseRootStyle}">
+        <!--Setter Property="MinWidth" Value="{DynamicResource CaptionButtonWidth}"/-->
+        <Setter Property="Effect" Value="{DynamicResource DropShadow}"/>
+        <Setter Property="Foreground" Value="{DynamicResource GlyphButtonIdleForegroundBrush}" />
         <Style.Triggers>
-            <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource TitlebarInactiveIdleForegroundBrush}" />
-            </DataTrigger>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Foreground" Value="{DynamicResource TitlebarHoverForegroundBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource GlyphButtonHoverForegroundBrush}" />
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Foreground" Value="{DynamicResource TitlebarPressedForegroundBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource GlyphButtonPressedForegroundBrush}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <!--Setter Property="Foreground" Value="{DynamicResource TitlebarInactiveIdleForegroundBrush}" /-->
                 <Setter Property="Opacity" Value="0.5"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="GlyphButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource GlyphButtonBaseStyle}"/>
+    <Style x:Key="GlyphRepeatButtonStyle" TargetType="{x:Type RepeatButton}" BasedOn="{StaticResource GlyphButtonBaseStyle}"/>
+    <Style x:Key="GlyphToggleButtonStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource GlyphButtonBaseStyle}">
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource GlyphButtonPressedForegroundBrush}" />
             </Trigger>
         </Style.Triggers>
     </Style>

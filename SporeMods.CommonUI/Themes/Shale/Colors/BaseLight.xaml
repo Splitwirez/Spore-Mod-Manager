@@ -77,6 +77,11 @@
     <SolidColorBrush x:Key="ButtonDisabledSecondaryBackgroundBrush">#FFC6C6C6</SolidColorBrush>
     <SolidColorBrush x:Key="ButtonDisabledForegroundBrush">#7F000000</SolidColorBrush>
 
+    <!--SolidColorBrush x:Key="GlyphButtonIdleForegroundBrush">#FF111111</SolidColorBrush>
+    <SolidColorBrush x:Key="GlyphButtonHoverForegroundBrush" Color="{DynamicResource GlyphButtonHoverForegroundLightColor}"/>
+    <SolidColorBrush x:Key="GlyphButtonPressedForegroundBrush">#FF666666</SolidColorBrush-->
+
+
     <GradientStopCollection x:Key="HorizontalPanelBackgroundGradientStops">
         <GradientStop Offset="0" Color="#FFFDFDFD"/>
         <GradientStop Offset="1" Color="#FFE7E7E7"/>
@@ -135,8 +140,12 @@
 
     <SolidColorBrush x:Key="ComboBoxForegroundBrush">Black</SolidColorBrush>
 
-    <SolidColorBrush x:Key="ScrollBarLineUpButtonBackgroundBrush">#FFEEEEEE</SolidColorBrush>
-    <SolidColorBrush x:Key="ScrollBarLineDownButtonBackgroundBrush">#FFDADADA</SolidColorBrush>
+    <!--SolidColorBrush x:Key="ScrollBarLineDownButtonBackgroundBrush">#FFEEEEEE</SolidColorBrush>
+    <SolidColorBrush x:Key="ScrollBarLineDownButtonBackgroundBrush">#FFDADADA</SolidColorBrush-->
+
+    <SolidColorBrush x:Key="ScrollBarLineButtonIdleForegroundBrush">#FF111111</SolidColorBrush>
+    <SolidColorBrush x:Key="ScrollBarLineButtonHoverForegroundBrush" Color="{DynamicResource ScrollBarLineButtonHoverForegroundLightColor}"/>
+    <SolidColorBrush x:Key="ScrollBarLineButtonPressedForegroundBrush">#FF666666</SolidColorBrush>
 
     <SolidColorBrush x:Key="ToggleSwitchForegroundBrush">Black</SolidColorBrush>
 

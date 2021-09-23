@@ -59,13 +59,7 @@
                         </ContentPresenter.Content>
                     </ContentPresenter>
                 </cui:FloorPanel>
-                <ToggleButton x:Name="ExpandCollapseToggleButton" Visibility="Collapsed" Style="{DynamicResource DropdownToggleButtonStyle}" DockPanel.Dock="Right" Margin="5,0,0,0">
-                    <Path x:Name="Arrow" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 6 L 6 0 L 12 6" Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToggleButton}}}" StrokeThickness="2" RenderTransformOrigin="0.5,0.5">
-                        <Path.RenderTransform>
-                            <RotateTransform Angle="-180"/>
-                        </Path.RenderTransform>
-                    </Path>
-                </ToggleButton>
+                <ToggleButton x:Name="ExpandCollapseToggleButton" Visibility="Collapsed" Style="{DynamicResource ModEntryExpandCollapseToggleButtonStyle}" DockPanel.Dock="Right"/>
                 <cui:FloorPanel Visibility="{Binding Identity.CausesSaveDataDependency, Converter={StaticResource BooleanToVisibilityConverter}}" Width="32" Height="32" Background="#01000000" ToolTip="{DynamicResource Mods!ListEntry!CausesSaveDataDependency}" DockPanel.Dock="Right">
                     <Control Template="{DynamicResource AlertIconBackgroundTemplate}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <cui:FloorPanel Width="12" Height="12" HorizontalAlignment="Center" VerticalAlignment="Center" Effect="{DynamicResource DropShadow}" Margin="0,6,0,-6">
@@ -115,16 +109,16 @@
                 <Setter TargetName="ExpandCollapseToggleButton" Property="Visibility" Value="Visible"/>
             </DataTrigger>
             <Trigger SourceName="ExpandCollapseToggleButton" Property="IsChecked" Value="True">
-                <Setter Property="ToolTip" Value="{DynamicResource Mods!ListEntry!MoreInfo!Collapse}"/>
+                <Setter Property="Content" Value="{DynamicResource Mods!ListEntry!MoreInfo!Collapse}"/>
             </Trigger>
             <Trigger SourceName="ExpandCollapseToggleButton" Property="IsChecked" Value="False">
-                <Setter Property="ToolTip" Value="{DynamicResource Mods!ListEntry!MoreInfo!Expand}"/>
+                <Setter Property="Content" Value="{DynamicResource Mods!ListEntry!MoreInfo!Expand}"/>
             </Trigger>
             <DataTrigger Binding="{Binding IsChecked, ElementName=ExpandCollapseToggleButton}" Value="True">
                 <DataTrigger.EnterActions>
                     <BeginStoryboard>
                         <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="Arrow" Storyboard.TargetProperty="RenderTransform.Angle" To="0" Duration="0:0:0.125"/>
+                            <!--DoubleAnimation Storyboard.TargetName="Arrow" Storyboard.TargetProperty="RenderTransform.Angle" To="0" Duration="0:0:0.125"/-->
                             <DoubleAnimation Storyboard.TargetName="DescriptionGrid" Storyboard.TargetProperty="LayoutTransform.ScaleY" To="1" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
                         </Storyboard>
                     </BeginStoryboard>
@@ -132,7 +126,7 @@
                 <DataTrigger.ExitActions>
                     <BeginStoryboard>
                         <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="Arrow" Storyboard.TargetProperty="RenderTransform.Angle" To="-180" Duration="0:0:0.125"/>
+                            <!--DoubleAnimation Storyboard.TargetName="Arrow" Storyboard.TargetProperty="RenderTransform.Angle" To="-180" Duration="0:0:0.125"/-->
                             <DoubleAnimation Storyboard.TargetName="DescriptionGrid" Storyboard.TargetProperty="LayoutTransform.ScaleY" To="0" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
                         </Storyboard>
                     </BeginStoryboard>

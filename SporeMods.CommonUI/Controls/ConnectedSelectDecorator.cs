@@ -178,7 +178,6 @@ namespace SporeMods.CommonUI
         
         void UpdateSelectorBounds()
         {
-            //Console.WriteLine("0");
             if (TargetPanel != null)
             {
                 bool doesSelectionExist = (SelectedObjectIndex >= 0) && (SelectedObjectIndex < TargetPanel.Children.Count);
@@ -206,7 +205,6 @@ namespace SporeMods.CommonUI
                     }
                     else
                     {
-                        Console.WriteLine("b");
                         _isAnimating = true;
                         
                         if (SelectionLeft != _left)

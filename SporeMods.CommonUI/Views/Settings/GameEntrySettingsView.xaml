@@ -20,7 +20,13 @@
     <GroupBox Header="{DynamicResource Settings!GameEntry!Header}">
         <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
             <v:StringPresetOrCustomSettingView DataContext="{Binding CommandLineStates}"/>
-            <v:StringPresetOrCustomSettingView DataContext="{Binding GameLanguage}"/>
+            <Rectangle Visibility="Hidden"
+                    Height="{DynamicResource SettingsControlsVerticalSpacing}"/>
+            
+            <TextBlock Text="{DynamicResource Settings!GameEntry!CommandLineExtras!Header}"
+                    Style="{DynamicResource h3}"/>
+            <TextBox Text="{Binding AdditionalCommandLineOptions}"/>
+            <!--v:StringPresetOrCustomSettingView DataContext="{Binding GameLanguage}"/-->
             <!--HeaderedContentControl Style="{DynamicResource WithSubControls}">
                 <HeaderedContentControl.Header>
                     <CheckBox Content="{DynamicResource Settings!GameEntry!GameLanguage!Header}"

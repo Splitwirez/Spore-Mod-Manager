@@ -18,7 +18,7 @@
                     cui:AttachedProperties.CornerCurves="False">
             <StackPanel Orientation="Vertical">
                 <GroupBox x:Name="HelpLinksGroupBox" Header="{DynamicResource Help!NeedHelp!Header}">
-                    <cui:UniformStackPanel Orientation="Horizontal" Spacing="{DynamicResource SettingsControlsHorizontalSpacing}" ForceStretch="True" HorizontalAlignment="Stretch">
+                    <cui:UniformStackPanel Orientation="Horizontal" Spacing="{DynamicResource SettingsControlsHorizontalSpacing}" ForceScronch="True" HorizontalAlignment="Stretch">
                         <!--Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="5"/>

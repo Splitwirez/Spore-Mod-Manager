@@ -22,7 +22,7 @@
 
     <Style x:Key="{x:Type TextBlock}" TargetType="{x:Type TextBlock}">
         <Setter Property="TextWrapping" Value="Wrap"/>
-        <Setter Property="TextAlignment" Value="Center"/>
+        <!--Setter Property="TextAlignment" Value="Center"/-->
     </Style>
 
     <Style x:Key="{x:Type ContentPresenter}" TargetType="{x:Type ContentPresenter}">
@@ -182,11 +182,12 @@
                         <cui:NoSizeDecorator x:Name="ButtonText">
                             <TextBlock Text="{Binding}"
                                     Margin="{DynamicResource IconGap}"
+                                    TextAlignment="Center"
                                     VerticalAlignment="Center"/>
                         </cui:NoSizeDecorator>
                     </DockPanel>
                     <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Converter={StaticResource DoubleComparisonConverter}, ConverterParameter='le136'}" Value="True">
+                        <DataTrigger Binding="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Converter={StaticResource DoubleComparisonConverter}, ConverterParameter='le150'}" Value="True">
                             <Setter TargetName="ButtonText" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="Root" Property="HorizontalAlignment" Value="Center"/>
                             <Setter TargetName="Root" Property="ToolTip" Value="{Binding}"/>
@@ -228,11 +229,12 @@
                         <cui:NoSizeDecorator x:Name="ButtonText">
                             <TextBlock Text="{Binding}"
                                     Margin="{DynamicResource IconGap}"
+                                    TextAlignment="Center"
                                     VerticalAlignment="Center"/>
                         </cui:NoSizeDecorator>
                     </DockPanel>
                     <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Converter={StaticResource DoubleComparisonConverter}, ConverterParameter='le136'}" Value="True">
+                        <DataTrigger Binding="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Converter={StaticResource DoubleComparisonConverter}, ConverterParameter='le150'}" Value="True">
                             <Setter TargetName="ButtonText" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="Root" Property="HorizontalAlignment" Value="Center"/>
                             <Setter TargetName="Root" Property="ToolTip" Value="{Binding}"/>
@@ -297,11 +299,12 @@
                         <cui:NoSizeDecorator x:Name="ButtonText">
                             <TextBlock Text="{Binding}"
                                     Margin="{DynamicResource IconGap}"
+                                    TextAlignment="Center"
                                     VerticalAlignment="Center"/>
                         </cui:NoSizeDecorator>
                     </DockPanel>
                     <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Converter={StaticResource DoubleComparisonConverter}, ConverterParameter='le136'}" Value="True">
+                        <DataTrigger Binding="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Converter={StaticResource DoubleComparisonConverter}, ConverterParameter='le150'}" Value="True">
                             <Setter TargetName="ButtonText" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="Root" Property="HorizontalAlignment" Value="Center"/>
                             <Setter TargetName="Root" Property="ToolTip" Value="{Binding}"/>
@@ -335,11 +338,12 @@
                         <cui:NoSizeDecorator x:Name="ButtonText">
                             <TextBlock Text="{Binding}"
                                     Margin="{DynamicResource IconGap}"
+                                    TextAlignment="Center"
                                     VerticalAlignment="Center"/>
                         </cui:NoSizeDecorator>
                     </DockPanel>
                     <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Converter={StaticResource DoubleComparisonConverter}, ConverterParameter='le136'}" Value="True">
+                        <DataTrigger Binding="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Converter={StaticResource DoubleComparisonConverter}, ConverterParameter='le150'}" Value="True">
                             <Setter TargetName="ButtonText" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="Root" Property="HorizontalAlignment" Value="Center"/>
                             <Setter TargetName="Root" Property="ToolTip" Value="{Binding}"/>

@@ -17,14 +17,14 @@ namespace SporeMods.CommonUI
         }
 
 
-        public static readonly DependencyProperty ForceStretchProperty =
+        /*public static readonly DependencyProperty ForceStretchProperty =
             DependencyProperty.Register("ForceStretch", typeof(bool), typeof(UniformStackPanel), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsParentMeasure | FrameworkPropertyMetadataOptions.AffectsParentArrange));
 
         public bool ForceStretch
         {
             get => (bool)GetValue(ForceStretchProperty);
             set => SetValue(ForceStretchProperty, value);
-        }
+        }*/
 
 
         static UniformStackPanel()
@@ -36,7 +36,7 @@ namespace SporeMods.CommonUI
         {
             bool fHorizontal = (Orientation == Orientation.Horizontal);
             bool scronch = ForceScronch;
-            bool stretch = ForceStretch;
+            //bool stretch = ForceStretch;
 
             var children = InternalChildren;
             int count = children.Count;
@@ -56,7 +56,7 @@ namespace SporeMods.CommonUI
                 if (child == null || (child.Visibility == Visibility.Collapsed))
                 { continue; }
 
-                if (!stretch)
+                if (!scronch)
                     child.Measure(new Size(fHorizontal ? maxChildExtent : maxChildBreadth, fHorizontal ? maxChildBreadth : maxChildExtent));
                 else
                     child.Measure(constraint);
@@ -64,19 +64,16 @@ namespace SporeMods.CommonUI
                 Size childSize = child.DesiredSize;
                 
                 if (scronch)
-                {
                     maxChildExtent = Math.Max(maxChildExtent, fHorizontal ? childSize.Width : childSize.Height);
-                    maxChildBreadth = Math.Max(maxChildBreadth, fHorizontal ? childSize.Height : childSize.Width);
-                }
+                
+                maxChildBreadth = Math.Max(maxChildBreadth, fHorizontal ? childSize.Height : childSize.Width);
             }
 
             double finalExtent = (maxChildExtent * count) + totalSpaceBetween;
-            Size retSize = new Size(fHorizontal ? finalExtent : maxChildBreadth, fHorizontal ? maxChildBreadth : finalExtent);
-
             /*if (ForceScronch)
                 return fHorizontal ? new Size(0, retSize.Height) : new Size(retSize.Width, 0);
             else*/
-                return retSize;
+            return new Size(fHorizontal ? finalExtent : maxChildBreadth, fHorizontal ? maxChildBreadth : finalExtent);
         }
 
         protected override Size ArrangeOverride(Size finalSize)

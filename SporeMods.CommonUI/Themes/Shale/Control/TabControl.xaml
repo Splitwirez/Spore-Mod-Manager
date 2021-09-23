@@ -74,7 +74,7 @@
                                 </Rectangle>
                             </Border>
                         </cui:FloorPanel>
-                        <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" Effect="{DynamicResource DropShadow}" TextElement.Foreground="{DynamicResource TitlebarIdleForegroundBrush}"/>
+                        <ContentPresenter x:Name="ContentSite" Focusable="False" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" Effect="{DynamicResource DropShadow}" TextElement.Foreground="{DynamicResource TitlebarIdleForegroundBrush}"/>
                     </cui:FloorPanel>
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Value="False">
@@ -151,12 +151,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabControl}">
-                    <Grid KeyboardNavigation.TabNavigation="Local">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <cui:FloorPanel Grid.Row="0" Margin="0">
+                    <DockPanel KeyboardNavigation.TabNavigation="Local">
+                        <cui:FloorPanel Grid.Row="0" Margin="0" DockPanel.Dock="Top">
                             <cui:ConnectedSelectDecorator Style="{DynamicResource PrimaryTabControlSelectionStyle}"
                                                         TargetPanel="{Binding ElementName=HeaderPanel}"
                                                         SelectedObjectIndex="{TemplateBinding SelectedIndex}"
@@ -175,7 +171,7 @@
                                 <ContentPresenter Name="PART_SelectedContentHost" ContentSource="SelectedContent" TextBlock.Foreground="{TemplateBinding Foreground}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}"/>
                             </cui:FloorPanel>
                         </Border>
-                    </Grid>
+                    </DockPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
