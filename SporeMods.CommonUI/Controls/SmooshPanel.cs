@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -37,25 +38,18 @@ namespace SporeMods.CommonUI
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            return DoSizeStuff(availableSize, true);
-        }
-
-
-        Rect[] _childBoundsCache = null;
-        private Size DoSizeStuff(Size inSize, bool measure)
-        {
+            
             var children = Children;
             int count = children.Count;
             
-            if (_childBoundsCache == null)
-                _childBoundsCache = new Rect[count];
+            _childBoundsCache.Clear();
             
             double childExtent = MaxChildExtent;
             
             double targetWidth = 0;
             int numPerRow = 0;
 
-            double inWidth = inSize.Width;
+            double inWidth = availableSize.Width;
             while (targetWidth < inWidth)
             {
                 targetWidth += childExtent;
@@ -77,17 +71,17 @@ namespace SporeMods.CommonUI
 
             Rect rcChild/*;
             if (!measure)
-                rcChild*/ = new Rect(inSize);
+                rcChild*/ = new Rect(availableSize);
             
             for (int index = 0; index < count; index++)
             {
-                if (column >= numPerRow)
-                    column = 0;
-                
                 var child = children[index];
 
                 if ((child == null) || (!child.IsVisible))
                     continue;
+
+                if (column >= numPerRow)
+                    column = 0;
 
                 // Measure the child.
                 /*if (measure)
@@ -115,7 +109,7 @@ namespace SporeMods.CommonUI
                     rcChild.Width = childExtent;
                     rcChild.Height = childDesiredHeight;
                     
-                    _childBoundsCache[index] = rcChild;
+                    _childBoundsCache.Add(rcChild);
                     //child.Arrange(rcChild);
                 //}
                 
@@ -126,6 +120,7 @@ namespace SporeMods.CommonUI
             return new Size(inWidth, heights.Max());
         }
 
+        List<Rect> _childBoundsCache = new List<Rect>();
 
         protected override Size ArrangeOverride(Size finalSize)
         {

@@ -17,7 +17,8 @@
     <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                   VerticalScrollBarVisibility="Auto">
         <StackPanel Orientation="Vertical">
-            <cui:SmooshPanel MaxChildExtent="500">
+        <Rectangle x:Name="SmooshSizeHelper" Visibility="Hidden" Height="0"/>
+            <cui:SmooshPanel Width="{Binding ActualWidth, ElementName=SmooshSizeHelper, Mode=OneWay}" MaxChildExtent="500">
                 <v:LanguageSettingsView x:Name="LanguageSettingsView"/>
                 <v:GamePathSettingsView x:Name="GamePathSettingsView"/>
                 <v:GameWindowSettingsView x:Name="GameWindowSettingsView"/>

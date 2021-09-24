@@ -23,11 +23,23 @@
                         </ResourceDictionary>
                     </ControlTemplate.Resources>
                     <DockPanel>
-                        <ToggleButton x:Name="PART_GoStopToggleButton" IsChecked="{Binding IsChecked, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}" Content="{TemplateBinding ButtonContent}" DockPanel.Dock="Right" cui:AttachedProperties.CornerCurves="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}}">
-                            <!--cui:AttachedProperties.CornerCurves>
-                                <cui:CornerCurves TopLeft="False" TopRight="True" BottomRight="True" BottomLeft="False"/>
-                            </cui:AttachedProperties.CornerCurves-->
-                            <ToggleButton.Style>
+                        <ToggleButton x:Name="PART_GoStopToggleButton"
+                                    IsChecked="{Binding IsChecked, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=TwoWay}"
+                                    Content="{Binding Path=(cui:AttachedProperties.Icon), RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                    DockPanel.Dock="Right">
+                            <cui:AttachedProperties.CornerCurves>
+                                <cui:CornerCurves TopLeft="False"
+                                                TopRight="{Binding Path=(cui:AttachedProperties.CornerCurves).TopRight, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                                BottomRight="{Binding Path=(cui:AttachedProperties.CornerCurves).BottomRight, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                                BottomLeft="False"/>
+                            </cui:AttachedProperties.CornerCurves>
+                            <cui:AttachedProperties.BorderPresence>
+                                <cui:BorderPresence Left="False"
+                                                    Top="{Binding Path=(cui:AttachedProperties.BorderPresence).Top, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                                    Right="{Binding Path=(cui:AttachedProperties.BorderPresence).Right, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                                    Bottom="{Binding Path=(cui:AttachedProperties.BorderPresence).Bottom, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                            </cui:AttachedProperties.BorderPresence>
+                            <!--ToggleButton.Style>
                                 <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource {x:Type ToggleButton}}">
                                     <Setter Property="MinWidth" Value="{Binding ActualHeight, RelativeSource={RelativeSource Mode=Self}}"/>
                                     <Setter Property="Template">
@@ -166,14 +178,19 @@
                                         </Setter.Value>
                                     </Setter>
                                 </Style>
-                            </ToggleButton.Style>
+                            </ToggleButton.Style-->
                         </ToggleButton>
                         <cui:FloorPanel>
-                            <Border x:Name="IdleBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,0,0,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1,1,0,1">
+                            <Border x:Name="IdleBackground"
+                                    CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,0,0,3;0'}"
+                                    BorderBrush="{DynamicResource ButtonIdleBorderBrush}"
+                                    BorderThickness="{Binding Path=(cui:AttachedProperties.BorderPresence), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BorderPresenceToThicknessConverter}, ConverterParameter='1,1,0,1;0'}">
                                 <Border.Background>
                                     <LinearGradientBrush StartPoint="0,1" EndPoint="0,0" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
                                 </Border.Background>
-                                <Border x:Name="IdleInnerBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,0,0,2;0,0,0,0'}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
+                                <Border x:Name="IdleInnerBackground"
+                                        CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,0,0,2;0'}"
+                                        Margin="1">
                                     <Border.Background>
                                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource TextBoxIdleBackgroundGradientStops}"/>
                                     </Border.Background>

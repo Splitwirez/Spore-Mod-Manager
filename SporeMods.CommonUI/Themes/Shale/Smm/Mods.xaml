@@ -209,25 +209,35 @@
         </Setter>
     </Style>
 
-    <Canvas x:Key="SearchGoIcon" x:Shared="False" Width="16" Height="16">
+    <!--Canvas x:Key="SearchGoIcon" x:Shared="False" Width="16" Height="16">
         <Path Data="M 0 7 L 7 0" Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToggleButton}}}" StrokeThickness="2" Canvas.Top="9"/>
         <Ellipse Width="11" Height="11" Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToggleButton}}}" StrokeThickness="2" Canvas.Left="5"/>
-    </Canvas>
-    <Path x:Key="SearchCancelIcon" x:Shared="False" Width="16" Height="16" Data="M 0 0 L 16 16 M 0 16 L 16 0" Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToggleButton}}}" StrokeThickness="2"/>
+    </Canvas-->
+    
+    <Path x:Key="SearchGoIcon" x:Shared="False"
+        Data="{DynamicResource Spyglass}"
+        Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToggleButton}}}"/>
+    <Path x:Key="SearchCancelIcon" x:Shared="False"
+        Data="{DynamicResource DiagonalCross!Large}"
+        Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToggleButton}}}"/>
     <Style x:Key="SearchBoxStyle" TargetType="{x:Type cui:ActionBox}" BasedOn="{StaticResource {x:Type cui:ActionBox}}">
         <Setter Property="Height" Value="29"/>
         <Setter Property="Margin" Value="5,0,0,0"/>
         <Style.Triggers>
             <Trigger Property="IsChecked" Value="True">
-                <Setter Property="ButtonContent" Value="{DynamicResource SearchCancelIcon}"/>
+                <Setter Property="cui:AttachedProperties.Icon" Value="{DynamicResource SearchCancelIcon}"/>
             </Trigger>
             <Trigger Property="IsChecked" Value="False">
-                <Setter Property="ButtonContent" Value="{DynamicResource SearchGoIcon}"/>
+                <Setter Property="cui:AttachedProperties.Icon" Value="{DynamicResource SearchGoIcon}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
 
-    <Path x:Key="SearchTargetsToggleButtonIcon" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToggleButton}}}" RenderTransformOrigin="0.5,0.5">
+    <Path x:Key="SearchTargetsToggleButtonIcon" x:Shared="False"
+        Data="{DynamicResource Arrow!Down!Small}"
+        Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToggleButton}}}"
+        RenderTransformOrigin="0.5,0.5">
+        <!--HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0"-->
         <!--{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToggleButton}}}-->
         <Path.RenderTransform>
             <RotateTransform Angle="0"/>
@@ -235,7 +245,7 @@
         <Path.Style>
             <Style TargetType="Path">
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToggleButton}}}">
+                    <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToggleButton}}}" Value="True">
                         <DataTrigger.EnterActions>
                             <BeginStoryboard>
                                 <Storyboard>
@@ -256,7 +266,6 @@
         </Path.Style>
     </Path>
     <Style x:Key="SearchTargetsToggleButtonStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource {x:Type ToggleButton}}">
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="Content" Value="{DynamicResource SearchTargetsToggleButtonIcon}"/>
     </Style>
 

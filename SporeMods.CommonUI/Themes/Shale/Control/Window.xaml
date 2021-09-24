@@ -7,6 +7,25 @@
     </ResourceDictionary.MergedDictionaries>
     <cui:DoubleComparisonConverter x:Key="DoubleComparisonConverter"/>
 
+    <PathGeometry x:Key="MinimizeIcon">
+        M 0 0 L 9 0 L 9 2 L 0 2 Z
+    </PathGeometry>
+    
+    <PathGeometry x:Key="MaximizeIcon">
+        M 0 0 L 0 9 L 9 9 L 9 0
+        M 2 2 L 2 7 L 7 7 L 7 2 Z
+    </PathGeometry>
+
+    <PathGeometry x:Key="RestoreIcon">
+        M 3 0 H 10 V 7 H 8 V 2 H 3 Z
+        
+        M 0 3 H 7 V 10 H 0
+        M 2 5 H 5 V 8 H 2 V 5 Z
+    </PathGeometry>
+    <!--M 0 0 L 0 5 L 5 5 L 5 0 Z
+        M -1 0 L 5 0 L 5 6-->
+
+
     <Style x:Key="CaptionButtonBaseStyle" TargetType="ButtonBase">
         <Setter Property="MinWidth" Value="{DynamicResource CaptionButtonWidth}"/><!--32-->
         <Setter Property="VerticalAlignment" Value="Stretch"/>
@@ -204,25 +223,31 @@
 													Style="{DynamicResource CaptionButtonStyle}"
 													WindowChrome.IsHitTestVisibleInChrome="True"
 													cui:WindowChromeHelper.MinimizesWindow="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=OneTime}">
-												<Path Data="M 0 0 L 9 0 L 9 2 L 0 2 Z" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Stroke="Transparent" StrokeThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+												<Path Data="{DynamicResource MinimizeIcon}" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Stroke="Transparent" StrokeThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 											</Button>	
 											<Button x:Name="MaximizeButton"
 													Style="{DynamicResource CaptionButtonStyle}"
 													WindowChrome.IsHitTestVisibleInChrome="True"
 													cui:WindowChromeHelper.MaximizesWindow="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=OneTime}">
 												<cui:FloorPanel>
-													<Path x:Name="MaximizeIcon" Data="M 0 0 L 0 7 L 7 7 L 7 0 Z" Fill="Transparent" Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="1,0,-1,0"/>
-													<cui:FloorPanel x:Name="RestoreIcon" Visibility="Collapsed">
+													<Path x:Name="MaximizeRestoreIcon"
+                                                        Data="{DynamicResource MaximizeIcon}"
+                                                        Fill="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+                                                        StrokeThickness="2"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Margin="1,0,-1,0"/>
+													<!--cui:FloorPanel x:Name="RestoreIcon" Visibility="Collapsed">
 														<Path Data="M 0 0 L 0 5 L 5 5 L 5 0 Z" Fill="Transparent" Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,3,3,0"/>
 														<Path Data="M -1 0 L 5 0 L 5 6" Fill="Transparent" Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,0,0,3"/>
-													</cui:FloorPanel>
+													</cui:FloorPanel-->
 												</cui:FloorPanel>
 											</Button>
 											<Button x:Name="CloseButton"
 													Style="{DynamicResource CaptionButtonStyle}"
 													WindowChrome.IsHitTestVisibleInChrome="True"
 													cui:WindowChromeHelper.ClosesWindow="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=OneTime}">
-												<Path Data="M 0 -1 L 2 -1 L 4.5 2 L 7 -1 L 9 -1 L 9 1 L 6 3.5 L 9 6 L 9 8 L 7 8 L 4.5 5 L 2 8 L 0 8 L 0 6 L 3 3.5 L 0 1 Z" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Stroke="Transparent" StrokeThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+												<Path Data="{DynamicResource DiagonalCross!Small}" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Stroke="Transparent" StrokeThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
 											</Button>
 										</StackPanel>
 										<Rectangle x:Name="TitleSpaceHelper"
@@ -281,8 +306,8 @@
                         <Trigger Property="WindowState" Value="Maximized">
                             <Setter TargetName="TitleBar" Property="BorderThickness" Value="0,0,0,1"/>
                             <Setter TargetName="TitleBarContentRegion" Property="Margin" Value="0,0,0,-1"/>
-							<Setter TargetName="MaximizeIcon" Property="Visibility" Value="Collapsed"/>
-							<Setter TargetName="RestoreIcon" Property="Visibility" Value="Visible"/>
+							<Setter TargetName="MaximizeRestoreIcon" Property="Data" Value="{DynamicResource RestoreIcon}"/>
+							<!--Setter TargetName="RestoreIcon" Property="Visibility" Value="Visible"/-->
 						</Trigger>
 						<MultiTrigger>
 							<MultiTrigger.Conditions>

@@ -61,7 +61,6 @@
                     <cui:ActionBox x:Name="SearchBox"
                                 Style="{DynamicResource SearchBoxStyle}"
                                 WatermarkText="{DynamicResource Mods!FilterBar!Search!Watermark}"
-                                Width="200"
                                 VerticalAlignment="Stretch"
                                 ActionType="Regular"
                                 IsChecked="{Binding IsSearching}"

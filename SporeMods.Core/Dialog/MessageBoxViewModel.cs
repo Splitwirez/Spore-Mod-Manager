@@ -38,7 +38,7 @@ namespace SporeMods.Core
 		{ }
 
 
-		public virtual string GetViewTypeName()
+		public override string GetViewTypeName()
 			=> "SporeMods.Views.MessageBoxView";
 	}
 }

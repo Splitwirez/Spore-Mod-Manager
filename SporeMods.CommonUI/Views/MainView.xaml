@@ -129,6 +129,6 @@
                             Style="{DynamicResource OngoingTasksListZoneStyle}">
             <v:OngoingTasksList/>
         </cui:AnimatableContentControl>
-        <v:ModalDisplayView Grid.RowSpan="2"/>
+        <v:ModalDisplayView Grid.RowSpan="2" cui:AttachedProperties.CornerCurves="False,False,True,True"/>
     </Grid>
 </Window>

@@ -6,7 +6,7 @@
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Converters.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <Style x:Key="ComboBoxToggleButtonStyle" TargetType="{x:Type ToggleButton}">
+    <!--Style x:Key="ComboBoxToggleButtonStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="Background" Value="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}"/>
         <Setter Property="BorderBrush" Value="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}}"/>
@@ -55,7 +55,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
+    </Style-->
 
     <Style x:Key="{x:Type ComboBox}" TargetType="{x:Type ComboBox}">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -126,14 +126,13 @@
                                             <!--Style="{DynamicResource ComboBoxToggleButtonStyle}"-->
                                 </ToggleButton>
                                 <Path x:Name="Arrow"
-                                    Data="M 0 0 L 2 0 L 5 3
-                                        L 8 0 L 10 0 L 10 2
-                                        L 5 7 L 0 2 Z"
+                                    Data="{DynamicResource Arrow!Down!Small}"
                                     Fill="{TemplateBinding Foreground}"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    Margin="-1,0,1,0"
+                                    Margin="0,0.5,0,-0.5"
                                     RenderTransformOrigin="0.5,0.5"
+                                    IsHitTestVisible="False"
                                     Grid.Column="1">
                                     <Path.RenderTransform>
                                         <RotateTransform Angle="0"/>

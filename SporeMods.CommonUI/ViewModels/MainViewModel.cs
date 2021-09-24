@@ -11,6 +11,7 @@ using SporeMods.Core.Mods;
 using SporeMods.Core.ModTransactions;
 using SporeMods.CommonUI;
 using SporeMods.CommonUI.Localization;
+using ModTaskStatus = SporeMods.Core.ModTransactions.TaskStatus;
 
 namespace SporeMods.ViewModels
 {
@@ -152,6 +153,52 @@ namespace SporeMods.ViewModels
 			};
 
 			//ManagedMod.AnyModIsProgressingChanged += (s, e) => CanLaunchSpore = !AreAnyProgressing(ModsManager.InstalledMods);
+			
+			ModTransactionManager.Instance.AllTasksConcluded += (tasks) =>
+			{
+				int succeeded = tasks.Count(x => x.Status == ModTaskStatus.Succeeded);
+				int skipped = tasks.Count(x => x.Status == ModTaskStatus.Skipped);
+				int failed = tasks.Count(x => x.Status == ModTaskStatus.Failed);
+
+				if (
+						(succeeded > 0) &&
+						(skipped == 0) &&
+						(failed == 0)
+					)
+				{
+					Modal.Show(new AllTasksSucceededNoticeViewModel());
+				}
+				else
+				{
+					string tempText = "All tasks have concluded (PLACEHOLDER) (NOT LOCALIZED)";
+
+					bool hasRunningTasks = ModTransactionManager.Instance.HasRunningTasks;
+					int howManyNotConcluded = tasks.Count(x => !x.IsConcluded);
+					bool anyNotConcluded = howManyNotConcluded > 0;
+					if (hasRunningTasks || anyNotConcluded)
+					{
+						tempText = "All tasks have completed, but something weird happened: ";
+						if (hasRunningTasks)
+							tempText += "[ANY HASRUNNINGTASKS] ";
+						if (anyNotConcluded)
+							tempText += $"[{howManyNotConcluded} NOTCONCLUDED] ";
+						
+						tempText += "(PLACEHOLDER) (NOT LOCALIZED)\nIf you see this text, inform Splitwirez immediately, and try not to close the SMM in the meantime if possible.";
+					}
+
+
+					if (succeeded > 0)
+						tempText += $"\n\tSucceeded: {succeeded} (PLACEHOLDER) (NOT LOCALIZED)";
+
+					if (skipped > 0)
+						tempText += $"\n\tSkipped: {skipped} (PLACEHOLDER) (NOT LOCALIZED)";
+
+					if (failed > 0)
+						tempText += $"\n\tFailed: {failed} (PLACEHOLDER) (NOT LOCALIZED)";
+					
+					DialogBox.ShowAsync(tempText, "Temporary task conclusion notification (PLACEHOLDER) (NOT LOCALIZED)");
+				}
+			};
 		}
 
 		void RefreshCanDoesThings(IEnumerable<IInstalledMod> mods)
