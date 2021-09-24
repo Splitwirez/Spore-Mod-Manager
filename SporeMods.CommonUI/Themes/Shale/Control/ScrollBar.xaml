@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
             xmlns:cui="clr-namespace:SporeMods.CommonUI"
-            xmlns:beh="http://schemas.microsoft.com/expression/2010/interactivity">
+            xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Converters.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/Button.xaml"/>
@@ -619,7 +619,12 @@
                         </Grid.RowDefinitions>
                         <ScrollContentPresenter Margin="{TemplateBinding Padding}"
                                                 Grid.Column="0"
-                                                Grid.Row="0"/>
+                                                Grid.Row="0">
+                            <e:Interaction.Behaviors>
+                                <cui:SmoothScrollBehavior/>
+                                <!--VerticalInterval="{Binding LargeChange, ElementName=PART_VerticalScrollBar, Mode=OneWay}"-->
+                            </e:Interaction.Behaviors>
+                        </ScrollContentPresenter>
                         <!--uib:SmoothScroll2PresenterBehavior.UseSmoothScrolling="{Binding (uib:SmoothScroll2Behavior.UseSmoothScrolling), RelativeSource={RelativeSource Mode=TemplatedParent}}"-->
                         <ScrollBar x:Name="PART_VerticalScrollBar"
                                 Value="{TemplateBinding VerticalOffset}"
