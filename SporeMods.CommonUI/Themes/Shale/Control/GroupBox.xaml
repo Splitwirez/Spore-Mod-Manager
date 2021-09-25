@@ -31,7 +31,14 @@
                             <cui:StackPanelEx Orientation="Vertical"
                                             Margin="{TemplateBinding Padding}"
                                             Spacing="8">
-                                <ContentPresenter x:Name="HeaderPresenter" ContentSource="Header" RecognizesAccessKey="True" TextElement.Foreground="{TemplateBinding Foreground}" HorizontalAlignment="Left" TextBlock.FontSize="14" Opacity="0.5" VerticalAlignment="Center"/>
+                                <ContentPresenter x:Name="HeaderPresenter"
+                                                ContentSource="Header"
+                                                RecognizesAccessKey="True"
+                                                TextElement.Foreground="{TemplateBinding Foreground}"
+                                                HorizontalAlignment="Left"
+                                                TextBlock.FontSize="16"
+                                                TextBlock.FontWeight="Bold"
+                                                VerticalAlignment="Center"/>
                                 <ContentPresenter x:Name="BodyPresenter"/>
                             </cui:StackPanelEx>
                         </Border>

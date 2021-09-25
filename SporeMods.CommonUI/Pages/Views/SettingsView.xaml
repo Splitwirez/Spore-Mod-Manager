@@ -23,6 +23,7 @@
                 <v:GamePathSettingsView x:Name="GamePathSettingsView"/>
                 <v:GameWindowSettingsView x:Name="GameWindowSettingsView"/>
                 <v:GameEntrySettingsView x:Name="GameEntrySettingsView"/>
+                <v:SmmAppearanceSettingsView x:Name="SmmAppearanceSettingsView"/>
                 <v:UpdateDeliverySettingsView x:Name="UpdateDeliverySettingsView"/>
             </cui:SmooshPanel>
             <v:CreditsView/>

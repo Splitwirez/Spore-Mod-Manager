@@ -141,7 +141,7 @@ namespace SporeMods.CommonUI
             
             double percentage = 1 - Math.Min(Math.Max(0, _animTimeRemainingMs / _animDurationMs), 1);
             double easedPercentage = _currentEasing.Ease(percentage);
-            Console.WriteLine("percentage: " + percentage + "; \teasedPercentage: " + easedPercentage);
+            //Console.WriteLine("percentage: " + percentage + "; \teasedPercentage: " + easedPercentage);
 
             _currentVerticalOffset = _animStartVerticalOffset + (totalDistanceY * easedPercentage);
 
@@ -216,8 +216,8 @@ namespace SporeMods.CommonUI
                 
                 _animDurationMs = _animDuration.TotalMilliseconds;
             }
-            _animStartVerticalOffset = Math.Min(Math.Max(_animStartVerticalOffset, 0), _viewer.ViewportHeight);
-            _animEndVerticalOffset = Math.Min(Math.Max(_animEndVerticalOffset, 0), _viewer.ViewportHeight);
+            _animStartVerticalOffset = Math.Min(Math.Max(_animStartVerticalOffset, 0), _viewer.ExtentHeight);
+            _animEndVerticalOffset = Math.Min(Math.Max(_animEndVerticalOffset, 0), _viewer.ExtentHeight);
             
 
             _animTimeRemainingMs = _animDurationMs;

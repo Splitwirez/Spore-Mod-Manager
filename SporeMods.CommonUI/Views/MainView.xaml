@@ -42,8 +42,34 @@
                 <Button x:Name="InstallModsButton"
                         Content="{DynamicResource Footer!InstallMods}"
                         Style="{DynamicResource InstallModsButtonStyle}"
-                        Command="{Binding InstallModsCommand}">
-                </Button>
+                        Command="{Binding InstallModsCommand}"/>
+                    <!--Control>
+                        <Control.Template>
+                            <ControlTemplate>
+                                <DockPanel x:Name="Root">
+                                    <Control x:Name="ButtonIcon"
+                                            Template="{DynamicResource InstallModsButtonIcon}"/>
+                                    <cui:NoSizeDecorator x:Name="ButtonText">
+                                        <TextBlock Text="{DynamicResource Footer!InstallMods}"
+                                                Margin="{DynamicResource IconGap}"
+                                                TextAlignment="Center"
+                                                VerticalAlignment="Center"/>
+                                    </cui:NoSizeDecorator>
+                                </DockPanel>
+                                <ControlTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding ActualWidth, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource DoubleComparisonConverter}, ConverterParameter='le140'}" Value="True">
+                                        <Setter TargetName="ButtonText" Property="Visibility" Value="Collapsed"/>
+                                        <Setter TargetName="Root" Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter TargetName="Root" Property="ToolTip" Value="{Binding}"/>
+                                    </DataTrigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter TargetName="ButtonIcon" Property="Opacity" Value="0.5"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Control.Template>
+                    </Control>
+                </Button-->
                 <Button x:Name="ChangeModSettingsButton"
                         Content="{DynamicResource Footer!ConfigureMod}"
                         Style="{DynamicResource ConfigureModButtonStyle}"
@@ -110,7 +136,9 @@
         </cui:Zone>
         <TabControl x:Name="PrimaryTabControl" 
                     Style="{DynamicResource PrimaryTabControlStyle}"
-                    SelectedIndex="{Binding SelectedTabIndex}">
+                    SelectedIndex="{Binding SelectedTabIndex}"
+                    Focusable="False"
+                    IsTabStop="False">
             <TabItem x:Name="ModsTabItem" Header="{DynamicResource Mods!Header}">
                 <v:InstalledModsView/>
             </TabItem>
@@ -126,7 +154,9 @@
                             VerticalAlignment="Bottom"
                             IsOpen="{Binding IsChecked, ElementName=TaskProgressDetailsToggleButton, Mode=TwoWay}"
                             HasCloseButton="True"
-                            Style="{DynamicResource OngoingTasksListZoneStyle}">
+                            Style="{DynamicResource OngoingTasksListZoneStyle}"
+                            Focusable="False"
+                            IsTabStop="False">
             <v:OngoingTasksList/>
         </cui:AnimatableContentControl>
         <v:ModalDisplayView Grid.RowSpan="2" cui:AttachedProperties.CornerCurves="False,False,True,True"/>

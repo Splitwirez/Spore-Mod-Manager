@@ -14,7 +14,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Views/Data/ManagedModViewTemplate.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Data/Views/ManagedModView.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             
             <DataTemplate DataType="{x:Type mods:ManualInstalledFile}">

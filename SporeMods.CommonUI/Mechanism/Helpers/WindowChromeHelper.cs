@@ -162,8 +162,8 @@ namespace SporeMods.CommonUI
 
         static void Win7UseCornerRadiusPropertyChangedCallback(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if ((sender is Window window) && (e.NewValue is bool useHack))
-                GetWindowChromeHelper(window).Win7UseCornerRadiusChanged(useHack);
+            if ((sender is Window window) && (e.NewValue is bool useRadius))
+                GetWindowChromeHelper(window).Win7UseCornerRadiusChanged(useRadius);
         }
 
         public static readonly DependencyProperty Win7CornerRadiusProperty
@@ -365,6 +365,11 @@ namespace SporeMods.CommonUI
         {
             //NativeMethods.SetWindowLong(GetWindowLong)
             _win7useCornerRadius = win7useCornerRadius;
+            
+            if (!_win7useCornerRadius)
+            {
+                NativeMethods.SetWindowRgn(_hwnd, IntPtr.Zero, true);
+            }
         }
 
         const NativeMethods.CombineRgnStyles COMBINE = NativeMethods.CombineRgnStyles.RgnOr;
@@ -405,7 +410,7 @@ namespace SporeMods.CommonUI
         {
             IntPtr completeRegion = IntPtr.Zero;
 
-            if (!maximized)
+            if ((!maximized) && GetWin7UseCornerRadius(AssociatedObject))
             {
                 int topLeft = 0;
                 int topRight = 0;

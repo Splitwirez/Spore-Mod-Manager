@@ -17,19 +17,24 @@
         <cui:StackPanelEx Orientation="Vertical"
                         HorizontalAlignment="Stretch"
                         Spacing="{DynamicResource SettingsControlsVerticalSpacing}">
-            <TextBlock Text="{DynamicResource Settings!Update!When!Header}"/>
-            <StackPanel Orientation="Vertical"
-                        HorizontalAlignment="Stretch">
-                <RadioButton Content="{DynamicResource Settings!Update!When!Auto}"
-                            GroupName="UpdateModeRadioGroup"
-                            IsChecked="{Binding Auto}"/>
-                <RadioButton Content="{DynamicResource Settings!Update!When!AskFirst}"
-                            GroupName="UpdateModeRadioGroup"
-                            IsChecked="{Binding AskFirst}"/>
-                <RadioButton Content="{DynamicResource Settings!Update!When!Never}"
-                            GroupName="UpdateModeRadioGroup"
-                            IsChecked="{Binding Never}"/>
-            </StackPanel>
+            <HeaderedContentControl Style="{DynamicResource WithSubControls}">
+                <HeaderedContentControl.Header>
+                    <TextBlock Text="{DynamicResource Settings!Update!When!Header}"
+                            Style="{DynamicResource h3}"/>
+                </HeaderedContentControl.Header>
+                <StackPanel Orientation="Vertical"
+                            HorizontalAlignment="Stretch">
+                    <RadioButton Content="{DynamicResource Settings!Update!When!Auto}"
+                                GroupName="UpdateModeRadioGroup"
+                                IsChecked="{Binding Auto}"/>
+                    <RadioButton Content="{DynamicResource Settings!Update!When!AskFirst}"
+                                GroupName="UpdateModeRadioGroup"
+                                IsChecked="{Binding AskFirst}"/>
+                    <RadioButton Content="{DynamicResource Settings!Update!When!Never}"
+                                GroupName="UpdateModeRadioGroup"
+                                IsChecked="{Binding Never}"/>
+                </StackPanel>
+            </HeaderedContentControl>
         </cui:StackPanelEx>
     </GroupBox>
 </UserControl>

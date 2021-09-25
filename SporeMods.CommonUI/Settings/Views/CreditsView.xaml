@@ -22,13 +22,12 @@
                             Style="{DynamicResource CreditsButtonStyle}">
                         <cui:StackPanelEx Orientation="Vertical" HorizontalAlignment="Stretch" Spacing="4">
                             <TextBlock Text="{Binding Name}"
-                                        Style="{DynamicResource h2}"
+                                        Style="{DynamicResource h3}"
                                         TextAlignment="Left"/>
                             <TextBlock Text="{Binding Contribution}"
                                         TextWrapping="Wrap"
                                         HorizontalAlignment="Left"
-                                        TextAlignment="Left"
-                                        Margin="4"/>
+                                        TextAlignment="Left"/>
                             <StackPanel x:Name="LinkAreaStackPanel"
                                         Orientation="Horizontal"
                                         Opacity="0.5">

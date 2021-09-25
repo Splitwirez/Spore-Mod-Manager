@@ -4,7 +4,7 @@
             xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
             xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Colors/Accent.xaml"/>
+        <!--ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Colors/Accent.xaml"/-->
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/ActionBox.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/AnimatableContentControl.xaml"/>
         <!--REMOVED ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/BreadcrumbsBar.xaml"/-->
@@ -161,4 +161,13 @@
             </Setter.Value>
         </Setter>
     </Style-->
+
+    <LinearGradientBrush x:Key="IconBackground1" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource DarkIconGradientStops}"/>
+    <LinearGradientBrush x:Key="IconBackground2" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource DarkIconGradientStops2}"/>
+    <LinearGradientBrush x:Key="IconBackground3" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource DarkIconGradientStops3}"/>
+    
+    <LinearGradientBrush x:Key="IconForeground" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource LightIconGradientStops}"/>
+
+    <LinearGradientBrush x:Key="IconRedBrush" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource RedIconGradientStops}"/>
+    <LinearGradientBrush x:Key="IconGreenBrush" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource GreenIconGradientStops}"/>
 </ResourceDictionary>

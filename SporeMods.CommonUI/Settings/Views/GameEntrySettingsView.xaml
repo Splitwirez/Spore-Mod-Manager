@@ -18,14 +18,20 @@
         <vm:GameEntrySettingsViewModel/>
     </UserControl.DataContext>
     <GroupBox Header="{DynamicResource Settings!GameEntry!Header}">
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
+        <cui:StackPanelEx Spacing="{DynamicResource SettingsControlsVerticalSpacing}"
+                        Orientation="Vertical"
+                        HorizontalAlignment="Stretch">
             <v:StringPresetOrCustomSettingView DataContext="{Binding CommandLineStates}"/>
             <Rectangle Visibility="Hidden"
                     Height="{DynamicResource SettingsControlsVerticalSpacing}"/>
             
-            <TextBlock Text="{DynamicResource Settings!GameEntry!CommandLineExtras!Header}"
-                    Style="{DynamicResource h3}"/>
-            <TextBox Text="{Binding AdditionalCommandLineOptions}"/>
+            <HeaderedContentControl Style="{DynamicResource WithSubControls}">
+                <HeaderedContentControl.Header>
+                    <TextBlock Text="{DynamicResource Settings!GameEntry!CommandLineExtras!Header}"
+                            Style="{DynamicResource h3}"/>
+                </HeaderedContentControl.Header>
+                <TextBox Text="{Binding AdditionalCommandLineOptions}"/>
+            </HeaderedContentControl>
             <!--v:StringPresetOrCustomSettingView DataContext="{Binding GameLanguage}"/-->
             <!--HeaderedContentControl Style="{DynamicResource WithSubControls}">
                 <HeaderedContentControl.Header>
@@ -71,6 +77,6 @@
                     </ComboBox.Resources>
                 </ComboBox>
             </HeaderedContentControl-->
-        </StackPanel>
+        </cui:StackPanelEx>
     </GroupBox>
 </UserControl>

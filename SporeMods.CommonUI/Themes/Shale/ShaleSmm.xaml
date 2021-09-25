@@ -5,11 +5,12 @@
 					xmlns:mods="clr-namespace:SporeMods.Core.Mods;assembly=SporeMods.Core"
 					xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
 					xmlns:shale="clr-namespace:SporeMods.CommonUI.Themes.Shale"
-					xmlns:sys="clr-namespace:System;assembly=mscorlib">
+					xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:vm="clr-namespace:SporeMods.ViewModels">
                     <!--xmlns:autocomp="clr-namespace:WPFTextBoxAutoComplete;assembly=WPFTextBoxAutoComplete"-->
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Shale.xaml"/>
-        
+
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Smm/Mods.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Smm/Settings.xaml"/>
 
@@ -116,11 +117,62 @@
         
     </Style-->
     
-    <LinearGradientBrush x:Key="IconBackground1" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource DarkIconGradientStops}"/>
-    <LinearGradientBrush x:Key="IconBackground2" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource DarkIconGradientStops2}"/>
     <Thickness x:Key="IconGap">5,0,0,0</Thickness>
 
     
+    <ControlTemplate x:Key="InstallModsButtonIcon">
+        <cui:FloorPanel 
+                    Width="32"
+                    Height="24"
+                    VerticalAlignment="Center"
+                    Margin="0,-1,0,1"
+                    Effect="{DynamicResource DropShadow}"
+                    UseLayoutRounding="True"
+                    DockPanel.Dock="Left">
+            <!--Path Fill="{DynamicResource IconBackground1}"
+                Data="M 14.857142 23.500001 V 13.346156 L 5.0000001 9.1153843 V 19.269229 Z"/>
+            <Path Fill="{DynamicResource IconBackground1}"
+                Data="M 18.142857 23.500001 V 13.346156 L 28 9.1153843 V 19.269229 Z"/>
+            <Path Fill="{DynamicResource IconBackground1}"
+                Data="M 16.500001 11.653849 28 6.5769202 16.500001 1.5 5.0000001 6.5769202 Z"/-->
+            <!--Path Fill="{DynamicResource IconBackground1}"
+                Data="M 14.857142 22.500001 V 12.346156 L 5.0000001 8.1153843 V 18.269229 Z"/>
+            <Path Fill="{DynamicResource IconBackground1}"
+                Data="M 18.142857 22.500001 V 12.346156 L 28 8.1153843 V 18.269229 Z"/>
+            <Path Fill="{DynamicResource IconBackground1}"
+                Data="M 16.500001 10.653849 28 5.5769202 16.500001 0.5 5.0000001 5.5769202 Z"/-->
+
+
+            <!--Path Fill="{DynamicResource IconBackground2}"
+                Data="M 0 23 M 0 0 M 14.857142 23.000001 V 12.346156 L 5.0000001 8.1153843 V 18.269229 Z"
+                VerticalAlignment="Stretch"
+                Stretch="None"/>
+            <Path Fill="{DynamicResource IconBackground2}"
+                Data="M 0 23 M 0 0 M 18.142857 23.000001 V 12.346156 L 28 8.1153843 V 18.269229 Z"
+                VerticalAlignment="Stretch"
+                Stretch="None"/-->
+            <Path Fill="{DynamicResource IconBackground2}"
+                Data="M 0 23 M 0 0 M 14.857142 23.000001 V 15.346156 L 5.0000001 11.1153843 V 18.269229 Z"
+                VerticalAlignment="Stretch"
+                Stretch="None"/>
+            <Path Fill="{DynamicResource IconBackground2}"
+                Data="M 0 23 M 0 0 M 18.142857 23.000001 V 15.346156 L 28 11.1153843 V 18.269229 Z"
+                VerticalAlignment="Stretch"
+                Stretch="None"/>
+            <Path Fill="{DynamicResource IconBackground1}"
+                Stretch="None"
+                Data="m 9.6648325 2.590412 c 0 0 -9.62048909 7.409238 -1.2259425 14.668821 4.390996 3.797251 15.468624 2.670307 13.055215 -6.336327 4.040175 6.99765 -1.366127 13.131074 -9.615273 11.562283 0 0 11.226997 4.626841 13.316799 -6.272762 1.093128 -5.70123 -5.421723 -14.731074 -12.015114 -8.137755 4.040175 -6.997658 12.055139 -5.382461 14.821031 2.545755 0 0 -1.606432 -12.03608 -12.090856 -8.396063 C 10.426643 4.12834 5.8638286 14.285135 14.870629 16.69845 6.7902777 16.69845 4.1816537 8.949832 9.6648325 2.590412 Z"
+                Clip="M 16.500001 14.153849 28 9.0769202 28 0 5.0000001 0 5.0000001 9.0769202 Z"/>
+            <!--Path Fill="{DynamicResource IconBackground1}"
+                Data="M 0 23 M 0 0 M 16.500001 11.153849 28 6.0769202 16.500001 1 5.0000001 6.0769202 Z"
+                VerticalAlignment="Stretch"
+                Stretch="None"/-->
+            <!--Path Fill="{DynamicResource IconBackground1}"
+                Data="M 16.500001 11.153849 28 6.0769202 28 0 5.0000001 0 5.0000001 6.0769202 Z"
+                VerticalAlignment="Stretch"
+                Stretch="None"/-->
+        </cui:FloorPanel>
+    </ControlTemplate>
     <Style x:Key="InstallModsButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="BorderBrush" Value="{DynamicResource InstallModsButtonBorderBrush}"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -1171,6 +1223,9 @@
                 <ControlTemplate TargetType="{x:Type HeaderedContentControl}">
                     <DockPanel>
                         <ContentPresenter ContentSource="Header" DockPanel.Dock="Top"/>
+                        <Rectangle Height="{DynamicResource SettingsControlsVerticalSpacing}"
+                                DockPanel.Dock="Top"
+                                Visibility="Hidden"/>
                         <ContentPresenter ContentSource="Content" Margin="{DynamicResource SubControlsInsetMargin}"/>
                     </DockPanel>
                 </ControlTemplate>

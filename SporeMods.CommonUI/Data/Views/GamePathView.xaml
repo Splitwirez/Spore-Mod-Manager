@@ -10,32 +10,32 @@
     <UserControl.Resources>
         <cui:BoolInverterConverter x:Key="BoolInverterConverter"/>
     </UserControl.Resources>
-    <DockPanel>
-        <TextBlock Style="{DynamicResource h3}"
-                   DockPanel.Dock="Top">
-            <e:Interaction.Behaviors>
-                <cui:BindTextToDynamicResourceAsKeyBehavior ResourceKey="{Binding HeaderKey}"/>
-            </e:Interaction.Behaviors>
-        </TextBlock>
-        <Rectangle Height="{DynamicResource SettingsControlsVerticalSpacing}"
-                   DockPanel.Dock="Top"
-                   Visibility="Hidden"/>
-        <CheckBox Content="{DynamicResource Settings!Folders!AutoDetectPath}"
-                          DockPanel.Dock="Bottom"
-                          VerticalAlignment="Stretch"
-                          HorizontalAlignment="Stretch"
-                  IsChecked="{Binding UseExplicitPath, Converter={StaticResource BoolInverterConverter}, Mode=TwoWay}"/>
-        <!--Rectangle Height="{DynamicResource SettingsControlsVerticalSpacing}"
-                   DockPanel.Dock="Bottom"
-                   Visibility="Hidden"/-->
-        <Button Content="{DynamicResource Browse}"
-                cui:AttachedProperties.BorderPresence="False,True,True,True"
-                cui:AttachedProperties.CornerCurves="False,True,True,False"
-                DockPanel.Dock="Right"
-                IsEnabled="{Binding UseExplicitPath}"
-                Command="{Binding BrowseCommand}"/>
-        <TextBox Text="{Binding WorkingPath}"
-                 cui:AttachedProperties.CornerCurves="True,False,False,True"
-                 IsEnabled="{Binding UseExplicitPath}"/>
-    </DockPanel>
+    <HeaderedContentControl Style="{DynamicResource WithSubControls}">
+        <HeaderedContentControl.Header>
+            <TextBlock Style="{DynamicResource h3}">
+                <e:Interaction.Behaviors>
+                    <cui:BindTextToDynamicResourceAsKeyBehavior ResourceKey="{Binding HeaderKey}"/>
+                </e:Interaction.Behaviors>
+            </TextBlock>
+        </HeaderedContentControl.Header>
+        <DockPanel>
+            <CheckBox Content="{DynamicResource Settings!Folders!AutoDetectPath}"
+                            DockPanel.Dock="Bottom"
+                            VerticalAlignment="Stretch"
+                            HorizontalAlignment="Stretch"
+                    IsChecked="{Binding UseExplicitPath, Converter={StaticResource BoolInverterConverter}, Mode=TwoWay}"/>
+            <!--Rectangle Height="{DynamicResource SettingsControlsVerticalSpacing}"
+                    DockPanel.Dock="Bottom"
+                    Visibility="Hidden"/-->
+            <Button Content="{DynamicResource Browse}"
+                    cui:AttachedProperties.BorderPresence="False,True,True,True"
+                    cui:AttachedProperties.CornerCurves="False,True,True,False"
+                    DockPanel.Dock="Right"
+                    IsEnabled="{Binding UseExplicitPath}"
+                    Command="{Binding BrowseCommand}"/>
+            <TextBox Text="{Binding WorkingPath}"
+                    cui:AttachedProperties.CornerCurves="True,False,False,True"
+                    IsEnabled="{Binding UseExplicitPath}"/>
+        </DockPanel>
+    </HeaderedContentControl>
 </UserControl>

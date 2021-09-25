@@ -34,151 +34,11 @@
                                                 BottomLeft="False"/>
                             </cui:AttachedProperties.CornerCurves>
                             <cui:AttachedProperties.BorderPresence>
-                                <cui:BorderPresence Left="False"
+                                <cui:BorderPresence Left="True"
                                                     Top="{Binding Path=(cui:AttachedProperties.BorderPresence).Top, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                                     Right="{Binding Path=(cui:AttachedProperties.BorderPresence).Right, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                                     Bottom="{Binding Path=(cui:AttachedProperties.BorderPresence).Bottom, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                             </cui:AttachedProperties.BorderPresence>
-                            <!--ToggleButton.Style>
-                                <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource {x:Type ToggleButton}}">
-                                    <Setter Property="MinWidth" Value="{Binding ActualHeight, RelativeSource={RelativeSource Mode=Self}}"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                                <cui:FloorPanel>
-                                                    <Border x:Name="IdleBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='0,3,3,0;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1">
-                                                        <Border.Background>
-                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
-                                                        </Border.Background>
-                                                        <Border x:Name="IdleInnerBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='0,2,2,0;0,0,0,0'}" Margin="1" Padding="0" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0"/>
-                                                    </Border>
-                                                    <Border x:Name="HoverBackground" CornerRadius="{Binding CornerRadius, ElementName=IdleBackground}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonHoverBorderBrush}" BorderThickness="1" Opacity="0">
-                                                        <Border.Background>
-                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonHoverBackgroundGradientStops}"/>
-                                                        </Border.Background>
-                                                        <Border CornerRadius="{Binding CornerRadius, ElementName=IdleInnerBackground}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
-                                                            <Border.Background>
-                                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonHoverSecondaryBackgroundGradientStops}"/>
-                                                            </Border.Background>
-                                                        </Border>
-                                                    </Border>
-                                                    <Border x:Name="PressedBackground" CornerRadius="{Binding CornerRadius, ElementName=IdleBackground}" Margin="0" Padding="0" BorderBrush="{DynamicResource RedButtonBorderBrush}" BorderThickness="1" Opacity="0">
-                                                        <Border.Background>
-                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource RedButtonBackgroundGradientStops}"/>
-                                                        </Border.Background>
-                                                        <Border CornerRadius="{Binding CornerRadius, ElementName=IdleInnerBackground}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
-                                                            <Border.Background>
-                                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource RedButtonSecondaryBackgroundGradientStops}"/>
-                                                            </Border.Background>
-                                                        </Border>
-                                                    </Border>
-                                                    <Border x:Name="DisabledBackground" CornerRadius="{Binding CornerRadius, ElementName=IdleBackground}" Margin="0" Padding="0" Background="{DynamicResource ButtonDisabledBackgroundBrush}" BorderBrush="{DynamicResource ButtonDisabledBorderBrush}" BorderThickness="1" Opacity="0">
-                                                        <Border CornerRadius="{Binding CornerRadius, ElementName=IdleInnerBackground}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0" Background="{DynamicResource ButtonDisabledSecondaryBackgroundBrush}"/>
-                                                    </Border>
-                                                    <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{TemplateBinding Padding}" Focusable="False" />
-                                                    <cui:FloorPanel Visibility="Collapsed" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                                                        <Canvas x:Name="SearchIconCanvas" Width="16" Height="16">
-                                                            <Path Data="M 0 7 L 7 0" Stroke="{TemplateBinding Foreground}" StrokeThickness="2" Canvas.Top="9"/>
-                                                            <Ellipse Width="11" Height="11" Stroke="{TemplateBinding Foreground}" StrokeThickness="2" Canvas.Left="5"/>
-                                                        </Canvas>
-                                                        <Path x:Name="CancelIconPath" Data="M 0 0 L 16 16 M 0 16 L 16 0" Stroke="{TemplateBinding Foreground}" StrokeThickness="2" Visibility="Collapsed"/>
-                                                    </cui:FloorPanel>
-                                                </cui:FloorPanel>
-                                                <ControlTemplate.Triggers>
-                                                    <MultiTrigger>
-                                                        <MultiTrigger.Conditions>
-                                                            <Condition Property="IsMouseOver" Value="True" />
-                                                            <Condition Property="IsPressed" Value="False" />
-                                                        </MultiTrigger.Conditions>
-                                                        <MultiTrigger.EnterActions>
-                                                            <BeginStoryboard>
-                                                                <Storyboard>
-                                                                    <DoubleAnimation Storyboard.TargetName="HoverBackground"
-                                                         Storyboard.TargetProperty="Opacity" To="1"
-                                                         Duration="0:0:0.125" />
-                                                                </Storyboard>
-                                                            </BeginStoryboard>
-                                                        </MultiTrigger.EnterActions>
-                                                        <MultiTrigger.ExitActions>
-                                                            <BeginStoryboard>
-                                                                <Storyboard>
-                                                                    <DoubleAnimation Storyboard.TargetName="HoverBackground"
-                                                         Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.5" />
-                                                                </Storyboard>
-                                                            </BeginStoryboard>
-                                                        </MultiTrigger.ExitActions>
-                                                    </MultiTrigger>
-                                                    <Trigger Property="IsChecked" Value="True">
-                                                        <Trigger.EnterActions>
-                                                            <BeginStoryboard>
-                                                                <Storyboard>
-                                                                    <DoubleAnimation Storyboard.TargetName="PressedBackground"
-                                                         Storyboard.TargetProperty="Opacity" To="1"
-                                                         Duration="0:0:0.125" />
-                                                                </Storyboard>
-                                                            </BeginStoryboard>
-                                                        </Trigger.EnterActions>
-                                                        <Trigger.ExitActions>
-                                                            <BeginStoryboard>
-                                                                <Storyboard>
-                                                                    <DoubleAnimation Storyboard.TargetName="PressedBackground"
-                                                         Storyboard.TargetProperty="Opacity" To="0"
-                                                         Duration="0:0:0.125" />
-                                                                </Storyboard>
-                                                            </BeginStoryboard>
-                                                        </Trigger.ExitActions>
-                                                        <Setter TargetName="SearchIconCanvas" Property="Visibility" Value="Collapsed"/>
-                                                        <Setter TargetName="CancelIconPath" Property="Visibility" Value="Visible"/>
-                                                    </Trigger>
-                                                    <Trigger Property="IsEnabled" Value="False">
-                                                        <Setter Property="Foreground" Value="{DynamicResource ButtonDisabledForegroundBrush}"/>
-                                                    </Trigger>
-                                                    <MultiTrigger>
-                                                        <MultiTrigger.Conditions>
-                                                            <Condition Property="IsEnabled" Value="False"/>
-                                                            <Condition Property="IsChecked" Value="False"/>
-                                                        </MultiTrigger.Conditions>
-                                                        <MultiTrigger.EnterActions>
-                                                            <BeginStoryboard>
-                                                                <Storyboard>
-                                                                    <DoubleAnimation Storyboard.TargetName="DisabledBackground" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.125" />
-                                                                </Storyboard>
-                                                            </BeginStoryboard>
-                                                        </MultiTrigger.EnterActions>
-                                                        <MultiTrigger.ExitActions>
-                                                            <BeginStoryboard>
-                                                                <Storyboard>
-                                                                    <DoubleAnimation Storyboard.TargetName="DisabledBackground" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.125" />
-                                                                </Storyboard>
-                                                            </BeginStoryboard>
-                                                        </MultiTrigger.ExitActions>
-                                                    </MultiTrigger>
-                                                    <MultiTrigger>
-                                                        <MultiTrigger.Conditions>
-                                                            <Condition Property="IsEnabled" Value="False"/>
-                                                            <Condition Property="IsChecked" Value="True"/>
-                                                        </MultiTrigger.Conditions>
-                                                        <MultiTrigger.EnterActions>
-                                                            <BeginStoryboard>
-                                                                <Storyboard>
-                                                                    <DoubleAnimation Storyboard.TargetName="DisabledBackground" Storyboard.TargetProperty="Opacity" To="0.5" Duration="0:0:0.125" />
-                                                                </Storyboard>
-                                                            </BeginStoryboard>
-                                                        </MultiTrigger.EnterActions>
-                                                        <MultiTrigger.ExitActions>
-                                                            <BeginStoryboard>
-                                                                <Storyboard>
-                                                                    <DoubleAnimation Storyboard.TargetName="DisabledBackground" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.125" />
-                                                                </Storyboard>
-                                                            </BeginStoryboard>
-                                                        </MultiTrigger.ExitActions>
-                                                    </MultiTrigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ToggleButton.Style-->
                         </ToggleButton>
                         <cui:FloorPanel>
                             <Border x:Name="IdleBackground"
@@ -217,8 +77,21 @@
                                 <Border CornerRadius="{Binding CornerRadius, ElementName=IdleInnerBackground}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0" Background="{DynamicResource ButtonDisabledSecondaryBackgroundBrush}"/>
                             </Border>
                             <cui:FloorPanel>
-                                <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Center" Margin="0" Padding="{TemplateBinding Padding}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                <TextBlock x:Name="PART_WatermarkTextBlock" Text="{TemplateBinding WatermarkText}" Foreground="{TemplateBinding Foreground}" Margin="{TemplateBinding Padding}" Opacity="0.5" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                <cui:NoSizeDecorator>
+                                    <ScrollViewer x:Name="PART_ContentHost"
+                                                VerticalAlignment="Stretch"
+                                                Padding="{TemplateBinding Padding}"
+                                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                Foreground="{TemplateBinding Foreground}"/>
+                                </cui:NoSizeDecorator>
+                                <TextBlock x:Name="PART_WatermarkTextBlock"
+                                        Text="{TemplateBinding WatermarkText}"
+                                        Foreground="{TemplateBinding Foreground}"
+                                        Margin="{TemplateBinding Padding}"
+                                        Opacity="0.5"
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             </cui:FloorPanel>
                         </cui:FloorPanel>
                     </DockPanel>
