@@ -117,10 +117,12 @@
         
     </Style-->
     
-    <Thickness x:Key="IconGap">5,0,0,0</Thickness>
+    <Thickness x:Key="FooterButtonIconGap">5,0,0,0</Thickness>
+    <Thickness x:Key="FooterButtonPadding">5,0</Thickness>
+    <CubicEase x:Key="FooterButtonIconAnimEase" EasingMode="EaseOut"/>
 
     
-    <ControlTemplate x:Key="InstallModsButtonIcon">
+    <!--ControlTemplate x:Key="InstallModsButtonIcon">
         <cui:FloorPanel 
                     Width="32"
                     Height="24"
@@ -129,28 +131,28 @@
                     Effect="{DynamicResource DropShadow}"
                     UseLayoutRounding="True"
                     DockPanel.Dock="Left">
-            <!--Path Fill="{DynamicResource IconBackground1}"
+            <!-Path Fill="{DynamicResource IconBackground1}"
                 Data="M 14.857142 23.500001 V 13.346156 L 5.0000001 9.1153843 V 19.269229 Z"/>
             <Path Fill="{DynamicResource IconBackground1}"
                 Data="M 18.142857 23.500001 V 13.346156 L 28 9.1153843 V 19.269229 Z"/>
             <Path Fill="{DynamicResource IconBackground1}"
-                Data="M 16.500001 11.653849 28 6.5769202 16.500001 1.5 5.0000001 6.5769202 Z"/-->
-            <!--Path Fill="{DynamicResource IconBackground1}"
+                Data="M 16.500001 11.653849 28 6.5769202 16.500001 1.5 5.0000001 6.5769202 Z"/->
+            <!-Path Fill="{DynamicResource IconBackground1}"
                 Data="M 14.857142 22.500001 V 12.346156 L 5.0000001 8.1153843 V 18.269229 Z"/>
             <Path Fill="{DynamicResource IconBackground1}"
                 Data="M 18.142857 22.500001 V 12.346156 L 28 8.1153843 V 18.269229 Z"/>
             <Path Fill="{DynamicResource IconBackground1}"
-                Data="M 16.500001 10.653849 28 5.5769202 16.500001 0.5 5.0000001 5.5769202 Z"/-->
+                Data="M 16.500001 10.653849 28 5.5769202 16.500001 0.5 5.0000001 5.5769202 Z"/->
 
 
-            <!--Path Fill="{DynamicResource IconBackground2}"
+            <!-Path Fill="{DynamicResource IconBackground2}"
                 Data="M 0 23 M 0 0 M 14.857142 23.000001 V 12.346156 L 5.0000001 8.1153843 V 18.269229 Z"
                 VerticalAlignment="Stretch"
                 Stretch="None"/>
             <Path Fill="{DynamicResource IconBackground2}"
                 Data="M 0 23 M 0 0 M 18.142857 23.000001 V 12.346156 L 28 8.1153843 V 18.269229 Z"
                 VerticalAlignment="Stretch"
-                Stretch="None"/-->
+                Stretch="None"/->
             <Path Fill="{DynamicResource IconBackground2}"
                 Data="M 0 23 M 0 0 M 14.857142 23.000001 V 15.346156 L 5.0000001 11.1153843 V 18.269229 Z"
                 VerticalAlignment="Stretch"
@@ -163,53 +165,55 @@
                 Stretch="None"
                 Data="m 9.6648325 2.590412 c 0 0 -9.62048909 7.409238 -1.2259425 14.668821 4.390996 3.797251 15.468624 2.670307 13.055215 -6.336327 4.040175 6.99765 -1.366127 13.131074 -9.615273 11.562283 0 0 11.226997 4.626841 13.316799 -6.272762 1.093128 -5.70123 -5.421723 -14.731074 -12.015114 -8.137755 4.040175 -6.997658 12.055139 -5.382461 14.821031 2.545755 0 0 -1.606432 -12.03608 -12.090856 -8.396063 C 10.426643 4.12834 5.8638286 14.285135 14.870629 16.69845 6.7902777 16.69845 4.1816537 8.949832 9.6648325 2.590412 Z"
                 Clip="M 16.500001 14.153849 28 9.0769202 28 0 5.0000001 0 5.0000001 9.0769202 Z"/>
-            <!--Path Fill="{DynamicResource IconBackground1}"
+            <!-Path Fill="{DynamicResource IconBackground1}"
                 Data="M 0 23 M 0 0 M 16.500001 11.153849 28 6.0769202 16.500001 1 5.0000001 6.0769202 Z"
                 VerticalAlignment="Stretch"
-                Stretch="None"/-->
-            <!--Path Fill="{DynamicResource IconBackground1}"
+                Stretch="None"/->
+            <!-Path Fill="{DynamicResource IconBackground1}"
                 Data="M 16.500001 11.153849 28 6.0769202 28 0 5.0000001 0 5.0000001 6.0769202 Z"
                 VerticalAlignment="Stretch"
-                Stretch="None"/-->
+                Stretch="None"/->
         </cui:FloorPanel>
-    </ControlTemplate>
+    </ControlTemplate-->
     <Style x:Key="InstallModsButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="BorderBrush" Value="{DynamicResource InstallModsButtonBorderBrush}"/>
+        <Setter Property="Padding" Value="{DynamicResource FooterButtonPadding}"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <DockPanel x:Name="Root">
+                    <DockPanel x:Name="Root" VerticalAlignment="Stretch">
                         <cui:FloorPanel x:Name="ButtonIcon"
-                                        Width="32"
-                                        Height="24"
-                                        VerticalAlignment="Center"
                                         Margin="0,-1,0,1"
-                                        Effect="{DynamicResource DropShadow}"
+                                        Width="32"
+                                        Height="32"
+                                        VerticalAlignment="Center"
                                         UseLayoutRounding="True"
                                         DockPanel.Dock="Left">
-                            <!--Path Fill="{DynamicResource IconBackground1}"
+                            <!--
+                            <!-Path Fill="{DynamicResource IconBackground1}"
                                 Data="M 14.857142 23.500001 V 13.346156 L 5.0000001 9.1153843 V 19.269229 Z"/>
                             <Path Fill="{DynamicResource IconBackground1}"
                                 Data="M 18.142857 23.500001 V 13.346156 L 28 9.1153843 V 19.269229 Z"/>
                             <Path Fill="{DynamicResource IconBackground1}"
-                                Data="M 16.500001 11.653849 28 6.5769202 16.500001 1.5 5.0000001 6.5769202 Z"/-->
-                            <!--Path Fill="{DynamicResource IconBackground1}"
+                                Data="M 16.500001 11.653849 28 6.5769202 16.500001 1.5 5.0000001 6.5769202 Z"/->
+                            <!-Path Fill="{DynamicResource IconBackground1}"
                                 Data="M 14.857142 22.500001 V 12.346156 L 5.0000001 8.1153843 V 18.269229 Z"/>
                             <Path Fill="{DynamicResource IconBackground1}"
                                 Data="M 18.142857 22.500001 V 12.346156 L 28 8.1153843 V 18.269229 Z"/>
                             <Path Fill="{DynamicResource IconBackground1}"
-                                Data="M 16.500001 10.653849 28 5.5769202 16.500001 0.5 5.0000001 5.5769202 Z"/-->
+                                Data="M 16.500001 10.653849 28 5.5769202 16.500001 0.5 5.0000001 5.5769202 Z"/->
 
 
-                            <!--Path Fill="{DynamicResource IconBackground2}"
+                            <!-Path Fill="{DynamicResource IconBackground2}"
                                 Data="M 0 23 M 0 0 M 14.857142 23.000001 V 12.346156 L 5.0000001 8.1153843 V 18.269229 Z"
                                 VerticalAlignment="Stretch"
                                 Stretch="None"/>
                             <Path Fill="{DynamicResource IconBackground2}"
                                 Data="M 0 23 M 0 0 M 18.142857 23.000001 V 12.346156 L 28 8.1153843 V 18.269229 Z"
                                 VerticalAlignment="Stretch"
-                                Stretch="None"/-->
+                                Stretch="None"/->
                             <Path Fill="{DynamicResource IconBackground2}"
                                 Data="M 0 23 M 0 0 M 14.857142 23.000001 V 15.346156 L 5.0000001 11.1153843 V 18.269229 Z"
                                 VerticalAlignment="Stretch"
@@ -222,18 +226,70 @@
                                 Stretch="None"
                                 Data="m 9.6648325 2.590412 c 0 0 -9.62048909 7.409238 -1.2259425 14.668821 4.390996 3.797251 15.468624 2.670307 13.055215 -6.336327 4.040175 6.99765 -1.366127 13.131074 -9.615273 11.562283 0 0 11.226997 4.626841 13.316799 -6.272762 1.093128 -5.70123 -5.421723 -14.731074 -12.015114 -8.137755 4.040175 -6.997658 12.055139 -5.382461 14.821031 2.545755 0 0 -1.606432 -12.03608 -12.090856 -8.396063 C 10.426643 4.12834 5.8638286 14.285135 14.870629 16.69845 6.7902777 16.69845 4.1816537 8.949832 9.6648325 2.590412 Z"
                                 Clip="M 16.500001 14.153849 28 9.0769202 28 0 5.0000001 0 5.0000001 9.0769202 Z"/>
-                            <!--Path Fill="{DynamicResource IconBackground1}"
+                            <!-Path Fill="{DynamicResource IconBackground1}"
                                 Data="M 0 23 M 0 0 M 16.500001 11.153849 28 6.0769202 16.500001 1 5.0000001 6.0769202 Z"
                                 VerticalAlignment="Stretch"
-                                Stretch="None"/-->
-                            <!--Path Fill="{DynamicResource IconBackground1}"
+                                Stretch="None"/->
+                            <!-Path Fill="{DynamicResource IconBackground1}"
                                 Data="M 16.500001 11.153849 28 6.0769202 28 0 5.0000001 0 5.0000001 6.0769202 Z"
                                 VerticalAlignment="Stretch"
-                                Stretch="None"/-->
+                                Stretch="None"/->
+                            -->
+                            <Path x:Name="Galaxy"
+                                Fill="{DynamicResource IconBackground1}"
+                                Effect="{DynamicResource DropShadow}"
+                                Width="23"
+                                Height="23"
+                                Margin="11.5,12.961,-11.5,-12.961"
+                                VerticalAlignment="Top">
+                                <!--Margin="11.5,11.5,-11.5,-11.5"-->
+                                <Path.RenderTransform>
+                                    <TranslateTransform Y="2"/>
+                                </Path.RenderTransform>
+                                <Path.Data>
+                                    <PathGeometry Figures="m -6.8365115 -9.9091825 c 0 0 -9.6203815 7.4092096 -1.2259213 14.6687685 C -3.6714877 8.556816 7.406015 7.429877 4.992632 -1.5767154 9.032767 5.420901 3.626521 11.5543 -4.6225288 9.985518 c 0 0 11.2268738 4.626817 13.3166458 -6.27274 C 9.787238 -1.9884288 3.272451 -11.018231 -3.3208673 -4.4249384 0.71926699 -11.422565 8.734146 -9.8073817 11.5 -1.8791978 c 0 0 -1.606412 -12.0360272 -12.09071401 -8.3960272 C -6.0747106 -8.3712602 -10.637466 1.785492 -1.6307652 4.198801 c -8.0802696 0 -10.6888628 -7.7485823 -5.2057463 -14.1079835 z">
+                                        <!--Figures="m 9.6648325 2.590412 c 0 0 -9.62048909 7.409238 -1.2259425 14.668821 4.390996 3.797251 15.468624 2.670307 13.055215 -6.336327 4.040175 6.99765 -1.366127 13.131074 -9.615273 11.562283 0 0 11.226997 4.626841 13.316799 -6.272762 1.093128 -5.70123 -5.421723 -14.731074 -12.015114 -8.137755 4.040175 -6.997658 12.055139 -5.382461 14.821031 2.545755 0 0 -1.606432 -12.03608 -12.090856 -8.396063 C 10.426643 4.12834 5.8638286 14.285135 14.870629 16.69845 6.7902777 16.69845 4.1816537 8.949832 9.6648325 2.590412 Z"-->
+                                        <PathGeometry.Transform>
+                                            <!--TransformGroup>
+                                                <TranslateTransform X="-11.5" Y="-11.5"/-->
+                                                <RotateTransform x:Name="GalaxySpeen" Angle="0"/>
+                                            <!--/TransformGroup-->
+                                        </PathGeometry.Transform>
+                                    </PathGeometry>
+                                </Path.Data>
+                                <!--Path.Clip>
+                                    <RectangleGeometry Rect="0,0,23,20"/>
+                                </Path.Clip-->
+                            </Path>
+                            <!--Path x:Name="GalaxySpeen"
+                                Data="m 9.6648325 2.590412 c 0 0 -9.62048909 7.409238 -1.2259425 14.668821 4.390996 3.797251 15.468624 2.670307 13.055215 -6.336327 4.040175 6.99765 -1.366127 13.131074 -9.615273 11.562283 0 0 11.226997 4.626841 13.316799 -6.272762 1.093128 -5.70123 -5.421723 -14.731074 -12.015114 -8.137755 4.040175 -6.997658 12.055139 -5.382461 14.821031 2.545755 0 0 -1.606432 -12.03608 -12.090856 -8.396063 C 10.426643 4.12834 5.8638286 14.285135 14.870629 16.69845 6.7902777 16.69845 4.1816537 8.949832 9.6648325 2.590412 Z">
+                                <Path.RenderTransform>
+                                    <RotateTransform Angle="0"/>
+                                </Path.RenderTransform>
+                                <Path.Fill>
+                                Fill="{DynamicResource IconBackground1}"
+                            </Path-->
+                            <cui:FloorPanel x:Name="Box"
+                                            Effect="{DynamicResource DropShadow}"
+                                            VerticalAlignment="Bottom">
+                                <cui:FloorPanel.RenderTransform>
+                                    <TranslateTransform Y="-2"/>
+                                </cui:FloorPanel.RenderTransform>
+                                <Path 
+                                    Fill="{DynamicResource IconBackground2}"
+                                    Data="M 0 0 M 2 12 L 16 16 V 26 L 2 22 Z"/>
+                                    <!--M 0 0 M 2 12 L 16 16 V 30 L 2 26 Z-->
+                                    <!--M 0 0 M 2 14 L 16 18 V 32 L 2 28 Z-->
+                                <Path Fill="{DynamicResource IconBackground3}"
+                                    Data="M 0 0 M 16 16 L 30 12 V 22 L 16 26 Z"/>
+                                    <!--M 0 0 M 16 16 L 30 12 V 26 L 16 30 Z-->
+                                    <!--M 0 0 M 16 18 L 30 14 V 28 L 16 32 Z-->
+                                    <!--M 0 0 V 8 L 8 2 V 2 Z-->
+                            </cui:FloorPanel>
                         </cui:FloorPanel>
                         <cui:NoSizeDecorator x:Name="ButtonText">
                             <TextBlock Text="{Binding}"
-                                    Margin="{DynamicResource IconGap}"
+                                    Margin="{DynamicResource FooterButtonIconGap}"
                                     TextAlignment="Center"
                                     VerticalAlignment="Center"/>
                         </cui:NoSizeDecorator>
@@ -243,6 +299,65 @@
                             <Setter TargetName="ButtonText" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="Root" Property="HorizontalAlignment" Value="Center"/>
                             <Setter TargetName="Root" Property="ToolTip" Value="{Binding}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="GalaxySpeen"
+                                                        Storyboard.TargetProperty="Angle"
+                                                        To="360"
+                                                        Duration="0:0:1.49"
+                                                        EasingFunction="{StaticResource FooterButtonIconAnimEase}"/>
+                                        <DoubleAnimation Storyboard.TargetName="GalaxySpeen"
+                                                        Storyboard.TargetProperty="Angle"
+                                                        To="0"
+                                                        BeginTime="0:0:1.49"
+                                                        Duration="0:0:0.001"
+                                                        EasingFunction="{StaticResource FooterButtonIconAnimEase}"/>
+                                                        <!--RepeatBehavior="Forever"/-->
+                                        <!--ObjectAnimationUsingKeyFrames Storyboard.TargetName="GalaxySpeen"
+                                                        Storyboard.TargetProperty="Clip"
+                                                        Duration="0:0:0.125">
+                                            <ObjectAnimationUsingKeyFrames.KeyFrames>
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0"
+                                                        Value="{x:Static Visibility.Visible}"/>
+                                            </ObjectAnimationUsingKeyFrames.KeyFrames>
+                                        </ObjectAnimationUsingKeyFrames-->
+                                        <DoubleAnimation Storyboard.TargetName="Galaxy"
+                                                        Storyboard.TargetProperty="RenderTransform.Y"
+                                                        To="0"
+                                                        Duration="0:0:0.25"
+                                                        EasingFunction="{StaticResource FooterButtonIconAnimEase}"/>
+                                        <DoubleAnimation Storyboard.TargetName="Box"
+                                                        Storyboard.TargetProperty="RenderTransform.Y"
+                                                        To="0"
+                                                        Duration="0:0:0.25"
+                                                        EasingFunction="{StaticResource FooterButtonIconAnimEase}"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="GalaxySpeen"
+                                                        Storyboard.TargetProperty="Angle"
+                                                        To="0"
+                                                        Duration="0:0:0.25"
+                                                        EasingFunction="{StaticResource FooterButtonIconAnimEase}"/>
+                                        <DoubleAnimation Storyboard.TargetName="Galaxy"
+                                                        Storyboard.TargetProperty="RenderTransform.Y"
+                                                        To="2"
+                                                        Duration="0:0:0.25"
+                                                        EasingFunction="{StaticResource FooterButtonIconAnimEase}"/>
+                                        <DoubleAnimation Storyboard.TargetName="Box"
+                                                        Storyboard.TargetProperty="RenderTransform.Y"
+                                                        To="-2"
+                                                        Duration="0:0:0.25"
+                                                        EasingFunction="{StaticResource FooterButtonIconAnimEase}"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
                         </DataTrigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="ButtonIcon" Property="Opacity" Value="0.5"/>
@@ -255,7 +370,9 @@
 
     <Style x:Key="ConfigureModButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="BorderBrush" Value="{DynamicResource ConfigureModButtonBorderBrush}"/>
+        <Setter Property="Padding" Value="{DynamicResource FooterButtonPadding}"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
@@ -269,9 +386,17 @@
                             <Path Fill="{DynamicResource IconBackground1}"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                Margin="0.484,0"
-                                Data="M 11 0 9.417969 4.7441406 A 9 9 0 0 0 7.642578 5.7695312 l -4.90039 -1.0019531 -2 3.4648438 3.316406 3.7421871 A 9 9 0 0 0 4 13 9 9 0 0 0 4.06055 14.025391 l -3.318359 3.742187 2 3.464844 4.90039 -1.001953 a 9 9 0 0 0 1.775391 1.02539 L 11 26 h 4 l 1.582031 -4.742188 a 9 9 0 0 0 1.775391 -1.027343 l 4.90039 1.001953 2 -3.464844 -3.316406 -3.742187 A 9 9 0 0 0 22 13 9 9 0 0 0 21.94141 11.972656 l 3.316406 -3.7402341 -2 -3.4648438 -4.90039 1.0019531 A 9 9 0 0 0 16.582031 4.7441406 L 15 0 Z"/>
+                                Margin="6.129,7.0,-6.129,-7.0">
+                                <!--Data="M 11 0 9.417969 4.7441406 A 9 9 0 0 0 7.642578 5.7695312 l -4.90039 -1.0019531 -2 3.4648438 3.316406 3.7421871 A 9 9 0 0 0 4 13 9 9 0 0 0 4.06055 14.025391 l -3.318359 3.742187 2 3.464844 4.90039 -1.001953 a 9 9 0 0 0 1.775391 1.02539 L 11 26 h 4 l 1.582031 -4.742188 a 9 9 0 0 0 1.775391 -1.027343 l 4.90039 1.001953 2 -3.464844 -3.316406 -3.742187 A 9 9 0 0 0 22 13 9 9 0 0 0 21.94141 11.972656 l 3.316406 -3.7402341 -2 -3.4648438 -4.90039 1.0019531 A 9 9 0 0 0 16.582031 4.7441406 L 15 0 Z"/-->
                                 <!--M 11 0 9.417969 4.7441406 A 9 9 0 0 0 7.642578 5.7695312 l -4.90039 -1.0019531 -2 3.4648438 3.316406 3.7421871 A 9 9 0 0 0 4 13 9 9 0 0 0 4.06055 14.025391 l -3.318359 3.742187 2 3.464844 4.90039 -1.001953 a 9 9 0 0 0 1.775391 1.02539 L 11 26 h 4 l 1.582031 -4.742188 a 9 9 0 0 0 1.775391 -1.027343 l 4.90039 1.001953 2 -3.464844 -3.316406 -3.742187 A 9 9 0 0 0 22 13 9 9 0 0 0 21.94141 11.972656 l 3.316406 -3.7402341 -2 -3.4648438 -4.90039 1.0019531 A 9 9 0 0 0 16.582031 4.7441406 L 15 0 Z-->
+                                <Path.Data>
+                                    <PathGeometry Figures="m -2.0000304 -13 -1.5820554 4.7441406 a 9.0001379 9 0 0 0 -1.7754179 1.0253906 L -10.257969 -8.2324219 -12.258 -4.7675781 -8.9415429 -1.025391 A 9.0001379 9 0 0 0 -9.0001376 0 9.0001379 9 0 0 0 -8.9395896 1.025391 L -12.258 4.767578 l 2.000031 3.464844 4.9004655 -1.001953 a 9.0001379 9 0 0 0 1.7754179 1.02539 L -2.0000304 13 H 2.0000309 L 3.5820861 8.257812 A 9.0001379 9 0 0 0 5.3575043 7.230469 L 10.257969 8.232422 12.258 4.767578 8.9415432 1.025391 A 9.0001379 9 0 0 0 9.0001381 0 9.0001379 9 0 0 0 8.9415432 -1.027344 L 12.258 -4.7675781 10.257969 -8.2324219 5.3575043 -7.2304688 A 9.0001379 9 0 0 0 3.5820861 -8.2558594 L 2.0000309 -13 Z">
+                                        <PathGeometry.Transform>
+                                            <RotateTransform x:Name="GearSpeen" Angle="0"/>
+                                        </PathGeometry.Transform>
+                                    </PathGeometry>
+                                </Path.Data>
+                            </Path>
                             <Ellipse Width="10"
                                     Height="10"
                                     HorizontalAlignment="Center"
@@ -280,7 +405,7 @@
                         </cui:FloorPanel>
                         <cui:NoSizeDecorator x:Name="ButtonText">
                             <TextBlock Text="{Binding}"
-                                    Margin="{DynamicResource IconGap}"
+                                    Margin="{DynamicResource FooterButtonIconGap}"
                                     TextAlignment="Center"
                                     VerticalAlignment="Center"/>
                         </cui:NoSizeDecorator>
@@ -290,6 +415,71 @@
                             <Setter TargetName="ButtonText" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="Root" Property="HorizontalAlignment" Value="Center"/>
                             <Setter TargetName="Root" Property="ToolTip" Value="{Binding}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="GearSpeen"
+                                                        Storyboard.TargetProperty="Angle"
+                                                        To="60"
+                                                        Duration="0:0:0.499"
+                                                        EasingFunction="{StaticResource FooterButtonIconAnimEase}"/>
+                                        <DoubleAnimation Storyboard.TargetName="GearSpeen"
+                                                        Storyboard.TargetProperty="Angle"
+                                                        To="0"
+                                                        Duration="0:0:0.001"
+                                                        BeginTime="0:0:0.499"
+                                                        EasingFunction="{StaticResource FooterButtonIconAnimEase}"/>
+                                        <DoubleAnimation Storyboard.TargetName="GearSpeen"
+                                                        Storyboard.TargetProperty="Angle"
+                                                        To="60"
+                                                        Duration="0:0:0.499"
+                                                        BeginTime="0:0:0.5"
+                                                        EasingFunction="{StaticResource FooterButtonIconAnimEase}"/>
+                                        <DoubleAnimation Storyboard.TargetName="GearSpeen"
+                                                        Storyboard.TargetProperty="Angle"
+                                                        To="0"
+                                                        Duration="0:0:0.001"
+                                                        BeginTime="0:0:0.999"
+                                                        EasingFunction="{StaticResource FooterButtonIconAnimEase}"/>
+                                        <DoubleAnimation Storyboard.TargetName="GearSpeen"
+                                                        Storyboard.TargetProperty="Angle"
+                                                        To="60"
+                                                        Duration="0:0:0.5"
+                                                        BeginTime="0:0:1"
+                                                        EasingFunction="{StaticResource FooterButtonIconAnimEase}"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="GearSpeen"
+                                                        Storyboard.TargetProperty="Angle"
+                                                        To="0"
+                                                        Duration="0:0:0.25"
+                                                        EasingFunction="{StaticResource FooterButtonIconAnimEase}"/>
+                                        <!--DoubleAnimation Storyboard.TargetName="GearSpeen"
+                                                        Storyboard.TargetProperty="Angle"
+                                                        To="120"
+                                                        Duration="0:0:0.083"
+                                                        EasingFunction="{StaticResource FooterButtonIconAnimEase}"/>
+                                        <DoubleAnimation Storyboard.TargetName="GearSpeen"
+                                                        Storyboard.TargetProperty="Angle"
+                                                        To="60"
+                                                        Duration="0:0:0.083"
+                                                        BeginTime="0:0:0.083"
+                                                        EasingFunction="{StaticResource FooterButtonIconAnimEase}"/>
+                                        <DoubleAnimation Storyboard.TargetName="GearSpeen"
+                                                        Storyboard.TargetProperty="Angle"
+                                                        To="0"
+                                                        Duration="0:0:0.083"
+                                                        BeginTime="0:0:0.167"
+                                                        EasingFunction="{StaticResource FooterButtonIconAnimEase}"/-->
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
                         </DataTrigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="ButtonIcon" Property="Opacity" Value="0.5"/>
@@ -302,7 +492,9 @@
 
     <Style x:Key="UninstallModsButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="BorderBrush" Value="{DynamicResource UninstallModsButtonBorderBrush}"/>
+        <Setter Property="Padding" Value="{DynamicResource FooterButtonPadding}"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
@@ -314,43 +506,43 @@
                                 Effect="{DynamicResource DropShadow}"
                                 UseLayoutRounding="True"
                                 DockPanel.Dock="Left">
-                            <Rectangle Width="14"
+                            <Rectangle x:Name="Lid"
+                                    Width="14"
                                     Height="2"
                                     Canvas.Left="9"
-                                    Canvas.Top="8"
+                                    Canvas.Top="7"
                                     Fill="{DynamicResource IconBackground1}"
-                                    RenderTransformOrigin="0,1"
+                                    RenderTransformOrigin="0.5,0.5"
                                     RenderOptions.EdgeMode="Unspecified">
                                     <!--Canvas.Top="2.936"-->
                                 <Rectangle.RenderTransform>
-                                    <RotateTransform Angle="-15"/>
+                                    <RotateTransform x:Name="LidTransform" Angle="0"/>
                                 </Rectangle.RenderTransform>
                             </Rectangle>
                             <Rectangle Width="14"
                                     Height="16"
                                     Canvas.Left="9"
-                                    Canvas.Top="11"
+                                    Canvas.Top="10"
                                     Fill="{DynamicResource IconBackground1}"/>
-                            
                             <Rectangle Width="2"
                                     Height="12"
                                     Canvas.Left="11"
-                                    Canvas.Top="13"
+                                    Canvas.Top="12"
                                     Fill="{DynamicResource IconBackground2}"/>
                             <Rectangle Width="2"
                                     Height="12"
                                     Canvas.Left="15"
-                                    Canvas.Top="13"
+                                    Canvas.Top="12"
                                     Fill="{DynamicResource IconBackground2}"/>
                             <Rectangle Width="2"
                                     Height="12"
                                     Canvas.Left="19"
-                                    Canvas.Top="13"
+                                    Canvas.Top="12"
                                     Fill="{DynamicResource IconBackground2}"/>
                         </Canvas>
                         <cui:NoSizeDecorator x:Name="ButtonText">
                             <TextBlock Text="{Binding}"
-                                    Margin="{DynamicResource IconGap}"
+                                    Margin="{DynamicResource FooterButtonIconGap}"
                                     TextAlignment="Center"
                                     VerticalAlignment="Center"/>
                         </cui:NoSizeDecorator>
@@ -360,6 +552,72 @@
                             <Setter TargetName="ButtonText" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="Root" Property="HorizontalAlignment" Value="Center"/>
                             <Setter TargetName="Root" Property="ToolTip" Value="{Binding}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Lid"
+                                                        Storyboard.TargetProperty="(Canvas.Left)"
+                                                        To="8"
+                                                        Duration="0:0:0.25"
+                                                        EasingFunction="{StaticResource FooterButtonIconAnimEase}"/>
+                                        <DoubleAnimation Storyboard.TargetName="Lid"
+                                                        Storyboard.TargetProperty="(Canvas.Top)"
+                                                        To="4"
+                                                        Duration="0:0:0.25"
+                                                        EasingFunction="{StaticResource FooterButtonIconAnimEase}"/>
+                                        <DoubleAnimation Storyboard.TargetName="LidTransform"
+                                                        Storyboard.TargetProperty="Angle"
+                                                        To="-15"
+                                                        Duration="0:0:0.25"
+                                                        EasingFunction="{StaticResource FooterButtonIconAnimEase}"/>
+                                        
+
+                                        <DoubleAnimation Storyboard.TargetName="LidTransform"
+                                                        Storyboard.TargetProperty="Angle"
+                                                        To="-37.5"
+                                                        Duration="0:0:0.1"
+                                                        BeginTime="0:0:0.25"/>
+                                        <DoubleAnimation Storyboard.TargetName="LidTransform"
+                                                        Storyboard.TargetProperty="Angle"
+                                                        To="-15"
+                                                        Duration="0:0:0.1"
+                                                        BeginTime="0:0:0.35"/>
+                                        <DoubleAnimation Storyboard.TargetName="LidTransform"
+                                                        Storyboard.TargetProperty="Angle"
+                                                        To="-37.5"
+                                                        Duration="0:0:0.1"
+                                                        BeginTime="0:0:0.45"/>
+                                        <DoubleAnimation Storyboard.TargetName="LidTransform"
+                                                        Storyboard.TargetProperty="Angle"
+                                                        To="-15"
+                                                        Duration="0:0:0.1"
+                                                        BeginTime="0:0:0.55"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Lid"
+                                                        Storyboard.TargetProperty="(Canvas.Left)"
+                                                        To="9"
+                                                        Duration="0:0:0.25"
+                                                        EasingFunction="{StaticResource FooterButtonIconAnimEase}"/>
+                                        <DoubleAnimation Storyboard.TargetName="Lid"
+                                                        Storyboard.TargetProperty="(Canvas.Top)"
+                                                        To="7"
+                                                        Duration="0:0:0.25"
+                                                        EasingFunction="{StaticResource FooterButtonIconAnimEase}"/>
+                                        <DoubleAnimation Storyboard.TargetName="LidTransform"
+                                                        Storyboard.TargetProperty="Angle"
+                                                        To="0"
+                                                        Duration="0:0:0.25"
+                                                        EasingFunction="{StaticResource FooterButtonIconAnimEase}"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
                         </DataTrigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="ButtonIcon" Property="Opacity" Value="0.5"/>
@@ -372,24 +630,33 @@
 
     <Style x:Key="LaunchGameButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="BorderBrush" Value="{DynamicResource LaunchGameButtonBorderBrush}"/>
+        <Setter Property="Padding" Value="{DynamicResource FooterButtonPadding}"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
                     <DockPanel x:Name="Root">
                         <Path x:Name="ButtonIcon"
-                            Width="32"
-                            Margin="0,-1,0,1"
-                            VerticalAlignment="Center"
-                            Stretch="None"
                             Fill="{DynamicResource IconBackground1}"
                             Effect="{DynamicResource DropShadow}"
+                            Width="23"
+                            Height="23"
+                            Margin="16,11.961,-7,-11.961"
+                            VerticalAlignment="Center"
                             UseLayoutRounding="True"
-                            DockPanel.Dock="Left"
-                            Data="m 9.6648325 2.590412 c 0 0 -9.62048909 7.409238 -1.2259425 14.668821 4.390996 3.797251 15.468624 2.670307 13.055215 -6.336327 4.040175 6.99765 -1.366127 13.131074 -9.615273 11.562283 0 0 11.226997 4.626841 13.316799 -6.272762 1.093128 -5.70123 -5.421723 -14.731074 -12.015114 -8.137755 4.040175 -6.997658 12.055139 -5.382461 14.821031 2.545755 0 0 -1.606432 -12.03608 -12.090856 -8.396063 C 10.426643 4.12834 5.8638286 14.285135 14.870629 16.69845 6.7902777 16.69845 4.1816537 8.949832 9.6648325 2.590412 Z"/>
+                            DockPanel.Dock="Left">
+                            <Path.Data>
+                                <PathGeometry Figures="m -6.8365115 -9.9091825 c 0 0 -9.6203815 7.4092096 -1.2259213 14.6687685 C -3.6714877 8.556816 7.406015 7.429877 4.992632 -1.5767154 9.032767 5.420901 3.626521 11.5543 -4.6225288 9.985518 c 0 0 11.2268738 4.626817 13.3166458 -6.27274 C 9.787238 -1.9884288 3.272451 -11.018231 -3.3208673 -4.4249384 0.71926699 -11.422565 8.734146 -9.8073817 11.5 -1.8791978 c 0 0 -1.606412 -12.0360272 -12.09071401 -8.3960272 C -6.0747106 -8.3712602 -10.637466 1.785492 -1.6307652 4.198801 c -8.0802696 0 -10.6888628 -7.7485823 -5.2057463 -14.1079835 z">
+                                    <PathGeometry.Transform>
+                                        <RotateTransform x:Name="GalaxySpeen" Angle="0"/>
+                                    </PathGeometry.Transform>
+                                </PathGeometry>
+                            </Path.Data>
+                        </Path>
                         <cui:NoSizeDecorator x:Name="ButtonText">
                             <TextBlock Text="{Binding}"
-                                    Margin="{DynamicResource IconGap}"
+                                    Margin="{DynamicResource FooterButtonIconGap}"
                                     TextAlignment="Center"
                                     VerticalAlignment="Center"/>
                         </cui:NoSizeDecorator>
@@ -399,6 +666,36 @@
                             <Setter TargetName="ButtonText" Property="Visibility" Value="Collapsed"/>
                             <Setter TargetName="Root" Property="HorizontalAlignment" Value="Center"/>
                             <Setter TargetName="Root" Property="ToolTip" Value="{Binding}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="GalaxySpeen"
+                                                        Storyboard.TargetProperty="Angle"
+                                                        To="360"
+                                                        Duration="0:0:1.49"
+                                                        EasingFunction="{StaticResource FooterButtonIconAnimEase}"/>
+                                        <DoubleAnimation Storyboard.TargetName="GalaxySpeen"
+                                                        Storyboard.TargetProperty="Angle"
+                                                        To="0"
+                                                        BeginTime="0:0:1.49"
+                                                        Duration="0:0:0.001"
+                                                        EasingFunction="{StaticResource FooterButtonIconAnimEase}"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="GalaxySpeen"
+                                                        Storyboard.TargetProperty="Angle"
+                                                        To="0"
+                                                        Duration="0:0:0.25"
+                                                        EasingFunction="{StaticResource FooterButtonIconAnimEase}"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
                         </DataTrigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="ButtonIcon" Property="Opacity" Value="0.5"/>

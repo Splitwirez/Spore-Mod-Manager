@@ -77,7 +77,8 @@
                                 <Border CornerRadius="{Binding CornerRadius, ElementName=IdleInnerBackground}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0" Background="{DynamicResource ButtonDisabledSecondaryBackgroundBrush}"/>
                             </Border>
                             <cui:FloorPanel>
-                                <cui:NoSizeDecorator>
+                                <cui:NoSizeDecorator HorizontalAlignment="Stretch"
+                                                    VerticalAlignment="Stretch">
                                     <ScrollViewer x:Name="PART_ContentHost"
                                                 VerticalAlignment="Stretch"
                                                 Padding="{TemplateBinding Padding}"

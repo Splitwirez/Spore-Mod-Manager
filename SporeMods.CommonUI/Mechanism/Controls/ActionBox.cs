@@ -127,7 +127,7 @@ namespace SporeMods.CommonUI
             base.OnTextChanged(e);
             if (_watermarkTextBlock != null)
             {
-                _watermarkTextBlock.Visibility = String.IsNullOrWhiteSpace(Text) ? Visibility.Visible : Visibility.Collapsed;
+                _watermarkTextBlock.Visibility = String.IsNullOrWhiteSpace(Text) ? Visibility.Visible : Visibility.Hidden;
             }
 
             if (ActionType == ActionType.Instant)

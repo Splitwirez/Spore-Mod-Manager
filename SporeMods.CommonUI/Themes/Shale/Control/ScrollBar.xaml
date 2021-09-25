@@ -597,6 +597,8 @@
     <Style x:Key="{x:Type ScrollViewer}" TargetType="{x:Type ScrollViewer}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Padding" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         <!--Setter Property="uib:ScrollAnimationBehavior.IsEnabled" Value="True"/>
         <Setter Property="uib:ScrollAnimationBehavior.TimeDuration" Value="00:00:00.20"/>
         <Setter Property="uib:ScrollAnimationBehavior.EasingFunction">
@@ -619,7 +621,9 @@
                         </Grid.RowDefinitions>
                         <ScrollContentPresenter Margin="{TemplateBinding Padding}"
                                                 Grid.Column="0"
-                                                Grid.Row="0">
+                                                Grid.Row="0"
+                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                             <e:Interaction.Behaviors>
                                 <cui:SmoothScrollBehavior/>
                                 <!--VerticalInterval="{Binding LargeChange, ElementName=PART_VerticalScrollBar, Mode=OneWay}"-->
