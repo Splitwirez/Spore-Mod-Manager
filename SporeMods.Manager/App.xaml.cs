@@ -64,6 +64,11 @@ namespace SporeMods.Manager
 			CoreMsg.MessageBoxShown += (sneder, args) => Dispatcher.BeginInvoke(new Action(() => CUIMsg.ShowMessageBox(args.Content, args.Title)));
 			CoreMsg.DebugMessageSent += (sneder, args) => Dispatcher.BeginInvoke(new Action(() => CUIMsg.ShowMessageBox(args.Content, args.Title)));
 
+			//TODO: Implement this stuff correctly
+			Core.ModTransactions.Operations.ValidateModOp.InstallingExperimentalMod += s => true;
+			Core.ModTransactions.Operations.ValidateModOp.InstallingRequiresGalaxyResetMod += s => true;
+			Core.ModTransactions.Operations.ValidateModOp.InstallingSaveDataDependencyMod += s => true;
+
 			Settings.EnsureDllsAreExtracted();
 			CommonUI.Updater.CheckForUpdates();
 			Settings.ManagerInstallLocationPath = Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).ToString();

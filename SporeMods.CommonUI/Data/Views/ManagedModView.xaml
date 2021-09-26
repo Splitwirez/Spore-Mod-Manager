@@ -28,7 +28,7 @@
 
     <CubicEase x:Key="ScalingEase" EasingMode="EaseOut"/>
     
-    <DataTemplate x:Key="{x:Static cui:AddResourceExtension.RES_KEY}" DataType="{x:Type mods:ManagedMod}">
+    <DataTemplate DataType="{x:Type mods:ManagedMod}">
         <DockPanel>
             <DockPanel x:Name="ModRootDockPanel" Height="36" DockPanel.Dock="Top">
                 <!--Height="{Binding Height, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}"-->
@@ -174,6 +174,27 @@
                     <Setter TargetName="TaskStateTextBlock" Property="Visibility" Value="Visible"/>
                     <Setter TargetName="ModProgressBar" Property="Visibility" Value="Visible"/>
                 </DataTrigger-->
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+
+    
+    <DataTemplate DataType="{x:Type mods:ManualInstalledFile}">
+        <DockPanel x:Name="ModRootDockPanel" Height="36" Margin="10,0">
+            <Control x:Name="ProgressDisplay" Visibility="Collapsed"/>
+            <TextBlock Text="{DynamicResource Mods!ListEntry!ManuallyInstalled}" TextAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,0,0,0" Opacity="0.5" DockPanel.Dock="Right"/>
+            <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center" TextAlignment="Left" HorizontalAlignment="Left"/>
+        </DockPanel>
+        <DataTemplate.Triggers>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsProgressing}" Value="True"/>
+                    <Condition Binding="{Binding ProgressSignifier.IsConcluded}" Value="False"/>
+                </MultiDataTrigger.Conditions>
+                <Setter TargetName="ProgressDisplay" Property="Visibility" Value="Visible"/>
+                <Setter TargetName="ProgressDisplay" Property="DataContext" Value="{Binding ProgressSignifier}"/>
+                <Setter TargetName="ProgressDisplay" Property="Style" Value="{DynamicResource ModListProgressDisplayStyle}"/>
+            </MultiDataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>
 </ResourceDictionary>

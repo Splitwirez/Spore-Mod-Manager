@@ -77,9 +77,9 @@
     <SolidColorBrush x:Key="ButtonDisabledSecondaryBackgroundBrush">#FFC6C6C6</SolidColorBrush>
     <SolidColorBrush x:Key="ButtonDisabledForegroundBrush">#7F000000</SolidColorBrush>
 
-    <SolidColorBrush x:Key="GlyphButtonIdleForegroundBrush">#FF111111</SolidColorBrush>
+    <SolidColorBrush x:Key="GlyphButtonIdleForegroundBrush">#FF666666</SolidColorBrush>
     <SolidColorBrush x:Key="GlyphButtonHoverForegroundBrush">White</SolidColorBrush>
-    <SolidColorBrush x:Key="GlyphButtonPressedForegroundBrush">#FF666666</SolidColorBrush>
+    <SolidColorBrush x:Key="GlyphButtonPressedForegroundBrush">#FF111111</SolidColorBrush>
 
 
     <GradientStopCollection x:Key="HorizontalPanelBackgroundGradientStops">

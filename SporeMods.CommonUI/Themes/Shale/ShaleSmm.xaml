@@ -23,10 +23,14 @@
 
     <Style x:Key="{x:Type TextBlock}" TargetType="{x:Type TextBlock}">
         <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
         <!--Setter Property="TextAlignment" Value="Center"/-->
     </Style>
 
     <Style x:Key="{x:Type ContentPresenter}" TargetType="{x:Type ContentPresenter}">
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Style.Resources>
             <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}"/>
         </Style.Resources>
@@ -740,6 +744,8 @@
         <Setter Property="TextElement.FontWeight" Value="Bold"/>
         <Setter Property="TextBlock.TextAlignment" Value="Left"/>
     </Style>
+
+    <Style x:Key="InstalledModHeader"/>
 
     <Style x:Name="ModConfiguratorComponentsListViewItemStyle" TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource {x:Type ListViewItem}}">
         <Setter Property="Padding" Value="5,0"/>

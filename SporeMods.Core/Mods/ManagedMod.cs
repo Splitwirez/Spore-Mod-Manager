@@ -167,6 +167,18 @@ namespace SporeMods.Core.Mods
 			get => !Description.IsNullOrEmptyOrWhiteSpace();
 		}
 
+		bool _showDescription = false;
+		public bool ShowDescription
+		{
+			get => _showDescription;
+			set
+			{
+				//TODO: Save this somehow
+				_showDescription = value;
+				NotifyPropertyChanged();
+			}
+		}
+
 		public List<string> Tags => Configuration.Tags;
 		
 		public string RealName { get { return Path.GetFileName(StoragePath); } }

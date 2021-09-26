@@ -17,121 +17,228 @@
                 <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Data/Views/ManagedModView.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             
-            <DataTemplate DataType="{x:Type mods:ManualInstalledFile}">
-                <DockPanel x:Name="ModRootDockPanel" Height="42" Margin="10,0">
-                    <Control x:Name="ProgressDisplay" Visibility="Collapsed"/>
-                    <TextBlock Text="{DynamicResource Mods!ListEntry!ManuallyInstalled}" TextAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,0,0,0" Opacity="0.5" DockPanel.Dock="Right"/>
-                    <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center" TextAlignment="Left" HorizontalAlignment="Left"/>
-                </DockPanel>
-                <DataTemplate.Triggers>
-                    <MultiDataTrigger>
-                        <MultiDataTrigger.Conditions>
-                            <Condition Binding="{Binding IsProgressing}" Value="True"/>
-                            <Condition Binding="{Binding ProgressSignifier.IsConcluded}" Value="False"/>
-                        </MultiDataTrigger.Conditions>
-                        <Setter TargetName="ProgressDisplay" Property="Visibility" Value="Visible"/>
-                        <Setter TargetName="ProgressDisplay" Property="DataContext" Value="{Binding ProgressSignifier}"/>
-                        <Setter TargetName="ProgressDisplay" Property="Style" Value="{DynamicResource ModListProgressDisplayStyle}"/>
-                    </MultiDataTrigger>
-                </DataTemplate.Triggers>
-            </DataTemplate>
-            
-            
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-            <cui:BooleanToInvisibilityConverter x:Key="BooleanToInvisibilityConverter"/>
-            <cui:BoolInverterConverter x:Key="BoolInverterConverter"/>
-
-            <cui:Zone x:Key="InstallModsPromptContentControl"
-                            x:Shared="False"
-                            Content="{DynamicResource Mods!CallToAction!Prompt}"
-                            Style="{DynamicResource InstallModsPromptZoneStyle}"/>
+            <cui:BoolToWidthConverter x:Key="BoolToWidthConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
     <UserControl.DataContext>
         <vm:InstalledModsViewModel/>
     </UserControl.DataContext>
-    <DockPanel>
-        <cui:Zone Style="{DynamicResource ModsListTopZoneStyle}"
-                        DockPanel.Dock="Top">
-            <DockPanel LastChildFill="False">
-                <StackPanel x:Name="SearchStackPanel"
-                            Orientation="Horizontal"
-                            VerticalAlignment="Center"
-                            DockPanel.Dock="Right">
-                    <cui:ActionBox x:Name="SearchBox"
-                                Style="{DynamicResource SearchBoxStyle}"
-                                WatermarkText="{DynamicResource Mods!FilterBar!Search!Watermark}"
-                                VerticalAlignment="Stretch"
-                                ActionType="Regular"
-                                IsChecked="{Binding IsSearching}"
-                                cui:AttachedProperties.CornerCurves="True,False,False,True"/>
-                    <ToggleButton x:Name="SearchTargetsToggleButton"
-                                Style="{DynamicResource SearchTargetsToggleButtonStyle}"
-                                VerticalAlignment="Stretch"
-                                cui:AttachedProperties.CornerCurves="False,True,True,False"
-                                cui:AttachedProperties.BorderPresence="False,True,True,True"
-                                IsChecked="{Binding IsOpen, ElementName=SearchTargetsContextMenu, Mode=TwoWay}"
-                                IsHitTestVisible="{Binding IsOpen, ElementName=SearchTargetsContextMenu, Mode=OneWay, Converter={StaticResource BoolInverterConverter}}"
-                                Tag="{Binding ElementName=SearchStackPanel}">
-                        <!--PreviewMouseRightButtonUp="MenuToggleButton_PreviewMouseRightButtonUp"
-                                IsChecked="{Binding IsOpen, ElementName=SearchTargetsContextMenu, Mode=TwoWay}"-->
-                        <ToggleButton.ContextMenu>
-                            <ContextMenu x:Name="SearchTargetsContextMenu"
-                                        PlacementTarget="{Binding ElementName=SearchStackPanel}"
-                                        Placement="RelativePoint"
-                                        Width="{Binding ActualWidth, ElementName=SearchStackPanel}">
-                                <!--IsOpen="{Binding IsChecked, ElementName=SearchTargetsToggleButton, Mode=TwoWay}"-->
-                                <!--IsOpen="{Binding IsChecked, ElementName=SearchTargetsToggleButton, Mode=TwoWay}"
-                                        Closed="SearchTargetsContextMenu_Closed"-->
-                                <MenuItem Header="{DynamicResource Mods!FilterBar!Search!InNames}"
-                                        IsCheckable="True"
-                                        IsChecked="{Binding SearchNames}"/>
-                                <MenuItem Header="{DynamicResource Mods!FilterBar!Search!InDescriptions}"
-                                        IsCheckable="True"
-                                        IsChecked="{Binding SearchDescriptions}"/>
-                            </ContextMenu>
-                        </ToggleButton.ContextMenu>
-                    </ToggleButton>
-                </StackPanel>
-                <Button x:Name="CopyModsToClipboardButton"
-                        DockPanel.Dock="Left"
-                        Content="{DynamicResource Mods!FilterBar!CopyModsList!Label}"
-                        Command="{Binding CopyModsToClipboardCommand}"/>
+    <UserControl.Template>
+        <ControlTemplate>
+            <DockPanel>
+                <cui:Zone Style="{DynamicResource ModsListTopZoneStyle}"
+                                DockPanel.Dock="Top">
+                    <DockPanel LastChildFill="False">
+                        <StackPanel x:Name="SearchStackPanel"
+                                    Orientation="Horizontal"
+                                    VerticalAlignment="Center"
+                                    DockPanel.Dock="Right">
+                            <cui:ActionBox x:Name="SearchBox"
+                                        Style="{DynamicResource SearchBoxStyle}"
+                                        WatermarkText="{DynamicResource Mods!FilterBar!Search!Watermark}"
+                                        VerticalAlignment="Stretch"
+                                        ActionType="Toggle"
+                                        IsChecked="{Binding IsSearching}"
+                                        cui:AttachedProperties.CornerCurves="True,False,False,True"/>
+                            <ToggleButton x:Name="SearchTargetsToggleButton"
+                                        Style="{DynamicResource SearchTargetsToggleButtonStyle}"
+                                        VerticalAlignment="Stretch"
+                                        cui:AttachedProperties.CornerCurves="False,True,True,False"
+                                        cui:AttachedProperties.BorderPresence="False,True,True,True"
+                                        IsChecked="{Binding IsOpen, ElementName=SearchTargetsContextMenu, Mode=TwoWay}"
+                                        Tag="{Binding ElementName=SearchStackPanel}">
+                                <!--PreviewMouseRightButtonUp="MenuToggleButton_PreviewMouseRightButtonUp"
+                                        IsChecked="{Binding IsOpen, ElementName=SearchTargetsContextMenu, Mode=TwoWay}"-->
+                                <ToggleButton.ContextMenu>
+                                    <ContextMenu x:Name="SearchTargetsContextMenu"
+                                                PlacementTarget="{Binding ElementName=SearchStackPanel}"
+                                                Placement="Relative"
+                                                Width="{Binding ActualWidth, ElementName=SearchStackPanel}">
+                                        <!--IsOpen="{Binding IsChecked, ElementName=SearchTargetsToggleButton, Mode=TwoWay}"-->
+                                        <!--IsOpen="{Binding IsChecked, ElementName=SearchTargetsToggleButton, Mode=TwoWay}"
+                                                Closed="SearchTargetsContextMenu_Closed"-->
+                                        <MenuItem Header="{DynamicResource Mods!FilterBar!Search!InNames}"
+                                                IsCheckable="True"
+                                                IsChecked="{Binding SearchNames}"/>
+                                        <MenuItem Header="{DynamicResource Mods!FilterBar!Search!InDescriptions}"
+                                                IsCheckable="True"
+                                                IsChecked="{Binding SearchDescriptions}"/>
+                                    </ContextMenu>
+                                </ToggleButton.ContextMenu>
+                            </ToggleButton>
+                        </StackPanel>
+                        <Button x:Name="CopyModsToClipboardButton"
+                                DockPanel.Dock="Left"
+                                Content="{DynamicResource Mods!FilterBar!CopyModsList!Label}"
+                                Command="{Binding CopyModsToClipboardCommand}"/>
+                    </DockPanel>
+                </cui:Zone>
+                <cui:FloorPanel>
+                    <cui:Zone x:Name="InstallModsPrompt"
+                            Content="{DynamicResource Mods!CallToAction!Prompt}"
+                            Style="{DynamicResource InstallModsPromptZoneStyle}"
+                            Visibility="Collapsed"/>
+                    <ListView x:Name="InstalledModsListView"
+                            Style="{DynamicResource InstalledModsListViewStyle}"
+                            ItemsSource="{Binding Source={x:Static core:ModsManager.InstalledMods}}"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            SelectionChanged="ModsList_SelectionChanged"
+                            Loaded="ModsList_Loaded"
+                            cui:AttachedProperties.CornerCurves="False">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel>
+                                    <GridViewRowPresenter Columns="{Binding (GridView.ColumnCollection), RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}"
+                                                        VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}"
+                                                        SnapsToDevicePixels="{Binding SnapsToDevicePixels, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}"
+                                                        Focusable="False"
+                                                        DockPanel.Dock="Top"
+                                                        Height="36"/>
+                                    <!--Visibility="{Binding Visibility, ElementName=ExpandCollapseToggleButton}"-->
+                                    <StackPanel x:Name="DescriptionGrid" Orientation="Vertical">
+                                        <StackPanel.LayoutTransform>
+                                            <ScaleTransform x:Name="DescriptionTransform" ScaleY="0"/>
+                                        </StackPanel.LayoutTransform>
+                                        <Separator x:Name="DescriptionSeparator" cui:AttachedProperties.CastDirection="Down" VerticalAlignment="Top" Margin="56,0"/>
+                                        <cui:NoSizeDecorator>
+                                            <TextBlock Text="{Binding Description}" TextWrapping="Wrap" TextAlignment="Left" Padding="5" Width="{Binding ActualWidth, ElementName=ModRootDockPanel}" ClipToBounds="False"/>
+                                        </cui:NoSizeDecorator>
+                                    </StackPanel>
+                                </DockPanel>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Path=LayoutTransform.(ScaleTransform.ScaleY), ElementName=DescriptionGrid}" Value="0">
+                                        <Setter TargetName="DescriptionGrid" Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ShowDescription}" Value="True">
+                                        <DataTrigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="DescriptionTransform"
+                                                                    Storyboard.TargetProperty="ScaleY"
+                                                                    To="1"
+                                                                    Duration="0:0:0.125"
+                                                                    EasingFunction="{StaticResource ScalingEase}"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.EnterActions>
+                                        <DataTrigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="DescriptionTransform"
+                                                                    Storyboard.TargetProperty="ScaleY"
+                                                                    To="0"
+                                                                    Duration="0:0:0.125"
+                                                                    EasingFunction="{StaticResource ScalingEase}"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.ExitActions>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}" Value="True">
+                                        <DataTrigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <ThicknessAnimation Storyboard.TargetName="DescriptionGrid"
+                                                                        Storyboard.TargetProperty="Margin"
+                                                                        To="0,5,0,-5"
+                                                                        Duration="0:0:0.125"
+                                                                        EasingFunction="{StaticResource ScalingEase}"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.EnterActions>
+                                        <DataTrigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <ThicknessAnimation Storyboard.TargetName="DescriptionGrid"
+                                                                        Storyboard.TargetProperty="Margin"
+                                                                        To="0"
+                                                                        Duration="0:0:0.125"
+                                                                        EasingFunction="{StaticResource ScalingEase}"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.ExitActions>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                        <ListView.View>
+                            <GridView><!-- IsHitTestVisible="False"-->
+                                <!--GridView.ColumnHeaderContainerStyle>
+                                    <Style TargetType="{x:Type GridViewColumnHeader}">
+                                        <Setter Property="IsHitTestVisible" Value="False"/>
+                                    </Style>
+                                </GridView.ColumnHeaderContainerStyle-->
+                                <GridViewColumn Header="{DynamicResource Mods!ListEntry!Columns!DisplayName}">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding DisplayName}"
+                                                        VerticalAlignment="Center"
+                                                        Style="{DynamicResource InstalledModHeader}"/>
+                                                <ToggleButton x:Name="ExpandCollapseToggleButton"
+                                                            Visibility="{Binding HasDescription, FallbackValue=False, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                            IsChecked="{Binding ShowDescription, Mode=TwoWay}"
+                                                            Style="{DynamicResource ModEntryExpandCollapseToggleButtonStyle}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="{DynamicResource Mods!ListEntry!Columns!IsExperimental}">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <cui:FloorPanel>
+                                                <Separator HorizontalAlignment="Left"
+                                                        cui:AttachedProperties.CastDirection="Right"/>
+                                                <Control Style="{DynamicResource BooleanColumnCheckmarkStyle}" Visibility="{Binding Identity.IsExperimental, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
+                                            </cui:FloorPanel>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="{DynamicResource Mods!ListEntry!Columns!CausesSaveDataDependency}">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <cui:FloorPanel>
+                                                <Separator HorizontalAlignment="Left"
+                                                        cui:AttachedProperties.CastDirection="Right"/>
+                                                <Control Style="{DynamicResource BooleanColumnCheckmarkStyle}" Visibility="{Binding Identity.CausesSaveDataDependency, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
+                                            </cui:FloorPanel>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <!--CellTemplate="{StaticResource CheckmarkForBoolean}"/-->
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <ListView x:Name="ModSearchListView"
+                            Style="{DynamicResource InstalledModsListViewStyle}"
+                            ItemsSource="{Binding SearchResults, Source={x:Static core:ModSearch.Instance}}"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            SelectionChanged="ModsList_SelectionChanged"
+                            cui:AttachedProperties.CornerCurves="False"
+                            Visibility="Collapsed"/>
+                </cui:FloorPanel>
             </DockPanel>
-        </cui:Zone>
-        <cui:FloorPanel>
-            <cui:Zone>
-                <cui:Zone.Style>
-                    <Style TargetType="{x:Type ContentControl}">
-                        <!--Setter Property="Content" Value="{DynamicResource InstallModsPromptContentControl}"/-->
-                        <!--Style.Triggers>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding ItemCount, ElementName=InstalledModsListView}" Value="0"/>
-                                    <Condition Binding="{Binding Visibility, ElementName=InstalledModsListView}" Value="Visible"/>
-                                </MultiDataTrigger.Conditions>
-                                
-                            </MultiDataTrigger>
-                        </Style.Triggers-->
-                    </Style>
-                </cui:Zone.Style>
-            </cui:Zone>
-            <ListView x:Name="InstalledModsListView"
-                      Style="{DynamicResource InstalledModsListViewStyle}"
-                      ItemsSource="{Binding Source={x:Static core:ModsManager.InstalledMods}}"
-                      Visibility="{Binding IsSearching, Converter={StaticResource BooleanToInvisibilityConverter}}"
-                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                      ScrollViewer.VerticalScrollBarVisibility="Auto"
-                      SelectionChanged="ModsList_SelectionChanged"
-                      cui:AttachedProperties.CornerCurves="False"/>
-            <ListView x:Name="ModSearchListView"
-                      Style="{DynamicResource InstalledModsListViewStyle}"
-                      ItemsSource="{Binding SearchResults, Source={x:Static core:ModSearch.Instance}}"
-                      Visibility="{Binding IsSearching, Converter={StaticResource BooleanToVisibilityConverter}}"
-                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                      ScrollViewer.VerticalScrollBarVisibility="Auto"
-                      SelectionChanged="ModsList_SelectionChanged"
-                      cui:AttachedProperties.CornerCurves="False"/>
-        </cui:FloorPanel>
-    </DockPanel>
+            <ControlTemplate.Triggers>
+                <DataTrigger Binding="{Binding IsSearching}" Value="True">
+                    <Setter TargetName="InstalledModsListView" Property="Visibility" Value="Collapsed"/>
+                    <Setter TargetName="ModSearchListView" Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding IsSearching}" Value="False"/>
+                        <Condition Binding="{Binding HasItems, ElementName=InstalledModsListView}" Value="False"/>
+                    </MultiDataTrigger.Conditions>
+                    <Setter TargetName="InstallModsPrompt" Property="Visibility" Value="Visible"/>
+                </MultiDataTrigger>
+                <Trigger SourceName="SearchTargetsContextMenu" Property="IsOpen" Value="True">
+                    <Setter TargetName="SearchTargetsToggleButton" Property="IsHitTestVisible" Value="False"/>
+                </Trigger>
+                <!--Trigger SourceName="InstalledModsListView" Property="Visibility" Value="Visible">
+                    <Setter TargetName="InstalledModsListView" Property="View" Value="{DynamicResource InstalledModsColumns}"/>
+                </Trigger-->
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </UserControl.Template>
 </UserControl>

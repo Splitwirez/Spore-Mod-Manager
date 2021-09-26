@@ -120,6 +120,16 @@ Mods {
 			#ADDED
 			Rollback Failed - reverting changes
 		}
+
+		#ADDED
+		Columns {
+			#ADDED
+			DisplayName Name
+			#ADDED
+			IsExperimental Experimental
+			#ADDED
+			CausesSaveDataDependency Causes save data dependency
+		}
 		
 		ManuallyInstalled Manually installed #ModInstalledManually
 		

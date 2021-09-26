@@ -33,7 +33,9 @@ namespace SporeMods.Views
         }
 
         ViewModels.InstalledModsViewModel VM => DataContext as ViewModels.InstalledModsViewModel;
-        public void ModsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        
+        
+        void ModsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if ((sender is ListView listView) && (listView.Visibility == Visibility.Visible))
             {
@@ -42,6 +44,62 @@ namespace SporeMods.Views
                     VM.SelectedMods = rawSelected.OfType<IInstalledMod>();
                 else
                     VM.SelectedMods = new List<IInstalledMod>();
+            }
+        }
+
+        void ModsList_Loaded(object sender, RoutedEventArgs e)
+        {
+            if ((sender is ListView listView) && (listView.View is GridView gridView))
+            {
+                var headers = EnumVisual<GridViewColumnHeader>(listView);
+                //headers.FirstOrDefault()
+                foreach (GridViewColumnHeader header in headers)
+                {
+                    header.IsHitTestVisible = false;
+                    //Console.WriteLine($"{child}: {child.GetType().FullName}");
+                }
+
+
+                var presenter = EnumVisual<ScrollContentPresenter>(listView).FirstOrDefault();
+                var firstColumn = gridView.Columns.First();
+                var otherColumns = gridView.Columns.Skip(1);
+                if (presenter != null)
+                {
+                    Action updateColumnWidths = () =>
+                    {
+                        double width = 0;
+                        foreach (var current in otherColumns)
+                        {
+                            width += current.ActualWidth;
+                        }
+                        firstColumn.Width = (presenter.ActualWidth + presenter.Margin.Left + presenter.Margin.Right) - width;
+                    };
+
+
+                    listView.SizeChanged += (s, args) => updateColumnWidths();
+                    updateColumnWidths();
+                }
+            }
+        }
+
+        static List<T> EnumVisual<T>(Visual target) where T : Visual
+        {
+            List<T> found = new List<T>();
+            EnumVisual<T>(target, ref found);
+            return found;
+        }
+
+        static void EnumVisual<T>(Visual target, ref List<T> found) where T : Visual
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(target); i++)
+            {
+                var child = VisualTreeHelper.GetChild(target, i);
+                
+                if (child is T find)
+                    found.Add(find);
+                
+                if (child is Visual next)
+                    EnumVisual<T>(next, ref found);
             }
         }
 	}
