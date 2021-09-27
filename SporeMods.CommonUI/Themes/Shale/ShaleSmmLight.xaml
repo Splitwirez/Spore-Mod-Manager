@@ -3,7 +3,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Colors/BaseLight.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Shale.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Smm/SmmLight.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/ShaleSmm.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/SmmSpecific/Colors/SmmLight.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/SmmSpecific/ShaleSmm.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

@@ -8,17 +8,24 @@
 			xmlns:autocomp="clr-namespace:WPFTextBoxAutoComplete;assembly=WPFTextBoxAutoComplete"
 			xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Shale.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Converters.xaml"/>
+
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/ActionBox.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/Window.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/ScrollBar.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/ListView.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/Button.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/GroupBox.xaml"/>
-    </ResourceDictionary.MergedDictionaries>
-    <cui:IconToImageBrushConverter x:Key="IconToImageBrushConverter"/>
     
+    </ResourceDictionary.MergedDictionaries>
+
+
+
+
+
     <!--### Icon't for mods which don't have their own icons (not presently used, will likely be used in future) ###-->
-    <cui:FloorPanel x:Key="NoIconModIcon" x:Shared="False" Width="32" Height="32" HorizontalAlignment="Center" VerticalAlignment="Center">
+    <!--cui:FloorPanel x:Key="NoIconModIcon" x:Shared="False" Width="32" Height="32" HorizontalAlignment="Center" VerticalAlignment="Center">
         <Ellipse Stroke="{DynamicResource ButtonIdleBorderBrush}" StrokeThickness="1">
             <Ellipse.Fill>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
@@ -30,7 +37,7 @@
             </Ellipse.Fill>
         </Ellipse>
         <TextBlock Text="?" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Foreground="{DynamicResource ButtonForegroundBrush}" FontSize="15" FontWeight="Black" Effect="{DynamicResource DropShadow}"/>
-    </cui:FloorPanel>
+    </cui:FloorPanel-->
 
 
     <!--### Triangular background for alerts on mod list entries ###-->
@@ -90,41 +97,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-
-
-
-    <Style x:Key="ConfiguratorComponentGroupStyle" TargetType="{x:Type GroupBox}" BasedOn="{StaticResource {x:Type GroupBox}}">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="GroupBox">
-                    <cui:StackPanelEx Orientation="Vertical"
-                                    Margin="{TemplateBinding Padding}"
-                                    Spacing="{DynamicResource SettingsControlsVerticalSpacing}">
-                        <Separator cui:AttachedProperties.CastDirection="Up"/>
-                        <ContentPresenter x:Name="HeaderPresenter"
-                                        ContentSource="Header"
-                                        RecognizesAccessKey="True"
-                                        TextElement.Foreground="{TemplateBinding Foreground}"
-                                        HorizontalAlignment="Left"
-                                        TextBlock.FontSize="16"
-                                        TextBlock.FontWeight="Bold"
-                                        VerticalAlignment="Center"/>
-                        <ContentPresenter x:Name="BodyPresenter"/>
-                        <Separator cui:AttachedProperties.CastDirection="Down"/>
-                    </cui:StackPanelEx>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="Header" Value="{x:Null}">
-                            <Setter TargetName="HeaderPresenter" Property="Visibility" Value="Collapsed"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    
-    
-    
     
     <Style x:Key="InstalledModsGridViewHeaderRowPresenterBackdropStyle" TargetType="{x:Type ContentControl}">
         <Setter Property="Template">
@@ -301,7 +273,7 @@
         </Setter>
     </Style>
     
-    <!--### Installed mods list...duh ###-->
+    <!--### Installed mods list ###-->
     <Style x:Key="InstalledModsListViewStyle" TargetType="{x:Type ListView}" BasedOn="{StaticResource {x:Type ListView}}">
         <Setter Property="Margin" Value="0,-1,0,0"/>
         <Setter Property="Padding" Value="0"/>
@@ -344,7 +316,7 @@
         </Setter-->
     </Style>
 
-    <Style x:Key="DropdownToggleButtonStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource CaptionButtonBaseStyle}">
+    <!--Style x:Key="DropdownToggleButtonStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource CaptionButtonBaseStyle}">
         <Setter Property="Width" Value="32"/>
         <Setter Property="Height" Value="Auto"/>
         <Setter Property="Margin" Value="0"/>
@@ -360,8 +332,9 @@
                 <Setter Property="Foreground" Value="{DynamicResource TitlebarHoverForegroundBrush}" />
             </Trigger>
         </Style.Triggers>
-    </Style>
+    </Style-->
 
+    <!--### Expand/collapse button for mod list entries ###-->
     <Style x:Key="ModEntryExpandCollapseToggleButtonStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource GlyphButtonBaseStyle}">
         <Setter Property="Margin" Value="5,0,0,0"/>
         <Setter Property="Width" Value="32"/>
@@ -405,6 +378,7 @@
         </Setter>
     </Style>
 
+    <!--### Checkmark for "yes, this mod does this" columns in mods list ###-->
     <Style x:Key="BooleanColumnCheckmarkStyle" TargetType="{x:Type Control}">
         <Setter Property="Template">
             <Setter.Value>
@@ -418,6 +392,7 @@
         </Setter>
     </Style>
 
+    <!--### Top area with search bar and such in mods tab ###-->
     <Style x:Key="ModsListTopZoneStyle" TargetType="{x:Type cui:Zone}">
         <Setter Property="Height" Value="40"/>
         <Setter Property="Template">
@@ -444,6 +419,8 @@
     <Path x:Key="SearchCancelIcon" x:Shared="False"
         Data="{DynamicResource DiagonalCross!Large}"
         Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToggleButton}}}"/>
+    
+    <!--### Search installed mods box ###-->
     <Style x:Key="SearchBoxStyle" TargetType="{x:Type cui:ActionBox}" BasedOn="{StaticResource {x:Type cui:ActionBox}}">
         <Setter Property="Height" Value="29"/>
         <Setter Property="Margin" Value="5,0,0,0"/>
@@ -489,12 +466,13 @@
             </Style>
         </Path.Style>
     </Path>
+    
+    <!--### ToggleButton for search mod names/descriptions/etc dropdown list ###-->
     <Style x:Key="SearchTargetsToggleButtonStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource {x:Type ToggleButton}}">
         <Setter Property="Content" Value="{DynamicResource SearchTargetsToggleButtonIcon}"/>
     </Style>
 
-
-
+    <!--### 'Click button to install mods' call-to-action ###-->
     <Style x:Key="InstallModsPromptZoneStyle" TargetType="{x:Type cui:Zone}">
         <Setter Property="Template">
             <Setter.Value>
@@ -531,110 +509,6 @@
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.EnterActions>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="OngoingTasksListZoneStyle" TargetType="{x:Type cui:AnimatableContentControl}">
-        <Setter Property="Width" Value="375"/>
-        <Setter Property="Margin" Value="5,5,5,-11"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type cui:AnimatableContentControl}">
-                    <cui:FloorPanel x:Name="ContentGrid" RenderTransformOrigin="0.92,1">
-                        <cui:FloorPanel.RenderTransform>
-                            <ScaleTransform ScaleX="0" ScaleY="{Binding ScaleX, RelativeSource={RelativeSource Mode=Self}}"/>
-                        </cui:FloorPanel.RenderTransform>
-                        <DockPanel Effect="{DynamicResource TertiaryDropShadow}">
-                            <Path Data="M 0 0 L 10 16 L 20 0 Z" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="20,0">
-                                <Path.Fill>
-                                    <LinearGradientBrush StartPoint="0,-1" EndPoint="0,0" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
-                                </Path.Fill>
-                            </Path>
-                            <Border x:Name="ContentPaneBorder" CornerRadius="3" BorderBrush="Transparent" UseLayoutRounding="True">
-                                <Border.Background>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.75" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
-                                </Border.Background>
-                            </Border>
-                        </DockPanel>
-                        <DockPanel>
-                            <Button x:Name="PART_CloseButton" Content="{DynamicResource AnimatableContentControlCloseButtonIcon}" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="{Binding HasCloseButton, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}" DockPanel.Dock="Top" Panel.ZIndex="99999999">
-                                <Button.Style>
-                                    <Style TargetType="{x:Type Button}">
-                                        <Setter Property="Width" Value="45"/>
-                                        <Setter Property="Height" Value="31"/>
-                                        <Setter Property="Foreground" Value="{DynamicResource WindowForegroundBrush}"/>
-                                        <Setter Property="BorderThickness" Value="0"/>
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="Button">
-                                                    <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#01000000" BorderBrush="{DynamicResource TitlebarBorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
-                                                        <DockPanel HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Effect="{DynamicResource DropShadow}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="True" UseLayoutRounding="True">
-                                                            <ContentPresenter x:Name="IconPresenter" Content="{Binding Path=(cui:AttachedProperties.Icon), RelativeSource={RelativeSource Mode=TemplatedParent}}" TextElement.Foreground="{TemplateBinding Foreground}" TextElement.FontFamily="{TemplateBinding FontFamily}" TextElement.FontSize="{TemplateBinding FontSize}" Margin="0,0,4,0"/>
-                                                            <ContentPresenter x:Name="ContentPresenter" Content="{TemplateBinding Content}" TextElement.Foreground="{TemplateBinding Foreground}" TextElement.FontFamily="{TemplateBinding FontFamily}" TextElement.FontSize="{TemplateBinding FontSize}" Margin="0"/>
-                                                        </DockPanel>
-                                                    </Border>
-                                                    <ControlTemplate.Triggers>
-                                                        <Trigger Property="cui:AttachedProperties.Icon" Value="{x:Null}">
-                                                            <Setter TargetName="IconPresenter" Property="Visibility" Value="Collapsed"/>
-                                                        </Trigger>
-                                                        <Trigger Property="Content" Value="{x:Null}">
-                                                            <Setter TargetName="ContentPresenter" Property="Visibility" Value="Collapsed"/>
-                                                            <Setter TargetName="IconPresenter" Property="Margin" Value="0"/>
-                                                        </Trigger>
-                                                    </ControlTemplate.Triggers>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                        <Style.Triggers>
-                                            <Trigger Property="IsEnabled" Value="False">
-                                                <Setter Property="Opacity" Value="0.5"/>
-                                            </Trigger>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Foreground" Value="{DynamicResource TitlebarHoverForegroundBrush}" />
-                                            </Trigger>
-                                            <Trigger Property="IsPressed" Value="True">
-                                                <Setter Property="Foreground" Value="{DynamicResource TitlebarPressedForegroundBrush}" />
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style>
-                            </Button>
-                            <ContentPresenter Content="{TemplateBinding Content}" Margin="0,0,0,16"/>
-                        </DockPanel>
-                    </cui:FloorPanel>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsOpen" Value="True">
-                            <Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.25">
-                                            <DoubleAnimation.EasingFunction>
-                                                <QuinticEase EasingMode="EaseOut"/>
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                        <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.25"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="RenderTransform.ScaleX" To="0" Duration="0:0:0.25">
-                                            <DoubleAnimation.EasingFunction>
-                                                <QuinticEase EasingMode="EaseOut"/>
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                        <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.25"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.ExitActions>
-                        </Trigger>
-                        <Trigger SourceName="ContentGrid" Property="Opacity" Value="0">
-                            <Setter Property="Visibility" Value="Collapsed"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

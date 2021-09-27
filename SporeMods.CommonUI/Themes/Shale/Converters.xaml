@@ -2,9 +2,12 @@
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
             xmlns:cui="clr-namespace:SporeMods.CommonUI"
             xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity">
+    <cui:IconToImageBrushConverter x:Key="IconToImageBrushConverter"/>
     <cui:CornerCurvesToCornerRadiusConverter x:Key="CornerCurvesToCornerRadiusConverter"/>
     <cui:BorderPresenceToThicknessConverter x:Key="BorderPresenceToThicknessConverter"/>
     <cui:ListViewItemIndexToBoolConverter x:Key="ListViewItemIndexToBoolConverter"/>
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     <cui:ThicknessInvertFilterConverter x:Key="ThicknessInvertFilterConverter"/>
+    <cui:DoubleComparisonConverter x:Key="DoubleComparisonConverter"/>
+    <cui:IsAllTrueConverter x:Key="IsAllTrueConverter"/>
 </ResourceDictionary>
