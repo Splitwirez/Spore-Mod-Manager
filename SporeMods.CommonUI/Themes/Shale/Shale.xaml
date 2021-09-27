@@ -46,14 +46,14 @@
     <SolidColorBrush x:Key="ModalPanelBackdropBrush">#C0000000</SolidColorBrush>
 
     <GradientStopCollection x:Key="SeparatorFillGradientStops">
-        <GradientStop Offset="0" Color="#00000000"/>
-        <GradientStop Offset="1" Color="#40000000"/>
+        <GradientStop Offset="0" Color="#40000000"/>
+        <GradientStop Offset="1" Color="#00000000"/>
     </GradientStopCollection>
-    <GradientStopCollection x:Key="SeparatorMaskGradientStops">
+    <!--GradientStopCollection x:Key="SeparatorMaskGradientStops">
         <GradientStop Offset="0" Color="Transparent"/>
         <GradientStop Offset="0.5" Color="White"/>
         <GradientStop Offset="1" Color="Transparent"/>
-    </GradientStopCollection>
+    </GradientStopCollection-->
 
     <Style TargetType="Border" x:Key="HorizontalBarBorderStyle">
         <Setter Property="Background">

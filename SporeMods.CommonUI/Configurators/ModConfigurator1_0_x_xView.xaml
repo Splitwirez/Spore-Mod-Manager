@@ -24,19 +24,20 @@
                     cui:AttachedProperties.CornerCurves="True,False,False,True">
             <ItemsControl.Resources>
                 <DataTemplate DataType="{x:Type mods:MutualExclusiveComponentGroup}">
-                    <GroupBox x:Name="SubComponentsGroupBox" Header="{Binding DisplayName}">
-                        <GroupBox.Resources>
-                            <DataTemplate DataType="{x:Type mods:ModComponent}">
-                                <RadioButton x:Name="ComponentRadioButton" Content="{Binding DisplayName}" IsChecked="{Binding IsEnabled, Mode=TwoWay}">
-                                    <e:Interaction.Triggers>
-                                        <e:EventTrigger EventName="MouseEnter">
-                                            <e:InvokeCommandAction Command="{Binding DataContext.ViewComponentCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                                                                CommandParameter="{Binding}"/>
-                                        </e:EventTrigger>
-                                    </e:Interaction.Triggers>
-                                </RadioButton>
-                            </DataTemplate>
-                        </GroupBox.Resources>
+                    <DataTemplate.Resources>
+                        <DataTemplate DataType="{x:Type mods:ModComponent}">
+                            <RadioButton x:Name="ComponentRadioButton" Content="{Binding DisplayName}" IsChecked="{Binding IsEnabled, Mode=TwoWay}">
+                                <e:Interaction.Triggers>
+                                    <e:EventTrigger EventName="MouseEnter">
+                                        <e:InvokeCommandAction Command="{Binding DataContext.ViewComponentCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                                            CommandParameter="{Binding}"/>
+                                    </e:EventTrigger>
+                                </e:Interaction.Triggers>
+                            </RadioButton>
+                        </DataTemplate>
+                    </DataTemplate.Resources>
+                    <GroupBox Header="{Binding DisplayName}"
+                            Style="{DynamicResource ConfiguratorComponentGroupStyle}">
                         <ItemsControl ItemsSource="{Binding SubComponents}"/>
                     </GroupBox>
                 </DataTemplate>

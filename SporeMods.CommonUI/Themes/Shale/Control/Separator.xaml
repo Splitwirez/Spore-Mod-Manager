@@ -2,13 +2,17 @@
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
             xmlns:cui="clr-namespace:SporeMods.CommonUI"
             xmlns:beh="http://schemas.microsoft.com/expression/2010/interactivity">
-    <LinearGradientBrush x:Key="SeparatorFillLeft" StartPoint="0,0" EndPoint="1,0" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>
+    <!--LinearGradientBrush x:Key="SeparatorFillLeft" StartPoint="0,0" EndPoint="1,0" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>
     <LinearGradientBrush x:Key="SeparatorFillUp" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>
     <LinearGradientBrush x:Key="SeparatorFillRight" StartPoint="1,0" EndPoint="0,0" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>
     <LinearGradientBrush x:Key="SeparatorFillDown" StartPoint="0,1" EndPoint="0,0" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>
 
     <LinearGradientBrush x:Key="SeparatorMaskHorizontal" StartPoint="0,0" EndPoint="1,0" GradientStops="{DynamicResource SeparatorMaskGradientStops}"/>
-    <LinearGradientBrush x:Key="SeparatorMaskVertical" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource SeparatorMaskGradientStops}"/>
+    <LinearGradientBrush x:Key="SeparatorMaskVertical" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource SeparatorMaskGradientStops}"/-->
+    <RadialGradientBrush x:Key="SeparatorFillLeft" RadiusX="1" Center="1,0.5" GradientOrigin="1,0.5" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>
+    <RadialGradientBrush x:Key="SeparatorFillUp" RadiusY="1" Center="0.5,1" GradientOrigin="0.5,1" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>
+    <RadialGradientBrush x:Key="SeparatorFillRight" RadiusX="1" Center="0,0.5" GradientOrigin="0,0.5" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>
+    <RadialGradientBrush x:Key="SeparatorFillDown" RadiusY="1" Center="0.5,0" GradientOrigin="0.5,0" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>
 
     <Style x:Key="{x:Type Separator}" TargetType="{x:Type Separator}">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -22,26 +26,22 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="cui:AttachedProperties.CastDirection" Value="Left">
                             <Setter TargetName="FillRectangle" Property="Fill" Value="{DynamicResource SeparatorFillLeft}"/>
-                            <Setter TargetName="FillRectangle" Property="OpacityMask" Value="{DynamicResource SeparatorMaskVertical}"/>
-                            <!--Setter Property="Width" Value="5"/-->
+                            <!--Setter TargetName="FillRectangle" Property="OpacityMask" Value="{DynamicResource SeparatorMaskVertical}"/-->
                             <Setter Property="HorizontalAlignment" Value="Center"/>
                         </Trigger>
                         <Trigger Property="cui:AttachedProperties.CastDirection" Value="Up">
                             <Setter TargetName="FillRectangle" Property="Fill" Value="{DynamicResource SeparatorFillUp}"/>
-                            <Setter TargetName="FillRectangle" Property="OpacityMask" Value="{DynamicResource SeparatorMaskHorizontal}"/>
-                            <!--Setter Property="Height" Value="5"/-->
+                            <!--Setter TargetName="FillRectangle" Property="OpacityMask" Value="{DynamicResource SeparatorMaskHorizontal}"/-->
                             <Setter Property="VerticalAlignment" Value="Center"/>
                         </Trigger>
                         <Trigger Property="cui:AttachedProperties.CastDirection" Value="Right">
                             <Setter TargetName="FillRectangle" Property="Fill" Value="{DynamicResource SeparatorFillRight}"/>
-                            <Setter TargetName="FillRectangle" Property="OpacityMask" Value="{DynamicResource SeparatorMaskVertical}"/>
-                            <!--Setter Property="Width" Value="5"/-->
+                            <!--Setter TargetName="FillRectangle" Property="OpacityMask" Value="{DynamicResource SeparatorMaskVertical}"/-->
                             <Setter Property="HorizontalAlignment" Value="Center"/>
                         </Trigger>
                         <Trigger Property="cui:AttachedProperties.CastDirection" Value="Down">
                             <Setter TargetName="FillRectangle" Property="Fill" Value="{DynamicResource SeparatorFillDown}"/>
-                            <Setter TargetName="FillRectangle" Property="OpacityMask" Value="{DynamicResource SeparatorMaskHorizontal}"/>
-                            <!--Setter Property="Height" Value="5"/-->
+                            <!--Setter TargetName="FillRectangle" Property="OpacityMask" Value="{DynamicResource SeparatorMaskHorizontal}"/-->
                             <Setter Property="VerticalAlignment" Value="Center"/>
                         </Trigger>
                     </ControlTemplate.Triggers>

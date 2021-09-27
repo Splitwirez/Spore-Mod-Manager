@@ -38,7 +38,7 @@
                                         Style="{DynamicResource SearchBoxStyle}"
                                         WatermarkText="{DynamicResource Mods!FilterBar!Search!Watermark}"
                                         VerticalAlignment="Stretch"
-                                        ActionType="Toggle"
+                                        ActionType="Instant"
                                         IsChecked="{Binding IsSearching}"
                                         cui:AttachedProperties.CornerCurves="True,False,False,True"/>
                             <ToggleButton x:Name="SearchTargetsToggleButton"
