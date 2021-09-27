@@ -41,6 +41,10 @@ namespace SporeMods.Core.Mods
 		/// </summary>
 		string Description { get; }
 
+		/// Whether or not the mod's in-UI description.
+		/// </summary>
+		bool HasDescription { get; }
+
 		List<string> Tags { get; }
 
 		Version ModVersion { get; }

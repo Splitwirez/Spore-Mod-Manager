@@ -14,8 +14,8 @@ namespace SporeMods.Core
 	//[DebuggerDisplay("Path = {Path} Query = {Query}")]
 	public class ModSearch : INotifyPropertyChanged
 	{
-		ObservableCollection<IInstalledMod> _searchResults = new ObservableCollection<IInstalledMod>();
-		public ObservableCollection<IInstalledMod> SearchResults
+		ThreadSafeObservableCollection<IInstalledMod> _searchResults = new ThreadSafeObservableCollection<IInstalledMod>();
+		public ThreadSafeObservableCollection<IInstalledMod> SearchResults
 		{
 			get => _searchResults;
 			set
@@ -46,8 +46,8 @@ namespace SporeMods.Core
 		{
 			if (_searching)
 				_cancel = true;
-			else
-				Instance.SearchResults.Clear();
+			
+			Instance.SearchResults.Clear();
 		}
 
 		static bool _searching = false;
@@ -55,16 +55,15 @@ namespace SporeMods.Core
 
 		private static void StartSearch(string query, bool searchNames, bool searchDescriptions, bool searchTags)
 		{
-			var lowerQuery = query.ToLowerInvariant();
-
 			_searching = true;
+			Instance.SearchResults.Clear();
 			var mods = new ObservableCollection<IInstalledMod>();
+			
 			ModsManager.RunOnMainSyncContext(state => mods = ModsManager.InstalledMods);
 			for (int i = 0; i < mods.Count; i++)
 			{
 				if (_cancel)
 				{
-					ModsManager.RunOnMainSyncContext(state => Instance.SearchResults.Clear());
 					_cancel = false;
 					break;
 				}
@@ -72,23 +71,28 @@ namespace SporeMods.Core
 				{
 						
 					IInstalledMod mod = mods[i];
-					if (
-					(searchNames && mod.DisplayName.ToLowerInvariant().Contains(lowerQuery))
-					|| (searchDescriptions && mod.Description != null && mod.Description.ToLowerInvariant().Contains(lowerQuery))
-					|| (searchTags && false/*temp*/)
+					bool nameMatches = (searchNames && mod.DisplayName.Contains(query, StringComparison.OrdinalIgnoreCase));
+					bool descMatches = (searchDescriptions && mod.HasDescription && mod.Description.Contains(query, StringComparison.OrdinalIgnoreCase));
+					Console.WriteLine($"Searching in... {searchNames}, {searchDescriptions}...found {nameMatches}, {descMatches}");
+					if (nameMatches ||
+						descMatches
+						/* ||
+						(searchTags && false/*temp* /)*/
 					)
 					{
-						ModsManager.RunOnMainSyncContext(state => Instance.SearchResults.Add(mod));
+						if (!Instance.SearchResults.Contains(mod))
+							Instance.SearchResults.Add(mod);
 					}
 				}
 			}
 			_searching = false;
 		}
 
-		public static void StartSearchAsync(string query, bool searchNames, bool searchDescriptions, bool searchTags)
+		public static async void StartSearchAsync(string query, bool searchNames, bool searchDescriptions, bool searchTags)
 		{
 			var task = new Task(() => StartSearch(query, searchNames, searchDescriptions, searchTags));
 			task.Start();
+			await task;
 		}
 
 		private void NotifyPropertyChanged(string propertyName)

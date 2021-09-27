@@ -393,7 +393,7 @@
     </Style>
 
     <!--### Top area with search bar and such in mods tab ###-->
-    <Style x:Key="ModsListTopZoneStyle" TargetType="{x:Type cui:Zone}">
+    <Style x:Key="ModsListFilterBarStyle" TargetType="{x:Type cui:Zone}">
         <Setter Property="Height" Value="40"/>
         <Setter Property="Template">
             <Setter.Value>

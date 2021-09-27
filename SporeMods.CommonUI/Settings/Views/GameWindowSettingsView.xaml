@@ -67,15 +67,15 @@
                                             <!--
                                             [ ] Custom resolution
                                             -->
-                                            <RadioButton Content="{DynamicResource Settings!Window!OverrideGameResolution!Custom}"
-                                                         GroupName="WindowSizeRadioGroup"
-                                                         IsChecked="{Binding WindowedAutoWindowResolution, Converter={StaticResource BoolInverterConverter}}"/>
+                                            <RadioButton x:Name="CustomResolutionRadioButton"
+                                                        Content="{DynamicResource Settings!Window!OverrideGameResolution!Custom}"
+                                                        GroupName="WindowSizeRadioGroup"
+                                                        IsChecked="{Binding WindowedAutoWindowResolution, Converter={StaticResource BoolInverterConverter}}"/>
                                         </HeaderedContentControl.Header>
-                                        <StackPanel Orientation="Vertical">
-                                            <!--Spacing="{DynamicResource SettingsControlsVerticalSpacing}"-->
-                                            <!--TextBox x:Name="CustomResolutionWidthTextBox" Width="75" Grid.Column="1" IsEnabled="{Binding IsChecked, Source={x:Reference CustomResolutionRadioButton}}" TextChanged="CustomResolutionWidthTextBox_TextChanged"/>
+                                        <StackPanel Orientation="Horizontal" Visibility="{Binding IsChecked, ElementName=CustomResolutionRadioButton, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <TextBox Text="{Binding CustomResolutionWidth, Mode=TwoWay}" Width="75"/>
                                             <TextBlock Margin="10,0" Grid.Column="2" VerticalAlignment="Center">x</TextBlock>
-                                            <TextBox x:Name="CustomResolutionHeightTextBox" Width="75" Grid.Column="3" IsEnabled="{Binding IsChecked, Source={x:Reference CustomResolutionRadioButton}}" TextChanged="CustomResolutionHeightTextBox_TextChanged"/-->
+                                            <TextBox Text="{Binding CustomResolutionHeight, Mode=TwoWay}" Width="75"/>
                                         </StackPanel>
                                     </HeaderedContentControl>
                                     <!-- (for windowed mode)

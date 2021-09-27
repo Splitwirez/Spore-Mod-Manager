@@ -162,10 +162,7 @@ namespace SporeMods.Core.Mods
 		public string Unique => Identity.Unique;
 		public string DisplayName => Identity.DisplayName;
 		public string Description => Identity.Description;
-		public bool HasDescription
-		{
-			get => !Description.IsNullOrEmptyOrWhiteSpace();
-		}
+		public bool HasDescription => !Description.IsNullOrEmptyOrWhiteSpace();
 
 		bool _showDescription = false;
 		public bool ShowDescription

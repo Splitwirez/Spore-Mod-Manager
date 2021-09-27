@@ -19,6 +19,7 @@
             
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
             <cui:BoolToWidthConverter x:Key="BoolToWidthConverter"/>
+            <cui:NullableBoolToBoolConverter x:Key="NullableBoolToBoolConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
     <UserControl.DataContext>
@@ -27,7 +28,7 @@
     <UserControl.Template>
         <ControlTemplate>
             <DockPanel>
-                <cui:Zone Style="{DynamicResource ModsListTopZoneStyle}"
+                <cui:Zone Style="{DynamicResource ModsListFilterBarStyle}"
                                 DockPanel.Dock="Top">
                     <DockPanel LastChildFill="False">
                         <StackPanel x:Name="SearchStackPanel"
@@ -39,7 +40,8 @@
                                         WatermarkText="{DynamicResource Mods!FilterBar!Search!Watermark}"
                                         VerticalAlignment="Stretch"
                                         ActionType="Instant"
-                                        IsChecked="{Binding IsSearching}"
+                                        IsChecked="{Binding IsSearching, Mode=TwoWay}"
+                                        Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         cui:AttachedProperties.CornerCurves="True,False,False,True"/>
                             <ToggleButton x:Name="SearchTargetsToggleButton"
                                         Style="{DynamicResource SearchTargetsToggleButtonStyle}"
@@ -52,18 +54,26 @@
                                         IsChecked="{Binding IsOpen, ElementName=SearchTargetsContextMenu, Mode=TwoWay}"-->
                                 <ToggleButton.ContextMenu>
                                     <ContextMenu x:Name="SearchTargetsContextMenu"
-                                                PlacementTarget="{Binding ElementName=SearchStackPanel}"
+                                                ContextMenuService.PlacementTarget="{Binding ElementName=SearchStackPanel}"
                                                 Placement="Relative"
                                                 Width="{Binding ActualWidth, ElementName=SearchStackPanel}">
                                         <!--IsOpen="{Binding IsChecked, ElementName=SearchTargetsToggleButton, Mode=TwoWay}"-->
                                         <!--IsOpen="{Binding IsChecked, ElementName=SearchTargetsToggleButton, Mode=TwoWay}"
                                                 Closed="SearchTargetsContextMenu_Closed"-->
-                                        <MenuItem Header="{DynamicResource Mods!FilterBar!Search!InNames}"
+                                        <MenuItem x:Name="SearchNames"
+                                                Header="{DynamicResource Mods!FilterBar!Search!InNames}"
                                                 IsCheckable="True"
-                                                IsChecked="{Binding SearchNames}"/>
-                                        <MenuItem Header="{DynamicResource Mods!FilterBar!Search!InDescriptions}"
+                                                Loaded="SearchNames_Loaded"
+                                                Checked="SearchNames_UnChecked"
+                                                Unchecked="SearchNames_UnChecked"/>
+                                                <!--IsChecked="{Binding SearchNames, Mode=TwoWay, Converter={StaticResource NullableBoolToBoolConverter}}"-->
+                                        <MenuItem x:Name="SearchDescriptions"
+                                                Header="{DynamicResource Mods!FilterBar!Search!InDescriptions}"
                                                 IsCheckable="True"
-                                                IsChecked="{Binding SearchDescriptions}"/>
+                                                Loaded="SearchDescriptions_Loaded"
+                                                Checked="SearchDescriptions_UnChecked"
+                                                Unchecked="SearchDescriptions_UnChecked"/>
+                                                <!--IsChecked="{Binding SearchDescriptions, Mode=TwoWay, Converter={StaticResource NullableBoolToBoolConverter}}"-->
                                     </ContextMenu>
                                 </ToggleButton.ContextMenu>
                             </ToggleButton>
@@ -210,20 +220,21 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <ListView x:Name="ModSearchListView"
+                    <!--ListView x:Name="ModSearchListView"
                             Style="{DynamicResource InstalledModsListViewStyle}"
                             ItemsSource="{Binding SearchResults, Source={x:Static core:ModSearch.Instance}}"
                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                             ScrollViewer.VerticalScrollBarVisibility="Auto"
                             SelectionChanged="ModsList_SelectionChanged"
                             cui:AttachedProperties.CornerCurves="False"
-                            Visibility="Collapsed"/>
+                            Visibility="Collapsed"/-->
                 </cui:FloorPanel>
             </DockPanel>
             <ControlTemplate.Triggers>
                 <DataTrigger Binding="{Binding IsSearching}" Value="True">
-                    <Setter TargetName="InstalledModsListView" Property="Visibility" Value="Collapsed"/>
-                    <Setter TargetName="ModSearchListView" Property="Visibility" Value="Visible"/>
+                    <!--Setter TargetName="InstalledModsListView" Property="Visibility" Value="Collapsed"/>
+                    <Setter TargetName="ModSearchListView" Property="Visibility" Value="Visible"/-->
+                    <Setter TargetName="InstalledModsListView" Property="ItemsSource" Value="{Binding SearchResults, Source={x:Static core:ModSearch.Instance}}"/>
                 </DataTrigger>
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>

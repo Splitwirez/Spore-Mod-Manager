@@ -35,6 +35,8 @@ namespace SporeMods.Core.Mods
 		public bool HasConfigsDirectory => false;
 
 		public string Description => null;
+		
+		public bool HasDescription => false;
 
 		public Version ModVersion => ModIdentity.UNKNOWN_MOD_VERSION;
 

@@ -102,5 +102,25 @@ namespace SporeMods.Views
                     EnumVisual<T>(next, ref found);
             }
         }
+
+        void SearchNames_UnChecked(object sender, RoutedEventArgs e)
+		{
+            VM.SearchNames = (sender as MenuItem).IsChecked;
+        }
+
+        void SearchNames_Loaded(object sender, RoutedEventArgs e)
+        {
+            (sender as MenuItem).IsChecked = VM.SearchNames;
+        }
+
+        void SearchDescriptions_UnChecked(object sender, RoutedEventArgs e)
+		{
+            VM.SearchDescriptions = (sender as MenuItem).IsChecked;
+        }
+
+        void SearchDescriptions_Loaded(object sender, RoutedEventArgs e)
+        {
+            (sender as MenuItem).IsChecked = VM.SearchDescriptions;
+        }
 	}
 }

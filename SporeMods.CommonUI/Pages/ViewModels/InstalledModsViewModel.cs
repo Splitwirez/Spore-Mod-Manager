@@ -18,6 +18,7 @@ namespace SporeMods.ViewModels
 			get => _isSearching;
 			set
 			{
+				Console.WriteLine($"IsSearching: {value}");
 				_isSearching = Search(value, SearchQuery) ? value : false;
 				NotifyPropertyChanged();
 
@@ -75,10 +76,10 @@ namespace SporeMods.ViewModels
 		bool Search(bool isSearching, string searchQuery)
 		{
 			bool search = isSearching && (!searchQuery.IsNullOrEmptyOrWhiteSpace());
+			ModSearch.CancelSearch();
+			
 			if (search)
 				ModSearch.StartSearchAsync(searchQuery, SearchNames, SearchDescriptions, false/*tags*/);
-			else
-				ModSearch.CancelSearch();
 			
 			return search;
 		}

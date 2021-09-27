@@ -87,6 +87,26 @@ namespace SporeMods.ViewModels
 			}
 		}
 
+		public int CustomResolutionWidth
+		{
+			get => Settings.ForcedGameWindowWidth;
+			set
+			{
+				Settings.ForcedGameWindowWidth = Math.Max(800, value);
+				NotifyPropertyChanged();
+			}
+		}
+
+		public int CustomResolutionHeight
+		{
+			get => Settings.ForcedGameWindowHeight;
+			set
+			{
+				Settings.ForcedGameWindowHeight = Math.Max(600, value);
+				NotifyPropertyChanged();
+			}
+		}
+
 		public bool WindowedAutoWindowResolution
 		{
 			get => Settings.AutoGameWindowBounds;
