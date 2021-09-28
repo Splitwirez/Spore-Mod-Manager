@@ -52,7 +52,7 @@ namespace SporeMods.Core.Mods
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
-		public event EventHandler IsProgressingChanged;
+		//public event EventHandler IsProgressingChanged;
 
 		public override string ToString()
 		{

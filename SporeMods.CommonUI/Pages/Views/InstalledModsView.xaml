@@ -20,6 +20,7 @@
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
             <cui:BoolToWidthConverter x:Key="BoolToWidthConverter"/>
             <cui:NullableBoolToBoolConverter x:Key="NullableBoolToBoolConverter"/>
+            <v:IsManualInstalledFileConverter x:Key="IsManualInstalledFileConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
     <UserControl.DataContext>
@@ -173,28 +174,48 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                         <ListView.View>
-                            <GridView><!-- IsHitTestVisible="False"-->
+                            <GridView>
+                                <!-- IsHitTestVisible="False"-->
                                 <!--GridView.ColumnHeaderContainerStyle>
                                     <Style TargetType="{x:Type GridViewColumnHeader}">
                                         <Setter Property="IsHitTestVisible" Value="False"/>
                                     </Style>
                                 </GridView.ColumnHeaderContainerStyle-->
+                                <GridView.ColumnHeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding}" TextWrapping="NoWrap"/>
+                                        </DataTemplate>
+                                </GridView.ColumnHeaderTemplate>
                                 <GridViewColumn Header="{DynamicResource Mods!ListEntry!Columns!DisplayName}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
+                                            <StackPanel Orientation="Horizontal"
+                                                        VerticalAlignment="Center">
+                                                <cui:StackPanelEx Orientation="Vertical"
+                                                                Spacing="3">
                                                 <TextBlock Text="{Binding DisplayName}"
                                                         VerticalAlignment="Center"
                                                         Style="{DynamicResource InstalledModHeader}"/>
+                                                <TextBlock x:Name="SubText"
+                                                        VerticalAlignment="Center"
+                                                        Style="{DynamicResource InstalledModSubText}"
+                                                        Visibility="Collapsed"/>
+                                                </cui:StackPanelEx>
                                                 <ToggleButton x:Name="ExpandCollapseToggleButton"
                                                             Visibility="{Binding HasDescription, FallbackValue=False, Converter={StaticResource BooleanToVisibilityConverter}}"
                                                             IsChecked="{Binding ShowDescription, Mode=TwoWay}"
                                                             Style="{DynamicResource ModEntryExpandCollapseToggleButtonStyle}"/>
                                             </StackPanel>
+                                            <DataTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding Converter={StaticResource IsManualInstalledFileConverter}}" Value="True">
+                                                    <Setter TargetName="SubText" Property="Text" Value="{DynamicResource Mods!ListEntry!ManuallyInstalled}"/>
+                                                    <Setter TargetName="SubText" Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Header="{DynamicResource Mods!ListEntry!Columns!IsExperimental}">
+                                <GridViewColumn Header="{DynamicResource Mods!ListEntry!Columns!IsExperimental}" Width="{Binding AnyExperimental, Converter={StaticResource BoolToWidthConverter}}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <cui:FloorPanel>
@@ -205,7 +226,7 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Header="{DynamicResource Mods!ListEntry!Columns!CausesSaveDataDependency}">
+                                <GridViewColumn Header="{DynamicResource Mods!ListEntry!Columns!CausesSaveDataDependency}" Width="{Binding AnyCausesSaveDataDependency, Converter={StaticResource BoolToWidthConverter}}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <cui:FloorPanel>

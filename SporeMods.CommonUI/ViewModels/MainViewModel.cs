@@ -145,7 +145,7 @@ namespace SporeMods.ViewModels
 
 			InstalledModsViewModel.SelectedModsChanged += (s, e) =>
 			{
-				if (s is IEnumerable<IInstalledMod> mods)
+				if (s is List<IInstalledMod> mods)
 				{
 					RefreshCanDoesThings(mods);
 					_selectedMods = mods;
@@ -211,12 +211,12 @@ namespace SporeMods.ViewModels
 			if (count >= 1)
 			{
 				CanUninstallMods = !AreAnyProgressing(mods);
-				CanChangeModSettings = (mods.Count() == 1) && (mods.First() is ManagedMod mmod) && (!mmod.IsProgressing) && mmod.HasConfigurator;
+				CanChangeModSettings = (mods.Count() == 1) && (mods.First() is ManagedMod mmod) && (!mmod.HasProgressSignifier()) && mmod.HasConfigurator;
 			}
 		}
 
 		bool AreAnyProgressing(IEnumerable<IInstalledMod> mods)
-			=> mods.Any(x => (x is ManagedMod mmod) ? mmod.IsProgressing : false);
+			=> mods.Any(x => (x is ManagedMod mmod) ? mmod.HasProgressSignifier() : false);
 
 		void RefreshTitle()
 		{
@@ -244,15 +244,19 @@ namespace SporeMods.ViewModels
 		}
 
 		
-		IEnumerable<IInstalledMod> _selectedMods = null;
+		List<IInstalledMod> _selectedMods = new List<IInstalledMod>();
 		async Task UninstallMods()
 		{
+			bool allCanUninstall = _selectedMods.All(x => x.CanUninstall);
+			Console.WriteLine($"UninstallMods() called\n\tcount: {_selectedMods.Count}\n\tall can uninstall: {allCanUninstall}");
 			if (
-					(_selectedMods != null) &&
-					(_selectedMods.Count() > 0) &&
-					(!_selectedMods.Any(x => (x is ManagedMod mmod) ? mmod.IsProgressing : false))
+					(_selectedMods.Count > 0) &&
+					allCanUninstall
 				)
-				ModTransactionManager.UninstallModsAsync(_selectedMods.ToArray());
+			{
+				Console.WriteLine("Uninstalling...");
+				await ModTransactionManager.UninstallModsAsync(_selectedMods.ToArray());
+			}
 			else
 			{
 				CanUninstallMods = false;
@@ -263,21 +267,15 @@ namespace SporeMods.ViewModels
 
 		async Task ChangeModSettings()
 		{
+			IInstalledMod mod = _selectedMods?.FirstOrDefault();
 			bool error = true;
 			if (
-					(_selectedMods != null) &&
-					(_selectedMods.Count() == 1)
-				)
+					(mod != null) &&
+					(mod is ManagedMod mmod) &&
+					mmod.CanReconfigure)
 			{
-				if (
-					(_selectedMods.First() is ManagedMod mmod) &&
-					(!mmod.IsProgressing) &&
-					(mmod.HasConfigurator)
-				)
-				{
-					mmod.ShowSettings();
-					error = false;
-				}
+				mmod.ShowSettings();
+				error = false;
 			}
 			
 			if (error)

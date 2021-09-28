@@ -313,7 +313,7 @@ namespace SporeMods.Core.Mods
 			return names;
 		}
 
-		bool _isProgressing = false;
+		/*bool _isProgressing = false;
 		/// <summary>
 		/// Whether or not this mod is currently being installed/reconfigured/removed.
 		/// </summary>
@@ -328,7 +328,7 @@ namespace SporeMods.Core.Mods
 				//IsProgressingChanged?.Invoke(this, null);
 				//RaiseAnyModIsProgressingChanged(this, oldVal, _isProgressing);
 			}
-		}
+		}*/
 
 		TaskProgressSignifier _progressSignifier = null;
 		public TaskProgressSignifier ProgressSignifier
@@ -338,7 +338,7 @@ namespace SporeMods.Core.Mods
             {
 				_progressSignifier = value;
 				NotifyPropertyChanged();
-				IsProgressing = value != null;
+				//IsProgressing = value != null;
 			}
 		}
 
@@ -364,10 +364,10 @@ namespace SporeMods.Core.Mods
 			}
 		}
 
-		public bool CanUninstall => !IsProgressing;
-		public bool CanReconfigure => HasConfigurator && (!IsProgressing);
+		public bool CanUninstall => !this.HasProgressSignifier();
+		public bool CanReconfigure => HasConfigurator && CanUninstall;
 
-		public bool PreventsGameLaunch => IsProgressing;
+		public bool PreventsGameLaunch => this.HasProgressSignifier();
 
 
 		/// <summary>
@@ -411,7 +411,7 @@ namespace SporeMods.Core.Mods
 			return result;
 		}
 
-		public event EventHandler IsProgressingChanged;
+		//public event EventHandler IsProgressingChanged;
 
 		/*public static event EventHandler<ModIsProgressingChangedEventArgs> AnyModIsProgressingChanged;
 		public static event EventHandler<ModProgressChangedEventArgs> AnyModProgressChanged;

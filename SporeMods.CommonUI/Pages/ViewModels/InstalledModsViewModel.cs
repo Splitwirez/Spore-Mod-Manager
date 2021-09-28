@@ -7,6 +7,7 @@ using System.Text;
 using SporeMods.Core;
 using SporeMods.Core.Mods;
 using SporeMods.CommonUI;
+using SporeMods.Core.ModTransactions;
 
 namespace SporeMods.ViewModels
 {
@@ -85,8 +86,8 @@ namespace SporeMods.ViewModels
 		}
 
 
-		IEnumerable<IInstalledMod> _selectedMods = new List<IInstalledMod>();
-		public IEnumerable<IInstalledMod> SelectedMods
+		List<IInstalledMod> _selectedMods = new List<IInstalledMod>();
+		public List<IInstalledMod> SelectedMods
 		{
 			get => _selectedMods;
 			set
@@ -94,6 +95,47 @@ namespace SporeMods.ViewModels
 				_selectedMods = value.ToList();
 				NotifyPropertyChanged();
 				SelectedModsChanged?.Invoke(_selectedMods, null);
+			}
+		}
+
+
+
+		public InstalledModsViewModel()
+			: base()
+		{
+			ModsManager.InstalledMods.CollectionChanged += (s, e) => RefreshColumns();
+			ModTransactionManager.Instance.AllTasksConcluded += (tasks) => RefreshColumns();
+			
+			RefreshColumns();
+		}
+
+		void RefreshColumns()
+		{
+			AnyExperimental = ModsManager.InstalledMods.OfType<ManagedMod>().Any(x => x.Identity.IsExperimental);
+			AnyCausesSaveDataDependency = ModsManager.InstalledMods.OfType<ManagedMod>().Any(x => x.Identity.CausesSaveDataDependency);
+		}
+
+
+		bool _anyExperimental = false;
+		public bool AnyExperimental
+		{
+			get => _anyExperimental;
+			set
+			{
+				_anyExperimental = value;
+				NotifyPropertyChanged();
+			}
+		}
+
+
+		bool _anyCausesSaveDataDependency = false;
+		public bool AnyCausesSaveDataDependency
+		{
+			get => _anyCausesSaveDataDependency;
+			set
+			{
+				_anyCausesSaveDataDependency = value;
+				NotifyPropertyChanged();
 			}
 		}
 

@@ -334,6 +334,16 @@
         </Style.Triggers>
     </Style-->
 
+    <!--### Display name text for mod list entries ###-->
+    <Style x:Key="InstalledModHeader">
+        <Setter Property="TextElement.FontWeight" Value="DemiBold"/>
+    </Style>
+    
+    <!--### Subheader text for mod list entries, e.g. for manually-installed mods ###-->
+    <Style x:Key="InstalledModSubText">
+        <Setter Property="Control.Opacity" Value="0.5"/>
+    </Style>
+    
     <!--### Expand/collapse button for mod list entries ###-->
     <Style x:Key="ModEntryExpandCollapseToggleButtonStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource GlyphButtonBaseStyle}">
         <Setter Property="Margin" Value="5,0,0,0"/>

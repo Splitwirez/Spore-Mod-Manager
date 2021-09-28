@@ -25,6 +25,9 @@ namespace SporeMods.Views
 		public InstalledModsView()
         {
             InitializeComponent();
+
+            SporeMods.Core.ModsManager.InstalledMods.CollectionChanged += (s, e) => AllUpdateColumnWidths();
+			SporeMods.Core.ModTransactions.ModTransactionManager.Instance.AllTasksConcluded += (tasks) => AllUpdateColumnWidths();
         }
 
         public void MenuToggleButton_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
@@ -41,12 +44,13 @@ namespace SporeMods.Views
             {
                 var rawSelected = listView.SelectedItems;
                 if (rawSelected != null)
-                    VM.SelectedMods = rawSelected.OfType<IInstalledMod>();
+                    VM.SelectedMods = rawSelected.OfType<IInstalledMod>().ToList();
                 else
                     VM.SelectedMods = new List<IInstalledMod>();
             }
         }
 
+        List<Action> _allUpdateColumnWidths = new List<Action>();
         void ModsList_Loaded(object sender, RoutedEventArgs e)
         {
             if ((sender is ListView listView) && (listView.View is GridView gridView))
@@ -75,10 +79,12 @@ namespace SporeMods.Views
                         firstColumn.Width = (presenter.ActualWidth + presenter.Margin.Left + presenter.Margin.Right) - width;
                     };
 
-
+                    _allUpdateColumnWidths.Add(updateColumnWidths);
                     listView.SizeChanged += (s, args) => updateColumnWidths();
                     updateColumnWidths();
+                    
                 }
+                listView.Loaded -= ModsList_Loaded;
             }
         }
 
@@ -103,6 +109,17 @@ namespace SporeMods.Views
             }
         }
 
+        void AllUpdateColumnWidths()
+        {
+            foreach (Action action in _allUpdateColumnWidths)
+            {
+                action();
+            }
+        }
+
+
+
+
         void SearchNames_UnChecked(object sender, RoutedEventArgs e)
 		{
             VM.SearchNames = (sender as MenuItem).IsChecked;
@@ -123,4 +140,17 @@ namespace SporeMods.Views
             (sender as MenuItem).IsChecked = VM.SearchDescriptions;
         }
 	}
+
+    public class IsManualInstalledFileConverter : System.Windows.Data.IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return value is ManualInstalledFile;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

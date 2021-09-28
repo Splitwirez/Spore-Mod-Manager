@@ -44,7 +44,7 @@ namespace SporeMods.Core.ModTransactions.Transactions
 				// It is possible that this is called RegisterSporemodModAsync, and some progress has already happened
 				double totalProgress = 100.0;
 
-				bool startsHere = !mod.IsProgressing;
+				bool startsHere = mod.ProgressSignifier != null;
 				if (startsHere)
 				{
 					SetProgress(0);

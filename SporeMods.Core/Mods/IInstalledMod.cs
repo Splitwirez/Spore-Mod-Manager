@@ -57,4 +57,10 @@ namespace SporeMods.Core.Mods
 
 		bool PreventsGameLaunch { get; }
 	}
+
+	public static class InstalledModExtensions
+	{
+		public static bool HasProgressSignifier(this IInstalledMod mod)
+			=> mod.ProgressSignifier != null;
+	}
 }

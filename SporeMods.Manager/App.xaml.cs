@@ -68,6 +68,7 @@ namespace SporeMods.Manager
 			Core.ModTransactions.Operations.ValidateModOp.InstallingExperimentalMod += s => true;
 			Core.ModTransactions.Operations.ValidateModOp.InstallingRequiresGalaxyResetMod += s => true;
 			Core.ModTransactions.Operations.ValidateModOp.InstallingSaveDataDependencyMod += s => true;
+			Core.ModTransactions.ModTransactionManager.UninstallingSaveDataDependencyMod += m => true;
 
 			Settings.EnsureDllsAreExtracted();
 			CommonUI.Updater.CheckForUpdates();

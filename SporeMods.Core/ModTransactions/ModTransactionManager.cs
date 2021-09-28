@@ -204,6 +204,7 @@ namespace SporeMods.Core.ModTransactions
             {
                 if (PathIsNetworkPath(path))
                 {
+                    Console.WriteLine($"Skipped '{path}' - network path");
                     Instance.Tasks.Add(new TaskProgressSignifier(Path.GetFileName(path), TaskCategory.Install)
                     {
                         ProgressTotal = 0,
@@ -230,6 +231,7 @@ namespace SporeMods.Core.ModTransactions
                     }
                     catch (Exception e)
                     {
+                        Console.WriteLine($"Skipped '{path}' - '{e.GetType().FullName}': {e.Message}\n\n{e}");
                         // This can happen if the mod provides an invalid DLL
                         Instance.Tasks.Add(new TaskProgressSignifier(Path.GetFileName(path), TaskCategory.Install)
                         {
@@ -242,6 +244,7 @@ namespace SporeMods.Core.ModTransactions
                 }
                 else
                 {
+                    Console.WriteLine($"Skipped '{path}' - wrong extension");
                     Instance.Tasks.Add(new TaskProgressSignifier(Path.GetFileName(path), TaskCategory.Install)
                     {
                         ProgressTotal = 0,

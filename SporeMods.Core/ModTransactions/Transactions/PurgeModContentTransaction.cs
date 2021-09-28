@@ -22,7 +22,6 @@ namespace SporeMods.Core.ModTransactions.Transactions
 		public override async Task<bool> CommitAsync()
 		{
 			mod.Progress = 0;
-			mod.IsProgressing = true;
 
 			// 1. Delete all files
 			double progressRange = 100.0;
@@ -40,7 +39,6 @@ namespace SporeMods.Core.ModTransactions.Transactions
 
 			//TODO this shouldn't be here?
 			mod.Progress = 0;
-			mod.IsProgressing = false;
 
 			return true;
 		}

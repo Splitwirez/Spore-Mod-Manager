@@ -32,6 +32,13 @@ namespace SporeMods.Core.ModTransactions.Operations
         public MissingXmlModIdentityAttributeException(string attribute)
         {
             Attribute = attribute;
+            _message = $"The provided identity was missing the '{Attribute}' attribute";
+        }
+
+        string _message = string.Empty;
+        public override string Message
+        {
+            get => _message;
         }
     }
 
