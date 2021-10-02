@@ -513,7 +513,7 @@
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="ArrowHintPath" Storyboard.TargetProperty="RenderTransform.Y" From="-20" To="0" Duration="0:0:0.500" RepeatBehavior="Forever" AutoReverse="True">
                                             <DoubleAnimation.EasingFunction>
-                                                <CubicEase EasingMode="EaseOut"/>
+                                                <CircleEase EasingMode="EaseOut"/>
                                             </DoubleAnimation.EasingFunction>
                                         </DoubleAnimation>
                                     </Storyboard>

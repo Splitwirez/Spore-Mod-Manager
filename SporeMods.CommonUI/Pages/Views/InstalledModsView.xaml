@@ -130,7 +130,7 @@
                                                                     Storyboard.TargetProperty="ScaleY"
                                                                     To="1"
                                                                     Duration="0:0:0.125"
-                                                                    EasingFunction="{StaticResource ScalingEase}"/>
+                                                                    EasingFunction="{StaticResource ScaleEase}"/>
                                                 </Storyboard>
                                             </BeginStoryboard>
                                         </DataTrigger.EnterActions>
@@ -141,7 +141,7 @@
                                                                     Storyboard.TargetProperty="ScaleY"
                                                                     To="0"
                                                                     Duration="0:0:0.125"
-                                                                    EasingFunction="{StaticResource ScalingEase}"/>
+                                                                    EasingFunction="{StaticResource ScaleEase}"/>
                                                 </Storyboard>
                                             </BeginStoryboard>
                                         </DataTrigger.ExitActions>
@@ -154,7 +154,7 @@
                                                                         Storyboard.TargetProperty="Margin"
                                                                         To="0,5,0,-5"
                                                                         Duration="0:0:0.125"
-                                                                        EasingFunction="{StaticResource ScalingEase}"/>
+                                                                        EasingFunction="{StaticResource ScaleEase}"/>
                                                 </Storyboard>
                                             </BeginStoryboard>
                                         </DataTrigger.EnterActions>
@@ -165,7 +165,7 @@
                                                                         Storyboard.TargetProperty="Margin"
                                                                         To="0"
                                                                         Duration="0:0:0.125"
-                                                                        EasingFunction="{StaticResource ScalingEase}"/>
+                                                                        EasingFunction="{StaticResource ScaleEase}"/>
                                                 </Storyboard>
                                             </BeginStoryboard>
                                         </DataTrigger.ExitActions>

@@ -3,17 +3,14 @@
             xmlns:cui="clr-namespace:SporeMods.CommonUI"
             xmlns:beh="http://schemas.microsoft.com/expression/2010/interactivity">
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/SharedRes.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Converters.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="PrimaryTabControlSelectionStyle" TargetType="{x:Type cui:ConnectedSelectDecorator}">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
-        <Setter Property="AnimationDuration" Value="0:0:0.250"/>
-        <Setter Property="AnimationEase">
-            <Setter.Value>
-                <CubicEase EasingMode="EaseOut"/>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="AnimationDuration" Value="0:0:0.375"/>
+        <Setter Property="AnimationEase" Value="{DynamicResource AppearEase}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type cui:ConnectedSelectDecorator}">
@@ -88,22 +85,14 @@
                             <MultiTrigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="HoverBorder" Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.125">
-                                            <DoubleAnimation.EasingFunction>
-                                                <CubicEase EasingMode="EaseOut"/>
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="HoverBorder" Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.125" EasingFunction="{StaticResource AppearEase}"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </MultiTrigger.EnterActions>
                             <MultiTrigger.ExitActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="HoverBorder" Storyboard.TargetProperty="RenderTransform.ScaleX" To="0" Duration="0:0:0.125">
-                                            <DoubleAnimation.EasingFunction>
-                                                <CubicEase EasingMode="EaseOut"/>
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="HoverBorder" Storyboard.TargetProperty="RenderTransform.ScaleX" To="0" Duration="0:0:0.125" EasingFunction="{StaticResource DisappearEase}"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </MultiTrigger.ExitActions>

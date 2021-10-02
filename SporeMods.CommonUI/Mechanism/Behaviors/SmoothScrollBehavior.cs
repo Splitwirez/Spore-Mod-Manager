@@ -45,7 +45,7 @@ namespace SporeMods.CommonUI
 
         DispatcherTimer _smoothScrollTimer = null;
 
-        EasingFunctionBase _currentEasing = new QuinticEase()
+        IEasingFunction _currentEasing = new CircleEase()
         {
             EasingMode = EasingMode.EaseOut
         };

@@ -3,10 +3,10 @@
             xmlns:cui="clr-namespace:SporeMods.CommonUI"
             xmlns:beh="http://schemas.microsoft.com/expression/2010/interactivity">
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/SharedRes.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Converters.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <CubicEase x:Key="ScalingEase" EasingMode="EaseOut"/>
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
     <Style x:Key="{x:Type ListView}" TargetType="{x:Type ListView}">
@@ -181,14 +181,14 @@
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <ThicknessAnimation Storyboard.TargetName="BackgroundGrid" Storyboard.TargetProperty="Margin" To="3" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
+                                        <ThicknessAnimation Storyboard.TargetName="BackgroundGrid" Storyboard.TargetProperty="Margin" To="3" Duration="0:0:0.125" EasingFunction="{StaticResource ScaleEase}"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.EnterActions>
                             <Trigger.ExitActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <ThicknessAnimation Storyboard.TargetName="BackgroundGrid" Storyboard.TargetProperty="Margin" To="8" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}"/>
+                                        <ThicknessAnimation Storyboard.TargetName="BackgroundGrid" Storyboard.TargetProperty="Margin" To="8" Duration="0:0:0.125" EasingFunction="{StaticResource ScaleEase}"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>
@@ -197,14 +197,14 @@
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="SelectedBorder" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}" />
+                                        <DoubleAnimation Storyboard.TargetName="SelectedBorder" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.125"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.EnterActions>
                             <Trigger.ExitActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="SelectedBorder" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.125" EasingFunction="{StaticResource ScalingEase}" />
+                                        <DoubleAnimation Storyboard.TargetName="SelectedBorder" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.125"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>

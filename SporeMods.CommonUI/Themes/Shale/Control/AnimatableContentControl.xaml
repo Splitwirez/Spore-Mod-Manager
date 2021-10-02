@@ -3,6 +3,7 @@
             xmlns:cui="clr-namespace:SporeMods.CommonUI"
             xmlns:beh="http://schemas.microsoft.com/expression/2010/interactivity">
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/SharedRes.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Converters.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     
@@ -20,7 +21,7 @@
                         <Border x:Name="RootBorder" Background="{DynamicResource ModalPanelBackdropBrush}" BorderBrush="{DynamicResource TitlebarBorderBrush}" BorderThickness="1" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}" Opacity="0">
                             <cui:FloorPanel x:Name="ContentGrid" RenderTransformOrigin="0.5,0.5" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="2">
                                 <cui:FloorPanel.RenderTransform>
-                                    <ScaleTransform ScaleX="0" ScaleY="{Binding ScaleX, RelativeSource={RelativeSource Mode=Self}}"/>
+                                    <ScaleTransform ScaleX="0.25" ScaleY="{Binding ScaleX, RelativeSource={RelativeSource Mode=Self}}"/>
                                 </cui:FloorPanel.RenderTransform>
                                 <Border x:Name="ContentPaneBorder" CornerRadius="3" Effect="{DynamicResource TertiaryDropShadow}" BorderBrush="Transparent" Margin="48" UseLayoutRounding="True">
                                     <Border.Background>
@@ -80,11 +81,7 @@
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.25">
-                                            <DoubleAnimation.EasingFunction>
-                                                <QuinticEase EasingMode="EaseOut"/>
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" EasingFunction="{StaticResource AppearEase}" Duration="0:0:0.25"/>
                                         <DoubleAnimation Storyboard.TargetName="RootBorder" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.25"/>
                                     </Storyboard>
                                 </BeginStoryboard>
@@ -92,11 +89,7 @@
                             <Trigger.ExitActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="RenderTransform.ScaleX" To="0" Duration="0:0:0.25">
-                                            <DoubleAnimation.EasingFunction>
-                                                <QuinticEase EasingMode="EaseOut"/>
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="RenderTransform.ScaleX" To="0.25" EasingFunction="{StaticResource DisappearEase}" Duration="0:0:0.26"/>
                                         <DoubleAnimation Storyboard.TargetName="RootBorder" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.25"/>
                                     </Storyboard>
                                 </BeginStoryboard>

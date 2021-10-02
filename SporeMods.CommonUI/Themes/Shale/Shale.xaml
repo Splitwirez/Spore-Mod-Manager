@@ -4,6 +4,9 @@
             xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
             xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/SharedRes.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Glyphs.xaml"/>
+        
         <!--ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Colors/Accent.xaml"/-->
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/ActionBox.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/AnimatableContentControl.xaml"/>
@@ -27,34 +30,7 @@
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/TextBox.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/ToggleSwitch.xaml"/>
         <!--ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/TreeView.xaml"/-->
-
-
-        <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Glyphs.xaml"/>
     </ResourceDictionary.MergedDictionaries>
-
-    <sys:Double x:Key="CaptionButtonWidth">45</sys:Double>
-    <sys:Double x:Key="TitleBarHeight">30</sys:Double>
-    <DropShadowEffect x:Key="DropShadow" Color="Black" Direction="270" ShadowDepth="3" BlurRadius="7.5" Opacity="0.5" />
-    <DropShadowEffect x:Key="SecondaryDropShadow" Color="Black" Direction="270" ShadowDepth="10" BlurRadius="20" Opacity="0.5"/>
-    <DropShadowEffect x:Key="TertiaryDropShadow" Color="Black" Direction="270" ShadowDepth="4" BlurRadius="8.5" Opacity="0.5"/>
-    <GradientStopCollection x:Key="ShadowGradientStops">
-        <GradientStop Offset="0" Color="#40000000"/>
-        <GradientStop Offset="0.75" Color="#06000000"/>
-        <GradientStop Offset="1" Color="#00000000"/>
-    </GradientStopCollection>
-    <SolidColorBrush x:Key="ShadowCornerBorderBrush">#40000000</SolidColorBrush>
-    <SolidColorBrush x:Key="ModalPanelBackdropBrush">#C0000000</SolidColorBrush>
-
-    <GradientStopCollection x:Key="SeparatorFillGradientStops">
-        <GradientStop Offset="0" Color="#40000000"/>
-        <GradientStop Offset="1" Color="#00000000"/>
-    </GradientStopCollection>
-    <!--GradientStopCollection x:Key="SeparatorMaskGradientStops">
-        <GradientStop Offset="0" Color="Transparent"/>
-        <GradientStop Offset="0.5" Color="White"/>
-        <GradientStop Offset="1" Color="Transparent"/>
-    </GradientStopCollection-->
-
     <Style TargetType="Border" x:Key="HorizontalBarBorderStyle">
         <Setter Property="Background">
             <Setter.Value>
@@ -161,13 +137,4 @@
             </Setter.Value>
         </Setter>
     </Style-->
-
-    <LinearGradientBrush x:Key="IconBackground1" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource DarkIconGradientStops}"/>
-    <LinearGradientBrush x:Key="IconBackground2" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource DarkIconGradientStops2}"/>
-    <LinearGradientBrush x:Key="IconBackground3" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource DarkIconGradientStops3}"/>
-    
-    <LinearGradientBrush x:Key="IconForeground" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource LightIconGradientStops}"/>
-
-    <LinearGradientBrush x:Key="IconRedBrush" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource RedIconGradientStops}"/>
-    <LinearGradientBrush x:Key="IconGreenBrush" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource GreenIconGradientStops}"/>
 </ResourceDictionary>

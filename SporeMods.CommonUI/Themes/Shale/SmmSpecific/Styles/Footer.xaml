@@ -69,7 +69,7 @@
     
     <Thickness x:Key="FooterButtonIconGap">5,0,0,0</Thickness>
     <Thickness x:Key="FooterButtonPadding">5,0</Thickness>
-    <CubicEase x:Key="FooterButtonIconAnimEase" EasingMode="EaseOut"/>
+    <CircleEase x:Key="FooterButtonIconAnimEase" EasingMode="EaseOut"/>
 
     
     <!--### Self-explanatory ###-->
@@ -637,11 +637,7 @@
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.25">
-                                            <DoubleAnimation.EasingFunction>
-                                                <QuinticEase EasingMode="EaseOut"/>
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.25" EasingFunction="{StaticResource AppearEase}"/>
                                         <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.25"/>
                                     </Storyboard>
                                 </BeginStoryboard>
@@ -649,11 +645,7 @@
                             <Trigger.ExitActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="RenderTransform.ScaleX" To="0" Duration="0:0:0.25">
-                                            <DoubleAnimation.EasingFunction>
-                                                <QuinticEase EasingMode="EaseOut"/>
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="RenderTransform.ScaleX" To="0" Duration="0:0:0.25" EasingFunction="{StaticResource DisappearEase}"/>
                                         <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.25"/>
                                     </Storyboard>
                                 </BeginStoryboard>
