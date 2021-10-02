@@ -19,9 +19,23 @@
     <SolidColorBrush x:Key="ShadowCornerBorderBrush">#40000000</SolidColorBrush>
     <SolidColorBrush x:Key="ModalPanelBackdropBrush">#C0000000</SolidColorBrush>
 
-    <GradientStopCollection x:Key="SeparatorFillGradientStops">
-        <GradientStop Offset="0" Color="#40000000"/>
+    
+    <Color x:Key="SeparatorBackgroundColor">#40000000</Color>
+    
+    <SolidColorBrush x:Key="SeparatorBackground" Color="{DynamicResource SeparatorBackgroundColor}"/>
+    <GradientStopCollection x:Key="SeparatorMaskGradientStops">
+        <GradientStop Offset="0" Color="White"/>
+        <GradientStop Offset="1" Color="Transparent"/>
+    </GradientStopCollection>
+
+    <GradientStopCollection x:Key="SmallSeparatorBackgroundGradientStops">
+        <GradientStop Offset="0" Color="{DynamicResource SeparatorBackgroundColor}"/>
         <GradientStop Offset="1" Color="#00000000"/>
+    </GradientStopCollection>
+    <GradientStopCollection x:Key="SmallSeparatorMaskGradientStops">
+        <GradientStop Offset="0.25" Color="White"/>
+        <GradientStop Offset="0.625" Color="#C0FFFFFF"/>
+        <GradientStop Offset="1" Color="Transparent"/>
     </GradientStopCollection>
     <!--GradientStopCollection x:Key="SeparatorMaskGradientStops">
         <GradientStop Offset="0" Color="Transparent"/>

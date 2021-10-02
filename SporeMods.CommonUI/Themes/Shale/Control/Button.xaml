@@ -15,7 +15,7 @@
         </Style.Resources>
         <Setter Property="Margin" Value="0" />
         <Setter Property="Padding" Value="5,0" />
-        <Setter Property="MinHeight" Value="24" />
+        <Setter Property="MinHeight" Value="20" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="BorderBrush" Value="Transparent" />

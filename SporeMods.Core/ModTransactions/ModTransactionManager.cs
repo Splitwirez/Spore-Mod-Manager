@@ -92,15 +92,13 @@ namespace SporeMods.Core.ModTransactions
             {
                 int newCount = collection.Count;
                 if (newCount > 0)
-                {
                     HasRunningTasks = true;
-                }
+                
                 _prevTransactionCount = newCount;
                 Debug.WriteLine($"{nameof(_ongoingTransactions)}.Count: {newCount}");
             }
         }
 
-        public event EventHandler<EventArgs> TaskStarted;
         public event Action<IEnumerable<TaskProgressSignifier>> AllTasksConcluded;
 
         bool _hasRunningTasks = false;

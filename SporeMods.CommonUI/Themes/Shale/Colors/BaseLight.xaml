@@ -94,6 +94,12 @@
     </GradientStopCollection>
     <SolidColorBrush x:Key="VerticalPanelBorderBrush">#FFB5B5B5</SolidColorBrush>
 
+    <SolidColorBrush x:Key="PanelForeground">Black</SolidColorBrush>
+
+    
+    <SolidColorBrush x:Key="GridViewColumnHeaderForeground">Black</SolidColorBrush>
+
+
     <SolidColorBrush x:Key="TabItemIdleBorderBrush">#FF909090</SolidColorBrush>
     <GradientStopCollection x:Key="TabItemIdleBackgroundGradientStops">
         <GradientStop Offset="0" Color="#FFDCDCDC"/>
@@ -143,9 +149,9 @@
     <!--SolidColorBrush x:Key="ScrollBarLineDownButtonBackgroundBrush">#FFEEEEEE</SolidColorBrush>
     <SolidColorBrush x:Key="ScrollBarLineDownButtonBackgroundBrush">#FFDADADA</SolidColorBrush-->
 
-    <SolidColorBrush x:Key="ScrollBarLineButtonIdleForegroundBrush">#FF111111</SolidColorBrush>
+    <SolidColorBrush x:Key="ScrollBarLineButtonIdleForegroundBrush">#FF666666</SolidColorBrush>
     <SolidColorBrush x:Key="ScrollBarLineButtonHoverForegroundBrush" Color="{DynamicResource ScrollBarLineButtonHoverForegroundLightColor}"/>
-    <SolidColorBrush x:Key="ScrollBarLineButtonPressedForegroundBrush">#FF666666</SolidColorBrush>
+    <SolidColorBrush x:Key="ScrollBarLineButtonPressedForegroundBrush">#FF111111</SolidColorBrush>
 
     <SolidColorBrush x:Key="ToggleSwitchForegroundBrush">Black</SolidColorBrush>
 

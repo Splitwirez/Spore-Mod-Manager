@@ -23,7 +23,7 @@
                 <Grid x:Name="RootGrid"
                     DataContext="{TemplateBinding DataContext}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="{Binding Width, Source={x:Reference Name=DismissButtonColumn}}"/>
+                        <ColumnDefinition Width="{Binding ActualWidth, Source={x:Reference Name=DismissButtonColumn}}"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition x:Name="DismissButtonColumn" Width="Auto"/>
                     </Grid.ColumnDefinitions>
@@ -32,9 +32,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Button x:Name="DismissButton"
-                            Style="{DynamicResource CaptionButtonStyle}"
-                            Foreground="{DynamicResource WindowForegroundBrush}"
-                            Content="{DynamicResource AnimatableContentControlCloseButtonIcon}"
+                            Style="{DynamicResource DismissModalButtonStyle}"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Top"
                             Height="30"

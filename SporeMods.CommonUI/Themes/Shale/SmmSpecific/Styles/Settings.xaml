@@ -12,6 +12,15 @@
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Converters.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
+    <!--### Size of various vertical gaps between elements in the Settings tab ###-->
+    <sys:Double x:Key="SettingsControlsVerticalSpacing">5</sys:Double>
+    
+    <!--### Size of various horizontal gaps between elements in the Settings tab ###-->
+    <sys:Double x:Key="SettingsControlsHorizontalSpacing">5</sys:Double>
+    
+    <sys:Double x:Key="SubControlsInset">15</sys:Double>
+    <Thickness x:Key="SubControlsInsetMargin">15,0,0,0</Thickness>
+
 
 
 

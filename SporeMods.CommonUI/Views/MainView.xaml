@@ -86,21 +86,26 @@
                             Style="{DynamicResource LaunchGameButtonStyle}"
                             IsEnabled="{Binding HasRunningTasks, Source={x:Static trs:ModTransactionManager.Instance}, Converter={StaticResource BoolInverterConverter}}"
                             Command="{Binding LaunchSporeCommand}"/>
-                    <DockPanel Visibility="{Binding HasRunningTasks, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"
-                                DataContext="{Binding Source={x:Static trs:ModTransactionManager.Instance}}"
-                                Margin="5">
+                    <Grid Visibility="{Binding HasRunningTasks, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"
+                        DataContext="{Binding Source={x:Static trs:ModTransactionManager.Instance}}"
+                        Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
                         <ProgressBar x:Name="OverallProgressProgressBar"
-                                        Height="10"
-                                        DockPanel.Dock="Bottom"
-                                        Minimum="0"
-                                        Maximum="{Binding OverallProgressTotal, Mode=OneWay}"
-                                        Value="{Binding OverallProgress, Mode=OneWay}"
-                                        cui:AttachedProperties.CornerCurves="False,False,True,True"/>
+                                    Height="10"
+                                    Grid.Row="1"
+                                    Minimum="0"
+                                    Maximum="{Binding OverallProgressTotal, Mode=OneWay}"
+                                    Value="{Binding OverallProgress, Mode=OneWay}"
+                                    cui:AttachedProperties.CornerCurves="False,False,True,True"/>
                         <ToggleButton x:Name="TaskProgressDetailsToggleButton"
-                                        cui:AttachedProperties.CornerCurves="True,True,False,False"
-                                        cui:AttachedProperties.BorderPresence="True,True,True,False"
-                                        Content="{DynamicResource Mods!TaskList!ToggleButton}"/>
-                    </DockPanel>
+                                    Grid.Row="0"
+                                    cui:AttachedProperties.CornerCurves="True,True,False,False"
+                                    cui:AttachedProperties.BorderPresence="True,True,True,False"
+                                    Content="{DynamicResource Mods!TaskList!ToggleButton}"/>
+                    </Grid>
                     <!--Grid HorizontalAlignment="Right" Margin="-255,5,10,5">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>

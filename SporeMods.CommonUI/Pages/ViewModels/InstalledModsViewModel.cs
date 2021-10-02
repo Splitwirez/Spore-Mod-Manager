@@ -103,16 +103,41 @@ namespace SporeMods.ViewModels
 		public InstalledModsViewModel()
 			: base()
 		{
-			ModsManager.InstalledMods.CollectionChanged += (s, e) => RefreshColumns();
-			ModTransactionManager.Instance.AllTasksConcluded += (tasks) => RefreshColumns();
+			ModsManager.InstalledMods.CollectionChanged += (_, __) => RefreshColumns();
+			IInstalledMod.AnyModStatusChanged += (_, __) =>
+			{
+				Console.WriteLine("Status changed!");
+				RefreshColumns();
+				Console.WriteLine($"AnyHasProgressSignifier: {AnyHasProgressSignifier}");
+			};
+			ModTransactionManager.Instance.AllTasksConcluded += _ => RefreshColumns();
 			
 			RefreshColumns();
 		}
 
 		void RefreshColumns()
 		{
-			AnyExperimental = ModsManager.InstalledMods.OfType<ManagedMod>().Any(x => x.Identity.IsExperimental);
-			AnyCausesSaveDataDependency = ModsManager.InstalledMods.OfType<ManagedMod>().Any(x => x.Identity.CausesSaveDataDependency);
+			var mmods = ModsManager.InstalledMods.OfType<ManagedMod>();
+			bool anyExperimental = false;
+			bool anyCausesSaveDataDependency = false;
+			bool anyHasProgressSignifier = false;
+			foreach (ManagedMod mod in mmods)
+			{
+				if ((!anyExperimental) && mod.Identity.IsExperimental)
+					anyExperimental = true;
+
+				if ((!anyCausesSaveDataDependency) && mod.Identity.CausesSaveDataDependency)
+					anyCausesSaveDataDependency = true;
+
+				if ((!anyHasProgressSignifier) && mod.HasProgressSignifier())
+					anyHasProgressSignifier = true;
+				
+				if (anyExperimental && anyCausesSaveDataDependency && anyHasProgressSignifier)
+					break;
+			}
+			AnyExperimental = anyExperimental; //mmods.Any(x => x.Identity.IsExperimental);
+			AnyCausesSaveDataDependency = anyCausesSaveDataDependency; //mmods.Any(x => x.Identity.CausesSaveDataDependency);
+			AnyHasProgressSignifier = anyHasProgressSignifier; //mmods.Any(x => x.HasProgressSignifier());
 		}
 
 
@@ -135,6 +160,18 @@ namespace SporeMods.ViewModels
 			set
 			{
 				_anyCausesSaveDataDependency = value;
+				NotifyPropertyChanged();
+			}
+		}
+
+
+		bool _anyHasProgressSignifier = false;
+		public bool AnyHasProgressSignifier
+		{
+			get => _anyHasProgressSignifier;
+			set
+			{
+				_anyHasProgressSignifier = value;
 				NotifyPropertyChanged();
 			}
 		}

@@ -1,47 +1,186 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
             xmlns:cui="clr-namespace:SporeMods.CommonUI"
-            xmlns:beh="http://schemas.microsoft.com/expression/2010/interactivity">
-    <!--LinearGradientBrush x:Key="SeparatorFillLeft" StartPoint="0,0" EndPoint="1,0" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>
-    <LinearGradientBrush x:Key="SeparatorFillUp" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>
-    <LinearGradientBrush x:Key="SeparatorFillRight" StartPoint="1,0" EndPoint="0,0" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>
-    <LinearGradientBrush x:Key="SeparatorFillDown" StartPoint="0,1" EndPoint="0,0" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>
+			xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <LinearGradientBrush x:Key="SeparatorMainMaskLeft"
+						StartPoint="1,0"
+						EndPoint="0,0"
+						GradientStops="{DynamicResource SeparatorMaskGradientStops}"/>
+    <LinearGradientBrush x:Key="SeparatorMainMaskUp"
+						StartPoint="0,1"
+						EndPoint="0,0"
+						GradientStops="{DynamicResource SeparatorMaskGradientStops}"/>
+    <LinearGradientBrush x:Key="SeparatorMainMaskRight"
+						StartPoint="0,0"
+						EndPoint="1,0"
+						GradientStops="{DynamicResource SeparatorMaskGradientStops}"/>
+    <LinearGradientBrush x:Key="SeparatorMainMaskDown"
+						StartPoint="0,0"
+						EndPoint="0,1"
+						GradientStops="{DynamicResource SeparatorMaskGradientStops}"/>
 
-    <LinearGradientBrush x:Key="SeparatorMaskHorizontal" StartPoint="0,0" EndPoint="1,0" GradientStops="{DynamicResource SeparatorMaskGradientStops}"/>
-    <LinearGradientBrush x:Key="SeparatorMaskVertical" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource SeparatorMaskGradientStops}"/-->
-    <RadialGradientBrush x:Key="SeparatorFillLeft" RadiusX="1" Center="1,0.5" GradientOrigin="1,0.5" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>
-    <RadialGradientBrush x:Key="SeparatorFillUp" RadiusY="1" Center="0.5,1" GradientOrigin="0.5,1" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>
-    <RadialGradientBrush x:Key="SeparatorFillRight" RadiusX="1" Center="0,0.5" GradientOrigin="0,0.5" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>
-    <RadialGradientBrush x:Key="SeparatorFillDown" RadiusY="1" Center="0.5,0" GradientOrigin="0.5,0" GradientStops="{DynamicResource SeparatorFillGradientStops}"/>
+
+    <LinearGradientBrush x:Key="SeparatorNearMaskHorizontal"
+						StartPoint="1,0"
+						EndPoint="0,0"
+						GradientStops="{DynamicResource SeparatorMaskGradientStops}"/>
+    <LinearGradientBrush x:Key="SeparatorFarMaskHorizontal"
+						StartPoint="0,0"
+						EndPoint="1,0"
+						GradientStops="{DynamicResource SeparatorMaskGradientStops}"/>
+
+
+    <LinearGradientBrush x:Key="SeparatorNearMaskVertical"
+						StartPoint="0,1"
+						EndPoint="0,0"
+						GradientStops="{DynamicResource SeparatorMaskGradientStops}"/>
+    <LinearGradientBrush x:Key="SeparatorFarMaskVertical"
+						StartPoint="0,0"
+						EndPoint="0,1"
+						GradientStops="{DynamicResource SeparatorMaskGradientStops}"/>
+
+
+    <sys:Double x:Key="SeparatorEndsExtent">32</sys:Double>
+
+
 
     <Style x:Key="{x:Type Separator}" TargetType="{x:Type Separator}">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="MinWidth" Value="5"/>
         <Setter Property="MinHeight" Value="5"/>
         <Setter Property="Focusable" Value="False"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="Background" Value="{DynamicResource SeparatorBackground}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Separator}">
+                    <DockPanel x:Name="Root"
+                            ClipToBounds="True">
+                        <Rectangle x:Name="NearEnd" Fill="{TemplateBinding Background}"/>
+                        <Rectangle x:Name="FarEnd" Fill="{TemplateBinding Background}"/>
+                        <Rectangle x:Name="Fill" Fill="{TemplateBinding Background}"/>
+                    </DockPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="cui:AttachedProperties.CastDirection" Value="Left">
+                            <Setter TargetName="Root" Property="OpacityMask" Value="{DynamicResource SeparatorMainMaskLeft}"/>
+
+                            <Setter TargetName="NearEnd" Property="OpacityMask" Value="{DynamicResource SeparatorNearMaskVertical}"/>
+                            <Setter TargetName="NearEnd" Property="Height" Value="{DynamicResource SeparatorEndsExtent}"/>
+                            <Setter TargetName="NearEnd" Property="DockPanel.Dock" Value="Top"/>
+
+                            <Setter TargetName="FarEnd" Property="OpacityMask" Value="{DynamicResource SeparatorFarMaskVertical}"/>
+                            <Setter TargetName="FarEnd" Property="Height" Value="{DynamicResource SeparatorEndsExtent}"/>
+                            <Setter TargetName="FarEnd" Property="DockPanel.Dock" Value="Bottom"/>
+
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                        </Trigger>
+                        <Trigger Property="cui:AttachedProperties.CastDirection" Value="Up">
+                            <Setter TargetName="Root" Property="OpacityMask" Value="{DynamicResource SeparatorMainMaskUp}"/>
+
+                            <Setter TargetName="NearEnd" Property="OpacityMask" Value="{DynamicResource SeparatorNearMaskHorizontal}"/>
+                            <Setter TargetName="NearEnd" Property="Width" Value="{DynamicResource SeparatorEndsExtent}"/>
+                            <Setter TargetName="NearEnd" Property="DockPanel.Dock" Value="Left"/>
+
+                            <Setter TargetName="FarEnd" Property="OpacityMask" Value="{DynamicResource SeparatorFarMaskHorizontal}"/>
+                            <Setter TargetName="FarEnd" Property="Width" Value="{DynamicResource SeparatorEndsExtent}"/>
+                            <Setter TargetName="FarEnd" Property="DockPanel.Dock" Value="Right"/>
+
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Trigger>
+                        <Trigger Property="cui:AttachedProperties.CastDirection" Value="Right">
+                            <Setter TargetName="Root" Property="OpacityMask" Value="{DynamicResource SeparatorMainMaskRight}"/>
+
+                            <Setter TargetName="NearEnd" Property="OpacityMask" Value="{DynamicResource SeparatorNearMaskVertical}"/>
+                            <Setter TargetName="NearEnd" Property="Height" Value="{DynamicResource SeparatorEndsExtent}"/>
+                            <Setter TargetName="NearEnd" Property="DockPanel.Dock" Value="Top"/>
+
+                            <Setter TargetName="FarEnd" Property="OpacityMask" Value="{DynamicResource SeparatorFarMaskVertical}"/>
+                            <Setter TargetName="FarEnd" Property="Height" Value="{DynamicResource SeparatorEndsExtent}"/>
+                            <Setter TargetName="FarEnd" Property="DockPanel.Dock" Value="Bottom"/>
+
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                        </Trigger>
+                        <Trigger Property="cui:AttachedProperties.CastDirection" Value="Down">
+                            <Setter TargetName="Root" Property="OpacityMask" Value="{DynamicResource SeparatorMainMaskDown}"/>
+
+                            <Setter TargetName="NearEnd" Property="OpacityMask" Value="{DynamicResource SeparatorNearMaskHorizontal}"/>
+                            <Setter TargetName="NearEnd" Property="Width" Value="{DynamicResource SeparatorEndsExtent}"/>
+                            <Setter TargetName="NearEnd" Property="DockPanel.Dock" Value="Left"/>
+
+                            <Setter TargetName="FarEnd" Property="OpacityMask" Value="{DynamicResource SeparatorFarMaskHorizontal}"/>
+                            <Setter TargetName="FarEnd" Property="Width" Value="{DynamicResource SeparatorEndsExtent}"/>
+                            <Setter TargetName="FarEnd" Property="DockPanel.Dock" Value="Right"/>
+
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+
+
+
+    <LinearGradientBrush x:Key="SmallSeparatorFillLeft"
+						StartPoint="1,0"
+						EndPoint="0,0"
+						GradientStops="{DynamicResource SmallSeparatorBackgroundGradientStops}"/>
+    <LinearGradientBrush x:Key="SmallSeparatorFillUp"
+						StartPoint="0,1"
+						EndPoint="0,0"
+						GradientStops="{DynamicResource SmallSeparatorBackgroundGradientStops}"/>
+    <LinearGradientBrush x:Key="SmallSeparatorFillRight"
+						StartPoint="0,0"
+						EndPoint="1,0"
+						GradientStops="{DynamicResource SmallSeparatorBackgroundGradientStops}"/>
+    <LinearGradientBrush x:Key="SmallSeparatorFillDown"
+						StartPoint="0,0"
+						EndPoint="0,1"
+						GradientStops="{DynamicResource SmallSeparatorBackgroundGradientStops}"/>
+
+
+    <LinearGradientBrush x:Key="SmallSeparatorMaskHorizontal"
+						StartPoint="0.5,0"
+						EndPoint="0,0"
+						GradientStops="{DynamicResource SmallSeparatorMaskGradientStops}"
+                        SpreadMethod="Reflect"/>
+    <LinearGradientBrush x:Key="SmallSeparatorMaskVertical"
+						StartPoint="0,0.5"
+						EndPoint="0,0"
+						GradientStops="{DynamicResource SmallSeparatorMaskGradientStops}"
+                        SpreadMethod="Reflect"/>
+
+
+    <Style x:Key="SmallSeparatorStyle" TargetType="{x:Type Separator}" BasedOn="{StaticResource {x:Type Separator}}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Separator}">
                     <Rectangle x:Name="FillRectangle"/>
                     <ControlTemplate.Triggers>
                         <Trigger Property="cui:AttachedProperties.CastDirection" Value="Left">
-                            <Setter TargetName="FillRectangle" Property="Fill" Value="{DynamicResource SeparatorFillLeft}"/>
-                            <!--Setter TargetName="FillRectangle" Property="OpacityMask" Value="{DynamicResource SeparatorMaskVertical}"/-->
+                            <Setter TargetName="FillRectangle" Property="Fill" Value="{DynamicResource SmallSeparatorFillLeft}"/>
+                            <Setter TargetName="FillRectangle" Property="OpacityMask" Value="{DynamicResource SmallSeparatorMaskVertical}"/>
+                            
                             <Setter Property="HorizontalAlignment" Value="Center"/>
                         </Trigger>
                         <Trigger Property="cui:AttachedProperties.CastDirection" Value="Up">
-                            <Setter TargetName="FillRectangle" Property="Fill" Value="{DynamicResource SeparatorFillUp}"/>
-                            <!--Setter TargetName="FillRectangle" Property="OpacityMask" Value="{DynamicResource SeparatorMaskHorizontal}"/-->
+                            <Setter TargetName="FillRectangle" Property="Fill" Value="{DynamicResource SmallSeparatorFillUp}"/>
+                            <Setter TargetName="FillRectangle" Property="OpacityMask" Value="{DynamicResource SmallSeparatorMaskHorizontal}"/>
+                            
                             <Setter Property="VerticalAlignment" Value="Center"/>
                         </Trigger>
                         <Trigger Property="cui:AttachedProperties.CastDirection" Value="Right">
-                            <Setter TargetName="FillRectangle" Property="Fill" Value="{DynamicResource SeparatorFillRight}"/>
-                            <!--Setter TargetName="FillRectangle" Property="OpacityMask" Value="{DynamicResource SeparatorMaskVertical}"/-->
+                            <Setter TargetName="FillRectangle" Property="Fill" Value="{DynamicResource SmallSeparatorFillRight}"/>
+                            <Setter TargetName="FillRectangle" Property="OpacityMask" Value="{DynamicResource SmallSeparatorMaskVertical}"/>
+                            
                             <Setter Property="HorizontalAlignment" Value="Center"/>
                         </Trigger>
                         <Trigger Property="cui:AttachedProperties.CastDirection" Value="Down">
-                            <Setter TargetName="FillRectangle" Property="Fill" Value="{DynamicResource SeparatorFillDown}"/>
-                            <!--Setter TargetName="FillRectangle" Property="OpacityMask" Value="{DynamicResource SeparatorMaskHorizontal}"/-->
+                            <Setter TargetName="FillRectangle" Property="Fill" Value="{DynamicResource SmallSeparatorFillDown}"/>
+                            <Setter TargetName="FillRectangle" Property="OpacityMask" Value="{DynamicResource SmallSeparatorMaskHorizontal}"/>
+                            
                             <Setter Property="VerticalAlignment" Value="Center"/>
                         </Trigger>
                     </ControlTemplate.Triggers>

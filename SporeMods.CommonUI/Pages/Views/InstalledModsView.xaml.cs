@@ -7,13 +7,10 @@ using System.Text;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using IValueConverter = System.Windows.Data.IValueConverter;
+using CultureInfo = System.Globalization.CultureInfo;
 
 namespace SporeMods.Views
 {
@@ -55,7 +52,7 @@ namespace SporeMods.Views
         {
             if ((sender is ListView listView) && (listView.View is GridView gridView))
             {
-                var headers = EnumVisual<GridViewColumnHeader>(listView);
+                var headers = listView.GetDescendantsOfType<GridViewColumnHeader>();
                 //headers.FirstOrDefault()
                 foreach (GridViewColumnHeader header in headers)
                 {
@@ -64,7 +61,7 @@ namespace SporeMods.Views
                 }
 
 
-                var presenter = EnumVisual<ScrollContentPresenter>(listView).FirstOrDefault();
+                /*var presenter = listView.GetDescendantsOfType<ScrollContentPresenter>().FirstOrDefault();
                 var firstColumn = gridView.Columns.First();
                 var otherColumns = gridView.Columns.Skip(1);
                 if (presenter != null)
@@ -83,40 +80,20 @@ namespace SporeMods.Views
                     listView.SizeChanged += (s, args) => updateColumnWidths();
                     updateColumnWidths();
                     
-                }
-                listView.Loaded -= ModsList_Loaded;
+                }*/
+                //listView.Loaded -= ModsList_Loaded;
             }
         }
 
-        static List<T> EnumVisual<T>(Visual target) where T : Visual
-        {
-            List<T> found = new List<T>();
-            EnumVisual<T>(target, ref found);
-            return found;
-        }
-
-        static void EnumVisual<T>(Visual target, ref List<T> found) where T : Visual
-        {
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(target); i++)
-            {
-                var child = VisualTreeHelper.GetChild(target, i);
-                
-                if (child is T find)
-                    found.Add(find);
-                
-                if (child is Visual next)
-                    EnumVisual<T>(next, ref found);
-            }
-        }
+        
 
         void AllUpdateColumnWidths()
         {
-            foreach (Action action in _allUpdateColumnWidths)
+            /*foreach (Action action in _allUpdateColumnWidths)
             {
                 action();
-            }
+            }*/
         }
-
 
 
 
@@ -141,14 +118,27 @@ namespace SporeMods.Views
         }
 	}
 
-    public class IsManualInstalledFileConverter : System.Windows.Data.IValueConverter
+    public class IsManualInstalledFileConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return value is ManualInstalledFile;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class IsThereAProgressSignifierHereConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (value != null) && (value is SporeMods.Core.ModTransactions.TaskProgressSignifier);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

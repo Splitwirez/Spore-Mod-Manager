@@ -67,6 +67,7 @@ namespace SporeMods.Core.Mods
 			{
 				_progressSignifier = value;
 				NotifyPropertyChanged();
+				IInstalledMod.CallThisOnProgressSignifierChanged();
 			}
 		}
 

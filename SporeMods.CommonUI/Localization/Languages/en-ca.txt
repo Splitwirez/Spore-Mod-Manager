@@ -124,11 +124,44 @@ Mods {
 		#ADDED
 		Columns {
 			#ADDED
-			DisplayName Name
+			DisplayName {
+				#ADDED
+				Header Name
+			}
+
 			#ADDED
-			IsExperimental Experimental
+			IsExperimental {
+				#ADDED
+				Header Experimental?
+			}
+
 			#ADDED
-			CausesSaveDataDependency Causes save data dependency
+			SaveDataImpact {
+				#ADDED
+				Header Impact on save games
+
+				#ADDED
+				CausesDependency {
+					#ADDED
+					Header Causes dependency
+					#ADDED
+					ToolTip {
+						#ADDED
+						Content Once Spore has been opened with this mod is installed, your save games will become 'dependent' on this mod. This means that they may not work correctly (if at all) if this mod is not present.
+						#ADDED
+						Warning Uninstalling this mod may damage your save games, which can potentially render Spore unable to start.
+					}
+				}
+				
+				#ADDED
+				NoImpact None
+			}
+
+			#ADDED
+			Status {
+				#ADDED
+				Header Status
+			}
 		}
 		
 		ManuallyInstalled Manually installed #ModInstalledManually

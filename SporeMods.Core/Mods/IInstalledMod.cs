@@ -56,6 +56,13 @@ namespace SporeMods.Core.Mods
 		bool CanReconfigure { get; }
 
 		bool PreventsGameLaunch { get; }
+
+		public static event EventHandler<EventArgs> AnyModStatusChanged;
+
+		protected static void CallThisOnProgressSignifierChanged()
+		{
+			AnyModStatusChanged?.Invoke(null, null);
+		}
 	}
 
 	public static class InstalledModExtensions

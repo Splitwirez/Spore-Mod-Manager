@@ -20,10 +20,6 @@
     
     </ResourceDictionary.MergedDictionaries>
 
-
-
-
-
     <!--### Icon't for mods which don't have their own icons (not presently used, will likely be used in future) ###-->
     <!--cui:FloorPanel x:Key="NoIconModIcon" x:Shared="False" Width="32" Height="32" HorizontalAlignment="Center" VerticalAlignment="Center">
         <Ellipse Stroke="{DynamicResource ButtonIdleBorderBrush}" StrokeThickness="1">
@@ -59,8 +55,7 @@
 
     <!--### Progress bar stuff shown on mod list entries ###-->
     <Style x:Key="ModListProgressDisplayStyle" TargetType="Control">
-        <Setter Property="Focusable" Value="False"/>
-        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="MinWidth" Value="200"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Control">
@@ -98,10 +93,12 @@
         </Setter>
     </Style>
     
-    <Style x:Key="InstalledModsGridViewHeaderRowPresenterBackdropStyle" TargetType="{x:Type ContentControl}">
+    <Style x:Key="InstalledModsGridViewHeaderRowPresenterBackdropStyle" TargetType="{x:Type cui:Zone}">
+        <Setter Property="Foreground" Value="{DynamicResource PanelForeground}"/>
+        <Setter Property="Padding" Value="0,2,0,0"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ContentControl}">
+                <ControlTemplate TargetType="{x:Type cui:Zone}">
                     <Border x:Name="BackgroundBorder" Style="{DynamicResource HorizontalBarBorderStyle}" DockPanel.Dock="Top">
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0,2" EndPoint="0,0" GradientStops="{DynamicResource HorizontalPanelBackgroundGradientStops}"/>
@@ -110,7 +107,7 @@
                             <Separator VerticalAlignment="Top"
                                     cui:AttachedProperties.CastDirection="Down"
                                     Margin="5,0"/>
-                            <ContentPresenter Content="{TemplateBinding Content}" Margin="0,2,0,0"/>
+                            <ContentPresenter Content="{TemplateBinding Content}" Margin="{TemplateBinding Padding}"/>
                         </cui:FloorPanel>
                     </Border>
                 </ControlTemplate>
@@ -132,12 +129,15 @@
                             <RowDefinition />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <ScrollViewer DockPanel.Dock="Top"
+                        <cui:Zone x:Name="HeaderRowPresenterBackdrop"
                                         Grid.ColumnSpan="2"
+                                        Style="{DynamicResource InstalledModsGridViewHeaderRowPresenterBackdropStyle}"/>
+                        <DockPanel DockPanel.Dock="Top"
+                                Margin="{Binding Padding, ElementName=HeaderRowPresenterBackdrop}">
+                            <ScrollViewer 
                                         HorizontalScrollBarVisibility="Hidden"
                                         VerticalScrollBarVisibility="Hidden"
-                                        Focusable="false">
-                            <ContentControl Style="{DynamicResource InstalledModsGridViewHeaderRowPresenterBackdropStyle}">
+                                        DockPanel.Dock="Right">
                                 <GridViewHeaderRowPresenter Columns="{Binding Path=TemplatedParent.View.Columns,RelativeSource={RelativeSource TemplatedParent}}"
                                                             ColumnHeaderContainerStyle="{Binding Path=TemplatedParent.View.ColumnHeaderContainerStyle,RelativeSource={RelativeSource TemplatedParent}}"
                                                             ColumnHeaderTemplate="{Binding Path=TemplatedParent.View.ColumnHeaderTemplate,RelativeSource={RelativeSource TemplatedParent}}"
@@ -147,9 +147,10 @@
                                                             ColumnHeaderContextMenu="{Binding Path=TemplatedParent.View.ColumnHeaderContextMenu,RelativeSource={RelativeSource TemplatedParent}}"
                                                             ColumnHeaderToolTip="{Binding Path=TemplatedParent.View.ColumnHeaderToolTip,RelativeSource={RelativeSource TemplatedParent}}"
                                                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                                            Margin="10,0"/>
-                            </ContentControl>
-                        </ScrollViewer>
+                                                            Margin="8,0,-8,0"/>
+                            </ScrollViewer>
+                            <GridViewColumnHeader IsHitTestVisible="False" Content="{DynamicResource Mods!ListEntry!Columns!DisplayName!Header}"/>
+                        </DockPanel>
                         <Rectangle Height="18"
                                 Margin="0,0,0,-18"
                                 VerticalAlignment="Top"
@@ -316,6 +317,236 @@
         </Setter-->
     </Style>
 
+    <sys:Double x:Key="ModsListEntryControlsVerticalSpacing">4</sys:Double>
+    <sys:Double x:Key="ModsListEntryControlsHorizontalSpacing">4</sys:Double>
+    
+    <!--### Installed mods list entry ###-->
+    <Style x:Key="InstalledModsListEntryStyle" TargetType="{x:Type Expander}" BasedOn="{StaticResource {x:Type Expander}}">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Expander}">
+                    <DockPanel>
+                        <ContentPresenter x:Name="HeaderPresenter"
+                                        ContentSource="Header"
+                                        Height="32"
+                                        Margin="0,-4"
+                                        DockPanel.Dock="Top"/>
+                        <Rectangle x:Name="TopGap"
+                                DockPanel.Dock="Top"
+                                Height="8"
+                                LayoutTransform="{Binding Source={x:Reference ContentTransform}}"
+                                Visibility="Hidden"/>
+                        <Rectangle x:Name="BottomGap"
+                                DockPanel.Dock="Bottom"
+                                Height="4"
+                                LayoutTransform="{Binding Source={x:Reference ContentTransform}}"
+                                Visibility="Hidden"/>
+                        <cui:FloorPanel x:Name="ExpandArea">
+                            <Separator VerticalAlignment="Top"
+                                    cui:AttachedProperties.CastDirection="Down"
+                                    IsHitTestVisible="False"
+                                    Opacity="{Binding ScaleY, Source={x:Reference ContentTransform}, Mode=OneWay}"/>
+                                    <!--Margin="56,0"-->
+                            
+                            <ContentPresenter x:Name="ContentContainer"
+                                            ContentSource="Content"
+                                            HorizontalAlignment="Stretch"
+                                            Margin="0,8,0,-4">
+                                <ContentPresenter.LayoutTransform>
+                                    <ScaleTransform x:Name="ContentTransform" ScaleY="0"/>
+                                </ContentPresenter.LayoutTransform>
+                            </ContentPresenter>
+                        </cui:FloorPanel>
+                    </DockPanel>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Path=LayoutTransform.(ScaleTransform.ScaleY), ElementName=ContentContainer}" Value="0">
+                            <!--Setter TargetName="HeaderContentGap" Property="Visibility" Value="Collapsed"/-->
+                            <Setter TargetName="ExpandArea" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="TopGap" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="BottomGap" Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}" Value="True">
+                            <!--MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsExpanded, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="True"/>
+                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}" Value="True"/>
+                            </MultiDataTrigger.Conditions-->
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="TopGap"
+                                                        Storyboard.TargetProperty="Height"
+                                                        To="12"
+                                                        Duration="0:0:0.125"
+                                                        EasingFunction="{StaticResource ScaleEase}"/>
+                                        <DoubleAnimation Storyboard.TargetName="BottomGap"
+                                                        Storyboard.TargetProperty="Height"
+                                                        To="0"
+                                                        Duration="0:0:0.125"
+                                                        EasingFunction="{StaticResource ScaleEase}"/>
+                                        <!--ThicknessAnimation Storyboard.TargetName="HeaderPresenter"
+                                                            Storyboard.TargetProperty="Margin"
+                                                            To="4,-4,0,-4"
+                                                            Duration="0:0:0.125"
+                                                            EasingFunction="{StaticResource ScaleEase}"/-->
+                                        <!--ThicknessAnimation Storyboard.TargetName="ExpandArea"
+                                                            Storyboard.TargetProperty="Margin"
+                                                            To="0,12,0,4"
+                                                            Duration="0:0:0.125"
+                                                            EasingFunction="{StaticResource ScaleEase}"/-->
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="TopGap"
+                                                        Storyboard.TargetProperty="Height"
+                                                        To="8"
+                                                        Duration="0:0:0.125"
+                                                        EasingFunction="{StaticResource ScaleEase}"/>
+                                        <DoubleAnimation Storyboard.TargetName="BottomGap"
+                                                        Storyboard.TargetProperty="Height"
+                                                        To="4"
+                                                        Duration="0:0:0.125"
+                                                        EasingFunction="{StaticResource ScaleEase}"/>
+                                        <!--ThicknessAnimation Storyboard.TargetName="HeaderPresenter"
+                                                            Storyboard.TargetProperty="Margin"
+                                                            To="0,-4"
+                                                            Duration="0:0:0.125"
+                                                            EasingFunction="{StaticResource ScaleEase}"/-->
+                                        <!--ThicknessAnimation Storyboard.TargetName="ExpandArea"
+                                                            Storyboard.TargetProperty="Margin"
+                                                            To="0,8"
+                                                            Duration="0:0:0.125"
+                                                            EasingFunction="{StaticResource ScaleEase}"/-->
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                        <Trigger Property="IsExpanded" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="ContentTransform"
+                                                        Storyboard.TargetProperty="ScaleY"
+                                                        To="1"
+                                                        Duration="0:0:0.125"
+                                                        EasingFunction="{StaticResource ScaleEase}"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="ContentTransform"
+                                                        Storyboard.TargetProperty="ScaleY"
+                                                        To="0"
+                                                        Duration="0:0:0.125"
+                                                        EasingFunction="{StaticResource ScaleEase}"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--### Installed mods list entry cell ###-->
+    <Style x:Key="InstalledModsListEntryCellContainerStyle" TargetType="{x:Type cui:Zone}">
+        <Setter Property="Margin" Value="25,0,-25,0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type cui:Zone}">
+                    <DockPanel Background="{TemplateBinding Background}">
+                        <Separator x:Name="CellSeparator"
+                                DockPanel.Dock="Left"
+                                Style="{DynamicResource SmallSeparatorStyle}"
+                                Margin="0"
+                                cui:AttachedProperties.CastDirection="Right"/>
+                        <Rectangle Width="{Binding ActualWidth, ElementName=CellSeparator}"
+                                DockPanel.Dock="Right"
+                                Visibility="Hidden"/>
+                        <ContentPresenter Content="{TemplateBinding Content}" Margin="8,0"/>
+                    </DockPanel>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ThicknessAnimation Storyboard.TargetName="CellSeparator"
+                                                            Storyboard.TargetProperty="Margin"
+                                                            To="0,-4"
+                                                            Duration="0:0:0.125"
+                                                            EasingFunction="{StaticResource ScaleEase}"/>
+                                        <!--ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                            To="-8,0,0,0"
+                                                            Duration="0:0:0.125"
+                                                            EasingFunction="{StaticResource ScaleEase}"/-->
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ThicknessAnimation Storyboard.TargetName="CellSeparator"
+                                                            Storyboard.TargetProperty="Margin"
+                                                            To="0"
+                                                            Duration="0:0:0.125"
+                                                            EasingFunction="{StaticResource ScaleEase}"/>
+                                        <!--ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                            To="0"
+                                                            Duration="0:0:0.125"
+                                                            EasingFunction="{StaticResource ScaleEase}"/-->
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+
+                        <Trigger Property="ActualWidth" Value="0">
+                            <Setter TargetName="CellSeparator" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="ActualWidth" Value="1">
+                            <Setter TargetName="CellSeparator" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="ActualWidth" Value="2">
+                            <Setter TargetName="CellSeparator" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="ActualWidth" Value="3">
+                            <Setter TargetName="CellSeparator" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="ActualWidth" Value="4">
+                            <Setter TargetName="CellSeparator" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="ActualWidth" Value="5">
+                            <Setter TargetName="CellSeparator" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="ActualWidth" Value="6">
+                            <Setter TargetName="CellSeparator" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="ActualWidth" Value="7">
+                            <Setter TargetName="CellSeparator" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="ActualWidth" Value="8">
+                            <Setter TargetName="CellSeparator" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="ActualWidth" Value="9">
+                            <Setter TargetName="CellSeparator" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="ActualWidth" Value="10">
+                            <Setter TargetName="CellSeparator" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!--Style x:Key="DropdownToggleButtonStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource CaptionButtonBaseStyle}">
         <Setter Property="Width" Value="32"/>
         <Setter Property="Height" Value="Auto"/>
@@ -444,42 +675,45 @@
         </Style.Triggers>
     </Style>
 
-    <Path x:Key="SearchTargetsToggleButtonIcon" x:Shared="False"
-        Data="{DynamicResource Arrow!Down!Small}"
-        Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToggleButton}}}"
-        RenderTransformOrigin="0.5,0.5">
-        <!--HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0"-->
-        <!--{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToggleButton}}}-->
-        <Path.RenderTransform>
-            <RotateTransform Angle="0"/>
-        </Path.RenderTransform>
-        <Path.Style>
-            <Style TargetType="Path">
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToggleButton}}}" Value="True">
-                        <DataTrigger.EnterActions>
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Angle" To="180" Duration="0:0:0.125" />
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </DataTrigger.EnterActions>
-                        <DataTrigger.ExitActions>
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Angle" To="0" Duration="0:0:0.125" />
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </DataTrigger.ExitActions>
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
-        </Path.Style>
-    </Path>
+    <Style x:Key="SearchTargetsToggleButtonIconStyle" TargetType="Path">
+        <Setter Property="Data" Value="{DynamicResource Arrow!Down!Small}"/>
+        <Setter Property="Fill" Value="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToggleButton}}}"/>
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <RotateTransform Angle="0"/>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToggleButton}}}" Value="True">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Angle" To="180" Duration="0:0:0.125" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.EnterActions>
+                <DataTrigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Angle" To="0" Duration="0:0:0.125" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.ExitActions>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
     
     <!--### ToggleButton for search mod names/descriptions/etc dropdown list ###-->
     <Style x:Key="SearchTargetsToggleButtonStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource {x:Type ToggleButton}}">
-        <Setter Property="Content" Value="{DynamicResource SearchTargetsToggleButtonIcon}"/>
+        <Setter Property="Content" Value=""/>
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Path Style="{DynamicResource SearchTargetsToggleButtonIconStyle}"/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <!--### 'Click button to install mods' call-to-action ###-->

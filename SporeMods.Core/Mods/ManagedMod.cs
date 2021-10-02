@@ -332,13 +332,13 @@ namespace SporeMods.Core.Mods
 
 		TaskProgressSignifier _progressSignifier = null;
 		public TaskProgressSignifier ProgressSignifier
-        {
+		{
 			get => _progressSignifier;
 			set
-            {
+			{
 				_progressSignifier = value;
 				NotifyPropertyChanged();
-				//IsProgressing = value != null;
+				IInstalledMod.CallThisOnProgressSignifierChanged();
 			}
 		}
 

@@ -18,9 +18,14 @@
             </ResourceDictionary.MergedDictionaries>
             
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-            <cui:BoolToWidthConverter x:Key="BoolToWidthConverter"/>
+            <cui:BoolToDoubleOrNothingConverter x:Key="BoolToDoubleOrNothingConverter"/>
             <cui:NullableBoolToBoolConverter x:Key="NullableBoolToBoolConverter"/>
+            
+            <cui:FudgeMarginsForGridViewRowPresenterConverter x:Key="FudgeMarginsForGridViewRowPresenterConverter"/>
+            <cui:FudgeMarginsForGridViewFirstColumnCellTemplateConverter x:Key="FudgeMarginsForGridViewFirstColumnCellTemplateConverter"/>
+            
             <v:IsManualInstalledFileConverter x:Key="IsManualInstalledFileConverter"/>
+            <v:IsThereAProgressSignifierHereConverter x:Key="IsThereAProgressSignifierHereConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
     <UserControl.DataContext>
@@ -32,53 +37,62 @@
                 <cui:Zone Style="{DynamicResource ModsListFilterBarStyle}"
                                 DockPanel.Dock="Top">
                     <DockPanel LastChildFill="False">
-                        <StackPanel x:Name="SearchStackPanel"
-                                    Orientation="Horizontal"
-                                    VerticalAlignment="Center"
-                                    DockPanel.Dock="Right">
-                            <cui:ActionBox x:Name="SearchBox"
-                                        Style="{DynamicResource SearchBoxStyle}"
-                                        WatermarkText="{DynamicResource Mods!FilterBar!Search!Watermark}"
-                                        VerticalAlignment="Stretch"
-                                        ActionType="Instant"
-                                        IsChecked="{Binding IsSearching, Mode=TwoWay}"
-                                        Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                        cui:AttachedProperties.CornerCurves="True,False,False,True"/>
-                            <ToggleButton x:Name="SearchTargetsToggleButton"
-                                        Style="{DynamicResource SearchTargetsToggleButtonStyle}"
-                                        VerticalAlignment="Stretch"
-                                        cui:AttachedProperties.CornerCurves="False,True,True,False"
-                                        cui:AttachedProperties.BorderPresence="False,True,True,True"
-                                        IsChecked="{Binding IsOpen, ElementName=SearchTargetsContextMenu, Mode=TwoWay}"
-                                        Tag="{Binding ElementName=SearchStackPanel}">
-                                <!--PreviewMouseRightButtonUp="MenuToggleButton_PreviewMouseRightButtonUp"
-                                        IsChecked="{Binding IsOpen, ElementName=SearchTargetsContextMenu, Mode=TwoWay}"-->
-                                <ToggleButton.ContextMenu>
-                                    <ContextMenu x:Name="SearchTargetsContextMenu"
-                                                ContextMenuService.PlacementTarget="{Binding ElementName=SearchStackPanel}"
-                                                Placement="Relative"
-                                                Width="{Binding ActualWidth, ElementName=SearchStackPanel}">
-                                        <!--IsOpen="{Binding IsChecked, ElementName=SearchTargetsToggleButton, Mode=TwoWay}"-->
-                                        <!--IsOpen="{Binding IsChecked, ElementName=SearchTargetsToggleButton, Mode=TwoWay}"
-                                                Closed="SearchTargetsContextMenu_Closed"-->
-                                        <MenuItem x:Name="SearchNames"
-                                                Header="{DynamicResource Mods!FilterBar!Search!InNames}"
-                                                IsCheckable="True"
-                                                Loaded="SearchNames_Loaded"
-                                                Checked="SearchNames_UnChecked"
-                                                Unchecked="SearchNames_UnChecked"/>
-                                                <!--IsChecked="{Binding SearchNames, Mode=TwoWay, Converter={StaticResource NullableBoolToBoolConverter}}"-->
-                                        <MenuItem x:Name="SearchDescriptions"
-                                                Header="{DynamicResource Mods!FilterBar!Search!InDescriptions}"
-                                                IsCheckable="True"
-                                                Loaded="SearchDescriptions_Loaded"
-                                                Checked="SearchDescriptions_UnChecked"
-                                                Unchecked="SearchDescriptions_UnChecked"/>
-                                                <!--IsChecked="{Binding SearchDescriptions, Mode=TwoWay, Converter={StaticResource NullableBoolToBoolConverter}}"-->
-                                    </ContextMenu>
-                                </ToggleButton.ContextMenu>
-                            </ToggleButton>
-                        </StackPanel>
+                        <cui:FloorPanel VerticalAlignment="Center"
+                                        DockPanel.Dock="Right">
+                            <Rectangle x:Name="SearchTargetsMenuSizeHelper"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    Visibility="Hidden"/>
+                            <StackPanel Name="SearchStackPanel"
+                                        Orientation="Horizontal"
+                                        VerticalAlignment="Center">
+                                <cui:ActionBox x:Name="SearchBox"
+                                            Style="{DynamicResource SearchBoxStyle}"
+                                            WatermarkText="{DynamicResource Mods!FilterBar!Search!Watermark}"
+                                            VerticalAlignment="Stretch"
+                                            ActionType="Instant"
+                                            IsChecked="{Binding IsSearching, Mode=TwoWay}"
+                                            Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            cui:AttachedProperties.CornerCurves="True,False,False,True"/>
+                                <ToggleButton Name="SearchTargetsToggleButton"
+                                            Style="{DynamicResource SearchTargetsToggleButtonStyle}"
+                                            VerticalAlignment="Stretch"
+                                            cui:AttachedProperties.CornerCurves="False,True,True,False"
+                                            cui:AttachedProperties.BorderPresence="False,True,True,True"
+                                            IsChecked="{Binding IsOpen, ElementName=SearchTargetsContextMenu, Mode=TwoWay}">
+                                    <!--PreviewMouseRightButtonUp="MenuToggleButton_PreviewMouseRightButtonUp"
+                                            IsChecked="{Binding IsOpen, ElementName=SearchTargetsContextMenu, Mode=TwoWay}"-->
+                                    <ToggleButton.ContextMenu>
+                                        <ContextMenu x:Name="SearchTargetsContextMenu"
+                                                    Placement="Relative"
+                                                    Width="{Binding PlacementTarget.ActualWidth, RelativeSource={RelativeSource Mode=Self}}"
+                                                    VerticalOffset="{Binding PlacementTarget.ActualHeight, RelativeSource={RelativeSource Mode=Self}}">
+                                                    <!--Width="{Binding ActualWidth, Source={x:Reference SearchTargetsMenuSizeHelper}}"-->
+                                            <!--IsOpen="{Binding IsChecked, ElementName=SearchTargetsToggleButton, Mode=TwoWay}"-->
+                                            <!--IsOpen="{Binding IsChecked, ElementName=SearchTargetsToggleButton, Mode=TwoWay}"
+                                                    Closed="SearchTargetsContextMenu_Closed"-->
+                                            <MenuItem x:Name="SearchNames"
+                                                    Header="{DynamicResource Mods!FilterBar!Search!InNames}"
+                                                    IsCheckable="True"
+                                                    Loaded="SearchNames_Loaded"
+                                                    Checked="SearchNames_UnChecked"
+                                                    Unchecked="SearchNames_UnChecked"/>
+                                                    <!--IsChecked="{Binding SearchNames, Mode=TwoWay, Converter={StaticResource NullableBoolToBoolConverter}}"-->
+                                            <MenuItem x:Name="SearchDescriptions"
+                                                    Header="{DynamicResource Mods!FilterBar!Search!InDescriptions}"
+                                                    IsCheckable="True"
+                                                    Loaded="SearchDescriptions_Loaded"
+                                                    Checked="SearchDescriptions_UnChecked"
+                                                    Unchecked="SearchDescriptions_UnChecked"/>
+                                                    <!--IsChecked="{Binding SearchDescriptions, Mode=TwoWay, Converter={StaticResource NullableBoolToBoolConverter}}"-->
+                                        </ContextMenu>
+                                    </ToggleButton.ContextMenu>
+                                    <e:Interaction.Behaviors>
+                                        <cui:AssignContextMenuPlacementTargetBehavior PlacementTarget="{Binding ElementName=SearchStackPanel}"/>
+                                    </e:Interaction.Behaviors>
+                                </ToggleButton>
+                            </StackPanel>
+                        </cui:FloorPanel>
                         <Button x:Name="CopyModsToClipboardButton"
                                 DockPanel.Dock="Left"
                                 Content="{DynamicResource Mods!FilterBar!CopyModsList!Label}"
@@ -100,75 +114,47 @@
                             cui:AttachedProperties.CornerCurves="False">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <DockPanel>
-                                    <GridViewRowPresenter Columns="{Binding (GridView.ColumnCollection), RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}"
-                                                        VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}"
-                                                        SnapsToDevicePixels="{Binding SnapsToDevicePixels, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}"
-                                                        Focusable="False"
-                                                        DockPanel.Dock="Top"
-                                                        Height="36"/>
-                                    <!--Visibility="{Binding Visibility, ElementName=ExpandCollapseToggleButton}"-->
-                                    <StackPanel x:Name="DescriptionGrid" Orientation="Vertical">
-                                        <StackPanel.LayoutTransform>
-                                            <ScaleTransform x:Name="DescriptionTransform" ScaleY="0"/>
-                                        </StackPanel.LayoutTransform>
-                                        <Separator x:Name="DescriptionSeparator" cui:AttachedProperties.CastDirection="Down" VerticalAlignment="Top" Margin="56,0"/>
-                                        <cui:NoSizeDecorator>
-                                            <TextBlock Text="{Binding Description}" TextWrapping="Wrap" TextAlignment="Left" Padding="5" Width="{Binding ActualWidth, ElementName=ModRootDockPanel}" ClipToBounds="False"/>
-                                        </cui:NoSizeDecorator>
-                                    </StackPanel>
-                                </DockPanel>
+                                <Expander Style="{DynamicResource InstalledModsListEntryStyle}" IsExpanded="{Binding ShowDescription, Mode=OneWay}">
+                                    <Expander.Header>
+                                        <DockPanel>
+                                            <GridViewRowPresenter DockPanel.Dock="Right"
+                                                                Columns="{Binding (GridView.ColumnCollection), RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}"
+                                                                VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}"
+                                                                SnapsToDevicePixels="{Binding SnapsToDevicePixels, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}"
+                                                                Focusable="False"
+                                                                />
+                                                                <!--Margin="{Binding Padding, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource FudgeMarginsForGridViewRowPresenterConverter}}"-->
+                                            <StackPanel Orientation="Horizontal"
+                                                        VerticalAlignment="Center"
+                                                        >
+                                                        <!--Margin="{Binding Padding, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource FudgeMarginsForGridViewFirstColumnCellTemplateConverter}}"-->
+                                                <cui:StackPanelEx Orientation="Vertical"
+                                                                Spacing="3">
+                                                <TextBlock Text="{Binding DisplayName}"
+                                                        VerticalAlignment="Center"
+                                                        Style="{DynamicResource InstalledModHeader}"/>
+                                                <TextBlock x:Name="SubText"
+                                                        VerticalAlignment="Center"
+                                                        Style="{DynamicResource InstalledModSubText}"
+                                                        Visibility="Collapsed"/>
+                                                </cui:StackPanelEx>
+                                                <ToggleButton x:Name="ExpandCollapseToggleButton"
+                                                            Visibility="{Binding HasDescription, FallbackValue=False, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                            IsChecked="{Binding ShowDescription, Mode=TwoWay}"
+                                                            Style="{DynamicResource ModEntryExpandCollapseToggleButtonStyle}"/>
+                                            </StackPanel>
+                                            <!--Visibility="{Binding Visibility, ElementName=ExpandCollapseToggleButton}"-->
+                                        </DockPanel>
+                                    </Expander.Header>
+                                    <cui:NoSizeDecorator HorizontalAlignment="Stretch">
+                                        <TextBlock Text="{Binding Description}" TextWrapping="Wrap" TextAlignment="Left" ClipToBounds="False"/>
+                                        <!--Width="{Binding ActualWidth, ElementName=ModRootDockPanel}"-->
+                                    </cui:NoSizeDecorator>
+                                </Expander>
                                 <DataTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding Path=LayoutTransform.(ScaleTransform.ScaleY), ElementName=DescriptionGrid}" Value="0">
-                                        <Setter TargetName="DescriptionGrid" Property="Visibility" Value="Collapsed"/>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding ShowDescription}" Value="True">
-                                        <DataTrigger.EnterActions>
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <DoubleAnimation Storyboard.TargetName="DescriptionTransform"
-                                                                    Storyboard.TargetProperty="ScaleY"
-                                                                    To="1"
-                                                                    Duration="0:0:0.125"
-                                                                    EasingFunction="{StaticResource ScaleEase}"/>
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </DataTrigger.EnterActions>
-                                        <DataTrigger.ExitActions>
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <DoubleAnimation Storyboard.TargetName="DescriptionTransform"
-                                                                    Storyboard.TargetProperty="ScaleY"
-                                                                    To="0"
-                                                                    Duration="0:0:0.125"
-                                                                    EasingFunction="{StaticResource ScaleEase}"/>
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </DataTrigger.ExitActions>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}" Value="True">
-                                        <DataTrigger.EnterActions>
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <ThicknessAnimation Storyboard.TargetName="DescriptionGrid"
-                                                                        Storyboard.TargetProperty="Margin"
-                                                                        To="0,5,0,-5"
-                                                                        Duration="0:0:0.125"
-                                                                        EasingFunction="{StaticResource ScaleEase}"/>
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </DataTrigger.EnterActions>
-                                        <DataTrigger.ExitActions>
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <ThicknessAnimation Storyboard.TargetName="DescriptionGrid"
-                                                                        Storyboard.TargetProperty="Margin"
-                                                                        To="0"
-                                                                        Duration="0:0:0.125"
-                                                                        EasingFunction="{StaticResource ScaleEase}"/>
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </DataTrigger.ExitActions>
+                                    <DataTrigger Binding="{Binding Converter={StaticResource IsManualInstalledFileConverter}}" Value="True">
+                                        <Setter TargetName="SubText" Property="Text" Value="{DynamicResource Mods!ListEntry!ManuallyInstalled}"/>
+                                        <Setter TargetName="SubText" Property="Visibility" Value="Visible"/>
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>
@@ -186,11 +172,13 @@
                                             <TextBlock Text="{Binding}" TextWrapping="NoWrap"/>
                                         </DataTemplate>
                                 </GridView.ColumnHeaderTemplate>
-                                <GridViewColumn Header="{DynamicResource Mods!ListEntry!Columns!DisplayName}">
+                                <!--GridViewColumn Header="{DynamicResource Mods!ListEntry!Columns!DisplayName!Header}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal"
-                                                        VerticalAlignment="Center">
+                                                        VerticalAlignment="Center"
+                                                        Background="#00400040"
+                                                        Margin="{Binding Padding, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource FudgeMarginsForGridViewFirstColumnCellTemplateConverter}}">
                                                 <cui:StackPanelEx Orientation="Vertical"
                                                                 Spacing="3">
                                                 <TextBlock Text="{Binding DisplayName}"
@@ -214,26 +202,110 @@
                                             </DataTemplate.Triggers>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="{DynamicResource Mods!ListEntry!Columns!IsExperimental}" Width="{Binding AnyExperimental, Converter={StaticResource BoolToWidthConverter}}">
+                                </GridViewColumn-->
+                                <GridViewColumn Header="{DynamicResource Mods!ListEntry!Columns!IsExperimental!Header}" Width="{Binding AnyExperimental, Converter={StaticResource BoolToDoubleOrNothingConverter}}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <cui:FloorPanel>
-                                                <Separator HorizontalAlignment="Left"
-                                                        cui:AttachedProperties.CastDirection="Right"/>
+                                            <cui:Zone Style="{DynamicResource InstalledModsListEntryCellContainerStyle}"
+                                                     Background="#00FF0000">
+                                                <!--cui:FloorPanel>
+                                                    <Separator HorizontalAlignment="Left"
+                                                            cui:AttachedProperties.CastDirection="Right"/-->
                                                 <Control Style="{DynamicResource BooleanColumnCheckmarkStyle}" Visibility="{Binding Identity.IsExperimental, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
-                                            </cui:FloorPanel>
+                                                <!--/cui:FloorPanel-->
+                                            </cui:Zone>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Header="{DynamicResource Mods!ListEntry!Columns!CausesSaveDataDependency}" Width="{Binding AnyCausesSaveDataDependency, Converter={StaticResource BoolToWidthConverter}}">
+                                <GridViewColumn Header="{DynamicResource Mods!ListEntry!Columns!SaveDataImpact!Header}" Width="{Binding AnyCausesSaveDataDependency, Converter={StaticResource BoolToDoubleOrNothingConverter}}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <cui:FloorPanel>
-                                                <Separator HorizontalAlignment="Left"
-                                                        cui:AttachedProperties.CastDirection="Right"/>
-                                                <Control Style="{DynamicResource BooleanColumnCheckmarkStyle}" Visibility="{Binding Identity.CausesSaveDataDependency, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
-                                            </cui:FloorPanel>
+                                            <cui:Zone Style="{DynamicResource InstalledModsListEntryCellContainerStyle}"
+                                                    Background="#0000FF00">
+                                                <!--Separator HorizontalAlignment="Left"
+                                                        cui:AttachedProperties.CastDirection="Right"/-->
+                                                <!--Control Style="{DynamicResource BooleanColumnCheckmarkStyle}" Visibility="{Binding Identity.CausesSaveDataDependency, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/-->
+                                                <TextBlock x:Name="ImpactText"
+                                                        Text="{DynamicResource Mods!ListEntry!Columns!SaveDataImpact!NoImpact}"
+                                                        TextAlignment="Center"
+                                                        VerticalAlignment="Center"/>
+                                            </cui:Zone>
+                                            <DataTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding Identity.CausesSaveDataDependency}" Value="True">
+                                                    <Setter TargetName="ImpactText" Property="Text" Value="{DynamicResource Mods!ListEntry!Columns!SaveDataImpact!CausesDependency!Header}"/>
+                                                    <Setter TargetName="ImpactText" Property="ToolTip">
+                                                        <Setter.Value>
+                                                            <cui:StackPanelEx Orientation="Vertical"
+                                                                            Spacing="{DynamicResource ModsListEntryControlsVerticalSpacing}">
+                                                                <TextBlock Text="{DynamicResource Mods!ListEntry!Columns!SaveDataImpact!CausesDependency!ToolTip!Content}"
+                                                                        Style="{DynamicResource ToolTipText}"/>
+                                                                <TextBlock Text="{DynamicResource Mods!ListEntry!Columns!SaveDataImpact!CausesDependency!ToolTip!Warning}"
+                                                                        Style="{DynamicResource ToolTipWarning}"/>
+                                                            </cui:StackPanelEx>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="{DynamicResource Mods!ListEntry!Columns!Status!Header}" Width="{Binding AnyHasProgressSignifier, Converter={StaticResource BoolToDoubleOrNothingConverter}}">
+                                <!-- Width="{Binding AnyHasProgressSignifier, Converter={StaticResource BoolToDoubleOrNothingConverter}}"-->
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <cui:Zone Style="{DynamicResource InstalledModsListEntryCellContainerStyle}">
+                                                <Grid x:Name="ProgressDisplay"
+                                                    HorizontalAlignment="Stretch"
+                                                    VerticalAlignment="Stretch">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="100"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock x:Name="TaskStateTextBlock"
+                                                            Grid.Column="0"
+                                                            VerticalAlignment="Center"
+                                                            TextAlignment="Right"
+                                                            Text="{DynamicResource Mods!ListEntry!Tasks!Install}"/>
+                                                    <Rectangle Width="{DynamicResource ModsListEntryControlsHorizontalSpacing}"
+                                                            Grid.Column="1"
+                                                            Visibility="Hidden"/>
+                                                    <ProgressBar x:Name="ModProgressBar"
+                                                            Grid.Column="2"
+                                                            VerticalAlignment="Stretch"
+                                                            Value="{Binding ProgressSignifier.Progress, Mode=OneWay}"
+                                                            Minimum="0"
+                                                            Maximum="{Binding ProgressSignifier.ProgressTotal, Mode=OneWay}"/>
+                                                </Grid>
+                                            </cui:Zone>
+                                            <DataTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding ProgressSignifier}" Value="{x:Null}">
+                                                    <Setter TargetName="ProgressDisplay" Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ProgressSignifier.Status}" Value="Indeterminate">
+                                                    <Setter TargetName="ModProgressBar" Property="IsIndeterminate" Value="True"/>
+                                                    <Setter TargetName="TaskStateTextBlock" Property="Text" Value="{DynamicResource Mods!ListEntry!Tasks!Pending}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ProgressSignifier.Category}" Value="Upgrade">
+                                                    <Setter TargetName="TaskStateTextBlock" Property="Text" Value="{DynamicResource Mods!ListEntry!Tasks!Update}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ProgressSignifier.Category}" Value="Reconfigure">
+                                                    <Setter TargetName="TaskStateTextBlock" Property="Text" Value="{DynamicResource Mods!ListEntry!Tasks!Reconfigure}"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ProgressSignifier.Category}" Value="Uninstall">
+                                                    <Setter TargetName="TaskStateTextBlock" Property="Text" Value="{DynamicResource Mods!ListEntry!Tasks!Uninstall}"/>
+                                                </DataTrigger>
+                                                <Trigger SourceName="ModProgressBar" Property="IsIndeterminate" Value="True">
+                                                    <Setter TargetName="ModProgressBar" Property="Template" Value="{DynamicResource TemporaryIndeterminateProgressBarTemplate}"/>
+                                                    <Setter TargetName="ModProgressBar" Property="Background" Value="#00FF00"/>
+                                                </Trigger>
+                                                <DataTrigger Binding="{Binding ProgressSignifier.Category}" Value="Rollback">
+                                                    <Setter TargetName="ModProgressBar" Property="IsIndeterminate" Value="True"/>
+                                                    <Setter TargetName="ModProgressBar" Property="Background" Value="#FF0000"/>
+                                                    <Setter TargetName="TaskStateTextBlock" Property="Text" Value="{DynamicResource Mods!ListEntry!Tasks!Rollback}"/>
+                                                    <Setter TargetName="TaskStateTextBlock" Property="Foreground" Value="{DynamicResource ErrorTextBrush}"/>
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>

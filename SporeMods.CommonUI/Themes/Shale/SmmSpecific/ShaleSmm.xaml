@@ -19,19 +19,6 @@
     </ResourceDictionary.MergedDictionaries>
 
 
-
-
-
-    <sys:Double x:Key="SettingsControlsVerticalSpacing">5</sys:Double>
-    <sys:Double x:Key="SettingsControlsHorizontalSpacing">5</sys:Double>
-    
-    <sys:Double x:Key="SubControlsInset">15</sys:Double>
-    <Thickness x:Key="SubControlsInsetMargin">15,0,0,0</Thickness>
-
-
-
-
-
     <Style x:Key="{x:Type TextBlock}" TargetType="{x:Type TextBlock}">
         <Setter Property="TextWrapping" Value="Wrap"/>
         <Setter Property="UseLayoutRounding" Value="True"/>
@@ -97,6 +84,21 @@
         <Setter Property="TextElement.FontSize" Value="12"/>
         <Setter Property="TextElement.FontWeight" Value="Bold"/>
         <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+    </Style>
+
+    
+    <sys:Double x:Key="ToolTipContentMaxWidth">300</sys:Double>
+
+    <!--### Text seen in tooltip ###-->
+    <Style x:Key="ToolTipText">
+        <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+        <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+        <Setter Property="Control.MaxWidth" Value="{DynamicResource ToolTipContentMaxWidth}"/>
+    </Style>
+
+    <!--### Warning seen in tooltip ###-->
+    <Style x:Key="ToolTipWarning" BasedOn="{StaticResource ToolTipText}">
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource ErrorTextBrush}"/>
     </Style>
 
     <!--### Mod name in mod list entry ###-->

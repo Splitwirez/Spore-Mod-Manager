@@ -6,45 +6,6 @@
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Converters.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <!--Style x:Key="ProgressBarDeterminatePulseStyle">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <cui:FloorPanel x:Name="DeterminatePulsePanel"
-                                    Visibility="Collapsed">
-                        <StackPanel Orientation="Horizontal"
-                                    ClipToBounds="True">
-                            <Rectangle x:Name="PulseHelper"
-                                        Width="{Binding Path=ActualWidth, ElementName=SizeHelper}">
-                                <Rectangle.LayoutTransform>
-                                    <ScaleTransform ScaleX="0" ScaleY="1"/>
-                                </Rectangle.LayoutTransform>
-                            </Rectangle>
-                            <Border x:Name="PulseBorder"
-                                    Width="60"
-                                    CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,2,2,2;0,0,0,0'}"
-                                    Margin="0"
-                                    Padding="0"
-                                    HorizontalAlignment="Left">
-                                <Border.Background>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedBackgroundGradientStops}"/>
-                                </Border.Background>
-                                <Border.OpacityMask>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0" GradientStops="{DynamicResource SeparatorMaskGradientStops}"/>
-                                </Border.OpacityMask>
-                                <Border.RenderTransform>
-                                    <TranslateTransform X="0" Y="0"/>
-                                </Border.RenderTransform>
-                            </Border>
-                        </StackPanel>
-                    </cui:FloorPanel>
-                    <ControlTemplate.Triggers>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style-->
-
     <Style x:Key="{x:Type ProgressBar}" TargetType="{x:Type ProgressBar}">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
@@ -57,7 +18,7 @@
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ProgressBarTrackBackgroundGradientStops}"/>
                             </Border.Background>
                             <Border x:Name="PART_Track">
-                                <cui:FloorPanel ClipToBounds="True">
+                                <cui:FloorPanel>
                                     <Rectangle x:Name="SizeHelper" HorizontalAlignment="Stretch"/>
                                     <Border x:Name="PART_Indicator" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,2,2,2;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonPressedBorderBrush}" BorderThickness="1" HorizontalAlignment="Left">
                                         <Border.Background>
@@ -67,27 +28,32 @@
                                             <Border.Background>
                                                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedSecondaryBackgroundGradientStops}"/>
                                             </Border.Background>
-                                            <!--Control x:Name="DeterminatePulse"
-                                            Style="{DynamicResource ProgressBarDeterminatePulseStyle}"-->
+                                            <cui:FloorPanel x:Name="DeterminatePulsePanel"
+                                              Visibility="Collapsed">
+                                                <StackPanel Orientation="Horizontal"
+                                                        ClipToBounds="True">
+                                                    <Rectangle x:Name="PulseHelper"
+                                                           Width="{Binding Path=ActualWidth, ElementName=SizeHelper}">
+                                                        <Rectangle.LayoutTransform>
+                                                            <ScaleTransform ScaleX="0" ScaleY="1"/>
+                                                        </Rectangle.LayoutTransform>
+                                                    </Rectangle>
+                                                    <Border x:Name="PulseBorder" Width="60" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,2,2,2;0,0,0,0'}" Margin="0" Padding="0" HorizontalAlignment="Left">
+                                                        <Border.Background>
+                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedBackgroundGradientStops}"/>
+                                                        </Border.Background>
+                                                        <Border.OpacityMask>
+                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0" GradientStops="{DynamicResource SeparatorMaskGradientStops}"/>
+                                                        </Border.OpacityMask>
+                                                        <Border.RenderTransform>
+                                                            <TranslateTransform X="0" Y="0"/>
+                                                        </Border.RenderTransform>
+                                                    </Border>
+                                                </StackPanel>
+                                            </cui:FloorPanel>
                                         </Border>
                                     </Border>
-                                    <Border x:Name="PART_GlowRect"
-                                            Width="60"
-                                            CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,2,2,2;0,0,0,0'}"
-                                            Margin="-60,0,0,0"
-                                            Padding="0"
-                                            HorizontalAlignment="Left">
-                                        <Border.Background>
-                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedBackgroundGradientStops}"/>
-                                        </Border.Background>
-                                        <Border.OpacityMask>
-                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0" GradientStops="{DynamicResource SeparatorMaskGradientStops}"/>
-                                        </Border.OpacityMask>
-                                        <Border.RenderTransform>
-                                            <TranslateTransform X="0" Y="0"/>
-                                        </Border.RenderTransform>
-                                    </Border>
-                                    <!--StackPanel x:Name="FillPanel"
+                                    <StackPanel x:Name="FillPanel"
                                             Orientation="Horizontal"
                                             ClipToBounds="True"
                                             Visibility="Collapsed">
@@ -110,13 +76,13 @@
                                                 <TranslateTransform X="0" Y="0"/>
                                             </Border.RenderTransform>
                                         </Border>
-                                    </StackPanel-->
+                                    </StackPanel>
                                 </cui:FloorPanel>
                             </Border>
                         </Border>
                     </cui:FloorPanel>
                     <ControlTemplate.Triggers>
-                        <!--Trigger Property="IsIndeterminate" Value="False">
+                        <Trigger Property="IsIndeterminate" Value="False">
                             <Setter TargetName="DeterminatePulsePanel" Property="Visibility" Value="Visible"/>
                         </Trigger>
                         <MultiTrigger>
@@ -127,6 +93,7 @@
                             <MultiTrigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard RepeatBehavior="Forever">
+                                        <!--AutoReverse="True"-->
                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PulseHelper" Storyboard.TargetProperty="LayoutTransform.ScaleX" Duration="0:0:1">
                                             <LinearDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
                                             <LinearDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
@@ -138,12 +105,12 @@
                                     </Storyboard>
                                 </BeginStoryboard>
                             </MultiTrigger.EnterActions>
-                        </MultiTrigger-->
+                        </MultiTrigger>
                         <Trigger Property="IsIndeterminate" Value="True">
-                            <!--Setter TargetName="FillPanel" Property="Visibility" Value="Visible"/-->
+                            <Setter TargetName="FillPanel" Property="Visibility" Value="Visible"/>
                             <Setter TargetName="PART_Indicator" Property="Visibility" Value="Collapsed"/>
                         </Trigger>
-                        <!--MultiTrigger>
+                        <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsIndeterminate" Value="True"/>
                                 <Condition Property="IsVisible" Value="True"/>
@@ -151,6 +118,7 @@
                             <MultiTrigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard RepeatBehavior="Forever">
+                                        <!--AutoReverse="True"-->
                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="IndeterminateHelper" Storyboard.TargetProperty="LayoutTransform.ScaleX" Duration="0:0:1">
                                             <LinearDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
                                             <LinearDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
@@ -162,7 +130,7 @@
                                     </Storyboard>
                                 </BeginStoryboard>
                             </MultiTrigger.EnterActions>
-                        </MultiTrigger-->
+                        </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

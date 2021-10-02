@@ -39,6 +39,7 @@
         </Setter>
         <Setter Property="BorderBrush" Value="{DynamicResource HorizontalPanelBorderBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="ContentControl.Foreground" Value="{DynamicResource PanelForeground}"/>
         <Setter Property="CornerRadius" Value="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}"/>
         <Setter Property="cui:AttachedProperties.CornerCurves" Value="False"/>
         <Style.Triggers>
@@ -65,6 +66,7 @@
         </Setter>
         <Setter Property="BorderBrush" Value="{DynamicResource VerticalPanelBorderBrush}"/>
         <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="ContentControl.Foreground" Value="{DynamicResource PanelForeground}"/>
     </Style>
 
     <!--Style x:Key="MessageBoxIconZoneStyle" TargetType="{x:Type ContentControl}">

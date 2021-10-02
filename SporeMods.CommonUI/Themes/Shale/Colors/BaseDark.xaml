@@ -83,6 +83,12 @@
     </GradientStopCollection>
     <SolidColorBrush x:Key="VerticalPanelBorderBrush">#FF1C1C1C</SolidColorBrush>
 
+    <SolidColorBrush x:Key="PanelForeground">White</SolidColorBrush>
+
+    
+    <SolidColorBrush x:Key="GridViewColumnHeaderForeground">White</SolidColorBrush>
+
+
     <SolidColorBrush x:Key="TabItemIdleBorderBrush">#FF000000</SolidColorBrush>
     <!--special case, 90 - 99 is less than 0, so limit to 0-->
     <GradientStopCollection x:Key="TabItemIdleBackgroundGradientStops">
@@ -129,6 +135,10 @@
     </GradientStopCollection>
 
     <SolidColorBrush x:Key="ComboBoxForegroundBrush">White</SolidColorBrush>
+
+    <SolidColorBrush x:Key="ScrollBarLineButtonIdleForegroundBrush">#FF999999</SolidColorBrush>
+    <SolidColorBrush x:Key="ScrollBarLineButtonHoverForegroundBrush" Color="{DynamicResource ScrollBarLineButtonHoverForegroundDarkColor}"/>
+    <SolidColorBrush x:Key="ScrollBarLineButtonPressedForegroundBrush">#FFEEEEEE</SolidColorBrush>
 
     <SolidColorBrush x:Key="ScrollBarLineUpButtonBackgroundBrush">#FF555555</SolidColorBrush>
     <SolidColorBrush x:Key="ScrollBarLineDownButtonBackgroundBrush">#FF414141</SolidColorBrush>

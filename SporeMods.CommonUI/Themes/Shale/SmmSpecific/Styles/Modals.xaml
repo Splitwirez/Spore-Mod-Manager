@@ -20,10 +20,14 @@
     <cui:IsAllTrueConverter x:Key="IsAllTrueConverter"/>
 
 
+    <!--### X button shown in some modals ###-->
+    <Style x:Key="DismissModalButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource GlyphButtonStyle}">
+        <Setter Property="Width" Value="45"/>
+        <Setter Property="Foreground" Value="{DynamicResource WindowForegroundBrush}"/>
+        <Setter Property="Content" Value="{DynamicResource AnimatableContentControlCloseButtonIcon}"/>
+    </Style>
 
-
-
-    <!--"Drop here to do whatever" box used when installing mods or specifying game install paths-->
+    <!--### "Drop here to do whatever" box used when installing mods or specifying game install paths ###-->
     <Style x:Key="DropHereZoneStyle" TargetType="{x:Type cui:Zone}">
         <Setter Property="Padding" Value="20"/>
         <Setter Property="Margin" Value="4"/>
