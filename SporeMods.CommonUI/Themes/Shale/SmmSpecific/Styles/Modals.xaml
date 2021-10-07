@@ -219,9 +219,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="GroupBox">
-                    <cui:StackPanelEx Orientation="Vertical"
-                                    Margin="{TemplateBinding Padding}"
-                                    Spacing="{DynamicResource SettingsControlsVerticalSpacing}">
+                    <StackPanel Orientation="Vertical"
+                                    Margin="{TemplateBinding Padding}">
                         <Separator cui:AttachedProperties.CastDirection="Up"/>
                         <ContentPresenter x:Name="HeaderPresenter"
                                         ContentSource="Header"
@@ -231,9 +230,11 @@
                                         TextBlock.FontSize="16"
                                         TextBlock.FontWeight="Bold"
                                         VerticalAlignment="Center"/>
+                        <Rectangle Height="{DynamicResource SettingsControlsVerticalSpacing}"
+                            Visibility="Hidden"/>
                         <ContentPresenter x:Name="BodyPresenter"/>
                         <Separator cui:AttachedProperties.CastDirection="Down"/>
-                    </cui:StackPanelEx>
+                    </StackPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="Header" Value="{x:Null}">
                             <Setter TargetName="HeaderPresenter" Property="Visibility" Value="Collapsed"/>

@@ -160,7 +160,7 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                         <ListView.View>
-                            <GridView>
+                            <GridView AllowsColumnReorder="False">
                                 <!-- IsHitTestVisible="False"-->
                                 <!--GridView.ColumnHeaderContainerStyle>
                                     <Style TargetType="{x:Type GridViewColumnHeader}">
@@ -249,38 +249,36 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Header="{DynamicResource Mods!ListEntry!Columns!Status!Header}" Width="{Binding AnyHasProgressSignifier, Converter={StaticResource BoolToDoubleOrNothingConverter}}">
-                                <!-- Width="{Binding AnyHasProgressSignifier, Converter={StaticResource BoolToDoubleOrNothingConverter}}"-->
+                                <GridViewColumn Header="{DynamicResource Mods!ListEntry!Columns!Status!Header}"
+                                                Width="{Binding AnyHasProgressSignifier, Converter={StaticResource BoolToDoubleOrNothingConverter}}">
+                                                <!--Width="{Binding AnyHasProgressSignifier, Converter={StaticResource BoolToDoubleOrNothingConverter}, ConverterParameter='200'}"-->
+                                                <!-- Width="{Binding AnyHasProgressSignifier, Converter={StaticResource BoolToDoubleOrNothingConverter}}"-->
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <cui:Zone Style="{DynamicResource InstalledModsListEntryCellContainerStyle}">
-                                                <Grid x:Name="ProgressDisplay"
+                                                <DockPanel x:Name="ProgressDisplay"
                                                     HorizontalAlignment="Stretch"
                                                     VerticalAlignment="Stretch">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                        <ColumnDefinition Width="100"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <TextBlock x:Name="TaskStateTextBlock"
-                                                            Grid.Column="0"
-                                                            VerticalAlignment="Center"
-                                                            TextAlignment="Right"
-                                                            Text="{DynamicResource Mods!ListEntry!Tasks!Install}"/>
-                                                    <Rectangle Width="{DynamicResource ModsListEntryControlsHorizontalSpacing}"
-                                                            Grid.Column="1"
-                                                            Visibility="Hidden"/>
                                                     <ProgressBar x:Name="ModProgressBar"
-                                                            Grid.Column="2"
                                                             VerticalAlignment="Stretch"
                                                             Value="{Binding ProgressSignifier.Progress, Mode=OneWay}"
                                                             Minimum="0"
-                                                            Maximum="{Binding ProgressSignifier.ProgressTotal, Mode=OneWay}"/>
-                                                </Grid>
+                                                            Maximum="{Binding ProgressSignifier.ProgressTotal, Mode=OneWay}"
+                                                            Width="100"
+                                                            DockPanel.Dock="Right"/>
+                                                    <Rectangle Width="{DynamicResource ModsListEntryControlsHorizontalSpacing}"
+                                                            Visibility="Hidden"
+                                                            DockPanel.Dock="Right"/>
+                                                    <TextBlock x:Name="TaskStateTextBlock"
+                                                            VerticalAlignment="Center"
+                                                            TextAlignment="Right"
+                                                            Text="{DynamicResource Mods!ListEntry!Tasks!Install}"
+                                                            TextWrapping="WrapWithOverflow"/>
+                                                </DockPanel>
                                             </cui:Zone>
                                             <DataTemplate.Triggers>
                                                 <DataTrigger Binding="{Binding ProgressSignifier}" Value="{x:Null}">
-                                                    <Setter TargetName="ProgressDisplay" Property="Visibility" Value="Collapsed"/>
+                                                    <Setter TargetName="ProgressDisplay" Property="Visibility" Value="Hidden"/>
                                                 </DataTrigger>
                                                 <DataTrigger Binding="{Binding ProgressSignifier.Status}" Value="Indeterminate">
                                                     <Setter TargetName="ModProgressBar" Property="IsIndeterminate" Value="True"/>
