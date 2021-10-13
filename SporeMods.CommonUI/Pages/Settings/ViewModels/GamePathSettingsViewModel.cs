@@ -59,13 +59,13 @@ namespace SporeMods.ViewModels
 										);
 
 			SporebinEp1 = new GamePathViewModel(GameInfo.GameDlc.GalacticAdventures, false, () => GameInfo.GetAllGameInstallPathsFromRegistry(GameInfo.GameDlc.GalacticAdventures)/*.Where(x => Directory.Exists(Path.Combine(x, "SporebinEP1")))*/,
-											() => Settings.ForcedGalacticAdventuresDataPath,
-											newPath => Settings.ForcedGalacticAdventuresDataPath = newPath
+											() => Settings.ForcedGalacticAdventuresSporebinEP1Path,
+											newPath => Settings.ForcedGalacticAdventuresSporebinEP1Path = newPath
 										);
 
 			CoreData = new GamePathViewModel(GameInfo.GameDlc.CoreSpore, true, () => GameInfo.GetAllGameInstallPathsFromRegistry(GameInfo.GameDlc.CoreSpore)/*.Where(x => Directory.Exists(Path.Combine(x, "DataEP1")) || Directory.Exists(Path.Combine(x, "Data")))*/,
-											() => Settings.ForcedGalacticAdventuresDataPath,
-											newPath => Settings.ForcedGalacticAdventuresDataPath = newPath
+											() => Settings.ForcedCoreSporeDataPath,
+											newPath => Settings.ForcedCoreSporeDataPath = newPath
 										);
 		}
 	}

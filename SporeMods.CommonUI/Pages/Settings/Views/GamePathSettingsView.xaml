@@ -11,7 +11,7 @@
     <UserControl.DataContext>
         <vm:GamePathSettingsViewModel/>
     </UserControl.DataContext>
-    <GroupBox Header="{DynamicResource Settings!Folders!Header}" IsEnabled="False">
+    <GroupBox Header="{DynamicResource Settings!Folders!Header}">
         <cui:StackPanelEx Orientation="Vertical" Spacing="{DynamicResource SettingsControlsVerticalSpacing}">
             <!--TextBlock Text="Soon:tm: (PLACEHOLDER) (NOT LOCALIZED)" Visibility="Collapsed"/>
             <TextBlock Text="{DynamicResource Settings!Folders!AutoGaData}"

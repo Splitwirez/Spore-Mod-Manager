@@ -14,7 +14,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Data/Views/ManagedModView.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Pages/Mods/Views/ManagedModView.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
