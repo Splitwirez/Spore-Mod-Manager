@@ -1,17 +1,35 @@
 ﻿<UserControl x:Class="SporeMods.Views.HelpView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cui="clr-namespace:SporeMods.CommonUI"
              xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:vm="clr-namespace:SporeMods.ViewModels"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800"
              xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <UserControl.DataContext>
         <vm:HelpViewModel/>
     </UserControl.DataContext>
+    <UserControl.Resources>
+        <Style x:Key="DiagInfoRow" TargetType="{x:Type HeaderedContentControl}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <DockPanel>
+                            <ContentPresenter ContentSource="Header"
+                                    Width="200"
+                                    DockPanel.Dock="Left"
+                                    Style="{DynamicResource h3}"
+                                    VerticalAlignment="Top"/>
+                            <ContentPresenter/>
+                        </DockPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
     <cui:FloorPanel>
         <ScrollViewer VerticalScrollBarVisibility="Auto"
                     HorizontalScrollBarVisibility="Disabled"
@@ -36,8 +54,160 @@
                     </cui:UniformStackPanel>
                 </GroupBox>
                 <GroupBox x:Name="DiagnosticInfoGroupBox" Header="{DynamicResource Help!DiagnosticInfo!Header}">
-                    <Grid HorizontalAlignment="Left">
+                    <cui:StackPanelEx HorizontalAlignment="Left"
+                                    Orientation="Vertical"
+                                    Spacing="{DynamicResource SettingsControlsVerticalSpacing}">
+                        <HeaderedContentControl Content="{Binding SMMVersion}"
+                                                Header="{DynamicResource Help!DiagnosticInfo!SMMVersion}"
+                                                Style="{DynamicResource DiagInfoRow}"/>
+
+                        <HeaderedContentControl Content="{Binding SMMBuildChannel}"
+                                                Header="{DynamicResource Help!DiagnosticInfo!SMMBuildChannel}"
+                                                Style="{DynamicResource DiagInfoRow}"/>
+
+                        <HeaderedContentControl Content="{Binding ModAPIDLLsBuild}"
+                                                Header="{DynamicResource Help!DiagnosticInfo!ModAPIDLLsBuild}"
+                                                Style="{DynamicResource DiagInfoRow}"/>
+
+                        <HeaderedContentControl Content="{Binding SporeAppVersion}"
+                                                Header="{DynamicResource Help!DiagnosticInfo!SporeAppVersion}"
+                                                Style="{DynamicResource DiagInfoRow}"/>
+                        
+                        <HeaderedContentControl Content="{Binding EnvOSVersionWindowsVersion}"
+                                                Header="{DynamicResource Help!DiagnosticInfo!EnvOSVersionWindowsVersion}"
+                                                Style="{DynamicResource DiagInfoRow}"/>
+                        
+                        <HeaderedContentControl Content="{Binding RtlGetVersionWindowsVersion}"
+                                                Header="{DynamicResource Help!DiagnosticInfo!RtlGetVersionWindowsVersion}"
+                                                Style="{DynamicResource DiagInfoRow}"/>
+                        
+                        <HeaderedContentControl Content="{Binding RtlGetVersionServicePack}"
+                                                Header="{DynamicResource Help!DiagnosticInfo!RtlGetVersionServicePack}"
+                                                Style="{DynamicResource DiagInfoRow}"/>
+                        
+                        <HeaderedContentControl Content="{Binding RtlGetVersionOther}"
+                                                Header="{DynamicResource Help!DiagnosticInfo!RtlGetVersionOther}"
+                                                Style="{DynamicResource DiagInfoRow}"/>
+                        
+                        <HeaderedContentControl Content="{Binding WINEVersion}"
+                                                Header="{DynamicResource Help!DiagnosticInfo!WINEVersion!Header}"
+                                                Style="{DynamicResource DiagInfoRow}"/>
+                        <!--cui:StackPanelEx.Resources>
+                            <Style TargetType="{x:Type Grid}">
+                                <Setter Property="ColumnDefinitions">
+                                    <Setter.Value>
+                                        <ColumnDefinition Width="200"/>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </cui:StackPanelEx.Resources>
+                        <Grid>
+                            <TextBlock Text="{DynamicResource Help!DiagnosticInfo!SMMVersion}"
+                                    Style="{DynamicResource h3}"
+                                    Grid.Column="0"
+                                    Grid.Row="0"/>
+                            <TextBlock Text="{Binding SMMVersion}"
+                                    Grid.Column="2"
+                                    Grid.Row="0"/>
+                        </Grid>
+
+                        <Grid>
+                            <TextBlock Text="{DynamicResource Help!DiagnosticInfo!SMMBuildChannel}"
+                                    Style="{DynamicResource h3}"
+                                    Grid.Column="0"
+                                    Grid.Row="2"/>
+                            <TextBlock Text="{Binding SMMBuildChannel}"
+                                    Grid.Column="2"
+                                    Grid.Row="2"/>
+                        </Grid>
+
+                        <Grid>
+                            <TextBlock Text="{DynamicResource Help!DiagnosticInfo!ModAPIDLLsBuild}"
+                                    Style="{DynamicResource h3}"
+                                    Grid.Column="0"
+                                    Grid.Row="4"/>
+                            <TextBlock Text="{Binding ModAPIDLLsBuild}"
+                                    Grid.Column="2"
+                                    Grid.Row="4"/>
+                        </Grid>
+
+                        <Grid>
+                            <TextBlock Text="{DynamicResource Help!DiagnosticInfo!SporeAppVersion}"
+                                    Style="{DynamicResource h3}"
+                                    Grid.Column="0"
+                                    Grid.Row="6"/>
+                            <TextBlock Text="{Binding SporeAppVersion}"
+                                    Grid.Column="2"
+                                    Grid.Row="6"/>
+                        </Grid>
+
+                        <Grid>
+                            <TextBlock Text="{DynamicResource Help!DiagnosticInfo!EnvOSVersionWindowsVersion}"
+                                    Style="{DynamicResource h3}"
+                                    Grid.Column="0"
+                                    Grid.Row="8"/>
+                            <TextBlock Text="{Binding EnvOSVersionWindowsVersion}"
+                                    Grid.Column="2"
+                                    Grid.Row="8"/>
+                        </Grid>
+
+                        <Grid>
+                            <TextBlock Text="{DynamicResource Help!DiagnosticInfo!RtlGetVersionWindowsVersion}"
+                                    Style="{DynamicResource h3}"
+                                    Grid.Column="0"
+                                    Grid.Row="10"/>
+                            <TextBlock Text="{Binding RtlGetVersionWindowsVersion}"
+                                    Grid.Column="2"
+                                    Grid.Row="10"/>
+                        </Grid>
+
+                        <Grid>
+                            <TextBlock Text="{DynamicResource Help!DiagnosticInfo!RtlGetVersionServicePack}"
+                                    Style="{DynamicResource h3}"
+                                    Grid.Column="0"
+                                    Grid.Row="12"/>
+                            <TextBlock Text="{Binding RtlGetVersionServicePack}"
+                                    Grid.Column="2"
+                                    Grid.Row="12"/>
+                        </Grid>
+
+                        <Grid>
+                            <TextBlock Text="{DynamicResource Help!DiagnosticInfo!RtlGetVersionOther}"
+                                    Style="{DynamicResource h3}"
+                                    Grid.Column="0"
+                                    Grid.Row="14"/>
+                            <TextBlock Text="{Binding RtlGetVersionOther}"
+                                    Grid.Column="2"
+                                    Grid.Row="14"/>
+                        </Grid>
+
+                        <Grid>
+                            <TextBlock Text="{DynamicResource Help!DiagnosticInfo!WINEVersion!Header}"
+                                    Style="{DynamicResource h3}"
+                                    Grid.Column="0"
+                                    Grid.Row="16"/>
+                            <TextBlock Text="{Binding WINEVersion}"
+                                    Grid.Column="2"
+                                    Grid.Row="16"/>
+                        </Grid-->
+                    </cui:StackPanelEx>
+                    <!--Grid HorizontalAlignment="Left">
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -63,55 +233,98 @@
                         <TextBlock Text="{Binding SMMVersion}"
                                 Grid.Column="2"
                                 Grid.Row="0"/>
+                        <Rectangle Visibility="Hidden"
+                                Height="{DynamicResource SettingsControlsVerticalSpacing}"
+                                Grid.Row="1"/>
 
                         <TextBlock Text="{DynamicResource Help!DiagnosticInfo!SMMBuildChannel}"
                                 Style="{DynamicResource h3}"
                                 Grid.Column="0"
-                                Grid.Row="1"/>
+                                Grid.Row="2"/>
                         <TextBlock Text="{Binding SMMBuildChannel}"
                                 Grid.Column="2"
-                                Grid.Row="1"/>
+                                Grid.Row="2"/>
+                        <Rectangle Visibility="Hidden"
+                                Height="{DynamicResource SettingsControlsVerticalSpacing}"
+                                Grid.Row="3"/>
 
                         <TextBlock Text="{DynamicResource Help!DiagnosticInfo!ModAPIDLLsBuild}"
                                 Style="{DynamicResource h3}"
                                 Grid.Column="0"
-                                Grid.Row="2"/>
+                                Grid.Row="4"/>
                         <TextBlock Text="{Binding ModAPIDLLsBuild}"
                                 Grid.Column="2"
-                                Grid.Row="2"/>
+                                Grid.Row="4"/>
+                        <Rectangle Visibility="Hidden"
+                                Height="{DynamicResource SettingsControlsVerticalSpacing}"
+                                Grid.Row="5"/>
 
-                        <!--TextBlock Text="{DynamicResource Help!DiagnosticInfo!SporeAppVersion}"
+                        <TextBlock Text="{DynamicResource Help!DiagnosticInfo!SporeAppVersion}"
                                 Style="{DynamicResource h3}"
                                 Grid.Column="0"
-                                Grid.Row="3"/>
+                                Grid.Row="6"/>
                         <TextBlock Text="{Binding SporeAppVersion}"
                                 Grid.Column="2"
-                                Grid.Row="3"/-->
+                                Grid.Row="6"/>
+                        <Rectangle Visibility="Hidden"
+                                Height="{DynamicResource SettingsControlsVerticalSpacing}"
+                                Grid.Row="7"/>
 
-                        <TextBlock Text="{DynamicResource Help!DiagnosticInfo!ReportedWindowsVersion}"
+                        <TextBlock Text="{DynamicResource Help!DiagnosticInfo!EnvOSVersionWindowsVersion}"
                                 Style="{DynamicResource h3}"
                                 Grid.Column="0"
-                                Grid.Row="4"/>
-                        <TextBlock Text="{Binding ReportedWindowsVersion}"
+                                Grid.Row="8"/>
+                        <TextBlock Text="{Binding EnvOSVersionWindowsVersion}"
                                 Grid.Column="2"
-                                Grid.Row="4"/>
+                                Grid.Row="8"/>
+                        <Rectangle Visibility="Hidden"
+                                Height="{DynamicResource SettingsControlsVerticalSpacing}"
+                                Grid.Row="9"/>
+
+                        <TextBlock Text="{DynamicResource Help!DiagnosticInfo!RtlGetVersionWindowsVersion}"
+                                Style="{DynamicResource h3}"
+                                Grid.Column="0"
+                                Grid.Row="10"/>
+                        <TextBlock Text="{Binding RtlGetVersionWindowsVersion}"
+                                Grid.Column="2"
+                                Grid.Row="10"/>
+                        <Rectangle Visibility="Hidden"
+                                Height="{DynamicResource SettingsControlsVerticalSpacing}"
+                                Grid.Row="11"/>
+
+                        <TextBlock Text="{DynamicResource Help!DiagnosticInfo!RtlGetVersionServicePack}"
+                                Style="{DynamicResource h3}"
+                                Grid.Column="0"
+                                Grid.Row="12"/>
+                        <TextBlock Text="{Binding RtlGetVersionServicePack}"
+                                Grid.Column="2"
+                                Grid.Row="12"/>
+                        <Rectangle Visibility="Hidden"
+                                Height="{DynamicResource SettingsControlsVerticalSpacing}"
+                                Grid.Row="13"/>
+
+                        <TextBlock Text="{DynamicResource Help!DiagnosticInfo!RtlGetVersionOther}"
+                                Style="{DynamicResource h3}"
+                                Grid.Column="0"
+                                Grid.Row="14"/>
+                        <TextBlock Text="{Binding RtlGetVersionOther}"
+                                Grid.Column="2"
+                                Grid.Row="14"/>
+                        <Rectangle Visibility="Hidden"
+                                Height="{DynamicResource SettingsControlsVerticalSpacing}"
+                                Grid.Row="15"/>
 
                         <TextBlock Text="{DynamicResource Help!DiagnosticInfo!WINEVersion!Header}"
                                 Style="{DynamicResource h3}"
                                 Grid.Column="0"
-                                Grid.Row="5"/>
+                                Grid.Row="16"/>
                         <TextBlock Text="{Binding WINEVersion}"
                                 Grid.Column="2"
-                                Grid.Row="5"/>
-                                
-                        <TextBlock Text="{DynamicResource Help!DiagnosticInfo!RtlGetVersionResult!Header}"
-                                Style="{DynamicResource h3}"
-                                Grid.Column="0"
-                                Grid.Row="6"/>
-                        <TextBlock Text="{Binding RtlGetVersionResult}"
-                                Grid.Column="2"
-                                Grid.Row="6"/>
-                    </Grid>
+                                Grid.Row="16"/>
+                        <!-Rectangle Visibility="Hidden"
+                                Height="{DynamicResource SettingsControlsVerticalSpacing}"
+                                Grid.Row="17"/->
+                    </Grid-->
                 </GroupBox>
             </StackPanel>
         </ScrollViewer>

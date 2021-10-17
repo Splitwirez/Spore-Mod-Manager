@@ -65,7 +65,15 @@ namespace SporeMods.Core
 		static string _getWineVersionResult = null;
 		public static string GetWineVersionResult
 		{
-			get => _getWineVersionResult;
+			get
+			{
+				if (_getWineVersionResult == null)
+				{
+					var _ = IsRunningUnderWine(out Version __);
+				}
+				
+				return _getWineVersionResult;
+			}
 		}
 
 		

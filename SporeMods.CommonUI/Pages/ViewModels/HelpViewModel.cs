@@ -62,27 +62,52 @@ namespace SporeMods.ViewModels
 			get => Settings.CurrentDllsBuildString;
 		}
 
-		public string ReportedWindowsVersion
+		public string SporeAppVersion
+		{
+			get => "NYI (PLACEHOLDER) (NOT LOCALIZED)";
+		}
+
+		public string EnvOSVersionWindowsVersion
 		{
 			get => Environment.OSVersion.Version.ToString();
 		}
 
-		
-		string _rtlGetVersionResult = new Func<string>(() =>
+
+		string _rtlGetVersionWindowsVersion = string.Empty;
+		public string RtlGetVersionWindowsVersion
 		{
-			NativeMethods.OSVERSIONINFOEXW info = new NativeMethods.OSVERSIONINFOEXW();
-			NativeMethods.RtlGetVersion(ref info);
-			return @$"size: {info.dwOSVersionInfoSize}
-            major: {info.dwMajorVersion}
-            minor: {info.dwMinorVersion}
-            build: {info.dwBuildNumber}
-            platformId: {info.dwPlatformId}
-            csdVersion: {info.szCSDVersion}
-            servicePackMajor: {info.wServicePackMajor}
-            servicePackMinor: {info.wServicePackMinor}
-            suiteMask: {info.wSuiteMask}
-            productType: {info.wProductType}";
-		})();
+			get => _rtlGetVersionWindowsVersion;
+			private set
+			{
+				_rtlGetVersionWindowsVersion = value;
+				NotifyPropertyChanged();
+			}
+		}
+
+		string _rtlGetVersionServicePack = string.Empty;
+		public string RtlGetVersionServicePack
+		{
+			get => _rtlGetVersionServicePack;
+			private set
+			{
+				_rtlGetVersionServicePack = value;
+				NotifyPropertyChanged();
+			}
+		}
+
+		string _rtlGetVersionOther = string.Empty;
+		public string RtlGetVersionOther
+		{
+			get => _rtlGetVersionOther;
+			private set
+			{
+				_rtlGetVersionOther = value;
+				NotifyPropertyChanged();
+			}
+		}
+
+		
+		string _rtlGetVersionResult = string.Empty;
 		public string RtlGetVersionResult
 		{
 			get => _rtlGetVersionResult;
@@ -91,6 +116,26 @@ namespace SporeMods.ViewModels
 		public string WINEVersion
 		{
 			get => Settings.GetWineVersionResult.IsNullOrEmptyOrWhiteSpace() ? LanguageManager.Instance.GetLocalizedText("Help!DiagnosticInfo!WINEVersion!NoneReturned") : Settings.GetWineVersionResult;
+		}
+
+
+		public HelpViewModel()
+		{
+			NativeMethods.OSVERSIONINFOEXW info = new NativeMethods.OSVERSIONINFOEXW();
+			NativeMethods.RtlGetVersion(ref info);
+			RtlGetVersionWindowsVersion = $"{info.dwMajorVersion}.{info.dwMinorVersion}.{info.dwBuildNumber}";
+			RtlGetVersionServicePack = $"{info.wServicePackMajor}.{info.wServicePackMinor}";
+			RtlGetVersionOther = $"size: {info.dwOSVersionInfoSize},\nplatformId: {info.dwPlatformId},\ncsdVersion: {info.szCSDVersion},\nsuiteMask: {info.wSuiteMask},\nproductType: {info.wProductType}";
+			/*@$"size: {info.dwOSVersionInfoSize}
+            major: {info.dwMajorVersion}
+            minor: {info.dwMinorVersion}
+            build: {info.dwBuildNumber}
+            platformId: {info.dwPlatformId}
+            csdVersion: {info.szCSDVersion}
+            servicePackMajor: {info.wServicePackMajor}
+            servicePackMinor: {info.wServicePackMinor}
+            suiteMask: {info.wSuiteMask}
+            productType: {info.wProductType}";*/
 		}
 
 

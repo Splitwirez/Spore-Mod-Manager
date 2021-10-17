@@ -25,4 +25,12 @@
       <LogicalName>ModManagerIcon.ico</LogicalName>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SporeMods.Launcher\SporeMods.Launcher.csproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\SporeMods.DragServant\SporeMods.DragServant.csproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

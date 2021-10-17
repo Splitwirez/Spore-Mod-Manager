@@ -485,15 +485,40 @@ Help {
 		#ADDED
 		ModAPIDLLsBuild Spore ModAPI Core DLLs build
 		#ADDED
-		SporeAppVersion Spore executable version
+		SporeAppVersion {
+			#ADDED
+			Header Spore executable version
+
+			#ADDED
+			ExeType {
+				#ADDED
+				Disk__1_5_1 Disk (Patch 1.5.1)
+				#ADDED
+				Origin__1_5_1 Origin (Patch 1.5.1)
+				#ADDED
+				Origin__March2017 Origin (March 2017 Patch)
+				#ADDED
+				GogOrSteam__1_5_1 GOG/Steam (Patch 1.5.1)
+				#ADDED
+				GogOrSteam__March2017 GOG/Steam (March 2017 Patch)
+				#ADDED
+				None Unknown
+			}
+		}
 		#ADDED
-		ReportedWindowsVersion Reported Windows version
+		EnvOSVersionWindowsVersion Windows version reported by .NET API
+		#ADDED
+		RtlGetVersionWindowsVersion Windows version reported by RtlGetVersion
+		#ADDED
+		RtlGetVersionServicePack Windows Service pack
+		#ADDED
+		RtlGetVersionOther Additional details from RtlGetVersion
 		#ADDED
 		WINEVersion {
 			#ADDED
 			Header WINE version
 			#ADDED
-			NoneReturned None returned
+			NoneReturned None returned (probably running on actual Windows)
 		}
 
 		#ADDED

@@ -22,4 +22,9 @@
     <ProjectReference Include="..\SporeMods.CommonUI\SporeMods.CommonUI.csproj"/>
     <ProjectReference Include="..\SporeMods.Core\SporeMods.Core.csproj"/>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SporeMods.Manager\SporeMods.Manager.csproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
