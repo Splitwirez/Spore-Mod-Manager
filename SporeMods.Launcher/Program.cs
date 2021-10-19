@@ -141,7 +141,7 @@ namespace SporeMods.Launcher
 
 			if (CommonUI.VersionValidation.IsConfigVersionCompatible(false, out Version previousModMgrVersion))
 			{
-				if (ServantCommands.RunLkImporter() == null)
+				if (CommonUI.UACPartnerCommands.RunLkImporter() == null)
 				{
 					if (programArgs.Any(x => x == SporeLauncher.EXTRACT_ORIGIN_PREREQ))
 					{

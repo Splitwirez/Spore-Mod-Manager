@@ -36,7 +36,10 @@ namespace SporeMods.CommonUI
 				}
 
 				if (killAfter)
+                {
+					UACPartnerCommands.CloseOtherPartnerProcess();
 					Process.GetCurrentProcess().Close();
+				}
 			}
 		}
 

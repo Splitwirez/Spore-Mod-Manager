@@ -16,7 +16,7 @@
         <Style x:Key="DiagInfoRow" TargetType="{x:Type HeaderedContentControl}">
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate>
+                    <ControlTemplate TargetType="{x:Type HeaderedContentControl}">
                         <DockPanel>
                             <ContentPresenter ContentSource="Header"
                                     Width="200"

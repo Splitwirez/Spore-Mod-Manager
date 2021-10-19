@@ -26,17 +26,9 @@ namespace SporeMods.CommonUI
 
 		public static void OpenUrl(string url)
 		{
-			string servantNoticePath = Path.Combine(Settings.TempFolderPath, "OpenUrl");
-			if (Permissions.IsAdministrator() && (ServantCommands.HasDragServant))
+			if (UACPartnerCommands.IsUACAdminPartnerProcess)
 			{
-				try
-				{
-					if (File.Exists(servantNoticePath))
-						File.Delete(servantNoticePath);
-				}
-				catch { }
-
-				File.WriteAllText(servantNoticePath, url);
+				UACPartnerCommands.OpenUrl(url);
 			}
 			else
 			{

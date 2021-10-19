@@ -13,42 +13,48 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace SporeMods.Manager
 {
 	/// <summary>
 	/// Interaction logic for App.xaml
 	/// </summary>
-	public partial class App : Application
+	public partial class App : SmmApp
 	{
-		//public static Process DragServantProcess = null;
+		protected override bool ShouldRerunAsAdministrator()
+			=> true;
+		protected override bool ShouldEnsureUACPartner()
+			=> true;
+
+
+		protected override void FinishStartup(bool isAdmin)
+		{
+			if (isAdmin)
+			{
+				//TODO: Implement this stuff correctly
+				Core.ModTransactions.Operations.ValidateModOp.InstallingExperimentalMod += s => true;
+				Core.ModTransactions.Operations.ValidateModOp.InstallingRequiresGalaxyResetMod += s => true;
+				Core.ModTransactions.Operations.ValidateModOp.InstallingSaveDataDependencyMod += s => true;
+				Core.ModTransactions.ModTransactionManager.UninstallingSaveDataDependencyMod += m => true;
+
+				MainWindow = new MainView();
+				MainWindow.Show();
+			}
+			else
+				UACPartnerCommands.WatchForPartnerSignals = true;
+		}
+
 		
-		public App()
-		{
-			AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-			DispatcherUnhandledException += App_DispatcherUnhandledException;
-		}
 
-		private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
-		{
-			App_Exit(this, null);
-			CUIMsg.ShowException(e.Exception);
-		}
-
-		private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-		{
-			App_Exit(this, null);
-			if (e.ExceptionObject is Exception exc)
-				CUIMsg.ShowException(exc);
-		}
-
+#if NO
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			CUIMsg.EnsureConsole();
 
 			if (Settings.ForceSoftwareRendering)
 				RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
-			
+
 			Externals.SpecifyFuncCommandType(typeof(FuncCommand<>));
 			/*CrossProcess.CREATE_FUNC_COMMAND = (t, e, ce) =>
 			{
@@ -78,7 +84,7 @@ namespace SporeMods.Manager
 
 			if (CommonUI.VersionValidation.IsConfigVersionCompatible(true, out Version previousModMgrVersion))
 			{
-				if (ServantCommands.RunLkImporter() == null)
+				if (CrossProcessCommands.RunLkImporter() == null)
 				{
 					//Process dragServant = null;
 
@@ -114,9 +120,11 @@ namespace SporeMods.Manager
 						//Permissions.ForwardDotnetEnvironmentVariables(ref dragServantStartInfo);
 						Process p = Process.Start(dragServantStartInfo);*/
 						string args = Permissions.GetProcessCommandLineArgs();
-						args += $" {ServantCommands.CreateDragServant()}";
+
+						var dragServant = CrossProcessCommands.CreateDragServant();
+						args += $" {dragServant}";
 						
-						while (!ServantCommands.DragWindowHwndSent)
+						while (!CrossProcessCommands.DragWindowHwndSent)
 						{ }
 
 						if (!Environment.GetCommandLineArgs().Contains(UpdaterService.IgnoreUpdatesArg))
@@ -139,15 +147,15 @@ namespace SporeMods.Manager
 					}
 					else// if (Permissions.IsAdministrator())
 					{
-						ServantCommands.LocateDragServant();
+						CrossProcessCommands.LocateDragServant();
 
 						bool proceed = true;
 
-						if (!ServantCommands.HasDragServant)
+						if (!CrossProcessCommands.HasDragServant)
 						{
 							
 						}
-						else if (Permissions.IsAtleastWindowsVista() && (!ServantCommands.HasDragServant))
+						else if (Permissions.IsAtleastWindowsVista() && (!CrossProcessCommands.HasDragServant))
 						{
 							proceed = false;
 							if (Settings.NonEssentialIsRunningUnderWine)
@@ -155,7 +163,7 @@ namespace SporeMods.Manager
 							else if (MessageBox.Show(LanguageManager.Instance.GetLocalizedText("DontRunAsAdmin").Replace("%APPNAME%", "Spore Mod Manager"), String.Empty, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
 								proceed = true;
 						}
-						else if ((!Permissions.IsAtleastWindowsVista()) && (!ServantCommands.HasDragServant))
+						else if ((!Permissions.IsAtleastWindowsVista()) && (!CrossProcessCommands.HasDragServant))
 						{
 							/*var dragServantStartInfo = new ProcessStartInfo(Path.Combine(Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).ToString(), "SporeMods.DragServant.exe"))
 							{
@@ -186,7 +194,7 @@ namespace SporeMods.Manager
 								DefaultValue = Application.Current.FindResource(typeof(Window))
 							});
 
-							if (ServantCommands.TryGetDragServantHwnd(out IntPtr dragWindow))
+							if (CrossProcessCommands.TryGetDragServantHwnd(out IntPtr dragWindow))
 								NativeMethods.ShowWindow(dragWindow, 0);
                             
 							MainWindow = new MainView();
@@ -200,11 +208,6 @@ namespace SporeMods.Manager
 				}
 			}
 		}
-
-		private void App_Exit(object sender, ExitEventArgs e)
-		{
-			if (ServantCommands.HasDragServant)
-				ServantCommands.CloseDragServant();
-		}
+#endif
 	}
 }

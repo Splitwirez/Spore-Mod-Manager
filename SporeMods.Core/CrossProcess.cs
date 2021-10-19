@@ -13,8 +13,8 @@ namespace SporeMods.Core
 		public const string IMPORTER_EXE = "xLauncherKitImport";
 
 		static string SmmBinPath => Settings.ManagerInstallLocationPath;
-		public static Process StartLauncher(string args = null, bool runAsAdmin = false) =>
-			RunExecutable(LAUNCHER_EXE, args, runAsAdmin);
+		public static Process StartLauncher(string args = null, bool runAsAdmin = false)
+			=> RunExecutable(LAUNCHER_EXE, args, runAsAdmin);
 
 
 		public static void RestartModManagerAsAdministrator(string args = null)

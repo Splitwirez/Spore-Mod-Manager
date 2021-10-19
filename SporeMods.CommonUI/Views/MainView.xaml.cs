@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -30,5 +31,16 @@ namespace SporeMods.Views
         {
             InitializeComponent();
         }
-	}
+
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+
+            if (UACPartnerCommands.TryGetPartnerDragWindowHwnd(out IntPtr hWnd) && UACPartnerCommands.TryShowHidePartnerDragWindow(true))
+            {
+                NativeMethods.SetParent(hWnd, new WindowInteropHelper(this).EnsureHandle());
+                //UACPartnerCommands.TryShowHideDragServantWindow(false);
+            }
+        }
+    }
 }

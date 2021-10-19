@@ -134,8 +134,8 @@ namespace SporeMods.ViewModels
 			{
 				if (CanLaunchSpore)
 				{
-					if (Permissions.IsAtleastWindowsVista() && Permissions.IsAdministrator() && ServantCommands.HasDragServant)
-						ServantCommands.RunLauncher();
+					if (Permissions.IsAtleastWindowsVista() && Permissions.IsAdministrator() && UACPartnerCommands.HasUACPartnership)
+						UACPartnerCommands.RunLauncher();
 					else// if (!Permissions.IsAdministrator())
 						CrossProcess.StartLauncher();
 

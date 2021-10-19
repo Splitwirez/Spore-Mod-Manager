@@ -38,7 +38,7 @@ namespace SporeMods.Views
         {
             InitializeComponent();
 
-			bool hasServant = ServantCommands.HasDragServant;
+			bool hasServant = UACPartnerCommands.HasUACPartnership;
 			bool sober = (!Settings.NonEssentialIsRunningUnderWine);
 			if (hasServant || sober)
 			{
@@ -61,7 +61,7 @@ namespace SporeMods.Views
 					_ownerWindow = Window.GetWindow(this);
 					_ownerHwnd = new WindowInteropHelper(_ownerWindow).Handle;
 
-					if (ServantCommands.TryGetDragServantHwnd(out IntPtr servantHwnd))
+					if (UACPartnerCommands.TryGetPartnerDragWindowHwnd(out IntPtr servantHwnd))
 						_servantHwnd = servantHwnd;
 					if (IsWindow(_servantHwnd))
 					{
@@ -82,8 +82,8 @@ namespace SporeMods.Views
 						//SwpNoSize | 
 					}
 
-					ServantCommands.WatchForServantEvents = true;
-					ServantCommands.FilesDropped += DragServant_FilesDropped;
+					UACPartnerCommands.WatchForPartnerSignals = true;
+					UACPartnerCommands.FilesDropped += DragServant_FilesDropped;
 
                     //_ownerWindow.SizeChanged += OwnerWindow_SizeChanged;
                     //_ownerWindow.LayoutUpdated += OwnerWindow_LayoutUpdated;
@@ -97,7 +97,7 @@ namespace SporeMods.Views
 				if (IsWindow(_servantHwnd))
 					ShowWindow(_servantHwnd, 0);
 				
-				ServantCommands.FilesDropped -= DragServant_FilesDropped;
+				UACPartnerCommands.FilesDropped -= DragServant_FilesDropped;
 
 				//_ownerWindow.SizeChanged -= OwnerWindow_SizeChanged;
 				//_ownerWindow.SizeChanged -= OwnerWindow_LayoutUpdated;

@@ -35,7 +35,7 @@
       <DefineConstants Condition="Exists($(PBuildChannelOut)) And $(HasProcessedBuildChannel)">$(DefineConstants);SET_BUILD_CHANNEL</DefineConstants>
     </PropertyGroup-->
     <ItemGroup Condition="$(DefineConstants.Contains(SET_BUILD_CHANNEL))">
-      <EmbeddedResource Include="$(BuildChannel)" LogicalName="BuildChannel"/>
+      <EmbeddedResource Include="$(BuildChannel)" LogicalName="BuildChannel" />
     </ItemGroup>
   <ItemGroup>
 	  <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
