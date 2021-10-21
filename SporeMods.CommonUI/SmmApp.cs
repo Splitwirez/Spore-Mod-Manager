@@ -64,6 +64,11 @@ namespace SporeMods.CommonUI
 		protected virtual bool ShouldEnsureUACPartner()
 			=> false;
 
+		bool _prepareForUAC = false;
+
+		bool _isAdmin = Permissions.IsAdministrator();
+		bool _rerunAsAdmin = false;
+		bool _ensureUACPartner = false;
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			CUIMsg.EnsureConsole();
@@ -72,12 +77,22 @@ namespace SporeMods.CommonUI
 				RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
 
 			Externals.SpecifyFuncCommandType(typeof(FuncCommand<>));
-
-			CoreMsg.ErrorOccurred += (sender, args) =>
+			Externals.ProvideExtractOriginPrerequisitesFunc(VersionValidation.ExtractOriginPrerequisites);
+			try
 			{
-				CleanupForExit();
-				CUIMsg.ShowException(args.Exception);
+				Externals.SpecifyNeedsPrerequisitesExtracted(VersionValidation.NeedsPrerequisitesExtracted);
+			}
+			catch (Exception ex)
+			{
+				Externals.SpecifyNeedsPrerequisitesExtracted(true);
+			}
+
+			CoreMsg.ErrorOccurred += (sneder, args) =>
+			{
+				if (OnErrorOccurred(sneder, args))
+					CleanupForExit();
 			};
+
 			CoreMsg.MessageBoxShown += (sneder, args) => Dispatcher.BeginInvoke(new Action(() => CUIMsg.ShowMessageBox(args.Content, args.Title)));
 			CoreMsg.DebugMessageSent += (sneder, args) => Dispatcher.BeginInvoke(new Action(() => CUIMsg.ShowMessageBox(args.Content, args.Title)));
 
@@ -87,9 +102,15 @@ namespace SporeMods.CommonUI
 
 			Settings.EnsureDllsAreExtracted();
 			Settings.ManagerInstallLocationPath = Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).ToString();
-			CommonUI.Updater.CheckForUpdates();
-
+			
 			Exit += (s, e) => CleanupForExit();
+
+			if (!CrossProcess.AreAnyOtherSmmProcessesRunning)
+				CommonUI.Updater.CheckForUpdates();
+
+
+			_rerunAsAdmin = ShouldRerunAsAdministrator();
+			_ensureUACPartner = ShouldEnsureUACPartner();
 
 
 			if (CommonUI.VersionValidation.IsConfigVersionCompatible(true, out Version previousModMgrVersion))
@@ -98,15 +119,15 @@ namespace SporeMods.CommonUI
 				{
 					try
 					{
-						bool isAdmin = Permissions.IsAdministrator();
-						bool rerunAsAdmin = ShouldRerunAsAdministrator();
-						bool ensureUACPartner = ShouldEnsureUACPartner();
+						if ((!_rerunAsAdmin) || (!_isAdmin))
+							VersionValidation.WarnIfMissingOriginPrerequisites(); //Path.Combine(new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).Directory.FullName, "Launch Spore.dll"));
 
-
-						if (rerunAsAdmin) // && EnsureUACPartner())
-							DoFinishStartup(e, UACPartnerCommands.PrepareAppForUAC(ensureUACPartner, true));
-						else
-							DoFinishStartup(e, false);
+						bool finishStartupIsAdmin = _isAdmin;
+						
+						if (_rerunAsAdmin)
+							finishStartupIsAdmin = UACPartnerCommands.PrepareAppForUAC(_ensureUACPartner, true);
+						
+						DoFinishStartup(e, finishStartupIsAdmin);
 					}
 					catch (Exception ex)
 					{
@@ -119,8 +140,6 @@ namespace SporeMods.CommonUI
 
 		void DoFinishStartup(StartupEventArgs e, bool isAdmin)
         {
-			VersionValidation.WarnIfMissingOriginPrerequisites(Path.Combine(new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).Directory.FullName, "Launch Spore.dll"));
-
 			ShutdownMode = ShutdownMode.OnLastWindowClose;
 			base.OnStartup(e);
 
@@ -133,6 +152,12 @@ namespace SporeMods.CommonUI
 		public virtual void CleanupForExit()
 		{
 			UACPartnerCommands.CloseOtherPartnerProcess();
+		}
+
+		protected virtual bool OnErrorOccurred(object sender, Core.ErrorEventArgs e)
+        {
+			CUIMsg.ShowException(e.Exception, false);
+			return true;
 		}
 	}
 }

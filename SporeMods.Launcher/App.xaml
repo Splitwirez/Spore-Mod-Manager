@@ -1,0 +1,17 @@
+﻿<cui:SmmApp x:Class="SporeMods.Launcher.App"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:local="clr-namespace:SporeMods.Launcher"
+			 xmlns:cui="clr-namespace:SporeMods.CommonUI;assembly=SporeMods.CommonUI"
+			 xmlns:shale="clr-namespace:SporeMods.CommonUI.Themes.Shale;assembly=SporeMods.CommonUI">
+	<Application.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+                <!--ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Shale.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Smm/SmmLight.xaml"/>
+				<ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/ShaleSmm.xaml"/-->
+				<shale:GetShaleAccent>Sky</shale:GetShaleAccent>
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</Application.Resources>
+</cui:SmmApp>

@@ -14,7 +14,7 @@ namespace SporeMods.Core.Injection
 		public static void InjectDLL(PROCESS_INFORMATION pi, string dllPath)
 		{
 			Console.WriteLine("Injecting: " + dllPath);
-			IntPtr retLib = NativeMethods.GetProcAddress(NativeMethods.GetModuleHandle("kernel32.dll"), "LoadLibraryW");
+			IntPtr retLib = NativeMethodsInj.GetProcAddress(NativeMethodsInj.GetModuleHandle("kernel32.dll"), "LoadLibraryW");
 
 			if (retLib == IntPtr.Zero)
 			{
@@ -22,10 +22,10 @@ namespace SporeMods.Core.Injection
 			}
 			/*IntPtr hProc;
 			if (Program.processHandle == IntPtr.Zero)*/
-			IntPtr hProc = NativeMethods.OpenProcess(NativeMethods.AccessRequired, false, pi.dwProcessId); //Open the process with all access
+			IntPtr hProc = NativeMethodsInj.OpenProcess(NativeMethodsInj.AccessRequired, false, pi.dwProcessId); //Open the process with all access
 			if (hProc != IntPtr.Zero)
 			{// Allocate memory to hold the path to the DLL file in the process' memory
-				IntPtr objPtr = NativeMethods.VirtualAllocEx(hProc, IntPtr.Zero, (uint)dllPath.Length + 1, AllocationType.Commit, MemoryProtection.ReadWrite);
+				IntPtr objPtr = NativeMethodsInj.VirtualAllocEx(hProc, IntPtr.Zero, (uint)dllPath.Length + 1, AllocationType.Commit, MemoryProtection.ReadWrite);
 				if (objPtr == IntPtr.Zero)
 				{
 					int lastError = System.Runtime.InteropServices.Marshal.GetLastWin32Error();
@@ -45,7 +45,7 @@ namespace SporeMods.Core.Injection
 
 				UIntPtr numBytesWritten;
 				MessageDisplay.DebugShowMessageBox("Beginning WriteProcessMemory");
-				bool writeProcessMemoryOutput = NativeMethods.WriteProcessMemory(hProc, objPtr, bytes, (uint)bytes.Length, out numBytesWritten);
+				bool writeProcessMemoryOutput = NativeMethodsInj.WriteProcessMemory(hProc, objPtr, bytes, (uint)bytes.Length, out numBytesWritten);
 				if (!writeProcessMemoryOutput || numBytesWritten.ToUInt32() != bytes.Length)
 				{
 					SporeLauncher.ThrowWin32Exception("Write process memory failed.");
@@ -54,12 +54,12 @@ namespace SporeMods.Core.Injection
 
 				// Create a remote thread that begins at the LoadLibrary function and is passed as memory pointer
 				IntPtr lpThreadId;
-				IntPtr hRemoteThread = NativeMethods.CreateRemoteThread(hProc, IntPtr.Zero, 0, retLib, objPtr, 0, out lpThreadId);
+				IntPtr hRemoteThread = NativeMethodsInj.CreateRemoteThread(hProc, IntPtr.Zero, 0, retLib, objPtr, 0, out lpThreadId);
 
 				// Wait for the thread to finish
 				if (hRemoteThread != IntPtr.Zero)
 				{
-					if (NativeMethods.WaitForSingleObject(hRemoteThread, MAXWAIT) == WAIT_TIMEOUT)
+					if (NativeMethodsInj.WaitForSingleObject(hRemoteThread, MAXWAIT) == WAIT_TIMEOUT)
 					{
 						//throw new InjectException("Wait for single object failed.");
 						SporeLauncher.ThrowWin32Exception("Wait for single object failed. This usually occurs if something has become stuck during injection, or if another error was left open for too long.");
@@ -73,9 +73,9 @@ namespace SporeMods.Core.Injection
 					throw new System.ComponentModel.Win32Exception(lastError);
 				}
 
-				NativeMethods.VirtualFreeEx(hProc, objPtr, (uint)bytes.Length, AllocationType.Release);
+				NativeMethodsInj.VirtualFreeEx(hProc, objPtr, (uint)bytes.Length, AllocationType.Release);
 
-				NativeMethods.CloseHandle(hProc);
+				NativeMethodsInj.CloseHandle(hProc);
 			}
 			else
 			{

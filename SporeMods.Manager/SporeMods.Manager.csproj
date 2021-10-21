@@ -1,24 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-  <!--aImport Project="..\SporeMods.SharedAssemblyInfo.props" />
-  <Import Project="..\SporeMods.NetCoreSharedAssemblyInfo.props" /-->
   <Import Project="..\build\Target.App.props" />
   <PropertyGroup>
-    <!--aOutputType>WinExe</OutputType>
-    <UseWPF>true</UseWPF-->
     <AssemblyTitle>SporeMods.Manager</AssemblyTitle>
     <Product>SporeMods.Manager</Product>
+  </PropertyGroup>
+  <PropertyGroup>
     <ApplicationIcon>..\AppIcons\ModManagerIcon.ico</ApplicationIcon>
     <AssemblyName>Spore Mod Manager</AssemblyName>
   </PropertyGroup>
-  <!--aImport Project="..\SporeMods.SharedOutputDirs.props" /-->
   <PropertyGroup>
     <StartupObject></StartupObject>
   </PropertyGroup>
-  <!--aItemGroup>
-    <ProjectReference Include="..\SporeMods.CommonUI\SporeMods.CommonUI.csproj"/>
-    <ProjectReference Include="..\SporeMods.Core\SporeMods.Core.csproj"/>
-  </ItemGroup-->
   <ItemGroup>
     <Content Include="..\AppIcons\ModManagerIcon.ico">
       <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>

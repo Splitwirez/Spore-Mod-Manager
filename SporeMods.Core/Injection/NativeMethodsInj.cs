@@ -106,7 +106,7 @@ namespace SporeMods.Core.Injection
 		DIRECT_IMPERSONATION = (0x0200)
 	}
 
-	public class NativeMethods
+	public class NativeMethodsInj
 	{
 		//[DllImport("kernel32.dll", SetLastError = true)]
 		//public static extern IntPtr CreateRemoteThread(IntPtr hProcess, IntPtr lpThreadAttributes, uint dwStackSize, 

@@ -21,7 +21,7 @@ namespace SporeMods.Core
 	{
 		public static string UpdaterPath => Path.Combine(Settings.TempFolderPath, "smmUpdater.exe"); //"SporeModManagerSetup.exe");
 
-		public static readonly string IgnoreUpdatesArg = "-ignoreUpdates";
+		public const string IGNORE_UPDATES_ARG = "--no-update-check";
 
 		private static readonly string GITHUB_API_URL = "https://api.github.com";
 

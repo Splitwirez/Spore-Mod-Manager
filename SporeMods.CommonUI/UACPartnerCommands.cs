@@ -93,23 +93,24 @@ namespace SporeMods.CommonUI
 				}
 				else
 				{
+					string args = Permissions.GetProcessCommandLineArgs() + " " + UpdaterService.IGNORE_UPDATES_ARG;
+					
 					if (wantsPartnership)
 					{
 						UACLimitedPartnerDragWindow window = new UACLimitedPartnerDragWindow();
 						SmmApp.Current.DragWindow = window;
 						window.Show();
 
-						string args = Permissions.GetProcessCommandLineArgs();
-
 						args += " " + LIMITED_PARTNER_PID_ARG + Process.GetCurrentProcess().Id;
 						args += " " + DRAG_HWND_ARG + new WindowInteropHelper(window).EnsureHandle();
+
 						window.Width = 0;
 						window.Height = 0;
 
 						_UACAdminPartnerProcess = Permissions.RerunAsAdministrator(args, false);
 					}
 					else
-						Permissions.RerunAsAdministrator(true);
+						Permissions.RerunAsAdministrator(args, true);
 
 					return false;
 				}

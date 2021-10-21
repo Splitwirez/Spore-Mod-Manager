@@ -27,7 +27,7 @@ namespace SporeMods.CommonUI
 				if (File.Exists(UpdaterService.UpdaterPath))
 					File.Delete(UpdaterService.UpdaterPath);
 
-				bool ignoreUpdates = Environment.GetCommandLineArgs().Contains(UpdaterService.IgnoreUpdatesArg);
+				bool ignoreUpdates = Environment.GetCommandLineArgs().Contains(UpdaterService.IGNORE_UPDATES_ARG);
 				if (!ignoreUpdates)
 				{
 					if ((!forceInstallUpdate) && (Settings.UpdatingMode == Settings.UpdatingModeType.Disabled))

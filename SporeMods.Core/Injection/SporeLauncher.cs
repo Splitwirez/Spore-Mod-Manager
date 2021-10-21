@@ -13,8 +13,6 @@ namespace SporeMods.Core.Injection
 	{
 		public static Func<string, string> GetLocalizedString = null;
 
-		public const string EXTRACT_ORIGIN_PREREQ = "--originFirstRun";
-
 		public static int CaptionHeight = -1;
 		public static IntPtr _processHandle = IntPtr.Zero;
 		private static bool _debugMode = File.Exists(Path.Combine(Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).ToString(), "debug.txt"));
@@ -32,6 +30,11 @@ namespace SporeMods.Core.Injection
 
 		//private string SporebinPath;
 		private static string _executablePath;
+		public static string ExecutablePath
+        {
+			get => _executablePath;
+
+		}
 		//private string SteamPath;
 		private static GameExecutableType _executableType = GameExecutableType.None;
 
@@ -40,6 +43,12 @@ namespace SporeMods.Core.Injection
 		private static PROCESS_INFORMATION _processInfo = new PROCESS_INFORMATION();
 
 		public static int CurrentError = 0;
+
+		static bool _needsOriginPrerequisites = false;
+		public static bool NeedsOriginPrerequisites
+        {
+			get => _needsOriginPrerequisites;
+        }
 
 		static void DeleteFolder(string path)
 		{
@@ -93,20 +102,18 @@ namespace SporeMods.Core.Injection
 							// get the correct executable path
 							_executablePath = Path.Combine(SporebinEP1, ExecutableFileNames[_executableType]);
 
-							bool isOriginExe = (_executableType == GameExecutableType.Origin__1_5_1) ||
-								(_executableType == GameExecutableType.Origin__March2017);
-							bool exeExists = File.Exists(_executablePath);
-							//MessageDisplay.ShowMessageBox($"NOT LOCALIZED:\nIs Origin EXE: {isOriginExe}\nEXE exists: {exeExists}");
-							if (isOriginExe && (!exeExists))
+							if ((_executableType == GameExecutableType.Origin__1_5_1) ||
+								(_executableType == GameExecutableType.Origin__March2017))
 							{
 								try
 								{
-									CrossProcess.StartLauncher(EXTRACT_ORIGIN_PREREQ, true).WaitForExit();
+									_needsOriginPrerequisites = Externals.NeedsPrerequisitesExtracted;
 								}
 								catch (Exception ex)
 								{
-									MessageDisplay.ShowMessageBox($"NOT LOCALIZED: couldn't start laucher:\n\n{ex}");
+									_needsOriginPrerequisites = true;
 								}
+								Externals.ExtractOriginPrerequisites();
 							}
 
 							string dllEnding = GetExecutableDllSuffix(_executableType);
@@ -308,10 +315,10 @@ namespace SporeMods.Core.Injection
 			// now pause all threads so we can inject; it's the equivalent to running in suspended state
 			foreach (ProcessThread pT in process.Threads)
 			{
-				IntPtr pOpenThread = NativeMethods.OpenThread(ThreadAccess.SUSPEND_RESUME, false, (uint)pT.Id);
+				IntPtr pOpenThread = NativeMethodsInj.OpenThread(ThreadAccess.SUSPEND_RESUME, false, (uint)pT.Id);
 				if (pOpenThread != IntPtr.Zero) //((pOpenThread != IntPtr.Zero) && (Injector.WaitForSingleObject(pOpenThread, 0) != WAIT_ABANDONED))
 				{
-					if (NativeMethods.SuspendThread(pOpenThread) == -1) //     r/therewasanattempt
+					if (NativeMethodsInj.SuspendThread(pOpenThread) == -1) //     r/therewasanattempt
 					{
 						ThrowWin32Exception("Thread suspend failed (NOT LOCALIZED)");
 					}
@@ -350,13 +357,13 @@ namespace SporeMods.Core.Injection
 				do
 				{
 					suspendCount = */
-				if (NativeMethods.ResumeThread(pOpenThread) == -1)
+				if (NativeMethodsInj.ResumeThread(pOpenThread) == -1)
 				{
 					ThrowWin32Exception("Thread resume failed (NOT LOCALIZED)");
 				}
 				//} while (suspendCount > 0);
 
-				NativeMethods.CloseHandle(pOpenThread);
+				NativeMethodsInj.CloseHandle(pOpenThread);
 
 			}
 
@@ -373,7 +380,7 @@ namespace SporeMods.Core.Injection
 			=> !Environment.GetCommandLineArgs().Any(x => x.Trim('"').Equals(Settings.LaunchSporeWithoutManagerOptions, StringComparison.OrdinalIgnoreCase));
 			//!((Environment.GetCommandLineArgs().Length > 1) && (Environment.GetCommandLineArgs()[1] == Settings.LaunchSporeWithoutManagerOptions)); //(!Environment.GetCommandLineArgs().Contains(UpdaterService.IgnoreUpdatesArg)) && (Environment.GetCommandLineArgs().Length > 1) && (Environment.GetCommandLineArgs()[1] == Settings.LaunchSporeWithoutManagerOptions))
 
-		static NativeMethods.MonitorInfoEx _monitor = new NativeMethods.MonitorInfoEx();
+		static NativeMethodsInj.MonitorInfoEx _monitor = new NativeMethodsInj.MonitorInfoEx();
 		static bool _monitorSelected = false;
 		static string GetGameCommandLineOptions()
 		{
@@ -391,8 +398,8 @@ namespace SporeMods.Core.Injection
 
 					string size = "-r:";
 
-					var monitors = NativeMethods.AllMonitors;
-					_monitor = NativeMethods.AllMonitors[0];
+					var monitors = NativeMethodsInj.AllMonitors;
+					_monitor = NativeMethodsInj.AllMonitors[0];
 					if (Settings.ForceWindowedMode == 2)
 					{
 						string prM = Settings.PreferredBorderlessMonitor;
@@ -693,7 +700,7 @@ namespace SporeMods.Core.Injection
 
 			MessageDisplay.DebugShowMessageBox("SporebinPath: " + GameInfo.SporebinEP1 + "\nExecutablePath: " + _executablePath + "\nCommand Line Options: " + GetGameCommandLineOptions());
 
-			if (!NativeMethods.CreateProcess(null, "\"" + _executablePath + "\" " + sb.ToString(), IntPtr.Zero, IntPtr.Zero, false, ProcessCreationFlags.CREATE_SUSPENDED, IntPtr.Zero, GameInfo.SporebinEP1, ref _startupInfo, out _processInfo))
+			if (!NativeMethodsInj.CreateProcess(null, "\"" + _executablePath + "\" " + sb.ToString(), IntPtr.Zero, IntPtr.Zero, false, ProcessCreationFlags.CREATE_SUSPENDED, IntPtr.Zero, GameInfo.SporebinEP1, ref _startupInfo, out _processInfo))
 			{
 				//throw new InjectException(Strings.ProcessNotStarted);
 				int lastError = System.Runtime.InteropServices.Marshal.GetLastWin32Error();
@@ -704,14 +711,14 @@ namespace SporeMods.Core.Injection
 
 		static void ResumeSporeProcess()
 		{
-			if (NativeMethods.ResumeThread(_processInfo.hThread) != 1)
+			if (NativeMethodsInj.ResumeThread(_processInfo.hThread) != 1)
 			{
 				/*throw new InjectException(Strings.ProcessNotResumed);*/
 				ThrowWin32Exception(GetLocalizedString("LauncherError!Process!Resume")); //ThrowWin32Exception(Strings.ProcessNotResumed);
 			}
 		}
 
-		static void EnableBorderless(int pid, NativeMethods.MonitorInfoEx monitor)
+		static void EnableBorderless(int pid, NativeMethodsInj.MonitorInfoEx monitor)
 		{
 			if (ShouldGenerateCommandLineOptions && Settings.ForceGameWindowingMode && (Settings.ForceWindowedMode == 2))
 			{
@@ -721,7 +728,7 @@ namespace SporeMods.Core.Injection
 				Debug.WriteLine("Before loop");
 
 				IntPtr spore = IntPtr.Zero;
-				while (!NativeMethods.IsWindow(spore)) //(spore == IntPtr.Zero) ||  //(!process.HasExited) && ((process.MainWindowHandle == IntPtr.Zero) || (!NativeMethods.IsWindow(process.MainWindowHandle))))
+				while (!NativeMethodsInj.IsWindow(spore)) //(spore == IntPtr.Zero) ||  //(!process.HasExited) && ((process.MainWindowHandle == IntPtr.Zero) || (!NativeMethods.IsWindow(process.MainWindowHandle))))
 				{
 					if (process.HasExited)
 						break;
@@ -729,15 +736,15 @@ namespace SporeMods.Core.Injection
 					spore = GetSporeMainWindow(pid);
 				}
 				Debug.WriteLine("After loop");
-				if (NativeMethods.IsWindow(spore)) //(!process.HasExited) && (process.MainWindowHandle != IntPtr.Zero) && NativeMethods.IsWindow(process.MainWindowHandle))
+				if (NativeMethodsInj.IsWindow(spore)) //(!process.HasExited) && (process.MainWindowHandle != IntPtr.Zero) && NativeMethods.IsWindow(process.MainWindowHandle))
 				{
 					Debug.WriteLine("process.MainWindowTitle: " + process.MainWindowTitle);
 					//var monitor = NativeMethods.AllMonitors[0];
 					//NativeMethods.SetWindowLong(win.Handle, NativeMethods.GwlExstyle, NativeMethods.GetWindowLong(win.Handle, NativeMethods.GwlExstyle).ToInt32() & ~NativeMethods.WsExNoActivate);
-					int winStyle = (Int32)NativeMethods.GetWindowLong(spore, NativeMethods.GwlStyle);
-					winStyle &= ~NativeMethods.WsBorder;
-					winStyle &= ~NativeMethods.WsCaption;
-					NativeMethods.SetWindowLong(spore, NativeMethods.GwlStyle, winStyle);
+					int winStyle = (Int32)NativeMethodsInj.GetWindowLong(spore, NativeMethodsInj.GwlStyle);
+					winStyle &= ~NativeMethodsInj.WsBorder;
+					winStyle &= ~NativeMethodsInj.WsCaption;
+					NativeMethodsInj.SetWindowLong(spore, NativeMethodsInj.GwlStyle, winStyle);
 
 					int x = monBounds.Left;
 					int y = monBounds.Top;
@@ -786,7 +793,7 @@ namespace SporeMods.Core.Injection
 						}*/
 					}
 
-					NativeMethods.SetWindowPos(spore, IntPtr.Zero, x, y, cx, cy, uFlags);
+					NativeMethodsInj.SetWindowPos(spore, IntPtr.Zero, x, y, cx, cy, uFlags);
 				}
 			}
 		}

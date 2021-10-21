@@ -56,4 +56,6 @@
     <EmbeddedResource Include="ModAPIDLLs\SporeModAPI.disk.dll" />
     <EmbeddedResource Include="ModAPIDLLs\SporeModAPI.march2017.dll" />
   </ItemGroup>
+  <Import Condition="Exists('..\..\ModAPIFix.props')" Project="..\..\ModAPIFix.props" />
+  <Import Condition="(!Exists('..\..\ModAPIFix.props')) AND Exists('..\..\..\ModAPIFix.props')" Project="..\..\..\ModAPIFix.props" />
 </Project>
