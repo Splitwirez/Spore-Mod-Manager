@@ -53,8 +53,8 @@ CALL :BUILDMAINPROJECTS
 
 dotnet publish .\SporeMods.Launcher %PUBLISHPARAMSFD%
 if errorlevel 1 GOTO FAIL
-dotnet publish .\SporeMods.DragServant %PUBLISHPARAMSFD%
-if errorlevel 1 GOTO FAIL
+::dotnet publish .\SporeMods.DragServant %PUBLISHPARAMSFD%
+::if errorlevel 1 GOTO FAIL
 dotnet publish .\SporeMods.Manager %PUBLISHPARAMSFD%
 if errorlevel 1 GOTO FAIL
 dotnet publish .\SporeMods.KitImporter %PUBLISHPARAMSFD%
@@ -125,8 +125,8 @@ exit errorlevel
 :BUILDMAINPROJECTS
 	dotnet publish .\SporeMods.Launcher %PUBLISHPARAMS%
 	if errorlevel 1 GOTO FAIL
-	dotnet publish .\SporeMods.DragServant %PUBLISHPARAMS%
-	if errorlevel 1 GOTO FAIL
+	::dotnet publish .\SporeMods.DragServant %PUBLISHPARAMS%
+	::if errorlevel 1 GOTO FAIL
 	dotnet publish .\SporeMods.Manager %PUBLISHPARAMS%
 	if errorlevel 1 GOTO FAIL
 	dotnet publish .\SporeMods.KitImporter %PUBLISHPARAMS%
