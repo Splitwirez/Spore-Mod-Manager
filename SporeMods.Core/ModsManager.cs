@@ -11,7 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
-using SporeMods.Core.ModTransactions;
+//using SporeMods.Core.ModTransactions;
 using TTimer = System.Timers.Timer;
 
 namespace SporeMods.Core
@@ -296,7 +296,19 @@ namespace SporeMods.Core
 
 
 		// This must come last so it can initialize correctly
-		public static ModsManager Instance = new ModsManager();
+		static ModsManager _instance = null;
+		public static ModsManager Instance
+		{
+			get => _instance;
+		}
+
+		public static void Ensure()
+		{
+			if (_instance == null)
+				_instance = new ModsManager();
+		}
+
+
 		private ModsManager()
 		{
 

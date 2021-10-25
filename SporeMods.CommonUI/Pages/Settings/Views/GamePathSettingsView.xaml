@@ -13,16 +13,10 @@
     </UserControl.DataContext>
     <GroupBox Header="{DynamicResource Settings!Folders!Header}">
         <cui:StackPanelEx Orientation="Vertical" Spacing="{DynamicResource SettingsControlsVerticalSpacing}">
-            <!--TextBlock Text="Soon:tm: (PLACEHOLDER) (NOT LOCALIZED)" Visibility="Collapsed"/>
-            <TextBlock Text="{DynamicResource Settings!Folders!AutoGaData}"
-                   Style="{DynamicResource h3}"/-->
-            <v:GamePathView DataContext="{Binding GaData}"/>
-            <!--TextBlock Text="{DynamicResource Settings!Folders!AutoSporebinEp1}"
-                   Style="{DynamicResource h3}"/-->
+            <TextBlock Text="Control over game paths will be returning soon. I just need to finish cleaning that part of the code up... (PLACEHOLDER) (NOT LOCALIZED)"/>
+            <!--v:GamePathView DataContext="{Binding GaData}"/>
             <v:GamePathView DataContext="{Binding SporebinEp1}"/>
-            <!--TextBlock Text="{DynamicResource Settings!Folders!AutoCoreData}"
-                   Style="{DynamicResource h3}"/-->
-            <v:GamePathView DataContext="{Binding CoreData}"/>
+            <v:GamePathView DataContext="{Binding CoreData}"/-->
         </cui:StackPanelEx>
     </GroupBox>
 </UserControl>

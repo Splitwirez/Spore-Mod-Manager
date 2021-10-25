@@ -15,12 +15,16 @@ namespace SporeMods.CommonUI.Localization
 {
     public class LanguageManager : NotifyPropertyChangedBase
     {
-        public static LanguageManager Instance { get; private set; }
-
-        static LanguageManager()
+        static LanguageManager _instance = null;
+        public static LanguageManager Instance
         {
-            Instance = new LanguageManager();
-            Instance.FinishInit();
+            get => _instance;
+        }
+
+        public static void Ensure()
+        {
+            _instance = new LanguageManager();
+            _instance.FinishInit();
         }
 
         static Language _canadianEnglish = null;
@@ -126,7 +130,9 @@ namespace SporeMods.CommonUI.Localization
 
         string GetRoundedSystemLanguageIdentifier()
         {
-            string langCode = Settings.GetElementValue(_currentLanguageCode, CultureInfo.CurrentUICulture.Name.ToLowerInvariant());
+            string langCode = CultureInfo.CurrentUICulture.Name.ToLowerInvariant();
+            if (Settings.IsLoaded)
+                langCode = Settings.GetElementValue(_currentLanguageCode, langCode);
 
             var target = _availableLanguageCodes.FirstOrDefault(x => x.Equals(langCode, StringComparison.OrdinalIgnoreCase));
             

@@ -10,7 +10,7 @@
                 <!--ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Shale.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Smm/SmmLight.xaml"/>
 				<ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/ShaleSmm.xaml"/-->
-				<shale:GetShaleAccent>Sky</shale:GetShaleAccent>
+				<!--shale:GetShaleAccent>Sky</shale:GetShaleAccent-->
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</Application.Resources>

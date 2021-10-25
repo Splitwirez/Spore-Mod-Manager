@@ -31,7 +31,13 @@ namespace SporeMods.Core.ModTransactions
         private static readonly ThreadSafeObservableCollection<ModTransaction> _concludedTransactions = new ThreadSafeObservableCollection<ModTransaction>();
 
 
-        public static ModTransactionManager Instance { get; } = new ModTransactionManager();
+        static ModTransactionManager _instance = new ModTransactionManager();
+		public static ModTransactionManager Instance
+		{
+			get => _instance;
+		}
+
+
         private ModTransactionManager()
         { }
 

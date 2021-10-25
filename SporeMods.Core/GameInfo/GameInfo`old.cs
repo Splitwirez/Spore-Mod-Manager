@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿#if OLD_GAME_PATH_STUFF
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -691,3 +692,4 @@ namespace SporeMods.Core
 		}
 	}
 }
+#endif

@@ -49,14 +49,22 @@ namespace SporeMods.CommonUI
 		}
 
 
-		private void SetupThemeStuff()
+		private void SetupUIStuff(bool firstTime = false)
 		{
-			SporeMods.CommonUI.Themes.Shale.ShaleHelper.FlipLightSwitch(!Settings.ShaleDarkTheme);
-
-			FrameworkElement.StyleProperty.OverrideMetadata(typeof(Window), new FrameworkPropertyMetadata
+			bool lightsOn = true;
+			if (!firstTime)
+				lightsOn = Settings.IsLoaded ? (!Settings.ShaleDarkTheme) : true;
+			SporeMods.CommonUI.Themes.Shale.ShaleHelper.FlipLightSwitch(lightsOn);
+			
+			if (firstTime)
 			{
-				DefaultValue = Application.Current.FindResource(typeof(Window))
-			});
+				Resources.MergedDictionaries.Add(SporeMods.CommonUI.Themes.Shale.ShaleAccents.Sky);
+
+				FrameworkElement.StyleProperty.OverrideMetadata(typeof(Window), new FrameworkPropertyMetadata
+				{
+					DefaultValue = Application.Current.FindResource(typeof(Window))
+				});
+			}
 		}
 
 		protected virtual bool ShouldRerunAsAdministrator()
@@ -73,8 +81,7 @@ namespace SporeMods.CommonUI
 		{
 			CUIMsg.EnsureConsole();
 
-			if (Settings.ForceSoftwareRendering)
-				RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+			RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
 
 			Externals.SpecifyFuncCommandType(typeof(FuncCommand<>));
 			Externals.ProvideExtractOriginPrerequisitesFunc(VersionValidation.ExtractOriginPrerequisites);
@@ -97,8 +104,26 @@ namespace SporeMods.CommonUI
 			CoreMsg.DebugMessageSent += (sneder, args) => Dispatcher.BeginInvoke(new Action(() => CUIMsg.ShowMessageBox(args.Content, args.Title)));
 
 
-			var _ = LanguageManager.Instance;
-			SetupThemeStuff();
+			LanguageManager.Ensure();
+			SetupUIStuff(true);
+
+			Settings.Ensure();
+			if (!Settings.ForceSoftwareRendering)
+				RenderOptions.ProcessRenderMode = RenderMode.Default;
+			
+			SetupUIStuff();
+			
+			#if SMM_MORE
+			SporeAppPacks.Ensure();
+			#endif
+			//GameInfo.Ensure();
+			SteamInfo.Ensure();
+			
+			ModsManager.Ensure();
+			ModSearch.Ensure();
+			//SporeMods.Core.ModTransactions.ModTransactionManager.Ensure();
+
+			
 
 			Settings.EnsureDllsAreExtracted();
 			Settings.ManagerInstallLocationPath = Directory.GetParent(System.Reflection.Assembly.GetEntryAssembly().Location).ToString();

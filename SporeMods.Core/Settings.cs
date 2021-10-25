@@ -440,13 +440,19 @@ namespace SporeMods.Core
 			}
 		}
 
-		static string _settingsFilePath;
+		static string _settingsFilePath = null;
 		static XDocument _document;
 
-		static Settings()
+		public static void Ensure()
 		{
 			ReparseSettingsDoc();
 		}
+		
+		public static bool IsLoaded
+		{
+			get => (_document != null) ? (rootElement != null) : false;
+		}
+
 
 		public static void ReparseSettingsDoc()
         {
@@ -505,7 +511,7 @@ namespace SporeMods.Core
 
 		static XElement rootElement
 		{
-			get => (_document.Descendants("Settings").ToArray()[0] as XElement);
+			get => _document.Root; //(_document.Descendants("Settings").ToArray()[0] as XElement);
 		}
 
 		static string _tempFolderPath = Path.Combine(ProgramDataPath, "Temp");

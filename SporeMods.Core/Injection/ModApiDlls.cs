@@ -1,5 +1,4 @@
-﻿#if !OLD_GAME_PATH_STUFF
-using SporeMods.Core.Mods;
+﻿#if SMMM_MORE
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,9 +9,9 @@ using static SporeMods.Core.GameInfo;
 
 namespace SporeMods.Core.Injection
 {
-	public static class SporeLauncher
+	public static class ModApiDlls
 	{
-
+		
 	}
 }
 #endif

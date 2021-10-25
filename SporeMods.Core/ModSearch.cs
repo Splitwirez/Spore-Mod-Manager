@@ -25,7 +25,18 @@ namespace SporeMods.Core
 			}
 		}
 
-		public static ModSearch Instance = new ModSearch();
+		
+		static ModSearch _instance = null;
+		public static ModSearch Instance
+		{
+			get => _instance;
+		}
+
+		public static void Ensure()
+		{
+			if (_instance == null)
+				_instance = new ModSearch();
+		}
 		private ModSearch()
 		{
 			ModsManager.InstalledMods.CollectionChanged += (sender, args) =>

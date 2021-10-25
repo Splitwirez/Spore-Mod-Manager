@@ -9,7 +9,17 @@ namespace SporeMods.Core
 {
 	public class SteamInfo
 	{
-		public static SteamInfo Instance = new SteamInfo();
+		static SteamInfo _instance = null;
+		public static SteamInfo Instance
+		{
+			get => _instance;
+		}
+
+		public static void Ensure()
+		{
+			if (_instance == null)
+				_instance = new SteamInfo();
+		}
 
 		public static string MoveToSteam(string path, bool recursive = true)
 		{
