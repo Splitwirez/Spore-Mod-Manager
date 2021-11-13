@@ -125,12 +125,12 @@ namespace SporeMods.CommonUI
 
 		public static bool HasUACLimitedPartnerProcess
 		{
-			get => (_UACLimitedPartnerProcess != null) && (!_UACLimitedPartnerProcess.HasExited);
+			get => (_UACLimitedPartnerProcess != null) ? (!_UACLimitedPartnerProcess.HasExited) : false;
 		}
 
 		public static bool HasUACAdminPartnerProcess
 		{
-			get => (_UACAdminPartnerProcess != null) && (!_UACAdminPartnerProcess.HasExited);
+			get => (_UACAdminPartnerProcess != null) ? (!_UACAdminPartnerProcess.HasExited) : false;
 		}
 
 		public static bool HasUACPartnership

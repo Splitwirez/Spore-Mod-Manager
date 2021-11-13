@@ -88,7 +88,7 @@ namespace SporeMods.Launcher
 
 
 
-		Func<string, string> GetLocalizedString = CommonUI.Localization.LanguageManager.Instance.GetLocalizedText; 
+		Func<string, string> GetLocalizedString => CommonUI.Localization.LanguageManager.Instance.GetLocalizedText; 
 		
 		static IntPtr GetSporeMainWindow(int processId)
 		{

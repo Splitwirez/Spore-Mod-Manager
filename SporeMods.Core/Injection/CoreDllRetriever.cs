@@ -1,6 +1,4 @@
-﻿#if OLD_GAME_PATH_STUFF
-//using Ionic.Zip;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -132,4 +130,3 @@ namespace SporeMods.Core.Injection
 		}
 	}
 }
-#endif

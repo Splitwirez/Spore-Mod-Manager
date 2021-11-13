@@ -113,9 +113,6 @@ namespace SporeMods.CommonUI
 			
 			SetupUIStuff();
 			
-			#if SMM_MORE
-			SporeAppPacks.Ensure();
-			#endif
 			//GameInfo.Ensure();
 			SteamInfo.Ensure();
 			
