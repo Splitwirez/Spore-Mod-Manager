@@ -506,6 +506,10 @@ Help {
 			}
 		}
 		#ADDED
+		DotnetTarget Target .NET Runtime
+		#ADDED
+		DotnetRunningUnder Current .NET Runtime
+		#ADDED
 		EnvOSVersionWindowsVersion Windows version reported by .NET API
 		#ADDED
 		RtlGetVersionWindowsVersion Windows version reported by RtlGetVersion
