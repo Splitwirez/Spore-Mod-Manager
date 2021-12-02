@@ -85,14 +85,6 @@ namespace SporeMods.CommonUI
 
 			Externals.SpecifyFuncCommandType(typeof(FuncCommand<>));
 			Externals.ProvideExtractOriginPrerequisitesFunc(VersionValidation.ExtractOriginPrerequisites);
-			try
-			{
-				Externals.SpecifyNeedsPrerequisitesExtracted(VersionValidation.NeedsPrerequisitesExtracted);
-			}
-			catch (Exception ex)
-			{
-				Externals.SpecifyNeedsPrerequisitesExtracted(true);
-			}
 
 			CoreMsg.ErrorOccurred += (sneder, args) =>
 			{
@@ -110,7 +102,16 @@ namespace SporeMods.CommonUI
 			Settings.Ensure();
 			if (!Settings.ForceSoftwareRendering)
 				RenderOptions.ProcessRenderMode = RenderMode.Default;
-			
+
+			try
+			{
+				Externals.SpecifyNeedsPrerequisitesExtracted(VersionValidation.NeedsPrerequisitesExtracted);
+			}
+			catch (Exception ex)
+			{
+				Externals.SpecifyNeedsPrerequisitesExtracted(true);
+			}
+
 			SetupUIStuff();
 			
 			//GameInfo.Ensure();
