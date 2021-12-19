@@ -210,7 +210,7 @@ namespace SporeMods.Core.Injection
 			foreach (string s in Directory.EnumerateFiles(Settings.ModLibsPath).Where(x => (!Path.GetFileName(x).Equals(Path.GetFileName(coreDllOutPath), StringComparison.OrdinalIgnoreCase)) && x.ToLowerInvariant().EndsWith(".dll")))
 			{
 				string debugData = "Now injecting: " + s;
-				Console.WriteLine(debugData);
+				Cmd.WriteLine(debugData);
 				MessageDisplay.DebugShowMessageBox(debugData);
 				Injector.InjectDLL(_processInfo, s);
 			}
@@ -725,7 +725,7 @@ namespace SporeMods.Core.Injection
 				var monBounds = _monitor.rcMonitor;
 				//MessageDisplay.ShowMessageBox("_monitorSelected: " + _monitorSelected.ToString() + "\n_monitor.rcMonitor: " + $"{monBounds.Left},{monBounds.Top},{monBounds.Right},{monBounds.Bottom},,,{monBounds.Right - monBounds.Left},{monBounds.Bottom - monBounds.Top}");
 				Process process = Process.GetProcessById(pid);
-				Debug.WriteLine("Before loop");
+				Cmd.WriteLine("Before loop");
 
 				IntPtr spore = IntPtr.Zero;
 				while (!NativeMethodsInj.IsWindow(spore)) //(spore == IntPtr.Zero) ||  //(!process.HasExited) && ((process.MainWindowHandle == IntPtr.Zero) || (!NativeMethods.IsWindow(process.MainWindowHandle))))
@@ -735,10 +735,10 @@ namespace SporeMods.Core.Injection
 
 					spore = GetSporeMainWindow(pid);
 				}
-				Debug.WriteLine("After loop");
+				Cmd.WriteLine("After loop");
 				if (NativeMethodsInj.IsWindow(spore)) //(!process.HasExited) && (process.MainWindowHandle != IntPtr.Zero) && NativeMethods.IsWindow(process.MainWindowHandle))
 				{
-					Debug.WriteLine("process.MainWindowTitle: " + process.MainWindowTitle);
+					Cmd.WriteLine("process.MainWindowTitle: " + process.MainWindowTitle);
 					//var monitor = NativeMethods.AllMonitors[0];
 					//NativeMethods.SetWindowLong(win.Handle, NativeMethods.GwlExstyle, NativeMethods.GetWindowLong(win.Handle, NativeMethods.GwlExstyle).ToInt32() & ~NativeMethods.WsExNoActivate);
 					int winStyle = (Int32)NativeMethodsInj.GetWindowLong(spore, NativeMethodsInj.GwlStyle);

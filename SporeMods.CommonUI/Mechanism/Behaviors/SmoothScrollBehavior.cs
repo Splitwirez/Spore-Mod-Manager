@@ -31,7 +31,7 @@ namespace SporeMods.CommonUI
         
         public static void OnVerticalSmoothingPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            //Console.WriteLine($"Smoothing to {e.NewValue}");
+            //Cmd.WriteLine($"Smoothing to {e.NewValue}");
             ((SmoothScrollBehavior)d)._currentVerticalSmoothing = (double)(e.NewValue);
         }
 
@@ -122,7 +122,7 @@ namespace SporeMods.CommonUI
         void WhenAnimationCompleted(object sender, EventArgs e)
         {
             _verticalAnimations.RemoveAt(0);
-            Console.WriteLine($"Completed: {_verticalAnimations.Count}");
+            Cmd.WriteLine($"Completed: {_verticalAnimations.Count}");
             
             if (_verticalAnimations.Count <= 0)
             {
@@ -141,13 +141,13 @@ namespace SporeMods.CommonUI
             
             double percentage = 1 - Math.Min(Math.Max(0, _animTimeRemainingMs / _animDurationMs), 1);
             double easedPercentage = _currentEasing.Ease(percentage);
-            //Console.WriteLine("percentage: " + percentage + "; \teasedPercentage: " + easedPercentage);
+            //Cmd.WriteLine("percentage: " + percentage + "; \teasedPercentage: " + easedPercentage);
 
             _currentVerticalOffset = _animStartVerticalOffset + (totalDistanceY * easedPercentage);
 
             _viewer.ScrollToVerticalOffset(_currentVerticalOffset);
             //_animTimeRemainingMs--;
-            //Console.WriteLine("_animTimeRemaining: " + _animTimeRemaining);
+            //Cmd.WriteLine("_animTimeRemaining: " + _animTimeRemaining);
             
             //_currentVerticalSmoothing = _currentVerticalOffset;
             

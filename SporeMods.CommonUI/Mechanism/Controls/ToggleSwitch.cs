@@ -7,6 +7,8 @@ using System.Windows.Input;
 using System.Windows.Media.Animation;
 using SporeMods.CommonUI;
 
+using Cmd = SporeMods.Core.Cmd;
+
 namespace SporeMods.CommonUI
 {
     [TemplatePart(Name = PartGrip, Type = typeof(Button))]
@@ -103,7 +105,7 @@ namespace SporeMods.CommonUI
             else
                 widthValue = gripContainerWidth - gripWidth;
 
-            Debug.WriteLine("ToggleSwitch OffsetterWidth: " + widthValue);
+            Cmd.WriteLine("ToggleSwitch OffsetterWidth: " + widthValue);
             return widthValue;
         }
 
@@ -158,7 +160,7 @@ namespace SporeMods.CommonUI
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("TOGGLESWITCH ONISCHECKEDCHANGED FAILED: " + ex);
+                Cmd.WriteLine("TOGGLESWITCH ONISCHECKEDCHANGED FAILED: " + ex);
             }
         }
 
@@ -236,7 +238,7 @@ namespace SporeMods.CommonUI
                         cursorChange = (cursorCurrentX - cursorStartX);
 
                         offset = cursorChange + (gripX - toggleX);
-                        ////Debug.WriteLine(cursorChange.ToString() + "," + offset.ToString());
+                        ////Cmd.WriteLine(cursorChange.ToString() + "," + offset.ToString());
 
                         if ((cursorChange > 2) | (cursorChange < -2))
                         {

@@ -19,7 +19,7 @@ namespace SporeMods.ViewModels
 			get => _isSearching;
 			set
 			{
-				Console.WriteLine($"IsSearching: {value}");
+				Cmd.WriteLine($"IsSearching: {value}");
 				_isSearching = Search(value, SearchQuery) ? value : false;
 				NotifyPropertyChanged();
 
@@ -106,9 +106,9 @@ namespace SporeMods.ViewModels
 			ModsManager.InstalledMods.CollectionChanged += (_, __) => RefreshColumns();
 			IInstalledMod.AnyModStatusChanged += (_, __) =>
 			{
-				Console.WriteLine("Status changed!");
+				Cmd.WriteLine("Status changed!");
 				RefreshColumns();
-				Console.WriteLine($"AnyHasProgressSignifier: {AnyHasProgressSignifier}");
+				Cmd.WriteLine($"AnyHasProgressSignifier: {AnyHasProgressSignifier}");
 			};
 			ModTransactionManager.Instance.AllTasksConcluded += _ => RefreshColumns();
 			

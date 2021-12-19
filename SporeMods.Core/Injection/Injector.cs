@@ -13,7 +13,7 @@ namespace SporeMods.Core.Injection
 
 		public static void InjectDLL(PROCESS_INFORMATION pi, string dllPath)
 		{
-			Console.WriteLine("Injecting: " + dllPath);
+			Cmd.WriteLine("Injecting: " + dllPath);
 			IntPtr retLib = NativeMethodsInj.GetProcAddress(NativeMethodsInj.GetModuleHandle("kernel32.dll"), "LoadLibraryW");
 
 			if (retLib == IntPtr.Zero)

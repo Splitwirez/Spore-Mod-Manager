@@ -15,7 +15,7 @@ namespace SporeMods.Core
 		
 		public static async Task<T> Show<T>(IModalViewModel<T> vm)
 		{
-			Console.WriteLine($"Modal \'{vm.ToString()}\' added to queue.");
+			Cmd.WriteLine($"Modal \'{vm.ToString()}\' added to queue.");
 			var task = vm.CompletionSource.Task;
 			AddToQueue(new ModalShownEventArgs(vm, task));
 			return await task;
@@ -52,9 +52,9 @@ namespace SporeMods.Core
 					
 					_modalShown?.Invoke(null, _current);
 					//string modalStr = $"\'{_current.ViewModel.ToString()}\'";
-					//Console.WriteLine($"Showing modal {modalStr}...");
+					//Cmd.WriteLine($"Showing modal {modalStr}...");
 					await _current.Task;
-					//Console.WriteLine($"...done with {modalStr}.");
+					//Cmd.WriteLine($"...done with {modalStr}.");
 					_modals.Remove(_current);
 					_current = null;
 					_modalShown?.Invoke(null, null);

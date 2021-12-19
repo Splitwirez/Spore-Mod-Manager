@@ -18,7 +18,7 @@ namespace SporeMods.CommonUI
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var curves = (CornerCurves)value;
-            //Debug.WriteLine("curves.TopLeft: " + curves.TopLeft.ToString());
+            //Cmd.WriteLine("curves.TopLeft: " + curves.TopLeft.ToString());
 
             string[] param0 = parameter.ToString().Split(';');
 
@@ -45,18 +45,18 @@ namespace SporeMods.CommonUI
             if (!curves.BottomLeft)
                 bottomLeft = falseRadius.BottomLeft;
 
-            /*Debug.WriteLine("curves: " + curves.TopLeft + ", " + curves.TopRight + ", " + curves.BottomRight + ", " + curves.BottomLeft);
-            Debug.WriteLine("param1: ");
+            /*Cmd.WriteLine("curves: " + curves.TopLeft + ", " + curves.TopRight + ", " + curves.BottomRight + ", " + curves.BottomLeft);
+            Cmd.WriteLine("param1: ");
             for (int i = 0; i < param1.Count(); i++)
             {
-                Debug.WriteLine(i.ToString() + ": " + param1[i]);
+                Cmd.WriteLine(i.ToString() + ": " + param1[i]);
             }
-            Debug.WriteLine("param2: ");
+            Cmd.WriteLine("param2: ");
             for (int i = 0; i < param2.Count(); i++)
             {
-                Debug.WriteLine(i.ToString() + ": " + param2[i]);
+                Cmd.WriteLine(i.ToString() + ": " + param2[i]);
             }
-            Debug.WriteLine("output: " + topLeft.ToString() + ", " + topRight.ToString() + ", " + bottomRight.ToString() + ", " + bottomLeft.ToString());*/
+            Cmd.WriteLine("output: " + topLeft.ToString() + ", " + topRight.ToString() + ", " + bottomRight.ToString() + ", " + bottomLeft.ToString());*/
 
             return new CornerRadius(topLeft, topRight, bottomRight, bottomLeft);
         }

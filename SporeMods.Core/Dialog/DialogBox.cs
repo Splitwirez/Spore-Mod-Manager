@@ -39,7 +39,7 @@ namespace SporeMods.Core
 
 		public static void DebugShow(string body, string title)
 		{
-			Debug.WriteLine(title + ":\n" + body);
+			Cmd.WriteLine(title + ":\n" + body);
 		}
 	}
 }

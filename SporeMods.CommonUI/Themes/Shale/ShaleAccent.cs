@@ -304,7 +304,7 @@ namespace SporeMods.CommonUI.Themes.Shale
                 MergedDictionaries.Add(colors);
                 
                 _prevColors = colors;
-                //Console.WriteLine($"Colors added!\n\tHue: {Hue}\n\tSaturation: {Saturation}");
+                //Cmd.WriteLine($"Colors added!\n\tHue: {Hue}\n\tSaturation: {Saturation}");
             }
         }
 

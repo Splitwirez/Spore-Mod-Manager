@@ -29,7 +29,7 @@ namespace SporeMods.Core.Mods
 			get => _viewingComponent;
 			set
 			{
-				Console.WriteLine("a");
+				Cmd.WriteLine("a");
 				_viewingComponent = value;
 				NotifyPropertyChanged();
 
@@ -65,7 +65,7 @@ namespace SporeMods.Core.Mods
 						//TODO: Does the Launcher Kit fail if imagePlacement != none but no image is included? We have to do the same
 						//hasImage = hasImage && (image != null);
 					}
-					Console.WriteLine($"hasImage: {hasImage}, image != null: {image != null}");
+					Cmd.WriteLine($"hasImage: {hasImage}, image != null: {image != null}");
 
 
 					
@@ -119,8 +119,8 @@ namespace SporeMods.Core.Mods
 				}*/
 				
 				
-				Console.WriteLine(hasValue ? $"type: {value.GetType().FullName}" : "null");
-				Console.WriteLine($"count: {ViewingComponentContent.Count}");
+				Cmd.WriteLine(hasValue ? $"type: {value.GetType().FullName}" : "null");
+				Cmd.WriteLine($"count: {ViewingComponentContent.Count}");
 			}
 		}
 

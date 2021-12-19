@@ -118,7 +118,7 @@ namespace SporeMods.Core.Injection
 			}
 			catch (Exception ex)
 			{
-				System.Diagnostics.Debug.WriteLine(ex.Message);
+				System.Diagnostics.Cmd.WriteLine(ex.Message);
 			}
 		}
 

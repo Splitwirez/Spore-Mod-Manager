@@ -189,18 +189,18 @@ namespace SporeMods.ViewModels
 			if (autoPaths.Count() > 1)
 			{
 				//new AmbiguousGamePathViewModel()
-				Console.WriteLine("Ambiguous game path");
+				Cmd.WriteLine("Ambiguous game path");
 			}
 			else if (autoPaths.Count() < 1)
 			{
 				IEnumerable<string> finalPath = await Modal.Show<IEnumerable<string>>(new RequestFilesViewModel(FileRequestPurpose.GamePathNotFound, false));
-				Console.WriteLine("Couldn't detect game path");
+				Cmd.WriteLine("Couldn't detect game path");
 			}
 			else
 			{
 				UseExplicitPath = false;
 				WorkingPath = autoPaths.First();
-				Console.WriteLine("Game path OK");
+				Cmd.WriteLine("Game path OK");
 			}
 
 			_enableRespondInSetter = true;

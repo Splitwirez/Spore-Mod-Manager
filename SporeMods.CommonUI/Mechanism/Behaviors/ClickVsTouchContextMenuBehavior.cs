@@ -8,12 +8,10 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
-/*#if NETCOREAPP3_0
-using Microsoft.Xaml.Behaviors;
-#else*/
+using Cmd = SporeMods.Core.Cmd;
+
 using System.Windows.Interactivity;
 using System.Windows.Media;
-//#endif
 
 namespace SporeMods.CommonUI
 {
@@ -32,7 +30,7 @@ namespace SporeMods.CommonUI
             {
                 Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    Debug.WriteLine("EXPIRE ELAPSED");
+                    Cmd.WriteLine("EXPIRE ELAPSED");
                     SetExpiration(false);
                     if (_notYetOpened)
                         AttachedProperties.SetLastClickWasTouch(AssociatedObject, false);
@@ -56,7 +54,7 @@ namespace SporeMods.CommonUI
 
         private void Touch_FrameReported(object sender, TouchFrameEventArgs e)
         {
-            Debug.WriteLine("Touch_FrameReported");
+            Cmd.WriteLine("Touch_FrameReported");
             if (_notYetOpened)
             {
                 AttachedProperties.SetLastClickWasTouch(AssociatedObject, true);
@@ -79,7 +77,7 @@ namespace SporeMods.CommonUI
 
         private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("Original source type: " + e.OriginalSource.GetType().FullName + "\n" + e.RoutedEvent.OwnerType.FullName);
+            Cmd.WriteLine("Original source type: " + e.OriginalSource.GetType().FullName + "\n" + e.RoutedEvent.OwnerType.FullName);
             UpdatePlacementTargetEventHandlers();
 
             AssociatedObject.Loaded -= AssociatedObject_Loaded;
@@ -115,7 +113,7 @@ namespace SporeMods.CommonUI
         {
             if ((newPlacementTarget != null) && (_target != newPlacementTarget))
             {
-                Debug.WriteLine("UpdatePlacementTargetEventHandlers 1");
+                Cmd.WriteLine("UpdatePlacementTargetEventHandlers 1");
                 _target = newPlacementTarget;
 
                 var behaviors = Interaction.GetBehaviors(_target);
@@ -131,7 +129,7 @@ namespace SporeMods.CommonUI
 
                 if (!hasBehavior)
                 {
-                    Debug.WriteLine("UpdatePlacementTargetEventHandlers 2");
+                    Cmd.WriteLine("UpdatePlacementTargetEventHandlers 2");
                     Interaction.GetBehaviors(_target).Add(new ClickVsTouchBehavior());
                 }
             }

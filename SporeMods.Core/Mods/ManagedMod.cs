@@ -302,7 +302,7 @@ namespace SporeMods.Core.Mods
 			/*try
 			{*/
 				System.Drawing.Image image = null;
-				Console.WriteLine((_hasStoredFiles ? "Has stored files" : "No stored files") + $"\n\tpath: '{path}'\n\tfile name: {fileName}");
+				Cmd.WriteLine((_hasStoredFiles ? "Has stored files" : "No stored files") + $"\n\tpath: '{path}'\n\tfile name: {fileName}");
 
 				bool storedImageExists = _hasStoredFiles && (!(string.IsNullOrEmpty(path) || string.IsNullOrWhiteSpace(path)));
 				

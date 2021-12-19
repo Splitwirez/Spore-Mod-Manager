@@ -17,6 +17,8 @@ using Graphics = System.Drawing.Graphics;
 using Point = System.Windows.Point;
 using SporeMods.CommonUI;
 
+using Cmd = SporeMods.Core.Cmd;
+
 namespace SporeMods.CommonUI
 {
     public class WindowChromeHelper : Behavior<Window>
@@ -727,7 +729,7 @@ namespace SporeMods.CommonUI
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"SetWindowCompositionAttribute failed!\n{ex}");
+                    Cmd.WriteLine($"SetWindowCompositionAttribute failed!\n{ex}");
                 }
             }
             return setAttr;

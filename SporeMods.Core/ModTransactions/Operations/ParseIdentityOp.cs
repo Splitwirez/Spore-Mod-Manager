@@ -31,12 +31,12 @@ namespace SporeMods.Core.ModTransactions.Operations
             {
                 Dictionary<string, System.Drawing.Image> images = new Dictionary<string, System.Drawing.Image>();
                 
-                Console.WriteLine($"Searching ZIP entries for images...");
+                Cmd.WriteLine($"Searching ZIP entries for images...");
                 foreach (ZipArchiveEntry zipEntry in zip.Entries)
                 {
                     if (Path.GetExtension(zipEntry.FullName).TrimStart('.').Equals("png", StringComparison.OrdinalIgnoreCase))
                     {
-                        Console.WriteLine($"\t- Found '{zipEntry.FullName}'");
+                        Cmd.WriteLine($"\t- Found '{zipEntry.FullName}'");
 
                         
                         System.Drawing.Image image = null;

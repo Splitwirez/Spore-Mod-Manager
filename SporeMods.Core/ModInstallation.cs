@@ -110,10 +110,10 @@ namespace SporeMods.Core
 
         /*public static void DoFirstRunVerification()
 		{
-			Debug.WriteLine("FIRST RUN VERIFICATION");
+			Cmd.WriteLine("FIRST RUN VERIFICATION");
 			if (Settings.IsFirstRun)
 			{
-				Debug.WriteLine("IS FIRST RUN");
+				Cmd.WriteLine("IS FIRST RUN");
 				File.WriteAllText(InstructionPath, "verify");
 				Settings.IsFirstRun = false;
 			}

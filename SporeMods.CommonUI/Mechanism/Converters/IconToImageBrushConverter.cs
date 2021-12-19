@@ -14,6 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using static SporeMods.CommonUI.SystemScaling;
 
+using Cmd = SporeMods.Core.Cmd;
+
 namespace SporeMods.CommonUI
 {
     public class IconToImageBrushConverter : IValueConverter
@@ -26,12 +28,12 @@ namespace SporeMods.CommonUI
                 int param = 32;
 
                 /*if (parameter != null)
-                    Debug.WriteLine("parameter type: " + parameter.GetType().ToString());*/
+                    Cmd.WriteLine("parameter type: " + parameter.GetType().ToString());*/
 
                 int validateParam = param;
 
                 if (parameter != null)
-                    /*Debug.WriteLine("param parse outcome: " + */int.TryParse((string)parameter, out validateParam)/* + " " + param.ToString())*/;
+                    /*Cmd.WriteLine("param parse outcome: " + */int.TryParse((string)parameter, out validateParam)/* + " " + param.ToString())*/;
 
                 if (validateParam > 0)
                     param = validateParam;
@@ -47,14 +49,14 @@ namespace SporeMods.CommonUI
                 }
                 catch (COMException ex)
                 {
-                    Debug.WriteLine("IconToImageBrushConverter.Convert machine broke: \n" + ex);
+                    Cmd.WriteLine("IconToImageBrushConverter.Convert machine broke: \n" + ex);
                     try
                     {
                         return new ImageBrush(Imaging.CreateBitmapSourceFromHIcon(icon.Handle, new Int32Rect(0, 0, 16, 16), BitmapSizeOptions.FromEmptyOptions()));
                     }
                     catch (COMException exc)
                     {
-                        Debug.WriteLine("IconToImageBrushConverter.Convert machine broke again: \n" + exc);
+                        Cmd.WriteLine("IconToImageBrushConverter.Convert machine broke again: \n" + exc);
                         return new ImageBrush();
                     }
                 }

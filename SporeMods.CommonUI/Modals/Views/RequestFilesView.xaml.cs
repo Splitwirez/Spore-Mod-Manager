@@ -152,7 +152,7 @@ namespace SporeMods.Views
 
 
 			//WRect pos = transform.Transformpos(new WRect(0, 0, DropHereZone.DesiredSize.Width, DropHereZone.DesiredSize.Height));
-			Console.WriteLine($"DesiredSize: {DropHereZone.DesiredSize}");
+			Cmd.WriteLine($"DesiredSize: {DropHereZone.DesiredSize}");
 
 
 			//GeneralTransform transform = DropHereZone.TransformToVisual(_ownerWindow);
@@ -208,7 +208,7 @@ namespace SporeMods.Views
 					flags |= SwpShowWindow;*/
 				//RefreshDropHereZonePlacement()
 				SetWindowPos(_servantHwnd, _ownerHwnd, X, Y, cx, cy, flags);
-				//Console.WriteLine($"Moved to: {X}, {Y}, {cx}, {cy}"); // ...{move}, {size}, {show}");
+				//Cmd.WriteLine($"Moved to: {X}, {Y}, {cx}, {cy}"); // ...{move}, {size}, {show}");
 
 				if (activate)
 					_ownerWindow.Activate();
@@ -230,11 +230,11 @@ namespace SporeMods.Views
 				if (data is IEnumerable<string> files)
 					VM.GrantFiles(files);
 				else
-					Console.WriteLine("Wrong FileDrop data?? (PLACEHOLDER) (NOT LOCALIZED)");
+					Cmd.WriteLine("Wrong FileDrop data?? (PLACEHOLDER) (NOT LOCALIZED)");
 			}
 			else
 			{
-				Console.WriteLine("Wrong data! (PLACEHOLDER) (NOT LOCALIZED)");
+				Cmd.WriteLine("Wrong data! (PLACEHOLDER) (NOT LOCALIZED)");
 			}
 		}
 	}

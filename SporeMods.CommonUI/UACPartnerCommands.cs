@@ -49,33 +49,33 @@ namespace SporeMods.CommonUI
 						if (limitedPidArg != null)
 						{
 							string limitedPidSubstr = limitedPidArg.Substring(LIMITED_PARTNER_PID_ARG.Length);
-							Console.WriteLine($"limitedPidSubstr: {limitedPidSubstr}");
+							Cmd.WriteLine($"limitedPidSubstr: {limitedPidSubstr}");
 							if (int.TryParse(limitedPidSubstr, out int limitedPid))
 							{
 								_UACLimitedPartnerProcess = Process.GetProcessById(limitedPid);
 								relaunchedness++;
 							}
 							else
-								Console.WriteLine("pid arg couldn't be parsed");
+								Cmd.WriteLine("pid arg couldn't be parsed");
 						}
 						else
-							Console.WriteLine("pid arg was null");
+							Cmd.WriteLine("pid arg was null");
 
 						var dragHwndArg = cmdArgs.FirstOrDefault(x => x.StartsWith(DRAG_HWND_ARG));
 						if (dragHwndArg != null)
 						{
 							string dragHwndSubstr = dragHwndArg.Substring(DRAG_HWND_ARG.Length);
-							Console.WriteLine($"dragHwndSubstr: {dragHwndSubstr}");
+							Cmd.WriteLine($"dragHwndSubstr: {dragHwndSubstr}");
 							if (int.TryParse(dragHwndSubstr, out int dragHwndI))
 							{
 								_dragHwnd = new IntPtr(dragHwndI);
 								relaunchedness++;
 							}
 							else
-								Console.WriteLine("hwnd arg couldn't be parsed");
+								Cmd.WriteLine("hwnd arg couldn't be parsed");
 						}
 						else
-							Console.WriteLine("hwnd arg was null");
+							Cmd.WriteLine("hwnd arg was null");
 					}
 
 
@@ -175,7 +175,7 @@ namespace SporeMods.CommonUI
 				msg += $"\n{f}";
 			}
 			
-			Console.WriteLine("FILES: " + msg.Replace("\n", "\n\t"));
+			Cmd.WriteLine("FILES: " + msg.Replace("\n", "\n\t"));
 
 			SendSignal(DROPPED_FILES, msg.Trim('\n'));
 		}

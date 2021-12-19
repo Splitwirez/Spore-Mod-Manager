@@ -54,7 +54,7 @@ namespace SporeMods.Views
 
         private void Window_PreviewDrop(object sender, DragEventArgs e)
         {
-            Console.WriteLine("Dropped!");
+            Cmd.WriteLine("Dropped!");
 
 
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -62,7 +62,7 @@ namespace SporeMods.Views
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
                 foreach (string x in files)
-                    Console.WriteLine(x);
+                    Cmd.WriteLine(x);
 
                 SendDroppedFiles(files);
             }

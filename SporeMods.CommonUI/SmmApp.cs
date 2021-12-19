@@ -154,7 +154,7 @@ namespace SporeMods.CommonUI
 					}
 					catch (Exception ex)
 					{
-						Console.WriteLine(ex);
+						Cmd.WriteLine(ex);
 						CleanupForExit();
 					}
 				}

@@ -41,7 +41,7 @@ namespace SporeMods.CommonUI
             }
 
             Color retColor = Color.FromRgb(r, g, b);
-			//Console.WriteLine($"retColor: {retColor.R}, {retColor.G}, {retColor.B},, {retColor.ScR}, {retColor.ScG}, {retColor.ScB}");
+			//Cmd.WriteLine($"retColor: {retColor.R}, {retColor.G}, {retColor.B},, {retColor.ScR}, {retColor.ScG}, {retColor.ScB}");
 			return retColor;
         }
 
@@ -71,7 +71,7 @@ namespace SporeMods.CommonUI
 			float r = (rgb.R / 255.0f);
 			float g = (rgb.G / 255.0f);
 			float b = (rgb.B / 255.0f);
-			Console.WriteLine($"rgb input: {r}, {g}, {b}");
+			Cmd.WriteLine($"rgb input: {r}, {g}, {b}");
 
 			float min = Math.Min(Math.Min(r, g), b);
 			float max = Math.Max(Math.Max(r, g), b);
@@ -110,7 +110,7 @@ namespace SporeMods.CommonUI
 
 				hslH = (int)(hue * 360);
 			}
-			Console.WriteLine($"HSL result: {hslH}, {hslS}, {hslL}");
+			Cmd.WriteLine($"HSL result: {hslH}, {hslS}, {hslL}");
 		}*/
 
 		//https://www.programmingalgorithms.com/algorithm/hsv-to-rgb/

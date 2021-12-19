@@ -6,11 +6,9 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 
-/*#if NETCOREAPP3_0
-using Microsoft.Xaml.Behaviors;
-#else*/
 using System.Windows.Interactivity;
-//#endif
+
+using Cmd = SporeMods.Core.Cmd;
 
 namespace SporeMods.CommonUI
 {
@@ -377,9 +375,9 @@ namespace SporeMods.CommonUI
         internal static void OnLastClickWasTouchPropertyChangedCallback(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (sender is ContextMenu menu)
-                Debug.WriteLine("ContextMenu LastClickWasTouch: " + GetLastClickWasTouch(menu).ToString());
+                Cmd.WriteLine("ContextMenu LastClickWasTouch: " + GetLastClickWasTouch(menu).ToString());
             else if (sender is MenuItem item)
-                Debug.WriteLine("MenuItem LastClickWasTouch: " + GetLastClickWasTouch(item).ToString());
+                Cmd.WriteLine("MenuItem LastClickWasTouch: " + GetLastClickWasTouch(item).ToString());
         }
 
         public static readonly DependencyProperty IconProperty = DependencyProperty.Register("Icon", typeof(object), typeof(AttachedProperties), new PropertyMetadata(null));

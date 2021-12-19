@@ -5,6 +5,8 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 
+using Cmd = SporeMods.Core.Cmd;
+
 namespace SporeMods.CommonUI
 {
     class FormattingTextBlock : TextBlock
@@ -38,7 +40,7 @@ namespace SporeMods.CommonUI
         {
             if (format != null)
             {
-                Debug.WriteLine($"format: {format}");
+                Cmd.WriteLine($"format: {format}");
                 Text = string.Format(format, value);
             }
         }

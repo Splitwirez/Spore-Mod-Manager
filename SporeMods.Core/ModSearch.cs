@@ -84,7 +84,7 @@ namespace SporeMods.Core
 					IInstalledMod mod = mods[i];
 					bool nameMatches = (searchNames && mod.DisplayName.Contains(query, StringComparison.OrdinalIgnoreCase));
 					bool descMatches = (searchDescriptions && mod.HasDescription && mod.Description.Contains(query, StringComparison.OrdinalIgnoreCase));
-					Console.WriteLine($"Searching in... {searchNames}, {searchDescriptions}...found {nameMatches}, {descMatches}");
+					Cmd.WriteLine($"Searching in... {searchNames}, {searchDescriptions}...found {nameMatches}, {descMatches}");
 					if (nameMatches ||
 						descMatches
 						/* ||

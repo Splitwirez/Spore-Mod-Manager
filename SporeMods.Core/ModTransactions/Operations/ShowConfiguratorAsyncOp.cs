@@ -31,9 +31,9 @@ namespace SporeMods.Core.ModTransactions.Operations
 			{
 				_originalConfig = new ModConfiguration(Mod.Configuration);
 				var configurator = Mod.Identity.CreateConfigurator(_configuring);
-				Console.WriteLine("wwwww");
+				Cmd.WriteLine("wwwww");
 				UserCancelled = !await Modal.Show(configurator);
-				Console.WriteLine("hhhhh");
+				Cmd.WriteLine("hhhhh");
 				return true;
 			}
 			else

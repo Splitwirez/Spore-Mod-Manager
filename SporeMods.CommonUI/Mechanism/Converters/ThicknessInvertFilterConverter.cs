@@ -14,7 +14,7 @@ namespace SporeMods.CommonUI
         {
             Thickness val = (Thickness)value;
             var param = parameter.ToString().ToLower();
-            //Debug.WriteLine("val: " + val);
+            //Cmd.WriteLine("val: " + val);
             if (param.Contains("t"))
             {
                 val.Top = val.Top * -1;

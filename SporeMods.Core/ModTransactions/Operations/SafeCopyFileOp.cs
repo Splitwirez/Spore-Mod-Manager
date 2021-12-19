@@ -25,16 +25,16 @@ namespace SporeMods.Core.ModTransactions.Operations
 
         public bool Do()
         {
-            Console.WriteLine($"Doing SafeCopyFileOp '{source}'...");
+            Cmd.WriteLine($"Doing SafeCopyFileOp '{source}'...");
             backup = ModBackupFiles.BackupFile(destination);
             
             if (!File.Exists(source))
             {
-                Console.WriteLine($"File '{source}' does not exist");
+                Cmd.WriteLine($"File '{source}' does not exist");
                 //return false;
             }
             else
-                Console.WriteLine($"Copying file '{source}' to '{destination}'...");
+                Cmd.WriteLine($"Copying file '{source}' to '{destination}'...");
 
             File.Copy(source, destination, true);
             return true;

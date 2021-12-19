@@ -103,7 +103,7 @@ namespace SporeMods.Launcher
 						NativeMethodsInj.GetClassName(hWnd, bld, 7);
 
 					string clss = bld.ToString();
-					Debug.WriteLine($"WINDOW CLASS: {clss}");
+					Cmd.WriteLine($"WINDOW CLASS: {clss}");
 
 					if ((clss == "Canvas") && NativeMethodsInj.IsWindow(hWnd))
 					{
@@ -118,7 +118,7 @@ namespace SporeMods.Launcher
 						NativeMethodsInj.GetClassName(hWnd, bld, 7);
 
 						string clss = bld.ToString();
-						Debug.WriteLine($"WINDOW CLASS: {clss}");
+						Cmd.WriteLine($"WINDOW CLASS: {clss}");
 
 						if ((clss == "Canvas") && (hWnd != IntPtr.Zero) && NativeMethodsInj.IsWindow(hWnd))
 						{
@@ -128,7 +128,7 @@ namespace SporeMods.Launcher
 					}
 					return true;
 				}, IntPtr.Zero);
-			//Debug.WriteLine($"THERE ARE {hwnds.Count} HWNDS");
+			//Cmd.WriteLine($"THERE ARE {hwnds.Count} HWNDS");
 
 			/*AutomationElementCollection windows = AutomationElement.RootElement.FindAll(TreeScope.Children, Condition.TrueCondition);
 			foreach (AutomationElement el in windows)

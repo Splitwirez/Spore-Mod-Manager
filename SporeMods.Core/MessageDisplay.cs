@@ -23,7 +23,7 @@ namespace SporeMods.Core
 
 		public static void DebugShowMessageBox(string body, string title)
 		{
-			Debug.WriteLine(title + ":\n" + body);
+			Cmd.WriteLine(title + ":\n" + body);
 			if (Settings.DebugMode)
 				DebugMessageSent?.Invoke(null, new MessageBoxEventArgs(title, body));
 		}

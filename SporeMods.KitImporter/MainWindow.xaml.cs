@@ -70,14 +70,14 @@ namespace SporeMods.KitImporter
 					}
 					else
 					{
-						Debug.WriteLine("1: " + lkPath2);
+						Cmd.WriteLine("1: " + lkPath2);
 						SpecifyLauncherKitPathInstructionTextBlock.Text = GetLocalizedString("KitImporter!SpecifyLauncherKitPathInstruction"); //"Please specify the location of the Spore ModAPI Launcher Kit below.";
 						SpecifyLauncherKitPathPage.Visibility = Visibility.Visible;
 					}
 				}
 				catch (Exception ex)
 				{
-					Debug.WriteLine("2 " + ex.ToString());
+					Cmd.WriteLine("2 " + ex.ToString());
 					SpecifyLauncherKitPathInstructionTextBlock.Text = GetLocalizedString("SpecifyLauncherKitPathInstruction"); //"Please specify the location of the Spore ModAPI Launcher Kit below.";
 					SpecifyLauncherKitPathPage.Visibility = Visibility.Visible;
 				}

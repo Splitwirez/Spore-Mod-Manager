@@ -111,7 +111,7 @@ namespace SporeMods.Core
 				await GameInfo.VerifyGamePaths();
 			Settings.IsFirstRun = false;*/
 
-			Debug.WriteLine("GETTING MODS");
+			Cmd.WriteLine("GETTING MODS");
 
 			// Mod files in lowercase, to know which files don't belong to recognised mods
 			List<string> allModFileNames = new List<string>();
@@ -120,7 +120,7 @@ namespace SporeMods.Core
 				var mod = new ManagedMod(Path.GetFileName(s), true);
 				InstalledMods.Add(mod);
 				allModFileNames.AddRange(mod.GetModFileNames().Select(x => x.ToLowerInvariant()));
-				Debug.WriteLine("MOD: " + s);
+				Cmd.WriteLine("MOD: " + s);
 			}
 
 			try

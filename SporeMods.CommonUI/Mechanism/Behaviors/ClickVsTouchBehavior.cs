@@ -6,11 +6,9 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
-/*#if NETCOREAPP3_0
-using Microsoft.Xaml.Behaviors;
-#else*/
+using Cmd = SporeMods.Core.Cmd;
+
 using System.Windows.Interactivity;
-//#endif
 
 namespace SporeMods.CommonUI
 {
@@ -51,7 +49,7 @@ namespace SporeMods.CommonUI
             if (AssociatedObject.ContextMenu != null)
             {
                 AssociatedObject.PreviewMouseDown += AssociatedObject_PreviewMouseDown;
-                //AssociatedObject.MouseMove += (sneder, args) => Debug.WriteLine("Mouse moved on Owner");
+                //AssociatedObject.MouseMove += (sneder, args) => Cmd.WriteLine("Mouse moved on Owner");
             }
             else
                 AssociatedObject.PreviewMouseDown -= AssociatedObject_PreviewMouseDown;
@@ -63,10 +61,10 @@ namespace SporeMods.CommonUI
             {
                 AttachedProperties.SetLastClickWasTouch(AssociatedObject, srcUiel.AreAnyTouchesOver);
 
-                Debug.WriteLine("AssociatedObject_PreviewMouseDown, " + AttachedProperties.GetLastClickWasTouch(AssociatedObject).ToString());
+                Cmd.WriteLine("AssociatedObject_PreviewMouseDown, " + AttachedProperties.GetLastClickWasTouch(AssociatedObject).ToString());
             }
             else
-                Debug.WriteLine("AssociatedObject_PreviewMouseDown, null");
+                Cmd.WriteLine("AssociatedObject_PreviewMouseDown, null");
         }
     }
 }

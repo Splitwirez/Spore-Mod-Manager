@@ -22,7 +22,7 @@ namespace SporeMods.Core
 			
 			MessageBox(IntPtr.Zero, realContent, realTitle, 0);
 
-			Console.WriteLine($"\n\n{CONSOLE_SEPARATOR}\n{realTitle}\n{CONSOLE_SEPARATOR}\n{realContent}\n{CONSOLE_SEPARATOR}\n\n");
+			Cmd.WriteLine($"\n\n{CONSOLE_SEPARATOR}\n{realTitle}\n{CONSOLE_SEPARATOR}\n{realContent}\n{CONSOLE_SEPARATOR}\n\n");
 			//TODO: Figure out what (if anything) can be shown on-screen
 		}
 

@@ -127,14 +127,14 @@ namespace SporeMods.Core.ModTransactions
             if (ProgressSignifier != null)
                 ProgressSignifier.Category = TaskCategory.Rollback;
 
-            Debug.WriteLine("Rollback on transaction " + ToString());
+            Cmd.WriteLine("Rollback on transaction " + ToString());
             // Wait until all currently running operations have finished running
             Task.WhenAll(executedTasks).Wait();
 
             while (!operations.IsEmpty)
             {
                 operations.TryPop(out IModOperation op);
-                Debug.WriteLine(" - undoing " + op.ToString());
+                Cmd.WriteLine(" - undoing " + op.ToString());
                 op.Undo();
                 op.Dispose();
             }
@@ -160,7 +160,7 @@ namespace SporeMods.Core.ModTransactions
         {
             if (ProgressSignifier != null)
             {
-                Debug.WriteLine("Setting ProgressSignifier output");
+                Cmd.WriteLine("Setting ProgressSignifier output");
                 ProgressSignifier.Progress = ProgressSignifier.ProgressTotal;
                 ProgressSignifier.Status = dispose ? TaskStatus.Succeeded : TaskStatus.Failed;
             }

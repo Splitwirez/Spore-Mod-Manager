@@ -174,21 +174,21 @@ namespace SporeMods.Core.ModTransactions.Transactions
 
         protected override void CompleteProgress(bool dispose)
         {
-            Debug.WriteLine($"{nameof(CompleteProgress)}\n\t{nameof(_managedMod)}: {_managedMod != null}\n\t{nameof(UpgradeFromMod)}: {UpgradeFromMod != null}");
+            Cmd.WriteLine($"{nameof(CompleteProgress)}\n\t{nameof(_managedMod)}: {_managedMod != null}\n\t{nameof(UpgradeFromMod)}: {UpgradeFromMod != null}");
             base.CompleteProgress(dispose);
 
 
             if (_managedMod != null)
             {
                 _managedMod.ProgressSignifier = null;
-                Debug.WriteLine($"\t{_managedMod}: {_managedMod.ProgressSignifier != null}, {_managedMod.PreventsGameLaunch}");
+                Cmd.WriteLine($"\t{_managedMod}: {_managedMod.ProgressSignifier != null}, {_managedMod.PreventsGameLaunch}");
             }
 
 
             if (UpgradeFromMod != null)
             {
                 UpgradeFromMod.ProgressSignifier = null;
-                Debug.WriteLine($"\t{UpgradeFromMod}: {UpgradeFromMod.ProgressSignifier != null}, {UpgradeFromMod.PreventsGameLaunch}");
+                Cmd.WriteLine($"\t{UpgradeFromMod}: {UpgradeFromMod.ProgressSignifier != null}, {UpgradeFromMod.PreventsGameLaunch}");
             }
         }
     }

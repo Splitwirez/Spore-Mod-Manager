@@ -248,13 +248,13 @@ namespace SporeMods.ViewModels
 		async Task UninstallMods()
 		{
 			bool allCanUninstall = _selectedMods.All(x => x.CanUninstall);
-			Console.WriteLine($"UninstallMods() called\n\tcount: {_selectedMods.Count}\n\tall can uninstall: {allCanUninstall}");
+			Cmd.WriteLine($"UninstallMods() called\n\tcount: {_selectedMods.Count}\n\tall can uninstall: {allCanUninstall}");
 			if (
 					(_selectedMods.Count > 0) &&
 					allCanUninstall
 				)
 			{
-				Console.WriteLine("Uninstalling...");
+				Cmd.WriteLine("Uninstalling...");
 				await ModTransactionManager.UninstallModsAsync(_selectedMods.ToArray());
 			}
 			else

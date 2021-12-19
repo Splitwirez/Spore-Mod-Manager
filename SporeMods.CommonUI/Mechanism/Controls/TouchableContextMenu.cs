@@ -9,6 +9,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
+using Cmd = SporeMods.Core.Cmd;
+
 namespace SporeMods.CommonUI
 {
     public class TouchableContextMenu : ContextMenu
@@ -32,7 +34,7 @@ namespace SporeMods.CommonUI
 
             Opened += (sneder, args) =>
             {
-                Debug.WriteLine("_wasOpenedWithTouch: " + _wasOpenedWithTouch.ToString());
+                Cmd.WriteLine("_wasOpenedWithTouch: " + _wasOpenedWithTouch.ToString());
                 OpenedWithTouch = _wasOpenedWithTouch;
             };
             /*ContextMenuClosing += (sneder, args) =>

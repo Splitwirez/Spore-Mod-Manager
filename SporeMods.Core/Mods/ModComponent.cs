@@ -15,21 +15,21 @@ namespace SporeMods.Core.Mods
 		public ModComponent(ModIdentity identity, string uniqueTag)
 			: base(identity, uniqueTag)
 		{
-			/*Console.WriteLine($"Unique: '{Unique}'");
-			Console.WriteLine($"Has identity: {Identity != null}");
+			/*Cmd.WriteLine($"Unique: '{Unique}'");
+			Cmd.WriteLine($"Has identity: {Identity != null}");
 			if (Identity != null)
 			{
-				Console.WriteLine($"\tHas ParentMod: '{Identity.ParentMod != null}'");
+				Cmd.WriteLine($"\tHas ParentMod: '{Identity.ParentMod != null}'");
 			}*/
 
 
 			string imageName = $"{Unique}.png";
-			//Console.WriteLine($"image name: {imageName}");
+			//Cmd.WriteLine($"image name: {imageName}");
 
 			if ((Identity != null) && Identity.TryGetImage(imageName, out System.Drawing.Image image))
 				Image = image;
 			/*else
-				Console.WriteLine($"{Unique} image = nope");*/
+				Cmd.WriteLine($"{Unique} image = nope");*/
 
 			
 			ModConfiguration.ConfigurationReset += (sender, e) =>

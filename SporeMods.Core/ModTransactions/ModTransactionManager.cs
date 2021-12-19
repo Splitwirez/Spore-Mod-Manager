@@ -101,7 +101,7 @@ namespace SporeMods.Core.ModTransactions
                     HasRunningTasks = true;
                 
                 _prevTransactionCount = newCount;
-                Debug.WriteLine($"{nameof(_ongoingTransactions)}.Count: {newCount}");
+                Cmd.WriteLine($"{nameof(_ongoingTransactions)}.Count: {newCount}");
             }
         }
 
@@ -163,7 +163,7 @@ namespace SporeMods.Core.ModTransactions
             {
                 if (!await transaction.CommitAsync())
                 {
-                    Debug.WriteLine("Transaction returned false");
+                    Cmd.WriteLine("Transaction returned false");
                     // Transaction itself returned false, which means it decided to rollback
                     transaction.Rollback();
                     exc = new ModTransactionCommitException(TransactionFailureCause.CommitRejected, null, null);
@@ -179,8 +179,8 @@ namespace SporeMods.Core.ModTransactions
             // (although that is the developers fault!)
             catch (Exception e)
             {
-                Debug.WriteLine("Transaction failed violently");
-                Debug.WriteLine(e.ToString());
+                Cmd.WriteLine("Transaction failed violently");
+                Cmd.WriteLine(e.ToString());
                 transaction.Rollback();
                 //_ongoingTransactions.Remove(transaction);
                 _concludedTransactions.Add(transaction);
@@ -208,7 +208,7 @@ namespace SporeMods.Core.ModTransactions
             {
                 if (PathIsNetworkPath(path))
                 {
-                    Console.WriteLine($"Skipped '{path}' - network path");
+                    Cmd.WriteLine($"Skipped '{path}' - network path");
                     Instance.Tasks.Add(new TaskProgressSignifier(Path.GetFileName(path), TaskCategory.Install)
                     {
                         ProgressTotal = 0,
@@ -235,7 +235,7 @@ namespace SporeMods.Core.ModTransactions
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine($"Skipped '{path}' - '{e.GetType().FullName}': {e.Message}\n\n{e}");
+                        Cmd.WriteLine($"Skipped '{path}' - '{e.GetType().FullName}': {e.Message}\n\n{e}");
                         // This can happen if the mod provides an invalid DLL
                         Instance.Tasks.Add(new TaskProgressSignifier(Path.GetFileName(path), TaskCategory.Install)
                         {
@@ -248,7 +248,7 @@ namespace SporeMods.Core.ModTransactions
                 }
                 else
                 {
-                    Console.WriteLine($"Skipped '{path}' - wrong extension");
+                    Cmd.WriteLine($"Skipped '{path}' - wrong extension");
                     Instance.Tasks.Add(new TaskProgressSignifier(Path.GetFileName(path), TaskCategory.Install)
                     {
                         ProgressTotal = 0,

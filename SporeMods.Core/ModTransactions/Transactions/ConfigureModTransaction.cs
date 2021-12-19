@@ -13,7 +13,7 @@ namespace SporeMods.Core.ModTransactions.Transactions
 
         public ConfigureModTransaction(ManagedMod mod)
         {
-            Console.WriteLine($"haha {nameof(ConfigureModTransaction)} go brrr");
+            Cmd.WriteLine($"haha {nameof(ConfigureModTransaction)} go brrr");
             this.mod = mod;
             ProgressSignifier = new TaskProgressSignifier(mod.DisplayName, TaskCategory.Reconfigure);
         }
@@ -30,7 +30,7 @@ namespace SporeMods.Core.ModTransactions.Transactions
             var configurator = await OperationAsync(new ShowConfiguratorAsyncOp(mod, true));
 
             _userCancelled = configurator.UserCancelled;
-            Console.WriteLine($"Cancelled: {_userCancelled}");
+            Cmd.WriteLine($"Cancelled: {_userCancelled}");
             if (!_userCancelled)
             {
                 ProgressSignifier.Status = TaskStatus.Determinate;

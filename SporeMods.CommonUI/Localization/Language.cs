@@ -177,7 +177,7 @@ namespace SporeMods.CommonUI.Localization
 
             if (!_isEnCa)
             {
-                //Debug.WriteLine("a");
+                //Cmd.WriteLine("a");
                 ResourceDictionary enCaD = LanguageManager.CanadianEnglish.Dictionary;
                 lang.MergedDictionaries.Add(enCaD);
 

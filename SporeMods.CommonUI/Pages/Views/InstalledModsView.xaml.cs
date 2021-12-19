@@ -57,7 +57,7 @@ namespace SporeMods.Views
                 foreach (GridViewColumnHeader header in headers)
                 {
                     header.IsHitTestVisible = false;
-                    //Console.WriteLine($"{child}: {child.GetType().FullName}");
+                    //Cmd.WriteLine($"{child}: {child.GetType().FullName}");
                 }
 
 
