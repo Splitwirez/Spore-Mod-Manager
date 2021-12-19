@@ -114,7 +114,7 @@ namespace SporeMods.Core.Mods
 			return component;
 		}
 
-		public static ModIdentity ParseModIdentity(ManagedMod mod, XElement node)
+		public static ModIdentity ParseModIdentity(ManagedMod mod, XElement node, Dictionary<string, System.Drawing.Image> images = null)
 		{
 			var uniqueAttr = node.Attribute("unique");
 			if (uniqueAttr == null)
@@ -124,7 +124,10 @@ namespace SporeMods.Core.Mods
 			foreach (char c in Path.GetInvalidPathChars())
 				unique = unique.Replace(c.ToString(), string.Empty);
 
-			var identity = new ModIdentity(mod, unique);
+			var identity = new ModIdentity(mod, unique)
+			{
+				ConfiguratorImages = images
+			};
 
 			var displayAttr = node.Attribute("displayName");
 			if (displayAttr != null)

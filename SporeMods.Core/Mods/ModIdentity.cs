@@ -29,6 +29,39 @@ namespace SporeMods.Core.Mods
 					(identityVersion == ModIdentity.XmlModIdentityVersion1_0_1_1);
 		}
 
+		internal Dictionary<string, System.Drawing.Image> ConfiguratorImages = null;
+		internal bool TryGetImage(string fileName, out System.Drawing.Image img)
+		{
+			if (ParentMod != null)
+				return ParentMod.TryGetImage(fileName, out img);
+			else if (TryGetConfiguratorImage(fileName, out img))
+				return true;
+			else
+			{
+				img = null;
+				return false;
+			}
+		}
+
+		internal bool TryGetConfiguratorImage(string fileName, out System.Drawing.Image img)
+		{
+			img = null;
+			
+			if (ConfiguratorImages != null)
+			{
+				foreach (string key in ConfiguratorImages.Keys)
+				{
+					if (key.Equals(fileName, StringComparison.OrdinalIgnoreCase))
+					{
+						img = ConfiguratorImages[key];
+						return true;
+					}
+				}
+			}
+
+			return false;
+		}
+
 		/*public static bool IsValidUnique(string inputUnique)
 		{
 			bool returnValue = true;

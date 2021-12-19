@@ -29,12 +29,12 @@ namespace SporeMods.Core.Mods
             }
         }
 
-        private static ModIdentity Parse(XDocument document, ManagedMod mod)
+        private static ModIdentity Parse(XDocument document, ManagedMod mod, Dictionary<string, System.Drawing.Image> images = null)
         {
             Version xmlVersion = ParseXmlVersion(document);
             if (xmlVersion.Major == 1)
             {
-                return XmlModIdentityV1.ParseModIdentity(mod, document.Root);
+                return XmlModIdentityV1.ParseModIdentity(mod, document.Root, images);
             }
             else
             {
@@ -48,9 +48,9 @@ namespace SporeMods.Core.Mods
         /// <param name="stream"></param>
         /// <param name="mod"></param>
         /// <returns></returns>
-        public static ModIdentity Parse(Stream stream, ManagedMod mod)
+        public static ModIdentity Parse(Stream stream, ManagedMod mod, Dictionary<string, System.Drawing.Image> images = null)
         {
-            return Parse(XDocument.Load(stream), mod);
+            return Parse(XDocument.Load(stream), mod, images);
         }
 
         /// <summary>

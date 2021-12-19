@@ -68,6 +68,9 @@ namespace SporeMods.Core.Mods
 			StoragePath = Path.Combine(Settings.ModConfigsPath, unique);
 			_xmlPath = Path.Combine(StoragePath, MOD_INFO);
 			_configPath = Path.Combine(StoragePath, MOD_CONFIG);
+			
+			
+			_hasStoredFiles = true;
 
 			var document = XDocument.Load(_xmlPath);
 			Version xmlVersion = XmlModIdentity.ParseXmlVersion(document);
@@ -109,8 +112,6 @@ namespace SporeMods.Core.Mods
 				IsProgressingChanged?.Invoke(this, null);
 				//RaiseAnyModIsProgressingChanged(this, false, true);
 			}*/
-
-			_hasStoredFiles = true;
 		}
 
 		private void PopulateEnabledUniques(BaseModComponent component)
@@ -208,23 +209,24 @@ namespace SporeMods.Core.Mods
 		}
 
 
-		string LogoPath => _hasStoredFiles ? Path.Combine(StoragePath, "Branding.png") : null; 
+		const string LOGO_NAME = "Branding.png";
+		string LogoPath => _hasStoredFiles ? Path.Combine(StoragePath, LOGO_NAME) : null; 
 		
 		public bool HasLogo
 		{
 			get {
 				if (_hasStoredFiles)
-				{
-					return File.Exists(LogoPath) && TryGetLogo(LogoPath, out System.Drawing.Image img);
-				}
-				else if (_zipArchive != null)
+					return File.Exists(LogoPath) && TryGetLogo(out System.Drawing.Image _);
+				else
+					return TryGetLogo(out System.Drawing.Image _);
+				/*else if (_zipArchive != null)
                 {
 					return _zipArchive.GetEntry("Branding.png") != null;
                 }
 				else
                 {
 					return false;
-                }
+                }*/
 			}
 		}
 
@@ -236,14 +238,32 @@ namespace SporeMods.Core.Mods
 			get
 			{
 
-				if (HasLogo && TryGetLogo(LogoPath, out System.Drawing.Image img))
+				if (HasLogo && TryGetLogo(out System.Drawing.Image img))
 					return img;
 				return null;
 
 			}
 		}
 
-		bool TryGetLogo(string path, out System.Drawing.Image img)
+		bool TryGetLogo(out System.Drawing.Image img)
+		{
+			img = null;
+			
+			if (_hasStoredFiles && TryGetImage(LogoPath, LOGO_NAME, out System.Drawing.Image image))
+			{
+				img = image;
+				return true;
+			}
+			else if ((Identity != null) && Identity.TryGetConfiguratorImage(LOGO_NAME, out image))
+			{
+				img = image;
+				return true;
+			}
+			
+			return false;
+		}
+
+		/*bool TryGetLogo(string path, out System.Drawing.Image img)
 		{
 			try
 			{
@@ -270,6 +290,57 @@ namespace SporeMods.Core.Mods
 			catch { }
 			img = null;
 			return false;
+		}*/
+
+		internal bool TryGetImage(string fileName, out System.Drawing.Image img)
+			=> TryGetImage(_hasStoredFiles ? Path.Combine(StoragePath, fileName) : null, fileName, out img);
+		
+		bool TryGetImage(string path, string fileName, out System.Drawing.Image img)
+		{
+			img = null;
+
+			/*try
+			{*/
+				System.Drawing.Image image = null;
+				Console.WriteLine((_hasStoredFiles ? "Has stored files" : "No stored files") + $"\n\tpath: '{path}'\n\tfile name: {fileName}");
+
+				bool storedImageExists = _hasStoredFiles && (!(string.IsNullOrEmpty(path) || string.IsNullOrWhiteSpace(path)));
+				
+				if (storedImageExists)
+				{
+					try
+					{
+						storedImageExists = storedImageExists && File.Exists(path);
+					}
+					catch (Exception ex) { }
+				}
+
+				if (storedImageExists)
+				{
+					using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
+					{
+						stream.Seek(0, SeekOrigin.Begin);
+						image = System.Drawing.Image.FromStream(stream);
+					}
+				}
+				else if (_zipArchive != null)
+				{
+					var entry = _zipArchive.GetEntry(fileName);
+					if (entry != null)
+					{
+						using (Stream stream = entry.Open())
+						{
+							//stream.Seek(0, SeekOrigin.Begin);
+							image = System.Drawing.Image.FromStream(stream);
+						}
+					}
+				}
+
+				img = image;
+			/*}
+			catch { }*/
+			
+			return img != null;
 		}
 
 		/// <summary>

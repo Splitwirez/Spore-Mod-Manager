@@ -46,6 +46,55 @@ namespace SporeMods.Core.Mods
 				});
 
 				string desc = hasValue ? value.Description : Identity.Description;
+
+
+				StringCollection descEntry = new StringCollection()
+				{
+					desc
+				};
+				
+				if (value is ModComponent modCmp)
+				{
+					object image = null;
+					ImagePlacementType imgPlace = modCmp.ImagePlacement;
+					
+					bool hasImage = (imgPlace != ImagePlacementType.None);
+					if (hasImage)
+					{
+						image = modCmp.Image;
+						//TODO: Does the Launcher Kit fail if imagePlacement != none but no image is included? We have to do the same
+						//hasImage = hasImage && (image != null);
+					}
+					Console.WriteLine($"hasImage: {hasImage}, image != null: {image != null}");
+
+
+					
+					if (hasImage)
+					{
+						if (imgPlace == ImagePlacementType.Before)
+						{
+							ViewingComponentContent.Add(image);
+							ViewingComponentContent.Add(descEntry);
+						}
+						else if (imgPlace == ImagePlacementType.After)
+						{
+							ViewingComponentContent.Add(descEntry);
+							ViewingComponentContent.Add(image);
+						}
+						else if (imgPlace == ImagePlacementType.InsteadOf)
+						{
+							ViewingComponentContent.Add(image);
+						}
+					}
+					else
+						ViewingComponentContent.Add(descEntry);
+					
+					/*if ((!hasImage) || (hasImage && (place != ImagePlacementType.InsteadOf)))
+							ViewingComponentContent.Add(descEntry);*/
+				}
+				else
+					ViewingComponentContent.Add(descEntry);
+
 				/*if (!hasValue)
 				{
 					ViewingComponentContent.Add(desc);
@@ -68,10 +117,6 @@ namespace SporeMods.Core.Mods
 							ViewingComponentContent.Add(image);
 					}
 				}*/
-				ViewingComponentContent.Add(new StringCollection()
-				{
-					desc
-				});
 				
 				
 				Console.WriteLine(hasValue ? $"type: {value.GetType().FullName}" : "null");
