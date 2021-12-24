@@ -12,6 +12,13 @@ namespace SporeMods.Core
 #endif
 			Console.WriteLine(value);
 		}
+		public static void WriteLine(string? value)
+		{
+#if DEBUG && !LINUX_DEBUG
+			Debug.WriteLine(value);
+#endif
+			Console.WriteLine(value);
+		}
 
 
 		public static void WriteLine(string? format, params object?[]? args)

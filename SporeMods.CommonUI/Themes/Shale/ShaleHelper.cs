@@ -13,8 +13,8 @@ using System.Diagnostics;
 using SporeMods.Core;
 using SporeMods.CommonUI;
 using SporeMods.CommonUI.Localization;
-using ColorMine;
-using ColorMine.ColorSpaces;
+//using ColorMine;
+//using ColorMine.ColorSpaces;
 
 namespace SporeMods.CommonUI.Themes.Shale
 {
