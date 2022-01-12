@@ -179,7 +179,7 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type Window}">
-					<cui:FloorPanel>
+					<cui:FloorPanel Background="#FF5F2341">
 						<Border x:Name="OuterBorder"
 								Background="{TemplateBinding BorderBrush}"
 								CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='8;0'}">

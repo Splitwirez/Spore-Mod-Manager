@@ -334,12 +334,16 @@ namespace SporeMods.CommonUI
         {
             if (_hwnd != IntPtr.Zero)
             {
+#if TRANSPARENT_WINDOW
                 HwndSource.FromHwnd(_hwnd).CompositionTarget.BackgroundColor = useCustomDecorations ? Colors.Transparent : Colors.Black;
 
                 if (!SafeSetWindowCompositionAttribute(useCustomDecorations))
                 {
                     SetWin7UseCornerRadius(AssociatedObject, useCustomDecorations);
                 }
+#else
+                NativeMethods.SetWindowRgn(_hwnd, IntPtr.Zero, true);
+#endif
 
                 if (useCustomDecorations)
                     AssociatedObject.StateChanged += Window_StateChangedCustomDeco;
@@ -671,12 +675,15 @@ namespace SporeMods.CommonUI
             AttachedProperties.SetCornerCurves(AssociatedObject, new CornerCurves(tl, tr, br, bl));
         }
 
+#if TRANSPARENT_WINDOW
         static Version _winVersion = new Func<Version>(() =>
         {
             NativeMethods.OSVERSIONINFOEXW info = new NativeMethods.OSVERSIONINFOEXW();
 			NativeMethods.RtlGetVersion(ref info);
             return new Version(info.dwMajorVersion, info.dwMinorVersion, info.dwBuildNumber); //>= new Version(10, 0, 10240); //15063);
         })();
+
+
         bool SafeSetWindowCompositionAttribute(bool allowTransparency)
         {
             bool setAttr = false;
@@ -734,6 +741,7 @@ namespace SporeMods.CommonUI
             }
             return setAttr;
         }
+#endif
     }
 
 

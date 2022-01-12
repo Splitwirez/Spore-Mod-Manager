@@ -121,6 +121,7 @@ namespace SporeMods.CommonUI
 
         public static uint WmClose = 0x0010;
 
+#if TRANSPARENT_WINDOW
         [StructLayout(LayoutKind.Sequential)]
         internal struct WindowCompositionAttributeData
         {
@@ -159,6 +160,7 @@ namespace SporeMods.CommonUI
             public int GradientColor;
             public int AnimationId;
         }
+#endif
 
 
         [DllImport("dwmapi.dll")]
