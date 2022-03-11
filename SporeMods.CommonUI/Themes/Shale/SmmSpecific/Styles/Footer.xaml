@@ -46,7 +46,8 @@
                             </Rectangle.Fill>
                         </Rectangle>
                         <Border x:Name="BackgroundBorder" Style="{DynamicResource HorizontalBarBorderStyle}" DockPanel.Dock="Bottom">
-                            <ContentPresenter Content="{TemplateBinding Content}" Margin="{TemplateBinding Padding}"/>
+                            <ContentPresenter x:Name="PART_ContentPresenter"
+                                            Margin="{TemplateBinding Padding}"/>
                         </Border>
                     </cui:FloorPanel>
                     <ControlTemplate.Triggers>
