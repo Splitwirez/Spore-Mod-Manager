@@ -17,7 +17,7 @@ namespace SporeMods.CommonUI
         //https://www.programmingalgorithms.com/algorithm/hsl-to-rgb/
         public static Color ToRGB(double hslHue, double hslSaturation, double hslLightness, byte alpha = 0xFF)
         {
-            Console.WriteLine($"In: {hslHue}, {hslSaturation}, {hslLightness}");
+            //Console.WriteLine($"In: {hslHue}, {hslSaturation}, {hslLightness}");
             byte r = 0;
             byte g = 0;
             byte b = 0;

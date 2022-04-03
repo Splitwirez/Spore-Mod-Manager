@@ -7,7 +7,7 @@ using System.Text;
 using SporeMods.Core;
 using SporeMods.Core.Mods;
 using SporeMods.CommonUI;
-using SporeMods.Core.ModTransactions;
+using SporeMods.Core.Transactions;
 
 namespace SporeMods.ViewModels
 {
@@ -86,8 +86,8 @@ namespace SporeMods.ViewModels
 		}
 
 
-		List<IInstalledMod> _selectedMods = new List<IInstalledMod>();
-		public List<IInstalledMod> SelectedMods
+		List<ISporeMod> _selectedMods = new List<ISporeMod>();
+		public List<ISporeMod> SelectedMods
 		{
 			get => _selectedMods;
 			set
@@ -104,19 +104,22 @@ namespace SporeMods.ViewModels
 			: base()
 		{
 			ModsManager.InstalledMods.CollectionChanged += (_, __) => RefreshColumns();
-			IInstalledMod.AnyModStatusChanged += (_, __) =>
+#if MOD_IMPL_RESTORE_LATER
+			IModEntry.AnyModStatusChanged += (_, __) =>
 			{
 				Cmd.WriteLine("Status changed!");
 				RefreshColumns();
 				Cmd.WriteLine($"AnyHasProgressSignifier: {AnyHasProgressSignifier}");
 			};
-			ModTransactionManager.Instance.AllTasksConcluded += _ => RefreshColumns();
+#endif
+			ModsManager.Instance.AllJobsConcluded += _ => RefreshColumns();
 			
 			RefreshColumns();
 		}
 
 		void RefreshColumns()
 		{
+#if MOD_IMPL_RESTORE_LATER
 			var mmods = ModsManager.InstalledMods.OfType<ManagedMod>();
 			bool anyExperimental = false;
 			bool anyCausesSaveDataDependency = false;
@@ -138,6 +141,7 @@ namespace SporeMods.ViewModels
 			AnyExperimental = anyExperimental; //mmods.Any(x => x.Identity.IsExperimental);
 			AnyCausesSaveDataDependency = anyCausesSaveDataDependency; //mmods.Any(x => x.Identity.CausesSaveDataDependency);
 			AnyHasProgressSignifier = anyHasProgressSignifier; //mmods.Any(x => x.HasProgressSignifier());
+#endif
 		}
 
 

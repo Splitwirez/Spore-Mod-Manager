@@ -1,78 +1,109 @@
-﻿using SporeMods.Core.ModTransactions;
-using SporeMods.Core.ModTransactions.Transactions;
+﻿/*using SporeMods.Core.ModTransactions;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
+using System.IO.Compression;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SporeMods.Core.Mods
 {
-	public class ManualInstalledFile : NotifyPropertyChangedBase, IInstalledMod
-	{
-		bool _legacy = false;
-		public ManualInstalledFile(string fileName, ComponentGameDir location, bool legacy)
-		{
-			RealName = fileName;
-			Location = location;
-			_legacy = legacy;
-		}
+    public class ManualInstalledFile : NotifyPropertyChangedBase, ISporeMod
+    {
+        string _displayName = string.Empty;
+        public string DisplayName
+        {
+            get => _displayName;
+            set
+            {
+                _displayName = value;
+                NotifyPropertyChanged();
+            }
+        }
 
-		public ComponentGameDir Location { get; } = ComponentGameDir.GalacticAdventures;
+        public bool HasExplicitUnique => throw new NotImplementedException();
 
-		public string DisplayName => Path.GetFileNameWithoutExtension(RealName);
+        public string Unique => throw new NotImplementedException();
 
-		public string Unique => RealName;
+        public bool HasInlineDescription => throw new NotImplementedException();
 
-		public string RealName { get; }
+        public string InlineDescription => throw new NotImplementedException();
 
-		public bool IsLegacy { get => _legacy; }
+        public bool HasExplicitVersion => throw new NotImplementedException();
 
-		public event PropertyChangedEventHandler PropertyChanged;
+        public Version ModVersion => throw new NotImplementedException();
 
-		public bool HasConfigsDirectory => false;
+        public List<ModDependency> Dependencies => throw new NotImplementedException();
 
-		public string Description => null;
-		
-		public bool HasDescription => false;
+        public List<string> UpgradeTargets => throw new NotImplementedException();
 
-		public Version ModVersion => ModIdentity.UNKNOWN_MOD_VERSION;
+        public bool IsExperimental => throw new NotImplementedException();
 
-		public List<string> Tags { get; } = new List<string>();
+        public bool CausesSaveDataDependency => throw new NotImplementedException();
 
-		public ModTransaction CreateUninstallTransaction()
-		{
-			return new UninstallManualModTransaction(this);
-		}
+        public bool RequiresGalaxyReset => throw new NotImplementedException();
 
-		private void NotifyPropertyChanged(string propertyName)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
+        IModText ISporeMod.DisplayName => throw new NotImplementedException();
 
-		//public event EventHandler IsProgressingChanged;
+        IModText ISporeMod.InlineDescription => throw new NotImplementedException();
 
-		public override string ToString()
-		{
-			return DisplayName;
-		}
+        public Task<bool> ApplyAsync(ModTransaction transaction)
+        {
+            throw new NotImplementedException();
+        }
 
-		TaskProgressSignifier _progressSignifier = null;
-		public TaskProgressSignifier ProgressSignifier
-		{
-			get => _progressSignifier;
-			set
-			{
-				_progressSignifier = value;
-				NotifyPropertyChanged();
-				IInstalledMod.CallThisOnProgressSignifierChanged();
-			}
-		}
+        public bool DependsOn(ISporeMod mod)
+        {
+            throw new NotImplementedException();
+        }
 
-		public bool CanUninstall => ProgressSignifier == null;
-		public bool CanReconfigure => false;
-		public bool PreventsGameLaunch => ProgressSignifier != null;
-	}
-}
+        public Task<bool> ExtractAllFilesAsync(Func<string> extractFunc, ModTransaction transaction)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsUpgradeTo(ISporeMod mod)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> PurgeAsync(ModTransaction transaction)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool TryLoadFromRecordDir(string location)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> UninstallAsync(ModTransaction transaction)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IModAsyncOperation GetExtractFilesAsyncOp(ModTransaction transaction, string inPath, ZipArchive archive = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IModAsyncOperation GetApplyAsyncOp(ModTransaction transaction)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IModAsyncOperation GetPurgeAsyncOp(ModTransaction transaction)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IModAsyncOperation GetUninstallAsyncOp(ModTransaction transaction)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<InstallOverviewEntryBase> EnsureCanInstall(InstallOverviewModEntry entry, List<InstallOverviewModEntry> otherEntries)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}*/

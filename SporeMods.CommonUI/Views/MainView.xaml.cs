@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -42,5 +43,15 @@ namespace SporeMods.Views
                 //UACPartnerCommands.TryShowHideDragServantWindow(false);
             }
         }
+
+#if MOD_IMPL_RESTORE_LATER
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            if (SporeMods.Core.ModTransactions.ModTransactionManager.Instance.HasRunningTasks)
+                e.Cancel = true;
+
+            base.OnClosing(e);
+        }
+#endif
     }
 }

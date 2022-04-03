@@ -181,19 +181,31 @@ namespace SporeMods.Core.Injection
 			Process.Start(ModApiHelpThreadURL);
 		}*/
 
-		static void InjectDLLs(string dllEnding)
-		{
-			string coreDllInPath = CoreDllRetriever.GetStoredCoreDllPath(_executableType);
-			string coreDllOutPath = CoreDllRetriever.GetInjectableCoreDllPath(_executableType);
+		static (string, string, string, string) GetDLLPaths()
+			=>
+			(
+				CoreDllRetriever.GetStoredCoreDllPath(_executableType),
+				CoreDllRetriever.GetInjectableCoreDllPath(_executableType),
+				CoreDllRetriever.GetStoredCoreDllPath(_executableType, true),
+				CoreDllRetriever.GetInjectableCoreDllPath(_executableType, true)
+			);
 
-			string libInPath = CoreDllRetriever.GetStoredCoreDllPath(_executableType, true);
-			string libOutPath = CoreDllRetriever.GetInjectableCoreDllPath(_executableType, true);
+
+		static void EnsureDlls(string dllEnding)
+        {
+			var (coreDllInPath, coreDllOutPath, libInPath, libOutPath) = GetDLLPaths();
 
 			//Copy Core DLL and LIB
 			File.Copy(coreDllInPath, coreDllOutPath, true);
 			File.Copy(libInPath, libOutPath, true);
 			Permissions.GrantAccessFile(coreDllOutPath);
 			Permissions.GrantAccessFile(libOutPath);
+		}
+
+		static void InjectDLLs(string dllEnding)
+		{
+			var (coreDllInPath, coreDllOutPath, libInPath, libOutPath) = GetDLLPaths();
+
 
 			//Inject Core DLL
 			Injector.InjectDLL(_processInfo, coreDllOutPath);
@@ -257,6 +269,8 @@ namespace SporeMods.Core.Injection
 
 		static void InjectNormalSporeProcess(string dllEnding)
 		{
+			EnsureDlls(dllEnding);
+
 			CreateSporeProcess();
 
 			InjectDLLs(dllEnding);
@@ -271,6 +285,8 @@ namespace SporeMods.Core.Injection
 		// Steam spore needs special treatment: the game will clsoe if not executed through Steam
 		static void InjectSteamSporeProcess()
 		{
+			EnsureDlls(GetExecutableDllSuffix(GameExecutableType.GogOrSteam__March2017));
+
 			var pOpenThreads = new List<IntPtr>();
 
 			string sporeAppName = "SporeApp";
@@ -885,14 +901,16 @@ namespace SporeMods.Core.Injection
 				//InstalledMods mods = new InstalledMods();
 				//mods.Load();
 				MessageDisplay.DebugShowMessageBox("BEGIN MOD CONFIGURATION NAMES");
-				foreach (IInstalledMod configuration in ModsManager.InstalledMods)
+				foreach (ISporeMod configuration in ModsManager.InstalledMods)
 				{
+#if MOD_IMPL_RESTORE_LATER
 					MessageDisplay.DebugShowMessageBox(configuration.RealName);
 					if (configuration.Unique.ToLowerInvariant().Contains(di230))
 					{
 						returnValue = false;
 						break;
 					}
+#endif
 				}
 				MessageDisplay.DebugShowMessageBox("END MOD CONFIGURATION NAMES");
 				if (!returnValue)

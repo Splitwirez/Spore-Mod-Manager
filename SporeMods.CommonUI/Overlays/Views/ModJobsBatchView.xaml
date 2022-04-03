@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="SporeMods.Views.ModJobsBatchView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:cui="clr-namespace:SporeMods.CommonUI"
+             xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:mods="clr-namespace:SporeMods.Core.Mods;assembly=SporeMods.Core"
+             Content="{Binding DataContext, RelativeSource={RelativeSource Mode=Self}}">
+    <UserControl.ContentTemplate>
+        <DataTemplate DataType="{x:Type mods:ModJobsBatchViewModel}">
+            <cui:FloorPanel>
+                <DockPanel x:Name="Overview"
+                           Visibility="Collapsed"
+                           IsEnabled="False">
+                    <cui:Zone Style="{DynamicResource CustomInstallerFooterZoneStyle}"
+                        DockPanel.Dock="Bottom">
+                        <Button Command="{Binding ConfirmCommand}">Proceed (PLACEHOLDER) (NOT LOCALIZED)</Button>
+                    </cui:Zone>
+                    <!--TextBlock Text="{Binding Content}" Margin="100"/-->
+                    <ItemsControl x:Name="OverviewList">
+                        <ItemsControl.Resources>
+                            <DataTemplate DataType="{x:Type mods:ModJobBatchModEntry}">
+                                <DockPanel>
+                                    <CheckBox IsChecked="{Binding ShouldProceed, Mode=TwoWay}"
+                                              DockPanel.Dock="Left"
+                                              IsEnabled="{Binding CanProceed}"/>
+                                    <TextBlock Text="{Binding Path=Mod.DisplayName.Value, Mode=OneWay}" VerticalAlignment="Center" Style="{DynamicResource h3}"/>
+                                </DockPanel>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type mods:ModJobBatchErrorEntry}">
+                                <DockPanel>
+                                    <CheckBox IsChecked="False"
+                                              DockPanel.Dock="Left"
+                                              IsEnabled="False"/>
+                                    <TextBlock Text="{Binding Path=Mod.DisplayName.Value, Mode=OneWay}" VerticalAlignment="Center" Style="{DynamicResource h3}"/>
+                                </DockPanel>
+                            </DataTemplate>
+                        </ItemsControl.Resources>
+                    </ItemsControl>
+                </DockPanel>
+                <cui:FloorPanel x:Name="StillLoading">
+                    <ProgressBar IsIndeterminate="True" VerticalAlignment="Center"/>
+                </cui:FloorPanel>
+            </cui:FloorPanel>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding IsAnalysisComplete}" Value="True">
+                    <Setter TargetName="StillLoading" Property="Visibility" Value="Collapsed"/>
+                    <Setter TargetName="Overview" Property="Visibility" Value="Visible"/>
+                    <Setter TargetName="Overview" Property="IsEnabled" Value="True"/>
+                    <Setter TargetName="OverviewList" Property="ItemsSource" Value="{Binding Entries, Mode=OneWay}"/>
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+    </UserControl.ContentTemplate>
+</UserControl>

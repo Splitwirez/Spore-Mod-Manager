@@ -41,7 +41,7 @@ namespace SporeMods.Core
 			"bp2_data"
 		};
 
-		public static bool IsUnprotectedFile(string path, bool isFullPath)
+		public static bool IsUnprotectedFile(string path, bool isFullPath = true)
 		{
 			bool canCopy = true;
 			string name = path;
@@ -59,10 +59,12 @@ namespace SporeMods.Core
 			return canCopy;
 		}
 
-		public static bool IsUnprotectedFile(string path)
+		public static void SafeCopyModFile(string sourcePath, string destPath)
 		{
-			return IsUnprotectedFile(path, true);
+			if (IsUnprotectedFile(destPath))
+				File.Copy(sourcePath, destPath, true);
 		}
+
 
 		public static Exception SafeCopyFile(string sourcePath, string destPath)
 		{
@@ -87,10 +89,27 @@ namespace SporeMods.Core
 			}
 		}
 
-		public static void SafeDeleteFile(string targetPath)
+		public static void SafeDeleteModFile(string targetPath)
 		{
 			if (File.Exists(targetPath) && IsUnprotectedFile(targetPath))
 				File.Delete(targetPath);
+		}
+
+		public static Exception SafeDeleteFile(string destPath)
+		{
+			try
+			{
+				if (IsUnprotectedFile(destPath))
+				{
+					if (File.Exists(destPath))
+						File.Delete(destPath);
+				}
+				return null;
+			}
+			catch (Exception ex)
+			{
+				return ex;
+			}
 		}
 
 		public static string GetGameDirectory(ComponentGameDir dir, bool isLegacy)

@@ -41,5 +41,8 @@ namespace SporeMods.Core
 
 		public static bool SpecifyNeedsPrerequisitesExtracted(bool val)
 			=> _needsPrerequisitesExtracted = val;
+
+		
+		public static Func<string, string> GetLocalizedText = (key) => key;
 	}
 }

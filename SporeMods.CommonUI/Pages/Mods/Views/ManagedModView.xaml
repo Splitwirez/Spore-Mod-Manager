@@ -28,7 +28,7 @@
 
     <CubicEase x:Key="ScalingEase" EasingMode="EaseOut"/>
     
-    <DataTemplate DataType="{x:Type mods:ManagedMod}">
+    <DataTemplate DataType="{x:Type mods:ISporeMod}">
         <DockPanel>
             <DockPanel x:Name="ModRootDockPanel" Height="36" DockPanel.Dock="Top">
                 <!--Height="{Binding Height, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}"-->
@@ -179,7 +179,7 @@
 
 
     
-    <DataTemplate DataType="{x:Type mods:ManualInstalledFile}">
+    <!--DataTemplate DataType="{x:Type mods:ManualInstalledFile}">
         <DockPanel x:Name="ModRootDockPanel" Height="36" Margin="10,0">
             <Control x:Name="ProgressDisplay" Visibility="Collapsed"/>
             <TextBlock Text="{DynamicResource Mods!ListEntry!ManuallyInstalled}" TextAlignment="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,0,0,0" Opacity="0.5" DockPanel.Dock="Right"/>
@@ -196,5 +196,5 @@
                 <Setter TargetName="ProgressDisplay" Property="Style" Value="{DynamicResource ModListProgressDisplayStyle}"/>
             </MultiDataTrigger>
         </DataTemplate.Triggers>
-    </DataTemplate>
+    </DataTemplate-->
 </ResourceDictionary>

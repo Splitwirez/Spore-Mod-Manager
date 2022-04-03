@@ -360,7 +360,11 @@ namespace SporeMods.Core
 					return new Version(minVer.Major, minVer.Minor, minVer.Build, 0);
 				}
 				else
+#if MOD_IMPL_RESTORE_LATER
 					return Mods.ModIdentity.UNKNOWN_MOD_VERSION;
+#else
+					return null;
+#endif
 			}
 		}
 
@@ -426,7 +430,7 @@ namespace SporeMods.Core
 			}
 		}
 
-		/// <summary>
+		/*/// <summary>
 		/// Path to the ModQueues subfolder.
 		/// </summary>
 		public static string ModQueuePath
@@ -438,7 +442,7 @@ namespace SporeMods.Core
 					Directory.CreateDirectory(path);
 				return path;
 			}
-		}
+		}*/
 
 		static string _settingsFilePath = null;
 		static XDocument _document;

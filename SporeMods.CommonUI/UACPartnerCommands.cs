@@ -220,7 +220,7 @@ namespace SporeMods.CommonUI
 			{
 				var csNo = StringComparison.OrdinalIgnoreCase;
 
-				while (Permissions.IsFileLocked(args.FullPath))
+				while (File.Exists(args.FullPath) ? Permissions.IsFileLocked(args.FullPath) : false)
 				{ }
 
 				bool processed = true;
@@ -299,7 +299,7 @@ namespace SporeMods.CommonUI
 			string signalPath = Path.Combine(SignalsPath, signal);
 			if (File.Exists(signalPath))
 				File.Delete(signalPath);
-			
+			//System.Threading.Thread.Sleep(10);
 			File.WriteAllText(signalPath, content);
 			Permissions.GrantAccessFile(signalPath);
 		}

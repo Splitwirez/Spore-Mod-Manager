@@ -8,10 +8,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using SporeMods.Core;
 using SporeMods.Core.Mods;
-using SporeMods.Core.ModTransactions;
+using SporeMods.Core.Transactions;
 using SporeMods.CommonUI;
 using SporeMods.CommonUI.Localization;
-using ModTaskStatus = SporeMods.Core.ModTransactions.TaskStatus;
+//using ModTaskStatus = SporeMods.Core.ModTransactions.TaskStatus;
 
 namespace SporeMods.ViewModels
 {
@@ -145,7 +145,7 @@ namespace SporeMods.ViewModels
 
 			InstalledModsViewModel.SelectedModsChanged += (s, e) =>
 			{
-				if (s is List<IInstalledMod> mods)
+				if (s is List<ISporeMod> mods)
 				{
 					RefreshCanDoesThings(mods);
 					_selectedMods = mods;
@@ -154,54 +154,74 @@ namespace SporeMods.ViewModels
 
 			//ManagedMod.AnyModIsProgressingChanged += (s, e) => CanLaunchSpore = !AreAnyProgressing(ModsManager.InstalledMods);
 			
-			ModTransactionManager.Instance.AllTasksConcluded += (tasks) =>
+			ModsManager.Instance.AllJobsConcluded += async (conclusion) =>
 			{
-				int succeeded = tasks.Count(x => x.Status == ModTaskStatus.Succeeded);
-				int skipped = tasks.Count(x => x.Status == ModTaskStatus.Skipped);
-				int failed = tasks.Count(x => x.Status == ModTaskStatus.Failed);
+				await Modal.Show(conclusion);
+				/*
+				int succeeded = await Task<int>.Run(() => tasks.Count(x => x.ProgressSignifier.Status == ModTaskStatus.Succeeded));
+				int skipped = await Task<int>.Run(() => tasks.Count(x => x.ProgressSignifier.Status == ModTaskStatus.Skipped));
+				int failed = await Task<int>.Run(() => tasks.Count(x => x.ProgressSignifier.Status == ModTaskStatus.Failed));
 
 				if (
-						(succeeded > 0) &&
-						(skipped == 0) &&
-						(failed == 0)
+						   (succeeded > 0)
+						&& (skipped == 0)
+						&& (failed == 0)
 					)
 				{
-					Modal.Show(new AllTasksSucceededNoticeViewModel());
+					await Modal.Show(new AllTasksSucceededNoticeViewModel());
 				}
 				else
 				{
-					string tempText = "All tasks have concluded (PLACEHOLDER) (NOT LOCALIZED)";
-
-					bool hasRunningTasks = ModTransactionManager.Instance.HasRunningTasks;
-					int howManyNotConcluded = tasks.Count(x => !x.IsConcluded);
-					bool anyNotConcluded = howManyNotConcluded > 0;
-					if (hasRunningTasks || anyNotConcluded)
+					string tempMsgText =
+					await Task<string>.Run(() =>
 					{
-						tempText = "All tasks have completed, but something weird happened: ";
-						if (hasRunningTasks)
-							tempText += "[ANY HASRUNNINGTASKS] ";
-						if (anyNotConcluded)
-							tempText += $"[{howManyNotConcluded} NOTCONCLUDED] ";
-						
-						tempText += "(PLACEHOLDER) (NOT LOCALIZED)\nIf you see this text, inform Splitwirez immediately, and try not to close the SMM in the meantime if possible.";
-					}
+						string tempText = "All tasks have concluded (PLACEHOLDER) (NOT LOCALIZED)";
 
 
-					if (succeeded > 0)
-						tempText += $"\n\tSucceeded: {succeeded} (PLACEHOLDER) (NOT LOCALIZED)";
+						bool hasRunningTasks = ModTransactionManager.Instance.HasRunningTasks;
+						int howManyNotConcluded = tasks.Count(x => !x.ProgressSignifier.IsConcluded);
+						bool anyNotConcluded = howManyNotConcluded > 0;
+						if (hasRunningTasks || anyNotConcluded)
+						{
+							tempText = "All tasks have completed, but something weird happened: ";
+							if (hasRunningTasks)
+								tempText += "[ANY HASRUNNINGTASKS] ";
+							if (anyNotConcluded)
+								tempText += $"[{howManyNotConcluded} NOTCONCLUDED] ";
 
-					if (skipped > 0)
-						tempText += $"\n\tSkipped: {skipped} (PLACEHOLDER) (NOT LOCALIZED)";
+							tempText += "(PLACEHOLDER) (NOT LOCALIZED)\nIf you see this text, inform Splitwirez immediately, and try not to close the SMM in the meantime if possible.";
+						}
 
-					if (failed > 0)
-						tempText += $"\n\tFailed: {failed} (PLACEHOLDER) (NOT LOCALIZED)";
-					
-					DialogBox.ShowAsync(tempText, "Temporary task conclusion notification (PLACEHOLDER) (NOT LOCALIZED)");
-				}
+
+						//if (succeeded > 0)
+						tempText += $"\n\tSucceeded: {succeeded} (PLACEHOLDER) (NOT LOCALIZED)\n" +
+
+						//if (skipped > 0)
+						/*tempText += * /$"\n\tSkipped: {skipped} (PLACEHOLDER) (NOT LOCALIZED)\n" +
+
+						//if (failed > 0)
+						/*tempText += * /$"\n\tFailed: {failed} (PLACEHOLDER) (NOT LOCALIZED)\n";
+
+
+						/*var failedTasks = tasks.Where(x => x.ProgressSignifier.Status == ModTaskStatus.Failed);
+						if (failedTasks.Count() > 0)
+						{* /
+						foreach (var fail in tasks)
+						{
+							if (fail.Exception != null)
+								tempText += fail.Exception.ToString();
+						}
+						//}
+						return tempText;
+					});
+
+
+					await DialogBox.ShowAsync(tempMsgText, "Temporary task conclusion notification (PLACEHOLDER) (NOT LOCALIZED)");
+				}*/
 			};
 		}
 
-		void RefreshCanDoesThings(IEnumerable<IInstalledMod> mods)
+		void RefreshCanDoesThings(IEnumerable<ISporeMod> mods)
 		{
 			CanUninstallMods = false;
 			CanChangeModSettings = false;
@@ -211,12 +231,18 @@ namespace SporeMods.ViewModels
 			if (count >= 1)
 			{
 				CanUninstallMods = !AreAnyProgressing(mods);
+#if MOD_IMPL_RESTORE_LATER
 				CanChangeModSettings = (mods.Count() == 1) && (mods.First() is ManagedMod mmod) && (!mmod.HasProgressSignifier()) && mmod.HasConfigurator;
+#endif
 			}
 		}
 
-		bool AreAnyProgressing(IEnumerable<IInstalledMod> mods)
+		bool AreAnyProgressing(IEnumerable<ISporeMod> mods)
+#if MOD_IMPL_RESTORE_LATER
 			=> mods.Any(x => (x is ManagedMod mmod) ? mmod.HasProgressSignifier() : false);
+#else
+			=> false;
+#endif
 
 		void RefreshTitle()
 		{
@@ -240,13 +266,14 @@ namespace SporeMods.ViewModels
 		{
 			var files = await Modal.Show(new RequestFilesViewModel(FileRequestPurpose.InstallMods, true));
 			if (files != null)
-				ModTransactionManager.InstallModsAsync(files.ToArray());
+				ModsManager.Instance.InstallModsAsync(files.ToArray());
 		}
 
 		
-		List<IInstalledMod> _selectedMods = new List<IInstalledMod>();
+		List<ISporeMod> _selectedMods = new List<ISporeMod>();
 		async Task UninstallMods()
 		{
+#if MOD_IMPL_RESTORE_LATER
 			bool allCanUninstall = _selectedMods.All(x => x.CanUninstall);
 			Cmd.WriteLine($"UninstallMods() called\n\tcount: {_selectedMods.Count}\n\tall can uninstall: {allCanUninstall}");
 			if (
@@ -262,13 +289,19 @@ namespace SporeMods.ViewModels
 				CanUninstallMods = false;
 				await DialogBox.ShowAsync("Can't uninstall mods that are presently doing other stuff (PLACEHOLDER) (NOT LOCALIZED)");
 			}
+#else
+			var modsToUninstall = _selectedMods.ToArray();
+			//await DialogBox.ShowAsync($"{modsToUninstall.Length}");
+			ModsManager.Instance.UninstallModsAsync(modsToUninstall);
+#endif
 		}
 
 
 		async Task ChangeModSettings()
 		{
-			IInstalledMod mod = _selectedMods?.FirstOrDefault();
+			ISporeMod mod = _selectedMods?.FirstOrDefault();
 			bool error = true;
+#if MOD_IMPL_RESTORE_LATER
 			if (
 					(mod != null) &&
 					(mod is ManagedMod mmod) &&
@@ -277,6 +310,7 @@ namespace SporeMods.ViewModels
 				mmod.ShowSettings();
 				error = false;
 			}
+#endif
 			
 			if (error)
 			{

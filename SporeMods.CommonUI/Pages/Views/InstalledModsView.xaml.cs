@@ -1,5 +1,6 @@
 ﻿using SporeMods.CommonUI;
 using SporeMods.Core.Mods;
+using ModsManager = SporeMods.Core.ModsManager;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,8 +24,8 @@ namespace SporeMods.Views
         {
             InitializeComponent();
 
-            SporeMods.Core.ModsManager.InstalledMods.CollectionChanged += (s, e) => AllUpdateColumnWidths();
-			SporeMods.Core.ModTransactions.ModTransactionManager.Instance.AllTasksConcluded += (tasks) => AllUpdateColumnWidths();
+            ModsManager.InstalledMods.CollectionChanged += (s, e) => AllUpdateColumnWidths();
+			ModsManager.Instance.AllJobsConcluded += (tasks) => AllUpdateColumnWidths();
         }
 
         public void MenuToggleButton_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
@@ -41,9 +42,9 @@ namespace SporeMods.Views
             {
                 var rawSelected = listView.SelectedItems;
                 if (rawSelected != null)
-                    VM.SelectedMods = rawSelected.OfType<IInstalledMod>().ToList();
+                    VM.SelectedMods = rawSelected.OfType<ISporeMod>().ToList();
                 else
-                    VM.SelectedMods = new List<IInstalledMod>();
+                    VM.SelectedMods = new List<ISporeMod>();
             }
         }
 
@@ -121,9 +122,13 @@ namespace SporeMods.Views
     public class IsManualInstalledFileConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+#if MOD_IMPL_RESTORE_LATER
         {
             return value is ManualInstalledFile;
         }
+#else
+            => false;
+#endif
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -135,7 +140,7 @@ namespace SporeMods.Views
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (value != null) && (value is SporeMods.Core.ModTransactions.TaskProgressSignifier);
+            return (value != null) && (value is SporeMods.Core.Mods.ModJob);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

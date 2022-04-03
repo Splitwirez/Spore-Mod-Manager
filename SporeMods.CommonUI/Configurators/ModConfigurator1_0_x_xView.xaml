@@ -22,7 +22,7 @@
                     Style="{DynamicResource ModConfiguratorComponentsListStyle}"
                     ItemsSource="{Binding Identity.SubComponents}"
                     cui:AttachedProperties.CornerCurves="True,False,False,True">
-            <ItemsControl.Resources>
+            <!--ItemsControl.Resources>
                 <DataTemplate DataType="{x:Type mods:MutualExclusiveComponentGroup}">
                     <DataTemplate.Resources>
                         <DataTemplate DataType="{x:Type mods:ModComponent}">
@@ -53,7 +53,7 @@
                         </e:Interaction.Triggers>
                     </CheckBox>
                 </DataTemplate>
-            </ItemsControl.Resources>
+            </ItemsControl.Resources-->
         </ItemsControl>
         <cui:Zone x:Name="HeaderContentControl"
                         Style="{DynamicResource ModConfiguratorHeaderZoneStyle}"

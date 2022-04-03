@@ -20,6 +20,13 @@ namespace SporeMods.CommonUI
     {
 		public SmmApp()
 		{
+			/*AppDomain.CurrentDomain.FirstChanceException += (s, e) =>
+			{
+				if (e.Exception is FileNotFoundException fnfex)
+                {
+					CUIMsg.ShowException(fnfex, false);
+                }
+			};*/
 			AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 			DispatcherUnhandledException += App_DispatcherUnhandledException;
 		}

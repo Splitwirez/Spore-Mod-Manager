@@ -112,8 +112,11 @@ namespace SporeMods.CommonUI.Localization
 
             //string currentCode = Settings.CurrentLanguageCode;
 
+            SporeMods.Core.Externals.GetLocalizedText = GetLocalizedText;
             SporeLauncher.GetLocalizedString = GetLocalizedText;
+#if MOD_IMPL_RESTORE_LATER
             Core.Mods.XmlModIdentityV1.GetLocalizedString = GetLocalizedText;
+#endif
         }
 
         void FinishInit()

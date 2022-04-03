@@ -128,26 +128,25 @@
                                                         VerticalAlignment="Center"
                                                         >
                                                         <!--Margin="{Binding Padding, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource FudgeMarginsForGridViewFirstColumnCellTemplateConverter}}"-->
-                                                <cui:StackPanelEx Orientation="Vertical"
-                                                                Spacing="3">
-                                                <TextBlock Text="{Binding DisplayName}"
+                                                <StackPanel Orientation="Vertical">
+                                                <TextBlock Text="{Binding DisplayName.Value}"
                                                         VerticalAlignment="Center"
                                                         Style="{DynamicResource InstalledModHeader}"/>
                                                 <TextBlock x:Name="SubText"
                                                         VerticalAlignment="Center"
                                                         Style="{DynamicResource InstalledModSubText}"
                                                         Visibility="Collapsed"/>
-                                                </cui:StackPanelEx>
+                                                </StackPanel>
                                                 <ToggleButton x:Name="ExpandCollapseToggleButton"
-                                                            Visibility="{Binding HasDescription, FallbackValue=False, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                                            IsChecked="{Binding ShowDescription, Mode=TwoWay}"
+                                                            Visibility="{Binding HasInlineDescription, FallbackValue=False, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                            IsChecked="{Binding ShowInlineDescription, Mode=TwoWay}"
                                                             Style="{DynamicResource ModEntryExpandCollapseToggleButtonStyle}"/>
                                             </StackPanel>
                                             <!--Visibility="{Binding Visibility, ElementName=ExpandCollapseToggleButton}"-->
                                         </DockPanel>
                                     </Expander.Header>
                                     <cui:NoSizeDecorator HorizontalAlignment="Stretch">
-                                        <TextBlock Text="{Binding Description}" TextWrapping="Wrap" TextAlignment="Left" ClipToBounds="False"/>
+                                        <TextBlock Text="{Binding InlineDescription.Value}" TextWrapping="Wrap" TextAlignment="Left" ClipToBounds="False"/>
                                         <!--Width="{Binding ActualWidth, ElementName=ModRootDockPanel}"-->
                                     </cui:NoSizeDecorator>
                                 </Expander>

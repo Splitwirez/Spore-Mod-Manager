@@ -45,7 +45,27 @@ namespace SporeMods.CommonUI
 
 		public static void ShowMessageBox(string messageBoxText, string caption)
 		{
-			MessageBox.Show(messageBoxText, caption);
+			/*if (Application.Current != null)
+			{
+				var dispatcher = Application.Current.Dispatcher;
+				var windows = Application.Current.Windows;
+				if (windows.Count > 0)
+                {
+					foreach (Window w in windows)
+                    {
+						if (w.IsActive)
+						{
+							dispatcher = w.Dispatcher;
+							break;
+						}
+                    }
+                }
+				dispatcher.Invoke(() => MessageBox.Show(messageBoxText, caption));
+			}
+			else
+			{*/
+				MessageBox.Show(messageBoxText, caption);
+			//}
 		}
 
 
