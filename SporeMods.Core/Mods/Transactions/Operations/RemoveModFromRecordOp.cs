@@ -12,7 +12,7 @@ using SporeMods.Core.Transactions;
 
 namespace SporeMods.Core.Mods
 {
-    public class RemoveModFromRecordOp : IAsyncOperation
+    public class RemoveModFromRecordOp : AsyncOperationBase
     {
         ISporeMod _mod = null;
         public RemoveModFromRecordOp(ISporeMod mod)
@@ -20,17 +20,11 @@ namespace SporeMods.Core.Mods
             _mod = mod;
         }
 
-        Exception _exception = null;
-        public Exception Exception
-        {
-            get => _exception;
-        }
-
-        public async Task<bool> DoAsync()
+        public override async Task<bool> DoAsync()
         {
             try
             {
-                return await Task<bool>.Run(() =>
+                return await this.BoolTaskEx(() =>
                 {
                     //if (ModsManager.InstalledMods.Contains(_mod))
                     ModsManager.InstalledMods.Remove(_mod);
@@ -39,12 +33,12 @@ namespace SporeMods.Core.Mods
             }
             catch (Exception ex)
             {
-                _exception = ex;
+                Exception = ex;
                 throw ex;
             }
         }
 
-        public void Undo()
+        public override void Undo()
         {
             ModsManager.InstalledMods.Add(_mod);
         }

@@ -27,41 +27,32 @@ namespace SporeMods.Core.Mods
             //ProgressSignifier.Status = TaskStatus.Determinate;
             ZipArchive archive = null;
             Job.TrySetActivityRange(0, JobBase.PROGRESS_OVERALL_MAX / 2);
-            IAsyncOperation extractOperation = null;
+
             await Task.Run(() =>
             {
                 string extension = Path.GetExtension(_entry.ModPath);
 
                 if (extension.Equals(ModConstants.MOD_FILE_EX_SPOREMOD, StringComparison.OrdinalIgnoreCase))
                     archive = ZipFile.OpenRead(_entry.ModPath);
-                
-                extractOperation = _entry.Mod.GetExtractRecordFilesAsyncOp(this, _entry.ModPath, archive);
             });
 
-            await OperationAsync(extractOperation);
-
+            Exception exception = await _entry.Mod.ExtractRecordFilesAsync(this, _entry.ModPath, archive);
             archive?.Dispose();
 
-            if (extractOperation.Exception != null)
+            if (exception != null)
             {
-                Exception = extractOperation.Exception;
+                Exception = exception;
                 return false;
             }
 
             
             Job.TrySetActivityRange(JobBase.PROGRESS_OVERALL_MAX / 2, JobBase.PROGRESS_OVERALL_MAX);
-            IAsyncOperation applyOperation = null;
-            await Task.Run(() =>
-            {
-                applyOperation = _entry.Mod.GetApplyAsyncOp(this);
-                //ProgressSignifier.Progress = 100;
-            });
-
-            await OperationAsync(applyOperation);
             
-            if (applyOperation.Exception != null)
+
+            exception = await _entry.Mod.ApplyAsync(this);
+            if (exception != null)
             {
-                Exception = applyOperation.Exception;
+                Exception = exception;
                 return false;
             }
 

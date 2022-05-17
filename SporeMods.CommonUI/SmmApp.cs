@@ -13,6 +13,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Threading;
 
 namespace SporeMods.CommonUI
 {
@@ -86,12 +88,31 @@ namespace SporeMods.CommonUI
 		bool _ensureUACPartner = false;
 		protected override void OnStartup(StartupEventArgs e)
 		{
+			Externals.UIThread = SynchronizationContext.Current;
 			CUIMsg.EnsureConsole();
 
 			RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
 
 			Externals.SpecifyFuncCommandType(typeof(FuncCommand<>));
 			Externals.ProvideExtractOriginPrerequisitesFunc(VersionValidation.ExtractOriginPrerequisites);
+			Externals.CreateBitmapImage = s =>
+			{
+				var mem = new MemoryStream();
+				s.CopyTo(mem);
+				s.Seek(0, SeekOrigin.Begin);
+				mem.Seek(0, SeekOrigin.Begin);
+				BitmapImage bitmap = null;
+				using (var stream = mem)
+				{
+					bitmap = new BitmapImage();
+					bitmap.BeginInit();
+					bitmap.StreamSource = stream;
+					bitmap.CacheOption = BitmapCacheOption.OnLoad;
+					bitmap.EndInit();
+					bitmap.Freeze();
+				}
+				return bitmap;
+			};
 
 			CoreMsg.ErrorOccurred += (sneder, args) =>
 			{

@@ -103,7 +103,7 @@ namespace SporeMods.Core.Mods
             if (doc == null)
             {
                 string identityRaw = File.ReadAllText(Path.Combine(location, ModConstants.ID_XML_FILE_NAME));
-                doc = XDocument.Parse(identityRaw);
+                doc = XDocument.Parse(identityRaw, ModConstants.ID_XML_LOAD_OPTIONS);
             }
 
             List<string> packageNames = new List<string>();
@@ -127,8 +127,7 @@ namespace SporeMods.Core.Mods
             DllNames = dllNames;
         }
 
-        private PreIdentityMod
-        (
+        private PreIdentityMod(
               string recordDirName
             , string unique
             , string displayName
@@ -270,6 +269,8 @@ namespace SporeMods.Core.Mods
                             packageNames.Add(hName);
                         else if (Path.GetExtension(hName).Equals(ModConstants.MOD_SUBFILE_EX_DLL, StringComparison.OrdinalIgnoreCase))
                             dllNames.Add(hName);
+                        else if (hName.Equals(ModConstants.ID_XML_FILE_NAME))
+                            return null;
                     }
                 }
                 else if (Path.GetExtension(inPath).Equals(ModConstants.MOD_FILE_EX_DBPF))
@@ -379,26 +380,6 @@ namespace SporeMods.Core.Mods
             }*/
         }
 
-
-        public IAsyncOperation GetExtractRecordFilesAsyncOp(ModTransaction transaction, string inPath, ZipArchive archive = null)
-        {
-            return new PreIdentityMod.ExtractRecordFilesOp(this, transaction, inPath, archive);
-        }
-
-        public IAsyncOperation GetApplyAsyncOp(ModTransaction transaction)
-        {
-            return new PreIdentityMod.ApplyOp(this, transaction);
-        }
-
-        public IAsyncOperation GetPurgeAsyncOp(ModTransaction transaction)
-        {
-            return new PreIdentityMod.PurgeOp(this, transaction);
-        }
-
-        public IAsyncOperation GetRemoveRecordFilesAsyncOp(ModTransaction transaction, bool removeConfig)
-        {
-            return new PreIdentityMod.RemoveRecordFilesOp(this, transaction, removeConfig);
-        }
 
         public override string ToString()
         => DisplayName.ToString();

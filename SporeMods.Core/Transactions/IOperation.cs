@@ -13,6 +13,7 @@ namespace SporeMods.Core.Transactions
         public Exception Exception
         {
             get;
+            set;
         }
 
 
@@ -24,7 +25,8 @@ namespace SporeMods.Core.Transactions
         /// <summary>
         /// Called after the transaction succeeds or fails, must clean any resources used by the operation.
         /// </summary>
-        public void Dispose();
+        public void Dispose()
+        { }
     }
     /// <summary>
     /// An operation that is executed synchronously.
@@ -33,11 +35,41 @@ namespace SporeMods.Core.Transactions
     {
         public bool Do();
     }
+
+    public abstract class SyncOperationBase : ISyncOperation
+    {
+        public abstract bool Do();
+        public abstract void Undo();
+
+
+        Exception _exception = null;
+        public virtual Exception Exception
+        {
+            get => _exception;
+            set => _exception = value;
+        }
+    }
+
+
     /// <summary>
     /// A operation that is executed asynchronously.
     /// </summary>
     public interface IAsyncOperation : IOperation
     {
         public Task<bool> DoAsync();
+    }
+
+    public abstract class AsyncOperationBase : IAsyncOperation
+    {
+        public abstract Task<bool> DoAsync();
+        public abstract void Undo();
+
+
+        Exception _exception = null;
+        public virtual Exception Exception
+        {
+            get => _exception;
+            set => _exception = value;
+        }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 
 namespace SporeMods.Core
 {
@@ -44,5 +45,8 @@ namespace SporeMods.Core
 
 		
 		public static Func<string, string> GetLocalizedText = (key) => key;
+
+		public static Func<Stream, object> CreateBitmapImage = null;
+		public static SynchronizationContext UIThread = null;
 	}
 }

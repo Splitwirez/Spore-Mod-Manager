@@ -30,6 +30,7 @@ namespace SporeMods.Core
 
         static List<Func<string, ZipArchive, Task<ISporeMod>>> _ANALYZE_MOD_FROM_SPOREMOD = new List<Func<string, ZipArchive, Task<ISporeMod>>>()
         {
+            MI1_0_X_XMod.AnalyzeFromSporemodAsync,
             PreIdentityMod.AnalyzeFromSporemodAsync
         };
         static List<Func<string, Task<ISporeMod>>> _ANALYZE_MOD_FROM_DBPF = new List<Func<string, Task<ISporeMod>>>()

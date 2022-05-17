@@ -19,7 +19,7 @@ namespace SporeMods.Core
         public ThreadSafeObservableCollection()
             : base()
         {
-            _syncContext = SynchronizationContext.Current;
+            _syncContext = Externals.UIThread; //SynchronizationContext.Current;
         }
 
         protected override void ClearItems()

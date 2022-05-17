@@ -162,7 +162,7 @@ namespace SporeMods.Core.Mods
         #endregion
 
 
-        #region Management functions
+#region Management functions
         
         
         Task<ModJobBatchEntryBase> EnsureCanInstall(ModJobBatchModEntry entry, List<ModJobBatchModEntry> otherEntries);
@@ -172,7 +172,7 @@ namespace SporeMods.Core.Mods
         /// </summary>
         /// <param name="transaction"></param>
         /// <returns></returns>
-        IAsyncOperation GetExtractRecordFilesAsyncOp(ModTransaction transaction, string inPath, ZipArchive archive = null);
+        Task<Exception> ExtractRecordFilesAsync(ModTransaction transaction, string inPath, ZipArchive archive = null);
 
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace SporeMods.Core.Mods
         /// </summary>
         /// <param name="transaction"></param>
         /// <returns></returns>
-        IAsyncOperation GetApplyAsyncOp(ModTransaction transaction);
+        Task<Exception> ApplyAsync(ModTransaction transaction);
 
 
         /// <summary>
@@ -188,15 +188,14 @@ namespace SporeMods.Core.Mods
         /// </summary>
         /// <param name="transaction"></param>
         /// <returns></returns>
-        IAsyncOperation GetPurgeAsyncOp(ModTransaction transaction);
+        Task<Exception> PurgeAsync(ModTransaction transaction);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="transaction"></param>
         /// <returns></returns>
-        IAsyncOperation GetRemoveRecordFilesAsyncOp(ModTransaction transaction, bool removeConfig);
-
+        Task<Exception> RemoveRecordFilesAsync(ModTransaction transaction, bool removeConfig);
 #endregion
     }
 }

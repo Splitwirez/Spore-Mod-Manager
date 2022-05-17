@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "SporeMods.Manager": {
-      "commandName": "Project",
-      "commandLineArgs": "--console"
-    }
-  }
-}

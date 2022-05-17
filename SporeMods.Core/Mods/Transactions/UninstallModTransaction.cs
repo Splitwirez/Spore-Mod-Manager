@@ -25,32 +25,23 @@ namespace SporeMods.Core.Mods
         public override async Task<bool> CommitAsync()
         {
             //ProgressSignifier.Status = TaskStatus.Determinate;
-            IAsyncOperation purgeOperation = await Task<IAsyncOperation>.Run(() => _mod.GetPurgeAsyncOp(this));
-
-            await OperationAsync(purgeOperation);
-
-            if (purgeOperation.Exception != null)
+            
+            Exception exception = await _mod.PurgeAsync(this);
+            if (exception != null)
             {
-                Exception = purgeOperation.Exception;
+                Exception = exception;
                 return false;
             }
 
 
-            IAsyncOperation removeFromRecordOperation = await Task<IAsyncOperation>.Run(() => _mod.GetRemoveRecordFilesAsyncOp(this, true));
-            await Task.Run(() =>
+            exception = await _mod.RemoveRecordFilesAsync(this, true);
+            if (exception != null)
             {
-                removeFromRecordOperation = _mod.GetRemoveRecordFilesAsyncOp(this, true);
-            });
-
-            await OperationAsync(removeFromRecordOperation);
-            
-            if (removeFromRecordOperation.Exception != null)
-            {
-                Exception = removeFromRecordOperation.Exception;
+                Exception = exception;
                 return false;
             }
 
-            
+
             await OperationAsync(new RemoveModFromRecordOp(_mod));
             Job.Outcome = JobOutcome.Succeeded;
             return true;
