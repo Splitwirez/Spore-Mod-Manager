@@ -10,9 +10,9 @@
              xmlns:vm="clr-namespace:SporeMods.ViewModels"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d">
-    <UserControl.DataContext>
+    <!--UserControl.DataContext->
         <vm:UpdateDeliverySettingsViewModel/>
-    </UserControl.DataContext>
+    </UserControl.DataContext-->
     <GroupBox Header="{DynamicResource Settings!Update!Header}">
         <cui:StackPanelEx Orientation="Vertical"
                         HorizontalAlignment="Stretch"

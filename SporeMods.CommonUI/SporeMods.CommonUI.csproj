@@ -20,6 +20,7 @@
   </ItemGroup-->
   <ItemGroup>
     <EmbeddedResource Include="Localization\Languages\**" />
+    <EmbeddedResource Include="..\CREDITS.md" />
     <Resource Include="Fonts\**" />
   </ItemGroup>
   <ItemGroup>

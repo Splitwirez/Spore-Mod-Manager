@@ -8,9 +8,9 @@
              xmlns:v="clr-namespace:SporeMods.Views"
              xmlns:vm="clr-namespace:SporeMods.ViewModels"
              mc:Ignorable="d">
-    <UserControl.DataContext>
+    <!--UserControl.DataContext->
         <vm:GamePathSettingsViewModel/>
-    </UserControl.DataContext>
+    </UserControl.DataContext-->
     <GroupBox Header="{DynamicResource Settings!Folders!Header}">
         <cui:StackPanelEx Orientation="Vertical" Spacing="{DynamicResource SettingsControlsVerticalSpacing}">
             <TextBlock Text="Control over game paths will be returning soon. I just need to finish cleaning that part of the code up... (PLACEHOLDER) (NOT LOCALIZED)"/>

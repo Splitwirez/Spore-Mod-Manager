@@ -17,9 +17,9 @@
              MinHeight="400"
              Title="{Binding Title}"
              Style="{DynamicResource {x:Type Window}}">
-    <Window.DataContext>
+    <!--Window.DataContext->
         <vm:MainViewModel/>
-    </Window.DataContext>
+    </Window.DataContext-->
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <cui:BoolInverterConverter x:Key="BoolInverterConverter"/>
@@ -101,13 +101,13 @@
                                 Focusable="False"
                                 IsTabStop="False">
                         <TabItem x:Name="ModsTabItem" Header="{DynamicResource Mods!Header}">
-                            <v:InstalledModsView/>
+                            <v:InstalledModsView DataContext="{Binding InstalledModsVM}"/>
                         </TabItem>
                         <TabItem x:Name="SettingsTabItem" Header="{DynamicResource Settings!Header}">
-                            <v:SettingsView/>
+                            <v:SettingsView DataContext="{Binding SettingsVM}"/>
                         </TabItem>
                         <TabItem x:Name="HelpTabItem" Header="{DynamicResource Help!Header}">
-                            <v:HelpView/>
+                            <v:HelpView DataContext="{Binding HelpVM}"/>
                         </TabItem>
                     </TabControl>
                     <cui:AnimatableContentControl x:Name="OngoingJobsArea" MaxHeight="{Binding ActualHeight, ElementName=PrimaryTabControl}"
@@ -120,7 +120,9 @@
                                         IsTabStop="False">
                         <v:OngoingTasksList/>
                     </cui:AnimatableContentControl>
-                    <v:ModalDisplayView Grid.RowSpan="2" cui:AttachedProperties.CornerCurves="False,False,True,True"/>
+                    <v:ModalDisplayView DataContext="{Binding ModalDisplayVM}"
+                                        cui:AttachedProperties.CornerCurves="False,False,True,True"
+                                        Grid.RowSpan="2"/>
                 </Grid>
                 <ControlTemplate.Triggers>
                     <DataTrigger Binding="{Binding Jobs.CurrentBatchJobs.Count, Source={x:Static core:ModsManager.Instance}, Mode=OneWay}" Value="0">

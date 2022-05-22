@@ -9,9 +9,9 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800"
              xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <UserControl.DataContext>
+    <!--UserControl.DataContext->
         <vm:HelpViewModel/>
-    </UserControl.DataContext>
+    </UserControl.DataContext-->
     <UserControl.Resources>
         <Style x:Key="DiagInfoRow" TargetType="{x:Type HeaderedContentControl}">
             <Setter Property="Focusable" Value="False"/>

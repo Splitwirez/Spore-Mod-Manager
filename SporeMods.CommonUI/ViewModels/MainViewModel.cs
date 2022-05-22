@@ -108,6 +108,33 @@ namespace SporeMods.ViewModels
 			get => _launchSpore;
 		}
 
+		
+		
+		InstalledModsViewModel _installedModsVM = new InstalledModsViewModel();
+		public InstalledModsViewModel InstalledModsVM
+        {
+			get => _installedModsVM;
+        }
+
+		HelpViewModel _helpVM = new HelpViewModel();
+		public HelpViewModel HelpVM
+		{
+			get => _helpVM;
+		}
+
+		SettingsViewModel _settingsVM = new SettingsViewModel();
+		public SettingsViewModel SettingsVM
+		{
+			get => _settingsVM;
+		}
+
+		ModalDisplayViewModel _modalDisplayVM = new ModalDisplayViewModel();
+		public ModalDisplayViewModel ModalDisplayVM
+		{
+			get => _modalDisplayVM;
+		}
+
+
 
 		/*static Process _dragServantProcess = null;
 		public static Process DragServantProcess

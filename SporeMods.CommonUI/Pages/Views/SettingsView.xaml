@@ -13,20 +13,41 @@
         <Style x:Key="{x:Type ToolTip}" BasedOn="{StaticResource {x:Type ToolTip}}" TargetType="{x:Type ToolTip}">
             <Setter Property="MaxWidth" Value="300"/>
         </Style>
+
+
+        <DataTemplate DataType="{x:Type vm:LanguageSettingsViewModel}">
+            <v:LanguageSettingsView x:Name="LanguageSettingsView"/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:GamePathSettingsViewModel}">
+            <v:GamePathSettingsView x:Name="GamePathSettingsView"/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:GameWindowSettingsViewModel}">
+            <v:GameWindowSettingsView x:Name="GameWindowSettingsView"/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:GameEntrySettingsViewModel}">
+            <v:GameEntrySettingsView x:Name="GameEntrySettingsView"/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:SmmAppearanceSettingsViewModel}">
+            <v:SmmAppearanceSettingsView x:Name="SmmAppearanceSettingsView"/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:UpdateDeliverySettingsViewModel}">
+            <v:UpdateDeliverySettingsView x:Name="UpdateDeliverySettingsView"/>
+        </DataTemplate>
     </UserControl.Resources>
     <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                   VerticalScrollBarVisibility="Auto">
         <StackPanel Orientation="Vertical">
         <Rectangle x:Name="SmooshSizeHelper" Visibility="Hidden" Height="0"/>
-            <cui:SmooshPanel Width="{Binding ActualWidth, ElementName=SmooshSizeHelper, Mode=OneWay}" MaxChildExtent="500">
-                <v:LanguageSettingsView x:Name="LanguageSettingsView"/>
-                <v:GamePathSettingsView x:Name="GamePathSettingsView"/>
-                <v:GameWindowSettingsView x:Name="GameWindowSettingsView"/>
-                <v:GameEntrySettingsView x:Name="GameEntrySettingsView"/>
-                <v:SmmAppearanceSettingsView x:Name="SmmAppearanceSettingsView"/>
-                <v:UpdateDeliverySettingsView x:Name="UpdateDeliverySettingsView"/>
-            </cui:SmooshPanel>
-            <v:CreditsView/>
+            <ItemsControl ItemsSource="{Binding SettingsVMs}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <cui:SmooshPanel IsItemsHost="True"
+                                         Width="{Binding ActualWidth, ElementName=SmooshSizeHelper, Mode=OneWay}"
+                                         MaxChildExtent="500"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+            <v:CreditsView DataContext="{Binding CreditsVM}"/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

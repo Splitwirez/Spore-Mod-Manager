@@ -13,9 +13,9 @@
         <cui:BoolInverterConverter x:Key="BoolInverterConverter"/>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
-    <UserControl.DataContext>
+    <!--UserControl.DataContext->
         <vm:GameWindowSettingsViewModel/>
-    </UserControl.DataContext>
+    </UserControl.DataContext-->
     <GroupBox Header="{DynamicResource Settings!Window!Header}">
         <StackPanel Orientation="Vertical">
             <HeaderedContentControl Style="{DynamicResource WithSubControls}">

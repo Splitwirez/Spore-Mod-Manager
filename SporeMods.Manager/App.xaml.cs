@@ -39,9 +39,10 @@ namespace SporeMods.Manager
 				Core.ModTransactions.Operations.ValidateModOp.InstallingSaveDataDependencyMod += s => true;
 				Core.ModTransactions.ModTransactionManager.UninstallingSaveDataDependencyMod += m => true;
 #endif
-
 				MainWindow = new MainView();
 				MainWindow.Show();
+				var vm = new MainViewModel();
+				MainWindow.DataContext = vm;
 			}
 			else
 				UACPartnerCommands.WatchForPartnerSignals = true;

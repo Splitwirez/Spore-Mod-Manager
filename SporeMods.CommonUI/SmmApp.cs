@@ -15,6 +15,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Threading;
+using System.ComponentModel;
 
 namespace SporeMods.CommonUI
 {
@@ -35,13 +36,13 @@ namespace SporeMods.CommonUI
 
 		private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
 		{
-			CleanupForExit();
+			//CleanupForExit();
 			CUIMsg.ShowException(e.Exception);
 		}
 
 		private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
-			CleanupForExit();
+			//CleanupForExit();
 			if (e.ExceptionObject is Exception exc)
 				CUIMsg.ShowException(exc);
 		}
@@ -168,23 +169,23 @@ namespace SporeMods.CommonUI
 			{
 				if (UACPartnerCommands.RunLkImporter() == null)
 				{
-					try
-					{
 						if ((!_rerunAsAdmin) || (!_isAdmin))
 							VersionValidation.WarnIfMissingOriginPrerequisites(); //Path.Combine(new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).Directory.FullName, "Launch Spore.dll"));
 
 						bool finishStartupIsAdmin = _isAdmin;
-						
+
+					try
+					{
 						if (_rerunAsAdmin)
 							finishStartupIsAdmin = UACPartnerCommands.PrepareAppForUAC(_ensureUACPartner, true);
-						
-						DoFinishStartup(e, finishStartupIsAdmin);
+
 					}
-					catch (Exception ex)
+					catch (Win32Exception ex)
 					{
 						Cmd.WriteLine(ex);
 						CleanupForExit();
 					}
+					DoFinishStartup(e, finishStartupIsAdmin);
 				}
 			}
 		}

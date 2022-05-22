@@ -8,9 +8,9 @@
              xmlns:vm="clr-namespace:SporeMods.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.DataContext>
+    <!--UserControl.DataContext->
         <vm:CreditsViewModel/>
-    </UserControl.DataContext>
+    </UserControl.DataContext-->
     <GroupBox x:Name="CreditsGroupBox"
             Header="{DynamicResource Help!Credits!Header}">
         <ItemsControl x:Name="CreditsItemsControl"

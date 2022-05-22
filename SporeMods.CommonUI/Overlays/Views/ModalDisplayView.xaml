@@ -13,9 +13,9 @@
              IsOpen="{Binding HasModal}"
              Style="{DynamicResource {x:Type cui:AnimatableContentControl}}"
              IsVisibleChanged="ModalDisplayView_IsVisibleChanged">
-    <cui:AnimatableContentControl.DataContext>
+    <!--cui:AnimatableContentControl.DataContext->
         <vm:ModalDisplayViewModel/>
-    </cui:AnimatableContentControl.DataContext>
+    </cui:AnimatableContentControl.DataContext-->
     <cui:Zone Content="{Binding DataContext.CurrentModalView, ElementName=ModalDisplayViewRoot}"
               DataContext="{Binding CurrentModalVM}"
               DataContextChanged="WhenDataContextChanged">

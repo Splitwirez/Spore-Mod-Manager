@@ -28,9 +28,9 @@
             <v:IsThereAProgressSignifierHereConverter x:Key="IsThereAProgressSignifierHereConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
-    <UserControl.DataContext>
+    <!--UserControl.DataContext->
         <vm:InstalledModsViewModel/>
-    </UserControl.DataContext>
+    </UserControl.DataContext-->
     <UserControl.Template>
         <ControlTemplate>
             <DockPanel>

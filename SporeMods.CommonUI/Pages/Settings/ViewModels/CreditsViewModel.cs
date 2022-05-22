@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using SporeMods.Core;
 using SporeMods.CommonUI;
+using System.Reflection;
+using System.IO;
 
 namespace SporeMods.ViewModels
 {
@@ -13,32 +15,135 @@ namespace SporeMods.ViewModels
 	{
 		ObservableCollection<CreditsItem> _credits = new ObservableCollection<CreditsItem>()
 		{
-			new CreditsItem("Splitwirez (formerly rob55rod)", "Designed - and lead the effort to build - the Spore Mod Manager. (I couldn't have done it alone though!)", @"https://github.com/Splitwirez/"),
-			new CreditsItem("emd4600", "Started the Spore ModAPI Project. Created the Spore ModAPI Launcher Kit, which laid the foundations for the Spore Mod Manager. Helped build the Spore Mod Manager to be as robust as possible. Oh, and Spanish and Catalan translations.", @"https://github.com/emd4600/"),
-			new CreditsItem("reflectronic", "Provided invaluable guidance and assistance with code architecture, asynchronous behaviour, and working the inner machinations of .NET Core in the Spore Mod Manager's favor.", @"https://github.com/reflectronic/"),
-			//new CreditsItem("DotNetZip (formerly Ionic.Zip)", "Zip archive library used throughout the Spore Mod Manager.", @"https://www.nuget.org/packages/DotNetZip/"),
-			new CreditsItem("Newtonsoft", "Made the library to read JSON data.", @"https://www.newtonsoft.com/json"),
-			new CreditsItem("cederenescio", "Indirectly provided substantial creative influence."),
-			new CreditsItem("PricklySaguaro/ThePixelMouse", "Found a way to run the Spore ModAPI Launcher Kit under WINE. Assisted with figuring out how to make WINE cooperate for the Spore Mod Manager.", @"https://github.com/PricklySaguaro"),
-			new CreditsItem("Huskky", "Assisted substantially with figuring out how to make WINE cooperate."),
-			new CreditsItem("Darhagonable", "Provided an additional perspective on usability. Helped confirm the feasibility of supporting WINE setups on Linux.", @"https://www.youtube.com/user/darhagonable"),
-			new CreditsItem("Zakhar Afonin", "WINE testing [TODO: probably Russian translation]", @"https://github.com/AfoninZ"),
-			new CreditsItem("Auntie Owl", "Testing, Polish translation.", @"https://github.com/plencka"),
-			new CreditsItem("bandithedoge", "WINE regression testing", @"http://bandithedoge.com/"),
-			new CreditsItem("TheRublixCube", "Testing, additional perspective on usability."),
-			new CreditsItem("Magic Gonads", "Testing", @"https://github.com/MagicGonads"),
-			new CreditsItem("KloxEdge", "Testing"),
-			new CreditsItem("Liskomato", "Testing"),
-			new CreditsItem("ChocIce75", "Testing"),
-			new CreditsItem("Deoxys_0", "Testing"),
-			new CreditsItem("Psi", "Testing"),
-			new CreditsItem("Ivy", "Testing"),
-			new CreditsItem("Masaochism", "Testing"),
+			new CreditsItem("Credits broke", "Oh no", @"https://yeah.rip/")
 		};
 
 		public ObservableCollection<CreditsItem> Credits
 		{
 			get => _credits;
+			private set
+            {
+				_credits = value;
+				NotifyPropertyChanged();
+            }
+		}
+
+		public CreditsViewModel()
+			: base()
+		{
+			var lines = GetResLines();
+			Credits = ParseCredits(lines);
+		}
+
+		const string CREDITS_NAME_START = "### ";
+		const string CREDITS_NAME_HL_START = "[";
+		const string CREDITS_NAME_HL_SEP = "](";
+		const string CREDITS_NAME_HL_END = ")";
+		const string CREDITS_CM_START = "<!--";
+		const string CREDITS_CM_END = "-->";
+		private ObservableCollection<CreditsItem> ParseCredits(List<string> lines)
+		{
+			lines.Add(string.Empty);
+
+			ObservableCollection<CreditsItem> credits = new ObservableCollection<CreditsItem>();
+
+			bool isInComment = false;
+			bool isInEntry = false;
+
+			string entryName = null;
+			string entryDesc = string.Empty;
+			string entryLink = null;
+			
+			for (int lineIndex = 0; lineIndex < lines.Count; lineIndex++)
+			{
+				string line = lines[lineIndex].Trim();
+				if (!isInComment)
+				{
+					if (line.Contains(CREDITS_CM_START))
+					{
+						if (line.StartsWith(CREDITS_CM_START) && line.EndsWith(CREDITS_CM_END))
+							continue;
+						else
+							isInComment = true;
+
+						if (line.StartsWith(CREDITS_CM_START))
+							continue;
+						else
+							line = line.Substring(0, line.IndexOf(CREDITS_CM_START));
+					}
+
+				}
+				else
+				{
+					if (line.Contains(CREDITS_CM_END))
+					{
+						isInComment = false;
+
+						if (line.EndsWith(CREDITS_CM_END))
+							continue;
+						else
+							line = line.Substring(line.IndexOf(CREDITS_CM_END) + CREDITS_CM_END.Length);
+					}
+				}
+
+				line = lines[lineIndex].Trim();
+
+				if (line.IsNullOrEmptyOrWhiteSpace())
+				{
+					if (isInEntry && (!isInComment))
+					{
+						credits.Add(new CreditsItem(entryName, entryDesc.TrimEnd('\n'), entryLink));
+
+						entryName = null;
+						entryDesc = string.Empty;
+						entryLink = null;
+
+						isInEntry = false;
+					}
+					continue;
+				}
+
+				if (isInComment)
+					continue;
+
+				if ((!isInEntry) && line.StartsWith(CREDITS_NAME_START))
+				{
+					isInEntry = true;
+
+					line = line.Substring(CREDITS_NAME_START.Length);
+					if (line.StartsWith(CREDITS_NAME_HL_START) && line.Contains(CREDITS_NAME_HL_SEP) && line.EndsWith(CREDITS_NAME_HL_END))
+					{
+						line = line.Substring(CREDITS_NAME_HL_START.Length);
+						int separatorIndex = line.IndexOf(CREDITS_NAME_HL_SEP);
+						entryName = line.Substring(0, separatorIndex);
+						entryLink = line.Substring(separatorIndex + CREDITS_NAME_HL_SEP.Length, line.Length - (entryName.Length + CREDITS_NAME_HL_SEP.Length + CREDITS_NAME_HL_END.Length));
+					}
+					else
+						entryName = line;
+				}
+				else if (isInEntry)
+				{
+					entryDesc += $"{line}\n";
+				}
+			}
+			return credits;
+		}
+
+		private List<string> GetResLines()
+		{
+			List<string> lines = new List<string>();
+
+			using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("SporeMods.CommonUI.CREDITS.md"))
+			using (var reader = new StreamReader(stream))
+			{
+				string line;
+				while ((line = reader.ReadLine()) != null)
+				{
+					lines.Add(line);
+				}
+			}
+
+			return lines;
 		}
 
 
