@@ -9,7 +9,9 @@ namespace SporeMods.Core.Mods
     {
         public MI1_0_0_0Mod(string recordDirName, string unique, List<string> fileNames)
             : base(recordDirName, unique, fileNames)
-        { }
+        {
+            HasSettings = true;
+        }
 
         protected override void ReadIdentityRoot(XElement xmlRoot)
         {

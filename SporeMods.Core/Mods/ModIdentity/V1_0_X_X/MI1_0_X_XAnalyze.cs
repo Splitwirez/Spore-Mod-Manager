@@ -11,6 +11,10 @@ namespace SporeMods.Core.Mods
 {
     public abstract partial class MI1_0_X_XMod : NotifyPropertyChangedBase, ISporeMod
     {
+        Dictionary<string, MemoryStream> _imageStreams = new Dictionary<string, MemoryStream>();
+
+        public virtual MemoryStream GetImageStream(string fileName)
+            => _imageStreams.TryGetValue(fileName, out MemoryStream stream) ? stream : null;
         public static async Task<ISporeMod> AnalyzeFromSporemodAsync(string inPath, ZipArchive archive)
         {
             /*await Task.Run(() =>
@@ -70,21 +74,34 @@ namespace SporeMods.Core.Mods
                         modConfigSubfolderName = modConfigSubfolderName.Replace(c, '-');
                     }
 
+                    var imageStreams = new Dictionary<string, MemoryStream>();
                     List<string> fileNames = new List<string>();
                     foreach (var h in archive.Entries)
                     {
-                        fileNames.Add(Path.GetFileName(h.Name));
+                        string hName = Path.GetFileName(h.Name);
+                        fileNames.Add(hName);
+                        if (Path.GetExtension(hName).Equals(".png", StringComparison.OrdinalIgnoreCase))
+                        {
+                            MemoryStream copyStream = new MemoryStream();
+                            using (var stream = h.Open())
+                                stream.CopyTo(copyStream);
+                            
+                            copyStream.Seek(0, SeekOrigin.Begin);
+                            imageStreams.Add(hName, copyStream);
+                        }
                     }
 
 
                     MI1_0_X_XMod mod = null;
-
+                    Cmd.WriteLine($"identityVersion: {identityVersion}");
                     if (identityVersion == ModConstants.ID_VER_1_0_0_0)
                         mod = new MI1_0_0_0Mod(modConfigSubfolderName, unique, fileNames);
                     else
                         mod = new MI1_0_1_1Mod(modConfigSubfolderName, unique, fileNames);
-
+                    mod.IsIncoming = true;
+                    mod._imageStreams = imageStreams;
                     mod.ReadIdentity(doc);
+                    mod.IsIncoming = false;
 
                     return mod;
                 }
@@ -147,9 +164,9 @@ namespace SporeMods.Core.Mods
             else if (elName == "compatfile")
                 component = CompatFile.FromXml(this, xmlEl, _fileNames);
             else if (elName == "componentgroup")
-                component = new RadioGroup(this, xmlEl, _fileNames);
+                component = RadioGroup.FromXml(this, xmlEl, _fileNames);
             else if (elName == "component")
-                component = new Feature(this, xmlEl, _fileNames);
+                component = Feature.FromXml(this, xmlEl, _fileNames);
 
             return component != null;
         }

@@ -21,7 +21,12 @@ namespace SporeMods.Core.Mods.ModIdentity.V1_0_X_XComponents
 
         public override void Apply(ModTransaction transaction)
         {
-            //base.Apply(transaction);
+            base.Purge(transaction);
+        }
+
+        public override void Purge(ModTransaction transaction)
+        {
+
         }
     }
 }

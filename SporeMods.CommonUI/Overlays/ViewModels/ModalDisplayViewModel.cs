@@ -21,6 +21,10 @@ namespace SporeMods.ViewModels
 				_currentModalVM = value;
 				bool hasModal = _currentModalVM != null;
 				CurrentModalView = hasModal ? Activator.CreateInstance(Type.GetType(value.GetViewTypeName())) : null;
+				
+				if (hasModal)
+					CurrentModalContainerStyle = value.ContainerStyleKey;
+				
 				HasModal = hasModal;
 				NotifyPropertyChanged();
 			}
@@ -39,7 +43,18 @@ namespace SporeMods.ViewModels
 			}
         }
 
-        bool _hasModal;
+		string _currentModalContainerStyle = null;
+		public string CurrentModalContainerStyle
+		{
+			get => _currentModalContainerStyle;
+			set
+			{
+				_currentModalContainerStyle = value;
+				NotifyPropertyChanged();
+			}
+		}
+
+		bool _hasModal;
         public bool HasModal
         {
             get => _hasModal;

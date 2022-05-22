@@ -4,15 +4,30 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:cui="clr-namespace:SporeMods.CommonUI"
+             xmlns:v="clr-namespace:SporeMods.Views"
              xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:mods="clr-namespace:SporeMods.Core.Mods;assembly=SporeMods.Core"
              Content="{Binding DataContext, RelativeSource={RelativeSource Mode=Self}}">
+    <UserControl.Resources>
+        <cui:EqualityConverter x:Key="EqualityConverter"/>
+    </UserControl.Resources>
     <UserControl.ContentTemplate>
         <DataTemplate DataType="{x:Type mods:ModJobsBatchViewModel}">
             <cui:FloorPanel>
+                <!--Grid x:Name="Overview"
+                           Visibility="Collapsed"
+                           IsEnabled="False">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions-->
                 <DockPanel x:Name="Overview"
                            Visibility="Collapsed"
                            IsEnabled="False">
+                    <!--x:Name="OverviewMain"
+                               Grid.ColumnSpan="2"-->
+                    <!--Content="{Binding ShownSettingsModView}"-->
                     <cui:Zone Style="{DynamicResource CustomInstallerFooterZoneStyle}"
                         DockPanel.Dock="Bottom">
                         <Button Command="{Binding ConfirmCommand}">Proceed (PLACEHOLDER) (NOT LOCALIZED)</Button>
@@ -25,20 +40,86 @@
                                     <CheckBox IsChecked="{Binding ShouldProceed, Mode=TwoWay}"
                                               DockPanel.Dock="Left"
                                               IsEnabled="{Binding CanProceed}"/>
+                                    <Button x:Name="ModSettingsButton"
+                                            Content="Settings... (NOT LOCALIZED)"
+                                            Command="{Binding DataContext.ShowModSettingsCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type v:ModJobsBatchView}}}"
+                                            CommandParameter="{Binding Mod}"
+                                            DockPanel.Dock="Right"
+                                            Visibility="Collapsed"
+                                            IsEnabled="False"/>
                                     <TextBlock Text="{Binding Path=Mod.DisplayName.Value, Mode=OneWay}" VerticalAlignment="Center" Style="{DynamicResource h3}"/>
                                 </DockPanel>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Mod.HasSettings}" Value="True">
+                                        <Setter TargetName="ModSettingsButton" Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding DataContext.ShownSettingsMod, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type v:ModJobsBatchView}}}" Value="{x:Null}">
+                                        <Setter TargetName="ModSettingsButton" Property="IsEnabled" Value="True"/>
+                                    </DataTrigger>
+                                    <DataTrigger Value="True">
+                                        <DataTrigger.Binding>
+                                            <MultiBinding Converter="{StaticResource EqualityConverter}">
+                                                <MultiBinding.Bindings>
+                                                    <Binding Path="DataContext.ShownSettingsMod"
+                                                             RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type v:ModJobsBatchView}}"
+                                                             Mode="OneWay"/>
+                                                    <Binding Path="Mod" Mode="OneWay"/>
+                                                </MultiBinding.Bindings>
+                                            </MultiBinding>
+                                        </DataTrigger.Binding>
+                                        <Setter TargetName="ModSettingsButton" Property="IsEnabled" Value="True"/>
+                                        <Setter TargetName="ModSettingsButton" Property="Content" Value="Back (NOT LOCALIZED)"/>
+                                        <Setter TargetName="ModSettingsButton" Property="CommandParameter" Value="{x:Null}"/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
                             </DataTemplate>
                             <DataTemplate DataType="{x:Type mods:ModJobBatchErrorEntry}">
                                 <DockPanel>
-                                    <CheckBox IsChecked="False"
-                                              DockPanel.Dock="Left"
-                                              IsEnabled="False"/>
-                                    <TextBlock Text="{Binding Path=Mod.DisplayName.Value, Mode=OneWay}" VerticalAlignment="Center" Style="{DynamicResource h3}"/>
+                                    <TextBlock x:Name="StackTraceTextBlock"
+                                               Text="{Binding Exception.StackTrace}"
+                                               Visibility="Collapsed"
+                                               DockPanel.Dock="Bottom"/>
+                                    <cui:FloorPanel DockPanel.Dock="Left">
+                                        <CheckBox IsChecked="False"
+                                                          IsEnabled="False"
+                                                          IsHitTestVisible="False"
+                                                          Focusable="False"
+                                                          IsTabStop="False"
+                                                          Opacity="0" />
+                                        <Path Data="M 0 0 L 16 16 M 0 16 L 16 0"
+                                                      Width="16"
+                                                      Height="16"
+                                                      Margin="-8"
+                                                      Stroke="Red"
+                                                      StrokeThickness="4" />
+                                    </cui:FloorPanel>
+                                    <ToggleButton x:Name="StackTraceToggleButton"
+                                                  Content="Details... (NOT LOCALIZED)"
+                                                  IsChecked="{Binding ShowStackTrace, Mode=TwoWay}"
+                                                  DockPanel.Dock="Right"/>
+                                    <TextBlock Text="{Binding}" VerticalAlignment="Center" Style="{DynamicResource h3}"/>
                                 </DockPanel>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Exception}" Value="{x:Null}">
+                                        <Setter TargetName="StackTraceToggleButton" Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ShowStackTrace, Mode=OneWay}" Value="True">
+                                        <Setter TargetName="StackTraceTextBlock" Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
                             </DataTemplate>
                         </ItemsControl.Resources>
                     </ItemsControl>
                 </DockPanel>
+                <!--cui:Zone x:Name="ModSettings"
+                              Background="White"
+                              DataContext="{Binding ShownSettingsMod, Mode=OneWay}"
+                              Content="{Binding ShownSettingsMod, Mode=OneWay}"
+                              DataContextChanged="ModSettings_DataContextChanged"
+                              DockPanel.Dock="Right"
+                              Grid.Column="1"
+                              Grid.ColumnSpan="2"/>
+                </Grid-->
                 <cui:FloorPanel x:Name="StillLoading">
                     <ProgressBar IsIndeterminate="True" VerticalAlignment="Center"/>
                 </cui:FloorPanel>
@@ -50,6 +131,10 @@
                     <Setter TargetName="Overview" Property="IsEnabled" Value="True"/>
                     <Setter TargetName="OverviewList" Property="ItemsSource" Value="{Binding Entries, Mode=OneWay}"/>
                 </DataTrigger>
+                <!--DataTrigger Binding="{Binding ShownSettingsMod}" Value="{x:Null}">
+                    <Setter TargetName="ModSettings" Property="Visibility" Value="Collapsed"/>
+                    <Setter TargetName="OverviewMain" Property="Grid.ColumnSpan" Value="3"/>
+                </DataTrigger-->
             </DataTemplate.Triggers>
         </DataTemplate>
     </UserControl.ContentTemplate>

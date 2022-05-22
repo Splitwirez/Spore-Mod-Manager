@@ -4,11 +4,11 @@ using System.Windows.Controls;
 namespace SporeMods.Views
 {
     /// <summary>
-    /// Interaction logic for ModConfigurator1_0_x_xView.xaml
+    /// Interaction logic for MI1_0_X_XModSettingsView.xaml
     /// </summary>
-    public partial class ModConfigurator1_0_x_xView : UserControl
+    public partial class MI1_0_X_XModSettingsView : UserControl
     {
-		public ModConfigurator1_0_x_xView()
+		public MI1_0_X_XModSettingsView()
         {
             InitializeComponent();
         }

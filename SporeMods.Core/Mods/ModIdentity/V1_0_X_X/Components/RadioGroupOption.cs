@@ -14,9 +14,18 @@ namespace SporeMods.Core.Mods.ModIdentity.V1_0_X_XComponents
             protected set;
         }
 
-        public override bool ShouldApply => IsSelected;
+        protected RadioGroupOption(RadioGroup parent, MI1_0_X_XMod mod, XElement element, IEnumerable<string> fileNames)
+            : base(mod, element, fileNames)
+        {
+            Parent = parent;
+        }
 
-        public static RadioGroupOption FromXml(MI1_0_X_XMod mod, RadioGroup parent, XElement element, IEnumerable<string> fileNames)
+        public static RadioGroupOption FromXml(RadioGroup parent, MI1_0_X_XMod mod, XElement element, IEnumerable<string> fileNames)
+            => new RadioGroupOption(parent, mod, element, fileNames);
+
+        public override bool ShouldApply => IsEnabled;
+
+        /*public static RadioGroupOption FromXml(MI1_0_X_XMod mod, RadioGroup parent, XElement element, IEnumerable<string> fileNames)
             => new RadioGroupOption(mod, element, fileNames)
             {
                 Parent = parent
@@ -37,6 +46,6 @@ namespace SporeMods.Core.Mods.ModIdentity.V1_0_X_XComponents
 
         public RadioGroupOption(MI1_0_X_XMod mod, XElement element, IEnumerable<string> fileNames)
             : base(mod, element, fileNames)
-        { }
+        { }*/
     }
 }

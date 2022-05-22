@@ -35,9 +35,9 @@
                                                 ContentSource="Header"
                                                 RecognizesAccessKey="True"
                                                 TextElement.Foreground="{TemplateBinding Foreground}"
-                                                HorizontalAlignment="Left"
-                                                TextBlock.FontSize="16"
-                                                TextBlock.FontWeight="Bold"
+                                                HorizontalAlignment="Stretch"
+                                                Style="{DynamicResource h2}"
+                                                TextBlock.TextAlignment="Left"
                                                 VerticalAlignment="Center"/>
                                 <ContentPresenter x:Name="BodyPresenter"/>
                             </cui:StackPanelEx>

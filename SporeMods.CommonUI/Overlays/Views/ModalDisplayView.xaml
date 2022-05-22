@@ -17,7 +17,8 @@
         <vm:ModalDisplayViewModel/>
     </cui:AnimatableContentControl.DataContext>
     <cui:Zone Content="{Binding DataContext.CurrentModalView, ElementName=ModalDisplayViewRoot}"
-                    DataContext="{Binding CurrentModalVM}">
+              DataContext="{Binding CurrentModalVM}"
+              DataContextChanged="WhenDataContextChanged">
         <cui:Zone.Template>
             <ControlTemplate TargetType="{x:Type ContentControl}">
                 <Grid x:Name="RootGrid"

@@ -7,7 +7,16 @@
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Converters.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     
-    <Path x:Key="AnimatableContentControlCloseButtonIcon" x:Shared="False" Data="M 0 -1 L 2 -1 L 4.5 2 L 7 -1 L 9 -1 L 9 1 L 6 3.5 L 9 6 L 9 8 L 7 8 L 4.5 5 L 2 8 L 0 8 L 0 6 L 3 3.5 L 0 1 Z" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}" Stroke="Transparent" StrokeThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True"/>
+    <Path x:Key="AnimatableContentControlCloseButtonIcon"
+          x:Shared="False"
+          Data="M 0 -1 L 2 -1 L 4.5 2 L 7 -1 L 9 -1 L 9 1 L 6 3.5 L 9 6 L 9 8 L 7 8 L 4.5 5 L 2 8 L 0 8 L 0 6 L 3 3.5 L 0 1 Z"
+          Fill="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Mode=OneWay}"
+          Stroke="Transparent"
+          StrokeThickness="0"
+          HorizontalAlignment="Center"
+          VerticalAlignment="Center"
+          UseLayoutRounding="True"
+          SnapsToDevicePixels="True"/>
 
     <Style x:Key="{x:Type cui:AnimatableContentControl}" TargetType="{x:Type cui:AnimatableContentControl}">
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -28,48 +37,14 @@
                                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.75" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
                                     </Border.Background>
                                     <DockPanel>
-                                        <Button x:Name="PART_CloseButton" Content="{DynamicResource AnimatableContentControlCloseButtonIcon}" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="{Binding HasCloseButton, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}" DockPanel.Dock="Top" Panel.ZIndex="99999999">
-                                            <Button.Style>
-                                                <Style TargetType="{x:Type Button}">
-                                                    <Setter Property="Width" Value="45"/>
-                                                    <Setter Property="Height" Value="31"/>
-                                                    <Setter Property="Foreground" Value="{DynamicResource WindowForegroundBrush}"/>
-                                                    <Setter Property="BorderThickness" Value="0"/>
-                                                    <Setter Property="Template">
-                                                        <Setter.Value>
-                                                            <ControlTemplate TargetType="Button">
-                                                                <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#01000000" BorderBrush="{DynamicResource TitlebarBorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
-                                                                    <DockPanel HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Effect="{DynamicResource DropShadow}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="True" UseLayoutRounding="True">
-                                                                        <ContentPresenter x:Name="IconPresenter" Content="{Binding Path=(cui:AttachedProperties.Icon), RelativeSource={RelativeSource Mode=TemplatedParent}}" TextElement.Foreground="{TemplateBinding Foreground}" TextElement.FontFamily="{TemplateBinding FontFamily}" TextElement.FontSize="{TemplateBinding FontSize}" Margin="0,0,4,0"/>
-                                                                        <ContentPresenter x:Name="ContentPresenter" Content="{TemplateBinding Content}" TextElement.Foreground="{TemplateBinding Foreground}" TextElement.FontFamily="{TemplateBinding FontFamily}" TextElement.FontSize="{TemplateBinding FontSize}" Margin="0"/>
-                                                                    </DockPanel>
-                                                                </Border>
-                                                                <ControlTemplate.Triggers>
-                                                                    <Trigger Property="cui:AttachedProperties.Icon" Value="{x:Null}">
-                                                                        <Setter TargetName="IconPresenter" Property="Visibility" Value="Collapsed"/>
-                                                                    </Trigger>
-                                                                    <Trigger Property="Content" Value="{x:Null}">
-                                                                        <Setter TargetName="ContentPresenter" Property="Visibility" Value="Collapsed"/>
-                                                                        <Setter TargetName="IconPresenter" Property="Margin" Value="0"/>
-                                                                    </Trigger>
-                                                                </ControlTemplate.Triggers>
-                                                            </ControlTemplate>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                    <Style.Triggers>
-                                                        <Trigger Property="IsEnabled" Value="False">
-                                                            <Setter Property="Opacity" Value="0.5"/>
-                                                        </Trigger>
-                                                        <Trigger Property="IsMouseOver" Value="True">
-                                                            <Setter Property="Foreground" Value="{DynamicResource TitlebarHoverForegroundBrush}" />
-                                                        </Trigger>
-                                                        <Trigger Property="IsPressed" Value="True">
-                                                            <Setter Property="Foreground" Value="{DynamicResource TitlebarPressedForegroundBrush}" />
-                                                        </Trigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Button.Style>
-                                        </Button>
+                                        <Button x:Name="PART_CloseButton"
+                                                Content="{DynamicResource AnimatableContentControlCloseButtonIcon}"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Top"
+                                                Visibility="{Binding HasCloseButton, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                DockPanel.Dock="Top"
+                                                Panel.ZIndex="99999999"
+                                                Style="{DynamicResource AnimatableContentControlCloseButtonStyle}"/>
                                         <ContentPresenter Content="{TemplateBinding Content}"/>
                                     </DockPanel>
                                 </Border>
@@ -102,5 +77,44 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="AnimatableContentControlCloseButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Width" Value="45"/>
+        <Setter Property="Height" Value="31"/>
+        <Setter Property="Foreground" Value="{DynamicResource WindowForegroundBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#01000000" BorderBrush="{DynamicResource TitlebarBorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+                        <DockPanel HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Effect="{DynamicResource DropShadow}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="True" UseLayoutRounding="True">
+                            <ContentPresenter x:Name="IconPresenter" Content="{Binding Path=(cui:AttachedProperties.Icon), RelativeSource={RelativeSource Mode=TemplatedParent}}" TextElement.Foreground="{TemplateBinding Foreground}" TextElement.FontFamily="{TemplateBinding FontFamily}" TextElement.FontSize="{TemplateBinding FontSize}" Margin="0,0,4,0"/>
+                            <ContentPresenter x:Name="ContentPresenter" Content="{TemplateBinding Content}" TextElement.Foreground="{TemplateBinding Foreground}" TextElement.FontFamily="{TemplateBinding FontFamily}" TextElement.FontSize="{TemplateBinding FontSize}" Margin="0"/>
+                        </DockPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="cui:AttachedProperties.Icon" Value="{x:Null}">
+                            <Setter TargetName="IconPresenter" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="Content" Value="{x:Null}">
+                            <Setter TargetName="ContentPresenter" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="IconPresenter" Property="Margin" Value="0"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.5"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource TitlebarHoverForegroundBrush}" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource TitlebarPressedForegroundBrush}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>

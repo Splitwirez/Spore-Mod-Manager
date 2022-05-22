@@ -67,7 +67,8 @@ namespace SporeMods.Core
 
 			try
 			{
-				stream = new FileInfo(filePath).Open(FileMode.Open, access, FileShare.None);
+				stream = new FileInfo(filePath).Open(FileMode.Open, access, FileShare.ReadWrite | FileShare.Delete); //FileShare.None);
+				//stream = File.Open(filePath, FileMode.Open, FileAccess.ReadWrite, )
 			}
 			catch (IOException)
 			{

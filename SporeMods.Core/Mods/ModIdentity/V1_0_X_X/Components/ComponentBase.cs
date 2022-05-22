@@ -9,7 +9,22 @@ namespace SporeMods.Core.Mods.ModIdentity.V1_0_X_XComponents
 {
     public abstract class ComponentBase : NotifyPropertyChangedBase
     {
-        public Dictionary<string, ComponentGameDir> Files { get; protected set; }  = new Dictionary<string, ComponentGameDir>();
+        List<ModFile> _files = new List<ModFile>();
+        public List<ModFile> Files
+        {
+            get => _files;
+            protected set
+            {
+                _files = value;
+                _fileNames = _files.ConvertAll<string>(x => x.FileName);
+            }
+        }
+        IEnumerable<string> _fileNames = new List<string>();
+        public IEnumerable<string> FileNames
+        {
+            get => _fileNames;
+        }
+        //public IEnumerable<string> FileNames => Files.ConvertAll<string>(x => x.FileName);
         
         ThreadSafeObservableCollection<RadioGroupOption> _children = new ThreadSafeObservableCollection<RadioGroupOption>();
         public ThreadSafeObservableCollection<RadioGroupOption> Children
@@ -65,41 +80,45 @@ namespace SporeMods.Core.Mods.ModIdentity.V1_0_X_XComponents
         }
 
 
-        /// <summary>
-		/// Explanation of the component's purpose and effects to the user.
-		/// </summary>
-        IEnumerable<IModText> _description = new ThreadSafeObservableCollection<IModText>();
-        public IEnumerable<IModText> Description
-        {
-            get => _description;
-            protected set
-            {
-                _description = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        
-
         public virtual void Apply(ModTransaction transaction)
         {
             string recordDirPath = Path.Combine(Settings.ModConfigsPath, Mod.RecordDirName);
-            foreach (string key in Files.Keys)
+            foreach (var file in Files)
             {
-                string name = Path.GetFileName(key);
+                string name = Path.GetFileName(file.FileName);
                 Cmd.WriteLine($"PRINTING {name}");
                 string sourcePath = Path.Combine(recordDirPath, name);
-                string destPath = FileWrite.GetFileOutputPath(Files[key], name, Mod is MI1_0_0_0Mod);
+                string destPath = FileWrite.GetFileOutputPath(file.Dir, name, Mod is MI1_0_0_0Mod);
                 transaction.Operation(new CopyFileOp(sourcePath, destPath));
             }
         }
 
-
-        public static Dictionary<string, ComponentGameDir> GetFiles(XElement element)
-            => GetFiles(element.Value.Split('?'), "game", element);
-        public static Dictionary<string, ComponentGameDir> GetFiles(string[] fileNames, string fileGamesAttrName, XElement element)
+        public virtual void Purge(ModTransaction transaction)
         {
-            var ret = new Dictionary<string, ComponentGameDir>();
+            string recordDirPath = Path.Combine(Settings.ModConfigsPath, Mod.RecordDirName);
+            foreach (var file in Files)
+            {
+                string name = Path.GetFileName(file.FileName);
+                string destPath = FileWrite.GetFileOutputPath(file.Dir, name, Mod is MI1_0_0_0Mod);
+                transaction.Operation(new DeleteFileOp(destPath));
+            }
+        }
+
+
+        public static List<ModFile> GetFiles(XElement element)
+            => GetFiles(
+                (string.IsNullOrEmpty(element.Value) || string.IsNullOrWhiteSpace(element.Value))
+                    ? new string[0]
+                    : element.Value.Split('?')
+                , "game", element);
+            /*=> (string.IsNullOrEmpty(element.Value) || string.IsNullOrWhiteSpace(element.Value))
+                ? new Dictionary<string, ComponentGameDir>()
+                : GetFiles(element.Value.Split('?'), "game", element);*/
+        public static List<ModFile> GetFiles(string[] fileNames, string fileGamesAttrName, XElement element)
+        {
+            var ret = new List<ModFile>();
+            if (fileNames.Length == 0)
+                return ret;
 
             
             string[] fileGames = null;
@@ -115,17 +134,21 @@ namespace SporeMods.Core.Mods.ModIdentity.V1_0_X_XComponents
 
             for (int i = 0; i < fileNames.Length; i++)
             {
-                ret.Add(fileNames[i],
+                ret.Add(new ModFile(fileNames[i],
                     fileGames != null
                         ? ParseGameDir(fileGames[i])
-                        : ComponentGameDir.ModAPI);
+                        : ComponentGameDir.ModAPI)
+                    );
             }
 
             return ret;
         }
 
-        public static void EnsureFiles(IEnumerable<string> componentFileNames, IEnumerable<string> fileNamesInMod, string modUnique, string modDisplayName, string cUnique = null, string cDisplayName = null)
+        public static void EnsureFiles(MI1_0_X_XMod mod, IEnumerable<string> componentFileNames, IEnumerable<string> fileNamesInMod/*, string modUnique, string modDisplayName*/, string cUnique = null, string cDisplayName = null)
         {
+            string modUnique = mod.Unique;
+            string modDisplayName = (mod.DisplayName != null) ? mod.DisplayName.ToString() : mod.Unique;
+
             string missing = null;
 
             foreach (string cName in componentFileNames)
@@ -146,7 +169,10 @@ namespace SporeMods.Core.Mods.ModIdentity.V1_0_X_XComponents
                 }
                 error += $"mod '{modDisplayName}' ({modUnique})";
 
-                throw new Exception(error);
+                if (mod.IsIncoming)
+                    throw new Exception(error);
+                else
+                    Cmd.WriteLine(error);
             }
         }
         static ComponentGameDir ParseGameDir(string inVal)
@@ -160,6 +186,17 @@ namespace SporeMods.Core.Mods.ModIdentity.V1_0_X_XComponents
             }
 
             return ComponentGameDir.ModAPI;
+        }
+    }
+    public sealed class ModFile
+    {
+        public readonly string FileName = null;
+        public readonly ComponentGameDir Dir = ComponentGameDir.ModAPI;
+
+        public ModFile(string fileName, ComponentGameDir dir)
+        {
+            FileName = fileName;
+            Dir = dir;
         }
     }
 }

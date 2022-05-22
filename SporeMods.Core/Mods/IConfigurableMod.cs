@@ -4,10 +4,10 @@ using System.Text;
 
 namespace SporeMods.Core.Mods
 {
-    interface IConfigurableMod : ISporeMod
+    public interface IConfigurableMod : ISporeMod
     {
-        bool HasSettings { get; }
+        object GetSettingsViewModel();
 
-        string GetViewTypeName();
+        string GetSettingsViewTypeName();
     }
 }

@@ -6,7 +6,8 @@
 			xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
 			xmlns:shale="clr-namespace:SporeMods.CommonUI.Themes.Shale"
 			xmlns:autocomp="clr-namespace:WPFTextBoxAutoComplete;assembly=WPFTextBoxAutoComplete"
-			xmlns:sys="clr-namespace:System;assembly=mscorlib">
+			xmlns:sys="clr-namespace:System;assembly=mscorlib"
+			xmlns:v="clr-namespace:SporeMods.Views">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Shale.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Converters.xaml"/>
@@ -142,9 +143,16 @@
     <!--### Left pane in mod configurators ###-->
     <Style x:Key="ModConfiguratorComponentsListStyle" TargetType="{x:Type ItemsControl}" BasedOn="{StaticResource {x:Type ItemsControl}}">
         <Setter Property="MinWidth" Value="300"/>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <cui:StackPanelEx Orientation="Vertical" Spacing="0"/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
         <!--Setter Property="Margin" Value="0,0,-14,0"/>
 		<Setter Property="Panel.ZIndex" Value="999"/-->
-        <Setter Property="Template">
+        <!--Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ItemsControl}">
                     <Border Style="{DynamicResource HorizontalBarBorderStyle}" DockPanel.Dock="{TemplateBinding DockPanel.Dock}"
@@ -152,17 +160,17 @@
                         <ScrollViewer cui:AttachedProperties.CornerCurves="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}}">
                             <cui:FloorPanel>
                                 <ItemsPresenter/>
-                                <!--Rectangle x:Name="RightShadow" HorizontalAlignment="Right" Width="7" IsHitTestVisible="False">
+                                <!-Rectangle x:Name="RightShadow" HorizontalAlignment="Right" Width="7" IsHitTestVisible="False">
 									<Rectangle.Fill>
 										<LinearGradientBrush Opacity="0.5" StartPoint="1,0" EndPoint="0,0" GradientStops="{DynamicResource ShadowGradientStops}"/>
 									</Rectangle.Fill>
-								</Rectangle-->
+								</Rectangle->
                             </cui:FloorPanel>
                         </ScrollViewer>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
-        </Setter>
+        </Setter-->
     </Style>
 
     <!--### Header for mod configurators ###-->
@@ -219,25 +227,218 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="GroupBox">
-                    <StackPanel Orientation="Vertical"
-                                    Margin="{TemplateBinding Padding}">
+                    <StackPanel Orientation="Vertical">
                         <Separator cui:AttachedProperties.CastDirection="Up"/>
-                        <ContentPresenter x:Name="HeaderPresenter"
+                        <StackPanel Orientation="Vertical"
+                                    Margin="{TemplateBinding Padding}">
+                            <ContentPresenter x:Name="HeaderPresenter"
                                         ContentSource="Header"
                                         RecognizesAccessKey="True"
                                         TextElement.Foreground="{TemplateBinding Foreground}"
-                                        HorizontalAlignment="Left"
-                                        TextBlock.FontSize="16"
-                                        TextBlock.FontWeight="Bold"
+                                        HorizontalAlignment="Stretch"
+                                        Style="{DynamicResource h2}"
+                                        TextBlock.TextAlignment="Left"
                                         VerticalAlignment="Center"/>
-                        <Rectangle Height="{DynamicResource SettingsControlsVerticalSpacing}"
-                            Visibility="Hidden"/>
-                        <ContentPresenter x:Name="BodyPresenter"/>
+                            <Rectangle Height="{DynamicResource SettingsControlsVerticalSpacing}"
+                                       Visibility="Hidden"/>
+                            <ContentPresenter x:Name="BodyPresenter"/>
+                        </StackPanel>
                         <Separator cui:AttachedProperties.CastDirection="Down"/>
                     </StackPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="Header" Value="{x:Null}">
                             <Setter TargetName="HeaderPresenter" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ModJobsBatchContainerStyle" TargetType="{x:Type cui:AnimatableContentControl}" BasedOn="{StaticResource {x:Type cui:AnimatableContentControl}}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type cui:AnimatableContentControl}">
+                    <cui:FloorPanel>
+                        <Border x:Name="RootBorder" Background="{DynamicResource ModalPanelBackdropBrush}" BorderBrush="{DynamicResource TitlebarBorderBrush}" BorderThickness="1" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}" Opacity="0">
+                            <cui:FloorPanel x:Name="ContentGrid"
+                                  Margin="48"
+                                  RenderTransformOrigin="0.5,0.5">
+                                <cui:FloorPanel.RenderTransform>
+                                    <ScaleTransform ScaleX="0.25" ScaleY="{Binding ScaleX, RelativeSource={RelativeSource Mode=Self}}"/>
+                                </cui:FloorPanel.RenderTransform>
+                                <!--Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="3*"/>
+                                </Grid.ColumnDefinitions-->
+                                <Rectangle x:Name="SizeHelper" Visibility="Hidden"/>
+                                <!--DockPanel>
+                                    <Rectangle x:Name="SlideAnimationHelper" Visibility="Hidden"
+                                               Width="{Binding ActualWidth, ElementName=SizeHelper, Mode=OneWay}"
+                                               DockPanel.Dock="Right"
+                                               Margin="0">
+                                        <Rectangle.LayoutTransform>
+                                            <ScaleTransform ScaleX="0"/>
+                                        </Rectangle.LayoutTransform>
+                                    </Rectangle-->
+                                <Border x:Name="ContentPaneBorder"
+                                        CornerRadius="3"
+                                        Effect="{DynamicResource TertiaryDropShadow}"
+                                        BorderBrush="Transparent"
+                                        UseLayoutRounding="True">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.75" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
+                                    </Border.Background>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <ContentPresenter Content="{TemplateBinding Content}"
+                                                          Grid.Row="1"/>
+                                        <Border x:Name="ContentPaneOverlayBorder"
+                                                Background="{DynamicResource ModalPanelBackdropBrush}"
+                                                CornerRadius="3"
+                                                Opacity="0"
+                                                Grid.RowSpan="2"/>
+                                        <Button x:Name="PART_CloseButton"
+                                                Content="{DynamicResource AnimatableContentControlCloseButtonIcon}"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Top"
+                                                Visibility="{Binding HasCloseButton, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                DockPanel.Dock="Top"
+                                                Panel.ZIndex="99999999"
+                                                Style="{DynamicResource AnimatableContentControlCloseButtonStyle}"/>
+                                    </Grid>
+                                </Border>
+                                <!--/DockPanel-->
+                                <Rectangle x:Name="Spacer" Width="{DynamicResource SettingsControlsHorizontalSpacing}"
+                                           Grid.Column="1"
+                                           DataContext="{Binding CurrentModalVM.ShownSettingsMod}"/>
+                                <!--DockPanel>
+                                    <Rectangle x:Name="SlideAnimationHelper2" Visibility="Hidden"
+                                               Width="36"
+                                               DockPanel.Dock="Left"
+                                               Margin="0">
+                                        <Rectangle.LayoutTransform>
+                                            <ScaleTransform ScaleX="0"/>
+                                        </Rectangle.LayoutTransform>
+                                    </Rectangle-->
+                                    <Border x:Name="ModSettingsPaneBorder"
+                                        CornerRadius="3"
+                                        Effect="{DynamicResource TertiaryDropShadow}"
+                                        BorderBrush="Transparent"
+                                        UseLayoutRounding="True"
+                                        Margin="132,-24,-60,-24"
+                                        IsHitTestVisible="True"
+                                        Visibility="Collapsed"
+                                        Opacity="0">
+                                        <!--Width="{Binding ActualWidth, ElementName=SlideAnimationHelper, Mode=OneWay}"
+                                        HorizontalAlignment="Right"-->
+                                        <Border.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.75" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
+                                        </Border.Background>
+                                        <DockPanel>
+                                            <Button Command="{Binding CurrentModalVM.ShowModSettingsCommand}"
+                                                CommandParameter="{x:Null}"
+                                                Content="close button (PLACEHOLDER)"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Top"
+                                                DockPanel.Dock="Top"
+                                                Panel.ZIndex="99999999"
+                                                Style="{DynamicResource AnimatableContentControlCloseButtonStyle}">
+                                                <!--
+                                                Style="{DynamicResource AnimatableContentControlCloseButtonStyle}"-->
+                                                <!--Button.Content>
+                                                    <Rectangle Width="{Binding Content.ActualWidth, ElementName=PART_CloseButton}"
+                                                           Height="{Binding Content.ActualWidth, ElementName=PART_CloseButton}"
+                                                               Fill="Red">
+                                                        <!-Rectangle.Fill>
+                                                            <VisualBrush Visual="{Binding Content, ElementName=PART_CloseButton}"
+                                                                     Stretch="Fill"/>
+                                                        </Rectangle.Fill->
+                                                    </Rectangle>
+                                                </Button.Content-->
+                                            </Button>
+                                            <ContentPresenter>
+                                                <e:Interaction.Behaviors>
+                                                    <v:ModSettingsDataContextChangedBehavior Mod="{Binding DataContext, ElementName=Spacer}"/>
+                                                </e:Interaction.Behaviors>
+                                            </ContentPresenter>
+                                        </DockPanel>
+                                    </Border>
+                                <!--/DockPanel-->
+                            </cui:FloorPanel>
+                        </Border>
+                    </cui:FloorPanel>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding CurrentModalVM.ShownSettingsMod}" Value="{x:Null}">
+                            <!--Setter TargetName="ContentPaneBorder" Property="Grid.ColumnSpan" Value="3"/>
+                            <Setter TargetName="ModSettingsPaneBorder" Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Mode=OneTime}" Value="{x:Null}"-->
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <!--DoubleAnimation Storyboard.TargetName="SlideAnimationHelper" Storyboard.TargetProperty="LayoutTransform.ScaleX" To="0" EasingFunction="{StaticResource DisappearEase}" Duration="0:0:0.26"/-->
+                                        <ThicknessAnimation Storyboard.TargetName="ContentPaneBorder" Storyboard.TargetProperty="Margin" To="0" EasingFunction="{StaticResource DisappearEase}" Duration="0:0:0.26"/>
+                                        <!--DoubleAnimation Storyboard.TargetName="SlideAnimationHelper2" Storyboard.TargetProperty="LayoutTransform.ScaleX" To="0" EasingFunction="{StaticResource DisappearEase}" Duration="0:0:0.26"/-->
+                                        <ThicknessAnimation Storyboard.TargetName="ModSettingsPaneBorder" Storyboard.TargetProperty="Margin" To="132,-24,-60,-24" EasingFunction="{StaticResource DisappearEase}" Duration="0:0:0.26"/>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ModSettingsPaneBorder" Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.26" Value="{x:Static Visibility.Collapsed}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <!--BooleanAnimationUsingKeyFrames Storyboard.TargetName="ModSettingsPaneBorder" Storyboard.TargetProperty="IsHitTestVisible">
+                                            <DiscreteBooleanKeyFrame KeyTime="0:0:0.26" Value="False"/>
+                                        </BooleanAnimationUsingKeyFrames-->
+                                        <DoubleAnimation Storyboard.TargetName="ModSettingsPaneBorder" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.25"/>
+                                        <DoubleAnimation Storyboard.TargetName="ContentPaneOverlayBorder" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.25"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <!--DoubleAnimation Storyboard.TargetName="SlideAnimationHelper" Storyboard.TargetProperty="LayoutTransform.ScaleX" To="0.667" EasingFunction="{StaticResource AppearEase}" Duration="0:0:0.25"/-->
+                                        <ThicknessAnimation Storyboard.TargetName="ContentPaneBorder" Storyboard.TargetProperty="Margin" To="-36,0,36,0" EasingFunction="{StaticResource AppearEase}" Duration="0:0:0.26"/>
+                                        <!--DoubleAnimation Storyboard.TargetName="SlideAnimationHelper2" Storyboard.TargetProperty="LayoutTransform.ScaleX" To="0.1" EasingFunction="{StaticResource AppearEase}" Duration="0:0:0.25"/-->
+                                        <ThicknessAnimation Storyboard.TargetName="ModSettingsPaneBorder" Storyboard.TargetProperty="Margin" To="96,-24,-24,-24" EasingFunction="{StaticResource AppearEase}" Duration="0:0:0.26"/>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ModSettingsPaneBorder" Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <!--BooleanAnimationUsingKeyFrames Storyboard.TargetName="ModSettingsPaneBorder" Storyboard.TargetProperty="IsHitTestVisible">
+                                            <DiscreteBooleanKeyFrame KeyTime="0:0:0" Value="True"/>
+                                        </BooleanAnimationUsingKeyFrames-->
+                                        <DoubleAnimation Storyboard.TargetName="ModSettingsPaneBorder" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.25"/>
+                                        <DoubleAnimation Storyboard.TargetName="ContentPaneOverlayBorder" Storyboard.TargetProperty="Opacity" To="0.75" Duration="0:0:0.25"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                            <Setter TargetName="ModSettingsPaneBorder" Property="IsHitTestVisible" Value="False"/>
+                            <Setter TargetName="ContentPaneOverlayBorder" Property="IsHitTestVisible" Value="False"/>
+                            <!--Setter TargetName="ContentPaneBorder" Property="Grid.ColumnSpan" Value="3"/-->
+                            <!--Setter TargetName="ModSettingsPaneBorder" Property="Visibility" Value="Collapsed"/-->
+                        </DataTrigger>
+                        <Trigger Property="IsOpen" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" EasingFunction="{StaticResource AppearEase}" Duration="0:0:0.25"/>
+                                        <DoubleAnimation Storyboard.TargetName="RootBorder" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.25"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="ContentGrid" Storyboard.TargetProperty="RenderTransform.ScaleX" To="0.25" EasingFunction="{StaticResource DisappearEase}" Duration="0:0:0.26"/>
+                                        <DoubleAnimation Storyboard.TargetName="RootBorder" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.25"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <Trigger SourceName="RootBorder" Property="Opacity" Value="0">
+                            <Setter Property="Visibility" Value="Collapsed"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

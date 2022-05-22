@@ -26,5 +26,16 @@ namespace SporeMods.Views
                     Modal.PermitProceed();
             }
         }
-	}
+
+        private void WhenDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue is IModalViewModel vm)
+            {
+                if (vm.ContainerStyleKey != null)
+                    SetResourceReference(StyleProperty, vm.ContainerStyleKey);
+                else
+                    SetResourceReference(StyleProperty, typeof(AnimatableContentControl));
+            }
+        }
+    }
 }

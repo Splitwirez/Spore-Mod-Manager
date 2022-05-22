@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO.Compression;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -118,6 +119,16 @@ namespace SporeMods.Core.Mods
                 NotifyPropertyChanged();
             }
         }
+        /*get => (this is IConfigurableMod cm) ? cm.GetHasSettings() : false;
+        public bool GetHasSettings()
+            => _hasSettings;
+        protected void SetHasSettings(bool value)
+        {
+            _hasSettings = value;
+            NotifyPropertyChanged(nameof(((ISporeMod)this).HasSettings));
+        }*/
+
+        internal bool IsIncoming = false;
 
 
         ThreadSafeObservableCollection<ComponentBase> _allComponents = new ThreadSafeObservableCollection<ComponentBase>();
@@ -133,19 +144,22 @@ namespace SporeMods.Core.Mods
             get => _featureComponents;
         }
 
-
-        public string GetViewTypeName()
-        {
-            string typeName = this.GetType().FullName;
-            var seg = typeName.Split('.');
-            typeName = seg[seg.Length - 1];
-            typeName = "SporeMods.CommonUI.Configurators." + typeName + "ConfiguratorView";
-            return typeName;
-        }
-
         public Task<ModJobBatchEntryBase> EnsureCanInstall(ModJobBatchModEntry entry, List<ModJobBatchModEntry> otherEntries)
         {
             throw new NotImplementedException();
+        }
+
+
+        public object GetSettingsViewModel()
+            => new MI1_0_X_XModSettingsViewModel(this);
+        public string GetSettingsViewTypeName()
+        {
+            string typeName = typeof(MI1_0_X_XMod).FullName; //this.GetType().FullName;
+            var seg = typeName.Split('.');
+            typeName = seg[seg.Length - 1];
+            typeName = $"SporeMods.Views.{typeName}SettingsView";
+            //typeName = $"SporeMods.Views.{typeof(MI1_0_X_XMod).FullName.Split('.', StringSplitOptions.RemoveEmptyEntries).Last()}SettingsView";
+            return typeName;
         }
     }
 }

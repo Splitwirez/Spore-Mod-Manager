@@ -81,6 +81,11 @@ namespace SporeMods.Core.Mods
             }
         }
 
+        public bool HasSettings
+        {
+            get => false;
+        }
+
 
         public bool IsUpgradeTo(ISporeMod mod)
             => Unique == mod.Unique;

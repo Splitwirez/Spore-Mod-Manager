@@ -18,6 +18,8 @@ namespace SporeMods.Core
 
 		string Title { get; }
 		bool HasTitle { get; }
+
+		string ContainerStyleKey { get; }
 	}
 
 	public interface IModalViewModel<T> : IModalViewModel
@@ -84,5 +86,7 @@ namespace SporeMods.Core
 				NotifyPropertyChanged();
 			}
 		}
+
+		public virtual string ContainerStyleKey { get; protected set; } = null;
 	}
 }

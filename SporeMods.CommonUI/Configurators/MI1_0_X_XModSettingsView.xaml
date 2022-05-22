@@ -1,0 +1,285 @@
+﻿<UserControl x:Class="SporeMods.Views.MI1_0_X_XModSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:cui="clr-namespace:SporeMods.CommonUI"
+             xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:mods="clr-namespace:SporeMods.Core.Mods;assembly=SporeMods.Core"
+             xmlns:draw="clr-namespace:System.Drawing;assembly=System.Drawing.Common"
+             xmlns:clsp="clr-namespace:System.Collections.Specialized;assembly=System.Collections.Specialized"
+             xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+             xmlns:cmp="clr-namespace:SporeMods.Core.Mods.ModIdentity.V1_0_X_XComponents;assembly=SporeMods.Core"
+             xmlns:v="clr-namespace:SporeMods.Views"
+             xmlns:vm="clr-namespace:SporeMods.ViewModels">
+    <UserControl.Resources>
+        <cui:SysDrawingImageToImageSourceConverter x:Key="SysDrawingImageToImageSourceConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <cui:BooleanToInvisibilityConverter x:Key="BooleanToInvisibilityConverter"/>
+        <cui:ToStringConverter x:Key="ToStringConverter"/>
+
+
+        <DataTemplate DataType="{x:Type cmp:Feature}">
+            <GroupBox x:Name="GroupBox" Style="{DynamicResource ConfiguratorComponentGroupStyle}">
+                <GroupBox.Header>
+                    <cui:ToggleSwitch IsChecked="{Binding IsEnabled}"
+                                      Padding="0"
+                                      Margin="0">
+                        <TextBlock Text="{Binding DisplayName, Converter={StaticResource ToStringConverter}, Mode=OneWay}"
+                                   Style="{DynamicResource h2}"
+                                   TextAlignment="Left"/>
+                        <!--Content="{Binding DataContext.DisplayName, ElementName=Switch}"-->
+
+                        <!--e:Interaction.Triggers>
+                            <e:EventTrigger EventName="MouseEnter">
+                                <e:InvokeCommandAction Command="{Binding DataContext.HighlightFeatureCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type v:MI1_0_X_XModSettingsView}}}"
+                                                        CommandParameter="{Binding}"/>
+                            </e:EventTrigger>
+                        </e:Interaction.Triggers-->
+                    </cui:ToggleSwitch>
+                <!--TextBlock Text="{Binding DisplayName}"/-->
+                </GroupBox.Header>
+
+                <ItemsControl ItemsSource="{Binding Description}"
+                              ItemsPanel="{DynamicResource StandardDescriptionPanelTemplate}"/>
+            </GroupBox>
+        </DataTemplate>
+
+
+
+        <DataTemplate x:Key="StandardRadioOptionTemplate" DataType="{x:Type cmp:RadioGroupOption}">
+            <StackPanel Orientation="Vertical">
+                <RadioButton
+                         IsChecked="{Binding IsEnabled}">
+                    <TextBlock Style="{DynamicResource h3}"
+                               Text="{Binding DisplayName, Converter={StaticResource ToStringConverter}, Mode=OneWay}"
+                               TextWrapping="Wrap"
+                               DockPanel.Dock="Top"/>
+                    <!--e:Interaction.Triggers>
+                        <e:EventTrigger EventName="MouseEnter">
+                            <e:InvokeCommandAction Command="{Binding DataContext.HighlightFeatureCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type v:MI1_0_X_XModSettingsView}}}"
+                                                        CommandParameter="{Binding}"/>
+                        </e:EventTrigger>
+                    </e:Interaction.Triggers-->
+                </RadioButton>
+                <ItemsControl ItemsSource="{Binding Description}"
+                              ItemsPanel="{DynamicResource StandardDescriptionPanelTemplate}"/>
+            </StackPanel>
+        </DataTemplate>
+        
+        <ItemsPanelTemplate x:Key="StandardDescriptionPanelTemplate">
+            <DockPanel/>
+        </ItemsPanelTemplate>
+
+
+
+        <DataTemplate DataType="{x:Type cmp:DescriptionImage}">
+            <Image Stretch="Uniform"
+                   StretchDirection="DownOnly"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch"
+                   MinWidth="160"
+                   Source="{Binding Image}"/>
+            <!--Viewbox Stretch="Uniform"
+                     StretchDirection="DownOnly"
+                     HorizontalAlignment="Stretch"
+                     VerticalAlignment="Stretch"
+                     MinWidth="160">
+                <Border Background="#FFFF00FF"
+                           Width="160"
+                           Height="120">
+                    <TextBlock Foreground="#FF0000FF"
+                               FontSize="24"
+                               FontFamily="Comic Sans MS"
+                               FontWeight="DemiBold"
+                               Text="images soon lol"
+                               TextWrapping="Wrap"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               TextAlignment="Center"/>
+                </Border>
+            </Viewbox-->
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding DataContext.ImagePlacement, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
+                             Value="After">
+                    <Setter Property="DockPanel.Dock" Value="Right"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding DataContext.ImagePlacement, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
+                             Value="Before">
+                    <Setter Property="DockPanel.Dock" Value="Left"/>
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type mods:FixedModText}">
+            <TextBlock Text="{Binding}" TextWrapping="Wrap"/>
+        </DataTemplate>
+
+
+        <DataTemplate x:Key="ImageTileRadioOptionTemplate" DataType="{x:Type cmp:RadioGroupOption}">
+            <ToggleButton IsChecked="{Binding IsEnabled}" Margin="0,0,4,4">
+                <DockPanel>
+                    <TextBlock Style="{DynamicResource h3}"
+                               Text="{Binding DisplayName, Converter={StaticResource ToStringConverter}, Mode=OneWay}"
+                               TextWrapping="Wrap"
+                               DockPanel.Dock="Top"/>
+                    <ItemsControl ItemsSource="{Binding Description}" Width="160"/>
+                    <!--ContentPresenter Content="{Binding Description[0], FallbackValue={x:Null}}"/-->
+                </DockPanel>
+                <!--e:Interaction.Triggers>
+                    <e:EventTrigger EventName="MouseEnter">
+                        <e:InvokeCommandAction Command="{Binding DataContext.HighlightFeatureCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type v:MI1_0_X_XModSettingsView}}}"
+                                                    CommandParameter="{Binding}"/>
+                    </e:EventTrigger>
+                </e:Interaction.Triggers-->
+            </ToggleButton>
+        </DataTemplate>
+        <ItemsPanelTemplate x:Key="ImageTileRadioGroupItemsPanelTemplate">
+            <WrapPanel/>
+        </ItemsPanelTemplate>
+        <ItemsPanelTemplate x:Key="StandardRadioGroupItemsPanelTemplate">
+            <cui:StackPanelEx Orientation="Vertical"
+                              Spacing="{DynamicResource SettingsControlsVerticalSpacing}"/>
+        </ItemsPanelTemplate>
+
+        <DataTemplate DataType="{x:Type cmp:RadioGroup}">
+            <GroupBox Header="{Binding DisplayName}"
+                      Style="{DynamicResource ConfiguratorComponentGroupStyle}">
+                <cui:FloorPanel>
+                    <DockPanel x:Name="Standard"
+                               Visibility="Collapsed">
+                        <!--ComboBox x:Name="StandardOptionsComboBox"
+                                  ItemTemplate="{DynamicResource StandardRadioOptionTemplate}"/-->
+                        <ItemsControl x:Name="StandardOptionsComboBox"
+                                      ItemTemplate="{DynamicResource StandardRadioOptionTemplate}"
+                                      ItemsPanel="{DynamicResource StandardRadioGroupItemsPanelTemplate}"/>
+                    </DockPanel>
+
+                    <ItemsControl x:Name="ImageTiles"
+                                  ItemTemplate="{DynamicResource ImageTileRadioOptionTemplate}"
+                                  ItemsPanel="{DynamicResource ImageTileRadioGroupItemsPanelTemplate}"
+                                  Visibility="Collapsed"/>
+                </cui:FloorPanel>
+            </GroupBox>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding DisplayMode}" Value="Standard">
+                    <Setter TargetName="Standard" Property="Visibility" Value="Visible"/>
+                    <Setter TargetName="StandardOptionsComboBox" Property="ItemsSource" Value="{Binding Children}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding DisplayMode}" Value="Grid">
+                    <Setter TargetName="ImageTiles" Property="Visibility" Value="Visible"/>
+                    <Setter TargetName="ImageTiles" Property="ItemsSource" Value="{Binding Children}"/>
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+    </UserControl.Resources>
+    <!--DockPanel-->
+    <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <ItemsControl x:Name="ComponentsPane"
+                      ItemsSource="{Binding Mod.FeatureComponents}"
+                      Style="{DynamicResource ModConfiguratorComponentsListStyle}">
+                <!--cui:AttachedProperties.CornerCurves="True,False,False,True"
+                    DockPanel.Dock="Left"-->
+                <!--ItemsControl.Resources>
+                    <DataTemplate DataType="{x:Type mods:MutualExclusiveComponentGroup}">
+                        <DataTemplate.Resources>
+                            <DataTemplate DataType="{x:Type mods:ModComponent}">
+                                <RadioButton x:Name="ComponentRadioButton" Content="{Binding DisplayName}" IsChecked="{Binding IsEnabled, Mode=TwoWay}">
+                                    <e:Interaction.Triggers>
+                                        <e:EventTrigger EventName="MouseEnter">
+                                            <e:InvokeCommandAction Command="{Binding DataContext.ViewComponentCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                                                CommandParameter="{Binding}"/>
+                                        </e:EventTrigger>
+                                    </e:Interaction.Triggers>
+                                </RadioButton>
+                            </DataTemplate>
+                        </DataTemplate.Resources>
+                        <GroupBox Header="{Binding DisplayName}"
+                                Style="{DynamicResource ConfiguratorComponentGroupStyle}">
+                            <ItemsControl ItemsSource="{Binding SubComponents}"/>
+                        </GroupBox>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type mods:ModComponent}">
+                        <CheckBox x:Name="ComponentCheckBox"
+                                Content="{Binding DisplayName}"
+                                IsChecked="{Binding IsEnabled, Mode=TwoWay}">
+                            <e:Interaction.Triggers>
+                                <e:EventTrigger EventName="MouseEnter">
+                                    <e:InvokeCommandAction Command="{Binding DataContext.ViewComponentCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                                        CommandParameter="{Binding}"/>
+                                </e:EventTrigger>
+                            </e:Interaction.Triggers>
+                        </CheckBox>
+                    </DataTemplate>
+                </ItemsControl.Resources-->
+        </ItemsControl>
+    </ScrollViewer>
+    <!--cui:Zone x:Name="HeaderContentControl"
+                        Style="{DynamicResource ModConfiguratorHeaderZoneStyle}"
+                        cui:AttachedProperties.CornerCurves="False,True,False,False"
+                        DockPanel.Dock="Top"
+                        Visibility="{Binding Mod.HasLogo, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Image x:Name="LogoImage"
+                Height="40"
+                Margin="50,5"
+                Source="{Binding Mod.Logo, Converter={StaticResource SysDrawingImageToImageSourceConverter}}"/>
+        </cui:Zone-->
+    <!--cui:Zone Style="{DynamicResource CustomInstallerFooterZoneStyle}"
+                        DockPanel.Dock="Bottom"
+                        cui:AttachedProperties.CornerCurves="False,False,True,False">
+            <Control>
+                <Control.Template>
+                    <ControlTemplate>
+                        <DockPanel LastChildFill="False">
+                            <Button x:Name="AcceptButton"
+                                    Command="{Binding AcceptCommand}"
+                                    DockPanel.Dock="Right"/>
+                        </DockPanel>
+                        <ControlTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Configuring}" Value="False">
+                                <Setter TargetName="AcceptButton" Property="Content" Value="{DynamicResource Mods!Configurator!Accept!Install}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Configuring}" Value="True">
+                                <Setter TargetName="AcceptButton" Property="Content" Value="{DynamicResource Mods!Configurator!Accept!ChangeSettings}"/>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Control.Template>
+            </Control>
+        </cui:Zone-->
+    <!--ScrollViewer x:Name="Body"
+                    HorizontalScrollBarVisibility="Disabled"
+                    VerticalScrollBarVisibility="Auto"
+                    cui:AttachedProperties.CornerCurves="False">
+            <ItemsControl ItemsSource="{Binding HighlightedFeature.Description}"
+                    cui:AttachedProperties.CornerCurves="False">
+                <!-    ItemsControl.Resources>
+                    <DataTemplate DataType="{x:Type draw:Image}">
+                        <Image Source="{Binding Converter={StaticResource SysDrawingImageToImageSourceConverter}}"/>
+                    </DataTemplate>
+                    <!-DataTemplate DataType="{x:Type sys:String}">
+                        <TextBlock Text="{Binding}"/>
+                    </DataTemplate->
+                    <DataTemplate DataType="{x:Type clsp:StringCollection}">
+                        <!-cui:NoSizeDecorator Margin="0,10,0,0">
+                            <TextBlock x:Name="TextB" Text="{Binding [0]}" TextWrapping="Wrap" HorizontalAlignment="Left" Padding="5" Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}}" ClipToBounds="False"/->
+                            <TextBlock x:Name="TextB"
+                                        Text="{Binding [0]}"
+                                        TextAlignment="Left"
+                                        TextWrapping="Wrap"
+                                        Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}"
+                                        Margin="0,0,-18,0"
+                                        Padding="5,5,23,5"/>
+                        <!-/cui:NoSizeDecorator->
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Count}" Value="2">
+                                <Setter TargetName="TextB" Property="Style" Value="{DynamicResource h2}"/>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ItemsControl.Resources->
+            </ItemsControl>
+        </ScrollViewer>
+    </DockPanel-->
+</UserControl>

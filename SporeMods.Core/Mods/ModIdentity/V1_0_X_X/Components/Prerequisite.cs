@@ -15,7 +15,7 @@ namespace SporeMods.Core.Mods.ModIdentity.V1_0_X_XComponents
                 Files = ComponentBase.GetFiles(element),
                 Mod = mod
             };
-            EnsureFiles(ret.Files.Keys, fileNames, mod.Unique, mod.DisplayName.ToString());
+            EnsureFiles(mod, ret.FileNames, fileNames); //, mod.Unique, mod.DisplayName.ToString());
 
             return ret;
         }

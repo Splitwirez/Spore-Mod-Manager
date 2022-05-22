@@ -12,11 +12,12 @@
         <Setter Property="MinHeight" Value="23"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="Visibility" Value="Visible" />
+        <Setter Property="TextBlock.TextAlignment" Value="Left"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type cui:ToggleSwitch}">
@@ -161,9 +162,21 @@
                                 </Button>
                             </StackPanel>
                         </cui:FloorPanel>
-                        <TextBlock x:Name="PART_StateText" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left" IsHitTestVisible="False" Margin="0,0,5,0" DockPanel.Dock="Right"/>
+                        <TextBlock x:Name="PART_StateText"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   TextAlignment="Left"
+                                   IsHitTestVisible="False"
+                                   Margin="0,0,5,0"
+                                   DockPanel.Dock="Right"/>
                         <!--Grid.Column="0" Grid.Row="1"-->
-                        <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="Left" VerticalAlignment="Center" TextBlock.TextAlignment="Left" IsHitTestVisible="False"/>
+                        <ContentPresenter x:Name="PART_ContentPresenter"
+                                          Content="{TemplateBinding Content}"
+                                          Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          TextBlock.TextAlignment="{TemplateBinding TextBlock.TextAlignment}"/>
+                        <!---->
                         <!--Grid.ColumnSpan="2" Grid.Row="0"-->
                     </DockPanel>
                     <ControlTemplate.Triggers>

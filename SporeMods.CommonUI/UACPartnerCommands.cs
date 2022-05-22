@@ -262,6 +262,8 @@ namespace SporeMods.CommonUI
 					else
 						processed = false;
 				}
+				else
+					processed = false;
 
 				if (processed)
 					File.Delete(args.FullPath);

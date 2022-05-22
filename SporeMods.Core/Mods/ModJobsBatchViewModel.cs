@@ -44,6 +44,51 @@ namespace SporeMods.Core.Mods
             }
         }
 
+        IConfigurableMod _shownSettingsMod = null;
+        public IConfigurableMod ShownSettingsMod
+        {
+            get => _shownSettingsMod;
+            protected set
+            {
+                _shownSettingsMod = value;
+                NotifyPropertyChanged();
+
+                /*if (_shownSettingsMod != null)
+                {
+                    string viewTypeName = _shownSettingsMod.GetSettingsViewTypeName();
+                    Type viewType = Type.GetType(viewTypeName);
+                    object view = Activator.CreateInstance(viewType);
+                    ShownSettingsModView = view;
+                }
+                else
+                    ShownSettingsModView = null;*/
+            }
+        }
+
+        /*object _shownSettingsModView = null;
+        public object ShownSettingsModView
+        {
+            get => _shownSettingsModView;
+            protected set
+            {
+                _shownSettingsModView = value;
+                NotifyPropertyChanged();
+            }
+        }*/
+
+        object _showModSettingsCommand = null;
+        public object ShowModSettingsCommand
+        {
+            get => _showModSettingsCommand;
+            protected set
+            {
+                _showModSettingsCommand = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        //CurrentModalView = hasModal ? Activator.CreateInstance(Type.GetType(value.GetViewTypeName())) : null;
+
 
         /*object _cancelCommand = null;
         public object CancelCommand
@@ -63,7 +108,10 @@ namespace SporeMods.Core.Mods
             Title = "Install mods (NOT LOCALIZED)";
             DismissCommand = Externals.CreateCommand<List<ModJobBatchModEntry>>(o => CompletionSource.TrySetResult(new List<ModJobBatchModEntry>()));
             CanDismiss = false;
+            ShowModSettingsCommand = Externals.CreateCommand<IConfigurableMod>(mod => ShownSettingsMod = mod);
         }
+
+        public override string ContainerStyleKey { get; protected set; } = "ModJobsBatchContainerStyle";
 
         public void OnAnalysisFinished(IEnumerable<ModJobBatchEntryBase> entries)
         {
@@ -130,19 +178,42 @@ namespace SporeMods.Core.Mods
     public class ModJobBatchErrorEntry : ModJobBatchEntryBase
     {
         string _errorTextKey = string.Empty;
-        string _modFileName = string.Empty;
+        string ModFileName { get; } = string.Empty;
         string _modFilePath = string.Empty;
+        string _exceptionDetails = "Unknown error (NOT LOCALIZED)";
+
+
         Exception _exception = null;
-        string _exceptionDetails = "'None (PLACEHOLDER) (NOT LOCALIZED)'";
+        public Exception Exception
+        {
+            get => _exception;
+            protected set
+            {
+                _exception = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        bool _showStackTrace = false;
+        public bool ShowStackTrace
+        {
+            get => _showStackTrace;
+            set
+            {
+                _showStackTrace = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public ModJobBatchErrorEntry(string modFilePath, string errorTextKey, Exception exception)
         {
             _modFilePath = modFilePath;
-            _modFileName = Path.GetFileNameWithoutExtension(_modFilePath);
+            ModFileName = Path.GetFileNameWithoutExtension(_modFilePath);
+            Exception = exception;
             _errorTextKey = errorTextKey;
-            _exception = exception;
             
-            if (_exception != null)
-                _exceptionDetails = $"{_exception.GetType()}: '{_exception.Message}'";
+            if (Exception != null)
+                _exceptionDetails = $"{Exception.GetType()}: '{Exception.Message}'";
             
             CanProceed = false;
             Refresh();
@@ -150,7 +221,7 @@ namespace SporeMods.Core.Mods
 
         void Refresh()
         {
-            CantProceedReason = string.Format("Cannot install the mod '{1}' because '{3}'. Exception details: {2}. (PLACEHOLDER) (NOT LOCALIZED)", _modFilePath, _modFileName, _exceptionDetails, _errorTextKey);
+            CantProceedReason = string.Format("Cannot install the mod '{1}' because '{3}'. Exception details: {2}. (NOT LOCALIZED)", _modFilePath, ModFileName, _exceptionDetails, _errorTextKey);
         }
 
         public override string ToString()
