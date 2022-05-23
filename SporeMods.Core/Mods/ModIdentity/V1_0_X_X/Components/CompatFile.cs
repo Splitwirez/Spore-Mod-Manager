@@ -66,7 +66,7 @@ namespace SporeMods.Core.Mods.ModIdentity.V1_0_X_XComponents
             List<string> targetPaths = new List<string>();
             foreach (var file in CompatTargetFiles)
             {
-                string targetPath = FileWrite.GetFileOutputPath(file.Dir, file.FileName, Mod is MI1_0_0_0Mod);
+                string targetPath = FileWrite.GetFileOutputPath(file.Dir, file.FileName, UsesLegacyDLLs);
                 if (File.Exists(targetPath))
                     targetPaths.Add(targetPath);
                 else

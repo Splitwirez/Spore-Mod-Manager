@@ -51,10 +51,10 @@ namespace SporeMods.Views
                     && (e.NewValue is IConfigurableMod mod)
                     )
                 {
-                    string viewTypeName = mod.GetSettingsViewTypeName();
+                    string viewTypeName = mod.GetSettingsViewTypeName(false);
                     Type viewType = Type.GetType(viewTypeName);
                     FrameworkElement view = (FrameworkElement)(Activator.CreateInstance(viewType));
-                    view.DataContext = mod.GetSettingsViewModel();
+                    view.DataContext = mod.GetSettingsViewModel(false);
                     b.AssociatedObject.Content = view;
                 }
                 else

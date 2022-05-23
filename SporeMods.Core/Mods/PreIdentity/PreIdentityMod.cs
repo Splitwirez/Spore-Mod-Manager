@@ -298,7 +298,7 @@ namespace SporeMods.Core.Mods
 
         public static async Task<ISporeMod> AnalyzeFromLoosePackageAsync(string inPath)
         {
-            return await Task<ISporeMod>.Run(() =>
+            return await TaskEx<ISporeMod>.Run(() =>
             {
                 string fileNamewithExtension = Path.GetFileName(inPath);
                 string fileName = Path.GetFileNameWithoutExtension(inPath);
@@ -314,7 +314,10 @@ namespace SporeMods.Core.Mods
                     , unique: fileName
                     , displayName: fileName
                     , packageNames: new List<string>() { fileNamewithExtension }
-                );
+                )
+                {
+                    KnownHazardousMod = LegacyHazards.MatchLoosePackage(fileName)
+                };
 
                 return mod;
             });

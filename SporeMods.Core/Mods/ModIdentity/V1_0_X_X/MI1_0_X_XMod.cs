@@ -71,12 +71,42 @@ namespace SporeMods.Core.Mods
 
         public List<string> UpgradeTargets => new List<string>();
 
-        public bool IsExperimental => false;
+        
+        
+        bool _isExperimental = false;
+        public bool IsExperimental
+        {
+            get => _isExperimental;
+            protected set
+            {
+                _isExperimental = value;
+                NotifyPropertyChanged();
+            }
+        }
 
-        public bool CausesSaveDataDependency => false;
+        bool _causesSaveDataDependency = false;
+        public bool CausesSaveDataDependency
+        {
+            get => _causesSaveDataDependency;
+            protected set
+            {
+                _causesSaveDataDependency = value;
+                NotifyPropertyChanged();
+            }
+        }
 
-        public bool RequiresGalaxyReset => false;
+        bool _requiresGalaxyReset = false;
+        public bool RequiresGalaxyReset
+        {
+            get => _requiresGalaxyReset;
+            protected set
+            {
+                _requiresGalaxyReset = value;
+                NotifyPropertyChanged();
+            }
+        }
 
+        
         bool _usesCodeInjection = false;
         public bool UsesCodeInjection
         {
@@ -88,9 +118,17 @@ namespace SporeMods.Core.Mods
             }
         }
 
-        public bool GuaranteedVanillaCompatible => false;
-
-
+        bool _guaranteedVanillaCompatible = false;
+        public bool GuaranteedVanillaCompatible
+        {
+            get => _guaranteedVanillaCompatible;
+            protected set
+            {
+                _guaranteedVanillaCompatible = value;
+                NotifyPropertyChanged();
+            }
+        }
+        
         bool _knownHazardousMod = false;
         public bool KnownHazardousMod
         {
@@ -150,9 +188,9 @@ namespace SporeMods.Core.Mods
         }
 
 
-        public object GetSettingsViewModel()
+        public object GetSettingsViewModel(bool postInstall)
             => new MI1_0_X_XModSettingsViewModel(this);
-        public string GetSettingsViewTypeName()
+        public string GetSettingsViewTypeName(bool postInstall)
         {
             string typeName = typeof(MI1_0_X_XMod).FullName; //this.GetType().FullName;
             var seg = typeName.Split('.');

@@ -57,7 +57,7 @@ namespace SporeMods.Core
 
 		public static bool IsFileLocked(string filePath)
 		{
-			return IsFileLocked(filePath, FileAccess.Read);
+			return IsFileLocked(filePath, FileAccess.ReadWrite);
 		}
 
 		//https://stackoverflow.com/questions/876473/is-there-a-way-to-check-if-a-file-is-in-use
@@ -70,7 +70,7 @@ namespace SporeMods.Core
 				stream = new FileInfo(filePath).Open(FileMode.Open, access, FileShare.ReadWrite | FileShare.Delete); //FileShare.None);
 				//stream = File.Open(filePath, FileMode.Open, FileAccess.ReadWrite, )
 			}
-			catch (IOException)
+			catch (Exception)
 			{
 				//the file is unavailable because it is:
 				//still being written to

@@ -79,6 +79,9 @@ namespace SporeMods.Core.Mods.ModIdentity.V1_0_X_XComponents
             }
         }
 
+        public bool Is1_0_1_X => !(Mod is MI1_0_0_0Mod);
+        public bool UsesLegacyDLLs => !Is1_0_1_X;
+
 
         public virtual void Apply(ModTransaction transaction)
         {
@@ -88,7 +91,7 @@ namespace SporeMods.Core.Mods.ModIdentity.V1_0_X_XComponents
                 string name = Path.GetFileName(file.FileName);
                 Cmd.WriteLine($"PRINTING {name}");
                 string sourcePath = Path.Combine(recordDirPath, name);
-                string destPath = FileWrite.GetFileOutputPath(file.Dir, name, Mod is MI1_0_0_0Mod);
+                string destPath = FileWrite.GetFileOutputPath(file.Dir, name, UsesLegacyDLLs);
                 transaction.Operation(new CopyFileOp(sourcePath, destPath));
             }
         }
@@ -99,7 +102,7 @@ namespace SporeMods.Core.Mods.ModIdentity.V1_0_X_XComponents
             foreach (var file in Files)
             {
                 string name = Path.GetFileName(file.FileName);
-                string destPath = FileWrite.GetFileOutputPath(file.Dir, name, Mod is MI1_0_0_0Mod);
+                string destPath = FileWrite.GetFileOutputPath(file.Dir, name, UsesLegacyDLLs);
                 transaction.Operation(new DeleteFileOp(destPath));
             }
         }

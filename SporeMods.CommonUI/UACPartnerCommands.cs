@@ -143,7 +143,7 @@ namespace SporeMods.CommonUI
 
 		public static bool IsUACAdminPartnerProcess
 		{
-			get => HasUACPartnership ? (_UACAdminPartnerProcess.Id == Process.GetCurrentProcess().Id) : false;
+			get => HasUACPartnership && (!IsUACLimitedPartnerProcess);
 		}
 
 		public static bool TryGetPartnerDragWindowHwnd(out IntPtr hWnd)
@@ -215,6 +215,8 @@ namespace SporeMods.CommonUI
 
 		static void _dragWatcher_Created(object sneder, FileSystemEventArgs args)
         {
+			Cmd.WriteLine("IsUACLimitedPartnerProcess: " + IsUACLimitedPartnerProcess);
+			Cmd.WriteLine("IsUACAdminPartnerProcess: " + IsUACAdminPartnerProcess);
 			string sgnl = Path.GetFileName(args.FullPath);
 			if (File.Exists(args.FullPath))
 			{
@@ -266,7 +268,20 @@ namespace SporeMods.CommonUI
 					processed = false;
 
 				if (processed)
-					File.Delete(args.FullPath);
+				{
+					try
+					{
+						File.Delete(args.FullPath);
+					}
+					/*catch (UnauthorizedAccessException ex)
+                    {
+						MessageDisplay.ShowException(ex, false);
+                    }*/
+					catch (IOException ex)
+					{
+						MessageDisplay.ShowException(ex, false);
+					}
+				}
 			}
 		}
 

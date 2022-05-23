@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -76,6 +77,83 @@ namespace SporeMods.Core.Mods
             }
         }*/
 
+        bool _showIsExperimentalColumn = false;
+        public bool ShowIsExperimentalColumn
+        {
+            get => _showIsExperimentalColumn;
+            protected set
+            {
+                _showIsExperimentalColumn = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        bool _showGalaxyResetColumn = false;
+        public bool ShowGalaxyResetColumn
+        {
+            get => _showGalaxyResetColumn;
+            protected set
+            {
+                _showGalaxyResetColumn = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        bool _showSaveDataEffectColumn = false;
+        public bool ShowSaveDataEffectColumn
+        {
+            get => _showSaveDataEffectColumn;
+            protected set
+            {
+                _showSaveDataEffectColumn = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        bool _showCodeInjectionColumn = false;
+        public bool ShowCodeInjectionColumn
+        {
+            get => _showCodeInjectionColumn;
+            protected set
+            {
+                _showCodeInjectionColumn = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        bool _showVanillaCompatColumn = false;
+        public bool ShowVanillaCompatColumn
+        {
+            get => _showVanillaCompatColumn;
+            protected set
+            {
+                _showVanillaCompatColumn = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        bool _showHazardColumn = false;
+        public bool ShowHazardColumn
+        {
+            get => _showHazardColumn;
+            protected set
+            {
+                _showHazardColumn = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        bool _showSettingsColumn = false;
+        public bool ShowSettingsColumn
+        {
+            get => _showSettingsColumn;
+            protected set
+            {
+                _showSettingsColumn = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         object _showModSettingsCommand = null;
         public object ShowModSettingsCommand
         {
@@ -115,16 +193,27 @@ namespace SporeMods.Core.Mods
 
         public void OnAnalysisFinished(IEnumerable<ModJobBatchEntryBase> entries)
         {
-            Entries = entries;
-            IsAnalysisComplete = true;
-            CanDismiss = true;
+            var modEntries = entries.OfType<ModJobBatchModEntry>();
+            var sortedEntries = new ObservableCollection<ModJobBatchEntryBase>();
+            
+            foreach (ModJobBatchEntryBase entry in entries.Where(x => !x.CanProceed))
+                sortedEntries.Add(entry);
+            
+            foreach (ModJobBatchEntryBase entry in modEntries.Where(x => x.CanProceed && (!x.ShouldProceed)))
+                sortedEntries.Add(entry);
 
+            foreach (ModJobBatchEntryBase entry in modEntries.Where(x   => x.CanProceed && x.ShouldProceed))
+                sortedEntries.Add(entry);
+
+
+
+            Entries = sortedEntries;
             ConfirmCommand = Externals.CreateCommand<List<ModJobBatchModEntry>>(async o =>
             {
                 var finalEntries = 
                     await Task<List<ModJobBatchModEntry>>.Run(() =>
                     {
-                        return Entries.OfType<ModJobBatchModEntry>()
+                        return modEntries
                         .Where(x => x.CanProceed && x.ShouldProceed)
                         /*{
                             if (x is InstallBatchModEntry modEntry)
@@ -139,6 +228,62 @@ namespace SporeMods.Core.Mods
                 
                 CompletionSource.TrySetResult(finalEntries);
             });
+
+            bool showIsExperimentalColumn = false;
+            bool showGalaxyResetColumn = false;
+            bool showSaveDataEffectColumn = false;
+            bool showCodeInjectionColumn = false;
+            bool showVanillaCompatColumn = false;
+            bool showHazardColumn = false;
+            bool showSettingsColumn = false;
+
+            foreach (ModJobBatchModEntry entry in modEntries)
+            {
+                var mod = entry.Mod;
+                
+                if (mod.IsExperimental)
+                    showIsExperimentalColumn = true;
+                
+                if (mod.RequiresGalaxyReset)
+                    showGalaxyResetColumn = true;
+                
+                if (mod.CausesSaveDataDependency)
+                    showSaveDataEffectColumn = true;
+                
+                if (mod.UsesCodeInjection)
+                    showCodeInjectionColumn = true;
+                
+                if (mod.GuaranteedVanillaCompatible)
+                    showVanillaCompatColumn = true;
+                
+                if (mod.KnownHazardousMod)
+                    showHazardColumn = true;
+                
+                if (mod.HasSettings)
+                    showSettingsColumn = true;
+
+                if (showIsExperimentalColumn
+                 && showGalaxyResetColumn
+                 && showSaveDataEffectColumn
+                 && showCodeInjectionColumn
+                 && showVanillaCompatColumn
+                 && showHazardColumn
+                 && showSettingsColumn)
+                {
+                    break;
+                }
+            }
+
+            ShowIsExperimentalColumn = showIsExperimentalColumn;
+            ShowGalaxyResetColumn = showGalaxyResetColumn;
+            ShowSaveDataEffectColumn = showSaveDataEffectColumn;
+            ShowCodeInjectionColumn = showCodeInjectionColumn;
+            ShowVanillaCompatColumn = showVanillaCompatColumn;
+            ShowHazardColumn = showHazardColumn;
+            ShowSettingsColumn = showSettingsColumn;
+
+            IsAnalysisComplete = true;
+            CanDismiss = true;
         }
 
         public override string GetViewTypeName()
@@ -263,7 +408,7 @@ namespace SporeMods.Core.Mods
             ModPath = modPath;
             Mod = mod;
             CanProceed = true; //TODO: Future user settings
-            ShouldProceed = CanProceed;
+            ShouldProceed = CanProceed && (!mod.KnownHazardousMod);
         }
 
         public override string ToString()

@@ -13,11 +13,17 @@ namespace SporeMods.Core.Mods
 
         protected override void ReadIdentityRoot(XElement xmlRoot)
         {
-            var hasCustomInstallerAttr = xmlRoot.Attribute("hasCustomInstaller");
-            if ((hasCustomInstallerAttr != null) && bool.TryParse(hasCustomInstallerAttr.Value, out bool hasCustomInstaller))
-            {
+            if (xmlRoot.TryGetAttributeBool("hasCustomInstaller", out bool hasCustomInstaller))
                 HasSettings = hasCustomInstaller;
-            }
+
+            if (xmlRoot.TryGetAttributeBool("isExperimental", out bool isExperimental))
+                IsExperimental = isExperimental;
+
+            if (xmlRoot.TryGetAttributeBool("requiresGalaxyReset", out bool requiresGalaxyReset))
+                RequiresGalaxyReset = requiresGalaxyReset;
+
+            if (xmlRoot.TryGetAttributeBool("causesSaveDataDependency", out bool causesSaveDataDependency))
+                CausesSaveDataDependency = causesSaveDataDependency;
         }
     }
 }

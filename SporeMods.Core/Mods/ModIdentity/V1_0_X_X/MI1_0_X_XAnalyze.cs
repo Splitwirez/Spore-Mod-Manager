@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -116,6 +117,7 @@ namespace SporeMods.Core.Mods
             RecordDirName = recordDirName;
             Unique = unique;
             _fileNames = fileNames;
+            UsesCodeInjection = _fileNames.Any(x => Path.GetExtension(x).Equals(".dll", StringComparison.OrdinalIgnoreCase));
         }
 
 

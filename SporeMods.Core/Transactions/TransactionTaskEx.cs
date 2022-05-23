@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SporeMods.Core.Transactions
 {
-    public static class TaskEx
+    public static class TransactionTaskEx
     {
         /*public static readonly Action<Task<bool>> CONTINUE_OPERATION =
             t =>
