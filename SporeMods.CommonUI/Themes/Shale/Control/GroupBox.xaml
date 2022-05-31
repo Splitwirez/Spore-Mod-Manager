@@ -11,18 +11,20 @@
         <Setter Property="UseLayoutRounding" Value="True"/>
         <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
         <Setter Property="Padding" Value="10"/>
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="GroupBox">
-                    <Grid Margin="8">
+                    <cui:FloorPanel Margin="8">
                         <!--Grid.Effect>
                             <DropShadowEffect Color="Black" Direction="270" ShadowDepth="10" BlurRadius="20" Opacity="0.5"/>
                         </Grid.Effect-->
                         <Border Background="Black" BorderBrush="Transparent" BorderThickness="1" Effect="{DynamicResource TertiaryDropShadow}"/>
-                        <Border Grid.Row="1" BorderBrush="Transparent" BorderThickness="0" CornerRadius="2">
-                            <Border.Background>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
-                            </Border.Background>
+                        <Border Grid.Row="1" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0" CornerRadius="2">
                             <!--Grid Margin="{TemplateBinding Padding}">
                                 <Grid.RowDefinitions>
                                     <RowDefinition x:Name="TopRow" Height="Auto" MinHeight="20"/>
@@ -42,7 +44,7 @@
                                 <ContentPresenter x:Name="BodyPresenter"/>
                             </cui:StackPanelEx>
                         </Border>
-                    </Grid>
+                    </cui:FloorPanel>
                     <ControlTemplate.Triggers>
                         <!--DataTrigger Binding="{Binding Path=ContentSource, Source={x:Reference HeaderPresenter}, Converter={StaticResource IsNullOrWhiteSpaceConverter}}" Value="True"-->
                         <Trigger Property="Header" Value="{x:Null}">

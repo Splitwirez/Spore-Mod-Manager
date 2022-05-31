@@ -65,129 +65,65 @@
                     <!--TextBlock Text="{Binding Content}" Margin="100"/-->
                     <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                                   VerticalScrollBarVisibility="Auto">
-                        <ItemsControl x:Name="OverviewList">
+                        <ItemsControl x:Name="OverviewList"
+                                 Style="{DynamicResource ModJobsBatchListStyle}">
+                            <!--SelectionMode="Multiple"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                 ScrollViewer.VerticalScrollBarVisibility="Auto"-->
                             <ItemsControl.Resources>
                                 <DataTemplate DataType="{x:Type mods:ModJobBatchModEntry}">
-                                    <DockPanel>
-                                        <Rectangle x:Name="BatchRect"
-                                               DataContext="{Binding DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type v:ModJobsBatchView}}}"
-                                               DockPanel.Dock="Right"
-                                               Visibility="Hidden"/>
-                                        <Grid DockPanel.Dock="Right">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition SharedSizeGroup="JobsIsExperimentalColumn"
-                                                          Width="Auto"/>
-                                                <ColumnDefinition SharedSizeGroup="JobsGalaxyResetColumn"
-                                                          Width="Auto"/>
-                                                <ColumnDefinition SharedSizeGroup="JobsSaveDataEffectColumn"
-                                                          Width="Auto"/>
-                                                <ColumnDefinition SharedSizeGroup="JobsCodeInjectionColumn"
-                                                          Width="Auto"/>
-                                                <ColumnDefinition SharedSizeGroup="JobsVanillaCompatColumn"
-                                                          Width="Auto"/>
-                                                <ColumnDefinition SharedSizeGroup="JobsHazardColumn"
-                                                          Width="Auto"/>
-                                                <ColumnDefinition SharedSizeGroup="JobsModSettingsColumn"
-                                                          Width="Auto"/>
-                                            </Grid.ColumnDefinitions>
-                                            <cui:Zone Grid.Column="0"
-                                                      Style="{DynamicResource ModJobsBatchCellZoneStyle}"
-                                                      Visibility="{Binding DataContext.ShowIsExperimentalColumn, ElementName=BatchRect, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                                <TextBlock x:Name="Experimental"
-                                                           Text="Experimental (NOT LOCALIZED)"
-                                                           MaxWidth="{DynamicResource CellMaxWidth}"
+                                    <cui:Zone Style="{DynamicResource ModJobEntryContainerStyle}">
+                                        <DockPanel>
+                                            <WrapPanel DockPanel.Dock="Bottom">
+                                                <cui:Zone x:Name="Experimental"
+                                                          Style="{DynamicResource ModJobCautionLabelZoneStyle}"
+                                                          Visibility="{Binding Mod.RequiresGalaxyReset, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                          Content="Experimental (NOT LOCALIZED)"/>
+                                                <cui:Zone x:Name="GalaxyReset"
+                                                          Style="{DynamicResource ModJobWarningLabelZoneStyle}"
+                                                          Visibility="{Binding Mod.RequiresGalaxyReset, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                          Content="Requires galaxy reset (NOT LOCALIZED)"/>
+                                                <cui:Zone x:Name="SaveDataEffect"
+                                                          Style="{DynamicResource ModJobWarningLabelZoneStyle}"
+                                                          Visibility="{Binding Mod.CausesSaveDataDependency, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                          Content="Causes save dependency (NOT LOCALIZED)"/>
+                                                <cui:Zone x:Name="CodeInjection"
+                                                          Style="{DynamicResource ModJobNeutralLabelZoneStyle}"
+                                                          Visibility="{Binding Mod.UsesCodeInjection, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                          Content="Uses code injection (NOT LOCALIZED)"/>
+                                                <cui:Zone x:Name="VanillaCompat"
+                                                          Style="{DynamicResource ModJobPositiveLabelZoneStyle}"
+                                                          Visibility="{Binding Mod.GuaranteedVanillaCompatible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                          Content="Vanilla-compatible (NOT LOCALIZED)"/>
+                                                <cui:Zone x:Name="HazardousMod"
+                                                          Style="{DynamicResource ModJobDangerLabelZoneStyle}"
+                                                          Visibility="{Binding Mod.KnownHazardousMod, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                          Content="Hazardous (NOT LOCALIZED)"/>
+                                            </WrapPanel>
+                                            
+                                            <Button x:Name="ModSettingsButton"
+                                                            Content="Settings... (NOT LOCALIZED)"
+                                                            Command="{Binding DataContext.ShowModSettingsCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type v:ModJobsBatchView}}}"
+                                                            CommandParameter="{Binding Mod}"
+                                                            MaxWidth="{DynamicResource SettingsCellMaxWidth}"
+                                                            Visibility="Hidden"
+                                                            IsEnabled="False"
+                                                            DockPanel.Dock="Right"/>
+                                            <CheckBox x:Name="ShouldProceedCheckBox"
+                                                      IsEnabled="{Binding CanProceed, Mode=OneWay}"
+                                                      IsChecked="False">
+                                                <TextBlock Text="{Binding Path=Mod.DisplayName.Value, Mode=OneWay}"
                                                            TextWrapping="Wrap"
-                                                           Visibility="Hidden"/>
-                                            </cui:Zone>
-                                            <cui:Zone Grid.Column="1"
-                                                      Style="{DynamicResource ModJobsBatchCellZoneStyle}"
-                                                      Visibility="{Binding DataContext.ShowGalaxyResetColumn, ElementName=BatchRect, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                                <TextBlock x:Name="GalaxyReset"
-                                                           Text="Requires galaxy reset (NOT LOCALIZED)"
-                                                           MaxWidth="{DynamicResource CellMaxWidth}"
-                                                           TextWrapping="Wrap"
-                                                           Visibility="Hidden"/>
-                                            </cui:Zone>
-                                            <cui:Zone Grid.Column="2"
-                                                      Style="{DynamicResource ModJobsBatchCellZoneStyle}"
-                                                      Visibility="{Binding DataContext.ShowSaveDataEffectColumn, ElementName=BatchRect, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                                <TextBlock x:Name="SaveDataEffect"
-                                                           Text="Causes save dependency (NOT LOCALIZED)"
-                                                           MaxWidth="{DynamicResource CellMaxWidth}"
-                                                           TextWrapping="Wrap"
-                                                           Visibility="Hidden"/>
-                                            </cui:Zone>
-                                            <cui:Zone Grid.Column="3"
-                                                      Style="{DynamicResource ModJobsBatchCellZoneStyle}"
-                                                      Visibility="{Binding DataContext.ShowCodeInjectionColumn, ElementName=BatchRect, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                                <TextBlock x:Name="CodeInjection"
-                                                           Text="Uses code injection (NOT LOCALIZED)"
-                                                           MaxWidth="{DynamicResource CellMaxWidth}"
-                                                           TextWrapping="Wrap"
-                                                           Visibility="Hidden"/>
-                                            </cui:Zone>
-                                            <cui:Zone Grid.Column="4"
-                                                      Style="{DynamicResource ModJobsBatchCellZoneStyle}"
-                                                      Visibility="{Binding DataContext.ShowVanillaCompatColumn, ElementName=BatchRect, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                                <TextBlock x:Name="VanillaCompat"
-                                                           Text="Vanilla-compatible (NOT LOCALIZED)"
-                                                           MaxWidth="{DynamicResource CellMaxWidth}"
-                                                           TextWrapping="Wrap"
-                                                           Visibility="Hidden"/>
-                                            </cui:Zone>
-                                            <cui:Zone Grid.Column="5"
-                                                      Style="{DynamicResource ModJobsBatchCellZoneStyle}"
-                                                      Visibility="{Binding DataContext.ShowHazardColumn, ElementName=BatchRect, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                                <TextBlock x:Name="HazardousMod"
-                                                           Text="Hazardous (NOT LOCALIZED)"
-                                                           MaxWidth="{DynamicResource CellMaxWidth}"
-                                                           TextWrapping="Wrap"
-                                                           Visibility="Hidden"/>
-                                            </cui:Zone>
-                                            <!--TextBlock Text="{Binding Mod.HasSettings}"
-                                                   Grid.Column="6"
-                                                   Visibility="{Binding DataContext.ShowSettingsColumn, ElementName=BatchRect, Converter={StaticResource BooleanToVisibilityConverter}}"/-->
-
-                                            <cui:Zone Grid.Column="6"
-                                                      Style="{DynamicResource ModJobsBatchSettingsCellZoneStyle}"
-                                                      Visibility="{Binding DataContext.ShowSettingsColumn, ElementName=BatchRect, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                                <Button x:Name="ModSettingsButton"
-                                                        Content="Settings... (NOT LOCALIZED)"
-                                                        Command="{Binding DataContext.ShowModSettingsCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type v:ModJobsBatchView}}}"
-                                                        CommandParameter="{Binding Mod}"
-                                                        MaxWidth="{DynamicResource SettingsCellMaxWidth}"
-                                                        Visibility="Hidden"
-                                                        IsEnabled="False"/>
-                                            </cui:Zone>
-                                            <!--Rectangle Width="5" Height="5" Fill="Red"
-                                                   Grid.Column="0"/-->
-                                        </Grid>
-                                        <CheckBox IsChecked="{Binding ShouldProceed, Mode=TwoWay}"
-                                                  IsEnabled="{Binding CanProceed}">
-                                            <TextBlock Text="{Binding Path=Mod.DisplayName.Value, Mode=OneWay}"
-                                                       TextWrapping="Wrap"
-                                                       Style="{DynamicResource h3}"/>
-                                        </CheckBox>
-                                    </DockPanel>
+                                                           Style="{DynamicResource h3}"/>
+                                            </CheckBox>
+                                        </DockPanel>
+                                    </cui:Zone>
                                     <DataTemplate.Triggers>
-                                        <DataTrigger Binding="{Binding Mod.IsExperimental}" Value="True">
-                                            <Setter TargetName="Experimental" Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Mod.RequiresGalaxyReset}" Value="True">
-                                            <Setter TargetName="GalaxyReset" Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Mod.CausesSaveDataDependency}" Value="True">
-                                            <Setter TargetName="SaveDataEffect" Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Mod.UsesCodeInjection}" Value="True">
-                                            <Setter TargetName="CodeInjection" Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Mod.GuaranteedVanillaCompatible}" Value="True">
-                                            <Setter TargetName="VanillaCompat" Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Mod.KnownHazardousMod}" Value="True">
-                                            <Setter TargetName="HazardousMod" Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
+                                        <Trigger SourceName="ShouldProceedCheckBox" Property="IsEnabled" Value="True">
+                                            <Setter TargetName="ShouldProceedCheckBox"
+                                                    Property="IsChecked"
+                                                    Value="{Binding ShouldProceed, Mode=TwoWay}"/>
+                                        </Trigger>
                                         <DataTrigger Binding="{Binding Mod.HasSettings}" Value="True">
                                             <Setter TargetName="ModSettingsButton" Property="Visibility" Value="Visible"/>
                                         </DataTrigger>
@@ -212,35 +148,43 @@
                                     </DataTemplate.Triggers>
                                 </DataTemplate>
                                 <DataTemplate DataType="{x:Type mods:ModJobBatchErrorEntry}">
-                                    <DockPanel>
-                                        <!--TextBlock x:Name="StackTraceTextBlock"
-                                               Text="{Binding Exception.StackTrace}"
-                                               Visibility="Collapsed"
-                                               DockPanel.Dock="Bottom"/-->
-                                        <ContentControl x:Name="ExceptionDetails"
-                                                    Content="{Binding Exception}"
-                                                    Visibility="Collapsed"
-                                                    DockPanel.Dock="Bottom"/>
-                                        <cui:FloorPanel DockPanel.Dock="Left">
-                                            <CheckBox IsChecked="False"
+                                    <cui:Zone Style="{DynamicResource ModJobEntryContainerStyle}">
+                                        <DockPanel>
+                                            <!--TextBlock x:Name="StackTraceTextBlock"
+                                                   Text="{Binding Exception.StackTrace}"
+                                                   Visibility="Collapsed"
+                                                   DockPanel.Dock="Bottom"/-->
+                                            <ContentControl x:Name="ExceptionDetails"
+                                                        Content="{Binding Exception}"
+                                                        Visibility="Collapsed"
+                                                        DockPanel.Dock="Bottom"/>
+                                            <cui:FloorPanel DockPanel.Dock="Left">
+                                                <CheckBox x:Name="ShouldProceedCheckBox"
+                                                          IsChecked="False"
                                                           IsEnabled="False"
                                                           IsHitTestVisible="False"
                                                           Focusable="False"
-                                                          IsTabStop="False"
-                                                          Opacity="0" />
-                                            <Path Data="M 0 0 L 16 16 M 0 16 L 16 0"
-                                                      Width="16"
-                                                      Height="16"
-                                                      Margin="-8"
-                                                      Stroke="Red"
-                                                      StrokeThickness="4" />
-                                        </cui:FloorPanel>
-                                        <ToggleButton x:Name="StackTraceToggleButton"
-                                                  Content="Details... (NOT LOCALIZED)"
-                                                  IsChecked="{Binding ShowStackTrace, Mode=TwoWay}"
-                                                  DockPanel.Dock="Right"/>
-                                        <TextBlock Text="{Binding}" VerticalAlignment="Center" Style="{DynamicResource h3}"/>
-                                    </DockPanel>
+                                                          IsTabStop="False">
+                                                    <!--Opacity="0"-->
+                                                    <!--e:Interaction.Behaviors>
+                                                        <cui:BindContainerIsSelectedBehavior Container="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=OneTime}"
+                                                                                 IsContainerSelected="{Binding IsChecked, ElementName=ShouldProceedCheckBox, Mode=OneWay}"/>
+                                                    </e:Interaction.Behaviors-->
+                                                </CheckBox>
+                                                <Path Data="M 0 0 L 16 16 M 0 16 L 16 0"
+                                                          Width="16"
+                                                          Height="16"
+                                                          Margin="-8"
+                                                          Stroke="Red"
+                                                          StrokeThickness="4" />
+                                            </cui:FloorPanel>
+                                            <ToggleButton x:Name="StackTraceToggleButton"
+                                                      Content="Details... (NOT LOCALIZED)"
+                                                      IsChecked="{Binding ShowStackTrace, Mode=TwoWay}"
+                                                      DockPanel.Dock="Right"/>
+                                            <TextBlock Text="{Binding}" VerticalAlignment="Center" Style="{DynamicResource h3}"/>
+                                        </DockPanel>
+                                    </cui:Zone>
                                     <DataTemplate.Triggers>
                                         <DataTrigger Binding="{Binding Exception}" Value="{x:Null}">
                                             <Setter TargetName="StackTraceToggleButton" Property="Visibility" Value="Collapsed"/>

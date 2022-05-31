@@ -67,7 +67,16 @@ namespace SporeMods.Core.Mods
             }
         }
 
-        public bool GuaranteedVanillaCompatible => false;
+        bool _guaranteedVanillaCompatible = false;
+        public bool GuaranteedVanillaCompatible
+        {
+            get => _guaranteedVanillaCompatible;
+            protected set
+            {
+                _guaranteedVanillaCompatible = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         
         bool _knownHazardousMod = false;
@@ -98,6 +107,8 @@ namespace SporeMods.Core.Mods
         {
             RecordDirName = recordDirName;
             LoadFromRecordDir(identityDoc);
+            
+            SpecialCases();
         }
 
 
@@ -151,6 +162,15 @@ namespace SporeMods.Core.Mods
                 DllNames = dllNames;
                 UsesCodeInjection = dllNames.Count > 0;
             }
+
+            SpecialCases();
+        }
+
+        void SpecialCases()
+        {
+            //TODO: Don't hardcode this
+            if (Unique.Equals("SPORE MOD - Enhanced Color Picker", StringComparison.OrdinalIgnoreCase))
+                GuaranteedVanillaCompatible = true;
         }
 
         string _recordDirName = string.Empty;
