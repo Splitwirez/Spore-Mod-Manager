@@ -264,6 +264,45 @@ Mods {
 		Uninstall {
 			CausesSaveDataDependency The following mods cause save data dependency. Uninstalling them could damage or corrupt your save planets.<br><br>%MODNAMES%<br><br>Are you ABSOLUTELY CERTAIN that you wish to uninstall them? #CausesSaveDataDependencyUninstallWarning
 		}
+
+		#ADDED
+		Label {
+			#ADDED
+			IsExperimental {
+				#ADDED
+				Header Experimental
+			}
+
+			#ADDED
+			RequiresGalaxyReset {
+				#ADDED
+				Header Requires galaxy reset
+			}
+
+			#ADDED
+			CausesSaveDataDependency {
+				#ADDED
+				Header Causes save-data dependency
+			}
+
+			#ADDED
+			UsesCodeInjection {
+				#ADDED
+				Header Uses code injection
+			}
+
+			#ADDED
+			VanillaCompatible {
+				#ADDED
+				Header Vanilla-compatible
+			}
+
+			#ADDED
+			Hazardous {
+				#ADDED
+				Header Hazardous
+			}
+		}
 	}
 	
 	

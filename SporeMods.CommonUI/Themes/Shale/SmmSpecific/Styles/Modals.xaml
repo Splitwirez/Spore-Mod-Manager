@@ -666,13 +666,14 @@
            BasedOn="{StaticResource ModJobLabelZoneStyle}">
         <Setter Property="Background">
             <Setter.Value>
-                <LinearGradientBrush StartPoint="0,0"
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
+                <!--LinearGradientBrush StartPoint="0,0"
                                      EndPoint="0,1">
                     <GradientStop Offset="0"
                                   Color="#FFD2EFF9"/>
                     <GradientStop Offset="1"
                                   Color="#FFB2CFD9"/>
-                </LinearGradientBrush>
+                </LinearGradientBrush-->
             </Setter.Value>
         </Setter>
         <Setter Property="Tag">

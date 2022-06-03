@@ -78,27 +78,27 @@
                                                 <cui:Zone x:Name="Experimental"
                                                           Style="{DynamicResource ModJobCautionLabelZoneStyle}"
                                                           Visibility="{Binding Mod.RequiresGalaxyReset, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                                          Content="Experimental (NOT LOCALIZED)"/>
+                                                          Content="{DynamicResource Mods!Warning!Label!IsExperimental!Header}"/>
                                                 <cui:Zone x:Name="GalaxyReset"
                                                           Style="{DynamicResource ModJobWarningLabelZoneStyle}"
                                                           Visibility="{Binding Mod.RequiresGalaxyReset, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                                          Content="Requires galaxy reset (NOT LOCALIZED)"/>
+                                                          Content="{DynamicResource Mods!Warning!Label!RequiresGalaxyReset!Header}"/>
                                                 <cui:Zone x:Name="SaveDataEffect"
                                                           Style="{DynamicResource ModJobWarningLabelZoneStyle}"
                                                           Visibility="{Binding Mod.CausesSaveDataDependency, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                                          Content="Causes save dependency (NOT LOCALIZED)"/>
+                                                          Content="{DynamicResource Mods!Warning!Label!CausesSaveDataDependency!Header}"/>
                                                 <cui:Zone x:Name="CodeInjection"
                                                           Style="{DynamicResource ModJobNeutralLabelZoneStyle}"
                                                           Visibility="{Binding Mod.UsesCodeInjection, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                                          Content="Uses code injection (NOT LOCALIZED)"/>
+                                                          Content="{DynamicResource Mods!Warning!Label!UsesCodeInjection!Header}"/>
                                                 <cui:Zone x:Name="VanillaCompat"
                                                           Style="{DynamicResource ModJobPositiveLabelZoneStyle}"
                                                           Visibility="{Binding Mod.GuaranteedVanillaCompatible, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                                          Content="Vanilla-compatible (NOT LOCALIZED)"/>
+                                                          Content="{DynamicResource Mods!Warning!Label!VanillaCompatible!Header}"/>
                                                 <cui:Zone x:Name="HazardousMod"
                                                           Style="{DynamicResource ModJobDangerLabelZoneStyle}"
                                                           Visibility="{Binding Mod.KnownHazardousMod, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                                          Content="Hazardous (NOT LOCALIZED)"/>
+                                                          Content="{DynamicResource Mods!Warning!Label!Hazardous!Header}"/>
                                             </WrapPanel>
                                             
                                             <Button x:Name="ModSettingsButton"
