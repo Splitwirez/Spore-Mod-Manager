@@ -33,10 +33,10 @@ namespace SporeMods.Core
             MI1_0_X_XMod.AnalyzeFromSporemodAsync,
             PreIdentityMod.AnalyzeFromSporemodAsync
         };
-        static List<Func<string, Task<ISporeMod>>> _ANALYZE_MOD_FROM_DBPF = new List<Func<string, Task<ISporeMod>>>()
+        /*static List<Func<string, Task<ISporeMod>>> _ANALYZE_MOD_FROM_DBPF = new List<Func<string, Task<ISporeMod>>>()
         {
             PreIdentityMod.AnalyzeFromLoosePackageAsync
-        };
+        };*/
 
 
 
@@ -239,6 +239,20 @@ namespace SporeMods.Core
                 try
                 {
                     mod = await analyzeFunc(modPath, archive);
+                    if (mod != null)
+                    {
+                        failureEntry = null;
+                        break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    mod = null;
+                    failureEntry = new ModJobBatchErrorEntry(modPath, "IO!UnknownSporemodAnalysisException", ex);
+                }
+                /*try
+                {
+                    mod = await analyzeFunc(modPath, archive);
                     failureEntry = null;
                 }
                 catch (Exception ex)
@@ -248,7 +262,7 @@ namespace SporeMods.Core
                 }
 
                 if (mod != null)
-                    break;
+                    break;*/
             }
 
             archive.Dispose();
@@ -271,11 +285,11 @@ namespace SporeMods.Core
         {
             ModJobBatchEntryBase failureEntry = null;
             ISporeMod mod = null;
-            foreach (var analyzeFunc in _ANALYZE_MOD_FROM_DBPF)
-            {
+            /*foreach (var analyzeFunc in _ANALYZE_MOD_FROM_DBPF)
+            {*/
                 try
                 {
-                    mod = await analyzeFunc(modPath);
+                    mod = await PreIdentityMod.AnalyzeFromLoosePackageAsync(modPath);
                 }
                 catch (Exception ex)
                 {
@@ -283,9 +297,9 @@ namespace SporeMods.Core
                     failureEntry = new ModJobBatchErrorEntry(modPath, "IO!UnknownDBPFAnalysisError", ex);
                 }
 
-                if (mod != null)
+                /*if (mod != null)
                     break;
-            }
+            }*/
 
             if (mod != null)
             {

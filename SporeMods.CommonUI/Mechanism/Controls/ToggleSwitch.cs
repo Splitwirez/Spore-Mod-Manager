@@ -105,7 +105,7 @@ namespace SporeMods.CommonUI
             else
                 widthValue = gripContainerWidth - gripWidth;
 
-            Cmd.WriteLine("ToggleSwitch OffsetterWidth: " + widthValue);
+            //Cmd.WriteLine("ToggleSwitch OffsetterWidth: " + widthValue);
             return widthValue;
         }
 
@@ -160,7 +160,7 @@ namespace SporeMods.CommonUI
             }
             catch (Exception ex)
             {
-                Cmd.WriteLine("TOGGLESWITCH ONISCHECKEDCHANGED FAILED: " + ex);
+                //Cmd.WriteLine("TOGGLESWITCH ONISCHECKEDCHANGED FAILED: " + ex);
             }
         }
 
