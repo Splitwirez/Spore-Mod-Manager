@@ -44,9 +44,9 @@ namespace SporeMods.Core.Mods
 
                     var xmlRoot = doc.Root;
 
-                    var versionAttr = xmlRoot.Attribute("installerSystemVersion");
-                    Version identityVersion = new Version(0, 0, 0, 0);
-                    if (versionAttr == null)
+                    //var versionAttr = xmlRoot.Attribute("installerSystemVersion");
+                    Version identityVersion = EnsureIdentityVersion(doc); //new Version(0, 0, 0, 0);
+                    /*if (versionAttr == null)
                         throw new FormatException(Externals.GetLocalizedText("Mods!Error!Identity!MissingSysVersion"));
                     else if (Version.TryParse(versionAttr.Value, out identityVersion))
                     {
@@ -58,7 +58,7 @@ namespace SporeMods.Core.Mods
                             throw new FormatException(Externals.GetLocalizedText("Mods!Error!Identity!UnsupportedSysVersion").Replace("%VERSION%", identityVersion.ToString()));
                     }
                     else
-                        throw new FormatException(Externals.GetLocalizedText("Mods!Error!Identity!InvalidAttributeValue").Replace("%ATTRIBUTE%", "installerSystemVersion").Replace("%VALUE%", versionAttr.Value).Replace("%TYPE%", "Version"));
+                        throw new FormatException(Externals.GetLocalizedText("Mods!Error!Identity!InvalidAttributeValue").Replace("%ATTRIBUTE%", "installerSystemVersion").Replace("%VALUE%", versionAttr.Value).Replace("%TYPE%", "Version"));*/
 
 
                     var uniqueAttr = xmlRoot.Attribute("unique");

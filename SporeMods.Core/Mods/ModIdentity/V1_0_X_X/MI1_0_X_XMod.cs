@@ -1,6 +1,7 @@
 ﻿using SporeMods.Core.Mods.ModIdentity.V1_0_X_XComponents;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace SporeMods.Core.Mods
 {
     public abstract partial class MI1_0_X_XMod : NotifyPropertyChangedBase, ISporeMod, IConfigurableMod
     {
-        IModText _fallbackDisplayName = new FixedModText(string.Empty); 
+        IModText _fallbackDisplayName = new FixedModText(string.Empty);
         IModText _displayName = null;
         public IModText DisplayName
         {
@@ -71,8 +72,8 @@ namespace SporeMods.Core.Mods
 
         public List<string> UpgradeTargets => new List<string>();
 
-        
-        
+
+
         bool _isExperimental = false;
         public bool IsExperimental
         {
@@ -106,7 +107,7 @@ namespace SporeMods.Core.Mods
             }
         }
 
-        
+
         bool _usesCodeInjection = false;
         public bool UsesCodeInjection
         {
@@ -128,7 +129,7 @@ namespace SporeMods.Core.Mods
                 NotifyPropertyChanged();
             }
         }
-        
+
         bool _knownHazardousMod = false;
         public bool KnownHazardousMod
         {
@@ -198,6 +199,52 @@ namespace SporeMods.Core.Mods
             typeName = $"SporeMods.Views.{typeName}SettingsView";
             //typeName = $"SporeMods.Views.{typeof(MI1_0_X_XMod).FullName.Split('.', StringSplitOptions.RemoveEmptyEntries).Last()}SettingsView";
             return typeName;
+        }
+
+        public static ISporeMod FromRecordDir(string location, XDocument doc)
+        {
+            MI1_0_X_XMod mod = null;
+            Version identityVersion = EnsureIdentityVersion(doc);
+            string identityPath = Path.Combine(location, SporeMods.Core.Mods.ModConstants.ID_XML_FILE_NAME);
+            var xmlRoot = doc.Root;
+            if (xmlRoot.TryGetAttributeValue("unique", out string unique))
+            {
+                List<string> fileNames = new List<string>();
+                foreach (string f in Directory.EnumerateFiles(location))
+                {
+                    fileNames.Add(Path.GetFileName(f));
+                }
+
+
+                if (identityVersion == ModConstants.ID_VER_1_0_0_0)
+                    mod = new MI1_0_0_0Mod(location, unique, fileNames);
+                else
+                    mod = new MI1_0_1_1Mod(location, unique, fileNames);
+
+                mod.ReadIdentityRoot(xmlRoot);
+            }
+            return mod;
+        }
+
+        private static Version EnsureIdentityVersion(XDocument doc)
+        {
+            var versionAttr = doc.Root.Attribute("installerSystemVersion");
+            Version identityVersion = new Version(0, 0, 0, 0);
+            if (versionAttr == null)
+                throw new FormatException(Externals.GetLocalizedText("Mods!Error!Identity!MissingSysVersion"));
+            else if (Version.TryParse(versionAttr.Value, out identityVersion))
+            {
+                if (
+                           (identityVersion != ModConstants.ID_VER_1_0_0_0)
+                        && (identityVersion != ModConstants.ID_VER_1_0_1_0)
+                        && (identityVersion != ModConstants.ID_VER_1_0_1_1)
+                    )
+                    throw new FormatException(Externals.GetLocalizedText("Mods!Error!Identity!UnsupportedSysVersion").Replace("%VERSION%", identityVersion.ToString()));
+            }
+            else
+                throw new FormatException(Externals.GetLocalizedText("Mods!Error!Identity!InvalidAttributeValue").Replace("%ATTRIBUTE%", "installerSystemVersion").Replace("%VALUE%", versionAttr.Value).Replace("%TYPE%", "Version"));
+            
+            return identityVersion;
         }
     }
 }

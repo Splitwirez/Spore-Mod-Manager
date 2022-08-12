@@ -109,6 +109,7 @@ namespace SporeMods.Core
 
 		static List<Func<string, XDocument, ISporeMod>> _MOD_FROM_RECORD_DIR = new List<Func<string, XDocument, ISporeMod>>()
         {
+			MI1_0_X_XMod.FromRecordDir,
             PreIdentityMod.FromRecordDir
         };
 
