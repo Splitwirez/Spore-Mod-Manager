@@ -365,20 +365,16 @@ namespace SporeMods.Core
 							else
 								throw new MissingXmlModIdentityAttributeException(null);
 
-							if (identityVersion > ModIdentity.XmlModIdentityVersion1_0_0_0)
+							Version dllsBuild = null;
+							if(identityVersion > ModIdentity.XmlModIdentityVersion1_0_0_0)
 							{
 								var dllsBuildAttr = compareDocument.Root.Attribute("dllsBuild");
 								if (dllsBuildAttr != null)
 								{
-									if (Version.TryParse(dllsBuildAttr.Value + ".0", out Version dllsBuild))
+									if (Version.TryParse(dllsBuildAttr.Value + ".0", out dllsBuild))
 									{
 										if (dllsBuild > Settings.CurrentDllsBuild)
 											throw new UnsupportedDllsBuildException(dllsBuild);
-										if (identityVersion < ModIdentity.XmlModIdentityVersion1_0_1_2)
-                                        {
-											if (dllsBuild > ModIdentity.MAX_DLLS_BUILD_PRE_MI1_0_1_2)
-												throw new UnsupportedDllsBuildException(dllsBuild);
-										}
 									}
 									else
 										throw new UnsupportedDllsBuildException(ModIdentity.UNKNOWN_MOD_VERSION);
@@ -397,6 +393,16 @@ namespace SporeMods.Core
 
 								dir = Path.Combine(Settings.ModConfigsPath, unique);
 								name = unique;
+							}
+
+							if (
+									   (identityVersion < ModIdentity.XmlModIdentityVersion1_0_1_2)
+									&& (dllsBuild != null)
+									&& (dllsBuild > ModIdentity.MAX_DLLS_BUILD_PRE_MI1_0_1_2)
+								)
+							{
+								if (!ModIdentity.MI1_0_1_1_EXCLUDE_FROM_DLLS_BUILD_CUTOFF_UNIQUES.Any(x => x == unique))
+									throw new UnsupportedDllsBuildException(dllsBuild);
 							}
 
 							var vanillaCompatAttr = compareDocument.Root.Attribute("verifiedVanillaCompatible");

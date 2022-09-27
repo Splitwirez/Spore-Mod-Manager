@@ -21,6 +21,11 @@ namespace SporeMods.Core.Mods
 		public static readonly Version UNKNOWN_MOD_VERSION = new Version(0, 0, 0, 0);
 
 		public static readonly Version MAX_DLLS_BUILD_PRE_MI1_0_1_2 = new Version(2, 5, 20, 0);
+		public static readonly string[]
+			MI1_0_1_1_EXCLUDE_FROM_DLLS_BUILD_CUTOFF_UNIQUES =
+		{
+			//TODO: Add unique identifiers for mods to exclude here
+		};
 
 		public static bool IsLauncherKitCompatibleXmlModIdentityVersion(Version identityVersion)
 		{
