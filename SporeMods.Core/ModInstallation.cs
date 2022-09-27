@@ -401,7 +401,7 @@ namespace SporeMods.Core
 									&& (dllsBuild > ModIdentity.MAX_DLLS_BUILD_PRE_MI1_0_1_2)
 								)
 							{
-								if (!ModIdentity.MI1_0_1_1_EXCLUDE_FROM_DLLS_BUILD_CUTOFF_UNIQUES.Any(x => x == unique))
+								if (!ModIdentity.PRE_MI1_0_1_2_EXCLUDE_FROM_DLLS_BUILD_CUTOFF_UNIQUES.Any(x => x == unique))
 									throw new UnsupportedDllsBuildException(dllsBuild);
 							}
 
