@@ -374,6 +374,11 @@ namespace SporeMods.Core
 									{
 										if (dllsBuild > Settings.CurrentDllsBuild)
 											throw new UnsupportedDllsBuildException(dllsBuild);
+										if (identityVersion < ModIdentity.XmlModIdentityVersion1_0_1_2)
+                                        {
+											if (dllsBuild > ModIdentity.MAX_DLLS_BUILD_PRE_MI1_0_1_2)
+												throw new UnsupportedDllsBuildException(dllsBuild);
+										}
 									}
 									else
 										throw new UnsupportedDllsBuildException(ModIdentity.UNKNOWN_MOD_VERSION);
