@@ -21,10 +21,12 @@ namespace SporeMods.Core.Mods
 		public static readonly Version UNKNOWN_MOD_VERSION = new Version(0, 0, 0, 0);
 
 		public static readonly Version MAX_DLLS_BUILD_PRE_MI1_0_1_2 = new Version(2, 5, 20, 0);
-		public static readonly string[]
-			PRE_MI1_0_1_2_EXCLUDE_FROM_DLLS_BUILD_CUTOFF_UNIQUES =
+		public static readonly Version PRE_MI1_0_1_2_EXCLUDE_FROM_DLLS_BUILD_CUTOFF_LOCKED_DLLS_BUILD = new Version(2, 5, 179, 0);
+
+		public static readonly string[] PRE_MI1_0_1_2_EXCLUDE_FROM_DLLS_BUILD_CUTOFF_UNIQUES =
 		{
-			//TODO: Add unique identifiers for mods to exclude here
+			"AssetSharing",
+			"CaptainVoiceDiversity"
 		};
 
 		public static bool IsLauncherKitCompatibleXmlModIdentityVersion(Version identityVersion)
