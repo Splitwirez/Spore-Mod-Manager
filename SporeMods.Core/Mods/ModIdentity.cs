@@ -16,14 +16,25 @@ namespace SporeMods.Core.Mods
 		public static readonly Version XmlModIdentityVersion1_0_0_0 = new Version(1, 0, 0, 0);
 		public static readonly Version XmlModIdentityVersion1_0_1_0 = new Version(1, 0, 1, 0);
 		public static readonly Version XmlModIdentityVersion1_0_1_1 = new Version(1, 0, 1, 1);
+		public static readonly Version XmlModIdentityVersion1_0_1_2 = new Version(1, 0, 1, 2);
 		public static readonly Version XmlModIdentityVersion1_1_0_0 = new Version(1, 1, 0, 0);
 		public static readonly Version UNKNOWN_MOD_VERSION = new Version(0, 0, 0, 0);
+
+		public static readonly Version MAX_DLLS_BUILD_PRE_MI1_0_1_2 = new Version(2, 5, 20, 0);
+		public static readonly Version PRE_MI1_0_1_2_EXCLUDE_FROM_DLLS_BUILD_CUTOFF_LOCKED_DLLS_BUILD = new Version(2, 5, 179, 0);
+
+		public static readonly string[] PRE_MI1_0_1_2_EXCLUDE_FROM_DLLS_BUILD_CUTOFF_UNIQUES =
+		{
+			"AssetSharing",
+			"CaptainVoiceDiversity"
+		};
 
 		public static bool IsLauncherKitCompatibleXmlModIdentityVersion(Version identityVersion)
 		{
 			return (identityVersion == ModIdentity.XmlModIdentityVersion1_0_0_0) ||
 					(identityVersion == ModIdentity.XmlModIdentityVersion1_0_1_0) ||
-					(identityVersion == ModIdentity.XmlModIdentityVersion1_0_1_1);
+					(identityVersion == ModIdentity.XmlModIdentityVersion1_0_1_1) ||
+					(identityVersion == ModIdentity.XmlModIdentityVersion1_0_1_2);
 		}
 
 		/*public static bool IsValidUnique(string inputUnique)

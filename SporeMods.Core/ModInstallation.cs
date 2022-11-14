@@ -365,12 +365,13 @@ namespace SporeMods.Core
 							else
 								throw new MissingXmlModIdentityAttributeException(null);
 
+							Version dllsBuild = null;
 							if (identityVersion > ModIdentity.XmlModIdentityVersion1_0_0_0)
 							{
 								var dllsBuildAttr = compareDocument.Root.Attribute("dllsBuild");
 								if (dllsBuildAttr != null)
 								{
-									if (Version.TryParse(dllsBuildAttr.Value + ".0", out Version dllsBuild))
+									if (Version.TryParse(dllsBuildAttr.Value + ".0", out dllsBuild))
 									{
 										if (dllsBuild > Settings.CurrentDllsBuild)
 											throw new UnsupportedDllsBuildException(dllsBuild);
@@ -392,6 +393,26 @@ namespace SporeMods.Core
 
 								dir = Path.Combine(Settings.ModConfigsPath, unique);
 								name = unique;
+							}
+
+							/*if (
+									   (identityVersion < ModIdentity.XmlModIdentityVersion1_0_1_2)
+									&& (dllsBuild != null)
+									&& (dllsBuild > ModIdentity.MAX_DLLS_BUILD_PRE_MI1_0_1_2)
+								)
+							{
+								if
+								(!(
+									   (dllsBuild == ModIdentity.PRE_MI1_0_1_2_EXCLUDE_FROM_DLLS_BUILD_CUTOFF_LOCKED_DLLS_BUILD)
+									&& ModIdentity.PRE_MI1_0_1_2_EXCLUDE_FROM_DLLS_BUILD_CUTOFF_UNIQUES.Any(x => x == unique)
+								))
+								{
+									throw new UnsupportedDllsBuildException(dllsBuild);
+								}
+							}*/
+							if (!HasValidDllsVersion__MI1_0_1_2__Hack(identityVersion, dllsBuild, unique))
+                            {
+								throw new UnsupportedDllsBuildException(dllsBuild);
 							}
 
 							var vanillaCompatAttr = compareDocument.Root.Attribute("verifiedVanillaCompatible");
@@ -762,6 +783,36 @@ namespace SporeMods.Core
 			bool blankName = string.IsNullOrEmpty(eName);
 
 			return (backSlash || foreSlash) && blankName;
+		}
+
+
+		static bool HasValidDllsVersion__MI1_0_1_2__Hack(Version identityVersion, Version dllsBuild, string unique)
+		{
+			Version installerSystemVersion = identityVersion;
+			Version requiredDllsVersion = dllsBuild;
+			Version OldLauncherDllsBuild = ModIdentity.MAX_DLLS_BUILD_PRE_MI1_0_1_2;
+
+			if (requiredDllsVersion > OldLauncherDllsBuild)
+			{
+				// Only allow these mods unless they have the newer installer version, to ensure they don't get released into old Launcher versions
+				if (installerSystemVersion < ModIdentity.XmlModIdentityVersion1_0_1_2)
+				{
+					// Some mods already existed with newer DLL version but same installerSystemVersion
+					// We make exceptions for them here
+					if (!((ModIdentity.PRE_MI1_0_1_2_EXCLUDE_FROM_DLLS_BUILD_CUTOFF_UNIQUES.Contains(unique)) &&
+						  requiredDllsVersion.Major == 2 && requiredDllsVersion.Minor == 5 && requiredDllsVersion.Build == 179))
+						return false;
+				}
+			}
+
+			/*if (requiredDllsVersion != null &&
+				requiredDllsVersion > CurrentDllsBuild)
+			{
+				return false;
+			}*/
+
+
+			return true;
 		}
 	}
 
