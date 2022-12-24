@@ -28,12 +28,22 @@ namespace SporeMods.Core
         public event Action<ModJobsReportViewModel> AllJobsConcluded;
 
 
-        static List<Func<string, ZipArchive, Task<ISporeMod>>> _ANALYZE_MOD_FROM_SPOREMOD = new List<Func<string, ZipArchive, Task<ISporeMod>>>()
+        static IReadOnlyList<Func<ICanInstallFromSporemodFile>> _MOD_TYPES_FROM_SPOREMOD = new List<Func<ICanInstallFromSporemodFile>>()
+        {
+            () => new MI1_0_1_XMod(),
+            () => new MI1_0_0_0Mod(),
+            () => new PreIdentityMod(),
+        }.AsReadOnly();
+        static IReadOnlyList<Func<ICanInstallFromPackageFile>> _MOD_TYPES_FROM_DBPF = new List<Func<ICanInstallFromPackageFile>>()
+        {
+            () => new PreIdentityMod(),
+        }.AsReadOnly();
+        /*static List<Func<string, ZipArchive, Task<ISporeMod>>> _ANALYZE_MOD_FROM_SPOREMOD = new List<Func<string, ZipArchive, Task<ISporeMod>>>()
         {
             MI1_0_X_XMod.AnalyzeFromSporemodAsync,
             PreIdentityMod.AnalyzeFromSporemodAsync
         };
-        /*static List<Func<string, Task<ISporeMod>>> _ANALYZE_MOD_FROM_DBPF = new List<Func<string, Task<ISporeMod>>>()
+        static List<Func<string, Task<ISporeMod>>> _ANALYZE_MOD_FROM_DBPF = new List<Func<string, Task<ISporeMod>>>()
         {
             PreIdentityMod.AnalyzeFromLoosePackageAsync
         };*/
@@ -188,11 +198,11 @@ namespace SporeMods.Core
 
             string extension = Path.GetExtension(modPath);
 
-            if (extension.Equals(ModConstants.MOD_FILE_EX_SPOREMOD, StringComparison.OrdinalIgnoreCase))
+            if (extension.Equals(ModUtils.MOD_FILE_EX_SPOREMOD, StringComparison.OrdinalIgnoreCase))
             {
                 return await AnalyzeSporemodModAsync(modPath);
             }
-            else if (extension.Equals(ModConstants.MOD_FILE_EX_DBPF, StringComparison.OrdinalIgnoreCase))
+            else if (extension.Equals(ModUtils.MOD_FILE_EX_DBPF, StringComparison.OrdinalIgnoreCase))
             {
                 return await AnalyzeDBPFModAsync(modPath);
             }
@@ -204,115 +214,131 @@ namespace SporeMods.Core
 
         async Task<ModJobBatchEntryBase> AnalyzeSporemodModAsync(string modPath)
         {
-            ISporeMod mod = null;
+            ICanInstallFromSporemodFile mod = null;
             ZipArchive archive = null;
             ModJobBatchEntryBase failureEntry = null;
 
             ModJobBatchEntryBase zipValidityEntry = await Task<ModJobBatchEntryBase>.Run(() =>
-               {
-                   try
-                   {
-                       //archive = await Task<ZipArchive>.Run(() => ZipFile.OpenRead(modPath));
-                       archive = ZipFile.OpenRead(modPath);
-                       return null;
-                   }
-                   catch (Exception ex)
-                   {
-                       return new ModJobBatchErrorEntry(modPath, "IO!InvalidZipArchive", ex);
-                   }
-               });
-
-
-            if (zipValidityEntry != null)
-            {
-                return zipValidityEntry;
-            }
-            else if (archive == null)
-            {
-                return new ModJobBatchErrorEntry(modPath, "IO!ZipArchiveReadFailedForSomeReason", null);
-            }
-
-
-            
-            foreach (var analyzeFunc in _ANALYZE_MOD_FROM_SPOREMOD)
             {
                 try
                 {
-                    mod = await analyzeFunc(modPath, archive);
-                    if (mod != null)
+                    //archive = await Task<ZipArchive>.Run(() => ZipFile.OpenRead(modPath));
+                    archive = ZipFile.OpenRead(modPath);
+                    return null;
+                }
+                catch (Exception ex)
+                {
+                    return new ModJobBatchErrorEntry(modPath, "IO!InvalidZipArchive", ex);
+                }
+            });
+
+            return await Task.Run<ModJobBatchEntryBase>(() =>
+            {
+                if (zipValidityEntry != null)
+                {
+                    return zipValidityEntry;
+                }
+                else if (archive == null)
+                {
+                    return new ModJobBatchErrorEntry(modPath, "IO!ZipArchiveReadFailedForSomeReason", null);
+                }
+
+
+
+                //foreach (var createMod in _MOD_TYPES_FROM_SPOREMOD)
+                int modTypesCount = _MOD_TYPES_FROM_SPOREMOD.Count;
+                int modTypesLastIndex = modTypesCount - 1;
+                List<Exception> previousExceptions = new List<Exception>();
+                for (int i = 0; i < modTypesCount; i++)
+                {
+                    var createMod = _MOD_TYPES_FROM_SPOREMOD[i];
+                    mod = createMod();
+                    if (!mod.TryAnalyzeIncomingSporemodFile(modPath, archive, out Exception ex))
                     {
-                        failureEntry = null;
-                        break;
+                        mod = null;
+
+                        if ((ex is ModException mex) && (!mex.ShouldCheckModAgainstOtherTypes))
+                        {
+                            //mex.InnerException = previousException;
+                            foreach (var excP in previousExceptions)
+                            {
+                                mex.PriorExceptions.Add(excP);
+                            }
+
+                            failureEntry = new ModJobBatchErrorEntry(modPath, "IO!UnknownSporemodAnalysisException", mex);
+                            break;
+                        }
+                        else
+                        {
+                            failureEntry = new ModJobBatchErrorEntry(modPath, "IO!UnknownSporemodAnalysisException", ex);
+                            previousExceptions.Add(ex);
+                            continue;
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                    mod = null;
-                    failureEntry = new ModJobBatchErrorEntry(modPath, "IO!UnknownSporemodAnalysisException", ex);
-                }
-                /*try
-                {
-                    mod = await analyzeFunc(modPath, archive);
-                    failureEntry = null;
-                }
-                catch (Exception ex)
-                {
-                    mod = null;
-                    failureEntry = new ModJobBatchErrorEntry(modPath, "IO!UnknownSporemodAnalysisError", ex);
+
+                    if (mod != null)
+                        break;
                 }
 
+                archive.Dispose();
                 if (mod != null)
-                    break;*/
-            }
-
-            archive.Dispose();
-            if (mod != null)
-            {
-                return new ModJobBatchModEntry(modPath, mod);
-            }
-            else if (failureEntry != null)
-            {
-                return failureEntry;
-            }
-            else
-            {
-                return new ModJobBatchErrorEntry(modPath, "IO!UnknownSporemodAnalysisError", null);
-            }
+                {
+                    return new ModJobBatchModEntry(modPath, mod);
+                }
+                else if (failureEntry != null)
+                {
+                    return failureEntry;
+                }
+                else
+                {
+                    return new ModJobBatchErrorEntry(modPath, "IO!UnknownSporemodAnalysisError", null);
+                }
+            });
         }
 
 
         async Task<ModJobBatchEntryBase> AnalyzeDBPFModAsync(string modPath)
         {
-            ModJobBatchEntryBase failureEntry = null;
-            ISporeMod mod = null;
-            /*foreach (var analyzeFunc in _ANALYZE_MOD_FROM_DBPF)
-            {*/
-                try
+            return await Task.Run<ModJobBatchEntryBase>(() =>
+            {
+                ModJobBatchEntryBase failureEntry = null;
+                ICanInstallFromPackageFile mod = null;
+
+                int modTypesCount = _MOD_TYPES_FROM_DBPF.Count;
+                int modTypesLastIndex = modTypesCount - 1;
+                for (int i = 0; i < modTypesCount; i++)
                 {
-                    mod = await PreIdentityMod.AnalyzeFromLoosePackageAsync(modPath);
-                }
-                catch (Exception ex)
-                {
-                    mod = null;
-                    failureEntry = new ModJobBatchErrorEntry(modPath, "IO!UnknownDBPFAnalysisError", ex);
+                    var createMod = _MOD_TYPES_FROM_DBPF[i];
+                    mod = createMod();
+                    if (!mod.TryAnalyzeIncomingPackageFile(modPath, out Exception ex))
+                    {
+                        failureEntry = new ModJobBatchErrorEntry(modPath, "IO!UnknownSporemodAnalysisException", ex);
+                        mod = null;
+
+                        if ((ex is ModException mex) && (!mex.ShouldCheckModAgainstOtherTypes))
+                            break;
+                        else
+                            continue;
+                    }
+
+                    if (mod != null)
+                        break;
                 }
 
-                /*if (mod != null)
-                    break;
-            }*/
 
-            if (mod != null)
-            {
-                return new ModJobBatchModEntry(modPath, mod);
-            }
-            else if (failureEntry != null)
-            {
-                return failureEntry;
-            }
-            else
-            {
-                return new ModJobBatchErrorEntry(modPath, "IO!UnknownDBPFAnalysisError", null);
-            }
+                if (mod != null)
+                {
+                    return new ModJobBatchModEntry(modPath, mod);
+                }
+                else if (failureEntry != null)
+                {
+                    return failureEntry;
+                }
+                else
+                {
+                    return new ModJobBatchErrorEntry(modPath, "IO!UnknownDBPFAnalysisError", null);
+                }
+            });
         }
 
 

@@ -17,7 +17,9 @@ namespace SporeMods.CommonUI
         {
             DescriptionImage img = (DescriptionImage)values[0];
             ComponentBase cmp = (ComponentBase)values[1];
+#if MOD_SETTINGS_IMAGES
             MemoryStream stream = cmp.Mod.GetImageStream(img.FileName);
+#endif
             //var img = new BitmapSource(stream);
             //cmp.Mod.
             //img.FileName

@@ -151,7 +151,9 @@ namespace SporeMods.Core.Mods.ModIdentity.V1_0_X_XComponents
         public DescriptionImage(MI1_0_X_XMod mod, string fileName)
         {
             FileName = fileName;
+#if MOD_SETTINGS_IMAGES
             Image = Externals.CreateBitmapImage(mod.GetImageStream(fileName));
+#endif
         }
 
         //FileName

@@ -10,115 +10,121 @@ using System.Xml.Linq;
 
 namespace SporeMods.Core.Mods
 {
-    public abstract partial class MI1_0_X_XMod : NotifyPropertyChangedBase, ISporeMod
+    public partial class MI1_0_X_XMod
     {
+#if MOD_SETTINGS_IMAGES
         Dictionary<string, MemoryStream> _imageStreams = new Dictionary<string, MemoryStream>();
 
         public virtual MemoryStream GetImageStream(string fileName)
             => _imageStreams.TryGetValue(fileName, out MemoryStream stream) ? stream : null;
-        public static async Task<ISporeMod> AnalyzeFromSporemodAsync(string inPath, ZipArchive archive)
+#endif
+
+
+
+        public bool TryGetFromRecordDir(string subdirPath, XDocument doc, out Exception error)
         {
-            /*await Task.Run(() =>
+            error = null;
+            try
             {
-                string debugText1 = "\n\n\nBegin Entries\n";
-                foreach (ZipArchiveEntry entry in archive.Entries)
-                {
-                    debugText1 += $"\t\t{entry.FullName}\n";
-                }
-                debugText1 += "End Entries\n\n\n";
-                MessageDisplay.ShowMessageBox(debugText1);
-            });*/
+                Version identityVersion = EnsureIdentityVersion(doc);
+                string identityPath = Path.Combine(subdirPath, SporeMods.Core.Mods.ModUtils.ID_XML_FILE_NAME);
+                var xmlRoot = doc.Root;
+                if (!xmlRoot.TryGetAttributeValue("unique", out string unique))
+                    throw new ModException(true, "_UUUUUUUU_ (PLACEHOLDER)");
 
-            return await Task<ISporeMod>.Run(() =>
+                Unique = unique;
+
+                foreach (string f in Directory.EnumerateFiles(subdirPath))
+                {
+                    _fileNames.Add(Path.GetFileName(f));
+                }
+
+                ReadIdentityRoot(xmlRoot);
+
+                return true;
+            }
+            catch (Exception ex)
             {
-                if (archive.TryGetEntry(ModConstants.ID_XML_FILE_NAME, out ZipArchiveEntry identityEntry))
+                error = ex;
+            }
+            return false;
+        }
+
+        public bool TryAnalyzeIncomingSporemodFile(string inFilePath, ZipArchive archive, out Exception error)
+        {
+            error = null;
+            try
+            {
+                if (!archive.TryGetEntry(ModUtils.ID_XML_FILE_NAME, out ZipArchiveEntry identityEntry))
+                    throw new ModException(true, "_BBBBBBBB_ (PLACEHOLDER)");
+
+                XDocument doc = null;
+                using (StreamReader reader = new StreamReader(identityEntry.Open()))
                 {
-                    XDocument doc = null;
-                    using (StreamReader reader = new StreamReader(identityEntry.Open()))
-                    {
-                        string text = reader.ReadToEnd();
-                        doc = XDocument.Parse(text, ModConstants.ID_XML_LOAD_OPTIONS);
-                    }
-                    if (doc == null)
-                        return null;
-
-                    var xmlRoot = doc.Root;
-
-                    //var versionAttr = xmlRoot.Attribute("installerSystemVersion");
-                    Version identityVersion = EnsureIdentityVersion(doc); //new Version(0, 0, 0, 0);
-                    /*if (versionAttr == null)
-                        throw new FormatException(Externals.GetLocalizedText("Mods!Error!Identity!MissingSysVersion"));
-                    else if (Version.TryParse(versionAttr.Value, out identityVersion))
-                    {
-                        if (
-                                   (identityVersion != ModConstants.ID_VER_1_0_0_0)
-                                && (identityVersion != ModConstants.ID_VER_1_0_1_0)
-                                && (identityVersion != ModConstants.ID_VER_1_0_1_1)
-                            )
-                            throw new FormatException(Externals.GetLocalizedText("Mods!Error!Identity!UnsupportedSysVersion").Replace("%VERSION%", identityVersion.ToString()));
-                    }
-                    else
-                        throw new FormatException(Externals.GetLocalizedText("Mods!Error!Identity!InvalidAttributeValue").Replace("%ATTRIBUTE%", "installerSystemVersion").Replace("%VALUE%", versionAttr.Value).Replace("%TYPE%", "Version"));*/
-
-
-                    var uniqueAttr = xmlRoot.Attribute("unique");
-                    if (uniqueAttr == null)
-                        throw new FormatException("A mod must have a 'unique' attribute");
-                    string unique = uniqueAttr.Value;
-
-                    string modConfigSubfolderName = unique;
-                    foreach (char c in Path.GetInvalidPathChars())
-                        modConfigSubfolderName = modConfigSubfolderName.Replace(c.ToString(), string.Empty);
-
-                    foreach (char c in Path.GetInvalidFileNameChars())
-                    {
-                        modConfigSubfolderName = modConfigSubfolderName.Replace(c, '-');
-                    }
-
-                    var imageStreams = new Dictionary<string, MemoryStream>();
-                    List<string> fileNames = new List<string>();
-                    foreach (var h in archive.Entries)
-                    {
-                        string hName = Path.GetFileName(h.Name);
-                        fileNames.Add(hName);
-                        if (Path.GetExtension(hName).Equals(".png", StringComparison.OrdinalIgnoreCase))
-                        {
-                            MemoryStream copyStream = new MemoryStream();
-                            using (var stream = h.Open())
-                                stream.CopyTo(copyStream);
-                            
-                            copyStream.Seek(0, SeekOrigin.Begin);
-                            imageStreams.Add(hName, copyStream);
-                        }
-                    }
-
-
-                    MI1_0_X_XMod mod = null;
-                    Cmd.WriteLine($"identityVersion: {identityVersion}");
-                    if (identityVersion == ModConstants.ID_VER_1_0_0_0)
-                        mod = new MI1_0_0_0Mod(modConfigSubfolderName, unique, fileNames);
-                    else
-                        mod = new MI1_0_1_1Mod(modConfigSubfolderName, unique, fileNames);
-                    mod.IsIncoming = true;
-                    mod._imageStreams = imageStreams;
-                    mod.ReadIdentity(doc);
-                    mod.IsIncoming = false;
-
-                    return mod;
+                    string text = reader.ReadToEnd();
+                    doc = XDocument.Parse(text, ModUtils.ID_XML_LOAD_OPTIONS);
                 }
-                return null;
-            });
+                if (doc == null)
+                    throw new ModException(true, "_CCCCCCC_ (PLACEHOLDER)");
+
+                var xmlRoot = doc.Root;
+
+                Version identityVersion = EnsureIdentityVersion(doc);
+
+
+                if (!xmlRoot.TryGetAttributeValue("unique", out string unique))
+                    throw new ModException(false, "_UUUUUUUU_ (PLACEHOLDER)");
+
+                Unique = unique;
+
+                string modConfigSubfolderName = ModUtils.GetModsRecordDirNameFromString(unique);
+
+#if MOD_SETTINGS_IMAGES
+                var imageStreams = new Dictionary<string, MemoryStream>();
+#endif
+                foreach (var h in archive.Entries)
+                {
+                    string hName = Path.GetFileName(h.Name);
+                    _fileNames.Add(hName);
+#if MOD_SETTINGS_IMAGES
+                    if (Path.GetExtension(hName).Equals(".png", StringComparison.OrdinalIgnoreCase))
+                    {
+                        MemoryStream copyStream = new MemoryStream();
+                        using (var stream = h.Open())
+                            stream.CopyTo(copyStream);
+
+                        copyStream.Seek(0, SeekOrigin.Begin);
+                        imageStreams.Add(hName, copyStream);
+                    }
+#endif
+                }
+
+
+                IsIncoming = true;
+#if MOD_SETTINGS_IMAGES
+                _imageStreams = imageStreams;
+#endif
+                ReadIdentity(doc);
+                IsIncoming = false;
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                error = ex;
+            }
+            return false;
         }
 
 
         List<string> _fileNames = new List<string>();
-        public MI1_0_X_XMod(string recordDirName, string unique, List<string> fileNames)
+        /*public MI1_0_X_XMod(string recordDirName, string unique, List<string> fileNames)
         {
             RecordDirName = recordDirName;
             Unique = unique;
             _fileNames = fileNames;
             UsesCodeInjection = _fileNames.Any(x => Path.GetExtension(x).Equals(".dll", StringComparison.OrdinalIgnoreCase));
-        }
+        }*/
 
 
         protected virtual void ReadIdentity(XDocument xml)
@@ -128,18 +134,17 @@ namespace SporeMods.Core.Mods
             ReadIdentityComponents(xmlRoot);
         }
 
+
         protected virtual void ReadIdentityRoot(XElement xmlRoot)
         {
-            var displayNameAttr = xmlRoot.Attribute("displayName");
-            if (displayNameAttr != null)
-                DisplayName = new FixedModText(displayNameAttr.Value);
+            if (xmlRoot.TryGetAttributeValue("displayName", out string displayName))
+                DisplayName = new FixedModText(displayName);
             else
                 DisplayName = new FixedModText(Unique);
 
 
-            var descriptionAttr = xmlRoot.Attribute("description");
-            if (descriptionAttr != null)
-                InlineDescription = new FixedModText(descriptionAttr.Value);
+            if (xmlRoot.TryGetAttributeValue("description", out string description))
+                InlineDescription = new FixedModText(description);
         }
 
         protected void ReadIdentityComponents(XElement xmlRoot)

@@ -41,7 +41,7 @@ namespace SporeMods.Core.Mods
                         transaction.Job.ActivityRangeProgress += progressStep;
                     }
 
-                    targetPath = Path.Combine(recordDirPath, ModConstants.ID_XML_FILE_NAME);
+                    targetPath = Path.Combine(recordDirPath, ModUtils.ID_XML_FILE_NAME);
                     transaction.Operation(new DeleteFileOp(targetPath));
                     transaction.Job.ActivityRangeProgress += progressStep;
 

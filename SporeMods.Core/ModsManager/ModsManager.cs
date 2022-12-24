@@ -107,11 +107,17 @@ namespace SporeMods.Core
 		}
 #endif
 
-		static List<Func<string, XDocument, ISporeMod>> _MOD_FROM_RECORD_DIR = new List<Func<string, XDocument, ISporeMod>>()
+		/*static List<Func<string, XDocument, ISporeMod>> _MOD_FROM_RECORD_DIR = new List<Func<string, XDocument, ISporeMod>>()
         {
 			MI1_0_X_XMod.FromRecordDir,
             PreIdentityMod.FromRecordDir
-        };
+        };*/
+		static IReadOnlyList<Func<ISporeMod>> _MOD_TYPES_FROM_RECORD_DIR = new List<Func<ISporeMod>>()
+		{
+			() => new MI1_0_1_XMod(),
+			() => new MI1_0_0_0Mod(),
+			() => new PreIdentityMod(),
+		}.AsReadOnly();
 
 		private void PopulateModConfigurations()
 		{
@@ -121,7 +127,7 @@ namespace SporeMods.Core
 				XDocument identity = null;
 				try
 				{
-					string identityPath  = Path.Combine(dirPath, SporeMods.Core.Mods.ModConstants.ID_XML_FILE_NAME);
+					string identityPath  = Path.Combine(dirPath, SporeMods.Core.Mods.ModUtils.ID_XML_FILE_NAME);
 					string text = File.ReadAllText(identityPath);
 					identity = XDocument.Parse(text);
 				}
@@ -133,12 +139,21 @@ namespace SporeMods.Core
 				{
 					ISporeMod mod = null;
 					//var mod = new ManagedMod(Path.GetFileName(s), true);
-					foreach (var fromRecordDir in _MOD_FROM_RECORD_DIR)
+					/*foreach (var fromRecordDir in _MOD_FROM_RECORD_DIR)
 					{
 						mod = fromRecordDir(dirPath, identity);
 						if (mod != null)
 							break;
-					}
+					}*/
+					foreach (var createMod in _MOD_TYPES_FROM_RECORD_DIR)
+                    {
+						mod = createMod();
+						if (!mod.TryGetFromRecordDir(dirPath, identity, out Exception exc))
+							mod = null;
+						else
+							break;
+                    }
+
 					if (mod != null)
 						InstalledMods.Add(mod);
 					

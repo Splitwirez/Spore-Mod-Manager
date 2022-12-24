@@ -10,7 +10,7 @@ using System.Xml.Linq;
 
 namespace SporeMods.Core.Mods
 {
-    public abstract partial class MI1_0_X_XMod : NotifyPropertyChangedBase, ISporeMod, IConfigurableMod
+    public abstract partial class MI1_0_X_XMod : NotifyPropertyChangedBase, ISporeMod, IConfigurableMod, ICanInstallFromSporemodFile
     {
         IModText _fallbackDisplayName = new FixedModText(string.Empty);
         IModText _displayName = null;
@@ -201,32 +201,7 @@ namespace SporeMods.Core.Mods
             return typeName;
         }
 
-        public static ISporeMod FromRecordDir(string location, XDocument doc)
-        {
-            MI1_0_X_XMod mod = null;
-            Version identityVersion = EnsureIdentityVersion(doc);
-            string identityPath = Path.Combine(location, SporeMods.Core.Mods.ModConstants.ID_XML_FILE_NAME);
-            var xmlRoot = doc.Root;
-            if (xmlRoot.TryGetAttributeValue("unique", out string unique))
-            {
-                List<string> fileNames = new List<string>();
-                foreach (string f in Directory.EnumerateFiles(location))
-                {
-                    fileNames.Add(Path.GetFileName(f));
-                }
-
-
-                if (identityVersion == ModConstants.ID_VER_1_0_0_0)
-                    mod = new MI1_0_0_0Mod(location, unique, fileNames);
-                else
-                    mod = new MI1_0_1_1Mod(location, unique, fileNames);
-
-                mod.ReadIdentityRoot(xmlRoot);
-            }
-            return mod;
-        }
-
-        private static Version EnsureIdentityVersion(XDocument doc)
+        protected virtual Version EnsureIdentityVersion(XDocument doc)
         {
             var versionAttr = doc.Root.Attribute("installerSystemVersion");
             Version identityVersion = new Version(0, 0, 0, 0);
@@ -234,12 +209,13 @@ namespace SporeMods.Core.Mods
                 throw new FormatException(Externals.GetLocalizedText("Mods!Error!Identity!MissingSysVersion"));
             else if (Version.TryParse(versionAttr.Value, out identityVersion))
             {
-                if (
-                           (identityVersion != ModConstants.ID_VER_1_0_0_0)
-                        && (identityVersion != ModConstants.ID_VER_1_0_1_0)
-                        && (identityVersion != ModConstants.ID_VER_1_0_1_1)
-                    )
+                if (!ModUtils.IsID_1_0_X_X(identityVersion))
                     throw new FormatException(Externals.GetLocalizedText("Mods!Error!Identity!UnsupportedSysVersion").Replace("%VERSION%", identityVersion.ToString()));
+
+                /*if (ModUtils.IsID_1_0_1_X(identityVersion))
+                    IsMI1_0_0_0 = false;
+                else
+                    IsMI1_0_0_0 = true;*/
             }
             else
                 throw new FormatException(Externals.GetLocalizedText("Mods!Error!Identity!InvalidAttributeValue").Replace("%ATTRIBUTE%", "installerSystemVersion").Replace("%VALUE%", versionAttr.Value).Replace("%TYPE%", "Version"));

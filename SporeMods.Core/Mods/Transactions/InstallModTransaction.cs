@@ -32,7 +32,7 @@ namespace SporeMods.Core.Mods
             {
                 string extension = Path.GetExtension(_entry.ModPath);
 
-                if (extension.Equals(ModConstants.MOD_FILE_EX_SPOREMOD, StringComparison.OrdinalIgnoreCase))
+                if (extension.Equals(ModUtils.MOD_FILE_EX_SPOREMOD, StringComparison.OrdinalIgnoreCase))
                     archive = ZipFile.OpenRead(_entry.ModPath);
             });
 

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SporeMods.Core.Mods
 {
-    public abstract partial class MI1_0_X_XMod : NotifyPropertyChangedBase, ISporeMod
+    public partial class MI1_0_X_XMod
     {
         public async Task<Exception> ExtractRecordFilesAsync(ModTransaction transaction, string inPath, ZipArchive archive = null)
         {

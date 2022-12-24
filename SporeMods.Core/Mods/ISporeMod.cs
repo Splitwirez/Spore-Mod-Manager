@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO.Compression;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Xml.Linq;
 using SporeMods.Core.Mods;
 using SporeMods.Core.Transactions;
 
@@ -168,9 +168,10 @@ namespace SporeMods.Core.Mods
         #endregion
 
 
-#region Management functions
-        
-        
+        #region Management functions
+        bool TryGetFromRecordDir(string subdirName, XDocument doc, out Exception error);
+
+
         Task<ModJobBatchEntryBase> EnsureCanInstall(ModJobBatchModEntry entry, List<ModJobBatchModEntry> otherEntries);
 
         /// <summary>
@@ -203,5 +204,15 @@ namespace SporeMods.Core.Mods
         /// <returns></returns>
         Task<Exception> RemoveRecordFilesAsync(ModTransaction transaction, bool removeConfig);
 #endregion
+    }
+
+    public interface ICanInstallFromSporemodFile : ISporeMod
+    {
+        bool TryAnalyzeIncomingSporemodFile(string inFilePath, ZipArchive archive, out Exception error);
+    }
+
+    public interface ICanInstallFromPackageFile : ISporeMod
+    {
+        bool TryAnalyzeIncomingPackageFile(string inFilePath, out Exception error);
     }
 }

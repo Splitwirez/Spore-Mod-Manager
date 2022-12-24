@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SporeMods.Core.Mods
 {
-    public abstract partial class MI1_0_X_XMod : NotifyPropertyChangedBase, ISporeMod
+    public partial class MI1_0_X_XMod
     {
         public async Task<Exception> ApplyAsync(ModTransaction transaction)
         {

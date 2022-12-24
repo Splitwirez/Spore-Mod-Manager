@@ -20,8 +20,8 @@ namespace SporeMods.Core.Mods
 
         public async Task<Exception> ExtractRecordFilesAsync(ModTransaction transaction, string inPath, ZipArchive archive = null)
         {
-            bool isPackage = Path.GetExtension(inPath).Equals(ModConstants.MOD_FILE_EX_DBPF, StringComparison.OrdinalIgnoreCase);
-            bool isSporemod = Path.GetExtension(inPath).Equals(ModConstants.MOD_FILE_EX_SPOREMOD, StringComparison.OrdinalIgnoreCase);
+            bool isPackage = Path.GetExtension(inPath).Equals(ModUtils.MOD_FILE_EX_DBPF, StringComparison.OrdinalIgnoreCase);
+            bool isSporemod = Path.GetExtension(inPath).Equals(ModUtils.MOD_FILE_EX_SPOREMOD, StringComparison.OrdinalIgnoreCase);
             //List<BackupFile> _backupFiles = new List<BackupFile>();
             string recordDirPath = string.Empty;
 
@@ -39,8 +39,8 @@ namespace SporeMods.Core.Mods
                     XDocument identityDoc = XDocument.Parse("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<mod installerSystemVersion=\"1.1.0.0\"/>");
 
                     var identityRoot = identityDoc.Root;
-                    identityRoot.SetAttributeValue(ModConstants.AT_DISP_NAME, DisplayName);
-                    identityRoot.SetAttributeValue(ModConstants.AT_UNIQUE, Unique);
+                    identityRoot.SetAttributeValue(ModUtils.AT_DISP_NAME, DisplayName);
+                    identityRoot.SetAttributeValue(ModUtils.AT_UNIQUE, Unique);
                     identityRoot.SetAttributeValue("copyAllFiles", true.ToString());
                     identityRoot.SetAttributeValue("canDisable", false.ToString());
                     identityRoot.SetAttributeValue("originalFileName", Path.GetFileName(inPath));
@@ -81,7 +81,7 @@ namespace SporeMods.Core.Mods
                         }
                     }
 
-                    extractFilePath = Path.Combine(recordDirPath, ModConstants.ID_XML_FILE_NAME);
+                    extractFilePath = Path.Combine(recordDirPath, ModUtils.ID_XML_FILE_NAME);
                     await transaction.OperationAsync(new SaveXDocumentOp(identityDoc, extractFilePath));
                     transaction.Job.ActivityRangeProgress += progressQuantity;
 

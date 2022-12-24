@@ -463,8 +463,8 @@ namespace SporeMods.Core.Mods
         public static bool MatchLoosePackage(string fileName)
         {
             string name = Path.GetFileNameWithoutExtension(fileName);
-            if (name.EndsWith(ModConstants.MOD_FILE_EX_DBPF, StringComparison.OrdinalIgnoreCase))
-                name = name.Substring(0, name.Length - ModConstants.MOD_FILE_EX_DBPF.Length);
+            if (name.EndsWith(ModUtils.MOD_FILE_EX_DBPF, StringComparison.OrdinalIgnoreCase))
+                name = name.Substring(0, name.Length - ModUtils.MOD_FILE_EX_DBPF.Length);
 
             Cmd.WriteLine($"{nameof(MatchLoosePackage)}(");
             Cmd.WriteLine($"\t{nameof(fileName)}: {fileName},");
