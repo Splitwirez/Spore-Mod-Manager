@@ -147,12 +147,6 @@ namespace SporeMods.Core.Mods
             get;
         }
 
-        
-        bool HasSettings
-        {
-            get;
-        }
-
 #endregion
 
 

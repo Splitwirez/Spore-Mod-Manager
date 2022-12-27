@@ -252,24 +252,20 @@ namespace SporeMods.ViewModels
 		{
 			CanUninstallMods = false;
 			CanChangeModSettings = false;
-			
+
 			int count = mods.Count();
-			
-			if (count >= 1)
+
+			if (count > 0)
 			{
-				CanUninstallMods = !AreAnyProgressing(mods);
-#if MOD_IMPL_RESTORE_LATER
-				CanChangeModSettings = (mods.Count() == 1) && (mods.First() is ManagedMod mmod) && (!mmod.HasProgressSignifier()) && mmod.HasConfigurator;
-#endif
+				if (ModsManager.Instance.Jobs.HasRunningTasks)
+					return;
+
+				CanUninstallMods = true;
+
+				if (count == 1)
+					CanChangeModSettings = mods.First().HasSettings(out _);
 			}
 		}
-
-		bool AreAnyProgressing(IEnumerable<ISporeMod> mods)
-#if MOD_IMPL_RESTORE_LATER
-			=> mods.Any(x => (x is ManagedMod mmod) ? mmod.HasProgressSignifier() : false);
-#else
-			=> false;
-#endif
 
 		void RefreshTitle()
 		{
@@ -327,23 +323,14 @@ namespace SporeMods.ViewModels
 		async Task ChangeModSettings()
 		{
 			ISporeMod mod = _selectedMods?.FirstOrDefault();
-			bool error = true;
-#if MOD_IMPL_RESTORE_LATER
-			if (
-					(mod != null) &&
-					(mod is ManagedMod mmod) &&
-					mmod.CanReconfigure)
+			if (mod.HasSettings(out IConfigurableMod cMod))
 			{
-				mmod.ShowSettings();
-				error = false;
+				await ModsManager.Instance.ChangeSettingsForModAsync(cMod);
+				return;
 			}
-#endif
-			
-			if (error)
-			{
-				CanChangeModSettings = false;
-				await DialogBox.ShowAsync("Can't change settings for the specified mod or lack thereof (PLACEHOLDER) (NOT LOCALIZED)");
-			}
+
+			CanChangeModSettings = false;
+			await DialogBox.ShowAsync("Can't change settings for the specified mod or lack thereof (PLACEHOLDER) (NOT LOCALIZED)");
 		}
 
 		bool _minimizeOnGameStart = false;

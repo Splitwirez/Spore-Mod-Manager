@@ -22,7 +22,6 @@ namespace SporeMods.Core.Mods
 
             return await Task<Exception>.Run(() =>
             {
-                MessageDisplay.ShowMessageBox("AAAAA");
                 applyTo(AllComponents);
                 return (Exception)null;
             });

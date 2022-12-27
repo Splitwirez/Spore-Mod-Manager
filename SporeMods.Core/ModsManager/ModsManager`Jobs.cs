@@ -353,6 +353,20 @@ namespace SporeMods.Core
             Conclude(await Jobs.ExecuteBatchAsync(batch));
         }
 
+        public async Task ChangeSettingsForModAsync(IConfigurableMod mod)
+        {
+            var vm = new ChangeSettingsForModViewModel(mod);
+            if (!(await Modal.Show(vm)))
+                return;
+
+            var batch = new List<ModJob>()
+            {
+                new ModJob(new ReconfigureModTransaction(mod), mod.DisplayName, JobCategory.Reconfigure)
+            };
+
+            Conclude(await Jobs.ExecuteBatchAsync(batch));
+        }
+
         void Conclude(IEnumerable<ModJob> batch)
         {
             var vm = new ModJobsReportViewModel(batch);

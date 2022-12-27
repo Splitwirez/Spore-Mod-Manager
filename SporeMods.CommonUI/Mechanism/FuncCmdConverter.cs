@@ -30,35 +30,40 @@ namespace SporeMods.CommonUI
 
     internal class FncCommand : ICommand
     {
-        private Predicate<object> canExecute;
-        private Action<object> execute;
+        private Predicate<object> _canExecute;
+        private Action<object> _execute;
 
         public FncCommand(Predicate<object> canExecute, Action<object> execute)
         {
-            this.canExecute = canExecute;
-            this.execute = execute;
+            _canExecute = canExecute;
+            _execute = execute;
         }
 
         public bool CanExecute(object parameter)
         {
-            if (this.canExecute == null) return true;
+            if (_canExecute == null)
+                return true;
 
-            return this.canExecute(parameter);
+            return _canExecute(parameter);
         }
 
         public void Execute(object parameter)
-        {
-            this.execute(parameter);
-        }
+            => _execute(parameter);
 
         public event EventHandler CanExecuteChanged;
     }
 
     public class FuncCommand<T> : ICommand
     {
+        static T EnsureParam(object parameter)
+            => (parameter is T tParam)
+                ? tParam
+                : default(T)
+            ;
+
+
         private Predicate<T> _canExecute;
         private Action<T> _execute;
-
         public FuncCommand(Action<T> execute, Predicate<T> canExecute = null)
         {
             _canExecute = canExecute;
@@ -67,13 +72,14 @@ namespace SporeMods.CommonUI
 
         public bool CanExecute(object parameter)
         {
-            if (_canExecute == null) return true;
+            if (_canExecute == null)
+                return true;
 
-            return _canExecute((T)parameter);
+            return _canExecute(EnsureParam(parameter));
         }
 
         public void Execute(object parameter)
-            => _execute((T)parameter);
+            => _execute(EnsureParam(parameter));
 
         public event EventHandler CanExecuteChanged;
     }

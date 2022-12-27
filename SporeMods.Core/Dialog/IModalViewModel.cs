@@ -9,10 +9,8 @@ using System.Threading.Tasks;
 
 namespace SporeMods.Core
 {
-	public interface IModalViewModel
+	public interface IModalViewModel : IViewLocatable
 	{
-		string GetViewTypeName();
-
 		bool CanDismiss { get; }
 		object DismissCommand { get; }
 
@@ -27,11 +25,8 @@ namespace SporeMods.Core
 		TaskCompletionSource<T> CompletionSource { get; }
 	}
 
-	public abstract class ModalViewModel<T> : NotifyPropertyChangedBase, IModalViewModel, IModalViewModel<T>
+	public abstract class ModalViewModel<T> : ViewLocatableBase, IModalViewModel, IModalViewModel<T>
 	{
-		public virtual string GetViewTypeName()
-			=> this.GetType().FullName.Replace("ViewModel", "View");
-
 		TaskCompletionSource<T> _completionSource = new TaskCompletionSource<T>();
 		
 		public virtual TaskCompletionSource<T> CompletionSource

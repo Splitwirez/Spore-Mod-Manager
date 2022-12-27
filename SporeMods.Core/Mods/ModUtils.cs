@@ -82,5 +82,18 @@ namespace SporeMods.Core.Mods
             isSporeMod = false;
             return false;
         }
+
+        public static bool HasSettings(this ISporeMod mod, out IConfigurableMod cfgMod)
+        {
+            cfgMod = null;
+
+            if (mod is IConfigurableMod cMod)
+            {
+                cfgMod = cMod;
+                return cMod.HasSettings;
+            }
+
+            return false;
+        }
     }
 }

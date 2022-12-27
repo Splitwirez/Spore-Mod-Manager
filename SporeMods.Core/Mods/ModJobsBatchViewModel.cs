@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -63,6 +64,17 @@ namespace SporeMods.Core.Mods
                 }
                 else
                     ShownSettingsModView = null;*/
+            }
+        }
+
+        IViewLocatable _shownSettingsModSettingsVM = null;
+        public IViewLocatable ShownSettingsModSettingsVM
+        {
+            get => _shownSettingsModSettingsVM;
+            protected set
+            {
+                _shownSettingsModSettingsVM = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -187,6 +199,17 @@ namespace SporeMods.Core.Mods
             DismissCommand = Externals.CreateCommand<List<ModJobBatchModEntry>>(o => CompletionSource.TrySetResult(new List<ModJobBatchModEntry>()));
             CanDismiss = false;
             ShowModSettingsCommand = Externals.CreateCommand<IConfigurableMod>(mod => ShownSettingsMod = mod);
+
+            PropertyChanged += This_PropertyChanged;
+        }
+
+        private void This_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(ShownSettingsMod))
+            {
+                var mod = ShownSettingsMod;
+                ShownSettingsModSettingsVM = (mod != null) ? mod.GetSettingsViewModel(false) : null;
+            }
         }
 
         public override string ContainerStyleKey { get; protected set; } = "ModJobsBatchContainerStyle";
@@ -259,7 +282,7 @@ namespace SporeMods.Core.Mods
                 if (mod.KnownHazardousMod)
                     showHazardColumn = true;
                 
-                if (mod.HasSettings)
+                if (mod.HasSettings(out _))
                     showSettingsColumn = true;
 
                 if (showIsExperimentalColumn

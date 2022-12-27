@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SporeMods.Core.Mods
 {
-    public class MI1_0_X_XModSettingsViewModel : NotifyPropertyChangedBase
+    public class MI1_0_X_XModSettingsViewModel : ViewLocatableBase
     {
         IConfigurableMod _mod = null;
         public IConfigurableMod Mod

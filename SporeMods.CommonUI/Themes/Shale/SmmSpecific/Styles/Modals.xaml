@@ -146,7 +146,7 @@
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <cui:StackPanelEx Orientation="Vertical" Spacing="0"/>
+                    <StackPanel x:Name="PART_ItemsPanel" IsItemsHost="True" Orientation="Vertical" />
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
@@ -361,11 +361,14 @@
                                                     </Rectangle>
                                                 </Button.Content-->
                                             </Button>
+                                            <cui:Zone Content="{Binding CurrentModalVM.ShownSettingsModSettingsVM, Converter={x:Static cui:ViewLocator.Converter}}" />
+                                            <!--
                                             <ContentPresenter>
                                                 <e:Interaction.Behaviors>
                                                     <v:ModSettingsDataContextChangedBehavior Mod="{Binding DataContext, ElementName=Spacer}"/>
                                                 </e:Interaction.Behaviors>
                                             </ContentPresenter>
+                                            -->
                                         </DockPanel>
                                     </Border>
                                 <!--/DockPanel-->

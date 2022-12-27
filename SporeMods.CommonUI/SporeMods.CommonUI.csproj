@@ -23,15 +23,6 @@
     <EmbeddedResource Include="..\CREDITS.md" />
     <Resource Include="Fonts\**" />
   </ItemGroup>
-  <ItemGroup>
-    <Page Update="Overlays\Views\TasksConclusionView.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Overlays\Views\InstallOverviewView.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-  </ItemGroup>
   <!--aItemGroup>
     <ProjectReference Include="..\SporeMods.Core\SporeMods.Core.csproj" />
   </ItemGroup-->

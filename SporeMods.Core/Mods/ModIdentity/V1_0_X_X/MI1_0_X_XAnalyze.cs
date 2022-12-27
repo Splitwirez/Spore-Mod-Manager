@@ -21,11 +21,13 @@ namespace SporeMods.Core.Mods
 
 
 
-        public bool TryGetFromRecordDir(string subdirPath, XDocument doc, out Exception error)
+        public bool TryGetFromRecordDir(string subdirName, XDocument doc, out Exception error)
         {
             error = null;
             try
             {
+                RecordDirName = subdirName;
+                string subdirPath = Path.Combine(Settings.ModConfigsPath, subdirName);
                 Version identityVersion = EnsureIdentityVersion(doc);
                 string identityPath = Path.Combine(subdirPath, SporeMods.Core.Mods.ModUtils.ID_XML_FILE_NAME);
                 var xmlRoot = doc.Root;
@@ -39,7 +41,7 @@ namespace SporeMods.Core.Mods
                     _fileNames.Add(Path.GetFileName(f));
                 }
 
-                ReadIdentityRoot(xmlRoot);
+                ReadIdentity(doc); //TODO: Don't read in features right away?
 
                 return true;
             }
@@ -77,7 +79,8 @@ namespace SporeMods.Core.Mods
 
                 Unique = unique;
 
-                string modConfigSubfolderName = ModUtils.GetModsRecordDirNameFromString(unique);
+                string recordDirName = ModUtils.GetModsRecordDirNameFromString(unique);
+                RecordDirName = recordDirName;
 
 #if MOD_SETTINGS_IMAGES
                 var imageStreams = new Dictionary<string, MemoryStream>();

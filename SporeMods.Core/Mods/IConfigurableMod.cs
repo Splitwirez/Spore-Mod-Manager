@@ -6,8 +6,12 @@ namespace SporeMods.Core.Mods
 {
     public interface IConfigurableMod : ISporeMod
     {
-        object GetSettingsViewModel(bool postInstall);
+        IViewLocatable GetSettingsViewModel(bool postInstall);
 
-        string GetSettingsViewTypeName(bool postInstall);
+
+        bool HasSettings
+        {
+            get;
+        }
     }
 }

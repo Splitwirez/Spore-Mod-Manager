@@ -189,9 +189,9 @@ namespace SporeMods.Core.Mods
         }
 
 
-        public object GetSettingsViewModel(bool postInstall)
+        public IViewLocatable GetSettingsViewModel(bool postInstall)
             => new MI1_0_X_XModSettingsViewModel(this);
-        public string GetSettingsViewTypeName(bool postInstall)
+        /*public string GetSettingsViewTypeName(bool postInstall)
         {
             string typeName = typeof(MI1_0_X_XMod).FullName; //this.GetType().FullName;
             var seg = typeName.Split('.');
@@ -199,7 +199,7 @@ namespace SporeMods.Core.Mods
             typeName = $"SporeMods.Views.{typeName}SettingsView";
             //typeName = $"SporeMods.Views.{typeof(MI1_0_X_XMod).FullName.Split('.', StringSplitOptions.RemoveEmptyEntries).Last()}SettingsView";
             return typeName;
-        }
+        }*/
 
         protected virtual Version EnsureIdentityVersion(XDocument doc)
         {
