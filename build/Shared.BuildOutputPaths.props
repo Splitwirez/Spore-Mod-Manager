@@ -3,7 +3,13 @@
   <PropertyGroup>
     <OutputPath>..\devBin\$(Configuration)\</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(OS)' == 'Windows_NT' and Exists('$(userprofile)\Spore Mod Manager\BUILD_TO_USER_DIR')">
-    <OutputPath>$(userprofile)\Spore Mod Manager\bin\$(Configuration)\</OutputPath>
+  <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+    <UserBuildDir>$(userprofile)\Spore Mod Manager</UserBuildDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(OS)' != 'Windows_NT'">
+    <UserBuildDir>$(HOME)/.local/share/spore-mod-manager</UserBuildDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="Exists('$(UserBuildDir)/BUILD_TO_USER_DIR')">
+    <OutputPath>$(UserBuildDir)/bin/$(Configuration)/</OutputPath>
   </PropertyGroup>
 </Project>

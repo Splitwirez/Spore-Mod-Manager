@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
-  <PropertyGroup>
-	<TargetFramework>netcoreapp3.1</TargetFramework>
-	<RuntimeFrameworkVersion>3.1.12</RuntimeFrameworkVersion>
-    <TargetLatestRuntimePatch>False</TargetLatestRuntimePatch>
-	<ForceManagedImplementation>True</ForceManagedImplementation>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <RuntimeFrameworkVersion>3.1.12</RuntimeFrameworkVersion>
+        <TargetLatestRuntimePatch>False</TargetLatestRuntimePatch>
+        <ForceManagedImplementation>True</ForceManagedImplementation>
+    </PropertyGroup>
 </Project>

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
-  <PropertyGroup>
-	<TargetFramework>net45</TargetFramework>
-    <TargetLatestRuntimePatch>False</TargetLatestRuntimePatch>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net45</TargetFramework>
+        <TargetLatestRuntimePatch>False</TargetLatestRuntimePatch>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(OS)' != 'Windows_NT' and $(DefineConstants.Contains(LINUX_DEBUG))">
+        <Import Project="..\build\Shared.TargetFramework.props" />
+    </PropertyGroup>
 </Project>
