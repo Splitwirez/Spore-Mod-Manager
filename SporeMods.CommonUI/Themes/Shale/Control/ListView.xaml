@@ -8,6 +8,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <Thickness x:Key="CardListViewVisibleMargin">8,4</Thickness>
 
     <Style x:Key="{x:Type ListView}" TargetType="{x:Type ListView}">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -146,63 +147,42 @@
     <Style x:Key="ListViewItemStyle" TargetType="ListViewItem" BasedOn="{StaticResource {x:Type ListViewItem}}"/>
 
     <Style x:Key="CardListViewItemStyle" TargetType="ListViewItem" BasedOn="{StaticResource {x:Type ListViewItem}}">
-        <Setter Property="Padding" Value="8"/>
+        <Setter Property="Padding" Value="8" />
+        <Setter Property="Margin" Value="{DynamicResource CardListViewVisibleMargin}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListViewItem">
                     <cui:FloorPanel x:Name="RootGrid" Background="#01000000">
-                        <cui:FloorPanel x:Name="BackgroundGrid" Margin="8">
-                            <Border x:Name="SizingAid" Background="Black" BorderBrush="Transparent" BorderThickness="1" UseLayoutRounding="True" Effect="{DynamicResource TertiaryDropShadow}"/>
-                            <Border x:Name="BackgroundBorder" BorderBrush="Transparent" BorderThickness="0" CornerRadius="3" ClipToBounds="True">
-                                <Border.Background>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.75" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
-                                </Border.Background>
-                            </Border>
-                            <Border x:Name="SelectedBorder" BorderBrush="Transparent" BorderThickness="0" CornerRadius="3" ClipToBounds="True" Opacity="0">
-                                <Border.Background>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.75" GradientStops="{DynamicResource CardListViewSelectedBackgroundGradientStops}"/>
-                                </Border.Background>
-                            </Border>
-                        </cui:FloorPanel>
-                        <cui:FloorPanel Margin="8">
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                            Margin="{TemplateBinding Padding}"
-                                            Focusable="False"/>
-                        </cui:FloorPanel>
+                        <Border x:Name="SizingAid" Background="Black" BorderBrush="Transparent" BorderThickness="1" UseLayoutRounding="True" Effect="{DynamicResource TertiaryDropShadow}"/>
+                        <Border x:Name="BackgroundBorder" BorderBrush="Transparent" BorderThickness="0" CornerRadius="3" ClipToBounds="True">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.75" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
+                            </Border.Background>
+                        </Border>
+                                    
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        Margin="{TemplateBinding Padding}"
+                                        Focusable="False"/>
                     </cui:FloorPanel>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <ThicknessAnimation Storyboard.TargetName="BackgroundGrid" Storyboard.TargetProperty="Margin" To="4" Duration="0:0:0.125" EasingFunction="{StaticResource ScaleEase}"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <ThicknessAnimation Storyboard.TargetName="BackgroundGrid" Storyboard.TargetProperty="Margin" To="8" Duration="0:0:0.125" EasingFunction="{StaticResource ScaleEase}"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.ExitActions>
-                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="False" />
+                                <Condition Property="IsMouseOver" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="BackgroundBorder" Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.75" GradientStops="{DynamicResource ButtonHoverBackgroundGradientStops}"/>
+                                </Setter.Value>
+                            </Setter>
+                        </MultiTrigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="SelectedBorder" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.125"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="SelectedBorder" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.125"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.ExitActions>
+                            <Setter TargetName="BackgroundBorder" Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.75" GradientStops="{DynamicResource CardListViewSelectedBackgroundGradientStops}"/>
+                                </Setter.Value>
+                            </Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

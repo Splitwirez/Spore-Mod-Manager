@@ -19,9 +19,9 @@
     <SolidColorBrush x:Key="ShadowCornerBorderBrush">#40000000</SolidColorBrush>
     <SolidColorBrush x:Key="ModalPanelBackdropBrush">#C0000000</SolidColorBrush>
 
-    
+
     <Color x:Key="SeparatorBackgroundColor">#40000000</Color>
-    
+
     <SolidColorBrush x:Key="SeparatorBackground" Color="{DynamicResource SeparatorBackgroundColor}"/>
     <GradientStopCollection x:Key="SeparatorMaskGradientStops">
         <GradientStop Offset="0" Color="White"/>
@@ -46,9 +46,21 @@
     <LinearGradientBrush x:Key="IconBackground1" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource DarkIconGradientStops}"/>
     <LinearGradientBrush x:Key="IconBackground2" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource DarkIconGradientStops2}"/>
     <LinearGradientBrush x:Key="IconBackground3" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource DarkIconGradientStops3}"/>
-    
+
     <LinearGradientBrush x:Key="IconForeground" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource LightIconGradientStops}"/>
 
     <LinearGradientBrush x:Key="IconRedBrush" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource RedIconGradientStops}"/>
     <LinearGradientBrush x:Key="IconGreenBrush" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource GreenIconGradientStops}"/>
+
+
+
+
+    <LinearGradientBrush x:Key="ButtonIdleBackgroundBrush" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonBackgroundGradientStops}"/>
+    <LinearGradientBrush x:Key="ButtonIdleSecondaryBackgroundBrush" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
+
+    <LinearGradientBrush x:Key="ButtonHoverBackgroundBrush" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonHoverBackgroundGradientStops}"/>
+    <LinearGradientBrush x:Key="ButtonHoverSecondaryBackgroundBrush" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonHoverSecondaryBackgroundGradientStops}"/>
+
+    <LinearGradientBrush x:Key="ButtonPressedBackgroundBrush" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedBackgroundGradientStops}"/>
+    <LinearGradientBrush x:Key="ButtonPressedSecondaryBackgroundBrush" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedSecondaryBackgroundGradientStops}"/>
 </ResourceDictionary>

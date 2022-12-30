@@ -40,10 +40,12 @@
                 <UniformGrid Rows="1">
                     <ToggleButton Content="{DynamicResource Settings!Appearance!SmmWindowFrame!StandardFrame}"
                                 IsChecked="{Binding IsChecked, ElementName=UseCSDsToggleButton, Converter={StaticResource BoolInverterConverter}, Mode=TwoWay}"
+                                IsHitTestVisible="{Binding IsChecked, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource BoolInverterConverter}, Mode=OneWay}"
                                 cui:AttachedProperties.CornerCurves="True,False,False,True"/>
                     <ToggleButton x:Name="UseCSDsToggleButton"
                                 Content="{DynamicResource Settings!Appearance!SmmWindowFrame!BuiltInFrame}"
                                 IsChecked="{Binding UseCSDs}"
+                                IsHitTestVisible="{Binding IsChecked, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource BoolInverterConverter}, Mode=OneWay}"
                                 cui:AttachedProperties.CornerCurves="False,True,True,False"
                                 Checked="UseCSDsToggleButton_Checked"
                                 Unchecked="UseCSDsToggleButton_Unchecked"/>

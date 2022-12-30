@@ -24,8 +24,6 @@
             <cui:FudgeMarginsForGridViewRowPresenterConverter x:Key="FudgeMarginsForGridViewRowPresenterConverter"/>
             <cui:FudgeMarginsForGridViewFirstColumnCellTemplateConverter x:Key="FudgeMarginsForGridViewFirstColumnCellTemplateConverter"/>
             
-            <v:IsManualInstalledFileConverter x:Key="IsManualInstalledFileConverter"/>
-            <v:IsThereAProgressSignifierHereConverter x:Key="IsThereAProgressSignifierHereConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
     <!--UserControl.DataContext->
@@ -111,53 +109,8 @@
                             ScrollViewer.VerticalScrollBarVisibility="Auto"
                             SelectionChanged="ModsList_SelectionChanged"
                             Loaded="ModsList_Loaded"
-                            cui:AttachedProperties.CornerCurves="False">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Expander Style="{DynamicResource InstalledModsListEntryStyle}" IsExpanded="{Binding ShowDescription, Mode=OneWay}">
-                                    <Expander.Header>
-                                        <DockPanel>
-                                            <GridViewRowPresenter DockPanel.Dock="Right"
-                                                                Columns="{Binding (GridView.ColumnCollection), RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}"
-                                                                VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}"
-                                                                SnapsToDevicePixels="{Binding SnapsToDevicePixels, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}}"
-                                                                Focusable="False"
-                                                                />
-                                                                <!--Margin="{Binding Padding, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource FudgeMarginsForGridViewRowPresenterConverter}}"-->
-                                            <StackPanel Orientation="Horizontal"
-                                                        VerticalAlignment="Center"
-                                                        >
-                                                        <!--Margin="{Binding Padding, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource FudgeMarginsForGridViewFirstColumnCellTemplateConverter}}"-->
-                                                <StackPanel Orientation="Vertical">
-                                                <TextBlock Text="{Binding DisplayName.Value}"
-                                                        VerticalAlignment="Center"
-                                                        Style="{DynamicResource InstalledModHeader}"/>
-                                                <TextBlock x:Name="SubText"
-                                                        VerticalAlignment="Center"
-                                                        Style="{DynamicResource InstalledModSubText}"
-                                                        Visibility="Collapsed"/>
-                                                </StackPanel>
-                                                <ToggleButton x:Name="ExpandCollapseToggleButton"
-                                                            Visibility="{Binding HasInlineDescription, FallbackValue=False, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                                            IsChecked="{Binding ShowInlineDescription, Mode=TwoWay}"
-                                                            Style="{DynamicResource ModEntryExpandCollapseToggleButtonStyle}"/>
-                                            </StackPanel>
-                                            <!--Visibility="{Binding Visibility, ElementName=ExpandCollapseToggleButton}"-->
-                                        </DockPanel>
-                                    </Expander.Header>
-                                    <cui:NoSizeDecorator HorizontalAlignment="Stretch">
-                                        <TextBlock Text="{Binding InlineDescription.Value}" TextWrapping="Wrap" TextAlignment="Left" ClipToBounds="False"/>
-                                        <!--Width="{Binding ActualWidth, ElementName=ModRootDockPanel}"-->
-                                    </cui:NoSizeDecorator>
-                                </Expander>
-                                <DataTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding Converter={StaticResource IsManualInstalledFileConverter}}" Value="True">
-                                        <Setter TargetName="SubText" Property="Text" Value="{DynamicResource Mods!ListEntry!ManuallyInstalled}"/>
-                                        <Setter TargetName="SubText" Property="Visibility" Value="Visible"/>
-                                    </DataTrigger>
-                                </DataTemplate.Triggers>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
+                            cui:AttachedProperties.CornerCurves="False"
+                            ItemTemplate="{DynamicResource {x:Type mods:ISporeMod}}">
                         <ListView.View>
                             <GridView AllowsColumnReorder="False">
                                 <!-- IsHitTestVisible="False"-->

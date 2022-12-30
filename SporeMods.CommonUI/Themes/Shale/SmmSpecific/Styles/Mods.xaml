@@ -286,7 +286,7 @@
                         <ScrollViewer x:Name="PART_ScrollViewer"
                                         Style="{DynamicResource InstalledModsGridViewScrollViewerStyleKey}"
                                         Margin="0"
-                                        Padding="0"
+                                        Padding="0,4"
                                         BorderThickness="0">
                             <cui:AttachedProperties.CornerCurves>
                                 <cui:CornerCurves TopLeft="False" TopRight="False" BottomRight="False" BottomLeft="False"/>

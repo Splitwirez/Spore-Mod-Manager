@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Threading;
 using System.ComponentModel;
+using SporeMods.CommonUI.Themes.Shale;
 
 namespace SporeMods.CommonUI
 {
@@ -61,14 +62,15 @@ namespace SporeMods.CommonUI
 
 		private void SetupUIStuff(bool firstTime = false)
 		{
+			ShaleHelper.EnsureResources();
 			bool lightsOn = true;
 			if (!firstTime)
 				lightsOn = Settings.IsLoaded ? (!Settings.ShaleDarkTheme) : true;
-			SporeMods.CommonUI.Themes.Shale.ShaleHelper.FlipLightSwitch(lightsOn);
+			ShaleHelper.FlipLightSwitch(lightsOn);
 			
 			if (firstTime)
 			{
-				Resources.MergedDictionaries.Add(SporeMods.CommonUI.Themes.Shale.ShaleAccents.Sky);
+				//Resources.MergedDictionaries.Add(ShaleAccents.Sky);
 
 				FrameworkElement.StyleProperty.OverrideMetadata(typeof(Window), new FrameworkPropertyMetadata
 				{

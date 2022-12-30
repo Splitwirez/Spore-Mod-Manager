@@ -50,7 +50,10 @@ namespace SporeMods.Core.Mods
             }
         }
 
-        public bool HasInlineDescription => false;
+        public bool HasInlineDescription
+        {
+            get => InlineDescription != null;
+        }
 
 
         IModText _inlineDescription = null;
@@ -61,6 +64,7 @@ namespace SporeMods.Core.Mods
             {
                 _inlineDescription = value;
                 NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(HasInlineDescription));
             }
         }
 
