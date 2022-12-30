@@ -12,15 +12,6 @@ namespace SporeMods.Views
 		public SettingsView()
         {
             InitializeComponent();
-            Loaded += (s, e) => Cmd.WriteLine("Loaded");
-        }
-
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-            Cmd.WriteLine("OnApplyTemplate");
-            InvalidateMeasure();
-            InvalidateArrange();
         }
     }
 }
