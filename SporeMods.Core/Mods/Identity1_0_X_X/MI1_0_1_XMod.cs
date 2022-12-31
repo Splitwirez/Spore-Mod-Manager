@@ -17,13 +17,13 @@ namespace SporeMods.Core.Mods
                 HasSettings = false;
 
             if (xmlRoot.TryGetAttributeBool("isExperimental", out bool isExperimental))
-                IsExperimental = isExperimental;
+                WarningLabels.IsExperimental = isExperimental;
 
             if (xmlRoot.TryGetAttributeBool("requiresGalaxyReset", out bool requiresGalaxyReset))
-                RequiresGalaxyReset = requiresGalaxyReset;
+                WarningLabels.RequiresGalaxyReset = requiresGalaxyReset;
 
             if (xmlRoot.TryGetAttributeBool("causesSaveDataDependency", out bool causesSaveDataDependency))
-                CausesSaveDataDependency = causesSaveDataDependency;
+                WarningLabels.CausesSaveDataDependency = causesSaveDataDependency;
         }
 
         protected override Version EnsureIdentityVersion(XDocument doc)

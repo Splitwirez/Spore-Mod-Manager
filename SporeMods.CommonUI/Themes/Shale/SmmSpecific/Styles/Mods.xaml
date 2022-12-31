@@ -5,7 +5,6 @@
 			xmlns:mods="clr-namespace:SporeMods.Core.Mods;assembly=SporeMods.Core"
 			xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
 			xmlns:shale="clr-namespace:SporeMods.CommonUI.Themes.Shale"
-			xmlns:autocomp="clr-namespace:WPFTextBoxAutoComplete;assembly=WPFTextBoxAutoComplete"
 			xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Shale.xaml"/>
@@ -17,7 +16,7 @@
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/ListView.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/Button.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Control/GroupBox.xaml"/>
-    
+
     </ResourceDictionary.MergedDictionaries>
 
     <!--### Icon't for mods which don't have their own icons (not presently used, will likely be used in future) ###-->
@@ -92,7 +91,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style x:Key="InstalledModsGridViewHeaderRowPresenterBackdropStyle" TargetType="{x:Type cui:Zone}">
         <Setter Property="Foreground" Value="{DynamicResource PanelForeground}"/>
         <Setter Property="Padding" Value="0,2,0,0"/>
@@ -273,7 +272,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <!--### Installed mods list ###-->
     <Style x:Key="InstalledModsListViewStyle" TargetType="{x:Type ListView}" BasedOn="{StaticResource {x:Type ListView}}">
         <Setter Property="Margin" Value="0,-1,0,0"/>
@@ -282,20 +281,24 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListView">
-                    <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}">
+                    <Border BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Background="{TemplateBinding Background}">
                         <ScrollViewer x:Name="PART_ScrollViewer"
-                                        Style="{DynamicResource InstalledModsGridViewScrollViewerStyleKey}"
                                         Margin="0"
                                         Padding="0,4"
                                         BorderThickness="0">
+                            <!--
+                                        Style="{DynamicResource InstalledModsGridViewScrollViewerStyleKey}"
+                            -->
                             <cui:AttachedProperties.CornerCurves>
                                 <cui:CornerCurves TopLeft="False" TopRight="False" BottomRight="False" BottomLeft="False"/>
                             </cui:AttachedProperties.CornerCurves>
                             <Border x:Name="ItemsPresenterBorder" Background="#01000000">
                                 <e:Interaction.Behaviors>
-                                    <cui:DeselectOnClickBlankBehavior ItemsPresenterElement="{Binding Source={x:Reference ItemsPresenter}}"/>
+                                    <cui:DeselectOnClickBlankBehavior ItemsPresenterElement="{Binding Source={x:Reference PART_ItemsPresenter}}"/>
                                 </e:Interaction.Behaviors>
-                                <ItemsPresenter x:Name="ItemsPresenter"/>
+                                <ItemsPresenter x:Name="PART_ItemsPresenter"/>
                             </Border>
                         </ScrollViewer>
                     </Border>
@@ -319,7 +322,7 @@
 
     <sys:Double x:Key="ModsListEntryControlsVerticalSpacing">4</sys:Double>
     <sys:Double x:Key="ModsListEntryControlsHorizontalSpacing">4</sys:Double>
-    
+
     <!--### Installed mods list entry ###-->
     <Style x:Key="InstalledModsListEntryStyle" TargetType="{x:Type Expander}" BasedOn="{StaticResource {x:Type Expander}}">
         <Setter Property="Focusable" Value="False"/>
@@ -350,8 +353,8 @@
                                     cui:AttachedProperties.CastDirection="Down"
                                     IsHitTestVisible="False"
                                     Opacity="{Binding ScaleY, Source={x:Reference ContentTransform}, Mode=OneWay}"/>
-                                    <!--Margin="56,0"-->
-                            
+                            <!--Margin="56,0"-->
+
                             <ContentPresenter x:Name="ContentContainer"
                                             ContentSource="Content"
                                             HorizontalAlignment="Stretch"
@@ -569,12 +572,12 @@
     <Style x:Key="InstalledModHeader">
         <Setter Property="TextElement.FontWeight" Value="DemiBold"/>
     </Style>
-    
+
     <!--### Subheader text for mod list entries, e.g. for manually-installed mods ###-->
     <Style x:Key="InstalledModSubText">
         <Setter Property="Control.Opacity" Value="0.5"/>
     </Style>
-    
+
     <!--### Expand/collapse button for mod list entries ###-->
     <Style x:Key="ModEntryExpandCollapseToggleButtonStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource GlyphButtonBaseStyle}">
         <Setter Property="Margin" Value="5,0,0,0"/>
@@ -640,6 +643,11 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type cui:Zone}">
                     <cui:FloorPanel>
+                        <Rectangle VerticalAlignment="Bottom" Height="18" IsHitTestVisible="False" Margin="0,-18">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush Opacity="0.75" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ShadowGradientStops}"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
                         <Border x:Name="BackgroundBorder" Style="{DynamicResource HorizontalBarBorderStyle}" DockPanel.Dock="Top">
                             <ContentPresenter Content="{TemplateBinding Content}" Margin="5"/>
                         </Border>
@@ -653,14 +661,14 @@
         <Path Data="M 0 7 L 7 0" Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToggleButton}}}" StrokeThickness="2" Canvas.Top="9"/>
         <Ellipse Width="11" Height="11" Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToggleButton}}}" StrokeThickness="2" Canvas.Left="5"/>
     </Canvas-->
-    
+
     <Path x:Key="SearchGoIcon" x:Shared="False"
         Data="{DynamicResource Spyglass}"
         Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToggleButton}}}"/>
     <Path x:Key="SearchCancelIcon" x:Shared="False"
         Data="{DynamicResource DiagonalCross!Large}"
         Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToggleButton}}}"/>
-    
+
     <!--### Search installed mods box ###-->
     <Style x:Key="SearchBoxStyle" TargetType="{x:Type cui:ActionBox}" BasedOn="{StaticResource {x:Type cui:ActionBox}}">
         <Setter Property="Height" Value="29"/>
@@ -703,7 +711,7 @@
             </DataTrigger>
         </Style.Triggers>
     </Style>
-    
+
     <!--### ToggleButton for search mod names/descriptions/etc dropdown list ###-->
     <Style x:Key="SearchTargetsToggleButtonStyle" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource {x:Type ToggleButton}}">
         <Setter Property="Content" Value=""/>
@@ -755,6 +763,237 @@
                             </Trigger.EnterActions>
                         </Trigger>
                     </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+
+    <Style x:Key="ModLabelZoneStyle" TargetType="{x:Type cui:Zone}">
+        <Setter Property="Padding" Value="4"/>
+        <Setter Property="Margin" Value="2"/>
+        <Setter Property="Height" Value="Auto"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type cui:Zone}">
+                    <cui:FloorPanel>
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="#30000000"
+                                BorderThickness="1"
+                                CornerRadius="2"
+                                Opacity="0.5"
+                                />
+                        <!--
+                                Margin="4"
+                                Effect="{DynamicResource DropShadow}"
+                            -->
+                        <DockPanel Margin="{TemplateBinding Padding}">
+                            <Control Template="{TemplateBinding Tag}"
+                                        Margin="0,0,5,0"
+                                        Height="{Binding ActualWidth, RelativeSource={RelativeSource Mode=Self}, Mode=OneWay}"
+                                        DockPanel.Dock="Left"/>
+                            <!--
+                                        Effect="{DynamicResource DropShadow}"
+                            -->
+                            <ContentPresenter ContentSource="Content"/>
+                        </DockPanel>
+                    </cui:FloorPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="ModCautionLabelZoneStyle"
+           TargetType="{x:Type cui:Zone}"
+           BasedOn="{StaticResource ModLabelZoneStyle}">
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0"
+                                     EndPoint="0,1">
+                    <GradientStop Offset="0"
+                                  Color="#FFF9F6D2"/>
+                    <GradientStop Offset="1"
+                                  Color="#FFD9D6B2"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Tag">
+            <Setter.Value>
+                <ControlTemplate>
+                    <cui:FloorPanel>
+                        <Path Data="M 0 0 L 16 0 L 8 16 Z"
+                              Fill="Yellow"/>
+                        <Path Data="M 0 0 L 2 0 L 2 8 L 0 8 Z
+                                    L 0 10 L 2 10 L 2 12 L 0 12 Z"
+                              Fill="Black"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"/>
+                        <!--DockPanel Width="2">
+                            <Ellipse Height="2"
+                                     Fill="White"
+                                     Margin="0,2,0,0"
+                                     DockPanel.Dock="Bottom"/>
+                            <Rectangle Fill="White"/>
+                        </DockPanel-->
+                    </cui:FloorPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="ModWarningLabelZoneStyle"
+           TargetType="{x:Type cui:Zone}"
+           BasedOn="{StaticResource ModLabelZoneStyle}">
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0"
+                                     EndPoint="0,1">
+                    <GradientStop Offset="0"
+                                  Color="#FFF9D2D2"/>
+                    <GradientStop Offset="1"
+                                  Color="#FFD9B2B2"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Tag">
+            <Setter.Value>
+                <ControlTemplate>
+                    <cui:FloorPanel>
+                        <Path Data="M 0 8 L 8 0 L 16 8 L 8 16 Z"
+                          Fill="Orange"/>
+                        <Path Data="M 0 0 L 2 0 L 2 8 L 0 8 Z
+                                    L 0 10 L 2 10 L 2 12 L 0 12 Z"
+                              Fill="Black"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"/>
+                    </cui:FloorPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="ModDangerLabelZoneStyle"
+           TargetType="{x:Type cui:Zone}"
+           BasedOn="{StaticResource ModLabelZoneStyle}">
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0"
+                                     EndPoint="0,1">
+                    <GradientStop Offset="0"
+                                  Color="#FFF9D2D2"/>
+                    <GradientStop Offset="1"
+                                  Color="#FFD9B2B2"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Tag">
+            <Setter.Value>
+                <ControlTemplate>
+                    <cui:FloorPanel>
+                        <Path Data="M 5 0 L 11 0 L 16 5 L 16 11 L 11 16 L 5 16 L 0 11 L 0 5 Z"
+                          Fill="Red"/>
+                        <Path Data="M 0 0 L 2 0 L 2 8 L 0 8 Z
+                                    L 0 10 L 2 10 L 2 12 L 0 12 Z"
+                              Fill="White"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"/>
+                    </cui:FloorPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="ModNeutralLabelZoneStyle"
+           TargetType="{x:Type cui:Zone}"
+           BasedOn="{StaticResource ModLabelZoneStyle}">
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
+                <!--LinearGradientBrush StartPoint="0,0"
+                                     EndPoint="0,1">
+                    <GradientStop Offset="0"
+                                  Color="#FFD2EFF9"/>
+                    <GradientStop Offset="1"
+                                  Color="#FFB2CFD9"/>
+                </LinearGradientBrush-->
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Tag">
+            <Setter.Value>
+                <ControlTemplate>
+                    <cui:FloorPanel>
+                        <Ellipse Width="16"
+                                 Height="16"
+                                 Fill="LightBlue">
+                            <!--Ellipse.Fill>
+                                <LinearGradientBrush StartPoint="0,0"
+                                                     EndPoint="0,1"
+                                                     GradientStops="{DynamicResource GreenIconGradientStops}"/>
+                            </Ellipse.Fill-->
+                        </Ellipse>
+                        <!--M 0 33 V 25 H 8
+                                    L 25 42 L 67 0
+                                    H 75 V 8
+                                    L 25 58 Z-->
+                        <!--M 0 5.28 V 4 H 1.28
+                                    L 4 6.72 L 10.72 0
+                                    H 12 V 1.28
+                                    L 4 9.28 Z-->
+                        <!--M 0 5 V 4 H 1
+                                            L 4 7 L 11 0
+                                            H 12 V 1
+                                            L 4 9 Z-->
+                        <Path Data="M 0 4 L 2 4 L 2 12 L 0 12 Z
+                                    L 0 0 L 2 0 L 2 2 L 0 2 Z"
+                              Fill="Black"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"/>
+                    </cui:FloorPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="ModPositiveLabelZoneStyle"
+           TargetType="{x:Type cui:Zone}"
+           BasedOn="{StaticResource ModLabelZoneStyle}">
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0"
+                                     EndPoint="0,1">
+                    <GradientStop Offset="0"
+                                  Color="#FFD2F9D2"/>
+                    <GradientStop Offset="1"
+                                  Color="#FFB2D9B2"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Tag">
+            <Setter.Value>
+                <ControlTemplate>
+                    <cui:FloorPanel>
+                        <Ellipse Width="16"
+                                 Height="16">
+                            <Ellipse.Fill>
+                                <LinearGradientBrush StartPoint="0,0"
+                                                     EndPoint="0,1"
+                                                     GradientStops="{DynamicResource GreenIconGradientStops}"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <!--M 0 33 V 25 H 8
+                                    L 25 42 L 67 0
+                                    H 75 V 8
+                                    L 25 58 Z-->
+                        <!--M 0 5.28 V 4 H 1.28
+                                    L 4 6.72 L 10.72 0
+                                    H 12 V 1.28
+                                    L 4 9.28 Z-->
+                        <!--M 0 5 V 4 H 1
+                                            L 4 7 L 11 0
+                                            H 12 V 1
+                                            L 4 9 Z-->
+                        <Path Data="M 0 5.5 L 0 4 L 1.5 4 L 4 6.5
+                                    L 10.5 0 L 12 0 L 12 1.5 L 4 9.5 Z"
+                              Fill="White"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"/>
+                    </cui:FloorPanel>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

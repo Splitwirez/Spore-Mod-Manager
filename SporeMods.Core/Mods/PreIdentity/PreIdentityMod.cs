@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -49,7 +50,7 @@ namespace SporeMods.Core.Mods
         public List<ModDependency> Dependencies => new List<ModDependency>();
 
         public List<string> UpgradeTargets => new List<string>();
-
+#if DISABLE_DEFAULT_WARNING_IMPL
         public bool IsExperimental => false;
 
         public bool CausesSaveDataDependency => false;
@@ -89,6 +90,14 @@ namespace SporeMods.Core.Mods
                 NotifyPropertyChanged();
             }
         }
+        
+#else
+        ModWarningLabels _warningLabels = new ModWarningLabels();
+        public ModWarningLabels WarningLabels
+        {
+            get => _warningLabels;
+        }
+#endif
 
 
         public bool IsUpgradeTo(ISporeMod mod)
@@ -97,7 +106,7 @@ namespace SporeMods.Core.Mods
         public bool DependsOn(ISporeMod mod)
             => false;
 
-        
+
         /*private PreIdentityMod(string recordDirName, XDocument identityDoc = null)
         {
             RecordDirName = recordDirName;
@@ -129,13 +138,6 @@ namespace SporeMods.Core.Mods
             SpecialCases();
         }*/
 
-        void SpecialCases()
-        {
-            //TODO: Don't hardcode this
-            if (Unique.Equals("SPORE MOD - Enhanced Color Picker", StringComparison.OrdinalIgnoreCase))
-                GuaranteedVanillaCompatible = true;
-        }
-
         string _recordDirName = string.Empty;
         public string RecordDirName
         {
@@ -166,14 +168,15 @@ namespace SporeMods.Core.Mods
                 NotifyPropertyChanged();
             }
         }
-        /*private PreIdentityMod(string location, string unique, IModText displayName, List<string> fileNames)
-        {
-            _recordDirName = string.Empty;
-            Unique = unique;
-            DisplayName = displayName;
 
-            _fileNames = fileNames;
-        }*/
+        /*private PreIdentityMod(string location, string unique, IModText displayName, List<string> fileNames)
+{
+_recordDirName = string.Empty;
+Unique = unique;
+DisplayName = displayName;
+
+_fileNames = fileNames;
+}*/
 
 
         /// <summary>
@@ -210,11 +213,14 @@ namespace SporeMods.Core.Mods
                 string unique = doc.Root.Attribute(ModUtils.AT_UNIQUE).Value;
 
                 Unique = unique;
+                if (SpecialCases.VanillaFriendlyMatch(unique))
+                    WarningLabels.GuaranteedVanillaCompatible = true;
+
                 DisplayName = new FixedModText(displayName);
                 PackageNames = packageNames;
                 DllNames = dllNames;
+                WarningLabels.UsesCodeInjection = dllNames.Count > 0;
 
-                SpecialCases();
                 return true;
             }
             catch (Exception ex)
@@ -286,9 +292,15 @@ namespace SporeMods.Core.Mods
                 string recordDirName = ModUtils.GetModsRecordDirNameFromFilePath(inFilePath);
                 RecordDirName = recordDirName;
                 Unique = recordDirName;
+                if (SpecialCases.VanillaFriendlyMatch(Unique))
+                    WarningLabels.GuaranteedVanillaCompatible = true;
+
                 DisplayName = new FixedModText(recordDirName);
                 PackageNames = packageNames;
                 DllNames = dllNames;
+                
+                WarningLabels.UsesCodeInjection = dllNames.Count > 0;
+
                 return true;
             }
             catch (Exception ex)
@@ -310,11 +322,23 @@ namespace SporeMods.Core.Mods
                 RecordDirName = modConfigSubfolderName;
                 Unique = modConfigSubfolderName;
                 DisplayName = new FixedModText(modConfigSubfolderName);
+
                 PackageNames = new List<string>()
                 {
                     fileNameWithExtension
                 };
-                KnownHazardousMod = LegacyHazards.MatchLoosePackage(fileNameSansExtension);
+                if (SpecialCases.VanillaFriendlyMatch(Unique))
+                    WarningLabels.GuaranteedVanillaCompatible = true;
+
+                if (SpecialCases.HazardMatchLoosePackage(fileNameSansExtension, out bool matchedFilter))
+                {
+                    WarningLabels.KnownHazardousMod = true;
+                    if (matchedFilter)
+                    {
+                        WarningLabels.CausesSaveDataDependency = true;
+                        WarningLabels.RequiresGalaxyReset = true;
+                    }
+                }
 
                 return true;
             }

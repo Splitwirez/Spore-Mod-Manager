@@ -9,7 +9,7 @@ namespace SporeMods.Core.Mods
 {
     public partial class MI1_0_X_XMod
     {
-        public async Task<Exception> ApplyAsync(ModTransaction transaction)
+        public override async Task<Exception> ApplyAsync(ModTransaction transaction)
         {
             void applyTo(IEnumerable<ComponentBase> components)
             {

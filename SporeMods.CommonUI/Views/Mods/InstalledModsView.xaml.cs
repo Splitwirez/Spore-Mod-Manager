@@ -23,9 +23,10 @@ namespace SporeMods.Views
 		public InstalledModsView()
         {
             InitializeComponent();
-
+#if USE_GRIDVIEW
             ModsManager.InstalledMods.CollectionChanged += (s, e) => AllUpdateColumnWidths();
 			ModsManager.Instance.AllJobsConcluded += (tasks) => AllUpdateColumnWidths();
+#endif
         }
 
         public void MenuToggleButton_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
@@ -34,8 +35,7 @@ namespace SporeMods.Views
         }
 
         ViewModels.InstalledModsViewModel VM => DataContext as ViewModels.InstalledModsViewModel;
-        
-        
+
         void ModsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if ((sender is ListView listView) && (listView.Visibility == Visibility.Visible))
@@ -48,6 +48,7 @@ namespace SporeMods.Views
             }
         }
 
+#if USE_GRIDVIEW
         List<Action> _allUpdateColumnWidths = new List<Action>();
         void ModsList_Loaded(object sender, RoutedEventArgs e)
         {
@@ -95,6 +96,7 @@ namespace SporeMods.Views
                 action();
             }*/
         }
+#endif
 
 
 

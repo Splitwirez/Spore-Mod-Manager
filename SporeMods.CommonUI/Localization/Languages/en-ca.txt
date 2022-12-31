@@ -292,13 +292,13 @@ Mods {
 			}
 
 			#ADDED
-			VanillaCompatible {
+			GuaranteedVanillaCompatible {
 				#ADDED
 				Header Vanilla-compatible
 			}
 
 			#ADDED
-			Hazardous {
+			KnownHazardousMod {
 				#ADDED
 				Header Hazardous
 			}

@@ -5,7 +5,6 @@
 			xmlns:mods="clr-namespace:SporeMods.Core.Mods;assembly=SporeMods.Core"
 			xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
 			xmlns:shale="clr-namespace:SporeMods.CommonUI.Themes.Shale"
-			xmlns:autocomp="clr-namespace:WPFTextBoxAutoComplete;assembly=WPFTextBoxAutoComplete"
 			xmlns:sys="clr-namespace:System;assembly=mscorlib"
 			xmlns:v="clr-namespace:SporeMods.Views">
     <ResourceDictionary.MergedDictionaries>
@@ -482,6 +481,7 @@
         </Setter>
     </Style-->
     <Style x:Key="ModJobEntryContainerStyle" TargetType="{x:Type cui:Zone}">
+        <Setter Property="Padding" Value="0,2" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type cui:Zone}">
@@ -499,7 +499,7 @@
     <!--### Cell style for the mod jobs batch list shown prior to proceeding with installation ###-->
     <Style x:Key="ModJobsBatchCellZoneStyle" TargetType="{x:Type cui:Zone}">
         <!-- BasedOn="{StaticResource {x:Type ContentControl}}"-->
-        <Setter Property="Padding" Value="5,0"/>
+        <Setter Property="Padding" Value="4,0"/>
         <Setter Property="Height" Value="Auto"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -518,248 +518,6 @@
         </Style.Resources>
     </Style>
     <Style x:Key="ModJobsBatchSettingsCellZoneStyle" TargetType="{x:Type cui:Zone}" BasedOn="{StaticResource ModJobsBatchCellZoneStyle}">
-        <Setter Property="Padding" Value="0"/>
-    </Style>
-
-    <Style x:Key="ModJobLabelZoneStyle" TargetType="{x:Type cui:Zone}">
-        <Setter Property="Padding" Value="4"/>
-        <Setter Property="Margin" Value="2"/>
-        <Setter Property="Height" Value="Auto"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type cui:Zone}">
-                    <Border BorderBrush="#FFFF00FF"
-                            BorderThickness="0">
-                        <cui:FloorPanel>
-                            <cui:FloorPanel Margin="-4">
-                                <!-- Margin="4,8,4,12"-->   
-                                <cui:FloorPanel.OpacityMask>
-                                    <LinearGradientBrush StartPoint="0,0"
-                                                        EndPoint="0,1">
-                                        <GradientStop Offset="0"
-                                                    Color="Black"/>
-                                        <GradientStop Offset="0.75"
-                                                    Color="Transparent"/>
-                                        <!--GradientStop Offset="1"
-                                                    Color="Transparent"/-->
-                                    </LinearGradientBrush>
-                                </cui:FloorPanel.OpacityMask>
-                                <!--Border Background="Black"
-                                        BorderBrush="Transparent"
-                                        BorderThickness="1"/-->
-                                <Border Background="{TemplateBinding Background}"
-                                        BorderBrush="Transparent"
-                                        BorderThickness="0"
-                                        CornerRadius="2"
-                                        Margin="4"
-                                        Effect="{DynamicResource DropShadow}"/>
-                            </cui:FloorPanel>
-                            <DockPanel Margin="{TemplateBinding Padding}">
-                                <Control Template="{TemplateBinding Tag}"
-                                         Effect="{DynamicResource DropShadow}"
-                                         Margin="0,0,5,0"       
-                                         DockPanel.Dock="Left"/>
-                                <ContentPresenter ContentSource="Content"/>
-                            </DockPanel>
-                        </cui:FloorPanel>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    <Style x:Key="ModJobCautionLabelZoneStyle"
-           TargetType="{x:Type cui:Zone}"
-           BasedOn="{StaticResource ModJobLabelZoneStyle}">
-        <Setter Property="Background">
-            <Setter.Value>
-                <LinearGradientBrush StartPoint="0,0"
-                                     EndPoint="0,1">
-                    <GradientStop Offset="0"
-                                  Color="#FFF9F6D2"/>
-                    <GradientStop Offset="1"
-                                  Color="#FFD9D6B2"/>
-                </LinearGradientBrush>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Tag">
-            <Setter.Value>
-                <ControlTemplate>
-                    <cui:FloorPanel>
-                        <Path Data="M 0 0 L 16 0 L 8 16 Z"
-                              Fill="Yellow"/>
-                        <Path Data="M 0 0 L 2 0 L 2 8 L 0 8 Z
-                                    L 0 10 L 2 10 L 2 12 L 0 12 Z"
-                              Fill="Black"
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Center"/>
-                        <!--DockPanel Width="2">
-                            <Ellipse Height="2"
-                                     Fill="White"
-                                     Margin="0,2,0,0"
-                                     DockPanel.Dock="Bottom"/>
-                            <Rectangle Fill="White"/>
-                        </DockPanel-->
-                    </cui:FloorPanel>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    <Style x:Key="ModJobWarningLabelZoneStyle"
-           TargetType="{x:Type cui:Zone}"
-           BasedOn="{StaticResource ModJobLabelZoneStyle}">
-        <Setter Property="Background">
-            <Setter.Value>
-                <LinearGradientBrush StartPoint="0,0"
-                                     EndPoint="0,1">
-                    <GradientStop Offset="0"
-                                  Color="#FFF9D2D2"/>
-                    <GradientStop Offset="1"
-                                  Color="#FFD9B2B2"/>
-                </LinearGradientBrush>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Tag">
-            <Setter.Value>
-                <ControlTemplate>
-                    <cui:FloorPanel>
-                        <Path Data="M 0 8 L 8 0 L 16 8 L 8 16 Z"
-                          Fill="Orange"/>
-                        <Path Data="M 0 0 L 2 0 L 2 8 L 0 8 Z
-                                    L 0 10 L 2 10 L 2 12 L 0 12 Z"
-                              Fill="Black"
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Center"/>
-                    </cui:FloorPanel>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    <Style x:Key="ModJobDangerLabelZoneStyle"
-           TargetType="{x:Type cui:Zone}"
-           BasedOn="{StaticResource ModJobLabelZoneStyle}">
-        <Setter Property="Background">
-            <Setter.Value>
-                <LinearGradientBrush StartPoint="0,0"
-                                     EndPoint="0,1">
-                    <GradientStop Offset="0"
-                                  Color="#FFF9D2D2"/>
-                    <GradientStop Offset="1"
-                                  Color="#FFD9B2B2"/>
-                </LinearGradientBrush>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Tag">
-            <Setter.Value>
-                <ControlTemplate>
-                    <cui:FloorPanel>
-                        <Path Data="M 5 0 L 11 0 L 16 5 L 16 11 L 11 16 L 5 16 L 0 11 L 0 5 Z"
-                          Fill="Red"/>
-                        <Path Data="M 0 0 L 2 0 L 2 8 L 0 8 Z
-                                    L 0 10 L 2 10 L 2 12 L 0 12 Z"
-                              Fill="White"
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Center"/>
-                    </cui:FloorPanel>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    <Style x:Key="ModJobNeutralLabelZoneStyle"
-           TargetType="{x:Type cui:Zone}"
-           BasedOn="{StaticResource ModJobLabelZoneStyle}">
-        <Setter Property="Background">
-            <Setter.Value>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
-                <!--LinearGradientBrush StartPoint="0,0"
-                                     EndPoint="0,1">
-                    <GradientStop Offset="0"
-                                  Color="#FFD2EFF9"/>
-                    <GradientStop Offset="1"
-                                  Color="#FFB2CFD9"/>
-                </LinearGradientBrush-->
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Tag">
-            <Setter.Value>
-                <ControlTemplate>
-                    <cui:FloorPanel>
-                        <Ellipse Width="16"
-                                 Height="16"
-                                 Fill="LightBlue">
-                            <!--Ellipse.Fill>
-                                <LinearGradientBrush StartPoint="0,0"
-                                                     EndPoint="0,1"
-                                                     GradientStops="{DynamicResource GreenIconGradientStops}"/>
-                            </Ellipse.Fill-->
-                        </Ellipse>
-                                <!--M 0 33 V 25 H 8
-                                    L 25 42 L 67 0
-                                    H 75 V 8
-                                    L 25 58 Z-->
-                                <!--M 0 5.28 V 4 H 1.28
-                                    L 4 6.72 L 10.72 0
-                                    H 12 V 1.28
-                                    L 4 9.28 Z-->
-                                <!--M 0 5 V 4 H 1
-                                            L 4 7 L 11 0
-                                            H 12 V 1
-                                            L 4 9 Z-->
-                        <Path Data="M 0 4 L 2 4 L 2 12 L 0 12 Z
-                                    L 0 0 L 2 0 L 2 2 L 0 2 Z"
-                              Fill="Black"
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Center"/>
-                    </cui:FloorPanel>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    <Style x:Key="ModJobPositiveLabelZoneStyle"
-           TargetType="{x:Type cui:Zone}"
-           BasedOn="{StaticResource ModJobLabelZoneStyle}">
-        <Setter Property="Background">
-            <Setter.Value>
-                <LinearGradientBrush StartPoint="0,0"
-                                     EndPoint="0,1">
-                    <GradientStop Offset="0"
-                                  Color="#FFD2F9D2"/>
-                    <GradientStop Offset="1"
-                                  Color="#FFB2D9B2"/>
-                </LinearGradientBrush>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Tag">
-            <Setter.Value>
-                <ControlTemplate>
-                    <cui:FloorPanel>
-                        <Ellipse Width="16"
-                                 Height="16">
-                            <Ellipse.Fill>
-                                <LinearGradientBrush StartPoint="0,0"
-                                                     EndPoint="0,1"
-                                                     GradientStops="{DynamicResource GreenIconGradientStops}"/>
-                            </Ellipse.Fill>
-                        </Ellipse>
-                                <!--M 0 33 V 25 H 8
-                                    L 25 42 L 67 0
-                                    H 75 V 8
-                                    L 25 58 Z-->
-                                <!--M 0 5.28 V 4 H 1.28
-                                    L 4 6.72 L 10.72 0
-                                    H 12 V 1.28
-                                    L 4 9.28 Z-->
-                                <!--M 0 5 V 4 H 1
-                                            L 4 7 L 11 0
-                                            H 12 V 1
-                                            L 4 9 Z-->
-                        <Path Data="M 0 5.5 L 0 4 L 1.5 4 L 4 6.5
-                                    L 10.5 0 L 12 0 L 12 1.5 L 4 9.5 Z"
-                              Fill="White"
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Center"/>
-                    </cui:FloorPanel>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="Padding" Value="4,0"/>
     </Style>
 </ResourceDictionary>

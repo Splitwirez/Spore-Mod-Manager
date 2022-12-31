@@ -7,7 +7,6 @@
 					xmlns:shale="clr-namespace:SporeMods.CommonUI.Themes.Shale"
 					xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:vm="clr-namespace:SporeMods.ViewModels">
-                    <!--xmlns:autocomp="clr-namespace:WPFTextBoxAutoComplete;assembly=WPFTextBoxAutoComplete"-->
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Shale.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Converters.xaml"/>

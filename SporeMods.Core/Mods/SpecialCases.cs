@@ -7,9 +7,9 @@ using Microsoft.VisualBasic.CompilerServices;
 
 namespace SporeMods.Core.Mods
 {
-    public static class LegacyHazards
+    public static class SpecialCases
     {
-        static readonly List<string> HAZARDOUS_LOOSE_PACKAGE_NAMES
+        static readonly IReadOnlyList<string> HAZARDOUS_LOOSE_PACKAGE_NAMES
             = new List<string>()
             {
                 //450 mods pack
@@ -423,32 +423,38 @@ namespace SporeMods.Core.Mods
                 "rechargeplus2traderoutes",
                 "space_icons",
                 "Turret_Defender",
-            };
+            }
+        .AsReadOnly();
 
 
-        static readonly string[] FILTER_CHARS
-            = {
+        static readonly IReadOnlyList<string> FILTER_CHARS
+            = new List<string>{
                 string.Empty,
                 "_",
                 " ",
                 "-",
-            };
+                " "
+            }
+        .AsReadOnly();
 
-        static readonly List<string> HAZARDOUS_LOOSE_PACKAGE_FILTERS
+        static readonly IReadOnlyList<string> HAZARDOUS_LOOSE_PACKAGE_FILTERS
             = CreateFilters(new List<string>()
             {
                 //things people keep seeing due to search engine optimization
                 "*Better?Spore*",
                 "*Buzz?Sphere*",
+                "*Buzz?Orbit*",
                 "*Orbit?Spore*",
+                "*Dark?Orbit*",
                 "*Realor?Spore*",
                 "*Dusk?Spore*",
                 "*Forgotten?Spore*",
                 "*Titan?Spore*",
                 "*Platinum?Spore*",
-            });
+            }
+        );
 
-        static List<string> CreateFilters(List<string> filtersToCreate)
+        static IReadOnlyList<string> CreateFilters(List<string> filtersToCreate)
         {
             List<string> filters = new List<string>();
             foreach (string filterToCreate in filtersToCreate)
@@ -456,17 +462,18 @@ namespace SporeMods.Core.Mods
                 foreach (string filterReplace in FILTER_CHARS)
                     filters.Add(filterToCreate.Replace("?", filterReplace));
             }
-            return filters;
+            return filters.AsReadOnly();
         }
 
 
-        public static bool MatchLoosePackage(string fileName)
+        public static bool HazardMatchLoosePackage(string fileName, out bool matchedFilter)
         {
+            matchedFilter = false;
             string name = Path.GetFileNameWithoutExtension(fileName);
             if (name.EndsWith(ModUtils.MOD_FILE_EX_DBPF, StringComparison.OrdinalIgnoreCase))
                 name = name.Substring(0, name.Length - ModUtils.MOD_FILE_EX_DBPF.Length);
 
-            Cmd.WriteLine($"{nameof(MatchLoosePackage)}(");
+            Cmd.WriteLine($"{nameof(HazardMatchLoosePackage)}(");
             Cmd.WriteLine($"\t{nameof(fileName)}: {fileName},");
             Cmd.WriteLine($"\t{nameof(name)}: {name}");
             Cmd.WriteLine(")");
@@ -478,12 +485,30 @@ namespace SporeMods.Core.Mods
             if (!anyMatched)
                 anyMatched = HAZARDOUS_LOOSE_PACKAGE_FILTERS.Any(x => LikeOperator.LikeString(name, x, Microsoft.VisualBasic.CompareMethod.Text));
             if (anyMatched)*/
-            if (
-                HAZARDOUS_LOOSE_PACKAGE_NAMES.Any(x => x.Equals(name, StringComparison.OrdinalIgnoreCase))
-             || HAZARDOUS_LOOSE_PACKAGE_FILTERS.Any(x => LikeOperator.LikeString(name, x, Microsoft.VisualBasic.CompareMethod.Text))
-            )
+            
+            if (HAZARDOUS_LOOSE_PACKAGE_NAMES.Any(x => x.Equals(name, StringComparison.OrdinalIgnoreCase)))
                 return true;
+            
+            if (HAZARDOUS_LOOSE_PACKAGE_FILTERS.Any(x => LikeOperator.LikeString(name, x, Microsoft.VisualBasic.CompareMethod.Text)))
+            {
+                matchedFilter = true;
+                return true;
+            }
 
+            return false;
+        }
+
+        static readonly IReadOnlyList<string> _VANILLA_FRIENDLY_BEFORE_IT_WAS_COOL = new List<string>()
+        {
+            "SPORE MOD - Enhanced Color Picker",
+            "Adventure_ExtraSize-InfiniteComplexity"
+        }.AsReadOnly();
+
+        public static bool VanillaFriendlyMatch(string unique)
+        {
+            if (_VANILLA_FRIENDLY_BEFORE_IT_WAS_COOL.Any(x => unique.Contains(x, StringComparison.OrdinalIgnoreCase)))
+                return true;
+            
             return false;
         }
     }

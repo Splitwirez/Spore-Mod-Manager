@@ -406,5 +406,30 @@ namespace SporeMods.CommonUI
         {
             element.SetValue(CastDirectionProperty, value);
         }
+
+
+        public static readonly DependencyProperty StyleKeyProperty =
+            DependencyProperty.RegisterAttached("StyleKey", typeof(object), typeof(AttachedProperties), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, StyleKeyPropertyChanged));
+        static void StyleKeyPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (!(sender is FrameworkElement frEl))
+                return;
+
+            var newValue = e.NewValue;
+            if (newValue != null)
+            {
+                frEl.SetResourceReference(FrameworkElement.StyleProperty, newValue);
+            }
+        }
+
+        public static object GetStyleKey(DependencyObject element)
+        {
+            return element.GetValue(StyleKeyProperty);
+        }
+
+        public static void SetStyleKey(DependencyObject element, object value)
+        {
+            element.SetValue(StyleKeyProperty, value);
+        }
     }
 }

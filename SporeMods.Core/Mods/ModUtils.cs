@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Xml.Linq;
 
@@ -93,6 +95,41 @@ namespace SporeMods.Core.Mods
                 return cMod.HasSettings;
             }
 
+            return false;
+        }
+
+        public static void WhenWarningPropertyChanged(this ISporeMod mod, bool value, ref ObservableCollection<ModWarningLabel> warningLabels, [CallerMemberName] string propertyName = "")
+        {
+            Cmd.WriteLine($"WhenWarningPropertyChanged: {propertyName}={value}");
+            if (!Enum.TryParse<ModWarningLabel.WarningLabelType>(propertyName, out ModWarningLabel.WarningLabelType labelType))
+                return;
+            Cmd.WriteLine("Parsed!");
+
+            ModWarningLabel label = ModWarningLabel.Labels[labelType];
+            bool containsLabel = warningLabels.Contains(label);
+            if (value != containsLabel)
+            {
+                if (value)
+                    warningLabels.Add(label);
+                else
+                    warningLabels.Remove(label);
+            }
+            /*else
+            {
+                /*label = WarningLabels.FirstOrDefault(x => x.LabelType == labelType);
+                if (label != null)* /
+                if (WarningLabels.Contains(label))
+                    WarningLabels.Remove(label);
+            }*/
+        }
+
+        public static bool AreAnyFilesCustomCode(IEnumerable<string> fileNames)
+        {
+            foreach (string fileName in fileNames)
+            {
+                if (Path.GetExtension(fileName).Equals(MOD_SUBFILE_EX_DLL, StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
             return false;
         }
     }

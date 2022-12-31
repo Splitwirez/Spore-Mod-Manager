@@ -8,7 +8,7 @@ namespace SporeMods.Core.Mods
 {
     public partial class MI1_0_X_XMod
     {
-        public Task<Exception> PurgeAsync(ModTransaction transaction)
+        public override Task<Exception> PurgeAsync(ModTransaction transaction)
         {
             throw new NotImplementedException();
         }

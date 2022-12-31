@@ -21,7 +21,7 @@ namespace SporeMods.Core.Mods
 
 
 
-        public bool TryGetFromRecordDir(string subdirName, XDocument doc, out Exception error)
+        public override bool TryGetFromRecordDir(string subdirName, XDocument doc, out Exception error)
         {
             error = null;
             try
@@ -36,10 +36,12 @@ namespace SporeMods.Core.Mods
 
                 Unique = unique;
 
-                foreach (string f in Directory.EnumerateFiles(subdirPath))
+                var filePaths = Directory.EnumerateFiles(subdirPath);
+                foreach (string f in filePaths)
                 {
                     _fileNames.Add(Path.GetFileName(f));
                 }
+                WarningLabels.UsesCodeInjection = ModUtils.AreAnyFilesCustomCode(filePaths);
 
                 ReadIdentity(doc); //TODO: Don't read in features right away?
 
@@ -87,7 +89,8 @@ namespace SporeMods.Core.Mods
 #endif
                 foreach (var h in archive.Entries)
                 {
-                    string hName = Path.GetFileName(h.Name);
+                    string hRawName = h.Name;
+                    string hName = Path.GetFileName(hRawName);
                     _fileNames.Add(hName);
 #if MOD_SETTINGS_IMAGES
                     if (Path.GetExtension(hName).Equals(".png", StringComparison.OrdinalIgnoreCase))
@@ -101,6 +104,7 @@ namespace SporeMods.Core.Mods
                     }
 #endif
                 }
+                WarningLabels.UsesCodeInjection = ModUtils.AreAnyFilesCustomCode(_fileNames);
 
 
                 IsIncoming = true;

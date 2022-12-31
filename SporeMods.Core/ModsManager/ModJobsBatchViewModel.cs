@@ -264,22 +264,22 @@ namespace SporeMods.Core.Mods
             {
                 var mod = entry.Mod;
                 
-                if (mod.IsExperimental)
+                if (mod.WarningLabels.IsExperimental)
                     showIsExperimentalColumn = true;
                 
-                if (mod.RequiresGalaxyReset)
+                if (mod.WarningLabels.RequiresGalaxyReset)
                     showGalaxyResetColumn = true;
                 
-                if (mod.CausesSaveDataDependency)
+                if (mod.WarningLabels.CausesSaveDataDependency)
                     showSaveDataEffectColumn = true;
                 
-                if (mod.UsesCodeInjection)
+                if (mod.WarningLabels.UsesCodeInjection)
                     showCodeInjectionColumn = true;
                 
-                if (mod.GuaranteedVanillaCompatible)
+                if (mod.WarningLabels.GuaranteedVanillaCompatible)
                     showVanillaCompatColumn = true;
                 
-                if (mod.KnownHazardousMod)
+                if (mod.WarningLabels.KnownHazardousMod)
                     showHazardColumn = true;
                 
                 if (mod.HasSettings(out _))
@@ -431,13 +431,13 @@ namespace SporeMods.Core.Mods
             ModPath = modPath;
             Mod = mod;
             CanProceed = true; //TODO: Future user settings
-            ShouldProceed = CanProceed && (!mod.KnownHazardousMod);
+            ShouldProceed = CanProceed && (!mod.WarningLabels.KnownHazardousMod);
         }
 
         public override string ToString()
         {
             var mod = Mod;
-            return $"{mod.DisplayName} ({mod.Unique}):\n{{\n\tIsExperimental: {mod.IsExperimental}\n\tCausesSaveDataDependency: {mod.CausesSaveDataDependency}\n\tRequiresGalaxyReset: {mod.RequiresGalaxyReset}\n}}";
+            return $"{mod.DisplayName} ({mod.Unique}):\n{{\n\tIsExperimental: {mod.WarningLabels.IsExperimental}\n\tCausesSaveDataDependency: {mod.WarningLabels.CausesSaveDataDependency}\n\tRequiresGalaxyReset: {mod.WarningLabels.RequiresGalaxyReset}\n}}";
         }
     }
 }

@@ -8,7 +8,7 @@ namespace SporeMods.Core.Mods
 {
     public partial class MI1_0_X_XMod
     {
-        public Task<Exception> RemoveRecordFilesAsync(ModTransaction transaction, bool removeConfig)
+        public override Task<Exception> RemoveRecordFilesAsync(ModTransaction transaction, bool removeConfig)
         {
             throw new NotImplementedException();
         }

@@ -48,5 +48,9 @@ namespace SporeMods.Core
 
 		public static Func<Stream, object> CreateBitmapImage = null;
 		public static SynchronizationContext UIThread = null;
+
+		public static event EventHandler<EventArgs> LanguageChanged;
+		public static void LanguageManager_LanguageChanged(object sender, EventArgs e)
+			=> LanguageChanged?.Invoke(sender, e);
 	}
 }

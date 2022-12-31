@@ -5,7 +5,6 @@
 			xmlns:mods="clr-namespace:SporeMods.Core.Mods;assembly=SporeMods.Core"
 			xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
 			xmlns:shale="clr-namespace:SporeMods.CommonUI.Themes.Shale"
-			xmlns:autocomp="clr-namespace:WPFTextBoxAutoComplete;assembly=WPFTextBoxAutoComplete"
 			xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/SporeMods.CommonUI;component/Themes/Shale/Shale.xaml"/>

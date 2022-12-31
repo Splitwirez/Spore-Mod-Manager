@@ -62,6 +62,13 @@ namespace SporeMods.CommonUI
 
 		private void SetupUIStuff(bool firstTime = false)
 		{
+			if (firstTime)
+			{
+				Resources.MergedDictionaries.Add(new ResourceDictionary()
+				{
+					Source = new Uri("pack://application:,,,/SporeMods.CommonUI;component/SmmAppResources.xaml")
+				});
+			}
 			ShaleHelper.EnsureResources();
 			bool lightsOn = true;
 			if (!firstTime)

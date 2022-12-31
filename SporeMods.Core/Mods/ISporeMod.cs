@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO.Compression;
 using System.Text;
 using System.Threading.Tasks;
@@ -90,13 +91,13 @@ namespace SporeMods.Core.Mods
             get;
         }
 
-#endregion
+        #endregion
 
 
 
 
-#region Warnings
-
+        #region Warnings
+#if DISABLE_DEFAULT_WARNING_IMPL
         /// <summary>
         /// Whether or not this is an experimental mod release (may have unforeseen pitfalls, bugs, etc.)
         /// </summary>
@@ -147,14 +148,24 @@ namespace SporeMods.Core.Mods
             get;
         }
 
-#endregion
+        ObservableCollection<ModWarningLabel> WarningLabels
+        {
+            get;
+        }
+#else
+        ModWarningLabels WarningLabels
+        {
+            get;
+        }
+#endif
+        #endregion
 
 
 
 
 
 
-#region Utils
+        #region Utils
 
         bool IsUpgradeTo(ISporeMod mod);
         bool DependsOn(ISporeMod mod);

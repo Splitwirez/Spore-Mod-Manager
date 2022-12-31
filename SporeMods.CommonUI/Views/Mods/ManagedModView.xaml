@@ -5,7 +5,6 @@
 					xmlns:mods="clr-namespace:SporeMods.Core.Mods;assembly=SporeMods.Core"
 					xmlns:e="http://schemas.microsoft.com/expression/2010/interactivity"
 					xmlns:shale="clr-namespace:SporeMods.CommonUI.Themes.Shale"
-					xmlns:autocomp="clr-namespace:WPFTextBoxAutoComplete;assembly=WPFTextBoxAutoComplete"
                     xmlns:v="clr-namespace:SporeMods.Views"
 					xmlns:sys="clr-namespace:System;assembly=mscorlib">
 <!--UserControl x:Class="SporeMods.Views.ManagedModViewTemplate"
@@ -32,6 +31,44 @@
     <CubicEase x:Key="ScalingEase" EasingMode="EaseOut"/>
 
     <DataTemplate x:Key="{x:Type mods:ISporeMod}">
+        <Expander x:Name="InstalledModsListEntry" Style="{DynamicResource InstalledModsListEntryStyle}">
+            <Expander.Header>
+                <DockPanel>
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                DockPanel.Dock="Left">
+                        <!--Margin="{Binding Padding, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource FudgeMarginsForGridViewFirstColumnCellTemplateConverter}}"-->
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{Binding DisplayName.Value}"
+                                                    VerticalAlignment="Center"
+                                                    Style="{DynamicResource InstalledModHeader}"/>
+                            <TextBlock x:Name="SubText"
+                                                    VerticalAlignment="Center"
+                                                    Style="{DynamicResource InstalledModSubText}"
+                                                    Visibility="Collapsed"/>
+                        </StackPanel>
+                        <ToggleButton x:Name="ExpandCollapseToggleButton"
+                                                        Visibility="{Binding HasInlineDescription, FallbackValue=False, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                        IsChecked="{Binding IsExpanded, ElementName=InstalledModsListEntry, Mode=TwoWay}"
+                                                        Style="{DynamicResource ModEntryExpandCollapseToggleButtonStyle}"/>
+                    </StackPanel>
+                    <ItemsControl Style="{DynamicResource WarningLabelsDisplay}"
+                                DataContext="{Binding Mode=OneWay}" />
+                </DockPanel>
+            </Expander.Header>
+            <cui:NoSizeDecorator HorizontalAlignment="Stretch">
+                <TextBlock Text="{Binding InlineDescription.Value}" TextWrapping="Wrap" TextAlignment="Left" ClipToBounds="False"/>
+                <!--Width="{Binding ActualWidth, ElementName=ModRootDockPanel}"-->
+            </cui:NoSizeDecorator>
+        </Expander>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Converter={StaticResource IsManualInstalledFileConverter}}" Value="True">
+                <Setter TargetName="SubText" Property="Text" Value="{DynamicResource Mods!ListEntry!ManuallyInstalled}"/>
+                <Setter TargetName="SubText" Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+    <DataTemplate x:Key="zmods_ISporeMod">
         <Expander x:Name="InstalledModsListEntry" Style="{DynamicResource InstalledModsListEntryStyle}">
             <Expander.Header>
                 <DockPanel>

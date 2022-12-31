@@ -108,30 +108,33 @@
                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                             ScrollViewer.VerticalScrollBarVisibility="Auto"
                             SelectionChanged="ModsList_SelectionChanged"
-                            Loaded="ModsList_Loaded"
                             cui:AttachedProperties.CornerCurves="False"
                             ItemTemplate="{DynamicResource {x:Type mods:ISporeMod}}">
+                        <!--
+                            Loaded="ModsList_Loaded"
+                        -->
+                        <!--
                         <ListView.View>
                             <GridView AllowsColumnReorder="False">
-                                <!-- IsHitTestVisible="False"-->
-                                <!--GridView.ColumnHeaderContainerStyle>
-                                    <Style TargetType="{x:Type GridViewColumnHeader}">
-                                        <Setter Property="IsHitTestVisible" Value="False"/>
-                                    </Style>
-                                </GridView.ColumnHeaderContainerStyle-->
+                                <!- - IsHitTestVisible="False"- ->
+                                <!- -GridView.ColumnHeaderContainerStyle>
+                                <Style TargetType="{x:Type GridViewColumnHeader}">
+                                    <Setter Property="IsHitTestVisible" Value="False"/>
+                                </Style>
+                                </GridView.ColumnHeaderContainerStyle- ->
                                 <GridView.ColumnHeaderTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding}" TextWrapping="NoWrap"/>
-                                        </DataTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" TextWrapping="NoWrap"/>
+                                    </DataTemplate>
                                 </GridView.ColumnHeaderTemplate>
-                                <!--GridViewColumn Header="{DynamicResource Mods!ListEntry!Columns!DisplayName!Header}">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal"
+                                <!- -GridViewColumn Header="{DynamicResource Mods!ListEntry!Columns!DisplayName!Header}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal"
                                                         VerticalAlignment="Center"
                                                         Background="#00400040"
                                                         Margin="{Binding Padding, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource FudgeMarginsForGridViewFirstColumnCellTemplateConverter}}">
-                                                <cui:StackPanelEx Orientation="Vertical"
+                                            <cui:StackPanelEx Orientation="Vertical"
                                                                 Spacing="3">
                                                 <TextBlock Text="{Binding DisplayName}"
                                                         VerticalAlignment="Center"
@@ -140,31 +143,31 @@
                                                         VerticalAlignment="Center"
                                                         Style="{DynamicResource InstalledModSubText}"
                                                         Visibility="Collapsed"/>
-                                                </cui:StackPanelEx>
-                                                <ToggleButton x:Name="ExpandCollapseToggleButton"
+                                            </cui:StackPanelEx>
+                                            <ToggleButton x:Name="ExpandCollapseToggleButton"
                                                             Visibility="{Binding HasDescription, FallbackValue=False, Converter={StaticResource BooleanToVisibilityConverter}}"
                                                             IsChecked="{Binding ShowDescription, Mode=TwoWay}"
                                                             Style="{DynamicResource ModEntryExpandCollapseToggleButtonStyle}"/>
-                                            </StackPanel>
-                                            <DataTemplate.Triggers>
-                                                <DataTrigger Binding="{Binding Converter={StaticResource IsManualInstalledFileConverter}}" Value="True">
-                                                    <Setter TargetName="SubText" Property="Text" Value="{DynamicResource Mods!ListEntry!ManuallyInstalled}"/>
-                                                    <Setter TargetName="SubText" Property="Visibility" Value="Visible"/>
-                                                </DataTrigger>
-                                            </DataTemplate.Triggers>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn-->
+                                        </StackPanel>
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding Converter={StaticResource IsManualInstalledFileConverter}}" Value="True">
+                                                <Setter TargetName="SubText" Property="Text" Value="{DynamicResource Mods!ListEntry!ManuallyInstalled}"/>
+                                                <Setter TargetName="SubText" Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                                </GridViewColumn- ->
                                 <GridViewColumn Header="{DynamicResource Mods!ListEntry!Columns!IsExperimental!Header}" Width="{Binding AnyExperimental, Converter={StaticResource BoolToDoubleOrNothingConverter}}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <cui:Zone Style="{DynamicResource InstalledModsListEntryCellContainerStyle}"
                                                      Background="#00FF0000">
-                                                <!--cui:FloorPanel>
-                                                    <Separator HorizontalAlignment="Left"
-                                                            cui:AttachedProperties.CastDirection="Right"/-->
+                                                <!- -cui:FloorPanel>
+                                                <Separator HorizontalAlignment="Left"
+                                                            cui:AttachedProperties.CastDirection="Right"/- ->
                                                 <Control Style="{DynamicResource BooleanColumnCheckmarkStyle}" Visibility="{Binding Identity.IsExperimental, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
-                                                <!--/cui:FloorPanel-->
+                                                <!- -/cui:FloorPanel- ->
                                             </cui:Zone>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
@@ -174,9 +177,9 @@
                                         <DataTemplate>
                                             <cui:Zone Style="{DynamicResource InstalledModsListEntryCellContainerStyle}"
                                                     Background="#0000FF00">
-                                                <!--Separator HorizontalAlignment="Left"
-                                                        cui:AttachedProperties.CastDirection="Right"/-->
-                                                <!--Control Style="{DynamicResource BooleanColumnCheckmarkStyle}" Visibility="{Binding Identity.CausesSaveDataDependency, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/-->
+                                                <!- -Separator HorizontalAlignment="Left"
+                                                        cui:AttachedProperties.CastDirection="Right"/- ->
+                                                <!- -Control Style="{DynamicResource BooleanColumnCheckmarkStyle}" Visibility="{Binding Identity.CausesSaveDataDependency, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/- ->
                                                 <TextBlock x:Name="ImpactText"
                                                         Text="{DynamicResource Mods!ListEntry!Columns!SaveDataImpact!NoImpact}"
                                                         TextAlignment="Center"
@@ -203,8 +206,8 @@
                                 </GridViewColumn>
                                 <GridViewColumn Header="{DynamicResource Mods!ListEntry!Columns!Status!Header}"
                                                 Width="{Binding AnyHasProgressSignifier, Converter={StaticResource BoolToDoubleOrNothingConverter}}">
-                                                <!--Width="{Binding AnyHasProgressSignifier, Converter={StaticResource BoolToDoubleOrNothingConverter}, ConverterParameter='200'}"-->
-                                                <!-- Width="{Binding AnyHasProgressSignifier, Converter={StaticResource BoolToDoubleOrNothingConverter}}"-->
+                                    <!- -Width="{Binding AnyHasProgressSignifier, Converter={StaticResource BoolToDoubleOrNothingConverter}, ConverterParameter='200'}"- ->
+                                    <!- - Width="{Binding AnyHasProgressSignifier, Converter={StaticResource BoolToDoubleOrNothingConverter}}"- ->
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <cui:Zone Style="{DynamicResource InstalledModsListEntryCellContainerStyle}">
@@ -259,9 +262,10 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <!--CellTemplate="{StaticResource CheckmarkForBoolean}"/-->
+                                <!- -CellTemplate="{StaticResource CheckmarkForBoolean}"/- ->
                             </GridView>
                         </ListView.View>
+                        -->
                     </ListView>
                     <!--ListView x:Name="ModSearchListView"
                             Style="{DynamicResource InstalledModsListViewStyle}"

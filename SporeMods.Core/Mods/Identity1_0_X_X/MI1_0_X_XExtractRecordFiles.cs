@@ -10,7 +10,7 @@ namespace SporeMods.Core.Mods
 {
     public partial class MI1_0_X_XMod
     {
-        public async Task<Exception> ExtractRecordFilesAsync(ModTransaction transaction, string inPath, ZipArchive archive = null)
+        public override async Task<Exception> ExtractRecordFilesAsync(ModTransaction transaction, string inPath, ZipArchive archive = null)
         {
             return await Task<Exception>.Run(async () =>
             {
