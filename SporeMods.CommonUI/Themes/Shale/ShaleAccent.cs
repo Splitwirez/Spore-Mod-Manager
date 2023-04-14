@@ -186,7 +186,7 @@ namespace SporeMods.CommonUI.Themes.Shale
             }
         }
 
-        public Uri Source
+        public new Uri Source
         {
             get => base.Source;
             set { }

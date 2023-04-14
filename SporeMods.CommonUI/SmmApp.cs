@@ -48,7 +48,7 @@ namespace SporeMods.CommonUI
 				CUIMsg.ShowException(exc);
 		}
 
-		public static SmmApp Current
+		public static new SmmApp Current
 			=> ((Application.Current != null) && (Application.Current is SmmApp app)) ? app : null;
 
 
@@ -91,15 +91,13 @@ namespace SporeMods.CommonUI
 		protected virtual bool ShouldEnsureUACPartner()
 			=> false;
 
-		bool _prepareForUAC = false;
-
 		bool _isAdmin = Permissions.IsAdministrator();
 		bool _rerunAsAdmin = false;
 		bool _ensureUACPartner = false;
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			Externals.UIThread = SynchronizationContext.Current;
-			CUIMsg.EnsureConsole();
+			Cmd.EnsureConsole();
 
 			RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
 
@@ -145,7 +143,7 @@ namespace SporeMods.CommonUI
 			{
 				Externals.SpecifyNeedsPrerequisitesExtracted(VersionValidation.NeedsPrerequisitesExtracted);
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				Externals.SpecifyNeedsPrerequisitesExtracted(true);
 			}

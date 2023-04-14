@@ -20,7 +20,7 @@ namespace SporeMods.Core.Mods
 
         }*/
 
-        public ModException(bool shouldCheckModAgainstOtherTypes, string? message = null, Exception? innerException = null)
+        public ModException(bool shouldCheckModAgainstOtherTypes, string message = null, Exception innerException = null)
             : base(message, innerException)
         {
             ShouldCheckModAgainstOtherTypes = shouldCheckModAgainstOtherTypes;

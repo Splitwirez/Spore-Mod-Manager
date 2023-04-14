@@ -1,34 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-  <!--aImport Project="..\SporeMods.SharedAssemblyInfo.props" />
-  <Import Project="..\SporeMods.NetCoreSharedAssemblyInfo.props" /-->
-  <Import Project="..\build\Target.Lib.props" />
-  <PropertyGroup>
-    <!--aOutputType>Library</OutputType-->
-	  <UseWPF>true</UseWPF>
-	  <UseWindowsForms>true</UseWindowsForms>
-	  <AssemblyTitle>SporeMods.CommonUI</AssemblyTitle>
-    <Product>SporeMods.CommonUI</Product>
-    <!--GenerateAssemblyInfo>false</GenerateAssemblyInfo-->
-  </PropertyGroup>
-  <!--aImport Project="..\SporeMods.SharedOutputDirs.props" /-->
-  <ItemGroup>
-    <PackageReference Include="System.Windows.Interactivity.WPF" Version="2.0.20525" />
-  </ItemGroup>
-  <!--ItemGroup>
-    <Reference Include="ColorMine.dll" />
-  </ItemGroup-->
-  <ItemGroup>
-    <EmbeddedResource Include="Localization\Languages\**" />
-    <EmbeddedResource Include="..\CREDITS.md" />
-    <Resource Include="Fonts\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Themes\Shale\ShaleControls.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-  </ItemGroup>
-  <!--aItemGroup>
-    <ProjectReference Include="..\SporeMods.Core\SporeMods.Core.csproj" />
-  </ItemGroup-->
+    <PropertyGroup>
+        <UseWPF>true</UseWPF>
+        <UseWindowsForms>true</UseWindowsForms>
+        <AssemblyTitle>User interface components for $(Product)</AssemblyTitle>
+    </PropertyGroup>
+    
+    <ItemGroup>
+		<ProjectReference Include="../SporeMods.Core/SporeMods.Core.csproj" />
+	</ItemGroup>
+
+    <Import Project="../build2/shared/nuget.wpf.props" />
+    <ItemGroup>
+        <EmbeddedResource Include="Localization/Languages/**" />
+        <EmbeddedResource Include="../CREDITS.md" />
+        <Resource Include="Fonts/**" />
+        <Page Update="Themes/Shale/ShaleControls.xaml">
+            <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+        </Page>
+    </ItemGroup>
 </Project>

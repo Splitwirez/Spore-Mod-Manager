@@ -42,12 +42,46 @@ namespace SporeMods.ViewModels
 			get => Environment.Version.ToString();
 		}
 
+		/*
 		public string EnvOSVersionWindowsVersion
 		{
 			get => Environment.OSVersion.Version.ToString();
 		}
 
+		public string EnvIs64BitOS
+		{
+			get => Environment.Is64BitOperatingSystem.ToString();
+		}
 
+		public string EnvIs64BitProcess
+		{
+			get => Environment.Is64BitProcess.ToString();
+		}*/
+
+		const string _DIAGINFO_KEY_PREFIX = "Help!DiagnosticInfo!";
+		static readonly string _DOTNET_OSINFO_KEY_PREFIX = $"{_DIAGINFO_KEY_PREFIX}DotnetOSInfo!";
+		readonly Dictionary<string, string> _dotnetOSInfo = new Dictionary<string, string>()
+		{
+			{
+				$"{_DOTNET_OSINFO_KEY_PREFIX}OSVersion",
+				Environment.OSVersion.Version.ToString()
+			},
+			{
+				$"{_DOTNET_OSINFO_KEY_PREFIX}Is64BitOperatingSystem",
+				Environment.Is64BitOperatingSystem.ToString()
+			},
+			{
+				$"{_DOTNET_OSINFO_KEY_PREFIX}Is64BitProcess",
+				Environment.Is64BitProcess.ToString()
+			},
+		};
+		public Dictionary<string, string> DotnetOSInfo
+		{
+			get => _dotnetOSInfo;
+		}
+
+
+		/*
 		string _rtlGetVersionWindowsVersion = string.Empty;
 		public string RtlGetVersionWindowsVersion
 		{
@@ -86,6 +120,13 @@ namespace SporeMods.ViewModels
 		public string RtlGetVersionResult
 		{
 			get => _rtlGetVersionResult;
+		}*/
+
+		static readonly string _RTLGETVERSION_KEY_PREFIX = $"{_DIAGINFO_KEY_PREFIX}RtlGetVersionOSInfo!";
+		readonly Dictionary<string, string> _rtlGetVersionDetails;
+		public Dictionary<string, string> RtlGetVersionDetails
+		{
+			get => _rtlGetVersionDetails;
 		}
 
 		public string WINEVersion
@@ -98,9 +139,67 @@ namespace SporeMods.ViewModels
 		{
 			NativeMethods.OSVERSIONINFOEXW info = new NativeMethods.OSVERSIONINFOEXW();
 			NativeMethods.RtlGetVersion(ref info);
-			RtlGetVersionWindowsVersion = $"{info.dwMajorVersion}.{info.dwMinorVersion}.{info.dwBuildNumber}";
-			RtlGetVersionServicePack = $"{info.wServicePackMajor}.{info.wServicePackMinor}";
-			RtlGetVersionOther = $"size: {info.dwOSVersionInfoSize},\nplatformId: {info.dwPlatformId},\ncsdVersion: {info.szCSDVersion},\nsuiteMask: {info.wSuiteMask},\nproductType: {info.wProductType}";
+			//RtlGetVersionWindowsVersion = $"{info.dwMajorVersion}.{info.dwMinorVersion}.{info.dwBuildNumber}";
+			//RtlGetVersionServicePack = $"{info.wServicePackMajor}.{info.wServicePackMinor}";
+			//RtlGetVersionOther = $"size: {info.dwOSVersionInfoSize},\nplatformId: {info.dwPlatformId},\ncsdVersion: {info.szCSDVersion},\nsuiteMask: {info.wSuiteMask},\nproductType: {info.wProductType}";
+			_rtlGetVersionDetails = new Dictionary<string, string>()
+			{
+				{
+					$"{_RTLGETVERSION_KEY_PREFIX}OSVersion",
+					$"{info.dwMajorVersion}.{info.dwMinorVersion}.{info.dwBuildNumber}"
+				},
+			/*};
+			if (!spName.IsNullOrEmptyOrWhiteSpace())
+			{
+				_rtlGetVersionDetails.Add(*/
+				{
+					$"{_RTLGETVERSION_KEY_PREFIX}SPName",
+					info.szCSDVersion.IsNullOrEmptyOrWhiteSpace()
+						? info.szCSDVersion
+						: string.Empty
+				},
+				/*);
+			}
+			Dictionary<string, string> rtlGetVersionDetailsExtras = new()
+			{*/
+				{
+					$"{_RTLGETVERSION_KEY_PREFIX}SPVersion",
+					$"{info.wServicePackMajor}.{info.wServicePackMinor}"
+				},
+				{
+					$"{_RTLGETVERSION_KEY_PREFIX}{nameof(NativeMethods.OSVERSIONINFOEXW.dwOSVersionInfoSize)}",
+					$"{info.dwOSVersionInfoSize}"
+				},
+				{
+					$"{_RTLGETVERSION_KEY_PREFIX}{nameof(NativeMethods.OSVERSIONINFOEXW.dwPlatformId)}",
+					$"{info.dwPlatformId}"
+				},
+				{
+					$"{_RTLGETVERSION_KEY_PREFIX}{nameof(NativeMethods.OSVERSIONINFOEXW.wSuiteMask)}",
+					//$"{info.wSuiteMask}"
+					/*new Func<string>(() =>
+					{
+						List<NativeMethods.SuiteMask> suiteMask = new List<NativeMethods.SuiteMask>();
+						var suiteMaskRaw = info.wSuiteMask;
+						var enumVals = Enum.GetValues<NativeMethods.SuiteMask>();
+						foreach (NativeMethods.SuiteMask val in enumVals)
+						{
+							suiteMask
+						}
+
+						return ret;
+					})()*/
+					GetAllFlagsString(info.wSuiteMask)
+				},
+				{
+					$"{_RTLGETVERSION_KEY_PREFIX}{nameof(NativeMethods.OSVERSIONINFOEXW.wProductType)}",
+					//$"{info.wProductType}"
+					GetAllFlagsString((NativeMethods.ProductType)0x0000001) //(info.wProductType)
+				},
+			};
+			
+			/*foreach (var entry in rtlGetVersionDetailsExtras)
+				_rtlGetVersionDetails.Add(entry.Key, entry.Value);*/
 			/*@$"size: {info.dwOSVersionInfoSize}
             major: {info.dwMajorVersion}
             minor: {info.dwMinorVersion}
@@ -111,6 +210,43 @@ namespace SporeMods.ViewModels
             servicePackMinor: {info.wServicePackMinor}
             suiteMask: {info.wSuiteMask}
             productType: {info.wProductType}";*/
+		}
+
+		static IEnumerable<TEnum> GetAllFlags<TEnum>(TEnum rawValue)
+			where TEnum : Enum
+		{
+			List<TEnum> allFlags = new List<TEnum>();
+			var enumVals = Enum.GetValues(typeof(TEnum));
+			foreach (TEnum val in enumVals)
+			{
+				if (rawValue.HasFlag(val))
+					allFlags.Add(val);
+			}
+
+			return allFlags;
+		}
+
+		static string GetAllFlagsString<T>(T rawValue)
+			where T : Enum
+		{
+			var allFlags = GetAllFlags(rawValue);
+			if (allFlags.Count() <= 0)
+				return string.Empty;
+			
+			string ret = allFlags.First().ToString();
+			if (allFlags.Count() == 1)
+				return ret;
+			
+			allFlags = allFlags.Skip(1);
+			foreach (T val in allFlags)
+			{
+				ret += $", {val}";
+			}
+			
+			return (ret.Length > 2)
+				? ret.Substring(2)
+				: ret
+			;
 		}
 
 

@@ -9,7 +9,7 @@ using System.Windows.Threading;
 using System.Timers;
 
 using SporeMods.Core;
-using static SporeMods.CommonUI.NativeMethods;
+using static SporeMods.Core.NativeMethods;
 using SporeMods.CommonUI;
 using SporeMods.CommonUI.Localization;
 

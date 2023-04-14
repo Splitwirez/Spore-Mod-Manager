@@ -18,6 +18,7 @@ using Point = System.Windows.Point;
 using SporeMods.CommonUI;
 
 using Cmd = SporeMods.Core.Cmd;
+using SporeMods.Core;
 
 namespace SporeMods.CommonUI
 {

@@ -2,12 +2,27 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
+            "label": "build-launcher",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/SporeMods.Manager",
+                "${workspaceFolder}/src/SporeMods.Launcher",
+                "-c",
+                "Debug",
+                "-p:DefineConstantsEx=LINUX_DEBUG",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build-smm",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/SporeMods.Manager",
                 "-c",
                 "Debug",
                 "-p:DefineConstantsEx=LINUX_DEBUG",
@@ -22,7 +37,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/SporeMods.Manager",
+                "${workspaceFolder}/src/SporeMods.Manager",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -35,7 +50,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/SporeMods.Manager",
+                "${workspaceFolder}/src/SporeMods.Manager",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

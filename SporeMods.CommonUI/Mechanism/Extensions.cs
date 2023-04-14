@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
+using SporeMods.Core;
 
 namespace SporeMods.CommonUI
 {

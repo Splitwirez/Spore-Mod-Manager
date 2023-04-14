@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SporeMods.Core
 {
@@ -15,6 +16,8 @@ namespace SporeMods.Core
 		static string SmmBinPath => Settings.ManagerInstallLocationPath;
 		public static Process StartLauncher(string args = null, bool runAsAdmin = false)
 			=> RunExecutable(LAUNCHER_EXE, args, runAsAdmin);
+		public static async Task<Process> StartLauncherAsync(string args = null, bool runAsAdmin = false)
+			=> await Task.Run(() => StartLauncher(args, runAsAdmin));
 
 
 		public static void RestartModManagerAsAdministrator(string args = null)
@@ -47,9 +50,9 @@ namespace SporeMods.Core
 				info.Verb = "runas";
 
 			if (!string.IsNullOrEmpty(args))
-				info.Arguments = MessageDisplay.ShowsConsole ? $"{args} {MessageDisplay.SHOW_CONSOLE_CMD}" : args;
-			else if (MessageDisplay.ShowsConsole)
-				info.Arguments = MessageDisplay.SHOW_CONSOLE_CMD;
+				info.Arguments = Cmd.ShowsConsole ? $"{args} {Cmd.SHOW_CONSOLE_CMD}" : args;
+			else if (Cmd.ShowsConsole)
+				info.Arguments = Cmd.SHOW_CONSOLE_CMD;
 
 			return Process.Start(info);
 		}

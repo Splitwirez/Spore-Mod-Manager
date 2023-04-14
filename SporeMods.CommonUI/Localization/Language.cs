@@ -51,7 +51,9 @@ namespace SporeMods.CommonUI.Localization
                 IsExternalLanguage = File.Exists(langRes);
             }
             catch (Exception ex)
-            { }
+            {
+                Cmd.WriteLine(ex);
+            }
 
 
             if (path.StartsWith(LANG_RESOURCE_START))

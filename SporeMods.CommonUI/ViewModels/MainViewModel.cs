@@ -11,6 +11,8 @@ using SporeMods.Core.Mods;
 using SporeMods.Core.Transactions;
 using SporeMods.CommonUI;
 using SporeMods.CommonUI.Localization;
+using System.Windows.Automation;
+using System.Collections.ObjectModel;
 //using ModTaskStatus = SporeMods.Core.ModTransactions.TaskStatus;
 
 namespace SporeMods.ViewModels
@@ -77,36 +79,56 @@ namespace SporeMods.ViewModels
 			}
 		}
 
-		public FuncCommand<object> ShowTestDialogCommand { get; }
-			= new FuncCommand<object>(o =>
-		{
-			DialogBox.ShowAsync("Hello world!", "Yeehaw");
-		});
 
-
-		FuncCommand<object> _installMods = null;
-		public FuncCommand<object> InstallModsCommand
+		bool _isSporeRunning = false;
+		public bool IsSporeRunning
 		{
-			get => _installMods;
+			get => _isSporeRunning;
+			protected set
+			{
+				_isSporeRunning = value;
+				NotifyPropertyChanged();
+				IsSporeRunningChanged?.Invoke(this, new EventArgs());
+			}
+		}
+		public event EventHandler<EventArgs> IsSporeRunningChanged;
+
+		bool _allowExitSMM = true;
+		public bool AllowExitSMM
+		{
+			get => _allowExitSMM;
+			protected set
+            {
+				_allowExitSMM = value;
+				NotifyPropertyChanged();
+			}
 		}
 
-		FuncCommand<object> _uninstallMods = null;
-		public FuncCommand<object> UninstallModsCommand
+		public async Task InstallModsCommand()
+			=> await InstallMods();
+
+		public async Task UninstallModsCommand()
+			=> await UninstallMods();
+
+		public async Task ChangeModSettingsCommand()
+			=> await ChangeModSettings();
+
+		public async Task LaunchSporeCommand()
+			=> await LaunchSpore();
+
+		public async Task LaunchSpore()
 		{
-			get => _uninstallMods;
-		}
-		
-		FuncCommand<object> _changeModSettings = null;
-		public FuncCommand<object> ChangeModSettingsCommand
-		{
-			get => _changeModSettings;
+			if (!CanLaunchSpore)
+				return;
+
+			MinimizeWindowRequested?.Invoke(this, new EventArgs());
+			await UACPartnerCommands.LaunchSporeAsync();
+			//TODO: Line below this comment never occurs?
+			RestoreWindowRequested?.Invoke(this, new EventArgs());
 		}
 
-		FuncCommand<object> _launchSpore = null;
-		public FuncCommand<object> LaunchSporeCommand
-		{
-			get => _launchSpore;
-		}
+		public event EventHandler MinimizeWindowRequested;
+		public event EventHandler RestoreWindowRequested;
 
 		
 		
@@ -146,29 +168,27 @@ namespace SporeMods.ViewModels
 		{
 			get => (DragServantProcess != null) && (!DragServantProcess.HasExited);
 		}*/
+		//readonly Dictionary<int, Process> _sporeProcesses = new Dictionary<int, Process>();
+		ObservableCollection<Process> _sporeProcesses = new ObservableCollection<Process>();
+		/*uint _sporeProcessCount = 0;
+		uint SporeProcessCount
+        {
+			get => _sporeProcessCount;
+			set
+            {
+				_sporeProcessCount = value;
+				SmmApp.Current.Dispatcher.Invoke(() =>
+				{
+					IsSporeRunning = _sporeProcessCount > 0;
+				});
+			}
+		}*/
 
 		public MainViewModel()
 			: base()
 		{
 			LanguageManager.LanguageChanged += (s, e) => RefreshTitle();
 			RefreshTitle();
-
-			_installMods = new FuncCommand<object>(o => InstallMods());
-			_uninstallMods = new FuncCommand<object>(o => UninstallMods());
-			_changeModSettings = new FuncCommand<object>(o => ChangeModSettings());
-
-			_launchSpore = new FuncCommand<object>(o =>
-			{
-				if (CanLaunchSpore)
-				{
-					if (Permissions.IsAtleastWindowsVista() && Permissions.IsAdministrator() && UACPartnerCommands.HasUACPartnership)
-						UACPartnerCommands.RunLauncher();
-					else// if (!Permissions.IsAdministrator())
-						CrossProcess.StartLauncher();
-
-					_minimizeOnGameStart = true;
-				}
-			});
 
 			InstalledModsViewModel.SelectedModsChanged += (s, e) =>
 			{
@@ -245,7 +265,54 @@ namespace SporeMods.ViewModels
 
 					await DialogBox.ShowAsync(tempMsgText, "Temporary task conclusion notification (PLACEHOLDER) (NOT LOCALIZED)");
 				}*/
+				AllowExitSMM = true;
 			};
+
+			
+			_sporeProcesses.CollectionChanged += (s, e) =>
+			{
+				IsSporeRunning = _sporeProcesses.Count > 0;
+			};
+
+			Automation.AddAutomationEventHandler(
+				WindowPattern.WindowOpenedEvent,
+				AutomationElement.RootElement,
+				TreeScope.Subtree,
+				Automation_WindowOpened);
+		}
+
+		void Automation_WindowOpened(object sender, AutomationEventArgs e)
+        {
+			/*SmmApp.Current.Dispatcher.Invoke(() =>
+			{*/
+				if (!(sender is AutomationElement autoEl))
+					return;
+				var winHandle = new IntPtr(autoEl.Current.NativeWindowHandle);
+				NativeMethods.GetWindowThreadProcessId(winHandle, out var pidRaw);
+				int pid = (int)pidRaw;
+
+				var sporeProcess = Process.GetProcessById(pid);
+				
+				if (!GameInfo.IsSporeProcess(sporeProcess))
+					return;
+				if (_sporeProcesses.Contains(sporeProcess))
+					return;
+
+				sporeProcess.EnableRaisingEvents = true;
+				if (sporeProcess.HasExited)
+					return;
+
+
+				_sporeProcesses.Add(sporeProcess);
+				sporeProcess.Exited += SporeProcess_Exited;
+			//});
+		}
+
+		void SporeProcess_Exited(object sender, EventArgs e)
+		{
+			_sporeProcesses.Remove((Process)sender);
+
+			((Process)sender).Exited -= SporeProcess_Exited;
 		}
 
 		void RefreshCanDoesThings(IEnumerable<ISporeMod> mods)
@@ -287,35 +354,50 @@ namespace SporeMods.ViewModels
 
 		async Task InstallMods()
 		{
-			var files = await Modal.Show(new RequestFilesViewModel(FileRequestPurpose.InstallMods, true));
-			if (files != null)
-				ModsManager.Instance.InstallModsAsync(files.ToArray());
+			using (TemporarilyPreventExitSMM())
+			{
+				var files = await Modal.Show(new RequestFilesViewModel(FileRequestPurpose.InstallMods, true));
+				if (files != null)
+					await ModsManager.Instance.InstallModsAsync(files.ToArray());
+			}
+		}
+		IDisposable TemporarilyPreventExitSMM()
+		{
+			AllowExitSMM = false;
+			InlineDisposable disp = new InlineDisposable(() =>
+			{
+				AllowExitSMM = (!ModsManager.Instance.AnyTasksRunning);
+			});
+			return disp;
 		}
 
 		
 		List<ISporeMod> _selectedMods = new List<ISporeMod>();
 		async Task UninstallMods()
 		{
+			using (TemporarilyPreventExitSMM())
+			{
 #if MOD_IMPL_RESTORE_LATER
-			bool allCanUninstall = _selectedMods.All(x => x.CanUninstall);
-			Cmd.WriteLine($"UninstallMods() called\n\tcount: {_selectedMods.Count}\n\tall can uninstall: {allCanUninstall}");
-			if (
-					(_selectedMods.Count > 0) &&
-					allCanUninstall
-				)
-			{
-				Cmd.WriteLine("Uninstalling...");
-				await ModTransactionManager.UninstallModsAsync(_selectedMods.ToArray());
-			}
-			else
-			{
-				CanUninstallMods = false;
-				await DialogBox.ShowAsync("Can't uninstall mods that are presently doing other stuff (PLACEHOLDER) (NOT LOCALIZED)");
-			}
+				bool allCanUninstall = _selectedMods.All(x => x.CanUninstall);
+				Cmd.WriteLine($"UninstallMods() called\n\tcount: {_selectedMods.Count}\n\tall can uninstall: {allCanUninstall}");
+				if (
+						(_selectedMods.Count > 0) &&
+						allCanUninstall
+					)
+				{
+					Cmd.WriteLine("Uninstalling...");
+					await ModTransactionManager.UninstallModsAsync(_selectedMods.ToArray());
+				}
+				else
+				{
+					CanUninstallMods = false;
+					await DialogBox.ShowAsync("Can't uninstall mods that are presently doing other stuff (PLACEHOLDER) (NOT LOCALIZED)");
+				}
 #else
-			var modsToUninstall = _selectedMods.ToArray();
-			//await DialogBox.ShowAsync($"{modsToUninstall.Length}");
-			ModsManager.Instance.UninstallModsAsync(modsToUninstall);
+				var modsToUninstall = _selectedMods.ToArray();
+				//await DialogBox.ShowAsync($"{modsToUninstall.Length}");
+				await ModsManager.Instance.UninstallModsAsync(modsToUninstall);
+			}
 #endif
 		}
 
@@ -325,14 +407,15 @@ namespace SporeMods.ViewModels
 			ISporeMod mod = _selectedMods?.FirstOrDefault();
 			if (mod.HasSettings(out IConfigurableMod cMod))
 			{
-				await ModsManager.Instance.ChangeSettingsForModAsync(cMod);
-				return;
+				using (TemporarilyPreventExitSMM())
+				{
+					await ModsManager.Instance.ChangeSettingsForModAsync(cMod);
+					return;
+				}
 			}
 
 			CanChangeModSettings = false;
 			await DialogBox.ShowAsync("Can't change settings for the specified mod or lack thereof (PLACEHOLDER) (NOT LOCALIZED)");
 		}
-
-		bool _minimizeOnGameStart = false;
 	}
 }

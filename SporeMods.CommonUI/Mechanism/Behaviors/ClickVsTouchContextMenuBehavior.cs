@@ -18,11 +18,10 @@ namespace SporeMods.CommonUI
     public class ClickVsTouchContextMenuBehavior : Behavior<ContextMenu>
     {
         UIElement _target = null;
-        FrameworkElement _initialOwner = null;
-        Timer _expire = new Timer(2000);
+        readonly Timer _expire = new Timer(2000);
         bool _expireStarted = false;
 
-    protected override void OnAttached()
+        protected override void OnAttached()
         {
             base.OnAttached();
 

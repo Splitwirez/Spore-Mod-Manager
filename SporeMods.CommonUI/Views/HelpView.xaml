@@ -13,18 +13,61 @@
         <vm:HelpViewModel/>
     </UserControl.DataContext-->
     <UserControl.Resources>
-        <Style x:Key="DiagInfoRow" TargetType="{x:Type HeaderedContentControl}">
-            <Setter Property="Focusable" Value="False"/>
-            <Setter Property="IsTabStop" Value="False"/>
+        <Style x:Key="DiagInfoRowBase" TargetType="{x:Type HeaderedContentControl}">
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="IsTabStop" Value="False" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type HeaderedContentControl}">
                         <StackPanel Orientation="Vertical">
                             <ContentPresenter ContentSource="Header"
-                                    Style="{DynamicResource h3}"/>
-                            <ContentPresenter Margin="8,2,0,8"/>
+                                    Style="{DynamicResource h3}" />
+                            <ContentPresenter Margin="8,2,0,8" />
                         </StackPanel>
                     </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="DiagInfoRow" TargetType="{x:Type HeaderedContentControl}" BasedOn="{StaticResource DiagInfoRowBase}">
+            <Setter Property="Margin" Value="0" />
+            <!--
+            <Style.Resources>
+                <Style x:Key="{x:Type HeaderedContentControl}" TargetType="{x:Type HeaderedContentControl}" BasedOn="{StaticResource DiagInfoRowBase}">
+                    <Setter Property="Padding" Value="8,0,0,0" />
+                </Style>
+            </Style.Resources>
+            -->
+        </Style>
+        <Style x:Key="DiagInfoSubRow" TargetType="{x:Type HeaderedContentControl}" BasedOn="{StaticResource DiagInfoRowBase}">
+            <Setter Property="Margin" Value="8,2,0,0" />
+        </Style>
+        <Style x:Key="MultiEntryRowsStyle" TargetType="{x:Type ItemsControl}" BasedOn="{StaticResource {x:Type ItemsControl}}">
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <!--
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Style="{DynamicResource h3}"
+                                    Opacity="0.5"
+                                    Text="{Binding Key}" />
+                            <TextBlock Text="{Binding Value}" />
+                        </StackPanel>
+                        -->
+                        <HeaderedContentControl Content="{Binding Value}"
+                                            Style="{DynamicResource DiagInfoSubRow}">
+                            <e:Interaction.Behaviors>
+                                <cui:BindToDynamicResourceAsKeyBehavior ResourceKey="{Binding Key}"
+                                                                        TargetProperty="{x:Static HeaderedContentControl.HeaderProperty}" />
+                            </e:Interaction.Behaviors>
+                        </HeaderedContentControl>
+                    </DataTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
@@ -60,9 +103,11 @@
                                                 Header="{DynamicResource Help!DiagnosticInfo!ModAPIDLLsBuild}"
                                                 Style="{DynamicResource DiagInfoRow}"/>
 
-                        <!--HeaderedContentControl Content="{Binding SporeAppVersion}"
+                        <!--
+                        <HeaderedContentControl Content="{Binding SporeAppVersion}"
                                                 Header="{DynamicResource Help!DiagnosticInfo!SporeAppVersion}"
-                                                Style="{DynamicResource DiagInfoRow}"/-->
+                                                Style="{DynamicResource DiagInfoRow}"/>
+                        -->
 
                         <HeaderedContentControl Content="{Binding DotnetTarget}"
                                                 Header="{DynamicResource Help!DiagnosticInfo!DotnetTarget}"
@@ -72,10 +117,18 @@
                                                 Header="{DynamicResource Help!DiagnosticInfo!DotnetRunningUnder}"
                                                 Style="{DynamicResource DiagInfoRow}"/>
                         
+                        <!--
                         <HeaderedContentControl Content="{Binding EnvOSVersionWindowsVersion}"
                                                 Header="{DynamicResource Help!DiagnosticInfo!EnvOSVersionWindowsVersion}"
                                                 Style="{DynamicResource DiagInfoRow}"/>
+                        -->
+                        <HeaderedContentControl Header="{DynamicResource Help!DiagnosticInfo!DotnetOSInfo!Header}"
+                                                Style="{DynamicResource DiagInfoRow}">
+                            <ItemsControl ItemsSource="{Binding DotnetOSInfo}"
+                                        Style="{DynamicResource MultiEntryRowsStyle}" />
+                        </HeaderedContentControl>
                         
+                        <!--
                         <HeaderedContentControl Content="{Binding RtlGetVersionWindowsVersion}"
                                                 Header="{DynamicResource Help!DiagnosticInfo!RtlGetVersionWindowsVersion}"
                                                 Style="{DynamicResource DiagInfoRow}"/>
@@ -87,6 +140,21 @@
                         <HeaderedContentControl Content="{Binding RtlGetVersionOther}"
                                                 Header="{DynamicResource Help!DiagnosticInfo!RtlGetVersionOther}"
                                                 Style="{DynamicResource DiagInfoRow}"/>
+                        -->
+                        <HeaderedContentControl Header="{DynamicResource Help!DiagnosticInfo!RtlGetVersionOSInfo!Header}"
+                                                Style="{DynamicResource DiagInfoRow}">
+                            <ItemsControl ItemsSource="{Binding RtlGetVersionDetails}"
+                                        Style="{DynamicResource MultiEntryRowsStyle}" />
+                            <!--
+                            <StackPanel Orientation="Vertical">
+                                <HeaderedContentControl Content="{Binding RtlGetVersionServicePack}"
+                                                        Header="{DynamicResource Help!DiagnosticInfo!RtlGetVersionServicePack}" />
+                                
+                                <HeaderedContentControl Content="{Binding RtlGetVersionOther}"
+                                                        Header="{DynamicResource Help!DiagnosticInfo!RtlGetVersionOther}" />
+                            </StackPanel>
+                            -->
+                        </HeaderedContentControl>
                         
                         <HeaderedContentControl Content="{Binding WINEVersion}"
                                                 Header="{DynamicResource Help!DiagnosticInfo!WINEVersion!Header}"

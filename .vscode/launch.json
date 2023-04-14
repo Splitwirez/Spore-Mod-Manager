@@ -8,7 +8,7 @@
             "name": ".NET Core Launch (console)",
             "type": "cppdbg",
             "request": "launch",
-            "preLaunchTask": "build",
+            "preLaunchTask": "build-smm",
             "program": "/usr/bin/sh",
             "cwd": "${workspaceFolder}/build",
             "args": [

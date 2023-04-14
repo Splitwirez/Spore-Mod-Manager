@@ -286,7 +286,7 @@ namespace SporeMods.Core
 			}, null);
 		}*/
 
-		public event PropertyChangedEventHandler PropertyChanged;
+		//public event PropertyChangedEventHandler PropertyChanged;
 
 		/*public async Task<bool> ShowModConfigurator(ManagedMod mod)
 		{

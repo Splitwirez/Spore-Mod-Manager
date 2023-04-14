@@ -7,7 +7,7 @@ namespace SporeMods.Core
 {
     public static class TaskEx<TResult>
     {
-        public static async Task<TResult> Run<TResult>(Func<TResult> function)
+        public static async Task<TResult> Run(Func<TResult> function)
         {
             return await Task<TResult>.Run(function)
                 .ContinueWith(t =>

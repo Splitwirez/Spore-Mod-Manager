@@ -1,17 +1,14 @@
-﻿#if NOPE
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace SporeMods.CommonUI
+namespace SporeMods.Core
 {
     public static class NativeMethods
     {
         [DllImport("dwmapi.dll", EntryPoint = "#127")]
-        internal static extern void DwmGetColorizationParameters(ref DwmColorizationParams param);
+        public static extern void DwmGetColorizationParameters(ref DwmColorizationParams param);
 
         public struct DwmColorizationParams
         {
@@ -26,7 +23,7 @@ namespace SporeMods.CommonUI
 
         ///Extensions
         [DllImport("gdi32.dll")]
-        internal static extern bool DeleteObject(IntPtr hObject);
+        public static extern bool DeleteObject(IntPtr hObject);
 
         ///CompositingWindow
         /*[DllImport("user32.dll")]
@@ -255,13 +252,13 @@ namespace SporeMods.CommonUI
 
         public enum CombineRgnStyles : int
         {
-            RgnAnd         =1,
-            RgnOr          =2,
-            RgnXor         =3,
-            RgnDiff        =4,
-            RgnCopy        =5,
-            RgnMin         =RgnAnd,
-            RgnMax         =RgnCopy
+            RgnAnd = 1,
+            RgnOr = 2,
+            RgnXor = 3,
+            RgnDiff = 4,
+            RgnCopy = 5,
+            RgnMin = RgnAnd,
+            RgnMax = RgnCopy
         }
 
         [DllImport("gdi32.dll")]
@@ -384,30 +381,6 @@ namespace SporeMods.CommonUI
             WindowArrange
         }
 
-        [StructLayout(LayoutKind.Sequential)]
-        public struct WindowPos
-        {
-            public IntPtr hwnd;
-            public IntPtr hwndInsertAfter;
-            public Int32 x;
-            public Int32 y;
-            public Int32 cx;
-            public Int32 cy;
-            public Int32 flags;
-
-            public System.Windows.Rect Bounds
-            {
-                get { return new System.Windows.Rect(x, y, cx, cy); }
-                set
-                {
-                    x = (Int32)value.X;
-                    y = (Int32)value.Y;
-                    cx = (Int32)value.Width;
-                    cy = (Int32)value.Height;
-                }
-            }
-        }
-
         public const UInt32
             SwpNoSize = 0x0001,
             SwpNoMove = 0x0002,
@@ -422,7 +395,7 @@ namespace SporeMods.CommonUI
             WmSysCommand = 0x0112,
             WmWindowPosChanging = 0x0046,
             WmWindowPosChanged = 0x0047;
-        
+
         public const Int32
             SizeMaximized = 2,
             SizeRestored = 0;
@@ -628,4 +601,3 @@ namespace SporeMods.CommonUI
         public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
     }
 }
-#endif

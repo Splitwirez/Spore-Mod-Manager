@@ -1,34 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-  <!--aImport Project="..\SporeMods.SharedAssemblyInfo.props" /-->
-  <Import Project="..\build\Target.LKBootstrap.props" />
-  <PropertyGroup>
-    <!--aOutputType>WinExe</OutputType>
-	  <UseWPF>true</UseWPF-->
-	  <AssemblyTitle>SporeMods.KitUpgradeDownloader</AssemblyTitle>
-    <Product>SporeMods.KitUpgradeDownloader</Product>
-	  <!--aTargetFramework>net45</TargetFramework-->
-    <OutputPath>bin\$(Configuration)\</OutputPath>
-    <AssemblyName>ModAPIUpdateSetup</AssemblyName>
-    <ApplicationIcon>..\AppIcons\ModManagerSetupIcon.ico</ApplicationIcon>
-  </PropertyGroup>
-  <!--aPropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugType>full</DebugType>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-  </PropertyGroup-->
-  <ItemGroup>
-    <Content Include="..\AppIcons\ModManagerSetupIcon.ico">
-      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
-      <LogicalName>ModManagerSetupIcon.ico</LogicalName>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Fonts\Ubuntu-Regular.ttf" /> 
-    <Resource Include="Fonts\UFL.txt" />
-  </ItemGroup>
+    <Import Project="..\build\Target.LKBootstrap.props" />
+    <PropertyGroup>
+        <AssemblyTitle>SporeMods.KitUpgradeDownloader</AssemblyTitle>
+        <Product>SporeMods.KitUpgradeDownloader</Product>
+        <OutputPath>bin\$(Configuration)\</OutputPath>
+        <AssemblyName>ModAPIUpdateSetup</AssemblyName>
+        <ApplicationIcon>..\AppIcons\ModManagerSetupIcon.ico</ApplicationIcon>
+    </PropertyGroup>
+    <ItemGroup>
+        <Content Include="..\AppIcons\ModManagerSetupIcon.ico">
+            <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+            <LogicalName>ModManagerSetupIcon.ico</LogicalName>
+        </Content>
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="app.config" />
+    </ItemGroup>
+    <ItemGroup>
+        <Resource Include="Fonts\Ubuntu-Regular.ttf" /> 
+        <Resource Include="Fonts\UFL.txt" />
+    </ItemGroup>
 </Project>

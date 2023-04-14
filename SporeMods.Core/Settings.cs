@@ -37,7 +37,7 @@ namespace SporeMods.Core
 
 				return true;
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				return false;
 			}
@@ -470,7 +470,7 @@ namespace SporeMods.Core
 			{
 				_document = XDocument.Load(_settingsFilePath);
 			}
-			catch (XmlException ex)
+			catch (XmlException)
 			{
 				WriteSettingsXmlFile();
 				_document = XDocument.Load(_settingsFilePath);
@@ -877,11 +877,14 @@ namespace SporeMods.Core
 		}
 
 		//Developer mode has been shelved for a post-release update
+#if DEVELOPER_MODE
 		static string _developerModeEnabledPath = Path.Combine(Settings.ProgramDataPath, "developerMode.info");
 		static readonly bool _developerMode = File.Exists(_developerModeEnabledPath);
+#endif
 		public static bool DeveloperMode
 		{
-			get => false; //_developerMode;
+#if DEVELOPER_MODE
+			get => _developerMode;
 			set
 			{
 				if (false)
@@ -901,6 +904,9 @@ namespace SporeMods.Core
 					}
 				}
 			}
+#else
+			get => false;
+#endif
 		}
 
 

@@ -1,30 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-  <!--aImport Project="..\SporeMods.SharedAssemblyInfo.props" />
-  <Import Project="..\SporeMods.NetCoreSharedAssemblyInfo.props" /-->
-  <Import Project="..\build\Target.App.props" />
-  <PropertyGroup>
-    <!--aOutputType>WinExe</OutputType>
-    <UseWPF>true</UseWPF-->
-    <AssemblyTitle>SporeMods.KitImporter</AssemblyTitle>
-    <Product>SporeMods.KitImporter</Product>
-    <ApplicationIcon>..\AppIcons\ModManagerSetupIcon.ico</ApplicationIcon>
-    <AssemblyName>xLauncherKitImport</AssemblyName>
-  </PropertyGroup>
-  <ItemGroup>
-    <Content Include="..\AppIcons\ModManagerSetupIcon.ico">
-      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
-      <LogicalName>ModManagerSetupIcon.ico</LogicalName>
-    </Content>
-  </ItemGroup>
-  <!--aImport Project="..\SporeMods.SharedOutputDirs.props" /-->
-  <ItemGroup>
-    <ProjectReference Include="..\SporeMods.CommonUI\SporeMods.CommonUI.csproj"/>
-    <ProjectReference Include="..\SporeMods.Core\SporeMods.Core.csproj"/>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SporeMods.Manager\SporeMods.Manager.csproj">
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-  </ItemGroup>
+    <Import Project="..\build\Target.App.props" />
+    <PropertyGroup>
+        <AssemblyTitle>SporeMods.KitImporter</AssemblyTitle>
+        <Product>SporeMods.KitImporter</Product>
+        <ApplicationIcon>..\AppIcons\ModManagerSetupIcon.ico</ApplicationIcon>
+        <AssemblyName>xLauncherKitImport</AssemblyName>
+    </PropertyGroup>
+    <ItemGroup>
+        <Content Include="..\AppIcons\ModManagerSetupIcon.ico">
+            <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+            <LogicalName>ModManagerSetupIcon.ico</LogicalName>
+        </Content>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\SporeMods.CommonUI\SporeMods.CommonUI.csproj"/>
+        <ProjectReference Include="..\SporeMods.Core\SporeMods.Core.csproj"/>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\SporeMods.Manager\SporeMods.Manager.csproj">
+            <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+        </ProjectReference>
+    </ItemGroup>
 </Project>

@@ -56,16 +56,25 @@ namespace SporeMods.Core
 		}
 
 
-		static string _sporeApp = "SporeApp.exe";
-		static string _sporeAppModApiFix = "SporeApp_ModAPIFix.exe";
+		const string _SPOREAPP = "SporeApp.exe";
+		const string _SPOREAPP_MODAPIFIX = "SporeApp_ModAPIFix.exe";
+		public static bool IsSporeProcess(Process process)
+        {
+			string exeName = Path.GetFileName(process.GetExecutablePath());
+			return
+				exeName.Equals(_SPOREAPP, StringComparison.OrdinalIgnoreCase)
+				||
+				exeName.Equals(_SPOREAPP_MODAPIFIX, StringComparison.OrdinalIgnoreCase)
+			;
+		}
 
 		public static Dictionary<GameExecutableType, string> ExecutableFileNames = new Dictionary<GameExecutableType, string>
 		{
-			[GameExecutableType.Disk__1_5_1] = _sporeApp,
-			[GameExecutableType.Origin__1_5_1] = _sporeAppModApiFix,
-			[GameExecutableType.Origin__March2017] = _sporeAppModApiFix,
-			[GameExecutableType.GogOrSteam__1_5_1] = _sporeApp,
-			[GameExecutableType.GogOrSteam__March2017] = _sporeApp,
+			[GameExecutableType.Disk__1_5_1] = _SPOREAPP,
+			[GameExecutableType.Origin__1_5_1] = _SPOREAPP_MODAPIFIX,
+			[GameExecutableType.Origin__March2017] = _SPOREAPP_MODAPIFIX,
+			[GameExecutableType.GogOrSteam__1_5_1] = _SPOREAPP,
+			[GameExecutableType.GogOrSteam__March2017] = _SPOREAPP,
 			[GameExecutableType.None] = null
 		};
 
@@ -86,8 +95,8 @@ namespace SporeMods.Core
 			[GameDlc.None] = null
 		};
 
-		static string _registryPath64bit = @"SOFTWARE\Wow6432Node\Electronic Arts";
-		static string _registryPath32bit = @"SOFTWARE\Electronic Arts";
+		const string _registryPath64bit = @"SOFTWARE\Wow6432Node\Electronic Arts";
+		const string _registryPath32bit = @"SOFTWARE\Electronic Arts";
 
 		public static string[] RegistryValueNames =
 		{

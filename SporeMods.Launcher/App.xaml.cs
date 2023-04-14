@@ -45,7 +45,7 @@ namespace SporeMods.Launcher
 					proceed = false;
 				}
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				MessageBox.Show(GetLocalizedString("LauncherError!RunMgr"));
 				proceed = false;
@@ -61,7 +61,6 @@ namespace SporeMods.Launcher
 				}//;
 
 				SporeLauncher.CaptionHeight = SystemInformation.CaptionHeight;
-				SporeLauncher.GetSporeMainWindow = GetSporeMainWindow;
 
 				if (SporeLauncher.IsInstalledDarkInjectionCompatible())
 					SporeLauncher.LaunchGame();

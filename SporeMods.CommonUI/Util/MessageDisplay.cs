@@ -91,19 +91,5 @@ namespace SporeMods.CommonUI
 
 			window.ShowDialog();
 		}
-
-
-
-		public static void EnsureConsole()
-		{
-			if (Core.MessageDisplay.ShowsConsole)
-			{
-				IntPtr consoleHwnd = NativeMethods.GetConsoleWindow();
-				if (consoleHwnd == IntPtr.Zero)
-					NativeMethods.AllocConsole();
-				else
-					NativeMethods.ShowWindow(consoleHwnd, 1);
-			}
-		}
 	}
 }

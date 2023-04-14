@@ -158,7 +158,7 @@ namespace SporeMods.CommonUI
 
                 BindingOperations.SetBinding(_stateText, TextBlock.TextProperty, textBinding);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //Cmd.WriteLine("TOGGLESWITCH ONISCHECKEDCHANGED FAILED: " + ex);
             }

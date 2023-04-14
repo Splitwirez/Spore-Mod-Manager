@@ -1,55 +1,41 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  <!--aaImport Project="..\SporeMods.SharedAssemblyInfo.props" />
-  <Import Project="..\SporeMods.NetCoreSharedAssemblyInfo.props" /-->
-  <Import Project="..\build\Target.Lib.props" />
-  <PropertyGroup>
-    <!--aaOutputType>Library</OutputType-->
-    <AssemblyTitle>SporeMods.Core</AssemblyTitle>
-    <Product>SporeMods.Core</Product>
-  </PropertyGroup>
-  <!--aaImport Project="..\SporeMods.SharedOutputDirs.props" /-->
-  <UsingTask TaskName="WriteTargetFramework" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
-    <ParameterGroup>
-      <Framework ParameterType="System.String" Required="true" />
-    </ParameterGroup>
-    <Task>
-      <Using Namespace="System" />
-      <Using Namespace="System.IO" />
-      <Code Type="Fragment" Language="cs">
-        <![CDATA[
-        File.WriteAllText("RuntimeVersion.txt", Framework);
-        ]]>
-      </Code>
-    </Task>
-  </UsingTask>
-  <Target Name="EmbedLocal" BeforeTargets="PrepareForBuild">
-    <WriteTargetFramework Framework="$(TargetFramework)" />
-    <ItemGroup>
-      <EmbeddedResource Include="RuntimeVersion.txt" LogicalName="RuntimeVersion" />
-    </ItemGroup>
-  </Target>
+    <PropertyGroup>
+        <AssemblyTitle>Core functionalities for $(Product)</AssemblyTitle>
+    </PropertyGroup>
+    <UsingTask TaskName="WriteTargetFramework" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+        <ParameterGroup>
+            <Framework ParameterType="System.String" Required="true" />
+        </ParameterGroup>
+        <Task>
+            <Using Namespace="System" />
+            <Using Namespace="System.IO" />
+            <Code Type="Fragment" Language="cs">
+                <![CDATA[
+                File.WriteAllText("RuntimeVersion.txt", Framework);
+                ]]>
+            </Code>
+        </Task>
+    </UsingTask>
+    <Target Name="EmbedLocal" BeforeTargets="PrepareForBuild">
+        <WriteTargetFramework Framework="$(TargetFramework)" />
+        <ItemGroup>
+            <EmbeddedResource Include="RuntimeVersion.txt" LogicalName="RuntimeVersion" />
+        </ItemGroup>
+    </Target>
 
 
-    <!--PropertyGroup Condition="$(DefineConstants.Contains(HAS_BUILD_CHANNEL_IN))">
-      <DefineConstants Condition="Exists($(PBuildChannelOut)) And $(HasProcessedBuildChannel)">$(DefineConstants);SET_BUILD_CHANNEL</DefineConstants>
-    </PropertyGroup-->
     <ItemGroup Condition="$(DefineConstants.Contains(SET_BUILD_CHANNEL))">
-      <EmbeddedResource Include="$(BuildChannel)" LogicalName="BuildChannel" />
+        <EmbeddedResource Include="$(BuildChannel)" LogicalName="BuildChannel" />
     </ItemGroup>
-  <Import Project="../build/Shared.Nuget.props" />
-  <!--ItemGroup>
-    <EmbeddedResource Include="Locale\en-ca.txt" />
-    <EmbeddedResource Include="Locale\es-es.txt" />
-    <EmbeddedResource Include="Locale\ca-ca.txt" />
-  </ItemGroup-->
-  <ItemGroup>
-    <EmbeddedResource Include="ModAPIDLLs\SporeModAPI.lib" />
-    <EmbeddedResource Include="ModAPIDLLs\SporeModAPI-disk.dll" />
-    <EmbeddedResource Include="ModAPIDLLs\SporeModAPI-steam_patched.dll" />
-    <EmbeddedResource Include="ModAPIDLLs\SporeModAPI.disk.dll" />
-    <EmbeddedResource Include="ModAPIDLLs\SporeModAPI.march2017.dll" />
-  </ItemGroup>
-  <Import Condition="Exists('..\..\ModAPIFix.props')" Project="..\..\ModAPIFix.props" />
-  <Import Condition="(!Exists('..\..\ModAPIFix.props')) AND Exists('..\..\..\ModAPIFix.props')" Project="..\..\..\ModAPIFix.props" />
+    <Import Project="../build2/shared/nuget.props" />
+    <ItemGroup>
+        <EmbeddedResource Include="ModAPIDLLs/SporeModAPI.lib" />
+        <EmbeddedResource Include="ModAPIDLLs/SporeModAPI-disk.dll" />
+        <EmbeddedResource Include="ModAPIDLLs/SporeModAPI-steam_patched.dll" />
+        <EmbeddedResource Include="ModAPIDLLs/SporeModAPI.disk.dll" />
+        <EmbeddedResource Include="ModAPIDLLs/SporeModAPI.march2017.dll" />
+    </ItemGroup>
+    <Import Condition="Exists('../../../ModAPIFix.props')" Project="../../../ModAPIFix.props" />
+    <Import Condition="(!Exists('../../../ModAPIFix.props')) AND Exists('../../../../ModAPIFix.props')" Project="../../../../ModAPIFix.props" />
 </Project>

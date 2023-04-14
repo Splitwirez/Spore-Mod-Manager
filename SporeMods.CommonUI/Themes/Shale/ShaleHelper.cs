@@ -13,8 +13,7 @@ using System.Diagnostics;
 using SporeMods.Core;
 using SporeMods.CommonUI;
 using SporeMods.CommonUI.Localization;
-//using ColorMine;
-//using ColorMine.ColorSpaces;
+
 
 namespace SporeMods.CommonUI.Themes.Shale
 {
@@ -28,18 +27,15 @@ namespace SporeMods.CommonUI.Themes.Shale
             {
                 Source = new Uri(uriPath, UriKind.RelativeOrAbsolute)
             };
-            if (false)
-            {
-                ResourceDictionaryHelper.Flatten(ref dictionary);
-            }
-            else if (false)
-            {
-                var shaleControls = dictionary.MergedDictionaries[1].MergedDictionaries.Last();
-                int index = dictionary.MergedDictionaries[1].MergedDictionaries.IndexOf(shaleControls);
-                dictionary.MergedDictionaries[1].MergedDictionaries.Remove(shaleControls);
-                ResourceDictionaryHelper.Flatten(ref shaleControls);
-                dictionary.MergedDictionaries[1].MergedDictionaries.Insert(index, shaleControls);
-            }
+            
+            //ResourceDictionaryHelper.Flatten(ref dictionary);
+            
+            /*var shaleControls = dictionary.MergedDictionaries[1].MergedDictionaries.Last();
+            int index = dictionary.MergedDictionaries[1].MergedDictionaries.IndexOf(shaleControls);
+            dictionary.MergedDictionaries[1].MergedDictionaries.Remove(shaleControls);
+            ResourceDictionaryHelper.Flatten(ref shaleControls);
+            dictionary.MergedDictionaries[1].MergedDictionaries.Insert(index, shaleControls);*/
+            
             return dictionary;
         }
         

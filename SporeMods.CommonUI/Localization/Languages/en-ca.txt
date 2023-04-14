@@ -548,14 +548,40 @@ Help {
 		DotnetTarget Target .NET Runtime
 		#ADDED
 		DotnetRunningUnder Current .NET Runtime
+		
 		#ADDED
-		EnvOSVersionWindowsVersion Windows version reported by .NET API
+		DotnetOSInfo {
+			#ADDED
+			Header Windows OS info (from .NET APIs)
+
+			#ADDED
+			OSVersion OS version
+			#ADDED
+			Is64BitOperatingSystem On 64-bit OS?
+			#ADDED
+			Is64BitProcess As 64-bit process?
+		}
+		
 		#ADDED
-		RtlGetVersionWindowsVersion Windows version reported by RtlGetVersion
-		#ADDED
-		RtlGetVersionServicePack Windows Service pack
-		#ADDED
-		RtlGetVersionOther Additional details from RtlGetVersion
+		RtlGetVersionOSInfo {
+			#ADDED
+			Header Windows OS info (from RtlGetVersion)
+
+			#ADDED
+			OSVersion OS version
+			#ADDED
+			SPName Service pack name (if any)
+			#ADDED
+			SPVersion Service pack version (if any)
+			#ADDED
+			dwOSVersionInfoSize OSVERSIONINFOEXW struct size
+			#ADDED
+			dwPlatformId OS platform ID
+			#ADDED
+			wSuiteMask Reported product suite(s) (if any)
+			#ADDED
+			wProductType Reported product type(s) (if any)
+		}
 		#ADDED
 		WINEVersion {
 			#ADDED

@@ -1,26 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-  <Import Project="..\build\Target.App.props" />
-  <PropertyGroup>
-    <AssemblyTitle>SporeMods.Manager</AssemblyTitle>
-    <Product>SporeMods.Manager</Product>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>..\AppIcons\ModManagerIcon.ico</ApplicationIcon>
-    <AssemblyName>Spore Mod Manager</AssemblyName>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject></StartupObject>
-  </PropertyGroup>
-  <ItemGroup>
-    <Content Include="..\AppIcons\ModManagerIcon.ico">
-      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
-      <LogicalName>ModManagerIcon.ico</LogicalName>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SporeMods.Launcher\SporeMods.Launcher.csproj">
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-  </ItemGroup>
+    <PropertyGroup>
+        <AssemblyTitle>$(Product)</AssemblyTitle>
+        <ApplicationIcon>../AppIcons/ModManagerIcon.ico</ApplicationIcon>
+        <UseWPF>true</UseWPF>
+        <OutputType>WinExe</OutputType>
+        <AssemblyName>Spore Mod Manager</AssemblyName>
+    </PropertyGroup>
+    <PropertyGroup>
+        <StartupObject></StartupObject>
+    </PropertyGroup>
+
+    <ItemGroup>
+		<ProjectReference Include="../SporeMods.CommonUI/SporeMods.CommonUI.csproj" />
+        <ProjectReference Include="../SporeMods.Launcher/SporeMods.Launcher.csproj">
+            <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+        </ProjectReference>
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="$(ApplicationIcon)">
+            <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+            <LogicalName>ModManagerIcon.ico</LogicalName>
+        </Content>
+    </ItemGroup>
 </Project>

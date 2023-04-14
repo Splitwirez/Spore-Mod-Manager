@@ -10,7 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Interop;
-using static SporeMods.CommonUI.NativeMethods;
+using static SporeMods.Core.NativeMethods;
 //using CompositingWindow = SporeMods.CommonUI.Windows.CompositingWindow;
 using SporeMods.Core;
 using static SporeMods.CommonUI.UACPartnerCommands;

@@ -11,6 +11,9 @@ using SporeMods.Core;
 using SporeMods.CommonUI.Localization;
 using SporeMods.Views;
 using System.Windows.Threading;
+using System.Threading.Tasks;
+using SporeMods.Core.Injection;
+using System.Threading;
 
 namespace SporeMods.CommonUI
 {
@@ -231,7 +234,20 @@ namespace SporeMods.CommonUI
 				{
 					if (sgnl.Equals(LAUNCH_GAME, csNo))
 					{
-						CrossProcess.StartLauncher();
+						var process = CrossProcess.StartLauncher();
+						Thread thread = new Thread(() =>
+						{
+							if (process == null)
+								return;
+							if (process.HasExited)
+								return;
+
+							process.WaitForExit();
+							
+							if (SporeLauncher.TryGetSporeProcess(out Process sporeProcess))
+								Application.Current.Dispatcher.Invoke(() => SendSignal(GAME_LAUNCHED, sporeProcess.Id.ToString()));
+						});
+						thread.Start();
 					}
 					else if (sgnl.Equals(OPEN_URL, csNo))
 					{
@@ -260,6 +276,16 @@ namespace SporeMods.CommonUI
 					if (sgnl.Equals(DROPPED_FILES, csNo))
 					{
 						FilesDropped?.Invoke(null, new FileDropEventArgs(File.ReadAllLines(args.FullPath)));
+					}
+					else if (sgnl.Equals(GAME_LAUNCHED, csNo))
+                    {
+						if ((_getSporeProcess != null) && int.TryParse(File.ReadAllText(args.FullPath).Trim(), out int pid))
+						{
+							var process = Process.GetProcessById(pid);
+							
+							if (process != null)
+								_getSporeProcess.TrySetResult(process);
+						}
 					}
 					else
 						processed = false;
@@ -298,8 +324,7 @@ namespace SporeMods.CommonUI
 		}
 
 		const string LAUNCH_GAME = "launch_game";
-		public static void RunLauncher()
-			=> SendSignal(LAUNCH_GAME);
+		static readonly string GAME_LAUNCHED = $"{LAUNCH_GAME}_pid";
 
 		const string OPEN_URL = "open_url";
 
@@ -342,6 +367,33 @@ namespace SporeMods.CommonUI
 				return process;
 			}
 			return null;
+		}
+
+
+		static TaskCompletionSource<Process> _getSporeProcess = null;
+		public static async Task LaunchSporeAsync()
+		{
+			Process gameProcess = null;
+			if (Permissions.IsAtleastWindowsVista() && Permissions.IsAdministrator() && UACPartnerCommands.HasUACPartnership && IsUACAdminPartnerProcess)
+			{
+				_getSporeProcess = new TaskCompletionSource<Process>();
+				SendSignal(LAUNCH_GAME);
+				gameProcess = await _getSporeProcess.Task;
+			}
+			else
+			{
+				Process launcherProcess = await CrossProcess.StartLauncherAsync();
+				await Task.Run(() => launcherProcess.WaitForExit());
+			}
+
+			if (gameProcess == null)
+            {
+				if (!SporeLauncher.TryGetSporeProcess(out gameProcess))
+					throw new NullReferenceException("No Spore process...what in tarnation? (PLACEHOLDER)");
+			}
+
+			if (!gameProcess.HasExited)
+				await Task.Run(() => gameProcess.WaitForExit());
 		}
 	}
 

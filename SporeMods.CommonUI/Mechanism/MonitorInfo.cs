@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 //using System.Windows;
 //using static SporeMods.CommonUI.MonitorInfo.NativeMethods;
-using static SporeMods.CommonUI.NativeMethods;
+using static SporeMods.Core.NativeMethods;
 
 namespace SporeMods.CommonUI
 {

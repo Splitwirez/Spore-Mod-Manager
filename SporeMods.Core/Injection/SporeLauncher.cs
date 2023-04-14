@@ -109,7 +109,7 @@ namespace SporeMods.Core.Injection
 								{
 									_needsOriginPrerequisites = Externals.NeedsPrerequisitesExtracted;
 								}
-								catch (Exception ex)
+								catch (Exception)
 								{
 									_needsOriginPrerequisites = true;
 								}
@@ -814,7 +814,32 @@ namespace SporeMods.Core.Injection
 			}
 		}
 
-		public static Func<int, IntPtr> GetSporeMainWindow = null;
+		public static IntPtr GetSporeMainWindow(int processId)
+		{
+			IntPtr spore = IntPtr.Zero;
+			//List<IntPtr> hwnds = new List<IntPtr>();
+			foreach (ProcessThread thread in Process.GetProcessById(processId).Threads)
+				NativeMethodsInj.EnumThreadWindows(thread.Id, (hWnd, lParam) =>
+				{
+					StringBuilder bld = new StringBuilder();
+					if ((hWnd != IntPtr.Zero) && NativeMethodsInj.IsWindow(hWnd) && NativeMethodsInj.IsWindowVisible(hWnd))
+					{
+						NativeMethodsInj.GetClassName(hWnd, bld, 7);
+
+						string clss = bld.ToString();
+						Cmd.WriteLine($"WINDOW CLASS: {clss}");
+
+						if ((clss == "Canvas") && (hWnd != IntPtr.Zero) && NativeMethodsInj.IsWindow(hWnd))
+						{
+							spore = hWnd;
+							return false;
+						}
+					}
+					return true;
+				}, IntPtr.Zero);
+
+			return spore;
+		}
 
 		/*string ProcessSporebinPath()
 		{
@@ -978,8 +1003,19 @@ namespace SporeMods.Core.Injection
 		}
 
 		public static bool IsSporeRunning()
+			=> GetSporeProcesses().Count > 0;
+
+		public static bool TryGetSporeProcess(out Process sporeProcess)
 		{
-			return GetSporeProcesses().Count() > 0;
+			var processes = GetSporeProcesses();
+			if (processes.Count == 1)
+			{
+				sporeProcess = processes[0];
+				return true;
+			}
+
+			sporeProcess = null;
+			return false;
 		}
 
 		public static void KillSporeProcesses()

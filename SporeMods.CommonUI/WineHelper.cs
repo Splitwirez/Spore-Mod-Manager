@@ -18,7 +18,7 @@ namespace SporeMods.CommonUI
 			{
 				Clipboard.SetText(newContent);
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				MessageDisplay.ShowClipboardFallback(LanguageManager.Instance.GetLocalizedText("CopypasteToTechSupport"), newContent);
 			}
@@ -47,7 +47,7 @@ namespace SporeMods.CommonUI
 					else if (process.HasExited)
 						showFallback = true;
 				}
-				catch (Exception ex)
+				catch (Exception)
 				{
 					showFallback = true;
 				}

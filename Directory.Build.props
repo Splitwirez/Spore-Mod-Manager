@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+    <PropertyGroup>
+        <AssemblyVersion>1.7.9.0</AssemblyVersion>
+        <FileVersion>$(AssemblyVersion)</FileVersion>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <Product>Spore Mod Manager</Product>
+        <!--
+        https://learn.microsoft.com/en-us/dotnet/api/system.reflection.assemblytitleattribute#remarks
+        <AssemblyTitle></AssemblyTitle>
+        -->
+    </PropertyGroup>
+    
+    
+    <PropertyGroup Condition="'$(TargetFramework)' != 'net45'">
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <RuntimeFrameworkVersion>3.1.12</RuntimeFrameworkVersion>
+        <TargetLatestRuntimePatch>False</TargetLatestRuntimePatch>
+        <ForceManagedImplementation>True</ForceManagedImplementation>
+        <RuntimeIdentifier>win-x86</RuntimeIdentifier>
+    </PropertyGroup>
+    
+    
+    
+    <!--
+    Shared.x86.props
+
+    Shared.BuildChannels.props
+    Shared.BuildConfigs.props
+    Shared.BuildOutputPathConcat.props
+    Shared.DefineConstantsEx.props
+    Shared.DontRequireWindows.props
+    Shared.DontRequireWindows.props
+    -->
+    
+    
+    
+    <PropertyGroup>
+        <BuildChannel>$(MSBuildProjectDirectory)/../../BuildChannel.txt</BuildChannel>
+        <DefineConstants Condition="Exists($(BuildChannel))">$(DefineConstants);SET_BUILD_CHANNEL</DefineConstants>
+    </PropertyGroup>
+    
+    
+    
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+        <DebugType>full</DebugType>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <DebugType>pdbonly</DebugType>
+    </PropertyGroup>
+    
+    
+    
+    <PropertyGroup>
+        <OutputPath>..\devBin\$(Configuration)\</OutputPath>
+        
+        <UserBuildDir Condition="'$(OS)' == 'Windows_NT'">$(userprofile)\Spore Mod Manager</UserBuildDir>
+        <UserBuildDir Condition="'$(OS)' != 'Windows_NT'">$(HOME)/.local/share/spore-mod-manager</UserBuildDir>
+    </PropertyGroup>
+    <PropertyGroup Condition="Exists('$(UserBuildDir)/BUILD_TO_USER_DIR')">
+        <OutputPath>$(UserBuildDir)/bin/$(Configuration)/</OutputPath>
+    </PropertyGroup>
+    
+    
+    
+    <PropertyGroup>
+        <AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath>
+        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    </PropertyGroup>
+
+
+
+    <PropertyGroup>
+        <DefineConstants>$(DefineConstants);$(DefineConstantsEx)</DefineConstants>
+    </PropertyGroup>
+    
+    
+
+    <ItemGroup>
+        <KnownFrameworkReference Update="Microsoft.WindowsDesktop.App" IsWindowsOnly="false" />
+        <KnownFrameworkReference Update="Microsoft.WindowsDesktop.App.WPF" IsWindowsOnly="false" />
+        <KnownFrameworkReference Update="Microsoft.WindowsDesktop.App.WindowsForms" IsWindowsOnly="false" />
+    </ItemGroup>
+    <PropertyGroup>
+        <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    </PropertyGroup>
+</Project>

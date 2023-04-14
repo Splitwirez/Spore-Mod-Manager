@@ -74,7 +74,7 @@ namespace SporeMods.ViewModels
 		}
 
 
-		async void Modal_Shown(object sender, ModalShownEventArgs args)
+		void Modal_Shown(object sender, ModalShownEventArgs args)
         {
             CurrentModalVM = args != null ? args.ViewModel : null;
             //await args.Task;

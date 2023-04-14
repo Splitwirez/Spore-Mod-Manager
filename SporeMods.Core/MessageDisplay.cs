@@ -71,10 +71,5 @@ namespace SporeMods.Core
 
 			return Path.GetFileName(System.Reflection.Assembly.GetEntryAssembly().Location) + "!!" + now + ".info";
 		}
-
-
-
-		internal const string SHOW_CONSOLE_CMD = "--console";
-		public static readonly bool ShowsConsole = Environment.GetCommandLineArgs().Any(x => x.Trim('"').Equals(SHOW_CONSOLE_CMD, StringComparison.OrdinalIgnoreCase));
 	}
 }

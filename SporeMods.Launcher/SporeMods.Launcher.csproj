@@ -1,21 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-  <Import Project="..\build\Target.App.props" />
-  <PropertyGroup>
-    <AssemblyTitle>SporeMods.Launcher</AssemblyTitle>
-    <Product>SporeMods.Launcher</Product>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>..\AppIcons\ModLauncherIcon.ico</ApplicationIcon>
-    <AssemblyName>Launch Spore</AssemblyName>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject></StartupObject>
-  </PropertyGroup>
-  <ItemGroup>
-    <Content Include="..\AppIcons\ModLauncherIcon.ico">
-      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
-      <LogicalName>ModLauncherIcon.ico</LogicalName>
-    </Content>
-  </ItemGroup>
+    <PropertyGroup>
+        <AssemblyTitle>Launch Spore</AssemblyTitle>
+        <ApplicationIcon>../AppIcons/ModLauncherIcon.ico</ApplicationIcon>
+        <UseWPF>true</UseWPF>
+        <OutputType>WinExe</OutputType>
+        <AssemblyName>Launch Spore</AssemblyName>
+    </PropertyGroup>
+    <PropertyGroup>
+        <StartupObject></StartupObject>
+    </PropertyGroup>
+
+    <ItemGroup>
+		<ProjectReference Include="../SporeMods.CommonUI/SporeMods.CommonUI.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="$(ApplicationIcon)">
+            <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+            <LogicalName>ModLauncherIcon.ico</LogicalName>
+        </Content>
+    </ItemGroup>
 </Project>
