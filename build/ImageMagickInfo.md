@@ -1,1 +1,0 @@
-ImageMagick-7.0.11-12-portable-Q16-x86

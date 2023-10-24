@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project>
-	<Import Project="TargetBase.AllPostLK.props" />
-	<PropertyGroup>
-		<OutputType>WinExe</OutputType>
-		<UseWPF>true</UseWPF>
-		<UseWindowsForms>true</UseWindowsForms>
-	</PropertyGroup>
-</Project>

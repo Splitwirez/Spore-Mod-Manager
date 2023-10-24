@@ -2,30 +2,12 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build-launcher",
+            "label": "build",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/SporeMods.Launcher",
-                "-c",
-                "Debug",
-                "-p:DefineConstantsEx=LINUX_DEBUG",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "build-smm",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/src/SporeMods.Manager",
-                "-c",
-                "Debug",
-                "-p:DefineConstantsEx=LINUX_DEBUG",
+                "${workspaceFolder}/LinuxProcessEnvVarsPOC/LinuxProcessEnvVarsPOC.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -37,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/src/SporeMods.Manager",
+                "${workspaceFolder}/LinuxProcessEnvVarsPOC/LinuxProcessEnvVarsPOC.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -50,9 +32,8 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/src/SporeMods.Manager",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
+                "--project",
+                "${workspaceFolder}/LinuxProcessEnvVarsPOC/LinuxProcessEnvVarsPOC.csproj"
             ],
             "problemMatcher": "$msCompile"
         }
