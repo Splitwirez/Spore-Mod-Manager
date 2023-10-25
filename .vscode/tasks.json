@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/SporeMods.Launcher",
+                "${workspaceFolder}/SporeMods.Launcher",
                 "-c",
                 "Debug",
                 "-p:DefineConstantsEx=LINUX_DEBUG",
@@ -22,7 +22,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/SporeMods.Manager",
+                "${workspaceFolder}/SporeMods.Manager",
                 "-c",
                 "Debug",
                 "-p:DefineConstantsEx=LINUX_DEBUG",
@@ -37,7 +37,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/src/SporeMods.Manager",
+                "${workspaceFolder}/SporeMods.Manager",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -50,7 +50,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/src/SporeMods.Manager",
+                "${workspaceFolder}/SporeMods.Manager",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

@@ -51,7 +51,7 @@ namespace SporeMods.CommonUI
 					}
 					catch (Exception ex)
 					{
-						MessageDisplay.ShowException(ex);
+						MessageDisplay.ShowFatalException(ex);
 						return;
 					}
 
@@ -88,7 +88,7 @@ namespace SporeMods.CommonUI
 
 							if (progressDialog.Error != null)
 							{
-								MessageDisplay.ShowException(progressDialog.Error);
+								MessageDisplay.ShowFatalException(progressDialog.Error);
 								return;
 							}
 
@@ -125,7 +125,7 @@ namespace SporeMods.CommonUI
 					}
 					catch (Exception ex)
 					{
-						MessageDisplay.ShowException(ex);
+						MessageDisplay.ShowFatalException(ex);
 						return;
 					}
 
@@ -166,7 +166,7 @@ namespace SporeMods.CommonUI
 
 								if (progressDialog.Error != null)
 								{
-									MessageDisplay.ShowException(progressDialog.Error);
+									MessageDisplay.ShowFatalException(progressDialog.Error);
 								}
 							}
 						}
