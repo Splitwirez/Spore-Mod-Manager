@@ -51,6 +51,9 @@
                                 Unchecked="UseCSDsToggleButton_Unchecked"/>
                 </UniformGrid>
             </HeaderedContentControl>
+            <CheckBox x:Name="WPFForceSWRender"
+                    IsChecked="{Binding ForceWPFSoftwareRendering}"
+                    Content="Force WPF software rendering (PLACEHOLDER) (NOT LOCALIZED)" />
         </cui:StackPanelEx>
     </GroupBox>
 </UserControl>
