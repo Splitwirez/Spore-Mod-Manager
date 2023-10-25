@@ -12,12 +12,10 @@ namespace SporeMods.Core.Mods
 {
     public partial class MI1_0_X_XMod
     {
-#if MOD_SETTINGS_IMAGES
         Dictionary<string, MemoryStream> _imageStreams = new Dictionary<string, MemoryStream>();
 
         public virtual MemoryStream GetImageStream(string fileName)
             => _imageStreams.TryGetValue(fileName, out MemoryStream stream) ? stream : null;
-#endif
 
 
 
@@ -84,15 +82,15 @@ namespace SporeMods.Core.Mods
                 string recordDirName = ModUtils.GetModsRecordDirNameFromString(unique);
                 RecordDirName = recordDirName;
 
-#if MOD_SETTINGS_IMAGES
+
                 var imageStreams = new Dictionary<string, MemoryStream>();
-#endif
+
                 foreach (var h in archive.Entries)
                 {
                     string hRawName = h.Name;
                     string hName = Path.GetFileName(hRawName);
                     _fileNames.Add(hName);
-#if MOD_SETTINGS_IMAGES
+
                     if (Path.GetExtension(hName).Equals(".png", StringComparison.OrdinalIgnoreCase))
                     {
                         MemoryStream copyStream = new MemoryStream();
@@ -102,15 +100,15 @@ namespace SporeMods.Core.Mods
                         copyStream.Seek(0, SeekOrigin.Begin);
                         imageStreams.Add(hName, copyStream);
                     }
-#endif
+
                 }
                 WarningLabels.UsesCodeInjection = ModUtils.AreAnyFilesCustomCode(_fileNames);
 
 
                 IsIncoming = true;
-#if MOD_SETTINGS_IMAGES
+
                 _imageStreams = imageStreams;
-#endif
+
                 ReadIdentity(doc);
                 IsIncoming = false;
 
