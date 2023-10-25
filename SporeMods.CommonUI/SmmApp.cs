@@ -28,7 +28,7 @@ namespace SporeMods.CommonUI
 			{
 				if (e.Exception is FileNotFoundException fnfex)
                 {
-					CUIMsg.ShowException(fnfex, false);
+					CUIMsg.ShowException(fnfex);
                 }
 			};*/
 			AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
@@ -38,14 +38,14 @@ namespace SporeMods.CommonUI
 		private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
 		{
 			//CleanupForExit();
-			CUIMsg.ShowException(e.Exception);
+			CUIMsg.ShowFatalException(e.Exception);
 		}
 
 		private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
 			//CleanupForExit();
 			if (e.ExceptionObject is Exception exc)
-				CUIMsg.ShowException(exc);
+				CUIMsg.ShowFatalException(exc);
 		}
 
 		public static new SmmApp Current
@@ -215,7 +215,7 @@ namespace SporeMods.CommonUI
 
 		protected virtual bool OnErrorOccurred(object sender, Core.ErrorEventArgs e)
         {
-			CUIMsg.ShowException(e.Exception, false);
+			CUIMsg.ShowException(e.Exception);
 			return true;
 		}
 	}

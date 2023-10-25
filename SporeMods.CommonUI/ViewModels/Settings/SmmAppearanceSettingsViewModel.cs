@@ -37,6 +37,29 @@ namespace SporeMods.ViewModels
 			}
 		}
 
+		public bool ForceWPFSoftwareRendering
+		{
+			get => Settings.ForceSoftwareRendering;
+			set
+			{
+				bool prevVal = Settings.ForceSoftwareRendering;
+				if (prevVal != value)
+				{
+					string swrForcePath = Settings.ForceSoftwareRenderingOverrideFilePath;
+					bool swrForceExists = File.Exists(swrForcePath);
+					if (!swrForceExists)
+						Settings.ForceSoftwareRendering = value;
+					DialogBox.ShowAsync(
+						swrForceExists
+							? $"Delete '{swrForcePath}' (PLACEHOLDER) (NOT LOCALIZED)"
+							: "Your change to this setting will take effect next time the Spore Mod Manager is restarted. (NOT LOCALIZED)"
+						, "Force WPF software rendering (PLACEHOLDER) (NOT LOCALIZED)"
+					);
+				}
+				NotifyPropertyChanged();
+			}
+		}
+
 
 		public static SmmAppearanceSettingsViewModel Instance { get; } = new SmmAppearanceSettingsViewModel();
 

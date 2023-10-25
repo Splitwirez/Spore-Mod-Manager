@@ -13,6 +13,8 @@ using SporeMods.CommonUI;
 using SporeMods.CommonUI.Localization;
 using System.Windows.Automation;
 using System.Collections.ObjectModel;
+using System.Runtime.InteropServices;
+using System.Windows.Documents;
 //using ModTaskStatus = SporeMods.Core.ModTransactions.TaskStatus;
 
 namespace SporeMods.ViewModels
@@ -274,11 +276,21 @@ namespace SporeMods.ViewModels
 				IsSporeRunning = _sporeProcesses.Count > 0;
 			};
 
-			Automation.AddAutomationEventHandler(
-				WindowPattern.WindowOpenedEvent,
-				AutomationElement.RootElement,
-				TreeScope.Subtree,
-				Automation_WindowOpened);
+			try
+			{
+				Automation.AddAutomationEventHandler(
+					WindowPattern.WindowOpenedEvent,
+					AutomationElement.RootElement,
+					TreeScope.Subtree,
+					Automation_WindowOpened);
+			}
+			catch (TypeInitializationException typeInitExc)
+			{
+				if (typeInitExc.InnerException is SEHException sehExc)
+					CommonUI.MessageDisplay.ShowException(sehExc);
+				else
+					CommonUI.MessageDisplay.ShowFatalException(typeInitExc);
+			}
 		}
 
 		void Automation_WindowOpened(object sender, AutomationEventArgs e)

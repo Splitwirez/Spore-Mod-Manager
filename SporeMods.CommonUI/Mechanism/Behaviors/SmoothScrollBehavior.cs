@@ -31,10 +31,13 @@ namespace SporeMods.CommonUI
         
         public static void OnVerticalSmoothingPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+#if ENABLE_SMOOTH_SCROLLing
             //Cmd.WriteLine($"Smoothing to {e.NewValue}");
             ((SmoothScrollBehavior)d)._currentVerticalSmoothing = (double)(e.NewValue);
+#endif
         }
 
+#if ENABLE_SMOOTH_SCROLLing
         static readonly bool VERTICAL_SCROLL_PAGES = System.Windows.Forms.SystemInformation.MouseWheelScrollLines == -1;
         static readonly double VERTICAL_INTERVAL = SystemScaling.RealPixelsToWpfUnits(System.Windows.Forms.SystemInformation.MouseWheelScrollLines * 18); //new System.Windows.Forms.VScrollBar().SmallChange);
 
@@ -223,5 +226,6 @@ namespace SporeMods.CommonUI
             _animTimeRemainingMs = _animDurationMs;
             _smoothScrollTimer.Start();
         }
+#endif
     }
 }

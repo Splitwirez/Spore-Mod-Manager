@@ -61,6 +61,17 @@
     <LinearGradientBrush x:Key="ButtonHoverBackgroundBrush" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonHoverBackgroundGradientStops}"/>
     <LinearGradientBrush x:Key="ButtonHoverSecondaryBackgroundBrush" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonHoverSecondaryBackgroundGradientStops}"/>
 
-    <LinearGradientBrush x:Key="ButtonPressedBackgroundBrush" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedBackgroundGradientStops}"/>
-    <LinearGradientBrush x:Key="ButtonPressedSecondaryBackgroundBrush" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedSecondaryBackgroundGradientStops}"/>
+    <LinearGradientBrush x:Key="ButtonPressedBackgroundBrush" StartPoint="0,1" EndPoint="0,0" GradientStops="{DynamicResource ButtonPressedBackgroundGradientStops}"/>
+    <LinearGradientBrush x:Key="ButtonPressedSecondaryBackgroundBrush" StartPoint="0,1" EndPoint="0,0" GradientStops="{DynamicResource ButtonPressedSecondaryBackgroundGradientStops}"/>
+
+
+
+
+    <LinearGradientBrush x:Key="TextBoxIdleBackgroundBrush" StartPoint="0,1" EndPoint="0,0" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
+    <LinearGradientBrush x:Key="TextBoxIdleSecondaryBackgroundBrush" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource TextBoxIdleBackgroundGradientStops}"/>
+
+    <LinearGradientBrush x:Key="TextBoxHoverBackgroundBrush" StartPoint="0,0" EndPoint="0,1"  GradientStops="{DynamicResource ButtonHoverBackgroundGradientStops}"/>
+    <LinearGradientBrush x:Key="TextBoxHoverSecondaryBackgroundBrush" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource TextBoxIdleBackgroundGradientStops}"/>
+
+    <LinearGradientBrush x:Key="TextBoxPressedSecondaryBackgroundBrush" StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedBackgroundGradientStops}"/>
 </ResourceDictionary>

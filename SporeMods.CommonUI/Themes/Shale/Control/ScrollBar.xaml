@@ -55,99 +55,42 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
                     <cui:FloorPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <Border x:Name="IdleBackground" CornerRadius="0" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="1">
-                            <Border.Background>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonIdleBackgroundGradientStops}"/>
-                            </Border.Background>
-                            <Border CornerRadius="0" Margin="1" Padding="0" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0"/>
+                        <Border x:Name="BackgroundBorder"
+								Background="{DynamicResource ButtonIdleSecondaryBackgroundBrush}"
+								CornerRadius="0">
+                            <Border x:Name="InnerBackgroundBorder"
+									Margin="1"
+									Padding="0"
+									Background="{TemplateBinding Background}"
+									BorderBrush="Transparent"
+									BorderThickness="0"
+									CornerRadius="0"/>
                         </Border>
-                        <Border x:Name="HoverBackground" CornerRadius="0" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonHoverBorderBrush}" BorderThickness="1" Opacity="0">
-                            <Border.Background>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1"  GradientStops="{DynamicResource ButtonHoverBackgroundGradientStops}"/>
-                            </Border.Background>
-                            <Border CornerRadius="0" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
-                                <Border.Background>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonHoverSecondaryBackgroundGradientStops}"/>
-                                </Border.Background>
-                            </Border>
-                        </Border>
-                        <Border x:Name="PressedBackground" CornerRadius="0" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonPressedBorderBrush}" BorderThickness="1" Opacity="0">
-                            <Border.Background>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedBackgroundGradientStops}"/>
-                            </Border.Background>
-                            <Border CornerRadius="0" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
-                                <Border.Background>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedSecondaryBackgroundGradientStops}"/>
-                                </Border.Background>
-                            </Border>
-                        </Border>
-                        <Border x:Name="DisabledBackground" CornerRadius="0" Margin="0" Padding="0" Background="{DynamicResource ButtonDisabledBackgroundBrush}" BorderBrush="{DynamicResource ButtonDisabledBorderBrush}" BorderThickness="1" Opacity="0">
-                            <Border CornerRadius="0" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0" Background="{DynamicResource ButtonDisabledSecondaryBackgroundBrush}"/>
-                        </Border>
+                        <Border x:Name="BorderBrushBorder"
+								Margin="1"
+								Padding="0"
+								Background="Transparent"
+								BorderBrush="{TemplateBinding BorderBrush}"
+								BorderThickness="1"
+								CornerRadius="0"/>
                     </cui:FloorPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="HoverBackground" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.125" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="HoverBackground" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.5" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.ExitActions>
+                            <Setter TargetName="BackgroundBorder" Property="Background" Value="{DynamicResource ButtonHoverBackgroundBrush}" />
+                            <Setter TargetName="BackgroundBorder" Property="BorderBrush" Value="{DynamicResource ButtonHoverBorderBrush}" />
+                            <Setter TargetName="InnerBackgroundBorder" Property="Background" Value="{DynamicResource ButtonHoverSecondaryBackgroundBrush}" />
                         </Trigger>
                         <Trigger Property="IsDragging" Value="True">
-                            <Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="IdleBackground"
-                                                         Storyboard.TargetProperty="Opacity" To="0"
-                                                         Duration="0:0:0.125" />
-                                        <DoubleAnimation Storyboard.TargetName="PressedBackground"
-                                                         Storyboard.TargetProperty="Opacity" To="1"
-                                                         Duration="0:0:0.125" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="IdleBackground"
-                                                         Storyboard.TargetProperty="Opacity" To="1"
-                                                         Duration="0:0:0.125" />
-                                        <DoubleAnimation Storyboard.TargetName="PressedBackground"
-                                                         Storyboard.TargetProperty="Opacity" To="0"
-                                                         Duration="0:0:0.125" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.ExitActions>
+                            <Setter TargetName="BackgroundBorder" Property="Background" Value="{DynamicResource ButtonPressedBackgroundBrush}" />
+                            <Setter TargetName="BackgroundBorder" Property="BorderBrush" Value="{DynamicResource ButtonPressedBorderBrush}" />
+                            <Setter TargetName="InnerBackgroundBorder" Property="Background" Value="{DynamicResource ButtonPressedSecondaryBackgroundBrush}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="{DynamicResource ButtonDisabledForegroundBrush}"/>
-                            <Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="DisabledBackground"
-                                                         Storyboard.TargetProperty="Opacity" To="1"
-                                                         Duration="0:0:0.125" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="DisabledBackground"
-                                                         Storyboard.TargetProperty="Opacity" To="0"
-                                                         Duration="0:0:0.125" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.ExitActions>
+                            <Setter Property="Foreground" Value="{DynamicResource ButtonDisabledForegroundBrush}" />
+                            <Setter TargetName="BackgroundBorder" Property="Background" Value="{DynamicResource ButtonDisabledBackgroundBrush}" />
+                            <Setter TargetName="BackgroundBorder" Property="BorderBrush" Value="{DynamicResource ButtonDisabledBorderBrush}" />
+                            <Setter TargetName="InnerBackgroundBorder" Property="Background" Value="{DynamicResource ButtonDisabledSecondaryBackgroundBrush}" />
+                            <Setter TargetName="BorderBrushBorder" Property="Opacity" Value="0.25" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

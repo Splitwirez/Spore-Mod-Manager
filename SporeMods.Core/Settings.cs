@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using SporeMods.Core.Mods;
 using static SporeMods.Core.GameInfo;
 
 namespace SporeMods.Core
@@ -940,27 +941,30 @@ namespace SporeMods.Core
 		/// Forces WPF software rendering if true. Some unlucky user with a weird OS+GPU combination needed this option a while back. Also seems to work better under WINE.
 		/// </summary>
 		static string _useSoftwareRendering = "UseWpfSoftwareRendering";
-		static string _forceSoftwareRendering = Path.Combine(ProgramDataPath, "WpfUseSoftwareRendering.info");
+		public static readonly string ForceSoftwareRenderingOverrideFilePath = Path.Combine(ProgramDataPath, "WpfUseSoftwareRendering.info");
 		public static bool ForceSoftwareRendering
 		{
 			get
 			{
 				try
 				{
-					if (File.Exists(_forceSoftwareRendering))
+					if (File.Exists(ForceSoftwareRenderingOverrideFilePath))
 					{
-						if (bool.TryParse(File.ReadAllText(_forceSoftwareRendering), out bool forceSoftwareRendering))
+						if (bool.TryParse(File.ReadAllText(ForceSoftwareRenderingOverrideFilePath), out bool forceSoftwareRendering))
 							return forceSoftwareRendering;
 						else
 							return true;
 					}
 				}
-				catch { }
+				catch (Exception ex)
+				{
+					Cmd.WriteLine(ex);
+				}
 
 				if (bool.TryParse(GetElementValue(_useSoftwareRendering), out bool returnValue))
 					return returnValue;
 				else
-					return NonEssentialIsRunningUnderWine;
+					return false; //NonEssentialIsRunningUnderWine;
 			}
 			set => SetElementValue(_useSoftwareRendering, value.ToString());
 		}

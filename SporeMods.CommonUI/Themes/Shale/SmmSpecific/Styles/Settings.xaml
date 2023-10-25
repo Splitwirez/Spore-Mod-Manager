@@ -79,62 +79,53 @@
                 <ControlTemplate TargetType="{x:Type Button}">
                     <StackPanel Orientation="Vertical">
                         <cui:FloorPanel>
-                            <Border x:Name="HoverBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonHoverBorderBrush}" BorderThickness="1" Opacity="0">
-                                <Border.Background>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonHoverBackgroundGradientStops}"/>
-                                </Border.Background>
-                                <Border x:Name="HoverInnerBackground" CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,2,2,2;0,0,0,0'}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
-                                    <Border.Background>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonHoverSecondaryBackgroundGradientStops}"/>
-                                    </Border.Background>
+                            <Border x:Name="BackgroundBorder"
+                                    Background="{DynamicResource ButtonIdleSecondaryBackgroundBrush}"
+                                    CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='3,3,3,3;0,0,0,0'}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonIdleBorderBrush}" BorderThickness="{Binding Path=(cui:AttachedProperties.BorderPresence), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BorderPresenceToThicknessConverter}, ConverterParameter='1,1,1,1;0,0,0,0'}"
+                                    Opacity="0">
+                                <Border x:Name="InnerBackgroundBorder"
+                                        Margin="1"
+                                        Padding="0"
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="Transparent"
+                                        BorderThickness="0"
+                                        CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,2,2,2;0,0,0,0'}">
+                                    <Border x:Name="BorderBrushBorder"
+                                            Margin="-1"
+                                            Padding="0"
+                                            Background="Transparent"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="{Binding Path=(cui:AttachedProperties.CornerCurves), RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource CornerCurvesToCornerRadiusConverter}, ConverterParameter='2,2,2,2;0,0,0,0'}"/>
                                 </Border>
                             </Border>
-                            <Border x:Name="PressedBackground" CornerRadius="{Binding CornerRadius, ElementName=HoverBackground}" Margin="0" Padding="0" BorderBrush="{DynamicResource ButtonPressedBorderBrush}" BorderThickness="1" Opacity="0">
-                                <Border.Background>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedBackgroundGradientStops}"/>
-                                </Border.Background>
-                                <Border CornerRadius="{Binding CornerRadius, ElementName=HoverInnerBackground}" Margin="1" Padding="0" BorderBrush="Transparent" BorderThickness="0">
-                                    <Border.Background>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" GradientStops="{DynamicResource ButtonPressedSecondaryBackgroundGradientStops}"/>
-                                    </Border.Background>
-                                </Border>
-                            </Border>
-                            <ContentPresenter Margin="{TemplateBinding Padding}"/>
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        RecognizesAccessKey="True"
+                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         </cui:FloorPanel>
                         <Separator Margin="40,0"/>
                     </StackPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="HoverBackground" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.0625" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="HoverBackground" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.5" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.ExitActions>
+                            <Setter TargetName="BackgroundBorder" Property="Opacity" Value="1" />
+                            <Setter TargetName="BackgroundBorder" Property="Background" Value="{DynamicResource ButtonHoverBackgroundBrush}" />
+                            <Setter TargetName="BackgroundBorder" Property="BorderBrush" Value="{DynamicResource ButtonHoverBorderBrush}" />
+                            <Setter TargetName="InnerBackgroundBorder" Property="Background" Value="{DynamicResource ButtonHoverSecondaryBackgroundBrush}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="PressedBackground" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.125" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.EnterActions>
-                            <Trigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="PressedBackground" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.5" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.ExitActions>
+                            <Setter TargetName="BackgroundBorder" Property="Opacity" Value="1" />
+                            <Setter TargetName="BackgroundBorder" Property="Background" Value="{DynamicResource ButtonPressedBackgroundBrush}" />
+                            <Setter TargetName="BackgroundBorder" Property="BorderBrush" Value="{DynamicResource ButtonPressedBorderBrush}" />
+                            <Setter TargetName="InnerBackgroundBorder" Property="Background" Value="{DynamicResource ButtonPressedSecondaryBackgroundBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{DynamicResource ButtonDisabledForegroundBrush}" />
+                            <Setter TargetName="BackgroundBorder" Property="Background" Value="{DynamicResource ButtonDisabledBackgroundBrush}" />
+                            <Setter TargetName="BackgroundBorder" Property="BorderBrush" Value="{DynamicResource ButtonDisabledBorderBrush}" />
+                            <Setter TargetName="InnerBackgroundBorder" Property="Background" Value="{DynamicResource ButtonDisabledSecondaryBackgroundBrush}" />
+                            <Setter TargetName="BorderBrushBorder" Property="Opacity" Value="0.25" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

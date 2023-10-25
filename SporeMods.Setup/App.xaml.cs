@@ -32,17 +32,17 @@ namespace SporeMods.Setup
 
 		private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
 		{
-			ShowException(e.Exception);
+			ShowFatalException(e.Exception);
 		}
 
 		private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
 			if (e.ExceptionObject is Exception exc)
-				ShowException(exc);
+				ShowFatalException(exc);
 		}
 
 		static bool EXCEPTION_SHOWN = false;
-		public static void ShowException(Exception exception)
+		public static void ShowFatalException(Exception exception)
 		{
 			if (!EXCEPTION_SHOWN)
 			{

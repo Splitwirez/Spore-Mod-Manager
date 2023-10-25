@@ -301,11 +301,11 @@ namespace SporeMods.CommonUI
 					}
 					/*catch (UnauthorizedAccessException ex)
                     {
-						MessageDisplay.ShowException(ex, false);
+						MessageDisplay.ShowException(ex);
                     }*/
 					catch (IOException ex)
 					{
-						MessageDisplay.ShowException(ex, false);
+						MessageDisplay.ShowException(ex);
 					}
 				}
 			}
