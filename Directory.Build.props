@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
     <PropertyGroup>
-        <AssemblyVersion>1.7.9.0</AssemblyVersion>
+        <AssemblyVersion>1.7.9.1</AssemblyVersion>
         <FileVersion>$(AssemblyVersion)</FileVersion>
     </PropertyGroup>
 
