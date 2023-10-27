@@ -1,5 +1,8 @@
+#!/bin/bash
+
 WINE_DEBUG_PREFIX=`cat ../../wineDebugPrefix.txt`
-echo Running in prefix \'$WINE_DEBUG_PREFIX\'.
+WINE_DEBUG_PREFIX=`realpath "$WINE_DEBUG_PREFIX"`
+echo "Running in prefix '$WINE_DEBUG_PREFIX'..."
 
 
 USER_BUILD_DIR="$HOME/.local/share/spore-mod-manager"
@@ -9,5 +12,10 @@ if [ -f "$ENABLE_USER_BUILD_DIR_PATH" ]; then
 else
     BUILD_PATH="../devBin"
 fi
+BUILD_PATH=`realpath "$BUILD_PATH"`
 
-WINEPREFIX=$WINE_DEBUG_PREFIX wine "$BUILD_PATH/Debug/Spore Mod Manager.exe"
+if [ -z "$WINE" ]; then
+	WINE=wine
+fi
+
+WINEPREFIX=$WINE_DEBUG_PREFIX "$WINE" "$BUILD_PATH/Debug/Spore Mod Manager.exe"
