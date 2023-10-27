@@ -359,6 +359,8 @@ namespace SporeMods.Core
             if (!(await Modal.Show(vm)))
                 return;
 
+            
+
             var batch = new List<ModJob>()
             {
                 new ModJob(new ReconfigureModTransaction(mod), mod.DisplayName, JobCategory.Reconfigure)

@@ -16,8 +16,15 @@ namespace SporeMods.Core.Mods
 
         public override async Task<bool> CommitAsync()
         {
-            Exception exception = await _mod.ApplyAsync(this);
+            Exception exception = await _mod.PurgeAsync(this);
             if (exception != null)
+            {
+                Exception = exception;
+                return false;
+            }
+
+            Exception exceptionApply = await _mod.ApplyAsync(this);
+            if (exceptionApply != null)
             {
                 Exception = exception;
                 return false;

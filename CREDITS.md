@@ -7,6 +7,11 @@ Designed - and lead the effort to build - the Spore Mod Manager. (I couldn't hav
 
 
 
+### [VanillaCold / Chocice75](https://github.com/VanillaCold)
+Forking and continuing development of the Spore Mod Manager, after the project had stopped.
+
+
+
 ### [emd4600](https://github.com/emd4600)
 Started the Spore ModAPI Project. Created the Spore ModAPI Launcher Kit, which laid the foundations for the Spore Mod Manager. Helped build the Spore Mod Manager to be as robust as possible. Oh, and Spanish and Catalan translations.
 
@@ -84,11 +89,6 @@ Testing
 
 
 ### Liskomato
-Testing
-
-
-
-### ChocIce75
 Testing
 
 
