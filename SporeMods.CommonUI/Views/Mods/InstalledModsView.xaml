@@ -94,7 +94,7 @@
                         <Button x:Name="CopyModsToClipboardButton"
                                 DockPanel.Dock="Left"
                                 Content="{DynamicResource Mods!FilterBar!CopyModsList!Label}"
-                                Command="{Binding CopyModsToClipboardCommand}"/>
+                                Command="{cui:FuncBinding CopyModsToClipboardCommand}"/>
                     </DockPanel>
                 </cui:Zone>
                 <cui:FloorPanel>

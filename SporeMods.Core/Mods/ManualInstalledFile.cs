@@ -1,9 +1,11 @@
-﻿/*using SporeMods.Core.ModTransactions;
+﻿
+using SporeMods.Core.Transactions;
 using System;
 using System.Collections.Generic;
 using System.IO.Compression;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace SporeMods.Core.Mods
 {
@@ -46,64 +48,60 @@ namespace SporeMods.Core.Mods
 
         IModText ISporeMod.InlineDescription => throw new NotImplementedException();
 
-        public Task<bool> ApplyAsync(ModTransaction transaction)
+        bool ISporeMod.HasExplicitUnique => throw new NotImplementedException();
+
+        string ISporeMod.Unique => throw new NotImplementedException();
+
+        bool ISporeMod.HasInlineDescription => throw new NotImplementedException();
+
+        bool ISporeMod.HasExplicitVersion => throw new NotImplementedException();
+
+        Version ISporeMod.ModVersion => throw new NotImplementedException();
+
+        List<ModDependency> ISporeMod.Dependencies => throw new NotImplementedException();
+
+        List<string> ISporeMod.UpgradeTargets => throw new NotImplementedException();
+
+        ModWarningLabels ISporeMod.WarningLabels => throw new NotImplementedException();
+
+        Task<Exception> ISporeMod.ApplyAsync(ModTransaction transaction)
         {
             throw new NotImplementedException();
         }
 
-        public bool DependsOn(ISporeMod mod)
+        bool ISporeMod.DependsOn(ISporeMod mod)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> ExtractAllFilesAsync(Func<string> extractFunc, ModTransaction transaction)
+        Task<ModJobBatchEntryBase> ISporeMod.EnsureCanInstall(ModJobBatchModEntry entry, List<ModJobBatchModEntry> otherEntries)
         {
             throw new NotImplementedException();
         }
 
-        public bool IsUpgradeTo(ISporeMod mod)
+        Task<Exception> ISporeMod.ExtractRecordFilesAsync(ModTransaction transaction, string inPath, ZipArchive archive)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> PurgeAsync(ModTransaction transaction)
+        bool ISporeMod.IsUpgradeTo(ISporeMod mod)
         {
             throw new NotImplementedException();
         }
 
-        public bool TryLoadFromRecordDir(string location)
+        Task<Exception> ISporeMod.PurgeAsync(ModTransaction transaction)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> UninstallAsync(ModTransaction transaction)
+        Task<Exception> ISporeMod.RemoveRecordFilesAsync(ModTransaction transaction, bool removeConfig)
         {
             throw new NotImplementedException();
         }
 
-        public IModAsyncOperation GetExtractFilesAsyncOp(ModTransaction transaction, string inPath, ZipArchive archive = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IModAsyncOperation GetApplyAsyncOp(ModTransaction transaction)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IModAsyncOperation GetPurgeAsyncOp(ModTransaction transaction)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IModAsyncOperation GetUninstallAsyncOp(ModTransaction transaction)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<InstallOverviewEntryBase> EnsureCanInstall(InstallOverviewModEntry entry, List<InstallOverviewModEntry> otherEntries)
+        bool ISporeMod.TryGetFromRecordDir(string subdirName, XDocument doc, out Exception error)
         {
             throw new NotImplementedException();
         }
     }
-}*/
+}

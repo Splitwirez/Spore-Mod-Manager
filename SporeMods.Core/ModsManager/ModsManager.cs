@@ -216,60 +216,51 @@ namespace SporeMods.Core
 #endif
 		}
 
-		public static 
-#if MOD_IMPL_RESTORE_LATER
-		ManualInstalledFile 
-
-#else
-		ISporeMod
-#endif
-		GetManuallyInstalledFile(string fileName, ComponentGameDir targetLocation)
+		public static ManualInstalledFile GetManuallyInstalledFile(string fileName, ComponentGameDir targetLocation)
         {
-#if MOD_IMPL_RESTORE_LATER
+//#if MOD_IMPL_RESTORE_LATER
 			foreach (var mod in InstalledMods)
             {
 				if (mod is ManualInstalledFile)
                 {
 					var file = (ManualInstalledFile)mod;
-					if (file.Location == targetLocation && file.RealName.Equals(fileName, StringComparison.OrdinalIgnoreCase))
-                    {
-						return file;
-                    }
+					//if (file.Location == targetLocation && file.RealName.Equals(fileName, StringComparison.OrdinalIgnoreCase))
+                    //{
+					//	return file;
+                    //}
                 }
             }
-#endif
+//#endif
 			return null;
         }
 
 		public static string GetModsListForClipboard()
 		{
 			string modsText = string.Empty;
-#if MOD_IMPL_RESTORE_LATER
-			foreach (IModEntry mod in InstalledMods)
+			foreach (ISporeMod mod in InstalledMods)
 			{
-				string modText = mod.DisplayName + " (UNIQUE: " + mod.Unique + ", DIR: " + mod.RealName + ")";
-				if (mod.ModVersion != ModIdentity.UNKNOWN_MOD_VERSION)
+				string modText = mod.DisplayName + " (UNIQUE: " + mod.Unique + ", DIR: " + mod.DisplayName + ")";
+				if (mod.ModVersion.ToString() != "0.0.0.0")
 					modText += ", version " + mod.ModVersion;
 				if (mod is ManualInstalledFile)
 					modText += ", INSTALLED MANUALLY";
 				modsText += modText + "\r\n\r\n";
 			}
-			//modsText = modsText.TrimEnd('\n');
-#endif
+			modsText = modsText.TrimEnd('\n');
 			return modsText;
 		}
 
 		bool _updatingModsOrder = false;
 		private void OrderInstalledMods()
 		{
-#if MOD_IMPL_RESTORE_LATER
+//#if MOD_IMPL_RESTORE_LATER
 			if (!_updatingModsOrder)
 			{
 				_updatingModsOrder = true;
 				InstalledMods.OrderBy(x => x.DisplayName);
 				_updatingModsOrder = false;
 			}
-#endif
+//#endif
 		}
 
 		/*private void Watcher_Created(object sender, FileSystemEventArgs e)

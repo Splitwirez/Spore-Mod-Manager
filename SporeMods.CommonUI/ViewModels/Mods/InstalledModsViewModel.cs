@@ -28,7 +28,7 @@ namespace SporeMods.ViewModels
 			}
 		}
 
-		
+
 		string _searchQuery = string.Empty;
 		public string SearchQuery
 		{
@@ -37,7 +37,7 @@ namespace SporeMods.ViewModels
 			{
 				if (IsSearching)
 					Search(true, value);
-				
+
 				_searchQuery = value;
 				NotifyPropertyChanged();
 			}
@@ -78,10 +78,10 @@ namespace SporeMods.ViewModels
 		{
 			bool search = isSearching && (!searchQuery.IsNullOrEmptyOrWhiteSpace());
 			ModSearch.CancelSearch();
-			
+
 			if (search)
 				ModSearch.StartSearchAsync(searchQuery, SearchNames, SearchDescriptions, false/*tags*/);
-			
+
 			return search;
 		}
 
@@ -113,7 +113,7 @@ namespace SporeMods.ViewModels
 			};
 #endif
 			ModsManager.Instance.AllJobsConcluded += _ => RefreshColumns();
-			
+
 			RefreshColumns();
 		}
 
@@ -178,6 +178,13 @@ namespace SporeMods.ViewModels
 				_anyHasProgressSignifier = value;
 				NotifyPropertyChanged();
 			}
+		}
+
+		public void CopyModsToClipboardCommand()
+		{
+			string clipboard = ModsManager.GetModsListForClipboard();
+			WineHelper.SetClipboardContent(clipboard);
+			SporeMods.CommonUI.MessageDisplay.ShowMessageBox("Copied modlist to clipboard. (NOT LOCALISED)", "");
 		}
 
 		public static event EventHandler<EventArgs> SelectedModsChanged;
