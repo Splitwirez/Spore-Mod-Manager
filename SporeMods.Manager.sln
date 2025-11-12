@@ -19,6 +19,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SporeMods.CommonUI", "Spore
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SporeMods.KitImporter", "SporeMods.KitImporter\SporeMods.KitImporter.csproj", "{AC28E33E-8173-486C-9071-BD0257D5632B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SporeMods.Setup", "SporeMods.Setup\SporeMods.Setup.csproj", "{D45CC7BE-0E41-4E4D-AD87-D5F95480185D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SporeMods.KitUpgradeDownloader", "SporeMods.KitUpgradeDownloader\SporeMods.KitUpgradeDownloader.csproj", "{5FA2C18C-5147-49D1-B94D-CC9EE1A447E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{09476D81-E92E-4182-8BA3-5203EB926E85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,9 +95,38 @@ Global
 		{AC28E33E-8173-486C-9071-BD0257D5632B}.Release|x64.Build.0 = Release|Any CPU
 		{AC28E33E-8173-486C-9071-BD0257D5632B}.Release|x86.ActiveCfg = Release|Any CPU
 		{AC28E33E-8173-486C-9071-BD0257D5632B}.Release|x86.Build.0 = Release|Any CPU
+		{D45CC7BE-0E41-4E4D-AD87-D5F95480185D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D45CC7BE-0E41-4E4D-AD87-D5F95480185D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D45CC7BE-0E41-4E4D-AD87-D5F95480185D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D45CC7BE-0E41-4E4D-AD87-D5F95480185D}.Debug|x64.Build.0 = Debug|Any CPU
+		{D45CC7BE-0E41-4E4D-AD87-D5F95480185D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D45CC7BE-0E41-4E4D-AD87-D5F95480185D}.Debug|x86.Build.0 = Debug|Any CPU
+		{D45CC7BE-0E41-4E4D-AD87-D5F95480185D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D45CC7BE-0E41-4E4D-AD87-D5F95480185D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D45CC7BE-0E41-4E4D-AD87-D5F95480185D}.Release|x64.ActiveCfg = Release|Any CPU
+		{D45CC7BE-0E41-4E4D-AD87-D5F95480185D}.Release|x64.Build.0 = Release|Any CPU
+		{D45CC7BE-0E41-4E4D-AD87-D5F95480185D}.Release|x86.ActiveCfg = Release|Any CPU
+		{D45CC7BE-0E41-4E4D-AD87-D5F95480185D}.Release|x86.Build.0 = Release|Any CPU
+		{5FA2C18C-5147-49D1-B94D-CC9EE1A447E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FA2C18C-5147-49D1-B94D-CC9EE1A447E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FA2C18C-5147-49D1-B94D-CC9EE1A447E8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5FA2C18C-5147-49D1-B94D-CC9EE1A447E8}.Debug|x64.Build.0 = Debug|Any CPU
+		{5FA2C18C-5147-49D1-B94D-CC9EE1A447E8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5FA2C18C-5147-49D1-B94D-CC9EE1A447E8}.Debug|x86.Build.0 = Debug|Any CPU
+		{5FA2C18C-5147-49D1-B94D-CC9EE1A447E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FA2C18C-5147-49D1-B94D-CC9EE1A447E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FA2C18C-5147-49D1-B94D-CC9EE1A447E8}.Release|x64.ActiveCfg = Release|Any CPU
+		{5FA2C18C-5147-49D1-B94D-CC9EE1A447E8}.Release|x64.Build.0 = Release|Any CPU
+		{5FA2C18C-5147-49D1-B94D-CC9EE1A447E8}.Release|x86.ActiveCfg = Release|Any CPU
+		{5FA2C18C-5147-49D1-B94D-CC9EE1A447E8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AC28E33E-8173-486C-9071-BD0257D5632B} = {09476D81-E92E-4182-8BA3-5203EB926E85}
+		{D45CC7BE-0E41-4E4D-AD87-D5F95480185D} = {09476D81-E92E-4182-8BA3-5203EB926E85}
+		{5FA2C18C-5147-49D1-B94D-CC9EE1A447E8} = {09476D81-E92E-4182-8BA3-5203EB926E85}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C5CF2DA7-55B1-4976-8D91-97F020509138}

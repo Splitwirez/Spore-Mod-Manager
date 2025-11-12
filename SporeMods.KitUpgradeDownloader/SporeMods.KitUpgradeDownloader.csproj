@@ -1,13 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-    <Import Project="..\buildz\Target.LKBootstrap.props" />
+    <!--
+	<Import Project="..\buildz\Target.LKBootstrap.props" />
+	-->
+    <PropertyGroup Condition="'$(OS)' == 'Windows_NT' and !$(DefineConstants.Contains(LINUX_DEBUG))">
+        <TargetFramework>net45</TargetFramework>
+        <TargetLatestRuntimePatch>False</TargetLatestRuntimePatch>
+    </PropertyGroup>
+	<!--
+    <Import Condition="'$(OS)' != 'Windows_NT' and $(DefineConstants.Contains(LINUX_DEBUG))" Project="..\build\Shared.TargetFramework.props" />
+	-->
     <PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<UseWPF>true</UseWPF>
+
         <AssemblyTitle>SporeMods.KitUpgradeDownloader</AssemblyTitle>
         <Product>SporeMods.KitUpgradeDownloader</Product>
+		<!--
         <OutputPath>bin\$(Configuration)\</OutputPath>
+		-->
         <AssemblyName>ModAPIUpdateSetup</AssemblyName>
         <ApplicationIcon>..\AppIcons\ModManagerSetupIcon.ico</ApplicationIcon>
     </PropertyGroup>
+
+
+	<!-- TargetBase.Root.props -->
+
+	<!-- Target.LKBootstrap.props -->
+    <!--
+	<Import Project="Shared.LKTargetFramework.props" />
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
+    -->
+
     <ItemGroup>
         <Content Include="..\AppIcons\ModManagerSetupIcon.ico">
             <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>

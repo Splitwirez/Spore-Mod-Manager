@@ -1,7 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop" TreatAsLocalProperty="PublishSingleFile">
-    <Import Project="..\buildz\Target.Setup.props" />
     <PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<UseWPF>true</UseWPF>
+		<UseWindowsForms>true</UseWindowsForms>
+
         <AssemblyTitle>SporeMods.Setup</AssemblyTitle>
         <Product>SporeMods.Setup</Product>
         <AssemblyName>updater--dotnet-core--3.1.12</AssemblyName>
@@ -28,6 +31,6 @@
         <Resource Include="Fonts\Ubuntu-Regular.ttf" /> 
         <Resource Include="Fonts\UFL.txt" />
     </ItemGroup>
-    <Import Project="../build2/Shared/Nuget.props" />
-    <Import Project="../build2/Shared/Nuget.Wpf.props" />
+    <Import Project="../build/shared/nuget.props" />
+    <Import Project="../build/shared/nuget.wpf.props" />
 </Project>

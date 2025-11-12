@@ -10,7 +10,7 @@
 		<ProjectReference Include="../SporeMods.Core/SporeMods.Core.csproj" />
 	</ItemGroup>
 
-    <Import Project="../build2/shared/nuget.wpf.props" />
+    <Import Project="../build/shared/nuget.wpf.props" />
     <ItemGroup>
         <EmbeddedResource Include="Localization/Languages/**" />
         <EmbeddedResource Include="../CREDITS.md" />

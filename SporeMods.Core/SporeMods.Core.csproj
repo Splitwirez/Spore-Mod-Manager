@@ -28,7 +28,7 @@
     <ItemGroup Condition="$(DefineConstants.Contains(SET_BUILD_CHANNEL))">
         <EmbeddedResource Include="$(BuildChannel)" LogicalName="BuildChannel" />
     </ItemGroup>
-    <Import Project="../build2/shared/nuget.props" />
+    <Import Project="../build/shared/nuget.props" />
     <ItemGroup>
         <EmbeddedResource Include="ModAPIDLLs/SporeModAPI.lib" />
         <EmbeddedResource Include="ModAPIDLLs/SporeModAPI-disk.dll" />

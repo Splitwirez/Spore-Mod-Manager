@@ -284,13 +284,33 @@ namespace SporeMods.ViewModels
 					TreeScope.Subtree,
 					Automation_WindowOpened);
 			}
-			catch (TypeInitializationException typeInitExc)
+			catch (Exception exception)
 			{
-				if (typeInitExc.InnerException is SEHException sehExc)
-					CommonUI.MessageDisplay.ShowException(sehExc);
-				else
-					CommonUI.MessageDisplay.ShowFatalException(typeInitExc);
+				if (!HandleCaughtException(exception))
+					CommonUI.MessageDisplay.ShowFatalException(exception);
 			}
+		}
+
+
+		bool HandleCaughtException(Exception exception)
+		{
+			if (HandleException(exception))
+				return true;
+			else if (HandleException(exception.InnerException))
+				return true;
+			else
+				return false;
+		}
+
+
+		static bool HandleException(Exception exception)
+		{
+			if (!(exception is SEHException sehExc))
+				return false;
+			else if (!Settings.NonEssentialIsRunningUnderWine)
+				CommonUI.MessageDisplay.ShowException(sehExc);
+
+			return true;
 		}
 
 		void Automation_WindowOpened(object sender, AutomationEventArgs e)
